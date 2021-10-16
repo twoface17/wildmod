@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "twm",
+  "version": "${version}",
+
+  "name": "The Wild Mod",
+  "description": "This is a mod that adds the 1.19 Wild Update on Minecraft 1.17/1.18",
+  "authors": [
+    "Osmiooo",
+    "LiukRast",
+    "Xfrtrex"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/twm/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "frozenblock.wild.mod.WildMod"
+    ]
+  },
+  "mixins": [
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
