@@ -1,4 +1,6 @@
 {
   "block.twm.mud_block": "Mud Block",
-  "item.twm.mud_ball": "Mud Ball"
+  "item.twm.mud_ball": "Mud Ball",
+  "block.twm.mangrove_log": "Mangrove Log",
+  "block.twm.mangrove_planks": "Mangrove Planks"
 }

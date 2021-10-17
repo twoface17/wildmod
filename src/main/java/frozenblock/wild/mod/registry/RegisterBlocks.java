@@ -12,9 +12,9 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public abstract class ModBlocks {
+public abstract class RegisterBlocks {
 
-    public static final Block MUD_BLOCK = new Block(FabricBlockSettings.of(Material.ORGANIC_PRODUCT).strength(0.5f).breakByTool(FabricToolTags.SHOVELS).sounds(BlockSoundGroup.GRAVEL));
+    public static final Block MUD_BLOCK = new MudBlock(FabricBlockSettings.of(Material.ORGANIC_PRODUCT).strength(0.5f).breakByTool(FabricToolTags.SHOVELS).sounds(BlockSoundGroup.ROOTS));
 
     public static void RegisterBlocks() {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud_block"), MUD_BLOCK);

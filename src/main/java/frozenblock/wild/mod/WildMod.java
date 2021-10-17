@@ -1,6 +1,7 @@
 package frozenblock.wild.mod;
 
-import frozenblock.wild.mod.registry.ModBlocks;
+import frozenblock.wild.mod.registry.MangroveWood;
+import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.ModItems;
 import net.fabricmc.api.ModInitializer;
 
@@ -10,7 +11,8 @@ public class WildMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModBlocks.RegisterBlocks();
+        RegisterBlocks.RegisterBlocks();
         ModItems.RegisterItems();
+        MangroveWood.RegisterMangrove();
     }
 }
