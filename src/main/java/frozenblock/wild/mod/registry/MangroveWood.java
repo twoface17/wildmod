@@ -20,9 +20,9 @@ public abstract class MangroveWood {
 
     public static void RegisterMangrove() {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_log"), MANGROVE_LOG);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_log"), new BlockItem(MANGROVE_LOG, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_log"), new BlockItem(MANGROVE_LOG, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_planks"), MANGROVE_PLANKS);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_planks"), new BlockItem(MANGROVE_PLANKS, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_planks"), new BlockItem(MANGROVE_PLANKS, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
     }
 }
