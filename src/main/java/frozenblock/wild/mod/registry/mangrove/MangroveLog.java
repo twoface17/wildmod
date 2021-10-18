@@ -39,12 +39,4 @@ public class MangroveLog extends Block {
         return (BlockState)this.getDefaultState().with(Properties.AXIS, ctx.getSide().getAxis());
     }
 
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient) {
-            
-        }
-
-        return ActionResult.SUCCESS;
-    }
 }
