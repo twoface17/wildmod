@@ -1,5 +1,6 @@
 {
-  "parent": "block/cube_all",
+  "credit": "Model by FrozenBlock Studios",
+  "parent": "minecraft:block/cube_all",
   "textures": {
     "all": "twm:block/mangrove_planks"
   }
