@@ -3,11 +3,15 @@ package frozenblock.wild.mod.registry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.*;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.particle.BlockDustParticle;
+import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
+import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
@@ -50,6 +54,17 @@ public class MudBlock extends Block {
                         1f,
                         1f
                 );
+                ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.CLAY.getDefaultState()),
+                        x + 0.5,
+                        y + 0.5,
+                        z + 0.5,
+                        100,
+                        0.2,
+                        0.2,
+                        0.2,
+                        10
+                );
+
             }
 
         }
