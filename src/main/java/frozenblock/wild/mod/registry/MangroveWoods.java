@@ -24,18 +24,18 @@ public abstract class MangroveWoods {
 
     // DEFINES ALL BLOCKS AS VARIABLES
     public static final Block MANGROVE_LOG = new MangroveLog(WOOD_PROPERTIES);
+    public static final Block MANGROVE_PLANKS = new MangrovePlanks(WOOD_PROPERTIES);
     public static final StairsBlock MANGROVE_STAIRS = new MangroveStairs(Blocks.OAK_STAIRS.getDefaultState(), WOOD_PROPERTIES);
     public static final Block MANGROVE_DOOR = new MangroveDoor(WOOD_PROPERTIES);
     public static final Block STRIPPED_MANGROVE_LOG = new StrippedMangroveLog(WOOD_PROPERTIES);
     public static final Block STRIPPED_MANGROVE_WOOD = new StrippedMangroveWood(WOOD_PROPERTIES);
     public static final Block MANGROVE_WOOD = new MangroveWood(WOOD_PROPERTIES);
-    public static final Block MANGROVE_PLANKS = new Block(WOOD_PROPERTIES);
     public static final Block MANGROVE_FENCE = new MangroveFence(WOOD_PROPERTIES);
     public static final Block MANGROVE_SLAB = new MangroveSlab(WOOD_PROPERTIES);
     public static final Block MANGROVE_FENCE_GATE = new MangroveFenceGate(WOOD_PROPERTIES);
     public static final PressurePlateBlock MANGROVE_PRESSURE_PLATE = new MangrovePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, WOOD_PROPERTIES);
     public static final Block MANGROVE_TRAPDOOR = new MangroveTrapdoor(WOOD_PROPERTIES.nonOpaque());
-    public static final Block MANGROVE_LEAVES = new MangroveLeaves(WOOD_PROPERTIES.nonOpaque());
+    public static final Block MANGROVE_LEAVES = new MangroveLeaves();
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
 
 
