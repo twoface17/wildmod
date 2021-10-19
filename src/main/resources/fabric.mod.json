@@ -16,15 +16,19 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/twm/icon.png",
+  "icon": "assets/twm/textures/mod_icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
       "frozenblock.wild.mod.WildMod"
+    ],
+    "client": [
+      "frozenblock.wild.mod.WildModClient"
     ]
   },
   "mixins": [
+    "twm.mixins.json"
   ],
 
   "depends": {
