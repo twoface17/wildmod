@@ -6,6 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.BlockStateParticleEffect;
@@ -52,8 +53,11 @@ public class AbstractBlockMixin {
                     );
 
                 }
-                if(!player.isCreative()) {
-                    player.giveItemStack(Items.GLASS_BOTTLE.getDefaultStack());
+                if(player.canModifyBlocks()) {
+                    if(!player.isCreative()) {
+                        ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
+                        player.setStackInHand(hand, itemStack);
+                    }
                 }
             }
         }
