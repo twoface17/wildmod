@@ -17,10 +17,7 @@ import net.minecraft.util.registry.Registry;
 public abstract class MangroveWoods {
 
     // THIS VARIABLE DEFINES ALL PROPERTIES FOR WOOD
-    public static final FabricBlockSettings WOOD_PROPERTIES = FabricBlockSettings
-            .of(Material.WOOD)
-            .strength(2)
-            .sounds(BlockSoundGroup.WOOD)
+    public static final AbstractBlock.Settings WOOD_PROPERTIES = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)
             .breakByTool(FabricToolTags.AXES);
 
     // DEFINES ALL BLOCKS AS VARIABLES
@@ -37,7 +34,7 @@ public abstract class MangroveWoods {
     public static final PressurePlateBlock MANGROVE_PRESSURE_PLATE = new MangrovePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, WOOD_PROPERTIES);
     public static final Block MANGROVE_TRAPDOOR = new MangroveTrapdoor(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_LEAVES = new MangroveLeaves();
-    public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES);
+    public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
     public static final Block MANGROVE_SAPLING = new MangroveSapling();
     public static final SignBlock MANGROVE_SIGN = new MangroveSign(WOOD_PROPERTIES, SignType.BIRCH);
