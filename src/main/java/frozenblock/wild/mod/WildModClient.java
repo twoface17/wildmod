@@ -10,10 +10,11 @@ public class WildModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> 0x3495eb, MangroveWoods.MANGROVE_LEAVES);
-        BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_LEAVES, RenderLayer.getCutoutMipped());
+        BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_LEAVES, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_ROOTS, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_TRAPDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_SAPLING, RenderLayer.getCutout());
 
     }
 }

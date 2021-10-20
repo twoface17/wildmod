@@ -33,9 +33,8 @@ public class MangroveLeaves extends LeavesBlock {
         super(FabricBlockSettings
                 .of(Material.LEAVES)
                 .sounds(BlockSoundGroup.AZALEA)
-                .breakByTool(FabricToolTags.SHEARS)
-                .requiresTool()
-                .strength(0.2f, 0.2f)
+                .breakByTool(FabricToolTags.SHEARS, 0)
+                .nonOpaque()
         );
     }
 }

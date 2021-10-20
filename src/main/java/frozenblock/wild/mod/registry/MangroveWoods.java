@@ -36,7 +36,9 @@ public abstract class MangroveWoods {
     public static final PressurePlateBlock MANGROVE_PRESSURE_PLATE = new MangrovePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, WOOD_PROPERTIES);
     public static final Block MANGROVE_TRAPDOOR = new MangroveTrapdoor(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_LEAVES = new MangroveLeaves();
+    public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES);
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
+    public static final Block MANGROVE_SAPLING = new MangroveSapling();
 
 
     public static void RegisterMangrove() {
@@ -46,6 +48,10 @@ public abstract class MangroveWoods {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_planks"), MANGROVE_PLANKS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_planks"),
                 new BlockItem(MANGROVE_PLANKS, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_sapling"), MANGROVE_SAPLING);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_sapling"),
+                new BlockItem(MANGROVE_SAPLING, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_log"), MANGROVE_LOG);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_log"),
@@ -62,6 +68,10 @@ public abstract class MangroveWoods {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_wood"), MANGROVE_WOOD);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_wood"),
                 new BlockItem(MANGROVE_WOOD, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_leaves"), MANGROVE_LEAVES);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_leaves"),
+                new BlockItem(MANGROVE_LEAVES, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_slab"), MANGROVE_SLAB);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_slab"),
@@ -83,6 +93,10 @@ public abstract class MangroveWoods {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_pressure_plate"),
                 new BlockItem(MANGROVE_PRESSURE_PLATE, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_door"), MANGROVE_DOOR);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_door"),
+                new BlockItem(MANGROVE_DOOR, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_trapdoor"), MANGROVE_TRAPDOOR);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_trapdoor"),
                 new BlockItem(MANGROVE_TRAPDOOR, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
@@ -91,13 +105,8 @@ public abstract class MangroveWoods {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_fence_gate"),
                 new BlockItem(MANGROVE_FENCE_GATE, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_door"), MANGROVE_DOOR);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_door"),
-                new BlockItem(MANGROVE_DOOR, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
-
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_leaves"), MANGROVE_LEAVES);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_leaves"),
-                new BlockItem(MANGROVE_LEAVES, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
-
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_roots"), MANGROVE_ROOTS);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_roots"),
+                new BlockItem(MANGROVE_ROOTS, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
     }
 }
