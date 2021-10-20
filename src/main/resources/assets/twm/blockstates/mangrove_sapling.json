@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "hanging=false": {
       "model": "twm:block/mangrove_sapling"
+    },
+    "hanging=true": {
+      "model": "twm:block/propagule"
     }
   }
 }

@@ -2,6 +2,7 @@ package frozenblock.wild.mod.blocks.mangrove;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.PillarBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
@@ -11,19 +12,9 @@ import net.minecraft.state.property.Properties;
 import java.util.Collections;
 import java.util.List;
 
-public class MangroveWood extends Block {
+public class MangroveWood extends PillarBlock {
     public MangroveWood(Settings settings) {
         super(settings);
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
-        stateManager.add(Properties.AXIS);
-    }
-
-    @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return (BlockState)this.getDefaultState().with(Properties.AXIS, ctx.getSide().getAxis());
     }
 
     @Override

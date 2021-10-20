@@ -4,7 +4,7 @@
   "package": "frozenblock.wild.mod.mixins",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "AbstractBlockMixin"
+    "AbstractBlockMixin",
   ],
   "client": [
   ],

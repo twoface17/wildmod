@@ -4,11 +4,20 @@
 
   "block.twm.mangrove_planks": "Mangrove Planks",
   "block.twm.mangrove_log": "Mangrove Log",
-  "block.twm.mangrove_fence": "Mangrove Fence",
+  "block.twm.stripped_mangrove_wood": "Stripped Mangrove Wood",
+  "block.twm.stripped_mangrove_log": "Stripped Mangrove Log",
   "block.twm.mangrove_wood": "Mangrove Wood",
   "block.twm.mangrove_slab": "Mangrove Slab",
+  "block.twm.mangrove_fence": "Mangrove Fence",
   "block.twm.mangrove_stairs": "Mangrove Stairs",
-  "block.twm.stripped_mangrove_wood": "Stripped Mangrove Wood",
-  "block.twm.stripped_mangrove_log": "Stripped Mangrove Log"
+  "block.twm.mangrove_button": "Mangrove Button",
+  "block.twm.mangrove_pressure_plate": "Mangrove Pressure PLate",
+  "block.twm.mangrove_trapdoor": "Mangrove Trapdoor",
+  "block.twm.mangrove_fence_gate": "Mangrove Fence Gate",
+  "block.twm.mangrove_door": "Mangrove Door",
+  "block.twm.mangrove_leaves": "Mangrove Leaves",
+  "block.twm.mangrove_sapling": "Mangrove Sapling",
+  "block.twm.mangrove_roots": "Mangrove Roots",
+  "block.twm.propagule": "Propagule"
 
 }
