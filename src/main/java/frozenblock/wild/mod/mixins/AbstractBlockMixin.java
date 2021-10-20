@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.potion.Potions;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -30,7 +31,7 @@ public class AbstractBlockMixin {
     @Inject(at = @At("HEAD"), method = "onUse")
     private void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
         if(world.getBlockState(hit.getBlockPos()).getBlock() == Blocks.DIRT) {
-            if((Items.POTION == ((player instanceof LivingEntity) ? ((LivingEntity) player).getMainHandStack() : ItemStack.EMPTY).getItem())) {
+            if((Items.POTION  == ((player instanceof LivingEntity) ? ((LivingEntity) player).getMainHandStack() : ItemStack.EMPTY).getItem())) {
                 world.setBlockState(pos, RegisterBlocks.MUD_BLOCK.getDefaultState());
                 if (!world.isClient) {
                     world.playSound(
