@@ -11,6 +11,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.SignType;
 import net.minecraft.util.registry.Registry;
 
 public abstract class MangroveWoods {
@@ -39,6 +40,7 @@ public abstract class MangroveWoods {
     public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES);
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
     public static final Block MANGROVE_SAPLING = new MangroveSapling();
+    public static final SignBlock MANGROVE_SIGN = new MangroveSign(WOOD_PROPERTIES, SignType.BIRCH);
 
 
     public static void RegisterMangrove() {

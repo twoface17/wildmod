@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.blocks.mangrove;
 
 
+import frozenblock.wild.mod.custom.MangroveTree;
 import frozenblock.wild.mod.registry.MangroveWoods;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -74,7 +75,7 @@ public class MangroveSapling extends Block implements Waterloggable {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if(world.getBlockState(pos.up()).getMaterial() == Material.AIR) {
-            world.setBlockState(pos, MangroveWoods.MANGROVE_LOG.getDefaultState());
+            MangroveTree.generateTree(state, world, pos);
         }
     }
 
