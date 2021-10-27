@@ -2,6 +2,7 @@ package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterItems;
+import frozenblock.wild.mod.registry.RegisterWorldgen;
 import net.fabricmc.api.ModInitializer;
 
 public class WildMod implements ModInitializer {
@@ -12,5 +13,6 @@ public class WildMod implements ModInitializer {
     public void onInitialize() {
         RegisterBlocks.RegisterBlocks();
         RegisterItems.RegisterItems();
+        RegisterWorldgen.RegisterWorldgen();
     }
 }

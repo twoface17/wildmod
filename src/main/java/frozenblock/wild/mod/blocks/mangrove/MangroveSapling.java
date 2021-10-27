@@ -1,20 +1,19 @@
 package frozenblock.wild.mod.blocks.mangrove;
 
 
-import frozenblock.wild.mod.behavior.MangroveTree;
-import frozenblock.wild.mod.registry.MangroveWoods;
-import frozenblock.wild.mod.registry.RegisterBlocks;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import frozenblock.wild.mod.worldgen.MangroveTree;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -24,28 +23,27 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.biome.source.BiomeSource;
+import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
+import net.minecraft.world.gen.feature.Feature;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.Random;
 
 public class MangroveSapling extends Block implements Waterloggable {
-
-    public static final BooleanProperty WATERLOGGED = BooleanProperty.of("waterlogged");
+    //public static final BooleanProperty WATERLOGGED = BooleanProperty.of("waterlogged");
     public static final BooleanProperty HANGING = BooleanProperty.of("hanging");
+    //public static final IntProperty STAGE = IntProperty.of("stage", 0, 1);
 
-
-    public MangroveSapling() {
-        super(FabricBlockSettings
-                .of(Material.PLANT)
-                .nonOpaque()
-                .noCollision()
-                .sounds(BlockSoundGroup.AZALEA)
-                .ticksRandomly()
-        );
-
+    public MangroveSapling(Settings settings) {
+        super(settings);
         setDefaultState(getStateManager().getDefaultState()
-                .with(WATERLOGGED, false)
+                .with(Properties.WATERLOGGED, false)
                 .with(HANGING, false)
+                //.with(Properties.STAGE, 0)
         );
     }
 
@@ -60,7 +58,7 @@ public class MangroveSapling extends Block implements Waterloggable {
             if (direction.getAxis() == Direction.Axis.Y) {
                 BlockState blockState = (BlockState)this.getDefaultState().with(HANGING, direction == Direction.UP);
                 if (blockState.canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
-                    return (BlockState)blockState.with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+                    return (BlockState)blockState.with(Properties.WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
                 }
             }
         }
@@ -69,7 +67,7 @@ public class MangroveSapling extends Block implements Waterloggable {
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(HANGING, WATERLOGGED);
+        builder.add(HANGING, Properties.WATERLOGGED);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
@@ -92,7 +90,7 @@ public class MangroveSapling extends Block implements Waterloggable {
     }
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if ((Boolean)state.get(WATERLOGGED)) {
+        if ((Boolean)state.get(Properties.WATERLOGGED)) {
             world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
@@ -100,7 +98,7 @@ public class MangroveSapling extends Block implements Waterloggable {
     }
 
     public FluidState getFluidState(BlockState state) {
-        return (Boolean)state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return (Boolean)state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
@@ -121,7 +119,7 @@ public class MangroveSapling extends Block implements Waterloggable {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if(!state.get(HANGING)) {
-            MangroveTree.generateTree(state, world, pos);
+
         }
     }
 }
