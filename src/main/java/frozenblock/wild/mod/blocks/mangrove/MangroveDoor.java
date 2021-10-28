@@ -13,11 +13,4 @@ public class MangroveDoor extends DoorBlock {
         super(settings);
     }
 
-    @Override
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
-        List<ItemStack> dropsOriginal = super.getDroppedStacks(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(this, 1));
-    }
 }
