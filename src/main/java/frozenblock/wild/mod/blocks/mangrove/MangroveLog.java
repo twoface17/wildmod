@@ -45,6 +45,7 @@ public class MangroveLog extends PillarBlock {
             return ActionResult.PASS;
         }
     }
+    //a
 
     @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
