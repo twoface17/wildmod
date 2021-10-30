@@ -12,8 +12,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.util.function.ToIntFunction;
-
 public abstract class RegisterBlocks {
 
     public static final AbstractBlock.Settings SCULK_PROPERTIES = FabricBlockSettings
@@ -23,11 +21,11 @@ public abstract class RegisterBlocks {
 
     public static final Block MUD_BLOCK = new MudBlock();
     public static final Block MUD_BRICKS = new MudBricks();
-    public static final Block SCULK = new SculkBlock(SCULK_PROPERTIES);
-    public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_PROPERTIES);
+    public static final Block SCULK = new SculkBlock(SCULK_PROPERTIES.strength(0.9f, 0.9f));
+    public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_PROPERTIES.strength(2f, 2f));
 
     // ALL BLOCKS HERE HAVE NO COLLISION
-    public static final Block SCULK_VEIN = new SculkVeinBlock(SCULK_PROPERTIES.nonOpaque().noCollision());
+    public static final Block SCULK_VEIN = new SculkVeinBlock(SCULK_PROPERTIES.nonOpaque().noCollision().strength(0.5f, 0.5f));
 
     public static void RegisterBlocks() {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud_block"), MUD_BLOCK);
