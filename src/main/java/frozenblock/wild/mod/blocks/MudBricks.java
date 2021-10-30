@@ -20,7 +20,6 @@ public class MudBricks extends Block {
                 .strength(1.5f, 10f)
                 .requiresTool()
                 .breakByTool(FabricToolTags.PICKAXES, 0)
-                .requiresTool()
         );
     }
 
