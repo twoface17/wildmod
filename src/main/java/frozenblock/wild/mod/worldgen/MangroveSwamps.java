@@ -54,7 +54,6 @@ public class MangroveSwamps {
         DefaultBiomeFeatures.addMineables(generationSettings);
         DefaultBiomeFeatures.addDefaultOres(generationSettings);
         DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
-        DefaultBiomeFeatures.addDesertLakes(generationSettings);
         MangroveSwamps.addMangroveSwampFeatures(generationSettings);
 
 
@@ -66,8 +65,8 @@ public class MangroveSwamps {
                 .temperature(0.8F)
                 .downfall(0.4F)
                 .effects((new BiomeEffects.Builder())
-                        .waterColor(0x617B64)
-                        .waterFogColor(0x232317)
+                        .waterColor(0x05b396)
+                        .waterFogColor(0x05b396)
                         .foliageColor(0x6A7039)
                         .grassColor(0x6A7039)
                         .fogColor(0xc0d8ff)
