@@ -26,11 +26,11 @@ public class MangroveSwamps {
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.RED_MUSHROOM_SWAMP);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.PATCH_SUGAR_CANE_SWAMP);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.PATCH_PUMPKIN);
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.KELP_COLD);
+        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.SEAGRASS_SWAMP);
         builder.feature(GenerationStep.Feature.LAKES, ConfiguredFeatures.LAKE_WATER);
     }
 
-    public static final ConfiguredSurfaceBuilder<TernarySurfaceConfig> MANGROVE_SWAMPS_BUILDER = SurfaceBuilder.DEFAULT
+    public static final ConfiguredSurfaceBuilder<TernarySurfaceConfig> MANGROVE_SWAMPS_BUILDER = SurfaceBuilder.SWAMP
             .withConfig(new TernarySurfaceConfig(
                     RegisterBlocks.MUD_BLOCK.getDefaultState(),
                     RegisterBlocks.MUD_BLOCK.getDefaultState(),

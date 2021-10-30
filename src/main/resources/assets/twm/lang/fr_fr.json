@@ -1,6 +1,28 @@
 {
   "block.twm.mud_block": "Bloc de boue",
-  "item.twm.mud_ball": "Motte de boue",
+  "block.twm.mud_bricks": "Briques de boue",
+
+  "block.twm.mangrove_planks": "Planches de mangrove",
   "block.twm.mangrove_log": "Bûche de mangrove",
-  "block.twm.mangrove_planks": "Planches de mangrove"
+  "block.twm.stripped_mangrove_wood": "Bois de mangrove écorcé",
+  "block.twm.stripped_mangrove_log": "Bûche de mangrove écorcée",
+  "block.twm.mangrove_wood": "Bois de mangrove",
+  "block.twm.mangrove_slab": "Dalle en mangrove",
+  "block.twm.mangrove_fence": "Barrière en mangrove",
+  "block.twm.mangrove_stairs": "Escaliers en mangrove",
+  "block.twm.mangrove_button": "Bouton en mangrove",
+  "block.twm.mangrove_pressure_plate": "Plaque de pression en mangrove",
+  "block.twm.mangrove_trapdoor": "Trappe en mangrove",
+  "block.twm.mangrove_fence_gate": "Portillon en mangrove",
+  "block.twm.mangrove_door": "Porte en mangrove",
+  "block.twm.mangrove_leaves": "Feuilles de mangrove",
+  "block.twm.mangrove_sapling": "Propagule de mangrove",
+  "block.twm.mangrove_roots": "Racines de mangrove",
+  "block.twm.propagule": "Propagule",
+
+  "biome.twm.mangrove_swamps": "Mangrove",
+
+  "block.twm.sculk_block": "Sculk",
+  "block.twm.sculk_vein": "Veine de sculk",
+  "block.twm.sculk_catalyst": "Catalyseur de sculk"
 }
