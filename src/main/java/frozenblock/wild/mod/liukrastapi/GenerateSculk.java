@@ -73,6 +73,7 @@ public abstract class GenerateSculk {
         double sy = 0;
         double sz = 0;
 
+
         boolean exit = false;
 
         sx = (double) (-1);
