@@ -34,7 +34,7 @@ public abstract class EntityMixin {
         // LIUKRAST NOTE - THIS LINE BELOW SAYS THAT IS ALWAYS FALSE, IT IS NOT!! PLEASE DON'T EDIT
         if((Entity)((Object)this) instanceof LivingEntity) {
             BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
-            if(Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld(), this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true).with(SculkCatalystBlock.COOLDOWN, 2), ParticleTypes.SOUL)) {
+            if(Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld(), this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true).with(SculkCatalystBlock.COOLDOWN, 2), ParticleTypes.SOUL, 0.2, 0.2, 0.2, 1, 1)) {
                 GenerateSculk.generateSculk(this.getEntityWorld(), this.getBlockPos());
             }
         }

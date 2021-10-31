@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -113,7 +114,7 @@ public abstract class Sphere {
         return exit;
     }
 
-    public static boolean checkSphereWithPLaceAndParticles(BlockState state, World world , BlockPos pos, Integer radius, BlockState placeBlock, ParticleEffect particleEffect) {
+    public static boolean checkSphereWithPLaceAndParticles(BlockState state, World world , BlockPos pos, Integer radius, BlockState placeBlock, ParticleEffect particleEffect, double deltax, double deltay, double deltaz, int amount, int speed) {
 
         int fixedradius = radius - 1;
 
@@ -135,7 +136,9 @@ public abstract class Sphere {
                     if(Math.sqrt(Math.pow(sx, 2) + Math.pow(sy, 2) + Math.pow(sz, 2)) <= radius) {
                         if(world.getBlockState(new BlockPos(x + sx, y + sy, z + sz)) == state) {
                             world.setBlockState(new BlockPos(x+ sx, y + sy, z + sz), placeBlock);
-                            world.addParticle(particleEffect, x + sx, y + sy, z + sz, 0, 1, 0);
+                            if(!world.isClient) {
+                                ((ServerWorld) world).spawnParticles(ParticleTypes.SOUL, x+sx+0.5,y+sy+0.5,z+sz+0.5, amount, deltax, deltay, deltaz, speed);
+                            }
                             exit = true;
                         }
                     }
