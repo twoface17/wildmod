@@ -66,7 +66,7 @@ public abstract class GenerateSculk {
                 sz = (double) (-3);
                 for (int index2 = 0; index2 < (int) (7); index2++) {
                     if(checkforVein(world, new BlockPos(x+sx,y+sy,z+sz))) {
-                        if(world.getBlockState(new BlockPos(x+sx,y+sy,z+sz)).getMaterial() == Material.AIR) {
+                        if(world.getBlockState(new BlockPos(x+sx,y+sy,z+sz)).getMaterial() == Material.AIR || world.getBlockState(new BlockPos(x+sx,y+sy,z+sz)).getMaterial() == Material.WATER) {
                             world.setBlockState(new BlockPos(x + sx, y + sy, z + sz), RegisterBlocks.SCULK_VEIN.getDefaultState()
                                     .with(AbstractLichenBlock.getProperty(Direction.UP),
                                             world.getBlockState(new BlockPos(x+sx,y+sy,z+sz).up()) != RegisterBlocks.SCULK.getDefaultState()
@@ -86,6 +86,7 @@ public abstract class GenerateSculk {
                                     .with(AbstractLichenBlock.getProperty(Direction.WEST),
                                             world.getBlockState(new BlockPos(x+sx,y+sy,z+sz).west()) != RegisterBlocks.SCULK.getDefaultState()
                                                     && world.getBlockState(new BlockPos(x+sx,y+sy,z+sz).west()).isIn(BlockTags.MOSS_REPLACEABLE))
+                                    .with(SculkVeinBlock.WATERLOGGED, world.getBlockState(new BlockPos(x+sx,y+sy,z+sz)).getMaterial() == Material.WATER)
                             );
                         }
                     }

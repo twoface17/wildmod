@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 public class SculkVeinBlock extends AbstractLichenBlock implements Waterloggable {
 
 
-    private static final BooleanProperty WATERLOGGED;
+    public static final BooleanProperty WATERLOGGED;
 
     public SculkVeinBlock(AbstractBlock.Settings settings) {
         super(settings);
