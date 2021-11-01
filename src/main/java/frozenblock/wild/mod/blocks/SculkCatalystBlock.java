@@ -37,6 +37,7 @@ public class SculkCatalystBlock extends Block {
         builder.add(COOLDOWN);
     }
 
+
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         super.onBlockAdded(state, world, pos, oldState, notify);
