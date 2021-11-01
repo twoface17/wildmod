@@ -19,10 +19,16 @@ public abstract class RegisterBlocks {
             .breakByTool(FabricToolTags.HOES, 0)
             .sounds(BlockSoundGroup.SCULK_SENSOR);
 
+    public static final AbstractBlock.Settings SCULK_CATALYST_PROPERTIES = FabricBlockSettings
+            .of(Material.SCULK)
+            .breakByTool(FabricToolTags.HOES, 0)
+            .sounds(BlockSoundGroup.SCULK_SENSOR)
+            .luminance(6);
+
     public static final Block MUD_BLOCK = new MudBlock();
     public static final Block MUD_BRICKS = new MudBricks();
     public static final Block SCULK = new SculkBlock(SCULK_PROPERTIES.strength(0.9f, 0.9f));
-    public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_PROPERTIES.strength(2f, 2f));
+    public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES.strength(2f, 2f));
 
     // ALL BLOCKS HERE HAVE NO COLLISION
     public static final Block SCULK_VEIN = new SculkVeinBlock(SCULK_PROPERTIES.nonOpaque().noCollision().strength(0.5f, 0.5f));
