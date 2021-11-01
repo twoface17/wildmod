@@ -2,6 +2,7 @@ package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.entity.FrogEntityModel;
 import frozenblock.wild.mod.entity.FrogEntityRenderer;
+import frozenblock.wild.mod.entity.WardenEntityRenderer;
 import frozenblock.wild.mod.registry.MangroveWoods;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
@@ -21,6 +22,7 @@ import net.minecraft.util.Identifier;
 public class WildModClient implements ClientModInitializer {
 
     public static final EntityModelLayer MODEL_FROG_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "frog"), "main");
+    public static final EntityModelLayer MODEL_WARDEN_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "warden"), "main");
 
     @Override
     public void onInitializeClient() {
@@ -32,8 +34,10 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_VEIN, RenderLayer.getCutout());
 
         EntityRendererRegistry.register(RegisterEntities.FROG, FrogEntityRenderer::new);
+        EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_FROG_LAYER, FrogEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_WARDEN_LAYER, FrogEntityModel::getTexturedModelData);
 
 
 
