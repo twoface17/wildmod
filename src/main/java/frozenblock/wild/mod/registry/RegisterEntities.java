@@ -20,6 +20,6 @@ public class RegisterEntities {
     );
 
     public static void RegisterEntities() {
-        FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.createMobAttributes());
+        FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.createWardenAttributes());
     }
 }
