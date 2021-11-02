@@ -26,6 +26,7 @@ import net.minecraft.util.Identifier;
 public class WildModClient implements ClientModInitializer {
 
     public static final EntityModelLayer MODEL_WARDEN_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "warden"), "main");
+    public static final EntityModelLayer MODEL_FROG_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "frog"), "main");
 
     @Override
     public void onInitializeClient() {
@@ -37,6 +38,10 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_VEIN, RenderLayer.getCutout());
 
         EntityRendererRegistry.INSTANCE.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_WARDEN_LAYER, WardenEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.INSTANCE.register(RegisterEntities.FROG, FrogEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_FROG_LAYER, FrogEntityModel::getTexturedModelData);
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
             assert world != null;
@@ -45,7 +50,6 @@ public class WildModClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> FoliageColors.getDefaultColor()), MangroveWoods.MANGROVE_LEAVES);
 
-        EntityModelLayerRegistry.registerModelLayer(MODEL_WARDEN_LAYER, WardenEntityModel::getTexturedModelData);
 
     }
 }
