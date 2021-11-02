@@ -40,6 +40,8 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
     }
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch){
+        this.head.pitch = headPitch * 0.017453292F;
+        this.head.yaw = headYaw * 0.017453292F;
         this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
         this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
         this.body.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance/4 + MathHelper.cos(animationProgress/20)/20;
