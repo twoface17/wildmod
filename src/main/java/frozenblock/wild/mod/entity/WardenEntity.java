@@ -14,4 +14,6 @@ public class WardenEntity extends PathAwareEntity {
     protected void initGoals() {
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 0.4D));
     }
+
+
 }
