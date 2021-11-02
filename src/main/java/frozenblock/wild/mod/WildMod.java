@@ -1,9 +1,6 @@
 package frozenblock.wild.mod;
 
-import frozenblock.wild.mod.registry.RegisterBlocks;
-import frozenblock.wild.mod.registry.RegisterEntities;
-import frozenblock.wild.mod.registry.RegisterItems;
-import frozenblock.wild.mod.registry.RegisterWorldgen;
+import frozenblock.wild.mod.registry.*;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -28,26 +25,6 @@ public class WildMod implements ModInitializer {
         RegisterItems.RegisterItems();
         RegisterWorldgen.RegisterWorldgen();
         RegisterEntities.RegisterEntities();
-
-        DispenserBlock.registerBehavior(Items.POTION, new FallibleItemDispenserBehavior() {
-            public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-                Direction direction = (Direction)pointer.getBlockState().get(DispenserBlock.FACING);
-                BlockPos blockPos = pointer.getPos().offset(direction);
-                World world = pointer.getWorld();
-                BlockState blockState = world.getBlockState(blockPos);
-                this.setSuccess(true);
-                if (blockState.isOf(Blocks.DIRT)) {
-                    if (PotionUtil.getPotion(stack) == Potions.WATER) {
-                        world.setBlockState(blockPos, RegisterBlocks.MUD_BLOCK.getDefaultState());
-                        return new ItemStack(Items.GLASS_BOTTLE);
-
-                    } else {
-                        return super.dispenseSilently(pointer, stack);
-                    }
-                } else {
-                    return super.dispenseSilently(pointer, stack);
-                }
-            }
-        });
+        RegisterDispenser.RegisterDispenser();
     }
 }

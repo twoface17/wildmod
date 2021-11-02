@@ -1,36 +1,62 @@
 package frozenblock.wild.mod.entity;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class WardenEntityModel extends EntityModel<WardenEntity> {
+    private final ModelPart head;
+    private final ModelPart left_ear;
+    private final ModelPart right_ear;
     private final ModelPart body;
-
-    public WardenEntityModel(ModelPart modelPart) {
-        this.body = modelPart.getChild(EntityModelPartNames.CUBE);
+    private final ModelPart right_arm;
+    private final ModelPart left_arm;
+    private final ModelPart left_leg;
+    private final ModelPart right_leg;
+    public WardenEntityModel(ModelPart root) {
+        this.head = root.getChild("head");
+        this.left_ear = root.getChild("left_ear");
+        this.right_ear = root.getChild("right_ear");
+        this.body = root.getChild("body");
+        this.right_arm = root.getChild("right_arm");
+        this.left_arm = root.getChild("left_arm");
+        this.left_leg = root.getChild("left_leg");
+        this.right_leg = root.getChild("right_leg");
     }
-
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-        modelPartData.addChild(EntityModelPartNames.CUBE, ModelPartBuilder.create().uv(0, 0).cuboid(-6F,12F,-6F,12F,12F,12F), ModelTransform.pivot(0F, 0F, 0F));
-        return TexturedModelData.of(modelData, 64, 64);
+        modelPartData.addChild("head", ModelPartBuilder.create().uv(0,0).cuboid(-8.0F, -16.0F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(0.0F,-10.0F,0.0F));
+        modelPartData.addChild("left_ear", ModelPartBuilder.create().uv(106,46).cuboid(0.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.0F), ModelTransform.pivot(8.0F,-22.5F,0.0F));
+        modelPartData.addChild("right_ear", ModelPartBuilder.create().uv(106,36).cuboid(-10.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.0F), ModelTransform.pivot(-8.0F,-22.5F,0.0F));
+        modelPartData.addChild("body", ModelPartBuilder.create().uv(0,26).cuboid(-9.0F, 0.0F, -5.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(0.0F,-10.0F,0.0F));
+        modelPartData.addChild("right_arm", ModelPartBuilder.create().uv(52,0).cuboid(-6.0F, -4.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(-11.0F,-6.0F,0.0F));
+        modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(84,0).cuboid(-2.0F, -4.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(11.0F,-6.0F,0.0F));
+        modelPartData.addChild("left_leg", ModelPartBuilder.create().uv(82,36).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(6.0F,11.0F,0.0F));
+        modelPartData.addChild("right_leg", ModelPartBuilder.create().uv(58,36).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(-6.0F,11.0F,0.0F));
+        return TexturedModelData.of(modelData,128, 64);
     }
+    @Override
+    public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 
+        head.render(matrixStack, buffer, packedLight, packedOverlay);
+        left_ear.render(matrixStack, buffer, packedLight, packedOverlay);
+        right_ear.render(matrixStack, buffer, packedLight, packedOverlay);
+        body.render(matrixStack, buffer, packedLight, packedOverlay);
+        right_arm.render(matrixStack, buffer, packedLight, packedOverlay);
+        left_arm.render(matrixStack, buffer, packedLight, packedOverlay);
+        left_leg.render(matrixStack, buffer, packedLight, packedOverlay);
+        right_leg.render(matrixStack, buffer, packedLight, packedOverlay);
+    }
+    public void setRotationAngle(ModelPart bone, float x, float y, float z) {
+        bone.pitch = x;
+        bone.yaw = y;
+        bone.roll = z;
+    }
 
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
-    }
-
-    @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-        ImmutableList.of(this.body).forEach((modelRenderer) -> {
-            modelRenderer.render(matrices, vertices, light, overlay, red, green, blue, alpha);
-        });
     }
 }

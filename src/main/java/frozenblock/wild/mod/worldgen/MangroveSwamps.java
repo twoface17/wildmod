@@ -67,7 +67,7 @@ public class MangroveSwamps {
                 .effects((new BiomeEffects.Builder())
                         .waterColor(0x1E6861)
                         .waterFogColor(0x1E6861)
-                        .foliageColor(0x6A7039)
+                        .foliageColor(0x5f6530)
                         .grassColor(0x6A7039)
                         .fogColor(0xc0d8ff)
                         .skyColor(0x78a7ff)
