@@ -1,7 +1,6 @@
 {
   "block.twm.mud_block": "Mud Block",
   "block.twm.mud_bricks": "Mud Bricks",
-
   "block.twm.mangrove_planks": "Mangrove Planks",
   "block.twm.mangrove_log": "Mangrove Log",
   "block.twm.stripped_mangrove_wood": "Stripped Mangrove Wood",
@@ -19,12 +18,9 @@
   "block.twm.mangrove_sapling": "Mangrove Sapling",
   "block.twm.mangrove_roots": "Mangrove Roots",
   "block.twm.propagule": "Propagule",
-
   "biome.twm.mangrove_swamps": "Mangrove Swamps",
-
   "block.twm.sculk": "Sculk",
   "block.twm.sculk_vein": "Sculk Vein",
   "block.twm.sculk_catalyst": "Sculk Catalyst",
-
   "item.twm.warden_spawn_egg": "Warden Spawn Egg"
 }

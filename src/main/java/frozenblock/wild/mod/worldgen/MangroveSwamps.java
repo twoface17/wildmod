@@ -15,6 +15,12 @@ import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 public class MangroveSwamps {
 
+    public static final ConfiguredSurfaceBuilder<TernarySurfaceConfig> MANGROVE_SWAMPS_BUILDER = SurfaceBuilder.SWAMP
+            .withConfig(new TernarySurfaceConfig(
+                    RegisterBlocks.MUD_BLOCK.getDefaultState(),
+                    RegisterBlocks.MUD_BLOCK.getDefaultState(),
+                    Blocks.GRAVEL.getDefaultState()));
+
     public static void addMangroveSwampFeatures(GenerationSettings.Builder builder) {
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, MangroveTree.MANGROVE_TREE);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, MangroveTree.MANGROVE_TREE);
@@ -29,12 +35,6 @@ public class MangroveSwamps {
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.SEAGRASS_SWAMP);
         builder.feature(GenerationStep.Feature.LAKES, ConfiguredFeatures.LAKE_WATER);
     }
-
-    public static final ConfiguredSurfaceBuilder<TernarySurfaceConfig> MANGROVE_SWAMPS_BUILDER = SurfaceBuilder.SWAMP
-            .withConfig(new TernarySurfaceConfig(
-                    RegisterBlocks.MUD_BLOCK.getDefaultState(),
-                    RegisterBlocks.MUD_BLOCK.getDefaultState(),
-                    Blocks.GRAVEL.getDefaultState()));
 
     public static Biome createMangroveSwamps() {
         // We specify what entities spawn and what features generate in the biome.
@@ -61,7 +61,7 @@ public class MangroveSwamps {
                 .precipitation(Biome.Precipitation.RAIN)
                 .category(Biome.Category.SWAMP)
                 .depth(-0.2F)
-                .scale(0.1F)
+                .scale(0.01F)
                 .temperature(0.8F)
                 .downfall(0.4F)
                 .effects((new BiomeEffects.Builder())

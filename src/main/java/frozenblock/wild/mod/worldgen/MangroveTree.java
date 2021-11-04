@@ -1,34 +1,22 @@
 package frozenblock.wild.mod.worldgen;
 
-import com.mojang.serialization.Codec;
 import frozenblock.wild.mod.registry.MangroveWoods;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Material;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
-import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.gen.decorator.CountNoiseBiasedDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.decorator.HeightmapDecoratorConfig;
 import net.minecraft.world.gen.decorator.WaterDepthThresholdDecoratorConfig;
-import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.treedecorator.LeavesVineTreeDecorator;
 import net.minecraft.world.gen.trunk.ForkingTrunkPlacer;
-import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
-import java.util.Random;
 
 public class MangroveTree {
     @Nullable
@@ -39,15 +27,14 @@ public class MangroveTree {
                     new ForkingTrunkPlacer(5, 1, 5), // places a forked trunk
                     new SimpleBlockStateProvider(MangroveWoods.MANGROVE_LEAVES.getDefaultState()), // Foliage block provider
                     new SimpleBlockStateProvider(MangroveWoods.MANGROVE_SAPLING.getDefaultState()), // Sapling provider; used to determine what blocks the tree can generate on
-                    new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 50), // places leaves as a blob (radius, offset from trunk, height)
+                    new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 75), // places leaves as a blob (radius, offset from trunk, height)
                     new TwoLayersFeatureSize(1, 0, 1) // The width of the tree at different layers; used to see how tall the tree can be without clipping into blocks
 
             )
-                    //register("trees_swamp", ((ConfiguredFeature)SWAMP_OAK.decorate(ConfiguredFeatures.Decorators.HEIGHTMAP_OCEAN_FLOOR).decorate(Decorator.WATER_DEPTH_THRESHOLD.configure(new WaterDepthThresholdDecoratorConfig(1))).spreadHorizontally()).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(2, 0.1F, 1))));
                     .decorators(Collections.singletonList(LeavesVineTreeDecorator.INSTANCE))
-                    //.decorators(Collections.singletonList(MangroveTreeRoots.INSTANCE))
+                    .decorators(Collections.singletonList(MangroveTreeRoots.INSTANCE))
                     .build())
-            .decorate(Decorator.WATER_DEPTH_THRESHOLD.configure(new WaterDepthThresholdDecoratorConfig(1)))
+            .decorate(Decorator.WATER_DEPTH_THRESHOLD.configure(new WaterDepthThresholdDecoratorConfig(100)))
             .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.MOTION_BLOCKING)))
             .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.OCEAN_FLOOR)))
             .spreadHorizontally()

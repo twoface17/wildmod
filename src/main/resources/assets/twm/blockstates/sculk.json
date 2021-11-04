@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": {"model": "twm:block/sculk"}
+    "": {
+      "model": "twm:block/sculk"
+    }
   }
 }

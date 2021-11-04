@@ -1,7 +1,6 @@
 {
   "block.twm.mud_block": "Bloc de boue",
   "block.twm.mud_bricks": "Briques de boue",
-
   "block.twm.mangrove_planks": "Planches de mangrove",
   "block.twm.mangrove_log": "Bûche de mangrove",
   "block.twm.stripped_mangrove_wood": "Bois de mangrove écorcé",
@@ -19,12 +18,9 @@
   "block.twm.mangrove_sapling": "Propagule de mangrove",
   "block.twm.mangrove_roots": "Racines de mangrove",
   "block.twm.propagule": "Propagule",
-
   "biome.twm.mangrove_swamps": "Mangrove",
-
   "block.twm.sculk": "Sculk",
   "block.twm.sculk_vein": "Veine de sculk",
   "block.twm.sculk_catalyst": "Catalyseur de sculk",
-
   "item.twm.warden_spawn_egg": "Œuf d'apparition de Warden"
 }

@@ -4,10 +4,7 @@ import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.AreaEffectCloudEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.BlockStateParticleEffect;
@@ -27,18 +24,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.BitSet;
-
 @Mixin(AbstractBlock.class)
 public class AbstractBlockMixin {
 
     @Inject(at = @At("HEAD"), method = "onUse")
     private void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
-        if(world.getBlockState(hit.getBlockPos()).getBlock() == Blocks.DIRT) {
+        if (world.getBlockState(hit.getBlockPos()).getBlock() == Blocks.DIRT) {
 
             ItemStack itemStack = player.getStackInHand(hand);
 
-            if(itemStack.isItemEqual(Items.POTION.getDefaultStack())) {
+            if (itemStack.isItemEqual(Items.POTION.getDefaultStack())) {
                 if (PotionUtil.getPotion(itemStack) == Potions.WATER) {
                     world.setBlockState(pos, RegisterBlocks.MUD_BLOCK.getDefaultState());
                     if (!world.isClient) {

@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.blocks.mangrove;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;

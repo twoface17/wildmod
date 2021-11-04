@@ -1,7 +1,7 @@
 package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.entity.*;
+import frozenblock.wild.mod.entity.WardenEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;

@@ -1,10 +1,8 @@
 package frozenblock.wild.mod.blocks.mangrove;
 
 
-import frozenblock.wild.mod.worldgen.MangroveTree;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -12,7 +10,6 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
@@ -23,28 +20,25 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
-import net.minecraft.world.gen.feature.Feature;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.util.Random;
 
 public class MangroveSapling extends Block implements Waterloggable {
     //public static final BooleanProperty WATERLOGGED = BooleanProperty.of("waterlogged");
     public static final BooleanProperty HANGING = BooleanProperty.of("hanging");
-    //public static final IntProperty STAGE = IntProperty.of("stage", 0, 1);
 
+    //public static final IntProperty STAGE = IntProperty.of("stage", 0, 1);
     public MangroveSapling(Settings settings) {
         super(settings);
         setDefaultState(getStateManager().getDefaultState()
                 .with(Properties.WATERLOGGED, false)
                 .with(HANGING, false)
-                //.with(Properties.STAGE, 0)
         );
+    }
+
+    protected static Direction attachedDirection(BlockState state) {
+        return (Boolean) state.get(HANGING) ? Direction.DOWN : Direction.UP;
     }
 
     @Nullable
@@ -53,12 +47,12 @@ public class MangroveSapling extends Block implements Waterloggable {
         Direction[] var3 = ctx.getPlacementDirections();
         int var4 = var3.length;
 
-        for(int var5 = 0; var5 < var4; ++var5) {
+        for (int var5 = 0; var5 < var4; ++var5) {
             Direction direction = var3[var5];
             if (direction.getAxis() == Direction.Axis.Y) {
-                BlockState blockState = (BlockState)this.getDefaultState().with(HANGING, direction == Direction.UP);
+                BlockState blockState = (BlockState) this.getDefaultState().with(HANGING, direction == Direction.UP);
                 if (blockState.canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
-                    return (BlockState)blockState.with(Properties.WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+                    return (BlockState) blockState.with(Properties.WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
                 }
             }
         }
@@ -72,7 +66,7 @@ public class MangroveSapling extends Block implements Waterloggable {
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         Direction direction = attachedDirection(state).getOpposite();
-        if(direction == Direction.UP) {
+        if (direction == Direction.UP) {
             return world.getBlockState(new BlockPos(pos.up())).getMaterial() == Material.LEAVES;
         } else {
             BlockPos blockPos = pos.down();
@@ -81,16 +75,12 @@ public class MangroveSapling extends Block implements Waterloggable {
         //return Block.sideCoversSmallSquare(world, pos.offset(direction), direction.getOpposite());
     }
 
-    protected static Direction attachedDirection(BlockState state) {
-        return (Boolean)state.get(HANGING) ? Direction.DOWN : Direction.UP;
-    }
-
     public PistonBehavior getPistonBehavior(BlockState state) {
         return PistonBehavior.DESTROY;
     }
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if ((Boolean)state.get(Properties.WATERLOGGED)) {
+        if ((Boolean) state.get(Properties.WATERLOGGED)) {
             world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
@@ -98,7 +88,7 @@ public class MangroveSapling extends Block implements Waterloggable {
     }
 
     public FluidState getFluidState(BlockState state) {
-        return (Boolean)state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return (Boolean) state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
@@ -109,7 +99,7 @@ public class MangroveSapling extends Block implements Waterloggable {
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         Vec3d offset = state.getModelOffset(world, pos);
-        if(!state.get(HANGING)) {
+        if (!state.get(HANGING)) {
             return VoxelShapes.union(createCuboidShape(4, 0, 4, 12, 8, 12)).offset(offset.x, offset.y, offset.z);
         } else {
             return VoxelShapes.union(createCuboidShape(4, 8, 4, 12, 16, 12)).offset(offset.x, offset.y, offset.z);
@@ -118,7 +108,7 @@ public class MangroveSapling extends Block implements Waterloggable {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if(!state.get(HANGING)) {
+        if (!state.get(HANGING)) {
 
         }
     }

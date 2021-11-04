@@ -7,25 +7,17 @@ import net.minecraft.block.PillarBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
 import net.minecraft.loot.context.LootContext;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.ItemTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
-import java.util.Random;
-import java.util.function.Consumer;
 
 public class MangroveLog extends PillarBlock {
     public MangroveLog(Settings settings) {
@@ -35,8 +27,8 @@ public class MangroveLog extends PillarBlock {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack itemStack = player.getStackInHand(hand);
-        if(itemStack.isIn(FabricToolTags.AXES)) {
-            itemStack.damage(1, (LivingEntity)player, p -> p.sendToolBreakStatus(hand));
+        if (itemStack.isIn(FabricToolTags.AXES)) {
+            itemStack.damage(1, (LivingEntity) player, p -> p.sendToolBreakStatus(hand));
             BlockState blockState = MangroveWoods.STRIPPED_MANGROVE_LOG.getDefaultState();
             world.setBlockState(pos, (BlockState) blockState.with(AXIS, state.get(AXIS)));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_AXE_STRIP, SoundCategory.NEUTRAL, 1.0F, 1.0F);

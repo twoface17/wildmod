@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.blocks.mangrove;
 
-import net.minecraft.block.*;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
 

@@ -1,7 +1,7 @@
 package frozenblock.wild.mod;
 
-import frozenblock.wild.mod.blocks.mangrove.MangroveWood;
-import frozenblock.wild.mod.entity.*;
+import frozenblock.wild.mod.entity.WardenEntityModel;
+import frozenblock.wild.mod.entity.WardenEntityRenderer;
 import frozenblock.wild.mod.registry.MangroveWoods;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
@@ -9,13 +9,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.render.RenderLayer;

@@ -25,20 +25,24 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 
-    @Shadow public abstract Vec3d getPos();
+    @Shadow
+    public abstract Vec3d getPos();
 
-    @Shadow public abstract World getEntityWorld();
+    @Shadow
+    public abstract World getEntityWorld();
 
-    @Shadow public abstract BlockPos getBlockPos();
+    @Shadow
+    public abstract BlockPos getBlockPos();
 
-    @Shadow public abstract boolean isConnectedThroughVehicle(Entity entity);
+    @Shadow
+    public abstract boolean isConnectedThroughVehicle(Entity entity);
 
     @Inject(method = "remove", at = @At("HEAD"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void onRemove(CallbackInfo ci) {
-        Entity entity = (Entity)((Object)this);
+        Entity entity = (Entity) ((Object) this);
         // LIUKRAST NOTE - THIS LINE BELOW SAYS THAT IS ALWAYS FALSE, IT IS NOT!! PLEASE DON'T EDIT
-        if(entity instanceof LivingEntity) {
-            if(!(entity instanceof ArmorStandEntity || entity instanceof PlayerEntity)) {
+        if (entity instanceof LivingEntity) {
+            if (!(entity instanceof ArmorStandEntity || entity instanceof PlayerEntity)) {
                 BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
                 if (Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld(), this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true).with(SculkCatalystBlock.COOLDOWN, 2), ParticleTypes.SOUL, 0.2, 0.2, 0.2, 1, 1)) {
                     GenerateSculk.generateSculk(this.getEntityWorld(), this.getBlockPos());

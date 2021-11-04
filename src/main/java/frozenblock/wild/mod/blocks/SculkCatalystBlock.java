@@ -3,23 +3,14 @@ package frozenblock.wild.mod.blocks;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.PointedDripstoneBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class SculkCatalystBlock extends Block {
@@ -29,7 +20,7 @@ public class SculkCatalystBlock extends Block {
 
     public SculkCatalystBlock(Settings settings) {
         super(settings);
-        this.setDefaultState((BlockState)this.getDefaultState().with(BLOOM, false));
+        this.setDefaultState((BlockState) this.getDefaultState().with(BLOOM, false));
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -54,8 +45,8 @@ public class SculkCatalystBlock extends Block {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        if(state.get(BLOOM)) {
-            if(state.get(COOLDOWN) != 0) {
+        if (state.get(BLOOM)) {
+            if (state.get(COOLDOWN) != 0) {
                 world.setBlockState(pos, state.with(COOLDOWN, state.get(COOLDOWN) - 1));
             } else {
                 world.setBlockState(pos, RegisterBlocks.SCULK_CATALYST.getDefaultState());
