@@ -1,7 +1,7 @@
 package frozenblock.wild.mod;
 
-import frozenblock.wild.mod.entity.WardenEntityModel;
-import frozenblock.wild.mod.entity.WardenEntityRenderer;
+import frozenblock.wild.mod.blocks.mangrove.MangroveWood;
+import frozenblock.wild.mod.entity.*;
 import frozenblock.wild.mod.registry.MangroveWoods;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
@@ -9,11 +9,13 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.client.model.Dilation;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
@@ -22,6 +24,7 @@ import net.minecraft.util.Identifier;
 public class WildModClient implements ClientModInitializer {
 
     public static final EntityModelLayer MODEL_WARDEN_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "warden"), "main");
+    public static final EntityModelLayer MODEL_FROG_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "frog"), "main");
 
     @Override
     public void onInitializeClient() {
@@ -32,7 +35,12 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_SAPLING, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_VEIN, RenderLayer.getCutout());
 
-        EntityRendererRegistry.INSTANCE.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
+        EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_WARDEN_LAYER, WardenEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(RegisterEntities.FROG, FrogEntityRenderer::new);
+        final Dilation none = Dilation.NONE;
+        EntityModelLayerRegistry.registerModelLayer(MODEL_FROG_LAYER, FrogEntityModel::getTexturedModelData);
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
             assert world != null;
@@ -41,7 +49,6 @@ public class WildModClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> FoliageColors.getDefaultColor()), MangroveWoods.MANGROVE_LEAVES);
 
-        EntityModelLayerRegistry.registerModelLayer(MODEL_WARDEN_LAYER, WardenEntityModel::getTexturedModelData);
 
     }
 }

@@ -19,7 +19,14 @@ public class RegisterEntities {
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, WardenEntity::new).dimensions(EntityDimensions.fixed(2f, 3.2f)).build()
     );
 
+    public static final EntityType<FrogEntity> FROG = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(WildMod.MOD_ID, "frog"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, FrogEntity::new).dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build()
+    );
+
     public static void RegisterEntities() {
         FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.createWardenAttributes());
+        FabricDefaultAttributeRegistry.register(FROG, FrogEntity.createFrogAttributes());
     }
 }
