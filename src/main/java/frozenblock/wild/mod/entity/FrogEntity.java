@@ -1,7 +1,11 @@
 package frozenblock.wild.mod.entity;
 
+import frozenblock.wild.mod.registry.RegisterEntities;
+import frozenblock.wild.mod.registry.RegisterWorldgen;
+import frozenblock.wild.mod.worldgen.MangroveSwamps;
 import net.minecraft.data.report.BiomeListProvider;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.goal.DiveJumpingGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -12,8 +16,11 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 
 import java.util.*;
@@ -67,6 +74,13 @@ public class FrogEntity extends PathAwareEntity {
     }
 
     protected void initGoals() {
+
+        this.goalSelector.add(9, new DiveJumpingGoal() {
+            @Override
+            public boolean canStart() {
+                return true;
+            }
+        });
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 0.4D));
     }
 

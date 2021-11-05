@@ -3,6 +3,8 @@ package frozenblock.wild.mod.registry;
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.entity.FrogEntity;
 import frozenblock.wild.mod.entity.WardenEntity;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -10,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
 
 public class RegisterEntities {
 
@@ -29,5 +32,6 @@ public class RegisterEntities {
     public static void RegisterEntities() {
         FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.createWardenAttributes());
         FabricDefaultAttributeRegistry.register(FROG, FrogEntity.createFrogAttributes());
+        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FROG.getSpawnGroup(), RegisterEntities.FROG, 100, 3, 6);
     }
 }

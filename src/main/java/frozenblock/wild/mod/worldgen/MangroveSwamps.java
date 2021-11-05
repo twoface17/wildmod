@@ -23,10 +23,6 @@ public class MangroveSwamps {
 
     public static void addMangroveSwampFeatures(GenerationSettings.Builder builder) {
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, MangroveTree.MANGROVE_TREE);
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, MangroveTree.MANGROVE_TREE);
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, MangroveTree.MANGROVE_TREE);
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, MangroveTree.MANGROVE_TREE);
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, MangroveTree.MANGROVE_TREE);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.PATCH_WATERLILLY);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.BROWN_MUSHROOM_SWAMP);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.RED_MUSHROOM_SWAMP);

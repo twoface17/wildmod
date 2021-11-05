@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.worldgen;
 
 import frozenblock.wild.mod.registry.MangroveWoods;
+import net.minecraft.structure.processor.BlockIgnoreStructureProcessor;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.decorator.Decorator;
@@ -34,9 +35,12 @@ public class MangroveTree {
                     .decorators(Collections.singletonList(LeavesVineTreeDecorator.INSTANCE))
                     .decorators(Collections.singletonList(MangroveTreeRoots.INSTANCE))
                     .build())
-            .decorate(Decorator.WATER_DEPTH_THRESHOLD.configure(new WaterDepthThresholdDecoratorConfig(100)))
-            .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.MOTION_BLOCKING)))
+            .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.WORLD_SURFACE)))
             .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.OCEAN_FLOOR)))
+            .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.OCEAN_FLOOR_WG)))
+            .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.WORLD_SURFACE_WG)))
+            .decorate(Decorator.WATER_DEPTH_THRESHOLD.configure(new WaterDepthThresholdDecoratorConfig(5)))
+            .repeatRandomly(5)
             .spreadHorizontally()
             .applyChance(1); // About a 33% chance to generate per chunk (1/x)
 
