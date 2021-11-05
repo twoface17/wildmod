@@ -78,7 +78,7 @@ public class FrogEntity extends PathAwareEntity {
         this.goalSelector.add(9, new DiveJumpingGoal() {
             @Override
             public boolean canStart() {
-                return true;
+                return false;
             }
         });
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 0.4D));

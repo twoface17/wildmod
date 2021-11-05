@@ -32,6 +32,6 @@ public class RegisterEntities {
     public static void RegisterEntities() {
         FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.createWardenAttributes());
         FabricDefaultAttributeRegistry.register(FROG, FrogEntity.createFrogAttributes());
-        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FROG.getSpawnGroup(), RegisterEntities.FROG, 100, 3, 6);
+        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FROG.getSpawnGroup(), RegisterEntities.FROG, 200, 3, 6);
     }
 }

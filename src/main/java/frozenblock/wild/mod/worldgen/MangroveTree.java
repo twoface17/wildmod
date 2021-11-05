@@ -4,9 +4,7 @@ import frozenblock.wild.mod.registry.MangroveWoods;
 import net.minecraft.structure.processor.BlockIgnoreStructureProcessor;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.decorator.HeightmapDecoratorConfig;
-import net.minecraft.world.gen.decorator.WaterDepthThresholdDecoratorConfig;
+import net.minecraft.world.gen.decorator.*;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
@@ -35,12 +33,10 @@ public class MangroveTree {
                     .decorators(Collections.singletonList(LeavesVineTreeDecorator.INSTANCE))
                     .decorators(Collections.singletonList(MangroveTreeRoots.INSTANCE))
                     .build())
-            .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.WORLD_SURFACE)))
             .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.OCEAN_FLOOR)))
-            .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.OCEAN_FLOOR_WG)))
-            .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.WORLD_SURFACE_WG)))
+            .decorate(Decorator.ICEBERG.configure(new NopeDecoratorConfig()))
             .decorate(Decorator.WATER_DEPTH_THRESHOLD.configure(new WaterDepthThresholdDecoratorConfig(5)))
-            .repeatRandomly(5)
+            .repeatRandomly(30)
             .spreadHorizontally()
             .applyChance(1); // About a 33% chance to generate per chunk (1/x)
 
