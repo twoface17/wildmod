@@ -33,6 +33,7 @@ public abstract class RegisterBlocks {
     public static final Block SCULK = new SculkBlock(SCULK_PROPERTIES.strength(0.9f, 0.9f));
     public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES.strength(2f, 2f));
     public static final Block SCULK_SHRIEKER = new SculkShriekerBlock(SCULK_PROPERTIES.strength(2f, 2f).nonOpaque());
+    public static final Block SCULK_FRAME = new SculkFrameBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
 
 
     // ALL BLOCKS HERE HAVE NO COLLISION
@@ -58,6 +59,9 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem(SCULK_SHRIEKER, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_sensor"), new BlockItem(Blocks.SCULK_SENSOR, new FabricItemSettings().group(ItemGroup.REDSTONE)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_frame"), SCULK_FRAME);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_frame"), new BlockItem(SCULK_FRAME, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
         MangroveWoods.RegisterMangrove();
     }
