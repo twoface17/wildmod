@@ -44,7 +44,7 @@ public abstract class EntityMixin {
         if (entity instanceof LivingEntity) {
             if (!(entity instanceof ArmorStandEntity || entity instanceof PlayerEntity)) {
                 BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
-                if (Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld(), this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true).with(SculkCatalystBlock.COOLDOWN, 2), ParticleTypes.SOUL, 0.2, 0.2, 0.2, 1, 1)) {
+                if (Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld(), this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true), ParticleTypes.SOUL, 0.2, 0.2, 0.2, 1, 1)) {
                     GenerateSculk.generateSculk(this.getEntityWorld(), this.getBlockPos());
                 }
             }

@@ -30,7 +30,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     }
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
-        Dilation dilation = new Dilation(-0.1F);
+        Dilation dilation = new Dilation(1F);
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData1 = modelPartData.addChild("body", ModelPartBuilder.create().uv(0,12).cuboid(-3.5F, -3.0F, -4.5F, 7.0F, 3.0F, 9.0F).uv(23,18).cuboid(-3.5F, -2.01F, -4.5F, 7.0F, 0.0F, 9.0F), ModelTransform.pivot(0.0F,23.0F,0.0F));
         modelPartData1.addChild("mouth", ModelPartBuilder.create().uv(0,0).cuboid(-3.5F, -2.0F, -7.0F, 7.0F, 3.0F, 9.0F).uv(23,18).cuboid(-3.5F, -1.0F, -7.0F, 7.0F, 0.0F, 9.0F).uv(23,13).cuboid(0.5F, -4.0F, -6.0F, 3.0F, 2.0F, 3.0F).uv(35,13).cuboid(-3.5F, -4.0F, -6.0F, 3.0F, 2.0F, 3.0F), ModelTransform.pivot(0.0F,-3.0F,2.5F));
@@ -51,6 +51,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         this.front_left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
         this.back_left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
         this.back_right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
+        this.sac.visible = MathHelper.cos(animationProgress/5) > 0.9;
 
     }
 

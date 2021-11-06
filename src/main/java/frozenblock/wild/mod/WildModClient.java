@@ -68,7 +68,6 @@ public class WildModClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_WARDEN_LAYER, WardenEntityModel::getTexturedModelData);
 
         EntityRendererRegistry.register(RegisterEntities.FROG, FrogEntityRenderer::new);
-        final Dilation none = Dilation.NONE;
         EntityModelLayerRegistry.registerModelLayer(MODEL_FROG_LAYER, FrogEntityModel::getTexturedModelData);
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {

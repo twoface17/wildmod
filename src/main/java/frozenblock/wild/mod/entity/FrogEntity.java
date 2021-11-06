@@ -1,9 +1,6 @@
 package frozenblock.wild.mod.entity;
 
-import frozenblock.wild.mod.registry.RegisterEntities;
-import frozenblock.wild.mod.registry.RegisterWorldgen;
-import frozenblock.wild.mod.worldgen.MangroveSwamps;
-import net.minecraft.data.report.BiomeListProvider;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.DiveJumpingGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
@@ -17,11 +14,8 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeKeys;
 
 import java.util.*;
 
@@ -33,8 +27,6 @@ public class FrogEntity extends PathAwareEntity {
     public static final int SWAMP = 0;
     public static final int COLD = 1;
     public static final int TROPICAL = 2;
-    public static RegistryKey[] COLD_BIOMES = new RegistryKey[]{BiomeKeys.MOUNTAINS,BiomeKeys.SNOWY_TAIGA};
-    public static RegistryKey[] TROPICAL_BIOMES = new RegistryKey[]{BiomeKeys.DESERT};
 
 
     public FrogEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
@@ -45,6 +37,14 @@ public class FrogEntity extends PathAwareEntity {
         return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 10D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.50D);
     }
 
+    public static boolean canColdSpawn(World world, BlockPos pos) {
+        return world.getBiome(pos).isCold(pos);
+    }
+
+    public static boolean canTropicalSpawn(World world, BlockPos pos) {
+        return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE);
+    }
+
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(VARIANT, 0);
@@ -52,7 +52,7 @@ public class FrogEntity extends PathAwareEntity {
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putInt("Variant", this.getVariant().getId());
+        nbt.putInt(VARIANT_KEY, this.getVariant().getId());
 
     }
 
@@ -60,9 +60,10 @@ public class FrogEntity extends PathAwareEntity {
         return FrogEntity.Variant.VARIANTS[(Integer)this.dataTracker.get(VARIANT)];
     }
 
-    private void setVariant(FrogEntity.Variant variant) {
+    public void setVariant(FrogEntity.Variant variant) {
         this.dataTracker.set(VARIANT, variant.getId());
     }
+
 
     static {
         VARIANT = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -70,7 +71,7 @@ public class FrogEntity extends PathAwareEntity {
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        this.setVariant(FrogEntity.Variant.VARIANTS[nbt.getInt("Variant")]);
+        this.setVariant(FrogEntity.Variant.VARIANTS[nbt.getInt(VARIANT_KEY)]);
     }
 
     protected void initGoals() {
@@ -85,9 +86,9 @@ public class FrogEntity extends PathAwareEntity {
     }
 
     public static enum Variant {
-        SWAMP(0, "swamp", false),
-        COLD(1, "cold", false),
-        TROPICAL(2, "tropical", false);
+        SWAMP(FrogEntity.SWAMP, "swamp", false),
+        COLD(FrogEntity.COLD, "cold", false),
+        TROPICAL(FrogEntity.TROPICAL, "tropical", false);
         public static final FrogEntity.Variant[] VARIANTS = (FrogEntity.Variant[])Arrays.stream(values()).sorted(Comparator.comparingInt(FrogEntity.Variant::getId)).toArray((i) -> {
             return new FrogEntity.Variant[i];
         });

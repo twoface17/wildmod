@@ -16,7 +16,6 @@ import java.util.Random;
 public class SculkCatalystBlock extends Block {
 
     public static final BooleanProperty BLOOM = BooleanProperty.of("bloom");
-    public static final IntProperty COOLDOWN = IntProperty.of("cooldown", 0, 2);
 
     public SculkCatalystBlock(Settings settings) {
         super(settings);
@@ -26,7 +25,6 @@ public class SculkCatalystBlock extends Block {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
         builder.add(BLOOM);
-        builder.add(COOLDOWN);
     }
 
 
@@ -46,11 +44,7 @@ public class SculkCatalystBlock extends Block {
         int y = pos.getY();
         int z = pos.getZ();
         if (state.get(BLOOM)) {
-            if (state.get(COOLDOWN) != 0) {
-                world.setBlockState(pos, state.with(COOLDOWN, state.get(COOLDOWN) - 1));
-            } else {
-                world.setBlockState(pos, RegisterBlocks.SCULK_CATALYST.getDefaultState());
-            }
+            world.setBlockState(pos, RegisterBlocks.SCULK_CATALYST.getDefaultState());
         }
         world.getBlockTickScheduler().schedule(new BlockPos(x, y, z), this, 10);
 
