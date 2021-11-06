@@ -16,7 +16,7 @@
   "block.twm.mangrove_fence_gate": "Mangrove Fence Gate",
   "block.twm.mangrove_door": "Mangrove Door",
   "block.twm.mangrove_leaves": "Mangrove Leaves",
-  "block.twm.mangrove_sapling": "Mangrove Sapling",
+  "block.twm.mangrove_sapling": "Mangrove Propagule",
   "block.twm.mangrove_roots": "Mangrove Roots",
   "block.twm.propagule": "Propagule",
 
@@ -25,6 +25,7 @@
   "block.twm.sculk": "Sculk",
   "block.twm.sculk_vein": "Sculk Vein",
   "block.twm.sculk_catalyst": "Sculk Catalyst",
+  "block.twm.sculk_shrieker": "Sculk Shrieker",
 
   "item.twm.warden_spawn_egg": "Warden Spawn Egg",
   "item.twm.frog_spawn_egg": "Frog Spawn Egg",

@@ -1,9 +1,34 @@
 {
   "block.twm.mud_block": "Blocco di Fango",
+  "block.twm.mud_bricks": "Mattoni di fango",
+
   "block.twm.mangrove_planks": "Assi di Mangrovie",
   "block.twm.mangrove_log": "Tronco di Mangrovia",
-  "block.twm.mangrove_fence": "Staccionata di Mangrovia",
+  "block.twm.stripped_mangrove_wood": "Legno di mangrovia scortecciato",
+  "block.twm.stripped_mangrove_log": "Tronco di mangrovia scortecciato",
   "block.twm.mangrove_wood": "Legno di Mangrovia",
   "block.twm.mangrove_slab": "Lastra di Mangrovia",
-  "block.twm.mangrove_stairs": "Scalini di Mangrovia"
+  "block.twm.mangrove_fence": "Staccionata di Mangrovia",
+  "block.twm.mangrove_stairs": "Scalini di Mangrovia",
+  "block.twm.mangrove_button": "Pulsante di Mangrovia",
+  "block.twm.mangrove_pressure_plate": "Pedana a pressione di Mangrovia ",
+  "block.twm.mangrove_trapdoor": "Botola di Mangrovia",
+  "block.twm.mangrove_fence_gate": "Staccionata di Mangrovia",
+  "block.twm.mangrove_door": "Porta di Mangrovia",
+  "block.twm.mangrove_leaves": "Foglie di Mangrovia",
+  "block.twm.mangrove_sapling": "Propagulo di Mangrovia",
+  "block.twm.mangrove_roots": "Radici di Mangrovia",
+
+  "biome.twm.mangrove_swamps": "Paludi Di Mangrovia",
+
+  "block.twm.sculk": "Sculk",
+  "block.twm.sculk_vein": "Vena di sculk",
+  "block.twm.sculk_catalyst": "Catalizzatore di sculk",
+  "block.twm.sculk_shrieker": "Sculk Strillante",
+
+  "item.twm.warden_spawn_egg": "Uovo generatore di warden",
+  "item.twm.frog_spawn_egg": "Uovo generatore di rana",
+
+  "entity.twm.frog": "Rana",
+  "entity.twm.warden": "Warden"
 }

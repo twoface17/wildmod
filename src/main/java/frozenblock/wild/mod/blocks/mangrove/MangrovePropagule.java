@@ -24,12 +24,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class MangroveSapling extends Block implements Waterloggable {
+public class MangrovePropagule extends Block implements Waterloggable {
     //public static final BooleanProperty WATERLOGGED = BooleanProperty.of("waterlogged");
     public static final BooleanProperty HANGING = BooleanProperty.of("hanging");
 
     //public static final IntProperty STAGE = IntProperty.of("stage", 0, 1);
-    public MangroveSapling(Settings settings) {
+    public MangrovePropagule(Settings settings) {
         super(settings);
         setDefaultState(getStateManager().getDefaultState()
                 .with(Properties.WATERLOGGED, false)

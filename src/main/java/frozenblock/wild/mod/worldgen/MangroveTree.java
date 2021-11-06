@@ -25,7 +25,7 @@ public class MangroveTree {
                     new SimpleBlockStateProvider(MangroveWoods.MANGROVE_LOG.getDefaultState()), // Trunk block provider
                     new ForkingTrunkPlacer(5, 1, 5), // places a forked trunk
                     new SimpleBlockStateProvider(MangroveWoods.MANGROVE_LEAVES.getDefaultState()), // Foliage block provider
-                    new SimpleBlockStateProvider(MangroveWoods.MANGROVE_SAPLING.getDefaultState()), // Sapling provider; used to determine what blocks the tree can generate on
+                    new SimpleBlockStateProvider(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState()), // Sapling provider; used to determine what blocks the tree can generate on
                     new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 75), // places leaves as a blob (radius, offset from trunk, height)
                     new TwoLayersFeatureSize(1, 0, 1) // The width of the tree at different layers; used to see how tall the tree can be without clipping into blocks
 

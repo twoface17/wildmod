@@ -34,7 +34,7 @@ public abstract class MangroveWoods {
     public static final Block MANGROVE_LEAVES = new MangroveLeaves();
     public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
-    public static final MangroveSapling MANGROVE_SAPLING = new MangroveSapling(FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).hardness(0.5F));
+    public static final MangrovePropagule MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).hardness(0.5F));
     public static final SignBlock MANGROVE_SIGN = new MangroveSign(WOOD_PROPERTIES, SignType.BIRCH);
 
 
@@ -46,9 +46,9 @@ public abstract class MangroveWoods {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_planks"),
                 new BlockItem(MANGROVE_PLANKS, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_sapling"), MANGROVE_SAPLING);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_sapling"),
-                new BlockItem(MANGROVE_SAPLING, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_propagule"), MANGROVE_PROPAGULE);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_propagule"),
+                new BlockItem(MANGROVE_PROPAGULE, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_log"), MANGROVE_LOG);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_log"),

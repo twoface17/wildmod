@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "twm:block/mangrove_propagule"
+    },
+    "hanging=true": {
+      "model": "twm:block/mangrove_propagule_hanging"
+    }
+  }
+}

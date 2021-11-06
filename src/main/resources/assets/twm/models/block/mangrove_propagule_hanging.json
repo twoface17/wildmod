@@ -2,8 +2,8 @@
   "credit": "Made By LiukRast",
   "ambientocclusion": false,
   "textures": {
-    "0": "twm:block/propagule",
-    "particle": "twm:block/propagule"
+    "0": "twm:block/mangrove_propagule_hanging",
+    "particle": "twm:block/mangrove_propagule_hanging"
   },
   "elements": [
     {
