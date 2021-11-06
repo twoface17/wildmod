@@ -27,5 +27,8 @@
   "block.twm.sculk_catalyst": "Sculk Catalyst",
 
   "item.twm.warden_spawn_egg": "Warden Spawn Egg",
-  "item.twm.frog_spawn_egg": "Frog Spawn Egg"
+  "item.twm.frog_spawn_egg": "Frog Spawn Egg",
+
+  "entity.twm.frog": "Frog",
+  "entity.twm.warden": "Warden"
 }

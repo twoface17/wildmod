@@ -22,5 +22,7 @@
   "block.twm.sculk": "Sculk",
   "block.twm.sculk_vein": "Veine de sculk",
   "block.twm.sculk_catalyst": "Catalyseur de sculk",
-  "item.twm.warden_spawn_egg": "Œuf d'apparition de Warden"
+  "item.twm.warden_spawn_egg": "Œuf d'apparition de Warden",
+  "entity.twm.frog": "Grenouille",
+  "entity.twm.warden": "Warden"
 }

@@ -42,7 +42,7 @@ public class FrogEntity extends PathAwareEntity {
     }
 
     public static boolean canTropicalSpawn(World world, BlockPos pos) {
-        return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE);
+        return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT);
     }
 
     protected void initDataTracker() {
