@@ -85,6 +85,9 @@ public class MangroveTreeRoots extends TreeDecorator {
         } else if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState()))) {
             replacer.accept(currentPosition, MangroveWoods.MANGROVE_ROOTS.getDefaultState().with(MangroveRoots.WATERLOGGED, true));
         }
+        if (world.testBlockState(currentPosition.up(), Predicate.isEqual(Blocks.LILY_PAD.getDefaultState()))) {
+            replacer.accept(currentPosition.up(), Blocks.AIR.getDefaultState());
+        }
     }
     private void placeRootBottom(BlockPos targetPosition, TestableWorld world, BiConsumer<BlockPos, BlockState> replacer) {
         BlockPos currentPosition = targetPosition;
