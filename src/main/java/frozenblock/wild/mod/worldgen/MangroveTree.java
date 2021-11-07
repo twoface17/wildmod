@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.worldgen;
 
 import frozenblock.wild.mod.registry.MangroveWoods;
-import net.minecraft.structure.processor.BlockIgnoreStructureProcessor;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.decorator.*;
@@ -30,9 +29,7 @@ public class MangroveTree {
                     new TwoLayersFeatureSize(1, 0, 1) // The width of the tree at different layers; used to see how tall the tree can be without clipping into blocks
 
             )
-                    .decorators(Collections.singletonList(LeavesVineTreeDecorator.INSTANCE))
-                    .decorators(Collections.singletonList(MangroveTreeRoots.INSTANCE))
-                    .decorators(Collections.singletonList(MangroveTreePropagule.INSTANCE))
+                    .decorators(Collections.singletonList(MangroveTreeDecorator.INSTANCE))
                     .build())
             .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.OCEAN_FLOOR)))
             .decorate(Decorator.ICEBERG.configure(new NopeDecoratorConfig()))
