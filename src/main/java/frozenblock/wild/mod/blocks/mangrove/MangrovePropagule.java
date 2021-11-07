@@ -1,8 +1,11 @@
 package frozenblock.wild.mod.blocks.mangrove;
 
 
+import frozenblock.wild.mod.worldgen.MangroveTree;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.block.sapling.OakSaplingGenerator;
+import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -10,6 +13,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
@@ -18,23 +22,25 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class MangrovePropagule extends Block implements Waterloggable {
-    //public static final BooleanProperty WATERLOGGED = BooleanProperty.of("waterlogged");
+public class MangrovePropagule extends PlantBlock implements Waterloggable, Fertilizable {
     public static final BooleanProperty HANGING = BooleanProperty.of("hanging");
+    public static final IntProperty STAGE = IntProperty.of("stage", 0, 1);
+    private final SaplingGenerator generator;
 
-    //public static final IntProperty STAGE = IntProperty.of("stage", 0, 1);
     public MangrovePropagule(Settings settings) {
         super(settings);
         setDefaultState(getStateManager().getDefaultState()
                 .with(Properties.WATERLOGGED, false)
                 .with(HANGING, false)
         );
+        this.generator = new OakSaplingGenerator();
     }
 
     protected static Direction attachedDirection(BlockState state) {
@@ -106,10 +112,33 @@ public class MangrovePropagule extends Block implements Waterloggable {
         }
     }
 
-    @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (!state.get(HANGING)) {
-
+        if (world.getLightLevel(pos.up()) >= 9 && random.nextInt(7) == 0) {
+            this.generate(world, pos, state, random);
         }
+
+    }
+
+    public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
+        return true;
+    }
+
+    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+        return (double)world.random.nextFloat() < 0.45D;
+    }
+
+    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+        this.generate(world, pos, state, random);
+    }
+
+    public void generate(ServerWorld world, BlockPos pos, BlockState state, Random random) {
+        if(!state.get(HANGING)) {
+            if ((Integer) state.get(STAGE) == 0) {
+                world.setBlockState(pos, (BlockState) state.cycle(STAGE), Block.NO_REDRAW);
+            } else {
+                this.generator.generate(world, world.getChunkManager().getChunkGenerator(), pos, state, random);
+            }
+        }
+
     }
 }
