@@ -4,6 +4,7 @@ import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.mixins.TreeDecoratorTypeInvoker;
 import frozenblock.wild.mod.worldgen.MangroveSwamps;
 import frozenblock.wild.mod.worldgen.MangroveTree;
+import frozenblock.wild.mod.worldgen.MangroveTreePropagule;
 import frozenblock.wild.mod.worldgen.MangroveTreeRoots;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
@@ -19,6 +20,7 @@ public abstract class RegisterWorldgen {
 
     public static final RegistryKey<Biome> MANGROVE_SWAMPS_KEY = RegistryKey.of(Registry.BIOME_KEY, new Identifier(WildMod.MOD_ID, "mangrove_swamps"));
     public static final TreeDecoratorType<MangroveTreeRoots> MANGROVE_TREE_ROOTS = TreeDecoratorTypeInvoker.callRegister("mangrove_tree_roots", MangroveTreeRoots.CODEC);
+    public static final TreeDecoratorType<MangroveTreePropagule> MANGROVE_TREE_PROPAGULE = TreeDecoratorTypeInvoker.callRegister("mangrove_tree_propagule", MangroveTreePropagule.CODEC);
     private static final Biome MANGROVE_SWAMPS = MangroveSwamps.createMangroveSwamps();
 
     public static void RegisterWorldgen() {

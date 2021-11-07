@@ -32,6 +32,7 @@ public class MangroveTree {
             )
                     .decorators(Collections.singletonList(LeavesVineTreeDecorator.INSTANCE))
                     .decorators(Collections.singletonList(MangroveTreeRoots.INSTANCE))
+                    .decorators(Collections.singletonList(MangroveTreePropagule.INSTANCE))
                     .build())
             .decorate(Decorator.HEIGHTMAP.configure(new HeightmapDecoratorConfig(Heightmap.Type.OCEAN_FLOOR)))
             .decorate(Decorator.ICEBERG.configure(new NopeDecoratorConfig()))

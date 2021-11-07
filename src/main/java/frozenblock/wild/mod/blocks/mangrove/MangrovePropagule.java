@@ -32,12 +32,14 @@ import java.util.Random;
 public class MangrovePropagule extends PlantBlock implements Waterloggable, Fertilizable {
     public static final BooleanProperty HANGING = BooleanProperty.of("hanging");
     public static final IntProperty STAGE = IntProperty.of("stage", 0, 1);
+    public static final BooleanProperty WATERLOGGED = BooleanProperty.of("waterlogged");
     private final SaplingGenerator generator;
+
 
     public MangrovePropagule(Settings settings) {
         super(settings);
         setDefaultState(getStateManager().getDefaultState()
-                .with(Properties.WATERLOGGED, false)
+                .with(WATERLOGGED, false)
                 .with(HANGING, false)
         );
         this.generator = new OakSaplingGenerator();
@@ -58,7 +60,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
             if (direction.getAxis() == Direction.Axis.Y) {
                 BlockState blockState = (BlockState) this.getDefaultState().with(HANGING, direction == Direction.UP);
                 if (blockState.canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
-                    return (BlockState) blockState.with(Properties.WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+                    return (BlockState) blockState.with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
                 }
             }
         }
@@ -67,7 +69,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(HANGING, Properties.WATERLOGGED);
+        builder.add(HANGING, WATERLOGGED);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
@@ -86,7 +88,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     }
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if ((Boolean) state.get(Properties.WATERLOGGED)) {
+        if ((Boolean) state.get(WATERLOGGED)) {
             world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
@@ -94,7 +96,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     }
 
     public FluidState getFluidState(BlockState state) {
-        return (Boolean) state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return (Boolean) state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
