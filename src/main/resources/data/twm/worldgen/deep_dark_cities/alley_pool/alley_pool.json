@@ -1,0 +1,24 @@
+{
+  "name": "twm:alley_pool",
+  "fallback": "minecraft:empty",
+  "elememts": [
+    {
+      "weight": 9,
+      "element": {
+        "location": "twm:deep_dark_cities/deep_dark_alley_continue",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "twm:deep_dark_cities/deep_dark_alley_stop",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
