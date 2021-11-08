@@ -3,6 +3,8 @@ package frozenblock.wild.mod.blocks;
 import com.google.common.collect.ImmutableMap;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterParticles;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.SculkSensorPhase;
 import net.minecraft.block.enums.Tilt;
@@ -10,6 +12,7 @@ import net.minecraft.data.client.model.BlockStateVariantMap;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -90,8 +93,18 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        if (Sphere.checkSphere(Blocks.SCULK_SENSOR.getDefaultState().with(SCULK_SENSOR_PHASE, SculkSensorPhase.ACTIVE), world, pos, 10))
-              world.setBlockState(pos.up(), Blocks.STONE.getDefaultState());
+        if (Sphere.checkSphere(Blocks.SCULK_SENSOR.getDefaultState().with(SCULK_SENSOR_PHASE, SculkSensorPhase.COOLDOWN), world, pos, 10))
+              if(!world.isClient) {
+                  world.playSound(
+                          null,
+                          pos,
+                          RegisterSounds.SHRIEKER_EVENT,
+                          SoundCategory.AMBIENT,
+                          1f,
+                          1f
+                  );
+                  world.spawnParticles(RegisterParticles.SHRIEKER, x, y, z, 10, 0, 2, 0, 1);
+              }
         world.getBlockTickScheduler().schedule(new BlockPos(x, y, z), this, 1);
     }
 }

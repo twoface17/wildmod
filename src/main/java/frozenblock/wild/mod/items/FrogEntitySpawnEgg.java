@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.items;
 
 import frozenblock.wild.mod.entity.FrogEntity;
+import frozenblock.wild.mod.liukrastapi.CustomMath;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -15,6 +16,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.MobSpawnerLogic;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -32,8 +34,6 @@ public class FrogEntitySpawnEgg extends SpawnEggItem {
         BlockPos blockPos = context.getBlockPos();
         Direction direction = context.getSide();
         BlockState blockState = world.getBlockState(blockPos);
-        NbtCompound nbt = new NbtCompound();
-        nbt.putInt("NoAI", 1);
 
         if (!(world instanceof ServerWorld)) {
             return ActionResult.SUCCESS;
@@ -51,6 +51,7 @@ public class FrogEntitySpawnEgg extends SpawnEggItem {
                 }
             }
             FrogEntity frogEntity = new FrogEntity(RegisterEntities.FROG, world);
+            frogEntity.setBodyYaw(CustomMath.random() * 360 * (float) Math.PI/180);
 
 
             BlockPos blockPos3;
@@ -64,7 +65,7 @@ public class FrogEntitySpawnEgg extends SpawnEggItem {
             } else if(FrogEntity.canTropicalSpawn(world, blockPos3)) {
                 frogEntity.setVariant(FrogEntity.Variant.TROPICAL);
             }
-            frogEntity.setPos(blockPos3.getX()+0.5, blockPos3.getY()+0.5, blockPos3.getZ()+0.5);
+            frogEntity.setPos(blockPos3.getX()+0.5, blockPos3.getY(), blockPos3.getZ()+0.5);
             world.spawnEntity(frogEntity);
             itemStack.decrement(1);
             world.emitGameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);

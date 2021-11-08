@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.SignType;
 import net.minecraft.util.registry.Registry;
@@ -35,8 +36,6 @@ public abstract class MangroveWoods {
     public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
     public static final MangrovePropagule MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).hardness(0.5F));
-    public static final SignBlock MANGROVE_SIGN = new MangroveSign(WOOD_PROPERTIES, SignType.BIRCH);
-
 
     public static void RegisterMangrove() {
 
@@ -106,5 +105,8 @@ public abstract class MangroveWoods {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_roots"), MANGROVE_ROOTS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_roots"),
                 new BlockItem(MANGROVE_ROOTS, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+
+
+
     }
 }

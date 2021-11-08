@@ -40,23 +40,28 @@ public class WildModClient implements ClientModInitializer {
 
     public static final EntityModelLayer MODEL_WARDEN_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "warden"), "main");
     public static final EntityModelLayer MODEL_FROG_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "frog"), "main");
-    public static final Identifier PacketID = new Identifier(WildMod.MOD_ID, "firefly_spawn_packet");
+    public static final EntityModelLayer MODEL_TADPOLE_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "tadpole"), "main");
 
     @Override
     public void onInitializeClient() {
-        /* Adds our particle textures to vanilla's Texture Atlas so it can be shown properly.
-         * Modify the namespace and particle id accordingly.
-         *
-         * This is only used if you plan to add your own textures for the particle. Otherwise, remove  this.*/
+
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
             registry.register(new Identifier(WildMod.MOD_ID, "particle/firefly"));
         }));
 
-        /* Registers our particle client-side.
-         * First argument is our particle's instance, created previously on ExampleMod.
-         * Second argument is the particle's factory. The factory controls how the particle behaves.
-         * In this example, we'll use FlameParticle's Factory.*/
+        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
+            registry.register(new Identifier(WildMod.MOD_ID, "particle/shrieker"));
+        }));
+
+        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
+            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_soul"));
+        }));
+
+
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.FIREFLY, FlameParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(RegisterParticles.SHRIEKER, FlameParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_SOUL, FlameParticle.Factory::new);
+
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_LEAVES, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_ROOTS, RenderLayer.getCutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_DOOR, RenderLayer.getCutout());
@@ -71,6 +76,9 @@ public class WildModClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(RegisterEntities.FROG, FrogEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_FROG_LAYER, FrogEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(RegisterEntities.TADPOLE, TadpoleEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_TADPOLE_LAYER, TadpoleEntityModel::getTexturedModelData);
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
             assert world != null;

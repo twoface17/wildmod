@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 
+import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
@@ -21,7 +22,8 @@ public class WardenEntity extends PathAwareEntity {
     }
 
     protected void initGoals() {
-        this.goalSelector.add(7, new WanderAroundFarGoal(this, 0.4D));
+        this.goalSelector.add(1, new WanderAroundFarGoal(this, 0.4D));
+        this.goalSelector.add(2, new WardenGoal(this));
     }
 
     public void tickMovement() {

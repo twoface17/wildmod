@@ -5,6 +5,7 @@ import frozenblock.wild.mod.blocks.SculkCatalystBlock;
 import frozenblock.wild.mod.liukrastapi.GenerateSculk;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterParticles;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -34,8 +35,6 @@ public abstract class EntityMixin {
     @Shadow
     public abstract BlockPos getBlockPos();
 
-    @Shadow
-    public abstract boolean isConnectedThroughVehicle(Entity entity);
 
     @Inject(method = "remove", at = @At("HEAD"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void onRemove(CallbackInfo ci) {
@@ -44,7 +43,10 @@ public abstract class EntityMixin {
         if (entity instanceof LivingEntity) {
             if (!(entity instanceof ArmorStandEntity || entity instanceof PlayerEntity)) {
                 BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
-                if (Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld(), this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true), ParticleTypes.SOUL, 0.2, 0.2, 0.2, 1, 1)) {
+                int x = this.getBlockPos().getX();
+                int y = this.getBlockPos().getY();
+                int z = this.getBlockPos().getZ();
+                if (Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld(), this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true), RegisterParticles.SCULK_SOUL, 0, 2, 0, 1, 1)) {
                     GenerateSculk.generateSculk(this.getEntityWorld(), this.getBlockPos());
                 }
             }

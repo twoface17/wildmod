@@ -15,5 +15,6 @@ public class WildMod implements ModInitializer {
         RegisterEntities.RegisterEntities();
         RegisterDispenser.RegisterDispenser();
         RegisterParticles.RegisterParticles();
+        RegisterSounds.RegisterSounds();
     }
 }
