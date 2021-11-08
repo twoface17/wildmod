@@ -1,14 +1,18 @@
 package frozenblock.wild.mod.worldgen;
 
 import com.mojang.serialization.Codec;
+import frozenblock.wild.mod.blocks.mangrove.MangrovePropagule;
 import frozenblock.wild.mod.blocks.mangrove.MangroveRoots;
 import frozenblock.wild.mod.registry.MangroveWoods;
 import frozenblock.wild.mod.registry.RegisterWorldgen;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.VineBlock;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.TestableWorld;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.treedecorator.TreeDecorator;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 
@@ -17,14 +21,14 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
-public class MangroveTreeRoots extends TreeDecorator {
-    public static final MangroveTreeRoots INSTANCE = new MangroveTreeRoots();
+public class MangroveTreeDecorator extends TreeDecorator {
+    public static final MangroveTreeDecorator INSTANCE = new MangroveTreeDecorator();
     // Our constructor doesn't have any arguments, so we create a unit codec that returns the singleton instance
-    public static final Codec<MangroveTreeRoots> CODEC = Codec.unit(() -> INSTANCE);
+    public static final Codec<MangroveTreeDecorator> CODEC = Codec.unit(() -> INSTANCE);
 
     @Override
     protected TreeDecoratorType<?> getType() {
-        return RegisterWorldgen.MANGROVE_TREE_ROOTS;
+        return RegisterWorldgen.MANGROVE_TREE_DECORATOR;
     }
 
     public void generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, List<BlockPos> logPositions, List<BlockPos> leavesPositions) {
@@ -78,6 +82,51 @@ public class MangroveTreeRoots extends TreeDecorator {
                 placeRootBottom(targetPosition, world, replacer);
             }
         }
+        for (BlockPos leavesPosition : leavesPositions) {
+
+            // Pick a value from 0 (inclusive) to 4 (exclusive) and if it's 0, continue
+            // This is the chance for spawning the gold block
+
+            // Offset the log position by the resulting side
+
+            if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
+                if (Math.random() > 0.85) {
+                    if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
+                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(MangrovePropagule.HANGING, true));
+                    } else if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.WATER.getDefaultState()))) {
+                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(MangrovePropagule.HANGING, true).with(MangrovePropagule.WATERLOGGED, true));
+                    }
+                }
+            }
+            BlockPos blockPos4;
+            if (random.nextInt(4) == 0) {
+                blockPos4 = leavesPosition.west();
+                if (Feature.isAir(world, blockPos4)) {
+                    placeVines(world, blockPos4, VineBlock.EAST, replacer);
+                }
+            }
+
+            if (random.nextInt(4) == 0) {
+                blockPos4 = leavesPosition.east();
+                if (Feature.isAir(world, blockPos4)) {
+                    placeVines(world, blockPos4, VineBlock.WEST, replacer);
+                }
+            }
+
+            if (random.nextInt(4) == 0) {
+                blockPos4 = leavesPosition.north();
+                if (Feature.isAir(world, blockPos4)) {
+                    placeVines(world, blockPos4, VineBlock.SOUTH, replacer);
+                }
+            }
+
+            if (random.nextInt(4) == 0) {
+                blockPos4 = leavesPosition.south();
+                if (Feature.isAir(world, blockPos4)) {
+                    placeVines(world, blockPos4, VineBlock.NORTH, replacer);
+                }
+            }
+        }
     }
     private void placeRootBlock(BlockPos currentPosition, TestableWorld world, BiConsumer<BlockPos, BlockState> replacer) {
         if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
@@ -110,7 +159,18 @@ public class MangroveTreeRoots extends TreeDecorator {
             }
         }
     }
+    private static void placeVines(TestableWorld world, BlockPos pos, BooleanProperty facing, BiConsumer<BlockPos, BlockState> replacer) {
+        placeVine(replacer, pos, facing);
+        int i = 4;
+
+        for(pos = pos.down(); Feature.isAir(world, pos) && i > 0; --i) {
+            placeVine(replacer, pos, facing);
+            pos = pos.down();
+        }
+
+    }
 }
+
 
 
 
