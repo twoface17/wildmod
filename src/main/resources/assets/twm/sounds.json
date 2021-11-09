@@ -4,5 +4,12 @@
     "sounds": [
       "twm:shriek1"
     ]
+  },
+  "slightly_angry": {
+    "subtitle": "subtitles.twm.slightly_angry",
+    "sounds": [
+      "twm:slightly_angry_1",
+      "twm:slightly_angry_2"
+    ]
   }
 }
