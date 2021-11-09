@@ -3,6 +3,7 @@ package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.WardenGetAttackedGoal;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
@@ -15,12 +16,17 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 
 public class WardenEntity extends HostileEntity {
     private static final double speed = 0.5D;
     protected boolean roar;
+
+    protected SoundEvent getAmbientSound() {
+        return RegisterSounds.WARDEN_AMBIENT_EVENT;
+    }
 
     public WardenEntity(EntityType<? extends WardenEntity> entityType, World world) {
         super(entityType, world);
