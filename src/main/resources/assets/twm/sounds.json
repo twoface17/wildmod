@@ -1,11 +1,11 @@
 {
-  "shrieker": {
+  "block.shrieker.shriek": {
     "subtitle": "subtitles.twm.shrieker",
     "sounds": [
       "twm:shriek1"
     ]
   },
-  "slightly_angry": {
+  "entity.warden.slightly_angry": {
     "subtitle": "subtitles.twm.slightly_angry",
     "sounds": [
       "twm:slightly_angry_1",
