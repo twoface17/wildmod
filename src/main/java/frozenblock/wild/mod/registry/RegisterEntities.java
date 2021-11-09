@@ -33,7 +33,7 @@ public class RegisterEntities {
     public static final EntityType<TadpoleEntity> TADPOLE = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(WildMod.MOD_ID, "tadpole"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, TadpoleEntity::new).dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build()
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, TadpoleEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.3F)).build()
     );
 
 

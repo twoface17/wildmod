@@ -1,29 +1,39 @@
 package frozenblock.wild.mod.entity;
 
 
+import frozenblock.wild.mod.liukrastapi.WardenGetAttackedGoal;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ai.goal.BreakDoorGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.ZombieAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.*;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 
-public class WardenEntity extends PathAwareEntity {
-    public WardenEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
+public class WardenEntity extends HostileEntity {
+    private static final double speed = 0.5D;
+    protected boolean roar;
+
+    public WardenEntity(EntityType<? extends WardenEntity> entityType, World world) {
         super(entityType, world);
     }
 
+
     public static DefaultAttributeContainer.Builder createWardenAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.50D).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 84.0D);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 84.0D);
     }
 
     protected void initGoals() {
-        this.goalSelector.add(1, new WanderAroundFarGoal(this, 0.4D));
-        this.goalSelector.add(2, new WardenGoal(this));
+        this.goalSelector.add(3, new WanderAroundFarGoal(this, 0.4D));
+        this.goalSelector.add(2, new WardenGetAttackedGoal(this, speed*1.5));
     }
 
     public void tickMovement() {
@@ -49,12 +59,21 @@ public class WardenEntity extends PathAwareEntity {
             }
         }
 
+
+
         super.tickMovement();
+    }
+
+    public boolean damage(DamageSource source, float amount) {
+        boolean bl = super.damage(source, amount);
+        this.playSound(SoundEvents.BLOCK_SCULK_SENSOR_HIT, 1.0F, 1.0F);
+        return bl;
     }
 
     protected boolean burnsInDaylight() {
         return true;
     }
+
 
 
 }

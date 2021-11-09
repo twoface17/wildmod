@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.entity;
 
+import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -40,8 +41,6 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
     }
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        float roarAnimationStartValue = 0;
-        float roarAnimationValue;
         this.head.pitch = headPitch * 0.017453292F;
         this.head.yaw = headYaw * 0.017453292F;
         this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;

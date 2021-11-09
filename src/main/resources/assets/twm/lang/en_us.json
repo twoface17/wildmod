@@ -30,7 +30,10 @@
 
   "item.twm.warden_spawn_egg": "Warden Spawn Egg",
   "item.twm.frog_spawn_egg": "Frog Spawn Egg",
+  "item.twm.tadpole_spawn_egg": "Tadpole Spawn Egg",
+  "item.twm.tadpole_bucket": "Tadpole Bucket",
 
   "entity.twm.frog": "Frog",
-  "entity.twm.warden": "Warden"
+  "entity.twm.warden": "Warden",
+  "entity.twm.tadpole": "Tadpole"
 }

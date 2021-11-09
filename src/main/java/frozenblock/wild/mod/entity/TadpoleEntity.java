@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.entity;
 
+import frozenblock.wild.mod.registry.RegisterItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.SchoolingFishEntity;
@@ -15,7 +16,7 @@ public class TadpoleEntity extends SchoolingFishEntity {
 
     @Override
     public ItemStack getBucketItem() {
-        return null;
+        return RegisterItems.TADPOLE_BUCKET.getDefaultStack();
     }
 
     protected SoundEvent getAmbientSound() {
@@ -29,6 +30,7 @@ public class TadpoleEntity extends SchoolingFishEntity {
     protected SoundEvent getHurtSound(DamageSource source) {
         return SoundEvents.ENTITY_SALMON_HURT;
     }
+
 
     @Override
     protected SoundEvent getFlopSound() {
