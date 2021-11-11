@@ -1,8 +1,34 @@
 {
-  "shrieker": {
+  "block.shrieker.shriek": {
     "subtitle": "subtitles.twm.shrieker",
     "sounds": [
       "twm:shriek1"
+    ]
+  },
+  "entity.warden.slightly_angry": {
+    "category": "hostile",
+    "subtitle": "subtitles.twm.slightly_angry",
+    "sounds": [
+      "twm:slightly_angry_1",
+      "twm:slightly_angry_2"
+    ]
+  },
+  "entity.warden.ambient": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.twm.warden.ambient",
+    "sounds": [
+      {
+        "name": "twm:entity/warden/idle1"
+      },
+      {
+        "name": "twm:entity/warden/idle2"
+      },
+      {
+        "name": "twm:entity/warden/idle3"
+      },
+      {
+        "name": "twm:entity/warden/idle4"
+      }
     ]
   }
 }

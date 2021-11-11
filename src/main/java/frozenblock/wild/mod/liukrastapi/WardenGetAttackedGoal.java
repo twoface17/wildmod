@@ -63,7 +63,7 @@ public class WardenGetAttackedGoal extends Goal {
             this.mob.tryAttack(target);
         }
         if(!target.isAlive()) {
-            this.mob.playSound(RegisterSounds.SHRIEKER_EVENT, 1f, 1f);
+            this.mob.playSound(RegisterSounds.SLIGHTLY_ANGRY_EVENT, 1f, 1f);
         }
     }
 

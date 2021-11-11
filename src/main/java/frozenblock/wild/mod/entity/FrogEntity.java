@@ -40,10 +40,10 @@ public class FrogEntity extends PathAwareEntity {
     public static boolean canColdSpawn(World world, BlockPos pos) {
         return world.getBiome(pos).isCold(pos);
     }
-
     public static boolean canTropicalSpawn(World world, BlockPos pos) {
         return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT);
     }
+
 
     protected void initDataTracker() {
         super.initDataTracker();
