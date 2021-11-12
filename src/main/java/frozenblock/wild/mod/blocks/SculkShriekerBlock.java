@@ -103,7 +103,7 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
                           1f,
                           1f
                   );
-                  world.spawnParticles(RegisterParticles.SHRIEK, x, y, z, 10, 0, 2, 0, 1);
+                  world.spawnParticles(RegisterParticles.SHRIEK, x, y, z, 3, 0, 2, 0, 0.1);
               }
         world.getBlockTickScheduler().schedule(new BlockPos(x, y, z), this, 1);
     }

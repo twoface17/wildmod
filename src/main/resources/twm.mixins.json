@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "AbstractBlockMixin",
+    "ClientPlayerEntityMixin",
     "EntityMixin",
     "ItemsMixin",
     "TreeDecoratorTypeInvoker"

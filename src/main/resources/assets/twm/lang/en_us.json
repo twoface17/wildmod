@@ -35,5 +35,16 @@
 
   "entity.twm.frog": "Frog",
   "entity.twm.warden": "Warden",
-  "entity.twm.tadpole": "Tadpole"
+  "entity.twm.tadpole": "Tadpole",
+  "entity.twm.mangrove_boat": "Boat",
+  "entity.twm.chest_boat": "Chest Boat",
+
+  "item.twm.mangrove_boat": "Mangrove Boat",
+  "item.twm.oak_chest_boat": "Oak Chest Boat",
+  "item.twm.spruce_chest_boat": "Spruce Chest Boat",
+  "item.twm.birch_chest_boat": "Birch Chest Boat",
+  "item.twm.acacia_chest_boat": "Acacia Chest Boat",
+  "item.twm.jungle_chest_boat": "Jungle Chest Boat",
+  "item.twm.dark_oak_chest_boat": "Dark Oak Chest Boat",
+  "item.twm.mangrove_chest_boat": "Mangrove Chest Boat"
 }

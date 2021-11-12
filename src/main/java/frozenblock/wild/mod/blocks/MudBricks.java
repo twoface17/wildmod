@@ -13,14 +13,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class MudBricks extends Block {
-    public MudBricks() {
-        super(FabricBlockSettings
-                .of(Material.STONE)
-                .sounds(BlockSoundGroup.DEEPSLATE_BRICKS)
-                .strength(1.5f, 10f)
-                .requiresTool()
-                .breakByTool(FabricToolTags.PICKAXES, 0)
-        );
+    public MudBricks(FabricBlockSettings settings) {
+        super(settings);
     }
 
     @Override

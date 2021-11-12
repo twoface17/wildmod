@@ -2,6 +2,9 @@ package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.blocks.mangrove.MangroveWood;
 import frozenblock.wild.mod.entity.*;
+import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
+import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityModel;
+import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityRenderer;
 import frozenblock.wild.mod.registry.MangroveWoods;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
@@ -23,11 +26,14 @@ import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
+import net.minecraft.client.render.entity.model.BoatEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -41,6 +47,8 @@ public class WildModClient implements ClientModInitializer {
     public static final EntityModelLayer MODEL_WARDEN_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "warden"), "main");
     public static final EntityModelLayer MODEL_FROG_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "frog"), "main");
     public static final EntityModelLayer MODEL_TADPOLE_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "tadpole"), "main");
+    public static final EntityModelLayer MODEL_MANGROVE_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "mangrove_boat"), "main");
+    public static final EntityModelLayer MODEL_CHEST_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "chest_boat"), "main");
 
     @Override
     public void onInitializeClient() {
@@ -56,6 +64,7 @@ public class WildModClient implements ClientModInitializer {
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_soul"));
         }));
+
 
 
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.FIREFLY, FlameParticle.Factory::new);
@@ -79,6 +88,14 @@ public class WildModClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(RegisterEntities.TADPOLE, TadpoleEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_TADPOLE_LAYER, TadpoleEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(RegisterEntities.MANGROVE_BOAT, MangroveBoatEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_MANGROVE_BOAT_LAYER, MangroveBoatEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(RegisterEntities.CHEST_BOAT, ChestBoatEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_CHEST_BOAT_LAYER, ChestBoatEntityModel::getTexturedModelData);
+
+
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
             assert world != null;
