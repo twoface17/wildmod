@@ -5,10 +5,7 @@ import frozenblock.wild.mod.blocks.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
@@ -28,12 +25,23 @@ public abstract class RegisterBlocks {
             .sounds(BlockSoundGroup.SCULK_SENSOR)
             .luminance(6);
 
+    public static final FabricBlockSettings MUD_BRICKS_SETTINGS = FabricBlockSettings
+            .of(Material.STONE)
+            .sounds(BlockSoundGroup.DEEPSLATE_BRICKS)
+            .strength(1.5f, 10f)
+            .requiresTool()
+            .breakByTool(FabricToolTags.PICKAXES, 0);
+
+
     public static final Block MUD_BLOCK = new MudBlock();
-    public static final Block MUD_BRICKS = new MudBricks();
+    public static final Block MUD_BRICKS = new MudBricks(MUD_BRICKS_SETTINGS);
+    public static final WallBlock MUD_BRICKS_WALL = new WallBlock(MUD_BRICKS_SETTINGS);
+    public static final SlabBlock MUD_BRICKS_SLAB = new SlabBlock(MUD_BRICKS_SETTINGS);
+    public static final StairsBlock MUD_BRICKS_STAIRS = new CustomStairs(Blocks.OAK_STAIRS.getDefaultState(), MUD_BRICKS_SETTINGS);
     public static final Block SCULK = new SculkBlock(SCULK_PROPERTIES.strength(0.9f, 0.9f));
     public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES.strength(2f, 2f));
     public static final Block SCULK_SHRIEKER = new SculkShriekerBlock(SCULK_PROPERTIES.strength(2f, 2f).nonOpaque());
-    public static final Block SCULK_FRAME = new SculkFrameBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
+    public static final Block DEEPSLATE_FRAME = new PillarBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
 
 
     // ALL BLOCKS HERE HAVE NO COLLISION
@@ -45,6 +53,15 @@ public abstract class RegisterBlocks {
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud_bricks"), MUD_BRICKS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mud_bricks"), new BlockItem(MUD_BRICKS, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud_brick_wall"), MUD_BRICKS_WALL);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mud_brick_wall"), new BlockItem(MUD_BRICKS_WALL, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud_brick_slab"), MUD_BRICKS_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mud_brick_slab"), new BlockItem(MUD_BRICKS_SLAB, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud_brick_stairs"), MUD_BRICKS_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mud_brick_stairs"), new BlockItem(MUD_BRICKS_STAIRS, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk"), SCULK);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk"), new BlockItem(SCULK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
@@ -60,8 +77,10 @@ public abstract class RegisterBlocks {
 
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_sensor"), new BlockItem(Blocks.SCULK_SENSOR, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_frame"), SCULK_FRAME);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_frame"), new BlockItem(SCULK_FRAME, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "deepslate_frame"), DEEPSLATE_FRAME);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "deepslate_frame"), new BlockItem(DEEPSLATE_FRAME, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+
+
 
         MangroveWoods.RegisterMangrove();
     }

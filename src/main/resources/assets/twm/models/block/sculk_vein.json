@@ -1,4 +1,5 @@
 {
+  "credit": "Made by FrozenBlockStudios",
   "ambientocclusion": false,
   "textures": {
     "particle": "twm:block/sculk_vein",

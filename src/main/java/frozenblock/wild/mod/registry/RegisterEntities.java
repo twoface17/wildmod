@@ -1,12 +1,17 @@
 package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.blocks.mangrove.MangroveWood;
 import frozenblock.wild.mod.entity.*;
 import frozenblock.wild.mod.entity.chestboat.*;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -30,6 +35,10 @@ public class RegisterEntities {
         FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.createWardenAttributes());
         FabricDefaultAttributeRegistry.register(FROG, FrogEntity.createFrogAttributes());
         FabricDefaultAttributeRegistry.register(TADPOLE, TadpoleEntity.createFishAttributes());
+
+
+
+
         BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FROG.getSpawnGroup(), RegisterEntities.FROG, 200, 3, 6);
     }
 }

@@ -51,8 +51,6 @@ public class FrogEntitySpawnEgg extends SpawnEggItem {
                 }
             }
             FrogEntity frogEntity = new FrogEntity(RegisterEntities.FROG, world);
-            frogEntity.setYaw(CustomMath.random() * 360 * (float) Math.PI/90);
-            System.out.println(CustomMath.random() * 360 * (float) Math.PI/90);
 
 
             BlockPos blockPos3;
@@ -67,6 +65,7 @@ public class FrogEntitySpawnEgg extends SpawnEggItem {
                 frogEntity.setVariant(FrogEntity.Variant.TROPICAL);
             }
             frogEntity.setPos(blockPos3.getX()+0.5, blockPos3.getY()+0.1, blockPos3.getZ()+0.5);
+            frogEntity.setYaw((float) Math.random() * 360 * (float) Math.PI/180);
             world.spawnEntity(frogEntity);
             itemStack.decrement(1);
             world.emitGameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
