@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "O"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:chest"
+    },
+    "O": {
+      "item": "minecraft:oak_boat"
+    }
+  },
+  "result": {
+    "item": "twm:oak_chest_boat",
+    "count": 1
+  }
+}

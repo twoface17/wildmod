@@ -13,15 +13,15 @@ import net.minecraft.util.registry.Registry;
 
 public abstract class RegisterItems {
 
-    public static final MangroveBoatItem MANGROVE_BOAT = new MangroveBoatItem(new FabricItemSettings().group(ItemGroup.TRANSPORTATION));
+    public static final MangroveBoatItem MANGROVE_BOAT = new MangroveBoatItem(new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
 
-    public static final ChestBoatItem OAK_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.OAK, new FabricItemSettings().group(ItemGroup.TRANSPORTATION));
-    public static final ChestBoatItem SPRUCE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.SPRUCE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION));
-    public static final ChestBoatItem BIRCH_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.BIRCH, new FabricItemSettings().group(ItemGroup.TRANSPORTATION));
-    public static final ChestBoatItem JUNGLE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.JUNGLE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION));
-    public static final ChestBoatItem ACACIA_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.ACACIA, new FabricItemSettings().group(ItemGroup.TRANSPORTATION));
-    public static final ChestBoatItem DARK_OAK_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.DARK_OAK, new FabricItemSettings().group(ItemGroup.TRANSPORTATION));
-    public static final ChestBoatItem MANGROVE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.MANGROVE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION));
+    public static final ChestBoatItem OAK_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.OAK, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
+    public static final ChestBoatItem SPRUCE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.SPRUCE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
+    public static final ChestBoatItem BIRCH_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.BIRCH, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
+    public static final ChestBoatItem JUNGLE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.JUNGLE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
+    public static final ChestBoatItem ACACIA_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.ACACIA, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
+    public static final ChestBoatItem DARK_OAK_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.DARK_OAK, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
+    public static final ChestBoatItem MANGROVE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.MANGROVE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
 
     public static final Item WARDEN_SPAWN_EGG = new SpawnEggItem(RegisterEntities.WARDEN, Integer.parseInt("266368", 16), Integer.parseInt("c2bea1", 16), new FabricItemSettings().group(ItemGroup.MISC));
     public static final Item FROG_SPAWN_EGG = new FrogEntitySpawnEgg(RegisterEntities.FROG,
@@ -29,7 +29,7 @@ public abstract class RegisterItems {
             Integer.parseInt("d5a56c", 16),
             new FabricItemSettings().group(ItemGroup.MISC));
     public static final Item TADPOLE_SPAWN_EGG = new SpawnEggItem(RegisterEntities.TADPOLE, Integer.parseInt("4a3729", 16), Integer.parseInt("332115", 16), new FabricItemSettings().group(ItemGroup.MISC));
-    public static final EntityBucketItem TADPOLE_BUCKET = new EntityBucketItem(RegisterEntities.TADPOLE, Fluids.WATER, SoundEvents.ITEM_BUCKET_EMPTY_FISH, new FabricItemSettings().group(ItemGroup.MISC));
+    public static final EntityBucketItem TADPOLE_BUCKET = new EntityBucketItem(RegisterEntities.TADPOLE, Fluids.WATER, SoundEvents.ITEM_BUCKET_EMPTY_FISH, new FabricItemSettings().group(ItemGroup.MISC).maxCount(1));
 
     public static void RegisterItems() {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "warden_spawn_egg"), WARDEN_SPAWN_EGG);
