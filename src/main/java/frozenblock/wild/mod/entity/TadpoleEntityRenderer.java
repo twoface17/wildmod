@@ -10,6 +10,7 @@ public class TadpoleEntityRenderer extends MobEntityRenderer<TadpoleEntity, Tadp
 
     public TadpoleEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new TadpoleEntityModel(context.getPart(WildModClient.MODEL_TADPOLE_LAYER)), 0.5f);
+        this.shadowRadius = 0.1F;
     }
 
     @Override

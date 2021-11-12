@@ -2,6 +2,9 @@ package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.blocks.mangrove.MangroveWood;
 import frozenblock.wild.mod.entity.*;
+import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
+import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityModel;
+import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityRenderer;
 import frozenblock.wild.mod.registry.MangroveWoods;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
@@ -44,6 +47,7 @@ public class WildModClient implements ClientModInitializer {
     public static final EntityModelLayer MODEL_FROG_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "frog"), "main");
     public static final EntityModelLayer MODEL_TADPOLE_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "tadpole"), "main");
     public static final EntityModelLayer MODEL_MANGROVE_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "mangrove_boat"), "main");
+    public static final EntityModelLayer MODEL_CHEST_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "chest_boat"), "main");
 
     @Override
     public void onInitializeClient() {
@@ -86,6 +90,9 @@ public class WildModClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(RegisterEntities.MANGROVE_BOAT, MangroveBoatEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_MANGROVE_BOAT_LAYER, MangroveBoatEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(RegisterEntities.CHEST_BOAT, ChestBoatEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_CHEST_BOAT_LAYER, ChestBoatEntityModel::getTexturedModelData);
 
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
