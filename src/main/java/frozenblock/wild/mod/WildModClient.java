@@ -26,6 +26,7 @@ import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.client.render.entity.model.BoatEntityModel;
@@ -93,6 +94,7 @@ public class WildModClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(RegisterEntities.CHEST_BOAT, ChestBoatEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_CHEST_BOAT_LAYER, ChestBoatEntityModel::getTexturedModelData);
+
 
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {

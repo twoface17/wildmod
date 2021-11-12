@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "twm:block/sculk_frame_top",
-    "side": "twm:block/sculk_frame"
-  }
-}

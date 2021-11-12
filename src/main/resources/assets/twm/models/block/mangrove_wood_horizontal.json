@@ -1,4 +1,5 @@
 {
+  "credit": "Made by FrozenBlockStudios",
   "parent": "minecraft:block/cube_column_horizontal",
   "textures": {
     "end": "twm:block/mangrove_log",

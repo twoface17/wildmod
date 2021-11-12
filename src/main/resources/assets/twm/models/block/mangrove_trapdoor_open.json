@@ -1,4 +1,5 @@
 {
+  "credit": "Made by FrozenBlockStudios",
   "parent": "minecraft:block/template_orientable_trapdoor_open",
   "textures": {
     "texture": "twm:block/mangrove_trapdoor"

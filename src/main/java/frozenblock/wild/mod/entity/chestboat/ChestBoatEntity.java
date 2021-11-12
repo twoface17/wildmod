@@ -697,12 +697,16 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if(player.isSneaking()) {
-            System.out.println("tried to open inventory but its sus");
+
             player.openHandledScreen((NamedScreenHandlerFactory) this);
             return ActionResult.PASS;
         } else if (this.ticksUnderwater < 60.0F) {
             if (!this.world.isClient) {
-                return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
+                if(this.getPassengerList().size() < 1) {
+                    return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
+                } else {
+                    return ActionResult.SUCCESS;
+                }
             } else {
                 return ActionResult.SUCCESS;
             }
