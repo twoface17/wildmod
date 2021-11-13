@@ -66,6 +66,38 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 15,
+          "name": "twm:sculk_sensor",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "name": "twm:sculk_shrieker",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
           "weight": 10,
           "name": "minecraft:iron_ingot",
           "functions": [
