@@ -11,6 +11,7 @@ import net.minecraft.block.enums.Tilt;
 import net.minecraft.data.client.model.BlockStateVariantMap;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
@@ -106,5 +107,11 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
                   world.spawnParticles(RegisterParticles.SHRIEK, x, y, z, 3, 0, 2, 0, 0.1);
               }
         world.getBlockTickScheduler().schedule(new BlockPos(x, y, z), this, 1);
+    }
+
+    public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack) {
+        super.onStacksDropped(state, world, pos, stack);
+        int i = 20;
+        this.dropExperience(world, pos, i);
     }
 }
