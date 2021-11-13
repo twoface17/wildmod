@@ -1,6 +1,9 @@
 {
   "block.twm.mud_block": "Mud Block",
   "block.twm.mud_bricks": "Mud Bricks",
+  "block.twm.mud_brick_stairs": "Mud Brick Stairs",
+  "block.twm.mud_brick_slab": "Mud Brick Slab",
+  "block.twm.mud_brick_wall": "Mud Brick Wall",
 
   "block.twm.mangrove_planks": "Mangrove Planks",
   "block.twm.mangrove_log": "Mangrove Log",
@@ -26,7 +29,7 @@
   "block.twm.sculk_vein": "Sculk Vein",
   "block.twm.sculk_catalyst": "Sculk Catalyst",
   "block.twm.sculk_shrieker": "Sculk Shrieker",
-  "block.twm.sculk_frame": "Sculk Frame",
+  "block.twm.deepslate_frame": "Deepslate Frame",
 
   "item.twm.warden_spawn_egg": "Warden Spawn Egg",
   "item.twm.frog_spawn_egg": "Frog Spawn Egg",

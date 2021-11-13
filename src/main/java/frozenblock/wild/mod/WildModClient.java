@@ -58,7 +58,7 @@ public class WildModClient implements ClientModInitializer {
         }));
 
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
-            registry.register(new Identifier(WildMod.MOD_ID, "particle/shrieker"));
+            registry.register(new Identifier(WildMod.MOD_ID, "particle/shriek"));
         }));
 
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
