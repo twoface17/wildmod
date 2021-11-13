@@ -1,6 +1,9 @@
 {
   "block.twm.mud_block": "Bloc de boue",
   "block.twm.mud_bricks": "Briques de boue",
+  "block.twm.mud_brick_stairs": "Escalier en brique de boue",
+  "block.twm.mud_brick_slab": "Dalle en brique de boue",
+  "block.twm.mud_brick_wall": "Mur en brique de boue",
 
   "block.twm.mangrove_planks": "Planches de mangrove",
   "block.twm.mangrove_log": "Bûche de mangrove",
@@ -26,9 +29,25 @@
   "block.twm.sculk_catalyst": "Catalyseur sculk",
   "block.twm.sculk_shrieker": "Hurleur sculk",
 
-  "item.twm.warden_spawn_egg": "Œuf d'apparition de warden",
-  "item.twm.frog_spawn_egg": "Œuf d'apparition de grenouille",
+  "block.twm.deepslate_frame": "Cadre en ardoise des abîmes",
+
+  "item.twm.warden_spawn_egg": "Oeuf d'apparition de warden",
+  "item.twm.frog_spawn_egg": "Oeuf d'apparition de grenouille",
+  "item.twm.tadpole_spawn_egg": "Oeuf d'apparition de tétard",
+  "item.twm.tadpole_bucket": "Tétard dans un sceau",
 
   "entity.twm.frog": "Grenouille",
-  "entity.twm.warden": "Warden"
+  "entity.twm.warden": "Warden",
+  "entity.twm.tadpole": "Tétard",
+  "entity.twm.mangrove_boat": "Bateau",
+  "entity.twm.chest_boat": "Bateau avec un coffre",
+
+  "item.twm.mangrove_boat": "Bateau en mangrove",
+  "item.twm.oak_chest_boat": "Bateau avec un coffre en chêne",
+  "item.twm.spruce_chest_boat": "Bateau avec un coffre en sapin",
+  "item.twm.birch_chest_boat": "Bateau avec un coffre en bouleau",
+  "item.twm.acacia_chest_boat": "Bateau avec un coffre en acacia",
+  "item.twm.jungle_chest_boat": "Bateau avec un coffre en acajou",
+  "item.twm.dark_oak_chest_boat": "Bateau avec un coffre en chêne noir",
+  "item.twm.mangrove_chest_boat": "Bateau avec un coffre en mangrove"
 }
