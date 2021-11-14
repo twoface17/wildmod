@@ -30,5 +30,38 @@
         "name": "twm:entity/warden/idle4"
       }
     ]
+  },
+  "block.sculk_catalyst.place": {
+    "sounds": [
+      "twm:block/catalyst/place1",
+      "twm:block/catalyst/place2",
+      "twm:block/catalyst/place3",
+      "twm:block/catalyst/place4",
+      "twm:block/catalyst/place5"
+    ]
+  },
+  "block.sculk_catalyst.step": {
+    "sounds": [
+      "twm:block/catalyst/step1",
+      "twm:block/catalyst/step2",
+      "twm:block/catalyst/step3",
+      "twm:block/catalyst/step4",
+      "twm:block/catalyst/step5",
+      "twm:block/catalyst/step6"
+    ]
+  },
+  "block.sculk_catalyst.break": {
+    "sounds": [
+      "twm:block/catalyst/break1",
+      "twm:block/catalyst/break2",
+      "twm:block/catalyst/break3",
+      "twm:block/catalyst/break4",
+      "twm:block/catalyst/break5",
+      "twm:block/catalyst/break6",
+      "twm:block/catalyst/break7",
+      "twm:block/catalyst/break8",
+      "twm:block/catalyst/break9",
+      "twm:block/catalyst/break10"
+    ]
   }
 }
