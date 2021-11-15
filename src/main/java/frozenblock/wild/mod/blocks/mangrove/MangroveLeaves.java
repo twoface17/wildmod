@@ -12,7 +12,9 @@ public class MangroveLeaves extends LeavesBlock {
                 .of(Material.LEAVES)
                 .sounds(BlockSoundGroup.AZALEA)
                 .breakByTool(FabricToolTags.SHEARS, 0)
+                .breakByTool(FabricToolTags.HOES)
                 .nonOpaque()
+                .strength(0.2f)
         );
     }
 }
