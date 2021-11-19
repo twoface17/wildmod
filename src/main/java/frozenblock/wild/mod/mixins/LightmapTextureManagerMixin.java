@@ -35,16 +35,36 @@ public class LightmapTextureManagerMixin {
 
     public double time;
 
+    @Inject(at = @At("HEAD"), method = "tick")
+    public void tick(CallbackInfo ci) {
+        if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
+            time = time + 0.05;
+        } else {
+            time = 0;
+        }
+    }
+
     @Inject(at = @At("HEAD"), method = "update")
     public void update(float delta, CallbackInfo ci) {
         int lightvalue;
 
+        double equation;
         double gv;
+
+        assert this.client.player != null;
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            time = time + 0.01;
-            gv = (-2 * Math.cos(time) + 2);
+            equation = -(3* Math.cos(time) + 2);
+
+            if(equation > 0) {
+                if(equation < 4) {
+                    gv = equation;
+                } else {
+                    gv = 4;
+                }
+            } else {
+                gv = 0;
+            }
         } else {
-            time = 0;
             gv = 0;
         }
 
@@ -61,7 +81,6 @@ public class LightmapTextureManagerMixin {
                     h = f * 0.95F + 0.05F;
                 }
 
-                assert this.client.player != null;
                 float i = this.client.player.getUnderwaterVisibility();
                 float l;
                 if (this.client.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
