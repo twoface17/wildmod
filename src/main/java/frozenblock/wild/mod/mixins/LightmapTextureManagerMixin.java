@@ -32,25 +32,16 @@ public class LightmapTextureManagerMixin {
     
     @Shadow @Final private GameRenderer renderer;
 
-    public float time;
+    public double time;
 
     @Inject(at = @At("HEAD"), method = "update")
     public void update(float delta, CallbackInfo ci) {
-        int lightvalue = 0;
-        time = time + 0.005f;
+        int lightvalue;
 
-        int gv = (int)(128*Math.cos((double) time))+128;
+        time = time + 0.01;
 
-        if(gv > 255) {
-            gv = 255;
-        }
+        double gv = (3*Math.cos( time)+3);
 
-        int r = gv;
-        int g = gv;
-        int b = gv;
-        int rgb = (((r&0x0ff)<<16)|((g&0x0ff)<<8)|(b&0x0ff));
-
-        //---------
         if (this.dirty) {
             this.dirty = false;
             this.client.getProfiler().push("lightTex");
@@ -64,6 +55,7 @@ public class LightmapTextureManagerMixin {
                     h = f * 0.95F + 0.05F;
                 }
 
+                assert this.client.player != null;
                 float i = this.client.player.getUnderwaterVisibility();
                 float l;
                 if (this.client.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
@@ -118,7 +110,7 @@ public class LightmapTextureManagerMixin {
                         v = (float)this.client.options.gamma;
                         Vec3f vec3f6 = vec3f2.copy();
                         vec3f6.modify(this::easeOutQuart);
-                        vec3f2.lerp(vec3f6, v);
+                        vec3f2.lerp(vec3f6, v - (float)gv);
                         vec3f2.lerp(new Vec3f(0.75F, 0.75F, 0.75F), 0.04F);
                         vec3f2.clamp(0.0F, 1.0F);
                         vec3f2.scale(255.0F);
@@ -126,34 +118,13 @@ public class LightmapTextureManagerMixin {
                         int aa = (int)vec3f2.getY();
                         int ab = (int)vec3f2.getZ();
                         lightvalue = -16777216 | ab << 16 | aa << 8 | z;
-                        this.image.setColor(o, n, lightvalue-rgb);
+                        this.image.setColor(o, n, lightvalue);
                     }
                 }
             }
         }
+        System.out.println(gv);
         this.texture.upload();
-        //---------
-
-        /*time = time + 0.05f;
-
-        int gv = (int)(128*Math.cos((double) time))+128;
-
-        if(gv > 255) {
-            gv = 255;
-        }
-
-        int r = gv;
-        int g = gv;
-        int b = gv;
-        int rgb = (((r&0x0ff)<<16)|((g&0x0ff)<<8)|(b&0x0ff));
-
-        for(int x = 0; x < 16; ++x) {
-            for(int y = 0; y < 16; ++y) {
-                this.image.setColor(x, y, lightvalue - rgb);
-            }
-        }
-        this.texture.upload();
-        //System.out.println("[EXPORTED DATA] - Time Value: " + time + ", Color Value: " + gv);*/
     }
 
     private float getBrightness(World world, int lightLevel) {
