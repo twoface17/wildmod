@@ -7,7 +7,9 @@
     "AbstractBlockMixin",
     "ClientPlayerEntityMixin",
     "EntityMixin",
+    "GameRendererMixin",
     "ItemsMixin",
+    "LightmapTextureManagerMixin",
     "TreeDecoratorTypeInvoker"
   ],
   "client": [
