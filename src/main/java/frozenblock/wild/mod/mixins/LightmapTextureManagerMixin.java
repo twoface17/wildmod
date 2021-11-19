@@ -53,14 +53,10 @@ public class LightmapTextureManagerMixin {
 
         assert this.client.player != null;
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            equation = -(3* Math.cos(time) + 2);
+            equation = -(6* Math.cos(time) + 4);
 
             if(equation > 0) {
-                if(equation < 4) {
-                    gv = equation;
-                } else {
-                    gv = 4;
-                }
+                gv = equation;
             } else {
                 gv = 0;
             }
