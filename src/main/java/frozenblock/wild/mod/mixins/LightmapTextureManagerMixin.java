@@ -38,7 +38,7 @@ public class LightmapTextureManagerMixin {
     @Inject(at = @At("HEAD"), method = "tick")
     public void tick(CallbackInfo ci) {
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            time = time + 0.05;
+            time = time + 0.075;
         } else {
             time = 0;
         }
@@ -53,7 +53,7 @@ public class LightmapTextureManagerMixin {
 
         assert this.client.player != null;
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            equation = -(6* Math.cos(time) + 4);
+            equation = -(6*Math.cos(time));
 
             if(equation > 0) {
                 gv = equation;
