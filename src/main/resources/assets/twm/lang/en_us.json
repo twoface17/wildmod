@@ -50,5 +50,7 @@
   "item.twm.acacia_chest_boat": "Acacia Chest Boat",
   "item.twm.jungle_chest_boat": "Jungle Chest Boat",
   "item.twm.dark_oak_chest_boat": "Dark Oak Chest Boat",
-  "item.twm.mangrove_chest_boat": "Mangrove Chest Boat"
+  "item.twm.mangrove_chest_boat": "Mangrove Chest Boat",
+
+  "effect.twm.darkness": "Darkness"
 }
