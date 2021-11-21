@@ -31,6 +31,11 @@
       }
     ]
   },
+  "effect.nearby_close": {
+    "sounds": [
+      "twm:nearby_close_1"
+    ]
+  },
   "block.sculk_catalyst.place": {
     "sounds": [
       "twm:block/catalyst/place1",

@@ -19,6 +19,8 @@ public class RegisterSounds {
     public static SoundEvent CATALYST_PLACE_EVENT = new SoundEvent(CATALYST_PLACE_ID);
     public static final Identifier CATALYST_STEP_ID = new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.step");
     public static SoundEvent CATALYST_STEP_EVENT = new SoundEvent(CATALYST_STEP_ID);
+    public static final Identifier NEARBY_CLOSE_ID = new Identifier(WildMod.MOD_ID, "effect.nearby_close");
+    public static SoundEvent NEARBY_CLOSE_EVENT = new SoundEvent(NEARBY_CLOSE_ID);
 
     public static void RegisterSounds() {
         Registry.register(Registry.SOUND_EVENT, SHRIEKER_ID, SHRIEKER_EVENT);
@@ -27,6 +29,7 @@ public class RegisterSounds {
         Registry.register(Registry.SOUND_EVENT, CATALYST_BREAK_ID, CATALYST_BREAK_EVENT);
         Registry.register(Registry.SOUND_EVENT, CATALYST_PLACE_ID, CATALYST_PLACE_EVENT);
         Registry.register(Registry.SOUND_EVENT, CATALYST_STEP_ID,  CATALYST_STEP_EVENT);
+        Registry.register(Registry.SOUND_EVENT, NEARBY_CLOSE_ID, NEARBY_CLOSE_EVENT);
     }
 
 }

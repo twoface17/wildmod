@@ -39,14 +39,11 @@ public class BackgroundRendererMixin {
     private static void applyFog(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, CallbackInfo ci) {
         Entity entity = camera.getFocusedEntity();
         float math;
-        float math2;
 
         if(entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            math = (float)UpdaterNum.cuttedCos(UpdaterNum.time, 1, 1);
-            math2 = (float)UpdaterNum.acuttedCos(UpdaterNum.time, 1, 1);
+            math = (float)UpdaterNum.acuttedCos(UpdaterNum.time, 1, 0.5, true);
         } else {
             math = 0;
-            math2 = 0;
         }
         CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
         float y;
@@ -99,15 +96,15 @@ public class BackgroundRendererMixin {
                 ab = Math.min(viewDistance, 192.0F) * 0.5F;
             } else if (fogType == BackgroundRenderer.FogType.FOG_SKY) {
                 y = 0.0F;
-                ab = viewDistance + 40 - viewDistance * math2;
+                ab = viewDistance + 40 - viewDistance * math;
             } else {
-                y = viewDistance * 0.75F - viewDistance * 0.75F * math2 + 5;
-                ab = viewDistance - viewDistance * math2 + 40;
+                y = viewDistance * 0.75F - viewDistance*0.75F*math/5;
+                ab = viewDistance - viewDistance*math/20;
             }
 
             RenderSystem.setShaderFogStart(y);
             RenderSystem.setShaderFogEnd(ab);
-            RenderSystem.setShaderFogColor(-math2, -math2, -math2);
+            //RenderSystem.setShaderFogColor(math, math, math);
         }
     }
 }

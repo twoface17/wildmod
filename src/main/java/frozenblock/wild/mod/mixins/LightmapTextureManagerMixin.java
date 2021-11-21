@@ -54,7 +54,7 @@ public class LightmapTextureManagerMixin {
 
         assert this.client.player != null;
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            dark = UpdaterNum.acuttedCos(time, 1.5, 1);
+            dark = UpdaterNum.acuttedCos(time, 1.5, 0, false);
         } else {
             dark = 0;
         }
