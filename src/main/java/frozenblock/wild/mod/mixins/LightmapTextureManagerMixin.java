@@ -49,19 +49,19 @@ public class LightmapTextureManagerMixin {
         int lightvalue;
 
         double equation;
-        double gv;
+        double dark;
 
         assert this.client.player != null;
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            equation = -(6*Math.cos(time));
+            equation = -(1.5*Math.cos(6*time));
 
             if(equation > 0) {
-                gv = equation;
+                dark = equation;
             } else {
-                gv = 0;
+                dark = 0;
             }
         } else {
-            gv = 0;
+            dark = 0;
         }
 
         if (this.dirty) {
@@ -131,7 +131,7 @@ public class LightmapTextureManagerMixin {
                         v = (float)this.client.options.gamma;
                         Vec3f vec3f6 = vec3f2.copy();
                         vec3f6.modify(this::easeOutQuart);
-                        vec3f2.lerp(vec3f6, v - (float)gv);
+                        vec3f2.lerp(new Vec3f(vec3f6.getX()-(float)dark, vec3f6.getY()+(float)dark, vec3f6.getZ()), v - (float)dark);
                         vec3f2.lerp(new Vec3f(0.75F, 0.75F, 0.75F), 0.04F);
                         vec3f2.clamp(0.0F, 1.0F);
                         vec3f2.scale(255.0F);
@@ -144,7 +144,6 @@ public class LightmapTextureManagerMixin {
                 }
             }
         }
-        System.out.println(gv);
         this.texture.upload();
     }
 
