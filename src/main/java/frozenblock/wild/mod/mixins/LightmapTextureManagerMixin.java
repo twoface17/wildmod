@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.mixins;
 
+import frozenblock.wild.mod.liukrastapi.UpdaterNum;
 import frozenblock.wild.mod.registry.RegisterStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.BitmapFont;
@@ -39,6 +40,7 @@ public class LightmapTextureManagerMixin {
     public void tick(CallbackInfo ci) {
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
             time = time + 0.075;
+            UpdaterNum.time = time;
         } else {
             time = 0;
         }
@@ -48,18 +50,11 @@ public class LightmapTextureManagerMixin {
     public void update(float delta, CallbackInfo ci) {
         int lightvalue;
 
-        double equation;
         double dark;
 
         assert this.client.player != null;
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            equation = -(1.5*Math.cos(time));
-
-            if(equation > 0) {
-                dark = equation;
-            } else {
-                dark = 0;
-            }
+            dark = UpdaterNum.cuttedCos(time, 1.5, 1);
         } else {
             dark = 0;
         }
