@@ -54,7 +54,7 @@ public class MangroveBoatItem extends Item {
 
                 while(var11.hasNext()) {
                     Entity entity = (Entity)var11.next();
-                    Box box = entity.getBoundingBox().expand((double)entity.getTargetingMargin());
+                    Box box = entity.getBoundingBox().expand(entity.getTargetingMargin());
                     if (box.contains(vec3d2)) {
                         return TypedActionResult.pass(itemStack);
                     }
