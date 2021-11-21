@@ -53,7 +53,7 @@ public class LightmapTextureManagerMixin {
 
         assert this.client.player != null;
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            equation = -(1.5*Math.cos(6*time));
+            equation = -(1.5*Math.cos(time));
 
             if(equation > 0) {
                 dark = equation;
@@ -131,7 +131,7 @@ public class LightmapTextureManagerMixin {
                         v = (float)this.client.options.gamma;
                         Vec3f vec3f6 = vec3f2.copy();
                         vec3f6.modify(this::easeOutQuart);
-                        vec3f2.lerp(new Vec3f(vec3f6.getX()-(float)dark, vec3f6.getY()+(float)dark, vec3f6.getZ()), v - (float)dark);
+                        vec3f2.lerp(vec3f6, v - (float)dark);
                         vec3f2.lerp(new Vec3f(0.75F, 0.75F, 0.75F), 0.04F);
                         vec3f2.clamp(0.0F, 1.0F);
                         vec3f2.scale(255.0F);
