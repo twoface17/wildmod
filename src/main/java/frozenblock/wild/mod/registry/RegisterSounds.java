@@ -21,6 +21,8 @@ public class RegisterSounds {
     public static SoundEvent CATALYST_STEP_EVENT = new SoundEvent(CATALYST_STEP_ID);
     public static final Identifier NEARBY_CLOSE_ID = new Identifier(WildMod.MOD_ID, "effect.nearby_close");
     public static SoundEvent NEARBY_CLOSE_EVENT = new SoundEvent(NEARBY_CLOSE_ID);
+    public static final Identifier RIBBIT_ID = new Identifier(WildMod.MOD_ID, "entity.twm.frog.ambient");
+    public static SoundEvent RIBBIT_EVENT = new SoundEvent(RIBBIT_ID);
 
     public static void RegisterSounds() {
         Registry.register(Registry.SOUND_EVENT, SHRIEKER_ID, SHRIEKER_EVENT);
@@ -30,6 +32,7 @@ public class RegisterSounds {
         Registry.register(Registry.SOUND_EVENT, CATALYST_PLACE_ID, CATALYST_PLACE_EVENT);
         Registry.register(Registry.SOUND_EVENT, CATALYST_STEP_ID,  CATALYST_STEP_EVENT);
         Registry.register(Registry.SOUND_EVENT, NEARBY_CLOSE_ID, NEARBY_CLOSE_EVENT);
+        Registry.register(Registry.SOUND_EVENT, RIBBIT_ID, RIBBIT_EVENT);
     }
 
 }

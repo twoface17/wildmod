@@ -1,19 +1,23 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.UpdaterNum;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 public class FrogEntityModel extends EntityModel<FrogEntity> {
     private double Animationtime;
-    private static FrogEntity c;
+    private FrogEntity c;
     private boolean croak = true;
-    private static double croakstartTime;
+    private double croakstartTime;
 
     private final ModelPart main;
     private final ModelPart body;
@@ -185,20 +189,25 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         MatrixStack matrixStack1 = matrixStack;
         float animation;
 
+
+
         if(this.croak) {
             if(Math.random() < 0.005) {
                 this.croak = false;
-                croakstartTime = this.Animationtime;
+                this.croakstartTime = this.Animationtime;
+                this.c.getEntityWorld().playSound(this.c.getX(), this.c.getY(), this.c.getZ(), RegisterSounds.RIBBIT_EVENT, SoundCategory.NEUTRAL, 1, 1, false);
+                //this.c.playSound(RegisterSounds.RIBBIT_EVENT, 1, 1);
             }
         } else {
-            double time = this.Animationtime - croakstartTime;
+            double time = this.Animationtime - this.croakstartTime;
             animation = (float)UpdaterNum.cuttedSin(time/10, 1, 0, false);
             matrixStack1.translate(animation/4, 1.33+animation/6, animation/4-0.05);
-            matrixStack1.scale(1.3f*animation, 2*animation, 2*animation);
-            if(c.isOnGround()) {
-                sac.render(matrixStack1, buffer, packedLight, packedOverlay);
+            if(this.c.isOnGround()) {
+                matrixStack1.scale(1.3f*animation, 2*animation, 2*animation);
+                this.sac.render(matrixStack1, buffer, packedLight, packedOverlay);
+            } else {
+                matrixStack1.scale(0, 0, 0);
             }
-            System.out.println(time);
             if(time > 0.1) {
                 if(animation == 0) {
                     this.croak = true;
