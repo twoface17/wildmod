@@ -12,7 +12,11 @@ public class UpdaterNum {
                 return equation - cutpoint;
             }
         } else {
-            return cutpoint;
+            if(!impactcut) {
+                return cutpoint;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -25,7 +29,11 @@ public class UpdaterNum {
                 return equation - cutpoint;
             }
         } else {
-            return cutpoint;
+            if(!impactcut) {
+                return cutpoint;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -38,7 +46,11 @@ public class UpdaterNum {
                 return equation - cutpoint;
             }
         } else {
-            return cutpoint;
+            if(!impactcut) {
+                return cutpoint;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -51,7 +63,11 @@ public class UpdaterNum {
                 return equation - cutpoint;
             }
         } else {
-            return cutpoint;
+            if(!impactcut) {
+                return cutpoint;
+            } else {
+                return 0;
+            }
         }
     }
 }
