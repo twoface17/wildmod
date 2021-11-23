@@ -10,9 +10,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 public class FrogEntityModel extends EntityModel<FrogEntity> {
-    private static double Animationtime;
+    private double Animationtime;
     private static FrogEntity c;
-    private static boolean croak = true;
+    private boolean croak = true;
     private static double croakstartTime;
 
     private final ModelPart main;
@@ -27,6 +27,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     private final ModelPart tongue;
     private final ModelPart sac;
     public FrogEntityModel(ModelPart root) {
+        this.Animationtime = 0;
         this.main = root.getChild("main");
         this.body = this.main.getChild("body");
         this.sac = this.body.getChild("sac");
@@ -61,7 +62,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     @Override
     public void setAngles(FrogEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
         c = entity;
-        Animationtime = time;
+        this.Animationtime = time;
         float animationspeed = 2.4F;
         if(!entity.isSubmergedInWater()) {
             if (entity.isOnGround()) {
@@ -184,13 +185,13 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         MatrixStack matrixStack1 = matrixStack;
         float animation;
 
-        if(croak) {
+        if(this.croak) {
             if(Math.random() < 0.005) {
-                croak = false;
-                croakstartTime = Animationtime;
+                this.croak = false;
+                croakstartTime = this.Animationtime;
             }
         } else {
-            double time = Animationtime - croakstartTime;
+            double time = this.Animationtime - croakstartTime;
             animation = (float)UpdaterNum.cuttedSin(time/10, 1, 0, false);
             matrixStack1.translate(animation/4, 1.33+animation/6, animation/4-0.05);
             matrixStack1.scale(1.3f*animation, 2*animation, 2*animation);
@@ -200,7 +201,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             System.out.println(time);
             if(time > 0.1) {
                 if(animation == 0) {
-                    croak = true;
+                    this.croak = true;
                 }
             }
         }

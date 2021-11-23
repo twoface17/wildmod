@@ -96,11 +96,11 @@ public class FrogEntity extends PathAwareEntity {
     public void mobTick() {
         if(this.isOnGround()) {
             if (Math.random() < 0.005) {
-                double jumpamount = 0.3D;
+                double jumpamount = Math.random()/2;
                 double angle = Math.random() * 360;
                 double radius = Math.random() * 0.3;
                 this.setYaw((float)angle);
-                this.updateVelocity(2F, new Vec3d(Math.cos(angle)*radius, jumpamount, Math.sin(angle)*radius));
+                this.updateVelocity(2F, new Vec3d(-Math.sin(angle)*radius, jumpamount, -Math.cos(angle)*radius));
             }
         }
     }
