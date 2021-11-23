@@ -144,6 +144,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
                 this.back_right_leg.pivotX = -7;
             }
         } else {
+            float swimspeed = animationspeed/10;
             this.front_left_leg.pivotX = 0;
             this.front_right_leg.pivotX = -6;
             this.back_left_leg.pivotX = 0;
@@ -155,30 +156,30 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             this.back_right_leg.yaw = 0F;
 
 
-            float rightanimation = (float) UpdaterNum.cuttedCos(time * animationspeed, 0.7F, 0, false);
-            float leftanimation = (float) UpdaterNum.acuttedCos(time * animationspeed, 0.7F, 0, false);
-            this.main.roll = -2 * rightanimation;
+
+            float rightanimation = (float) UpdaterNum.cuttedCos(time * swimspeed, 0.7F, 0, false);
+            float leftanimation = (float) UpdaterNum.acuttedCos(time * swimspeed, 0.7F, 0, false);
+            this.main.roll = -2 * rightanimation/5;
             this.main.pitch = -rightanimation;
             this.front_right_leg.roll = 2 * rightanimation;
             this.back_right_leg.roll = rightanimation;
 
-            this.body.roll = leftanimation;
+            this.body.roll = leftanimation/5;
             this.body.pitch = -leftanimation;
             this.front_left_leg.roll = -leftanimation;
             this.back_left_leg.roll = -leftanimation;
 
-            this.front_right_leg.pitch = -9 * leftanimation;
-            this.front_left_leg.pitch = -9 * rightanimation;
+            this.front_right_leg.pitch = 90 -2 * leftanimation;
+            this.front_left_leg.pitch = 90 -2 * rightanimation;
 
-            this.back_right_leg.pitch = 90;
-            this.back_left_leg.pitch = 90;
+            this.back_right_leg.pitch = 90 -2 * leftanimation;
+            this.back_left_leg.pitch = 90 -2 * rightanimation;
 
-            this.front_right_leg.pivotZ = -2 - 30 * (float) UpdaterNum.acuttedSin(time * animationspeed, 0.7F, 0, false);
-            this.front_left_leg.pivotZ = -2 - 30 * (float) UpdaterNum.cuttedSin(time * animationspeed, 0.7F, 0, false);
+            this.front_right_leg.pivotZ = -2 - 30 * (float) UpdaterNum.acuttedSin(time * swimspeed, 0.1F, 0, false);
+            this.front_left_leg.pivotZ = -2 - 30 * (float) UpdaterNum.cuttedSin(time * swimspeed, 0.1F, 0, false);
 
-            this.back_right_leg.pivotZ = 3 + 30 * (float) UpdaterNum.cuttedSin(time * animationspeed, 0.7F, 0, false);
-            this.back_left_leg.pivotZ = 3 + 30 * (float) UpdaterNum.acuttedSin(time * animationspeed, 0.7F, 0, false);
-
+            this.back_right_leg.pivotZ = 3 + 30 * (float) UpdaterNum.cuttedSin(time * swimspeed, 0.1F, 0, false);
+            this.back_left_leg.pivotZ = 3 + 30 * (float) UpdaterNum.acuttedSin(time * swimspeed, 0.1F, 0, false);
 
         }
 
