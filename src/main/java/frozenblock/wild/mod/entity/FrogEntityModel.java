@@ -96,18 +96,18 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
 
                 float translationanimation1 = (float) UpdaterNum.acuttedSin(limbAngle * animationspeed, 0.7F * limbDistance, 0, false);
                 float translationanimation2 = (float) UpdaterNum.cuttedSin(limbAngle * animationspeed, 0.7F * limbDistance, 0, false);
-                if(limbDistance < (float)1/7) {
+                if(limbDistance < (float)1/4) {
                     this.front_right_leg.pivotZ = -2 - 30 * translationanimation1;
                     this.front_left_leg.pivotZ = -2 - 30 * translationanimation2;
 
                     this.back_right_leg.pivotZ = 3 + 30 * translationanimation2;
                     this.back_left_leg.pivotZ = 3 + 30 * translationanimation1;
                 } else {
-                    this.front_right_leg.pivotZ = -2 - (float) UpdaterNum.acuttedSin(time * animationspeed, 0.007F * time, 0, false);
-                    this.front_left_leg.pivotZ = -2 - (float) UpdaterNum.cuttedSin(time * animationspeed, 0.007F * time, 0, false);
+                    this.front_right_leg.pivotZ = -2;
+                    this.front_left_leg.pivotZ = -2;
 
-                    this.back_right_leg.pivotZ = 3 + (float) UpdaterNum.cuttedSin(time * animationspeed, 0.007F * time, 0, false);
-                    this.back_left_leg.pivotZ = 3 + (float) UpdaterNum.acuttedSin(time * animationspeed, 0.007F * time, 0, false);
+                    this.back_right_leg.pivotZ = 3;
+                    this.back_left_leg.pivotZ = 3;
                 }
             } else {
                 this.main.roll = 0;
@@ -191,7 +191,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             }
         } else {
             double time = Animationtime - croakstartTime;
-            animation = (float)UpdaterNum.cuttedSin(time/5, 1, 0, false);
+            animation = (float)UpdaterNum.cuttedSin(time/10, 1, 0, false);
             matrixStack1.translate(animation/4, 1.33+animation/6, animation/4-0.05);
             matrixStack1.scale(1.3f*animation, 2*animation, 2*animation);
             if(c.isOnGround()) {

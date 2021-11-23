@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -20,6 +21,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
@@ -89,6 +91,22 @@ public class FrogEntity extends PathAwareEntity {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new WanderAroundFarGoal(this, speed));
         this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
+    }
+
+    public void mobTick() {
+        if(this.isOnGround()) {
+            if (Math.random() < 0.005) {
+                double jumpamount = 0.3D;
+                double angle = Math.random() * 360;
+                double radius = Math.random() * 0.3;
+                this.setYaw((float)angle);
+                this.updateVelocity(2F, new Vec3d(Math.cos(angle)*radius, jumpamount, Math.sin(angle)*radius));
+            }
+        }
+    }
+
+    public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+        return false;
     }
 
     public static enum Variant {
