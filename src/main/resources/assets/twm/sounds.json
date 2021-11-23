@@ -13,12 +13,12 @@
       "twm:slightly_angry_2"
     ]
   },
-  "entity.twm.frog.ambient": {
+  "entity.frog.ambient": {
     "category": "neutral",
     "subtitle": "subtitles.entity.twm.frog.ambient",
     "sounds": [
-      "twm:entity/frog/ribbit_1",
-      "twm:entity/frog/ribbit_2"
+      "twm:entity/frog/idle1",
+      "twm:entity/frog/idle2"
     ]
   },
   "entity.warden.ambient": {
