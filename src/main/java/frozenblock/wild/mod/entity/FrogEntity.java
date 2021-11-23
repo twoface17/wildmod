@@ -1,5 +1,7 @@
 package frozenblock.wild.mod.entity;
 
+import frozenblock.wild.mod.liukrastapi.Sphere;
+import net.minecraft.block.BigDripleafBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
@@ -21,6 +23,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -95,12 +98,58 @@ public class FrogEntity extends PathAwareEntity {
 
     public void mobTick() {
         if(this.isOnGround()) {
-            if (Math.random() < 0.005) {
-                double jumpamount = Math.random()/2;
-                double angle = Math.random() * 360;
-                double radius = Math.random() * 0.3;
-                this.setYaw((float)angle);
-                this.updateVelocity(2F, new Vec3d(-Math.sin(angle)*radius, jumpamount, -Math.cos(angle)*radius));
+            if (Math.random() < 0.025) {
+
+                double jumpamount = Math.random() / 2;
+
+                if(jumpamount < 0.25) {
+                    jumpamount = 0.25;
+                }
+
+                if(Math.random() < 0.2) {
+
+                    // RANDOM JUMP
+                    double angle = Math.random() * 360;
+                    double radius = Math.random() * 0.3;
+                    this.setYaw((float) angle);
+                    this.updateVelocity(2F, new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
+                } else {
+                    // LILYPAD/DRIPLEAF JUMP
+
+                    double result = 0;
+                    int radius = 5;
+                    BlockPos targetPos = null;
+                    ArrayList<BlockPos> targetList = Sphere.checkSpherePos(Blocks.LILY_PAD.getDefaultState(), this.getEntityWorld(), this.getBlockPos(), radius, true);
+                    ArrayList<BlockPos> northDripleafList = Sphere.checkSpherePos(Blocks.BIG_DRIPLEAF.getDefaultState().with(BigDripleafBlock.FACING, Direction.NORTH), this.getEntityWorld(), this.getBlockPos(), radius, true);
+                    ArrayList<BlockPos> southDripleafList = Sphere.checkSpherePos(Blocks.BIG_DRIPLEAF.getDefaultState().with(BigDripleafBlock.FACING, Direction.SOUTH), this.getEntityWorld(), this.getBlockPos(), radius, true);
+                    ArrayList<BlockPos> eastDripleafList = Sphere.checkSpherePos(Blocks.BIG_DRIPLEAF.getDefaultState().with(BigDripleafBlock.FACING, Direction.EAST), this.getEntityWorld(), this.getBlockPos(), radius, true);
+                    ArrayList<BlockPos> westDripleafList = Sphere.checkSpherePos(Blocks.BIG_DRIPLEAF.getDefaultState().with(BigDripleafBlock.FACING, Direction.WEST), this.getEntityWorld(), this.getBlockPos(), radius, true);
+
+                    targetList.addAll(northDripleafList);
+                    targetList.addAll(southDripleafList);
+                    targetList.addAll(eastDripleafList);
+                    targetList.addAll(westDripleafList);
+
+                    if(targetList.size() > 0) {
+                        result = Math.round(Math.random() * (targetList.size() - 1));
+                        targetPos = targetList.get((int)result);
+                    }
+                    if(!(targetPos == null)) {
+
+                        double dx = targetPos.getX() - this.getBlockPos().getX();
+                        double dy = targetPos.getY() - this.getBlockPos().getY();
+                        double dz = targetPos.getZ() - this.getBlockPos().getZ();
+
+                        if(dy < 0) {
+                            dy = 0;
+                        }
+
+                        if(Math.sqrt(dx*dx) > 0 || Math.sqrt(dz*dz) > 0) {
+                            this.updateVelocity(2F, new Vec3d(dx / 10, jumpamount + dy, dz / 10));
+                        }
+                    }
+
+                }
             }
         }
     }
