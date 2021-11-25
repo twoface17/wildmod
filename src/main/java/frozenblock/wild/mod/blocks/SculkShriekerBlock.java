@@ -106,7 +106,7 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
                           null,
                           pos,
                           RegisterSounds.SHRIEKER_EVENT,
-                          SoundCategory.AMBIENT,
+                          SoundCategory.BLOCKS,
                           1f,
                           1f
                   );
