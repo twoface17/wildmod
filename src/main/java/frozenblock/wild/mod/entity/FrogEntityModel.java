@@ -1,18 +1,13 @@
 package frozenblock.wild.mod.entity;
 
-import frozenblock.wild.mod.liukrastapi.UpdaterNum;
+import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.registry.RegisterSounds;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
+
 public class FrogEntityModel extends EntityModel<FrogEntity> {
     private double Animationtime;
     private FrogEntity c;
@@ -68,6 +63,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         c = entity;
         this.Animationtime = time;
         float animationspeed = 2F;
+        float defaultmultiplier = 0.7F * limbDistance;
         if(!entity.isSubmergedInWater()) {
             if (entity.isOnGround()) {
                 this.front_left_leg.pivotX = 0;
@@ -81,8 +77,8 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
                 this.back_right_leg.yaw = 0F;
 
 
-                float rightanimation = (float) UpdaterNum.cuttedCos(limbAngle * animationspeed, 0.7F * limbDistance, 0, false);
-                float leftanimation = (float) UpdaterNum.acuttedCos(limbAngle * animationspeed, 0.7F * limbDistance, 0, false);
+                float rightanimation = (float) MathAddon.cutCos(limbAngle * animationspeed, 0, false) * defaultmultiplier;
+                float leftanimation = (float) MathAddon.cutCos(limbAngle * animationspeed, 0, true) * defaultmultiplier;
                 this.main.roll = -2 * rightanimation;
                 this.main.pitch = -rightanimation;
                 this.front_right_leg.roll = 2 * rightanimation;
@@ -99,8 +95,8 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
                 this.back_right_leg.pitch = 9 * rightanimation;
                 this.back_left_leg.pitch = 9 * leftanimation;
 
-                float translationanimation1 = (float) UpdaterNum.acuttedSin(limbAngle * animationspeed, 0.7F * limbDistance, 0, false);
-                float translationanimation2 = (float) UpdaterNum.cuttedSin(limbAngle * animationspeed, 0.7F * limbDistance, 0, false);
+                float translationanimation1 = (float) MathAddon.cutSin(limbAngle * animationspeed,0, true) * defaultmultiplier;
+                float translationanimation2 = (float) MathAddon.cutSin(limbAngle * animationspeed, 0, false) * defaultmultiplier;
                 if(limbDistance < (float)1/4) {
                     this.front_right_leg.pivotZ = -2 - 30 * translationanimation1;
                     this.front_left_leg.pivotZ = -2 - 30 * translationanimation2;
@@ -157,8 +153,8 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
 
 
 
-            float rightanimation = (float) UpdaterNum.cuttedCos(time * swimspeed, 0.7F, 0, false);
-            float leftanimation = (float) UpdaterNum.acuttedCos(time * swimspeed, 0.7F, 0, false);
+            float rightanimation = (float) MathAddon.cutCos(time * swimspeed, 0, false) * 0.7f;
+            float leftanimation = (float) MathAddon.cutCos(time * swimspeed, 0, true) * 0.7f;
             this.main.roll = -2 * rightanimation/5;
             this.main.pitch = -rightanimation;
             this.front_right_leg.roll = 2 * rightanimation;
@@ -175,11 +171,11 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             this.back_right_leg.pitch = 90 -2 * leftanimation;
             this.back_left_leg.pitch = 90 -2 * rightanimation;
 
-            this.front_right_leg.pivotZ = -2 - 30 * (float) UpdaterNum.acuttedSin(time * swimspeed, 0.1F, 0, false);
-            this.front_left_leg.pivotZ = -2 - 30 * (float) UpdaterNum.cuttedSin(time * swimspeed, 0.1F, 0, false);
+            this.front_right_leg.pivotZ = -2 - 30 * (float) MathAddon.cutSin(time * swimspeed, 0, true)/10;
+            this.front_left_leg.pivotZ = -2 - 30 * (float) MathAddon.cutSin(time * swimspeed, 0, false)/10;
 
-            this.back_right_leg.pivotZ = 3 + 30 * (float) UpdaterNum.cuttedSin(time * swimspeed, 0.1F, 0, false);
-            this.back_left_leg.pivotZ = 3 + 30 * (float) UpdaterNum.acuttedSin(time * swimspeed, 0.1F, 0, false);
+            this.back_right_leg.pivotZ = 3 + 30 * (float) MathAddon.cutSin(time * swimspeed, 0, false)/10;
+            this.back_left_leg.pivotZ = 3 + 30 * (float) MathAddon.cutSin(time * swimspeed, 0, true)/10;
 
         }
 
@@ -200,7 +196,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             }
         } else {
             double time = this.Animationtime - this.croakstartTime;
-            animation = (float)UpdaterNum.cuttedSin(time/10, 1, 0, false);
+            animation = (float) MathAddon.cutSin(time/10, 0, false);
             matrixStack1.translate(animation/4, 1.33+animation/6, animation/4-0.05);
             if(this.c.isOnGround()) {
                 matrixStack1.scale(1.3f*animation, 2*animation, 2*animation);
