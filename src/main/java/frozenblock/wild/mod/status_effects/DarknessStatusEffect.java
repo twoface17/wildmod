@@ -19,7 +19,7 @@ public class DarknessStatusEffect extends StatusEffect {
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         float math;
         math = (float) MathAddon.cutCos(MathAddon.time, 0, false);
-        if(math == 0.5f) {
+        if(math < 0.5f && math > 0.4f) {
             World world = entity.getEntityWorld();
             BlockPos pos = entity.getBlockPos();
             if(!world.isClient) {

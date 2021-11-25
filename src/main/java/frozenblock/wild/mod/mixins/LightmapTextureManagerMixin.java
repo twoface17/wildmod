@@ -38,7 +38,7 @@ public class LightmapTextureManagerMixin {
     @Inject(at = @At("HEAD"), method = "tick")
     public void tick(CallbackInfo ci) {
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            time = time + 0.075;
+            time = time + 0.075/2;
             MathAddon.time = time;
         } else {
             time = 0;

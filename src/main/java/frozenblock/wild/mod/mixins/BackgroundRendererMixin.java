@@ -27,13 +27,7 @@ public class BackgroundRendererMixin {
     @Inject(at = @At("TAIL"), method = "applyFog")
     private static void applyFog(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, CallbackInfo ci) {
         Entity entity = camera.getFocusedEntity();
-        float math;
 
-        if(entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            math = (float) MathAddon.cutCos(MathAddon.time, 0.5, false) - 0.5f;
-        } else {
-            math = 0;
-        }
         CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
         float y;
         if (cameraSubmersionType == CameraSubmersionType.WATER) {
@@ -85,11 +79,24 @@ public class BackgroundRendererMixin {
                 ab = Math.min(viewDistance, 192.0F) * 0.5F;
             } else if (fogType == BackgroundRenderer.FogType.FOG_SKY) {
                 y = 0.0F;
-                ab = viewDistance + 40 - viewDistance * math;
+                ab = viewDistance;
             } else {
-                y = viewDistance * 0.75F - viewDistance*0.75F*math/5;
-                ab = viewDistance - viewDistance*math/20;
+                y = (viewDistance * 0.75f);
+                ab = viewDistance;
             }
+            float math;
+
+            if(entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
+                float offset = 0.5f;
+                float multiplier = viewDistance*1.4f;
+                float equation = (float) MathAddon.cutCos(MathAddon.time, offset, false);
+                math = (equation * multiplier) - offset * (multiplier);
+            } else {
+                math = 0;
+            }
+
+            y = y - math;
+            ab = ab - math;
 
             RenderSystem.setShaderFogStart(y);
             RenderSystem.setShaderFogEnd(ab);

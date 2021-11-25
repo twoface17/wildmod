@@ -8,7 +8,7 @@ public class MathAddon {
         if(!inverse) {
             return Math.max(equation, offset);
         } else {
-            return -Math.min(equation, offset);
+            return Math.max(-equation, offset);
         }
     }
 
@@ -17,7 +17,7 @@ public class MathAddon {
         if(!inverse) {
             return Math.max(equation, offset);
         } else {
-            return -Math.min(equation, offset);
+            return Math.max(-equation, offset);
         }
     }
 }
