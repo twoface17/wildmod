@@ -36,7 +36,7 @@ public abstract class EntityMixin {
     public abstract BlockPos getBlockPos();
 
 
-    @Inject(method = "remove", at = @At("HEAD"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+    @Inject(method = "onRemoved", at = @At("HEAD"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void onRemove(CallbackInfo ci) {
         Entity entity = (Entity) ((Object) this);
         // LIUKRAST NOTE - THIS LINE BELOW SAYS THAT IS ALWAYS FALSE, IT IS NOT!! PLEASE DON'T EDIT

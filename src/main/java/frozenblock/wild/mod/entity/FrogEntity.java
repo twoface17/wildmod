@@ -1,9 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.Sphere;
-import net.minecraft.block.BigDripleafBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -19,9 +17,12 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -60,6 +61,16 @@ public class FrogEntity extends PathAwareEntity {
         return this.onGround;
     }
 
+    @Override
+    public boolean isSubmergedInWater() {
+        if(this.getEntityWorld().getBlockState(new BlockPos(this.getPos().x, this.getPos().y - 1/16f, this.getPos().z)) == Blocks.WATER.getDefaultState()) {
+            return true;
+        } else {
+            return this.submergedInWater && this.isTouchingWater();
+        }
+    }
+
+
 
     protected void initDataTracker() {
         super.initDataTracker();
@@ -96,7 +107,93 @@ public class FrogEntity extends PathAwareEntity {
         this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
     }
 
+    public static ArrayList<BlockPos> checkforSafePlaceToGo(BlockState state, World world, BlockPos pos, Integer radius, boolean defaultstate) {
+
+        int fixedradius = radius - 1;
+
+        ArrayList<BlockPos> exitList = new ArrayList<BlockPos>();
+
+        double x = pos.getX();
+        double y = pos.getY();
+        double z = pos.getZ();
+
+        double sx = fixedradius * -1;
+        double sy = 0;
+        double sz = 0;
+
+        for (int index0 = 0; index0 < (int) ((radius * 2) - 1); index0++) {
+            sy = fixedradius * -1;
+            for (int index1 = 0; index1 < (int) ((radius * 2) - 1); index1++) {
+                sz = fixedradius * -1;
+                for (int index2 = 0; index2 < (int) ((radius * 2) - 1); index2++) {
+                    if (Math.sqrt(Math.pow(sx, 2) + Math.pow(sy, 2) + Math.pow(sz, 2)) <= radius) {
+                        if(defaultstate) {
+                            if (world.getBlockState(new BlockPos(x + sx, y + sy, z + sz)).isSolidBlock(world, new BlockPos(x + sx, y + sy, z + sz))) {
+                                if (world.getBlockState(new BlockPos(x + sx, y + sy+1, z + sz)).getMaterial() == Material.AIR) {
+                                    exitList.add(new BlockPos(x + sx, y + sy, z + sz));
+                                }
+                            }
+                        }
+                    }
+                    sz = sz + 1;
+                }
+                sy = sy + 1;
+            }
+            sx = sx + 1;
+        }
+        return exitList;
+    }
+
     public void mobTick() {
+        World world = this.getEntityWorld();
+
+        if(this.submergedInWater && this.isTouchingWater()) {
+            if(world.getBlockState(this.getBlockPos().up()) != Blocks.AIR.getDefaultState() && world.getBlockState(this.getBlockPos().up()) != Blocks.WATER.getDefaultState()) {
+                double angle = Math.random() * 360;
+                double radius = Math.random() * 0.3;
+                this.setYaw((float) angle);
+                this.updateVelocity(2F, new Vec3d(-Math.sin(angle) * radius, 0, -Math.cos(angle) * radius));
+            }
+
+            if(Math.random() < 0.5) {
+                    double result;
+                    int radius = 3;
+
+                    BlockPos targetPos = null;
+                    ArrayList<BlockPos> targetList = checkforSafePlaceToGo(Blocks.AIR.getDefaultState(), world, this.getBlockPos(), radius, true);
+
+                    if (targetList.size() > 0) {
+                        result = Math.round(Math.random() * (targetList.size() - 1));
+                        targetPos = targetList.get((int) result);
+                    }
+                    if (!(targetPos == null)) {
+
+                        double dx = targetPos.getX() - this.getBlockPos().getX();
+                        double dy = targetPos.getY() - this.getBlockPos().getY();
+                        double dz = targetPos.getZ() - this.getBlockPos().getZ();
+
+                        if (dy < 0) {
+                            dy = 0;
+                        }
+
+                        if (Math.sqrt(dx * dx) > 0 || Math.sqrt(dz * dz) > 0) {
+                            this.updateVelocity(2F, new Vec3d(dx / 15, 0.1 + dy / 10, dz / 15));
+                        }
+                    }
+            }
+
+        }
+
+        if(this.isSubmergedInWater()) {
+            if(Math.random() < 0.05) {
+                double jumpamount = Math.random() / 4;
+                double angle = Math.random() * 360;
+                double radius = Math.random() / 10;
+                this.setYaw((float) angle);
+                this.updateVelocity(2F, new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
+            }
+        }
+
         if(this.isOnGround()) {
             if (Math.random() < 0.025) {
 
@@ -145,7 +242,7 @@ public class FrogEntity extends PathAwareEntity {
                         }
 
                         if(Math.sqrt(dx*dx) > 0 || Math.sqrt(dz*dz) > 0) {
-                            this.updateVelocity(2F, new Vec3d(dx / 10, jumpamount + dy, dz / 10));
+                            this.updateVelocity(2F, new Vec3d(dx / 10, jumpamount + dy/10, dz / 10));
                         }
                     }
 
