@@ -96,7 +96,6 @@ public class WildModClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_CHEST_BOAT_LAYER, ChestBoatEntityModel::getTexturedModelData);
 
 
-
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
             assert world != null;
             return BiomeColors.getFoliageColor(world, pos);

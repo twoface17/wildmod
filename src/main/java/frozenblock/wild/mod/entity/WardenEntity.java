@@ -25,7 +25,7 @@ public class WardenEntity extends HostileEntity {
     protected boolean roar;
 
     protected SoundEvent getAmbientSound() {
-        return RegisterSounds.WARDEN_AMBIENT_EVENT;
+        return RegisterSounds.ENTITY_WARDEN_AMBIENT;
     }
 
     public WardenEntity(EntityType<? extends WardenEntity> entityType, World world) {

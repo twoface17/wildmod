@@ -5,6 +5,7 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.MathHelper;
 
 public class WardenEntityModel extends EntityModel<WardenEntity> {
@@ -50,6 +51,8 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         this.left_arm.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance/4 - MathHelper.cos(animationProgress/20)/20;
         this.left_ear.yaw = MathHelper.cos(animationProgress/20*MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance)/5 + MathHelper.cos(animationProgress/20)/5;
         this.right_ear.yaw = - MathHelper.cos(animationProgress/20*MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance)/5 - MathHelper.cos(animationProgress/20)/5;
+
+        this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance/4 + MathHelper.cos(animationProgress/20)/20;
     }
     @Override
     public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){

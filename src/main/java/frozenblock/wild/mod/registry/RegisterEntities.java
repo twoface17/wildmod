@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.SignBlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -23,6 +24,7 @@ public class RegisterEntities {
 
     public static EntityType<MangroveBoatEntity> MANGROVE_BOAT;
     public static EntityType<ChestBoatEntity> CHEST_BOAT;
+    public static EntityType<FireflyEntity> FIREFLY;
     public static final EntityType<WardenEntity> WARDEN = Registry.register(Registry.ENTITY_TYPE, new Identifier(WildMod.MOD_ID, "warden"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, WardenEntity::new).dimensions(EntityDimensions.fixed(2f, 3.2f)).build());
     public static final EntityType<FrogEntity> FROG = Registry.register(Registry.ENTITY_TYPE, new Identifier(WildMod.MOD_ID, "frog"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, FrogEntity::new).dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build());
     public static final EntityType<TadpoleEntity> TADPOLE = Registry.register(Registry.ENTITY_TYPE, new Identifier(WildMod.MOD_ID, "tadpole"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, TadpoleEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.3F)).build());
@@ -35,7 +37,6 @@ public class RegisterEntities {
         FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.createWardenAttributes());
         FabricDefaultAttributeRegistry.register(FROG, FrogEntity.createFrogAttributes());
         FabricDefaultAttributeRegistry.register(TADPOLE, TadpoleEntity.createFishAttributes());
-
 
 
 

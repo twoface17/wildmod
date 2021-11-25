@@ -89,7 +89,7 @@ public class BackgroundRendererMixin {
             if(entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
                 float offset = 0.5f;
                 float multiplier = viewDistance*1.4f;
-                float equation = (float) MathAddon.cutCos(MathAddon.time, offset, false);
+                float equation = (float) MathAddon.cutCos(MathAddon.time, offset, true);
                 math = (equation * multiplier) - offset * (multiplier);
             } else {
                 math = 0;

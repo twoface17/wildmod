@@ -8,8 +8,10 @@ import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterParticles;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -26,26 +28,20 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 
-    @Shadow
-    public abstract Vec3d getPos();
+    @Shadow public abstract Vec3d getPos();
 
-    @Shadow
-    public abstract World getEntityWorld();
+    @Shadow public abstract World getEntityWorld();
 
-    @Shadow
-    public abstract BlockPos getBlockPos();
+    @Shadow public abstract BlockPos getBlockPos();
 
 
-    @Inject(method = "onRemoved", at = @At("HEAD"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    private void onRemove(CallbackInfo ci) {
+    @Inject(method = "remove", at = @At("HEAD"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+    private void removedEntity(CallbackInfo ci) {
         Entity entity = (Entity) ((Object) this);
         // LIUKRAST NOTE - THIS LINE BELOW SAYS THAT IS ALWAYS FALSE, IT IS NOT!! PLEASE DON'T EDIT
         if (entity instanceof LivingEntity) {
             if (!(entity instanceof ArmorStandEntity || entity instanceof PlayerEntity)) {
                 BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
-                int x = this.getBlockPos().getX();
-                int y = this.getBlockPos().getY();
-                int z = this.getBlockPos().getZ();
                 if (Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld(), this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true), RegisterParticles.SCULK_SOUL, 0, 2, 0, 1, 1)) {
                     GenerateSculk.generateSculk(this.getEntityWorld(), this.getBlockPos());
                 }
