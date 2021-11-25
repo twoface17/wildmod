@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.entity;
 
+import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
@@ -153,6 +154,7 @@ public class FrogEntity extends PathAwareEntity {
                 double radius = Math.random() * 0.3;
                 this.setYaw((float) angle);
                 this.updateVelocity(2F, new Vec3d(-Math.sin(angle) * radius, 0, -Math.cos(angle) * radius));
+                this.getLookControl().lookAt(new Vec3d(-Math.sin(angle) * radius, 0, -Math.cos(angle) * radius));
             }
 
             if(Math.random() < 0.5) {
@@ -178,6 +180,7 @@ public class FrogEntity extends PathAwareEntity {
 
                         if (Math.sqrt(dx * dx) > 0 || Math.sqrt(dz * dz) > 0) {
                             this.updateVelocity(2F, new Vec3d(dx / 15, 0.1 + dy / 10, dz / 15));
+                            this.getLookControl().lookAt(new Vec3d(dx / 15, 0.1 + dy / 10, dz / 15));
                         }
                     }
             }
@@ -191,9 +194,9 @@ public class FrogEntity extends PathAwareEntity {
                 double radius = Math.random() / 10;
                 this.setYaw((float) angle);
                 this.updateVelocity(2F, new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
+                this.getLookControl().lookAt(new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
             }
         }
-
         if(this.isOnGround()) {
             if (Math.random() < 0.025) {
 
@@ -203,13 +206,13 @@ public class FrogEntity extends PathAwareEntity {
                     jumpamount = 0.25;
                 }
 
-                if(Math.random() < 0.2) {
+                if(Math.random() < 1) {
 
                     // RANDOM JUMP
                     double angle = Math.random() * 360;
                     double radius = Math.random() * 0.3;
-                    this.setYaw((float) angle);
                     this.updateVelocity(2F, new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
+                    this.getLookControl().lookAt(new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
                 } else {
                     // LILYPAD/DRIPLEAF JUMP
 

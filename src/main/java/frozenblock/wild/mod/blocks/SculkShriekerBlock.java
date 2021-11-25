@@ -102,14 +102,7 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
         int z = pos.getZ();
         if (Sphere.checkSphere(Blocks.SCULK_SENSOR.getDefaultState().with(SCULK_SENSOR_PHASE, SculkSensorPhase.COOLDOWN), world, pos, 10))
               if(!world.isClient) {
-                  world.playSound(
-                          null,
-                          pos,
-                          RegisterSounds.SHRIEKER_EVENT,
-                          SoundCategory.BLOCKS,
-                          1f,
-                          1f
-                  );
+                  world.playSound(null, pos, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.BLOCKS, 1f, 1f);
                   world.spawnParticles(RegisterParticles.SHRIEK, x, y, z, 20, 0, 2, 0, 0.1);
 
 

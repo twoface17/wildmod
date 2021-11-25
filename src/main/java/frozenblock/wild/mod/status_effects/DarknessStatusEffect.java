@@ -26,7 +26,7 @@ public class DarknessStatusEffect extends StatusEffect {
                 world.playSound(
                         null,
                         pos,
-                        RegisterSounds.NEARBY_CLOSE_EVENT,
+                        RegisterSounds.EFFECT_NEARBY_CLOSE,
                         SoundCategory.AMBIENT,
                         1f,
                         1f
