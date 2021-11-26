@@ -36,10 +36,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-
-import java.util.UUID;
 
 @Environment(EnvType.CLIENT)
 public class WildModClient implements ClientModInitializer {

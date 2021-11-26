@@ -1,73 +1,72 @@
 {
   "block.sculk_catalyst.break": {
     "sounds": [
-      {
-        "name": "twm:block/sculk_catalyst/break1",
-        "volume": 1
-      }
+      {"name": "twm:block/sculk_catalyst/break1", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/break2", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/break3", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/break4", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/break5", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/break6", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/break7", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/break8", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/break9", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/break10", "volume": 1}
     ],
     "subtitle": "subtitles.block.sculk_catalyst.break"
   },
   "block.sculk_catalyst.place": {
     "sounds": [
-      {
-        "name": "twm:block/sculk_catalyst/place1",
-        "volume": 1
-      }
+      {"name": "twm:block/sculk_catalyst/place1", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/place2", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/place3", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/place4", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/place5", "volume": 1}
     ],
     "subtitle": "subtitles.block.sculk_catalyst.place"
   },
   "block.sculk_catalyst.step": {
     "sounds": [
-      {
-        "name": "twm:block/sculk_catalyst/step1",
-        "volume": 1
-      }
+      {"name": "twm:block/sculk_catalyst/step1", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/step2", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/step3", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/step4", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/step5", "volume": 1},
+      {"name": "twm:block/sculk_catalyst/step6", "volume": 1}
     ],
     "subtitle": "subtitles.block.sculk_catalyst.step"
   },
   "block.sculk_shrieker.shriek": {
     "sounds": [
-      {
-        "name": "twm:block/sculk_shrieker/shriek1",
-        "volume": 1
-      }
+      {"name": "twm:block/sculk_shrieker/shriek1", "volume": 1}
     ],
     "subtitle": "subtitles.block.sculk_shrieker.shriek"
   },
   "entity.warden.slightly_angry": {
     "sounds": [
-      {
-        "name": "twm:entity/warden/slightly_angry_1",
-        "volume": 1
-      }
+      {"name": "twm:entity/warden/slightly_angry_1", "volume": 1},
+      {"name": "twm:entity/warden/slightly_angry_2", "volume": 1}
     ],
     "subtitle": "subtitles.entity.warden.slightly_angry"
   },
   "entity.frog.ambient": {
     "sounds": [
-      {
-        "name": "twm:entity/frog/ambient1",
-        "volume": 1
-      }
+      {"name": "twm:entity/frog/ambient1", "volume": 1},
+      {"name": "twm:entity/frog/ambient2", "volume": 1}
     ],
     "subtitle": "subtitles.entity.frog.ambient"
   },
   "entity.warden.ambient": {
     "sounds": [
-      {
-        "name": "twm:entity/warden/ambient1",
-        "volume": 1
-      }
+      {"name": "twm:entity/warden/ambient1", "volume": 1},
+      {"name": "twm:entity/warden/ambient2", "volume": 1},
+      {"name": "twm:entity/warden/ambient3", "volume": 1},
+      {"name": "twm:entity/warden/ambient4", "volume": 1}
     ],
     "subtitle": "subtitles.entity.warden.ambient"
   },
   "effect.nearby_close": {
     "sounds": [
-      {
-        "name": "twm:effect/nearby_close_1",
-        "volume": 1
-      }
+      {"name": "twm:effect/nearby_close_1", "volume": 1}
     ],
     "subtitle": "subtitles.effect.nearby_close"
   }
