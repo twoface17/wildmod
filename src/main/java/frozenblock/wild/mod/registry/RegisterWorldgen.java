@@ -24,6 +24,7 @@ public abstract class RegisterWorldgen {
     public static final TreeDecoratorType<MangroveTreeDecorator> MANGROVE_TREE_DECORATOR = TreeDecoratorTypeInvoker.callRegister("mangrove_tree_roots", MangroveTreeDecorator.CODEC);
     private static final Biome MANGROVE_SWAMPS = MangroveSwamps.createMangroveSwamps();
 
+
     public static void RegisterWorldgen() {
         RegistryKey<ConfiguredFeature<?, ?>> mangroveTree = RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,
                 new Identifier(WildMod.MOD_ID, "mangrove_tree"));

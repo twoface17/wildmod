@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.blocks.mangrove;
 
 
+import frozenblock.wild.mod.liukrastapi.MangroveSaplingGenerator;
 import frozenblock.wild.mod.worldgen.MangroveTree;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
@@ -31,9 +32,8 @@ import java.util.Random;
 
 public class MangrovePropagule extends PlantBlock implements Waterloggable, Fertilizable {
     public static final BooleanProperty HANGING = BooleanProperty.of("hanging");
-    public static final IntProperty STAGE = IntProperty.of("stage", 0, 1);
     public static final BooleanProperty WATERLOGGED = BooleanProperty.of("waterlogged");
-    private final SaplingGenerator generator;
+    private final MangroveSaplingGenerator generator;
 
 
     public MangrovePropagule(Settings settings) {
@@ -42,7 +42,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 .with(WATERLOGGED, false)
                 .with(HANGING, false)
         );
-        this.generator = new OakSaplingGenerator();
+        this.generator = new MangroveSaplingGenerator();
     }
 
     protected static Direction attachedDirection(BlockState state) {
@@ -80,7 +80,6 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
             BlockPos blockPos = pos.down();
             return world.getBlockState(new BlockPos(blockPos)).isIn(BlockTags.DIRT);
         }
-        //return Block.sideCoversSmallSquare(world, pos.offset(direction), direction.getOpposite());
     }
 
     public PistonBehavior getPistonBehavior(BlockState state) {
@@ -134,13 +133,10 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     }
 
     public void generate(ServerWorld world, BlockPos pos, BlockState state, Random random) {
-        if(!state.get(HANGING)) {
-            if ((Integer) state.get(STAGE) == 0) {
-                world.setBlockState(pos, (BlockState) state.cycle(STAGE), Block.NO_REDRAW);
-            } else {
-                this.generator.generate(world, world.getChunkManager().getChunkGenerator(), pos, state, random);
-            }
-        }
-
+        world.setBlockState(pos, Blocks.AIR.getDefaultState());
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+        this.generator.generate(world, world.getChunkManager().getChunkGenerator(), new BlockPos(x-5, y, z-7), state, random);
     }
 }

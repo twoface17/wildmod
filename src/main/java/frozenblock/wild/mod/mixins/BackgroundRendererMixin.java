@@ -1,13 +1,12 @@
 package frozenblock.wild.mod.mixins;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import frozenblock.wild.mod.liukrastapi.UpdaterNum;
+import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.registry.RegisterStatusEffects;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.CameraSubmersionType;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
@@ -21,16 +20,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BackgroundRenderer.class)
 public class BackgroundRendererMixin {
 
+
+
+
+
     @Inject(at = @At("TAIL"), method = "applyFog")
     private static void applyFog(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, CallbackInfo ci) {
         Entity entity = camera.getFocusedEntity();
-        float math;
 
-        if(entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            math = (float)UpdaterNum.cuttedCos(UpdaterNum.time, 1, 1);
-        } else {
-            math = 0;
-        }
         CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
         float y;
         if (cameraSubmersionType == CameraSubmersionType.WATER) {
@@ -84,12 +81,26 @@ public class BackgroundRendererMixin {
                 y = 0.0F;
                 ab = viewDistance;
             } else {
-                y = viewDistance * 0.75F;
+                y = (viewDistance * 0.75f);
                 ab = viewDistance;
             }
+            float math;
 
-            RenderSystem.setShaderFogStart(y + 5 - y * math);
-            RenderSystem.setShaderFogEnd(ab + 20 - ab * math);
+            if(entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
+                float offset = 0.5f;
+                float multiplier = viewDistance*1.4f;
+                float equation = (float) MathAddon.cutCos(MathAddon.time, offset, true);
+                math = (equation * multiplier) - offset * (multiplier);
+            } else {
+                math = 0;
+            }
+
+            y = y - math;
+            ab = ab - math;
+
+            RenderSystem.setShaderFogStart(y);
+            RenderSystem.setShaderFogEnd(ab);
+            //RenderSystem.setShaderFogColor(math, math, math);
         }
     }
 }

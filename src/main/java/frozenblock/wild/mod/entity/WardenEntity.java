@@ -80,7 +80,7 @@ public class WardenEntity extends HostileEntity {
 //    })); CURRENTLY UNUSED
 
     protected SoundEvent getAmbientSound() {
-        return RegisterSounds.WARDEN_AMBIENT_EVENT;
+        return RegisterSounds.ENTITY_WARDEN_AMBIENT;
     }
 
     public WardenEntity(EntityType<? extends WardenEntity> entityType, World world) {

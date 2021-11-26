@@ -37,7 +37,6 @@ public class MangroveTreeDecorator extends TreeDecorator {
 
             // Pick a value from 0 (inclusive) to 4 (exclusive) and if it's 0, continue
             // This is the chance for spawning the gold block
-
             // Offset the log position by the resulting side
 
             if (!world.testBlockState(logPosition.down(4), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState())) && !world.testBlockState(logPosition.down(4), Predicate.isEqual(Blocks.AIR.getDefaultState())) && world.testBlockState(logPosition.down(3), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState())) && world.testBlockState(logPosition.down(2), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState())) && world.testBlockState(logPosition.down(), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState()))) {

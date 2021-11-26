@@ -40,7 +40,17 @@ public abstract class RegisterBlocks {
     public static final SlabBlock MUD_BRICKS_SLAB = new SlabBlock(MUD_BRICKS_SETTINGS);
     public static final StairsBlock MUD_BRICKS_STAIRS = new CustomStairs(Blocks.OAK_STAIRS.getDefaultState(), MUD_BRICKS_SETTINGS);
     public static final Block SCULK = new SculkBlock(SCULK_PROPERTIES.strength(0.9f, 0.9f));
-    public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES.strength(2f, 2f).sounds(new BlockSoundGroup(0.8f, 1.0f, RegisterSounds.CATALYST_BREAK_EVENT, RegisterSounds.CATALYST_STEP_EVENT, RegisterSounds.CATALYST_PLACE_EVENT, RegisterSounds.CATALYST_STEP_EVENT, RegisterSounds.CATALYST_STEP_EVENT)));
+
+    public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES
+            .strength(2f, 2f)
+            .sounds(new BlockSoundGroup(0.8f, 1.0f,
+                    RegisterSounds.BLOCK_SCULK_CATALYST_BREAK,
+                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
+                    RegisterSounds.BLOCK_SCULK_CATALYST_PLACE,
+                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
+                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP
+            )));
+
     public static final Block SCULK_SHRIEKER = new SculkShriekerBlock(SCULK_PROPERTIES.strength(2f, 2f).nonOpaque());
     public static final Block DEEPSLATE_FRAME = new PillarBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
 
