@@ -50,6 +50,8 @@ public class WildModClient implements ClientModInitializer {
     public static final EntityModelLayer MODEL_MANGROVE_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "mangrove_boat"), "main");
     public static final EntityModelLayer MODEL_CHEST_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "chest_boat"), "main");
 
+    public static final EntityModelLayer MODEL_FIREFLY_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "firefly"), "main");
+
     @Override
     public void onInitializeClient() {
 
@@ -94,6 +96,9 @@ public class WildModClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(RegisterEntities.CHEST_BOAT, ChestBoatEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_CHEST_BOAT_LAYER, ChestBoatEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(RegisterEntities.FIREFLY, FireflyEntityRenderer::new);
+
 
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
