@@ -10,6 +10,7 @@
     "EntityMixin",
     "ItemsMixin",
     "LightmapTextureManagerMixin",
+    "SimpleGameEventDispatcherMixin",
     "TreeDecoratorTypeInvoker"
   ],
   "client": [
