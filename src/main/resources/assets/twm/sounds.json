@@ -64,9 +64,11 @@
     ],
     "subtitle": "subtitles.entity.warden.ambient"
   },
-  "effect.nearby_close": {
+  "block.sculk_shrieker.effect": {
     "sounds": [
-      {"name": "twm:effect/nearby_close_1", "volume": 1}
+      {"name": "twm:block/sculk_shrieker/sculk_shrieker_effect1", "volume": 1},
+      {"name": "twm:block/sculk_shrieker/sculk_shrieker_effect2", "volume": 1},
+      {"name": "twm:block/sculk_shrieker/sculk_shrieker_effect3", "volume": 1}
     ],
     "subtitle": "subtitles.effect.nearby_close"
   }
