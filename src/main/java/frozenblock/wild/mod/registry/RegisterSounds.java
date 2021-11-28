@@ -13,6 +13,7 @@ public class RegisterSounds {
     public static SoundEvent BLOCK_SCULK_CATALYST_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.place"));
     public static SoundEvent BLOCK_SCULK_CATALYST_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.step"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_SHRIEK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.shriek"));
+    public static SoundEvent BLOCK_SCULK_SHRIEKER_EFFECT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.effect"));
     public static SoundEvent ENTITY_WARDEN_SLIGHTLY_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.slightly_angry"));
     public static SoundEvent EFFECT_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID, "effect.nearby_close"));
     public static SoundEvent ENTITY_FROG_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.ambient"));
@@ -25,6 +26,7 @@ public class RegisterSounds {
         BLOCK_SCULK_CATALYST_PLACE = register(BLOCK_SCULK_CATALYST_PLACE.getId());
         BLOCK_SCULK_CATALYST_STEP = register(BLOCK_SCULK_CATALYST_STEP.getId());
         BLOCK_SCULK_SHRIEKER_SHRIEK = register(BLOCK_SCULK_SHRIEKER_SHRIEK.getId());
+        BLOCK_SCULK_SHRIEKER_EFFECT = register(BLOCK_SCULK_SHRIEKER_EFFECT.getId());
         ENTITY_WARDEN_SLIGHTLY_ANGRY = register(ENTITY_WARDEN_SLIGHTLY_ANGRY.getId());
         EFFECT_NEARBY_CLOSE = register(EFFECT_NEARBY_CLOSE.getId());
         ENTITY_FROG_AMBIENT = register(ENTITY_FROG_AMBIENT.getId());
