@@ -17,6 +17,7 @@ import net.minecraft.block.entity.SculkSensorBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -46,6 +47,10 @@ public class WardenEntity extends HostileEntity {
 
     private static final double speed = 0.5D;
 
+    public BlockPos lasteventpos;
+    public World lasteventworld;
+    public LivingEntity lastevententity;
+
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
@@ -63,8 +68,9 @@ public class WardenEntity extends HostileEntity {
         return this.attacking;
     }
 
-    public void mobTick() {
-        //if(WardenGoal.lasteventpos != null) {WardenGoal.lasteventpos2 = WardenGoal.lasteventpos;}
-        //if(WardenGoal.lasteventWorld != null) {WardenGoal.lasteventWorld2 = WardenGoal.lasteventWorld;}
+    public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
+        this.lasteventpos = eventPos;
+        this.lasteventworld = eventWorld;
+        this.lastevententity = eventEntity;
     }
 }

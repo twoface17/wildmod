@@ -16,9 +16,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
 public class WardenGoal extends Goal {
-    public static World lasteventWorld = null;
-    public static BlockPos lasteventpos = null;
-    public static LivingEntity lastevententity = null;
 
     private double VX;
     private double VY;
@@ -26,15 +23,18 @@ public class WardenGoal extends Goal {
 
     private boolean ROAR;
 
-    private final MobEntity mob;
+    private final WardenEntity mob;
     private final double speed;
 
-    public WardenGoal(MobEntity mob, double speed) {
+    public WardenGoal(WardenEntity mob, double speed) {
         this.mob = mob;
         this.speed = speed;
     }
 
     public boolean canStart() {
+        BlockPos lasteventpos = this.mob.lasteventpos;
+        World lasteventWorld = this.mob.lasteventworld;
+
         if(this.mob.getAttacker() == null) {
             if(lasteventWorld != null && lasteventpos != null) {
                 if(lasteventWorld == this.mob.getEntityWorld()) {
@@ -62,18 +62,21 @@ public class WardenGoal extends Goal {
     }
 
     public void start() {
+        BlockPos lasteventpos = this.mob.lasteventpos;
+        World lasteventWorld = this.mob.lasteventworld;
+        LivingEntity lastevententity = this.mob.lastevententity;
 
         if(this.mob.getAttacker() != null) {
             double distance = MathAddon.distance(this.VX, this.VY, this.VZ, this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
             if(distance > 4) {distance = 1;}
             LivingEntity TARGET = this.mob.getAttacker();
-            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, (speed) / distance);
+            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed);
             this.mob.getLookControl().lookAt(this.VX, this.VY, this.VZ);
             attack(TARGET);
         } else {
             double distance = MathAddon.distance(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
             if(distance > 4) {distance = 1;}
-            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), ( speed) / distance);
+            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed);
             this.mob.getLookControl().lookAt(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ());
 
             if(lastevententity != null) {

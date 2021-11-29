@@ -17,6 +17,9 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
     private final ModelPart left_arm;
     private final ModelPart left_leg;
     private final ModelPart right_leg;
+    private boolean animationstart;
+    private double animationstarttime;
+
     public WardenEntityModel(ModelPart root) {
         this.body = root.getChild("body");
         this.left_arm = this.body.getChild("left_arm");
@@ -26,6 +29,8 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         this.right_ear = this.head.getChild("right_ear");
         this.left_leg = root.getChild("left_leg");
         this.right_leg = root.getChild("right_leg");
+        this.animationstart = false;
+        this.animationstarttime = 0;
     }
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
@@ -42,17 +47,26 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
     }
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        this.head.pitch = headPitch * 0.017453292F;
-        this.head.yaw = headYaw * 0.017453292F;
-        this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
-        this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
-        this.body.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance/4 + MathHelper.cos(animationProgress/20)/20;
-        this.right_arm.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance/4 - MathHelper.cos(animationProgress/20)/20;
-        this.left_arm.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance/4 - MathHelper.cos(animationProgress/20)/20;
-        this.left_ear.yaw = MathHelper.cos(animationProgress/20*MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance)/5 + MathHelper.cos(animationProgress/20)/5;
-        this.right_ear.yaw = - MathHelper.cos(animationProgress/20*MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance)/5 - MathHelper.cos(animationProgress/20)/5;
+        if(!entity.isAttackingAnimation()) {
+            this.head.pitch = headPitch * 0.017453292F;
+            this.head.yaw = headYaw * 0.017453292F;
+            this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+            this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
+            this.body.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
+            this.right_arm.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 4 - MathHelper.cos(animationProgress / 20) / 20;
+            this.left_arm.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 4 - MathHelper.cos(animationProgress / 20) / 20;
+            this.left_ear.yaw = MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.cos(animationProgress / 20) / 5;
+            this.right_ear.yaw = -MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.cos(animationProgress / 20) / 5;
 
-        this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance/4 + MathHelper.cos(animationProgress/20)/20;
+            this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
+        } else {
+            if(this.animationstart == false) {
+                this.animationstart = true;
+                this.animationstarttime = animationProgress;
+            } else {
+
+            }
+        }
     }
     @Override
     public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
