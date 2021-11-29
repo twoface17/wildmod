@@ -41,11 +41,6 @@ import java.util.EventListener;
 import java.util.Optional;
 
 public class WardenEntity extends HostileEntity {
-    public static World lasteventWorld = null;
-    public static BlockPos lasteventpos = null;
-
-    private static World lasteventWorld2 = null;
-    private static BlockPos lasteventpos2 = null;
 
     private boolean attacking = false;
 
