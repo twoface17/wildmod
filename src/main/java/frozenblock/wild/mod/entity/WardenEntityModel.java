@@ -54,7 +54,7 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         int i = entity.getAttackTicksLeft1();
         float eq;
         if (i > 0) {
-            eq = -2.0F + 1.5F * MathHelper.wrap((float)i - animationProgress, 10.0F);
+            eq = -2.0F + 1.5F * MathHelper.wrap((float)i - animationProgress/200, 0.2F);
         } else {
             eq = 0;
         }
