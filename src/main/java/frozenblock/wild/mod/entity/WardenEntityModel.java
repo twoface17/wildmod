@@ -8,7 +8,13 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.BlockStateRaycastContext;
+import net.minecraft.world.World;
 
 public class WardenEntityModel extends EntityModel<WardenEntity> {
     private final ModelPart body;
@@ -86,6 +92,12 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         body.render(matrixStack, buffer, packedLight, packedOverlay);
         left_leg.render(matrixStack, buffer, packedLight, packedOverlay);
         right_leg.render(matrixStack, buffer, packedLight, packedOverlay);
+    }
+
+    private boolean isOccluded(World world, BlockPos pos, BlockPos sourcePos) {
+        return world.raycast(new BlockStateRaycastContext(Vec3d.ofCenter(pos), Vec3d.ofCenter(sourcePos), (state) -> {
+            return state.isIn(BlockTags.OCCLUDES_VIBRATION_SIGNALS);
+        })).getType() == HitResult.Type.BLOCK;
     }
 
 }

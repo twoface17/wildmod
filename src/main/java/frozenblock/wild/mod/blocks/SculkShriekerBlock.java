@@ -10,6 +10,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.enums.SculkSensorPhase;
 import net.minecraft.block.enums.Tilt;
 import net.minecraft.data.client.model.BlockStateVariantMap;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;

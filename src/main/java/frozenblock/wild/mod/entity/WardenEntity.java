@@ -2,6 +2,7 @@ package frozenblock.wild.mod.entity;
 
 
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
+import frozenblock.wild.mod.liukrastapi.WardenSensorListener;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,6 +12,8 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.*;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -39,6 +42,7 @@ public class WardenEntity extends HostileEntity {
         this.goalSelector.add(2, new WardenGoal(this, speed));
     }
 
+
     public void tickMovement() {
         if(this.attackTicksLeft1 > 0) {
             --this.attackTicksLeft1;
@@ -59,7 +63,7 @@ public class WardenEntity extends HostileEntity {
             this.world.sendEntityStatus(this, (byte)4);
             target.setVelocity(target.getVelocity().add(0.0D, 0.4000000059604645D, 0.0D));
             this.applyDamageEffects(this, target);
-            this.playSound(RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, 1.0F, 1.0F);
+            this.playSound(RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, 1.0F,1.0F);
         }
         return bl;
     }
@@ -71,13 +75,14 @@ public class WardenEntity extends HostileEntity {
     public void handleStatus(byte status) {
         if (status == 4) {
             this.attackTicksLeft1 = 10;
-            this.playSound(RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, 1.0F, 1.0F);
+            this.playSound(RegisterSounds.ENTITY_WARDEN_AMBIENT, 1.0F, 1.0F);
         } else {
             super.handleStatus(status);
         }
 
     }
 
+    protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
         this.lasteventpos = eventPos;
