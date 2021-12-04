@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.liukrastapi;
 
 import frozenblock.wild.mod.registry.RegisterWorldgen;
-import frozenblock.wild.mod.worldgen.MangroveTree;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -16,10 +15,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class MangroveSaplingGenerator extends SaplingGenerator {
+/*public class MangroveSaplingGenerator extends SaplingGenerator {
     @Nullable
     protected ConfiguredFeature<TreeFeatureConfig, ?> getTreeFeature(Random random, boolean bees) {
         return (ConfiguredFeature<TreeFeatureConfig, ?>) MangroveTree.MANGROVE_TREE_PLANTABLE;
     }
 
-}
+}*/

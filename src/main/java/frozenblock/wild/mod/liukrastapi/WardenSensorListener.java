@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.listener.GameEventListener;
-import net.minecraft.world.event.listener.SculkSensorListener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -66,8 +65,6 @@ public class WardenSensorListener implements GameEventListener {
                 BlockPos blockPos = (BlockPos)optional.get();
                 if (!this.callback.accepts(world, this, pos, event, entity)) {
                     return false;
-                } else if (this.isOccluded(world, pos, blockPos)) {
-                    return false;
                 } else {
                     this.listen(world, event, pos, blockPos);
                     return true;
@@ -107,13 +104,6 @@ public class WardenSensorListener implements GameEventListener {
         System.out.println("listen2");
 
     }
-
-    private boolean isOccluded(World world, BlockPos pos, BlockPos sourcePos) {
-        return world.raycast(new BlockStateRaycastContext(Vec3d.ofCenter(pos), Vec3d.ofCenter(sourcePos), (state) -> {
-            return state.isIn(BlockTags.OCCLUDES_VIBRATION_SIGNALS);
-        })).getType() == HitResult.Type.BLOCK;
-    }
-
 
     public interface Callback {
         /**

@@ -10,7 +10,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.enums.SculkSensorPhase;
 import net.minecraft.block.enums.Tilt;
 import net.minecraft.data.client.model.BlockStateVariantMap;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -72,7 +71,7 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (state.get(WATERLOGGED)) {
-            world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
@@ -92,7 +91,7 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        world.getBlockTickScheduler().schedule(new BlockPos(x, y, z), this, 1);
+        world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 1);
     }
 
     @Override
@@ -119,7 +118,7 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
                       playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 240, 0, false, true));
                   }
               }
-        world.getBlockTickScheduler().schedule(new BlockPos(x, y, z), this, 1);
+        world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 1);
     }
 
     public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack) {

@@ -34,7 +34,7 @@ public class SculkCatalystBlock extends Block {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        world.getBlockTickScheduler().schedule(new BlockPos(x, y, z), this, 10);
+        world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 10);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SculkCatalystBlock extends Block {
         if (state.get(BLOOM)) {
             world.setBlockState(pos, RegisterBlocks.SCULK_CATALYST.getDefaultState());
         }
-        world.getBlockTickScheduler().schedule(new BlockPos(x, y, z), this, 10);
+        world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 10);
 
     }
 

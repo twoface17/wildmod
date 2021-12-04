@@ -63,7 +63,7 @@ public class LightmapTextureManagerMixin {
             this.client.getProfiler().push("lightTex");
             ClientWorld clientWorld = this.client.world;
             if (clientWorld != null) {
-                float f = clientWorld.method_23783(1.0F);
+                float f = clientWorld.getStarBrightness(1.0F);
                 float h;
                 if (clientWorld.getLightningTicksLeft() > 0) {
                     h = 1.0F;
@@ -95,7 +95,7 @@ public class LightmapTextureManagerMixin {
                         vec3f2.set(q, s, t);
                         float w;
                         Vec3f vec3f5;
-                        if (clientWorld.getSkyProperties().shouldBrightenLighting()) {
+                        if (clientWorld.getDimensionEffects().shouldBrightenLighting()) {
                             vec3f2.lerp(new Vec3f(0.99F, 1.12F, 1.0F), 0.25F);
                         } else {
                             Vec3f vec3f3 = vec3f.copy();

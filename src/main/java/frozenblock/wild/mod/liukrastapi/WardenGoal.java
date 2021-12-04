@@ -1,11 +1,8 @@
 package frozenblock.wild.mod.liukrastapi;
 
 import frozenblock.wild.mod.entity.WardenEntity;
-import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -37,7 +34,6 @@ public class WardenGoal extends Goal {
                     double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
                     double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
                     if(Math.sqrt(distancex + distancey + distancez) < 15) {
-                        this.mob.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1.0F, 1.0F);
                         return true;
                     } else {return false;}
                 } else {return false;}
@@ -49,7 +45,6 @@ public class WardenGoal extends Goal {
                 this.VY = this.mob.getAttacker().getY();
                 this.VZ = this.mob.getAttacker().getZ();
             }
-            this.mob.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1.0F, 1.0F);
             return true;
         }
     }
@@ -70,6 +65,7 @@ public class WardenGoal extends Goal {
         BlockPos lasteventpos = this.mob.lasteventpos;
         World lasteventWorld = this.mob.lasteventworld;
         LivingEntity lastevententity = this.mob.lastevententity;
+
         if(this.mob.getAttacker() != null) {
             double distance = MathAddon.distance(this.VX, this.VY, this.VZ, this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
             if(distance > 4) {distance = 1;}
