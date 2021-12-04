@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "frozenblock.wild.mod.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AbstractBlockMixin",
+    "BackgroundRendererMixin",
+    "ClientPlayerEntityMixin",
+    "EntityMixin",
+    "ItemsMixin",
+    "LightmapTextureManagerMixin",
+    "SimpleGameEventDispatcherMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

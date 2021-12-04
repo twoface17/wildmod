@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "bloom=false": {
+      "model": "twm:block/sculk_catalyst"
+    },
+    "bloom=true": {
+      "model": "twm:block/sculk_catalyst_bloom"
+    }
+  }
+}

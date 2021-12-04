@@ -1,0 +1,9 @@
+{
+  "credit": "Made by FrozenBlockStudios",
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "twm:block/mud_bricks",
+    "top": "twm:block/mud_bricks",
+    "side": "twm:block/mud_bricks"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "twm:mangrove_planks"
+    }
+  },
+  "result": {
+    "item": "twm:mangrove_door",
+    "count": 3
+  },
+  "group": "minecraft:doors"
+}
