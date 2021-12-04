@@ -1,9 +1,0 @@
-{
-  "credit": "Made by FrozenBlockStudios",
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "top": "twm:block/sculk",
-    "bottom": "twm:block/sculk_catalyst_bottom",
-    "side": "twm:block/sculk_catalyst_side"
-  }
-}

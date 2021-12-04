@@ -1,9 +1,0 @@
-{
-  "credit": "Made by FrozenBlockStudios",
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "twm:block/mangrove_planks",
-    "top": "twm:block/mangrove_planks",
-    "side": "twm:block/mangrove_planks"
-  }
-}

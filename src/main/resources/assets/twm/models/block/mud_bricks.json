@@ -1,7 +1,0 @@
-{
-  "credit": "Made by FrozenBlockStudios",
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "twm:block/mud_bricks"
-  }
-}

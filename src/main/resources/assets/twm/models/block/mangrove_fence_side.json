@@ -1,7 +1,0 @@
-{
-  "credit": "Made by FrozenBlockStudios",
-  "parent": "minecraft:block/fence_side",
-  "textures": {
-    "texture": "twm:block/mangrove_planks"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "credit": "Made by FrozenBlockStudios",
-  "parent": "minecraft:block/cross",
-  "textures": {
-    "cross": "twm:block/mangrove_propagule"
-  }
-}
