@@ -31,6 +31,20 @@
       }
     ]
   },
+  "music.overworld.deep_dark": {
+    "category": "music",
+    "sounds": [
+      {
+        "name": "twm:music/deep_dark/deep_dark1"
+      },
+      {
+        "name": "twm:music/deep_dark/deep_dark2"
+      },
+      {
+        "name": "twm:music/deep_dark/deep_dark3"
+      }
+    ]
+  },
   "block.sculk_catalyst.place": {
     "sounds": [
       "twm:block/catalyst/place1",
