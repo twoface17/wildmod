@@ -7,7 +7,6 @@
     "AbstractBlockMixin",
     "BackgroundRendererMixin",
     "ClientPlayerEntityMixin",
-    "EntityMixin",
     "ItemsMixin",
     "LightmapTextureManagerMixin",
     "SimpleGameEventDispatcherMixin",

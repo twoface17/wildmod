@@ -1,14 +1,21 @@
 package frozenblock.wild.mod.mixins;
 
+import frozenblock.wild.mod.blocks.SculkCatalystBlock;
 import frozenblock.wild.mod.entity.WardenEntity;
+import frozenblock.wild.mod.liukrastapi.GenerateSculk;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
+import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
+import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
+import frozenblock.wild.mod.registry.RegisterParticles;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -40,6 +47,17 @@ public class SimpleGameEventDispatcherMixin{
         BlockPos eventpos;
         World eventworld;
         LivingEntity evententity;
+
+        if(event == GameEvent.ENTITY_KILLED) {
+            if(entity != null) {
+                if (entity instanceof MobEntity) {
+                    BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
+                    if (Sphere.checkSphereWithPLaceAndParticles(blockState, entity.getEntityWorld() , entity.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true), RegisterParticles.SCULK_SOUL, 0, 2, 0, 1, 1)) {
+                        GenerateSculk.generateSculk(entity.getEntityWorld(), entity.getBlockPos());
+                    }
+                }
+            }
+        }
 
         if(SculkSensorBlock.FREQUENCIES.containsKey(event)) {
             

@@ -115,7 +115,9 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (world.getLightLevel(pos.up()) >= 9 && random.nextInt(7) == 0) {
-            this.generate(world, pos, state, random);
+            if(!state.get(HANGING)) {
+                this.generate(world, pos, state, random);
+            }
         }
 
     }

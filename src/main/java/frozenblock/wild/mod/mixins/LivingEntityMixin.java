@@ -7,12 +7,13 @@ import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterParticles;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.vehicle.MinecartEntity;
+import net.minecraft.entity.vehicle.TntMinecartEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -25,24 +26,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 
-@Mixin(Entity.class)
-public abstract class EntityMixin {
+@Mixin(LivingEntity.class)
+public abstract class LivingEntityMixin extends Entity {
 
-    @Shadow public abstract Vec3d getPos();
+    public LivingEntityMixin(EntityType<?> type, World world) {
+        super(type, world);
+    }
 
-    @Shadow public abstract World getEntityWorld();
-
-    @Shadow public abstract BlockPos getBlockPos();
-
-
-    @Inject(method = "remove", at = @At("HEAD"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    private void removedEntity(CallbackInfo ci) {
-        Entity entity = (Entity) ((Object) this);
-        // LIUKRAST NOTE - THIS LINE BELOW SAYS THAT IS ALWAYS FALSE, IT IS NOT!! PLEASE DON'T EDIT
-        if (entity instanceof LivingEntity) {
-            if (!(entity instanceof ArmorStandEntity || entity instanceof PlayerEntity)) {
+    @Inject(method = "onDeath", at = @At("HEAD"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+    private void callCatalyst(CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity) ((Object) this);
+        if(entity != null) {
+            if (entity instanceof MobEntity) {
                 BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
-                if (Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld(), this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true), RegisterParticles.SCULK_SOUL, 0, 2, 0, 1, 1)) {
+                if (Sphere.checkSphereWithPLaceAndParticles(blockState, this.getEntityWorld() , this.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true), RegisterParticles.SCULK_SOUL, 0, 2, 0, 1, 1)) {
                     GenerateSculk.generateSculk(this.getEntityWorld(), this.getBlockPos());
                 }
             }
