@@ -25,6 +25,7 @@ import net.minecraft.world.gen.feature.*;
 public abstract class RegisterWorldgen {
 
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
+    public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
 
 
     public static void RegisterWorldgen() {

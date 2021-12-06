@@ -1,9 +1,17 @@
 {
-  "block.shrieker.shriek": {
-    "subtitle": "subtitles.twm.shrieker",
+  "block.sculk_shrieker.shriek": {
     "sounds": [
-      "twm:shriek1"
-    ]
+      {"name": "twm:block/sculk_shrieker/shriek1", "volume": 1}
+    ],
+    "subtitle": "subtitles.block.sculk_shrieker.shriek"
+  },
+  "block.sculk_shrieker.effect": {
+    "sounds": [
+      {"name": "twm:block/sculk_shrieker/sculk_shrieker_effect1", "volume": 1},
+      {"name": "twm:block/sculk_shrieker/sculk_shrieker_effect2", "volume": 1},
+      {"name": "twm:block/sculk_shrieker/sculk_shrieker_effect3", "volume": 1}
+    ],
+    "subtitle": "subtitles.effect.nearby_close"
   },
   "entity.warden.slightly_angry": {
     "category": "hostile",
