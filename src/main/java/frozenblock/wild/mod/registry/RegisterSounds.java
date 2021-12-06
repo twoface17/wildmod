@@ -18,6 +18,7 @@ public class RegisterSounds {
     public static SoundEvent EFFECT_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID, "effect.nearby_close"));
     public static SoundEvent ENTITY_FROG_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.ambient"));
     public static SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
+    public static SoundEvent MUSIC_OVERWORLD_DEEPDARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deepdark"));
 
 
     public static void RegisterSounds() {
@@ -31,6 +32,7 @@ public class RegisterSounds {
         EFFECT_NEARBY_CLOSE = register(EFFECT_NEARBY_CLOSE.getId());
         ENTITY_FROG_AMBIENT = register(ENTITY_FROG_AMBIENT.getId());
         ENTITY_WARDEN_AMBIENT = register(ENTITY_WARDEN_AMBIENT.getId());
+        MUSIC_OVERWORLD_DEEPDARK = register(MUSIC_OVERWORLD_DEEPDARK.getId());
 
     }
 
