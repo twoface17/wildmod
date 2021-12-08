@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.registry;
 
+import com.google.common.collect.ImmutableList;
 import frozenblock.wild.mod.WildMod;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
@@ -30,6 +31,7 @@ import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.treedecorator.LeavesVineTreeDecorator;
 import net.minecraft.world.gen.trunk.ForkingTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
@@ -47,7 +49,9 @@ public class RegisterWorldGen {
                         BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
                         new ForkingTrunkPlacer(5, 1, 2), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
                         new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 75),
-                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines().build()));
+                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
+                        .decorators(ImmutableList.of(LeavesVineTreeDecorator.INSTANCE))
+                        .build()));
 
         TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), MANGROVE.withPlacement(PlacedFeatures.createCountExtraModifier(2, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(2), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
         BuiltinRegistries.add(BuiltinRegistries.BIOME, MANGROVE_SWAMP, createMangroveSwamp());
@@ -71,7 +75,21 @@ public class RegisterWorldGen {
         DefaultBiomeFeatures.addDefaultMushrooms(builder2);
         DefaultBiomeFeatures.addSwampVegetation(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, OceanPlacedFeatures.SEAGRASS_SWAMP);
-        return (new net.minecraft.world.biome.Biome.Builder()).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.SWAMP).temperature(0.8F).downfall(0.9F).effects((new net.minecraft.world.biome.BiomeEffects.Builder()).waterColor(6388580).waterFogColor(2302743).fogColor(12638463).skyColor(getSkyColor(0.8F)).foliageColor(6975545).grassColorModifier(BiomeEffects.GrassColorModifier.SWAMP).moodSound(BiomeMoodSound.CAVE).build()).spawnSettings(builder.build()).generationSettings(builder2.build()).build();
+        return (
+                new net.minecraft.world.biome.Biome.Builder())
+                .precipitation(Biome.Precipitation.RAIN)
+                .category(Biome.Category.SWAMP)
+                .temperature(0.8F).downfall(0.9F)
+                .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
+                        .waterColor(6388580)
+                        .waterFogColor(2302743)
+                        .fogColor(12638463)
+                        .skyColor(getSkyColor(0.8F))
+                        .foliageColor(6975545)
+                        .grassColorModifier(BiomeEffects.GrassColorModifier.SWAMP)
+                        .moodSound(BiomeMoodSound.CAVE).build())
+                .spawnSettings(builder.build())
+                .generationSettings(builder2.build()).build();
 
     }
 

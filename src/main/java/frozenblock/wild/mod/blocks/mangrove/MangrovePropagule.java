@@ -115,9 +115,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (world.getLightLevel(pos.up()) >= 9 && random.nextInt(7) == 0) {
-            if(!state.get(HANGING)) {
-                this.generate(world, pos, state, random);
-            }
+            this.generate(world, pos, state, random);
         }
 
     }
@@ -135,10 +133,12 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     }
 
     public void generate(ServerWorld world, BlockPos pos, BlockState state, Random random) {
-        world.setBlockState(pos, Blocks.AIR.getDefaultState());
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-        this.generator.generate(world, world.getChunkManager().getChunkGenerator(), new BlockPos(x, y, z), state, random);
+        if(!state.get(HANGING)) {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            int x = pos.getX();
+            int y = pos.getY();
+            int z = pos.getZ();
+            this.generator.generate(world, world.getChunkManager().getChunkGenerator(), new BlockPos(x, y, z), state, random);
+        }
     }
 }

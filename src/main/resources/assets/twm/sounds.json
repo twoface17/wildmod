@@ -17,8 +17,8 @@
     "category": "hostile",
     "subtitle": "subtitles.twm.slightly_angry",
     "sounds": [
-      "twm:slightly_angry_1",
-      "twm:slightly_angry_2"
+      "twm:warden/slightly_angry_1",
+      "twm:warden/slightly_angry_2"
     ]
   },
   "entity.warden.ambient": {
@@ -26,16 +26,16 @@
     "subtitle": "subtitles.entity.twm.warden.ambient",
     "sounds": [
       {
-        "name": "twm:entity/warden/idle1"
+        "name": "twm:entity/warden/ambient1"
       },
       {
-        "name": "twm:entity/warden/idle2"
+        "name": "twm:entity/warden/ambient2"
       },
       {
-        "name": "twm:entity/warden/idle3"
+        "name": "twm:entity/warden/ambient3"
       },
       {
-        "name": "twm:entity/warden/idle4"
+        "name": "twm:entity/warden/ambient4"
       }
     ]
   },
