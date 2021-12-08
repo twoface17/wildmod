@@ -16,8 +16,7 @@ import net.minecraft.util.registry.Registry;
 public abstract class MangroveWoods {
 
     // THIS VARIABLE DEFINES ALL PROPERTIES FOR WOOD
-    public static final AbstractBlock.Settings WOOD_PROPERTIES = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)
-            .breakByTool(FabricToolTags.AXES);
+    public static final AbstractBlock.Settings WOOD_PROPERTIES = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS);
 
     // DEFINES ALL BLOCKS AS VARIABLES
     public static final Block MANGROVE_LOG = new MangroveLog(WOOD_PROPERTIES);

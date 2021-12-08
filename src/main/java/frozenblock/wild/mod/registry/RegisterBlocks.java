@@ -17,12 +17,10 @@ public abstract class RegisterBlocks {
 
     public static final AbstractBlock.Settings SCULK_PROPERTIES = FabricBlockSettings
             .of(Material.SCULK)
-            .breakByTool(FabricToolTags.HOES, 0)
             .sounds(BlockSoundGroup.SCULK_SENSOR);
 
     public static final AbstractBlock.Settings SCULK_CATALYST_PROPERTIES = FabricBlockSettings
             .of(Material.SCULK)
-            .breakByTool(FabricToolTags.HOES, 0)
             .sounds(BlockSoundGroup.SCULK_SENSOR)
             .luminance(6);
 
@@ -30,8 +28,7 @@ public abstract class RegisterBlocks {
             .of(Material.STONE)
             .sounds(BlockSoundGroup.DEEPSLATE_BRICKS)
             .strength(1.5f, 10f)
-            .requiresTool()
-            .breakByTool(FabricToolTags.PICKAXES, 0);
+            .requiresTool();
 
 
     public static final Block MUD_BLOCK = new MudBlock();
