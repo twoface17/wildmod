@@ -22,7 +22,6 @@ public class MudBlock extends Block {
     public MudBlock() {
         super(FabricBlockSettings
                 .of(Material.SOIL, MapColor.GRAY)
-                .breakByTool(FabricToolTags.SHOVELS, 1)
                 .sounds(BlockSoundGroup.GRAVEL)
                 .strength(0.5f, 0.5f)
                 .ticksRandomly()
