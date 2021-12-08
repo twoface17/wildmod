@@ -2,6 +2,7 @@ package frozenblock.wild.mod.blocks.mangrove;
 
 
 
+import frozenblock.wild.mod.liukrastapi.MangroveSaplingGenerator;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.block.sapling.OakSaplingGenerator;
@@ -32,7 +33,7 @@ import java.util.Random;
 public class MangrovePropagule extends PlantBlock implements Waterloggable, Fertilizable {
     public static final BooleanProperty HANGING = BooleanProperty.of("hanging");
     public static final BooleanProperty WATERLOGGED = BooleanProperty.of("waterlogged");
-    //private final MangroveSaplingGenerator generator;
+    private final MangroveSaplingGenerator generator;
 
 
     public MangrovePropagule(Settings settings) {
@@ -41,7 +42,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 .with(WATERLOGGED, false)
                 .with(HANGING, false)
         );
-        //this.generator = new MangroveSaplingGenerator();
+        this.generator = new MangroveSaplingGenerator();
     }
 
     protected static Direction attachedDirection(BlockState state) {
@@ -138,6 +139,6 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        //this.generator.generate(world, world.getChunkManager().getChunkGenerator(), new BlockPos(x-5, y, z-7), state, random);
+        this.generator.generate(world, world.getChunkManager().getChunkGenerator(), new BlockPos(x, y, z), state, random);
     }
 }
