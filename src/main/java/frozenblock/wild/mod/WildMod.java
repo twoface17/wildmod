@@ -11,11 +11,11 @@ public class WildMod implements ModInitializer {
     public void onInitialize() {
         RegisterBlocks.RegisterBlocks();
         RegisterItems.RegisterItems();
-        RegisterWorldgen.RegisterWorldgen();
         RegisterEntities.RegisterEntities();
         RegisterDispenser.RegisterDispenser();
         RegisterParticles.RegisterParticles();
         RegisterSounds.RegisterSounds();
         RegisterStatusEffects.RegisterStatusEffects();
+        RegisterWorldGen.RegisterWorldgen();
     }
 }
