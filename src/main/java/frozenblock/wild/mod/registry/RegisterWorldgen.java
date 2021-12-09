@@ -2,6 +2,8 @@ package frozenblock.wild.mod.registry;
 
 import com.google.common.collect.ImmutableList;
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.mixins.TreeDecoratorTypeInvoker;
+import frozenblock.wild.mod.worldgen.MangroveTreeDecorator;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -25,37 +27,22 @@ import net.minecraft.world.gen.decorator.SquarePlacementModifier;
 import net.minecraft.world.gen.decorator.SurfaceWaterDepthFilterPlacementModifier;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
-import net.minecraft.world.gen.foliage.AcaciaFoliagePlacer;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
-import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.treedecorator.LeavesVineTreeDecorator;
+import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraft.world.gen.trunk.ForkingTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
-public class RegisterWorldGen {
+public class RegisterWorldgen {
 
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
 
     public static PlacedFeature TREES_MANGROVE;
     public static ConfiguredFeature<TreeFeatureConfig, ?> MANGROVE;
+    public static ConfiguredFeature<TreeFeatureConfig, ?> BIRCH_NEW;
 
-    public static void RegisterWorldgen() {
-
-        MANGROVE = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "mangrove"), Feature.TREE
-                .configure(new TreeFeatureConfig.Builder(
-                        BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
-                        new ForkingTrunkPlacer(5, 1, 2), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
-                        new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 75),
-                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
-                        .decorators(ImmutableList.of(LeavesVineTreeDecorator.INSTANCE))
-                        .build()));
-
-        TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), MANGROVE.withPlacement(PlacedFeatures.createCountExtraModifier(2, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(2), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
-        BuiltinRegistries.add(BuiltinRegistries.BIOME, MANGROVE_SWAMP, createMangroveSwamp());
-        }
+    public static final TreeDecoratorType<MangroveTreeDecorator> MANGROVE_TREE_DECORATOR = TreeDecoratorTypeInvoker.callRegister("rich_tree_decorator", MangroveTreeDecorator.CODEC);
 
     private static RegistryKey<Biome> register(String name) {
         return RegistryKey.of(Registry.BIOME_KEY, new Identifier(WildMod.MOD_ID, name));
@@ -116,5 +103,27 @@ public class RegisterWorldGen {
         float f = temperature / 3.0F;
         f = MathHelper.clamp(f, -1.0F, 1.0F);
         return MathHelper.hsvToRgb(0.62222224F - f * 0.05F, 0.5F + f * 0.1F, 1.0F);
+    }
+
+    public static void RegisterWorldgen() {
+
+        MANGROVE = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "mangrove"), Feature.TREE
+                .configure(new TreeFeatureConfig.Builder(
+                        BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
+                        new ForkingTrunkPlacer(5, 1, 2), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
+                        new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 75),
+                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
+                        .decorators(ImmutableList.of(MangroveTreeDecorator.INSTANCE))
+                        .build()));
+        BIRCH_NEW = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "mangrove"), Feature.TREE
+                .configure(new TreeFeatureConfig.Builder(
+                        BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
+                        new StraightTrunkPlacer(7, 3, 9), BlockStateProvider.of(Blocks.BIRCH_LEAVES),
+                        new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), 10),
+                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
+                        .build()));
+
+        TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), MANGROVE.withPlacement(PlacedFeatures.createCountExtraModifier(2, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(2), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
+        BuiltinRegistries.add(BuiltinRegistries.BIOME, MANGROVE_SWAMP, createMangroveSwamp());
     }
 }
