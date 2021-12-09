@@ -698,8 +698,8 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if(player.isSneaking()) {
 
-            player.openHandledScreen((NamedScreenHandlerFactory) this);
-            return ActionResult.PASS;
+            player.openHandledScreen(this);
+            return ActionResult.SUCCESS;
         } else if (this.ticksUnderwater < 60.0F) {
             if (!this.world.isClient) {
                 if(this.getPassengerList().size() < 1) {
