@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.mixins.TreeDecoratorTypeInvoker;
 import frozenblock.wild.mod.worldgen.MangroveTreeDecorator;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.sound.BiomeMoodSound;
@@ -26,10 +27,12 @@ import net.minecraft.world.gen.decorator.SquarePlacementModifier;
 import net.minecraft.world.gen.decorator.SurfaceWaterDepthFilterPlacementModifier;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
+import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraft.world.gen.trunk.ForkingTrunkPlacer;
+import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
 public class RegisterWorldgen {
 
@@ -37,6 +40,7 @@ public class RegisterWorldgen {
 
     public static PlacedFeature TREES_MANGROVE;
     public static ConfiguredFeature<TreeFeatureConfig, ?> MANGROVE;
+    public static ConfiguredFeature<TreeFeatureConfig, ?> BIRCH_NEW;
 
     public static final TreeDecoratorType<MangroveTreeDecorator> MANGROVE_TREE_DECORATOR = TreeDecoratorTypeInvoker.callRegister("rich_tree_decorator", MangroveTreeDecorator.CODEC);
 
@@ -110,6 +114,13 @@ public class RegisterWorldgen {
                         new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 75),
                         new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
                         .decorators(ImmutableList.of(MangroveTreeDecorator.INSTANCE))
+                        .build()));
+        BIRCH_NEW = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "mangrove"), Feature.TREE
+                .configure(new TreeFeatureConfig.Builder(
+                        BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
+                        new StraightTrunkPlacer(7, 3, 9), BlockStateProvider.of(Blocks.BIRCH_LEAVES),
+                        new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), 10),
+                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
                         .build()));
 
         TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), MANGROVE.withPlacement(PlacedFeatures.createCountExtraModifier(2, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(2), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
