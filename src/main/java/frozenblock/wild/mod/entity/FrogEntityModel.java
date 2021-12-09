@@ -192,6 +192,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             if(Math.random() < 0.005) {
                 this.croak = false;
                 this.croakstartTime = this.Animationtime;
+                this.c.getEntityWorld().playSound(this.c.getX(), this.c.getY(), this.c.getZ(), RegisterSounds.ENTITY_FROG_AMBIENT, SoundCategory.NEUTRAL, 1, 1, true);
             }
         } else {
             double time = this.Animationtime - this.croakstartTime;

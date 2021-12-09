@@ -110,10 +110,6 @@ public class SimpleGameEventDispatcherMixin{
                 }
             }
 
-        } else {
-            eventpos = null;
-            eventworld = null;
-            evententity = null;
         }
     }
 

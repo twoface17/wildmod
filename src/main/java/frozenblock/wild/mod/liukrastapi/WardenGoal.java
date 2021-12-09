@@ -4,10 +4,16 @@ import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.VibrationParticleEffect;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
+import net.minecraft.world.event.BlockPositionSource;
+import net.minecraft.world.event.PositionSource;
 
 public class WardenGoal extends Goal {
     private int cooldown;
@@ -37,7 +43,10 @@ public class WardenGoal extends Goal {
                     double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
                     double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
                     if(Math.sqrt(distancex + distancey + distancez) < 15) {
+
                         this.mob.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1.0F, 1.0F);
+
+
                         return true;
                     } else {return false;}
                 } else {return false;}
@@ -68,15 +77,15 @@ public class WardenGoal extends Goal {
 
     public void start() {
         BlockPos lasteventpos = this.mob.lasteventpos;
-        World lasteventWorld = this.mob.lasteventworld;
         LivingEntity lastevententity = this.mob.lastevententity;
         if(this.mob.getAttacker() != null) {
             double distance = MathAddon.distance(this.VX, this.VY, this.VZ, this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
-            if(distance > 4) {distance = 1;}
+            if(distance > 4) {
+                distance = 1;
+            }
             LivingEntity target = this.mob.getAttacker();
-            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed);
-            //this.mob.getLookControl().lookAt(this.VX, this.VY, this.VZ);
-            double d = (double)(this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
+            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, (speed * 2) / (distance/1.5));
+            double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
             double e = this.mob.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
             this.cooldown = Math.max(this.cooldown - 1, 0);
             if (!(e > d)) {
@@ -85,14 +94,19 @@ public class WardenGoal extends Goal {
                     this.mob.tryAttack(target);
                 }
             }
+
+            this.mob.lastevententity = null;
+            this.mob.lasteventpos = null;
+            this.mob.lasteventworld = null;
         } else {
             double distance = MathAddon.distance(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
-            if(distance > 4) {distance = 1;}
-            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed);
-            //this.mob.getLookControl().lookAt(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ());
+            if(distance > 4) {
+                distance = 1;
+            }
+            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed * 2) / (distance/1.5));
 
             if(lastevententity != null) {
-                double d = (double)(this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
+                double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
                 double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
                 this.cooldown = Math.max(this.cooldown - 1, 0);
                 if (!(e > d)) {
@@ -101,6 +115,10 @@ public class WardenGoal extends Goal {
                         this.mob.tryAttack(lastevententity);
                     }
                 }
+
+                this.mob.lastevententity = null;
+                this.mob.lasteventpos = null;
+                this.mob.lasteventworld = null;
             }
 
         }

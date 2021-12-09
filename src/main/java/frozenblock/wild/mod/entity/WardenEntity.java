@@ -2,7 +2,6 @@ package frozenblock.wild.mod.entity;
 
 
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
-import frozenblock.wild.mod.liukrastapi.WardenSensorListener;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -12,9 +11,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.*;
-import net.minecraft.loot.context.LootContext;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
