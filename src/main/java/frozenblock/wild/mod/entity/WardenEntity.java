@@ -19,6 +19,10 @@ public class WardenEntity extends HostileEntity {
 
     private int attackTicksLeft1;
 
+    private int roarTicksLeft1;
+
+    private double roarAnimationProgress;
+
     private static final double speed = 0.5D;
 
     public BlockPos lasteventpos;
@@ -44,11 +48,22 @@ public class WardenEntity extends HostileEntity {
         if(this.attackTicksLeft1 > 0) {
             --this.attackTicksLeft1;
         }
+        if(this.roarTicksLeft1 > 0) {
+            --this.roarTicksLeft1;
+        }
         super.tickMovement();
     }
 
     private float getAttackDamage() {
         return (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+    }
+
+    public void setRoarAnimationProgress(double a) {
+        this.roarAnimationProgress = a;
+    }
+    public void roar() {
+        this.attackTicksLeft1 = 10;
+        this.world.sendEntityStatus(this, (byte)3);
     }
 
     public boolean tryAttack(Entity target) {
@@ -69,10 +84,20 @@ public class WardenEntity extends HostileEntity {
         return this.attackTicksLeft1;
     }
 
+    public double getRoarAnimationProgress() {
+        return this.roarAnimationProgress;
+    }
+
+    public int getRoarTicksLeft1() {
+        return this.roarTicksLeft1;
+    }
+
     public void handleStatus(byte status) {
         if (status == 4) {
             this.attackTicksLeft1 = 10;
             this.playSound(RegisterSounds.ENTITY_WARDEN_AMBIENT, 1.0F, 1.0F);
+        } else if(status == 3) {
+            this.roarTicksLeft1 = 10;
         } else {
             super.handleStatus(status);
         }

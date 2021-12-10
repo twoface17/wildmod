@@ -33,6 +33,7 @@ public class WardenGoal extends Goal {
     }
 
     public boolean canStart() {
+        boolean exit = false;
         BlockPos lasteventpos = this.mob.lasteventpos;
         World lasteventWorld = this.mob.lasteventworld;
 
@@ -47,10 +48,10 @@ public class WardenGoal extends Goal {
                         this.mob.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1.0F, 1.0F);
 
 
-                        return true;
-                    } else {return false;}
-                } else {return false;}
-            } else {return false;}
+                        exit = true;
+                    }
+                }
+            }
         } else {
             BlockPos blockPos = this.mob.getAttacker().getBlockPos();
             if(blockPos != null) {
@@ -58,19 +59,27 @@ public class WardenGoal extends Goal {
                 this.VY = this.mob.getAttacker().getY();
                 this.VZ = this.mob.getAttacker().getZ();
             }
-            this.mob.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1.0F, 1.0F);
-            return true;
+            exit = true;
         }
+
+        if(this.mob.getNavigation().isIdle()) {
+            if(Math.random() > 0.5) {
+                this.mob.roar();
+                exit = false;
+            }
+        }
+
+        int r = this.mob.getRoarTicksLeft1();
+        if(r > 0) {
+            exit = false;
+        }
+
+        return exit;
     }
 
     public boolean shouldContinue() {
         boolean exit;
         exit = !this.mob.getNavigation().isIdle();
-        if(Math.random() < 0.1) {
-
-
-            exit = false;
-        }
 
         return exit;
     }
@@ -80,11 +89,12 @@ public class WardenGoal extends Goal {
         LivingEntity lastevententity = this.mob.lastevententity;
         if(this.mob.getAttacker() != null) {
             double distance = MathAddon.distance(this.VX, this.VY, this.VZ, this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
-            if(distance > 4) {
-                distance = 1;
-            }
+            if(distance < 2) {distance = 2;}
+            double finalspeed = (speed * 2) / (distance -1);
+            if(finalspeed < speed) {finalspeed = speed;}
+
             LivingEntity target = this.mob.getAttacker();
-            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, (speed * 2) / (distance/1.5));
+            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, finalspeed);
             double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
             double e = this.mob.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
             this.cooldown = Math.max(this.cooldown - 1, 0);
@@ -99,11 +109,16 @@ public class WardenGoal extends Goal {
             this.mob.lasteventpos = null;
             this.mob.lasteventworld = null;
         } else {
+
+            //Calculating a good speed for the warden depending on his distance from the event.
             double distance = MathAddon.distance(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
-            if(distance > 4) {
-                distance = 1;
-            }
-            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed * 2) / (distance/1.5));
+            if(distance < 2) {distance = 2;}
+            double finalspeed = (speed * 2) / (distance - 1);
+            if(finalspeed < speed) {finalspeed = speed;}
+
+            //start moving the warden to the location
+
+            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), finalspeed);
 
             if(lastevententity != null) {
                 double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);

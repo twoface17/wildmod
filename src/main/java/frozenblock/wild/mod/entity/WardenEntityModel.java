@@ -44,33 +44,67 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
-        int i = entity.getAttackTicksLeft1();
-        float eq;
-        if (i > 0) {
-            eq = -2.0F + 1.5F * MathHelper.wrap((float)i - animationProgress/200, 0.2F);
-        } else {
-            eq = 0;
+        int r = entity.getRoarTicksLeft1();
+
+
+
+        if(r > 0) {
+            if(r == 10) {
+                entity.setRoarAnimationProgress(animationProgress);
+            } else {
+                double a = animationProgress - entity.getRoarAnimationProgress();
+
+                this.right_arm.roll = 90f;
+                this.left_arm.roll = -90f;
+
+                this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20;
+                this.left_arm.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20;
+
+                this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+                this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
+
+                this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutCos(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2;
+                this.head.yaw = headYaw * 0.017453292F - MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2;
+                this.head.roll = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2;
+
+                this.body.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
+
+                this.left_ear.yaw = MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.cos(animationProgress / 20) / 5;
+                this.right_ear.yaw = -MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.cos(animationProgress / 20) / 5;
+
+                this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
+
+            }
         }
 
-        this.right_arm.roll = 0.1f;
-        this.left_arm.roll = -0.1f;
 
-        this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20 + eq;
-        this.left_arm.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20 + eq;
+            int a = entity.getAttackTicksLeft1();
+            float eq;
+            if (a > 0) {
+                eq = -2.0F + 1.5F * MathHelper.wrap((float) a - animationProgress / 200, 0.2F);
+            } else {
+                eq = 0;
+            }
 
-        this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
-        this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
+            this.right_arm.roll = 0.1f;
+            this.left_arm.roll = -0.1f;
 
-        this.head.pitch = headPitch * 0.017453292F - (float)MathAddon.cutCos(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2;
-        this.head.yaw = headYaw * 0.017453292F - MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance/2;
-        this.head.roll = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance/2;
+            this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20 + eq;
+            this.left_arm.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20 + eq;
 
-        this.body.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
+            this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+            this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
 
-        this.left_ear.yaw = MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.cos(animationProgress / 20) / 5;
-        this.right_ear.yaw = -MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.cos(animationProgress / 20) / 5;
+            this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutCos(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2;
+            this.head.yaw = headYaw * 0.017453292F - MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2;
+            this.head.roll = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2;
 
-        this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
+            this.body.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
+
+            this.left_ear.yaw = MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.cos(animationProgress / 20) / 5;
+            this.right_ear.yaw = -MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.cos(animationProgress / 20) / 5;
+
+            this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
 
     }
 
