@@ -57,7 +57,7 @@ public class SimpleGameEventDispatcherMixin{
                     if(catalystnear != null) {
                         BlockPos element_192889172 = catalystnear.get(0);
                         entity.getEntityWorld().setBlockState(element_192889172, blockState.with(SculkCatalystBlock.BLOOM, true));
-                        entity.getEntityWorld().addParticle(RegisterParticles.SCULK_SOUL, element_192889172.getX(), element_192889172.getY(), element_192889172.getZ(), 0, 10, 10);
+                        entity.getEntityWorld().addParticle(RegisterParticles.SCULK_SOUL, element_192889172.getX() + 0.5, element_192889172.getY() + 0.5, element_192889172.getZ() + 0.5, 0, 0.3, 0);
                         GenerateSculk.generateSculk(entity.getEntityWorld(), entity.getBlockPos());
                     }
                 }
