@@ -17,6 +17,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -52,7 +53,11 @@ public class SimpleGameEventDispatcherMixin{
             if(entity != null) {
                 if (entity instanceof MobEntity) {
                     BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
-                    if (Sphere.checkSphereWithPLaceAndParticles(blockState, entity.getEntityWorld() , entity.getBlockPos(), 10, blockState.with(SculkCatalystBlock.BLOOM, true), RegisterParticles.SCULK_SOUL, 0, 2, 0, 1, 1)) {
+                    ArrayList<BlockPos> catalystnear = Sphere.checkSpherePos(blockState, entity.getEntityWorld(), entity.getBlockPos(), 10, true);
+                    if(catalystnear != null) {
+                        BlockPos element_192889172 = catalystnear.get(0);
+                        entity.getEntityWorld().setBlockState(element_192889172, blockState.with(SculkCatalystBlock.BLOOM, true));
+                        entity.getEntityWorld().addParticle(RegisterParticles.SCULK_SOUL, element_192889172.getX(), element_192889172.getY(), element_192889172.getZ(), 0, 10, 10);
                         GenerateSculk.generateSculk(entity.getEntityWorld(), entity.getBlockPos());
                     }
                 }
