@@ -45,8 +45,10 @@ public class SculkCatalystBlock extends Block {
         int z = pos.getZ();
         if (state.get(BLOOM)) {
             world.setBlockState(pos, RegisterBlocks.SCULK_CATALYST.getDefaultState());
+            world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 40);
+        } else {
+            world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 1);
         }
-        world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 10);
 
     }
 

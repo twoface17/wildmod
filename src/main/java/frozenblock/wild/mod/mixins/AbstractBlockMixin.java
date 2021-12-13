@@ -70,19 +70,14 @@ public class AbstractBlockMixin {
         }
     }
 
-    private static boolean isEntityAbove(BlockPos pos, Entity entity) {
-        return entity.isOnGround() && entity.getPos().y > (double)((float)pos.getY() + 0.6875f);
-    }
-
-    @Inject(at =  @At("HEAD"), method = "onEntityCollision")
+    @Inject(at =  @At("TAIL"), method = "onEntityCollision")
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci) {
         if (world.isClient) {
             return;
         }
-        if(state == Blocks.SCULK_SENSOR.getDefaultState()) {
-            if (isEntityAbove(pos, entity)){
-                SculkSensorBlock.setActive(world, pos, state, 10);
-            }
+        if(world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState()) {
+            System.out.println("im walking on a sculk sensor!");
+            SculkSensorBlock.setActive(world, pos, state, 10);
         }
     }
 

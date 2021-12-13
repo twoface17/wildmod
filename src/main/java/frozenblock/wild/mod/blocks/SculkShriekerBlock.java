@@ -100,25 +100,29 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        if (Sphere.checkSphere(Blocks.SCULK_SENSOR.getDefaultState().with(SCULK_SENSOR_PHASE, SculkSensorPhase.COOLDOWN), world, pos, 10))
-              if(!world.isClient) {
-                  world.playSound(null, pos, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.BLOCKS, 1f, 1f);
-                  world.spawnParticles(RegisterParticles.SHRIEK, x, y, z, 20, 0, 2, 0, 0.1);
+
+        if (Sphere.checkSphere(Blocks.SCULK_SENSOR.getDefaultState().with(SCULK_SENSOR_PHASE, SculkSensorPhase.COOLDOWN), world, pos, 10)) {
+            if (!world.isClient) {
+                world.playSound(null, pos, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.BLOCKS, 1f, 1f);
+                world.spawnParticles(RegisterParticles.SHRIEK, x, y, z, 20, 0, 2, 0, 0.1);
 
 
+                double d = 10;
+                Box box = (new Box(pos)).expand(d).stretch(0.0D, (double) world.getHeight(), 0.0D);
+                List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
+                Iterator var11 = list.iterator();
+                world.setBlockState(pos, state.with(POWERED, true));
 
-                  double d = 10;
-                  Box box = (new Box(pos)).expand(d).stretch(0.0D, (double)world.getHeight(), 0.0D);
-                  List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
-                  Iterator var11 = list.iterator();
-
-                  PlayerEntity playerEntity;
-                  while(var11.hasNext()) {
-                      playerEntity = (PlayerEntity)var11.next();
-                      playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 240, 0, false, true));
-                  }
-              }
-        world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 1);
+                PlayerEntity playerEntity;
+                while (var11.hasNext()) {
+                    playerEntity = (PlayerEntity) var11.next();
+                    playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 240, 0, false, true));
+                }
+            }
+            world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 40);
+        } else {
+            world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 1);
+        }
     }
 
     public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack) {
