@@ -72,7 +72,7 @@ public class SimpleGameEventDispatcherMixin{
                 evententity = null;
             } else {
                 if(entity.getType() == EntityType.PLAYER) {
-                    if(event == GameEvent.STEP && entity.isSneaking()) {
+                    if(entity.isSneaking()) {
                         eventpos = null;
                         eventworld = null;
                         evententity = null;
