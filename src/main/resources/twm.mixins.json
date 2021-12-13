@@ -9,6 +9,7 @@
     "ClientPlayerEntityMixin",
     "ItemsMixin",
     "LightmapTextureManagerMixin",
+    "SculkSensorBlockMixin",
     "SimpleGameEventDispatcherMixin",
     "TreeDecoratorTypeInvoker"
   ],

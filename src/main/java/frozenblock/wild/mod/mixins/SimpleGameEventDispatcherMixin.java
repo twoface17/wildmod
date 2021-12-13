@@ -1,14 +1,13 @@
 package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.blocks.SculkCatalystBlock;
+import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.liukrastapi.GenerateSculk;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
-import frozenblock.wild.mod.registry.RegisterBlocks;
-import frozenblock.wild.mod.registry.RegisterEntities;
-import frozenblock.wild.mod.registry.RegisterParticles;
+import frozenblock.wild.mod.registry.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
@@ -20,6 +19,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -59,10 +59,13 @@ public class SimpleGameEventDispatcherMixin{
                     BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
                     ArrayList<BlockPos> catalystnear = Sphere.checkSpherePos(blockState, entity.getEntityWorld(), entity.getBlockPos(), 10, true);
                     if(catalystnear.size() > 0) {
-                        BlockPos element_192889172 = catalystnear.get(0);
-                        entity.getEntityWorld().setBlockState(element_192889172, blockState.with(SculkCatalystBlock.BLOOM, true));
-                        entity.getEntityWorld().addParticle(RegisterParticles.SCULK_SOUL, element_192889172.getX() + 0.5, element_192889172.getY() + 0.5, element_192889172.getZ() + 0.5, 0, 0.3, 0);
                         GenerateSculk.generateSculk(entity.getEntityWorld(), entity.getBlockPos());
+                    }
+
+                    for (BlockPos pos1 : catalystnear) {
+                        world.setBlockState(pos1, RegisterBlocks.SCULK_CATALYST.getDefaultState().with(SculkCatalystBlock.BLOOM, true));
+                        world.createAndScheduleBlockTick(pos1, world.getBlockState(pos1).getBlock(), 40);
+                        entity.getEntityWorld().addParticle(RegisterParticles.SCULK_SOUL, pos1.getX() + 0.5, pos1.getY() + 0.5, pos1.getZ() + 0.5, 0, 0.3, 0);
                     }
                 }
             }

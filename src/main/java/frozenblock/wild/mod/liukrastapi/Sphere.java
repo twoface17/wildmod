@@ -72,6 +72,10 @@ public abstract class Sphere {
                             if (world.getBlockState(new BlockPos(x + sx, y + sy, z + sz)) == state) {
                                 exitList.add(new BlockPos(x + sx, y + sy, z + sz));
                             }
+                        } else {
+                            if(world.getBlockState(new BlockPos(x + sx, y + sy, z + sz)).getBlock().getDefaultState() == state.getBlock().getDefaultState()) {
+                                exitList.add(new BlockPos(x + sx, y + sy, z + sz));
+                            }
                         }
                     }
                     sz = sz + 1;

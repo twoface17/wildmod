@@ -27,27 +27,11 @@ public class SculkCatalystBlock extends Block {
         builder.add(BLOOM);
     }
 
-
-    @Override
-    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-        super.onBlockAdded(state, world, pos, oldState, notify);
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-        world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 10);
-    }
-
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         super.scheduledTick(state, world, pos, random);
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
         if (state.get(BLOOM)) {
             world.setBlockState(pos, RegisterBlocks.SCULK_CATALYST.getDefaultState());
-            world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 40);
-        } else {
-            world.createAndScheduleBlockTick(new BlockPos(x, y, z), this, 1);
         }
 
     }
