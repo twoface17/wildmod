@@ -46,6 +46,7 @@ public class WardenGoal extends Goal {
                     if(Math.sqrt(distancex + distancey + distancez) < 15) {
 
 
+
                         exit = true;
                     }
                 }
