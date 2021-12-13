@@ -111,6 +111,7 @@ public class WardenEntity extends HostileEntity {
         if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity) {
             this.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1.0F, 1.0F);
         }
+
         this.lasteventpos = eventPos;
         this.lasteventworld = eventWorld;
         this.lastevententity = eventEntity;
