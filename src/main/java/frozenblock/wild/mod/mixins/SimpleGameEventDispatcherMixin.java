@@ -13,13 +13,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.SimpleGameEventDispatcher;
@@ -72,10 +76,32 @@ public class SimpleGameEventDispatcherMixin{
                 evententity = null;
             } else {
                 if(entity.getType() == EntityType.PLAYER) {
-                    if(entity.isSneaking()) {
-                        eventpos = null;
-                        eventworld = null;
-                        evententity = null;
+                    if(event == GameEvent.STEP || event == GameEvent.HIT_GROUND || event == GameEvent.PROJECTILE_SHOOT) {
+                        if (entity.isSneaking()) {
+                            eventpos = null;
+                            eventworld = null;
+                            evententity = null;
+                        } else {
+                            PlayerEntity player = (PlayerEntity) entity;
+                            Item booties = player.getEquippedStack(EquipmentSlot.FEET).getItem();
+                            Identifier identity = Registry.ITEM.getId(booties);
+                            if(
+                                    new Identifier("wooledboots", "wooled_chainmail_boots").equals(identity) ||
+                                            new Identifier("wooledboots", "wooled_gold_boots").equals(identity) ||
+                                            new Identifier("wooledboots", "wooled_diamond_boots").equals(identity) ||
+                                            new Identifier("wooledboots", "wooled_netherite_boots").equals(identity) ||
+                                            new Identifier("wooledboots", "wooled_iron_boots").equals(identity)
+
+                            ) {
+                                eventpos = null;
+                                eventworld = null;
+                                evententity = null;
+                            } else {
+                                eventpos = pos;
+                                eventworld = entity.getEntityWorld();
+                                evententity = (LivingEntity) entity;
+                            }
+                        }
                     } else {
                         eventpos = pos;
                         eventworld = entity.getEntityWorld();
