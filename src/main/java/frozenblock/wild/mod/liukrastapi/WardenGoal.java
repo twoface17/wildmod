@@ -45,8 +45,6 @@ public class WardenGoal extends Goal {
                     double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
                     if(Math.sqrt(distancex + distancey + distancez) < 15) {
 
-                        this.mob.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1.0F, 1.0F);
-
 
                         exit = true;
                     }
@@ -125,10 +123,11 @@ public class WardenGoal extends Goal {
                 double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
                 this.cooldown = Math.max(this.cooldown - 1, 0);
                 if (!(e > d)) {
-                    if (this.cooldown <= 0) {
+                    /*if (this.cooldown <= 0) {
                         this.cooldown = 20;
                         this.mob.tryAttack(lastevententity);
-                    }
+                    }*/
+                    this.mob.tryAttack(lastevententity);
                 }
 
                 this.mob.lastevententity = null;
