@@ -3,7 +3,9 @@ package frozenblock.wild.mod.entity;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import net.minecraft.block.*;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -27,8 +29,13 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.village.VillagerProfession;
+import net.minecraft.village.VillagerType;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -69,6 +76,19 @@ public class FrogEntity extends PathAwareEntity {
         } else {
             return this.submergedInWater && this.isTouchingWater();
         }
+    }
+
+    @Override
+    @Nullable
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        if (spawnReason == SpawnReason.COMMAND || spawnReason == SpawnReason.SPAWN_EGG || spawnReason == SpawnReason.SPAWNER || spawnReason == SpawnReason.DISPENSER) {
+            if(canColdSpawn(this.getEntityWorld(), this.getBlockPos())) {
+                this.setVariant(Variant.COLD);
+            } else if(canTropicalSpawn(this.getEntityWorld(), this.getBlockPos())) {
+                this.setVariant(Variant.TROPICAL);
+            }
+        }
+        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
 

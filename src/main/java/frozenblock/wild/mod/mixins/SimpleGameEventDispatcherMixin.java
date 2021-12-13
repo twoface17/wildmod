@@ -54,7 +54,7 @@ public class SimpleGameEventDispatcherMixin{
                 if (entity instanceof MobEntity) {
                     BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
                     ArrayList<BlockPos> catalystnear = Sphere.checkSpherePos(blockState, entity.getEntityWorld(), entity.getBlockPos(), 10, true);
-                    if(catalystnear != null) {
+                    if(catalystnear.size() > 0) {
                         BlockPos element_192889172 = catalystnear.get(0);
                         entity.getEntityWorld().setBlockState(element_192889172, blockState.with(SculkCatalystBlock.BLOOM, true));
                         entity.getEntityWorld().addParticle(RegisterParticles.SCULK_SOUL, element_192889172.getX() + 0.5, element_192889172.getY() + 0.5, element_192889172.getZ() + 0.5, 0, 0.3, 0);
