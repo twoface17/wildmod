@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.liukrastapi;
+package frozenblock.wild.mod.items;
 
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
 import frozenblock.wild.mod.registry.RegisterEntities;

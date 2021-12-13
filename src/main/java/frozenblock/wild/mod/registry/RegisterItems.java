@@ -3,7 +3,7 @@ package frozenblock.wild.mod.registry;
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
 import frozenblock.wild.mod.items.*;
-import frozenblock.wild.mod.liukrastapi.ChestBoatItem;
+import frozenblock.wild.mod.items.ChestBoatItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;

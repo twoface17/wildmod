@@ -2,6 +2,7 @@ package frozenblock.wild.mod.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
+import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterItems;
 import net.minecraft.block.BlockState;
@@ -81,10 +82,18 @@ public class MangroveBoatEntity extends Entity {
     private float bubbleWobble;
     private float lastBubbleWobble;
 
-    public MangroveBoatEntity(EntityType<?> type, World world) {
+    public MangroveBoatEntity(EntityType<? extends MangroveBoatEntity> type, World world) {
         super(type, world);
         this.paddlePhases = new float[2];
         this.inanimate = true;
+    }
+
+    public MangroveBoatEntity(World world, double x, double y, double z) {
+        this(RegisterEntities.MANGROVE_BOAT, world);
+        this.setPosition(x, y, z);
+        this.prevX = x;
+        this.prevY = y;
+        this.prevZ = z;
     }
 
 

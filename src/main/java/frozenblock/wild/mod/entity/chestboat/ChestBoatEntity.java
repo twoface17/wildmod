@@ -40,6 +40,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.function.BooleanBiFunction;
@@ -57,6 +58,7 @@ import java.util.List;
 
 public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHandlerFactory {
     private DefaultedList<ItemStack> inventory;
+    private Identifier lootTableId;
     private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS;
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE;
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH;
@@ -72,6 +74,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     public static final int field_30700 = 60;
     private final float[] paddlePhases;
     private float velocityDecay;
+    private long lootSeed;
     private float ticksUnderwater;
     private float yawVelocity;
     private int field_7708;
@@ -95,8 +98,8 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     private float bubbleWobble;
     private float lastBubbleWobble;
 
-    public ChestBoatEntity(World world) {
-        super(RegisterEntities.CHEST_BOAT, world);
+    public ChestBoatEntity(EntityType<? extends ChestBoatEntity> type, World world) {
+        super(type, world);
         this.paddlePhases = new float[2];
         this.inanimate = true;
         this.inventory = DefaultedList.ofSize(36, ItemStack.EMPTY);
@@ -691,6 +694,14 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     protected void readCustomDataFromNbt(NbtCompound nbt) {
         if (nbt.contains("Type", 8)) {
             this.setBoatType(ChestBoatEntity.Type.getType(nbt.getString("Type")));
+        }
+        if (this.lootTableId != null) {
+            nbt.putString("LootTable", this.lootTableId.toString());
+            if (this.lootSeed != 0L) {
+                nbt.putLong("LootTableSeed", this.lootSeed);
+            }
+        } else {
+            Inventories.writeNbt(nbt, this.inventory);
         }
 
     }
