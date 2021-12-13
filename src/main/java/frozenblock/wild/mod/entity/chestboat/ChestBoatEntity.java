@@ -689,12 +689,6 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
     protected void writeCustomDataToNbt(NbtCompound nbt) {
         nbt.putString("Type", this.getBoatType().getName());
-    }
-
-    protected void readCustomDataFromNbt(NbtCompound nbt) {
-        if (nbt.contains("Type", 8)) {
-            this.setBoatType(ChestBoatEntity.Type.getType(nbt.getString("Type")));
-        }
         if (this.lootTableId != null) {
             nbt.putString("LootTable", this.lootTableId.toString());
             if (this.lootSeed != 0L) {
@@ -702,6 +696,19 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
             }
         } else {
             Inventories.writeNbt(nbt, this.inventory);
+        }
+    }
+
+    protected void readCustomDataFromNbt(NbtCompound nbt) {
+        if (nbt.contains("Type", 8)) {
+            this.setBoatType(ChestBoatEntity.Type.getType(nbt.getString("Type")));
+        }
+        this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
+        if (nbt.contains("LootTable", 8)) {
+            this.lootTableId = new Identifier(nbt.getString("LootTable"));
+            this.lootSeed = nbt.getLong("LootTableSeed");
+        } else {
+            Inventories.readNbt(nbt, this.inventory);
         }
 
     }
