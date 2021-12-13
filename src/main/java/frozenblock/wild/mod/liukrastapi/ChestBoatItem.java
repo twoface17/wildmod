@@ -1,11 +1,9 @@
 package frozenblock.wild.mod.liukrastapi;
 
-import frozenblock.wild.mod.entity.MangroveBoatEntity;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -28,7 +26,7 @@ public class ChestBoatItem extends Item {
     private static final Predicate<Entity> RIDERS;
     private final ChestBoatEntity.Type type;
 
-    public ChestBoatItem(ChestBoatEntity.Type type, Item.Settings settings) {
+    public ChestBoatItem(ChestBoatEntity.Type type, Settings settings) {
         super(settings);
         this.type = type;
     }
@@ -36,8 +34,7 @@ public class ChestBoatItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         HitResult hitResult = raycast(world, user, RaycastContext.FluidHandling.ANY);
-        ChestBoatEntity boatEntity = new ChestBoatEntity(RegisterEntities.CHEST_BOAT, world);
-        if (hitResult.getType() == HitResult.Type.MISS) {
+        if (hitResult.getType() == net.minecraft.util.hit.HitResult.Type.MISS) {
             return TypedActionResult.pass(itemStack);
         } else {
             Vec3d vec3d = user.getRotationVec(1.0F);
@@ -56,13 +53,15 @@ public class ChestBoatItem extends Item {
                 }
             }
 
-            if (hitResult.getType() == HitResult.Type.BLOCK) {
-                BlockPos finalpos = new BlockPos(hitResult.getPos().x, hitResult.getPos().y+1, hitResult.getPos().z);
-                boatEntity.setPos(finalpos.getX(), finalpos.getY(), finalpos.getZ());
-                boatEntity.setBoatType(this.type);
-                boatEntity.setYaw(user.getYaw());
+            if (hitResult.getType() == net.minecraft.util.hit.HitResult.Type.BLOCK) {
+                ChestBoatEntity vec3d2 = new ChestBoatEntity(world, hitResult.getPos().x, hitResult.getPos().y, hitResult.getPos().z);
+                vec3d2.setBoatType(this.type);
+                vec3d2.setYaw(user.getYaw());
+                if (!world.isSpaceEmpty(vec3d2, vec3d2.getBoundingBox())) {
+                    return TypedActionResult.fail(itemStack);
+                } else {
                     if (!world.isClient) {
-                        world.spawnEntity(boatEntity);
+                        world.spawnEntity(vec3d2);
                         world.emitGameEvent(user, GameEvent.ENTITY_PLACE, new BlockPos(hitResult.getPos()));
                         if (!user.getAbilities().creativeMode) {
                             itemStack.decrement(1);
@@ -71,6 +70,7 @@ public class ChestBoatItem extends Item {
 
                     user.incrementStat(Stats.USED.getOrCreateStat(this));
                     return TypedActionResult.success(itemStack, world.isClient());
+                }
             } else {
                 return TypedActionResult.pass(itemStack);
             }

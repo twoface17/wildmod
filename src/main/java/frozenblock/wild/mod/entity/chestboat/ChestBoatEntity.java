@@ -95,20 +95,20 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     private float bubbleWobble;
     private float lastBubbleWobble;
 
-    public ChestBoatEntity(EntityType<? extends ChestBoatEntity> entityType, World world) {
-        super(entityType, world);
+    public ChestBoatEntity(World world) {
+        super(RegisterEntities.CHEST_BOAT, world);
         this.paddlePhases = new float[2];
         this.inanimate = true;
         this.inventory = DefaultedList.ofSize(36, ItemStack.EMPTY);
     }
 
-    /*public ChestBoatEntity(World world, double x, double y, double z) {
+    public ChestBoatEntity(World world, double x, double y, double z) {
         this(RegisterEntities.CHEST_BOAT, world);
         this.setPosition(x, y, z);
         this.prevX = x;
         this.prevY = y;
         this.prevZ = z;
-    }*/
+    }
 
     protected float getEyeHeight(EntityPose pose, EntityDimensions dimensions) {
         return dimensions.height;

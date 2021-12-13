@@ -42,7 +42,7 @@ public class ChestBoatEntityModel extends CompositeEntityModel<ChestBoatEntity> 
         modelPartData.addChild("right", ModelPartBuilder.create().uv(0, 35).cuboid(-14.0F, -7.0F, -1.0F, 28.0F, 6.0F, 2.0F), ModelTransform.of(0.0F, 4.0F, -9.0F, 0.0F, 3.1415927F, 0.0F));
         modelPartData.addChild("left", ModelPartBuilder.create().uv(0, 43).cuboid(-14.0F, -7.0F, -1.0F, 28.0F, 6.0F, 2.0F), ModelTransform.pivot(0.0F, 4.0F, 9.0F));
         modelPartData.addChild("chest", ModelPartBuilder.create().uv(0, 83).cuboid(-7.0F, -5.0F, -7.0F, 14.0F, 10.0F, 14.0F), ModelTransform.pivot(-6.0F,-2.0F,-0.0F));
-        modelPartData.addChild("chest_top", ModelPartBuilder.create().uv(0, 64).cuboid(-7.0F, 0.0F, 0.0F, 14.0F, 5.0F, 14.0F).uv(0,64).cuboid(-1.0F, -1.0F, 14.0F, 2.0F, 4.0F, 1.0F), ModelTransform.pivot(-13.0F, -6.0F, 0.0F));
+        modelPartData.addChild("chest_top", ModelPartBuilder.create().uv(0, 64).cuboid(-7.0F, 0.0F, 0.0F, 14.0F, 5.0F, 14.0F).uv(0,64).cuboid(-1.0F, -2.0F, 14.0F, 2.0F, 3.0F, 1.0F), ModelTransform.pivot(-13.0F, -6.0F, 0.0F));
         float f = -5.0F;
         modelPartData.addChild("left_paddle", ModelPartBuilder.create().uv(62, 0).cuboid(-1.0F, 0.0F, -5.0F, 2.0F, 2.0F, 18.0F).cuboid(-1.001F, -3.0F, 8.0F, 1.0F, 6.0F, 7.0F), ModelTransform.of(3.0F, -5.0F, 9.0F, 0.0F, 0.0F, 0.19634955F));
         modelPartData.addChild("right_paddle", ModelPartBuilder.create().uv(62, 20).cuboid(-1.0F, 0.0F, -5.0F, 2.0F, 2.0F, 18.0F).cuboid(0.001F, -3.0F, 8.0F, 1.0F, 6.0F, 7.0F), ModelTransform.of(3.0F, -5.0F, -9.0F, 0.0F, 3.1415927F, 0.19634955F));
