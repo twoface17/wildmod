@@ -14,6 +14,7 @@ import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
 import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.PositionSource;
+import net.minecraft.world.event.PositionSourceType;
 
 public class WardenGoal extends Goal {
     private int cooldown;
@@ -31,6 +32,11 @@ public class WardenGoal extends Goal {
         this.mob = mob;
         this.speed = speed;
     }
+        private void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
+        this.delay = this.distance = MathHelper.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;
+        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
+        this.mob.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1.0F, 1.0F); //Not sure if it's necessary , but I put it here cause it's cool
+    }
 
     public boolean canStart() {
         boolean exit = false;
@@ -44,8 +50,20 @@ public class WardenGoal extends Goal {
                     double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
                     double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
                     if(Math.sqrt(distancex + distancey + distancez) < 15) {
+                    BlockPos WardenHead = this.mob.getBlockPos().up((int) 3);
+                    PositionSource wardenPositionSource = new PositionSource() {
+                            @Override
+                            public Optional<BlockPos> getPos(World world) {
+                                return Optional.of(WardenHead);
+                            }
 
-
+                            @Override
+                            public PositionSourceType<?> getType() {
+                                return null;
+                            }
+                        };
+                        CreateVibration(lasteventWorld, lasteventpos, wardenPositionSource, WardenHead);
+                        //And there you go! Vibrations! If it's too high, just change BlockPos WardenHead to .up((int) 2) instead of 3. Sadly Idk how to cast floats to BlockPos so it'll always be just slightly off of the middle of its head.
 
                         exit = true;
                     }
