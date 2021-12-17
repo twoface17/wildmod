@@ -63,7 +63,7 @@ public class WardenGoal extends Goal {
                             }
                         };
                         CreateVibration(lasteventWorld, lasteventpos, wardenPositionSource, WardenHead);
-                        //And there you go! Vibrations! If it's too high, just change BlockPos WardenHead to .up((int) 2) instead of 3. Sadly Idk how to cast floats to BlockPos so it'll always be just slightly off of the middle of its head.
+                        //And there you go! Vibrations! If it's too high, just change BlockPos WardenHead to .up((int) 2) instead of 3. Sadly Idk how to cast anything but ints to BlockPos so it'll always be just slightly off of the middle of its head.
 
                         exit = true;
                     }
