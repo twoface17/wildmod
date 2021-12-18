@@ -27,6 +27,8 @@ public class WardenGoal extends Goal {
 
     private final WardenEntity mob;
     private final double speed;
+    protected int delay = 0;
+    protected int distance;
 
     public WardenGoal(WardenEntity mob, double speed) {
         this.mob = mob;
