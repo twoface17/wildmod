@@ -15,6 +15,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.RabbitEntity;
@@ -126,6 +127,8 @@ public class FrogEntity extends PathAwareEntity {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new WanderAroundFarGoal(this, speed));
         this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
+        targetSelector.add(3, new ActiveTargetGoal<>(this, FireflyEntity.class, true));
+        targetSelector.add(1, new ActiveTargetGoal<>(this, SlimeEntity.class, true));
     }
 
     public static ArrayList<BlockPos> checkforSafePlaceToGo(BlockState state, World world, BlockPos pos, Integer radius, boolean defaultstate) {
