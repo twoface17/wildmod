@@ -50,6 +50,7 @@ public abstract class RegisterBlocks {
 
     public static final Block SCULK_SHRIEKER = new SculkShriekerBlock(SCULK_PROPERTIES.strength(2f, 2f).nonOpaque());
     public static final Block DEEPSLATE_FRAME = new PillarBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
+    public static final Block FROG_EGG = new FrogEggBlock(FabricBlockSettings.copyOf(Blocks.LILY_PAD));
 
 
     // ALL BLOCKS HERE HAVE NO COLLISION
@@ -88,6 +89,8 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "deepslate_frame"), DEEPSLATE_FRAME);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "deepslate_frame"), new BlockItem(DEEPSLATE_FRAME, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_egg"), FROG_EGG);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_egg"), new BlockItem(FROG_EGG, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
 
         MangroveWoods.RegisterMangrove();
