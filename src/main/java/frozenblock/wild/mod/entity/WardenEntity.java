@@ -110,7 +110,6 @@ public class WardenEntity extends HostileEntity {
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
         if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity) {
             this.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 0.5F, 1.0F);
-            System.out.println("hello from wardie");
         }
 
         this.lasteventpos = eventPos;

@@ -25,6 +25,7 @@ import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
@@ -60,10 +61,10 @@ public class FrogEntity extends PathAwareEntity {
     }
 
     public static boolean canColdSpawn(World world, BlockPos pos) {
-        return world.getBiome(pos).isCold(pos) || world.getBiome(pos).getCategory().equals(Biome.Category.ICY);
+        return world.getBiome(pos).getCategory().equals(Biome.Category.MOUNTAIN) || world.getBiome(pos).getCategory().equals(Biome.Category.ICY) || world.getBiome(pos).getCategory().equals(Biome.Category.EXTREME_HILLS);
     }
     public static boolean canTropicalSpawn(World world, BlockPos pos) {
-        return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT);
+        return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT) || world.getBiome(pos).getCategory().equals(Biome.Category.SAVANNA) || world.getBiome(pos).getCategory().equals(Biome.Category.MESA);
     }
 
     public boolean isOnGround() {
@@ -180,7 +181,7 @@ public class FrogEntity extends PathAwareEntity {
                 this.getLookControl().lookAt(new Vec3d(-Math.sin(angle) * radius, 0, -Math.cos(angle) * radius));
             }
 
-            if(Math.random() < 0.5) {
+            if(Math.random() < 0.3) {
                     double result;
                     int radius = 3;
 
@@ -236,6 +237,7 @@ public class FrogEntity extends PathAwareEntity {
                     double radius = Math.random() * 0.3;
                     this.updateVelocity(2F, new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
                     this.getLookControl().lookAt(new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
+                    this.playSound(SoundEvents.ENTITY_GOAT_LONG_JUMP, 1.0F, 1.0F);
                 } else {
                     // LILYPAD/DRIPLEAF JUMP
 
@@ -256,6 +258,7 @@ public class FrogEntity extends PathAwareEntity {
                     if(targetList.size() > 0) {
                         result = Math.round(Math.random() * (targetList.size() - 1));
                         targetPos = targetList.get((int)result);
+                        this.playSound(SoundEvents.ENTITY_GOAT_LONG_JUMP, 1.0F, 1.0F);
                     }
                     if(!(targetPos == null)) {
 
@@ -277,8 +280,8 @@ public class FrogEntity extends PathAwareEntity {
         }
     }
 
-    public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
-        return false;
+    protected int computeFallDamage(float fallDistance, float damageMultiplier) {
+        return super.computeFallDamage(fallDistance, damageMultiplier) - 10;
     }
 
     public static enum Variant {
