@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
+import frozenblock.wild.mod.liukrastapi.GenerateSculk;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterParticles;
@@ -32,31 +33,6 @@ public class SculkSensorBlockMixin {
 
     @Inject(at = @At("TAIL"), method = "setActive")
     private static void setActive(World world, BlockPos pos, BlockState state, int power, CallbackInfo ci) {
-        ArrayList<BlockPos> shriekers = Sphere.checkSpherePos(
-                RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.POWERED, false),
-                world,
-                pos,
-                10,
-                true
-        );
-        for (BlockPos pos1 : shriekers) {
-            world.setBlockState(pos1, RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.POWERED, true));
-            if (!world.isClient) {
-                world.playSound(null, pos1, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.BLOCKS, 1f, 1f);
-                world.addParticle(RegisterParticles.SHRIEK, pos1.getX(), pos1.getY(), pos1.getZ(), 0, 0.3, 0);
-
-                double d = 10;
-                Box box = (new Box(pos1)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
-                List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
-                Iterator var11 = list.iterator();
-
-                PlayerEntity playerEntity;
-                while (var11.hasNext()) {
-                    playerEntity = (PlayerEntity) var11.next();
-                    playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 240, 0, false, true));
-                }
-            }
-            world.createAndScheduleBlockTick(pos1, world.getBlockState(pos1).getBlock(), 40);
-        }
+        SculkShriekerBlock.setShrieker(world, pos, state);
     }
 }

@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.mixins;
 
+import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
@@ -76,8 +77,10 @@ public class AbstractBlockMixin {
             return;
         }
         if(world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState()) {
-            System.out.println("im walking on a sculk sensor!");
             SculkSensorBlock.setActive(world, pos, state, 10);
+        }
+        if(world.getBlockState(pos) == RegisterBlocks.SCULK_SHRIEKER.getDefaultState()) {
+            SculkShriekerBlock.setShrieker(world, pos, state);
         }
     }
 

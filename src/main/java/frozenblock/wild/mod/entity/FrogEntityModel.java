@@ -13,6 +13,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     private FrogEntity c;
     private boolean croak = true;
     private double croakstartTime;
+    private float togueBegin;
 
     private final ModelPart main;
     private final ModelPart body;
@@ -60,6 +61,15 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     }
     @Override
     public void setAngles(FrogEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
+
+        if(entity.getTogue() == 10) {
+            this.togueBegin = 100;
+        }
+        if(this.togueBegin > 0) {
+            this.togueBegin = this.togueBegin - 0.6f;
+        }
+        this.tongue.pivotZ = -this.togueBegin/10;
+
         c = entity;
         this.Animationtime = time;
         float animationspeed = 2F;

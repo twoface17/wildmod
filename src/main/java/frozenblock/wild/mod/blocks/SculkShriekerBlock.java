@@ -29,6 +29,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -98,5 +99,34 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
         super.onStacksDropped(state, world, pos, stack);
         int i = 20;
         this.dropExperience(world, pos, i);
+    }
+
+    public static void setShrieker(World world, BlockPos pos, BlockState state) {
+        ArrayList<BlockPos> shriekers = Sphere.checkSpherePos(
+                RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.POWERED, false),
+                world,
+                pos,
+                10,
+                true
+        );
+        for (BlockPos pos1 : shriekers) {
+            world.setBlockState(pos1, RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.POWERED, true));
+            if (!world.isClient) {
+                world.playSound(null, pos1, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.BLOCKS, 1f, 1f);
+                world.addParticle(RegisterParticles.SHRIEK, pos1.getX(), pos1.getY(), pos1.getZ(), 0, 0.3, 0);
+
+                double d = 10;
+                Box box = (new Box(pos1)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
+                List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
+                Iterator var11 = list.iterator();
+
+                PlayerEntity playerEntity;
+                while (var11.hasNext()) {
+                    playerEntity = (PlayerEntity) var11.next();
+                    playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 240, 0, false, true));
+                }
+            }
+            world.createAndScheduleBlockTick(pos1, world.getBlockState(pos1).getBlock(), 40);
+        }
     }
 }
