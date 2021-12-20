@@ -2,6 +2,7 @@ package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.*;
+import frozenblock.wild.mod.items.FrogEggItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
@@ -9,7 +10,9 @@ import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -18,6 +21,16 @@ public abstract class RegisterBlocks {
     public static final AbstractBlock.Settings SCULK_PROPERTIES = FabricBlockSettings
             .of(Material.SCULK)
             .sounds(BlockSoundGroup.SCULK_SENSOR);
+
+    public static final AbstractBlock.Settings FROG_EGG_PROPERTIES = FabricBlockSettings
+            .of(Material.EGG)
+            .sounds(new BlockSoundGroup(1.0f, 1.5f,
+                    SoundEvents.ENTITY_TURTLE_EGG_BREAK,
+                    SoundEvents.BLOCK_METAL_STEP,
+                    SoundEvents.ENTITY_TURTLE_LAY_EGG,
+                    SoundEvents.BLOCK_METAL_STEP,
+                    SoundEvents.BLOCK_METAL_STEP
+            ));
 
     public static final AbstractBlock.Settings SCULK_CATALYST_PROPERTIES = FabricBlockSettings
             .of(Material.SCULK)
@@ -51,8 +64,8 @@ public abstract class RegisterBlocks {
     public static final Block SCULK_SHRIEKER = new SculkShriekerBlock(SCULK_PROPERTIES.strength(2f, 2f).nonOpaque());
     public static final Block DEEPSLATE_FRAME = new PillarBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
 
-
     // ALL BLOCKS HERE HAVE NO COLLISION
+    public static final Block FROG_EGG = new FrogEggBlock(FROG_EGG_PROPERTIES.nonOpaque().noCollision());
     public static final Block SCULK_VEIN = new SculkVeinBlock(SCULK_PROPERTIES.nonOpaque().noCollision().strength(0.5f, 0.5f));
 
     public static void RegisterBlocks() {
@@ -88,6 +101,8 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "deepslate_frame"), DEEPSLATE_FRAME);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "deepslate_frame"), new BlockItem(DEEPSLATE_FRAME, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_egg"), FROG_EGG);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_egg"), new FrogEggItem(FROG_EGG, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
 
         MangroveWoods.RegisterMangrove();

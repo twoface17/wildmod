@@ -45,8 +45,8 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         ModelPartData modelPartData = modelData.getRoot();
 
         ModelPartData modelPartData1 = modelPartData.addChild("main", ModelPartBuilder.create(), ModelTransform.pivot(-3.0F,23.0F,0.0F));
-        ModelPartData modelPartData2 = modelPartData1.addChild("body", ModelPartBuilder.create().uv(0,12).cuboid(-6.5F, -3.0F, -4.5F, 7.0F, 3.0F, 9.0F).uv(23,18).cuboid(-6.5F, -2.01F, -4.5F, 7.0F, 0.0F, 9.0F), ModelTransform.pivot(6.0F,0.0F,0.0F));
-        modelPartData2.addChild("front_left_leg", ModelPartBuilder.create().uv(32,7).cuboid(0.0F, -2.0F, -2.0F, 2.0F, 3.0F, 3.0F).uv(-4,0).cuboid(-2.0F, 1.0F, -4.0F, 4.0F, 0.0F, 4.0F), ModelTransform.pivot(0.0F,0.0F,-2.0F));
+        ModelPartData modelPartData2 = modelPartData1.addChild("body", ModelPartBuilder.create().uv(3,1).cuboid(-6.5F, -3.0F, -4.5F, 7.0F, 3.0F, 9.0F).uv(23,22).cuboid(-6.5F, -2.01F, -4.5F, 7.0F, 0.0F, 9.0F), ModelTransform.pivot(6.0F,0.0F,0.0F));
+        modelPartData2.addChild("front_left_leg", ModelPartBuilder.create().uv(0, 32).cuboid(0.0F, -2.0F, -2.0F, 2.0F, 3.0F, 3.0F).uv(18,40).cuboid(-2.0F, 1.0F, -4.0F, 4.0F, 0.0F, 4.0F), ModelTransform.pivot(0.0F,0.0F,-2.0F));
         ModelPartData modelPartData3 = modelPartData2.addChild("front_right_leg", ModelPartBuilder.create(), ModelTransform.pivot(-6.0F,0.0F,-2.0F));
         modelPartData3.addChild("front_right_leg_sub_0", ModelPartBuilder.create().uv(42,7).cuboid(-5.0F, -3.0F, -4.0F, 2.0F, 3.0F, 3.0F, true).uv(-4,4).cuboid(-5.0F, 0.0F, -6.0F, 4.0F, 0.0F, 4.0F, true), ModelTransform.pivot(3.0F,1.0F,2.0F));
         modelPartData2.addChild("back_left_leg", ModelPartBuilder.create().uv(23,0).cuboid(-0.5F, -2.0F, -1.5F, 3.0F, 3.0F, 4.0F).uv(-4,12).cuboid(1.5F, 1.0F, -2.5F, 3.0F, 0.0F, 4.0F), ModelTransform.pivot(0.0F,0.0F,3.0F));
@@ -202,7 +202,6 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             if(Math.random() < 0.005) {
                 this.croak = false;
                 this.croakstartTime = this.Animationtime;
-                this.c.getEntityWorld().playSound(this.c.getX(), this.c.getY(), this.c.getZ(), RegisterSounds.ENTITY_FROG_AMBIENT, SoundCategory.NEUTRAL, 1, 1, true);
             }
         } else {
             double time = this.Animationtime - this.croakstartTime;
