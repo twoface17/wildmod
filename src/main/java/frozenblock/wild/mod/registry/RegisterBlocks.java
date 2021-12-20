@@ -10,7 +10,9 @@ import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -19,6 +21,16 @@ public abstract class RegisterBlocks {
     public static final AbstractBlock.Settings SCULK_PROPERTIES = FabricBlockSettings
             .of(Material.SCULK)
             .sounds(BlockSoundGroup.SCULK_SENSOR);
+
+    public static final AbstractBlock.Settings FROG_EGG_PROPERTIES = FabricBlockSettings
+            .of(Material.EGG)
+            .sounds(new BlockSoundGroup(1.0f, 1.5f,
+                    SoundEvents.ENTITY_TURTLE_EGG_BREAK,
+                    SoundEvents.BLOCK_METAL_STEP,
+                    SoundEvents.ENTITY_TURTLE_LAY_EGG,
+                    SoundEvents.BLOCK_METAL_STEP,
+                    SoundEvents.BLOCK_METAL_STEP
+            ));
 
     public static final AbstractBlock.Settings SCULK_CATALYST_PROPERTIES = FabricBlockSettings
             .of(Material.SCULK)
@@ -51,10 +63,9 @@ public abstract class RegisterBlocks {
 
     public static final Block SCULK_SHRIEKER = new SculkShriekerBlock(SCULK_PROPERTIES.strength(2f, 2f).nonOpaque());
     public static final Block DEEPSLATE_FRAME = new PillarBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
-    public static final Block FROG_EGG = new FrogEggBlock(FabricBlockSettings.copyOf(Blocks.LILY_PAD));
-
 
     // ALL BLOCKS HERE HAVE NO COLLISION
+    public static final Block FROG_EGG = new FrogEggBlock(FROG_EGG_PROPERTIES.nonOpaque().noCollision());
     public static final Block SCULK_VEIN = new SculkVeinBlock(SCULK_PROPERTIES.nonOpaque().noCollision().strength(0.5f, 0.5f));
 
     public static void RegisterBlocks() {
