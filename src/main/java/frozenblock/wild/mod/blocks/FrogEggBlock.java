@@ -1,12 +1,9 @@
 package frozenblock.wild.mod.blocks;
 
-import frozenblock.wild.mod.entity.TadpoleEntity;
-import frozenblock.wild.mod.registry.RegisterEntities;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.server.world.ServerWorld;
@@ -19,7 +16,6 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
@@ -37,14 +33,6 @@ public class FrogEggBlock
             world.syncWorldEvent(2005, pos, 0);
         }
 
-    }
-
-    @Override
-    @Nullable
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        world.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_TURTLE_EGG_HATCH, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
-        world.removeBlock(pos, false);
-        TadpoleEntity tadpoleEntity = (TadpoleEntity) RegisterEntities.TADPOLE.create(world);
     }
 
     @Override
