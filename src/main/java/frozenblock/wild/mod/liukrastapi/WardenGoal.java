@@ -36,10 +36,9 @@ public class WardenGoal extends Goal {
         this.mob = mob;
         this.speed = speed;
     }
-        private void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
+        public void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
         this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
-        this.mob.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1.0F, 1.0F); //Not sure if it's necessary , but I put it here cause it's cool
     }
 
     public boolean canStart() {

@@ -15,6 +15,10 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.event.PositionSource;
+import net.minecraft.world.event.PositionSourceType;
+
+import java.util.Optional;
 
 public class WardenEntity extends HostileEntity {
 
@@ -105,13 +109,14 @@ public class WardenEntity extends HostileEntity {
 
     }
 
+
+
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
         if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity) {
             this.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 0.5F, 1.0F);
         }
-
         this.lasteventpos = eventPos;
         this.lasteventworld = eventWorld;
         this.lastevententity = eventEntity;
