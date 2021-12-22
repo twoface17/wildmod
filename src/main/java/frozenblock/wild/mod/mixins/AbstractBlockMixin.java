@@ -79,7 +79,7 @@ public class AbstractBlockMixin {
         if(world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState() || world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState().with(Properties.WATERLOGGED, true)) {
             SculkSensorBlock.setActive(world, pos, state, 10);
         }
-        if(world.getBlockState(pos) == RegisterBlocks.SCULK_SHRIEKER.getDefaultState() || world.getBlockState(pos) == RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(Properties.WATERLOGGED, true)) {
+        if(world.getBlockState(pos) == RegisterBlocks.SCULK_SHRIEKER.getDefaultState()) {
             SculkShriekerBlock.setShrieker(world, pos, state);
         }
     }
