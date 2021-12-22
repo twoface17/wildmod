@@ -84,8 +84,8 @@ public class FrogGoal extends Goal {
         }
         if(this.mob.isOnGround()) {
             this.mob.setBodyYaw((float)Math.random());
-            if(this.mob.getTogue() == 0) {
-                double d = 10;
+            if(this.mob.getTogue() < 1) {
+                double d = 3;
                 Box box = (new Box(this.mob.getBlockPos())).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
 
                 List<FireflyEntity> list = world.getNonSpectatingEntities(FireflyEntity.class, box);

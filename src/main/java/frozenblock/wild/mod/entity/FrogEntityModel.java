@@ -69,6 +69,15 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     }
     @Override
     public void setAngles(@NotNull FrogEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
+
+        if(entity.getTogue() == 10) {
+            this.togueBegin = 100;
+        } else if(this.togueBegin > 0) {
+            this.togueBegin = this.togueBegin - 0.6f;
+        }
+        this.tongue.pivotZ = -this.togueBegin/15;
+        this.head.pitch = -this.togueBegin/100;
+
         c = entity;
         this.Animationtime = time;
         float animationspeed = 2F;
