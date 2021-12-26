@@ -84,7 +84,7 @@ public class FrogGoal extends Goal {
         }
         if(this.mob.isOnGround()) {
             this.mob.setBodyYaw((float)Math.random());
-            if(this.mob.getTogue() < 1) {
+            if(this.mob.getTongue() < 1) {
                 double d = 3;
                 Box box = (new Box(this.mob.getBlockPos())).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
 

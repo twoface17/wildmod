@@ -34,7 +34,7 @@ public class FrogEntity extends PathAwareEntity {
     public static final int COLD = 1;
     public static final int TROPICAL = 2;
     private static final double speed = 0.3D;
-    private int togue;
+    private int tongue;
 
     public FrogEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
@@ -55,14 +55,14 @@ public class FrogEntity extends PathAwareEntity {
         return this.onGround;
     }
 
-    public int getTogue() {
-        return this.togue;
+    public int getTongue() {
+        return this.tongue;
     }
 
     public void tickMovement() {
-        if(this.togue > 0) {
-            --this.togue;
-            System.out.println(this.togue);
+        if(this.tongue > 0) {
+            --this.tongue;
+            System.out.println(this.tongue);
         }
         super.tickMovement();
     }
@@ -156,7 +156,7 @@ public class FrogEntity extends PathAwareEntity {
 
     public void handleStatus(byte status) {
         if (status == 4) {
-            this.togue = 10;
+            this.tongue = 10;
         } else {
             super.handleStatus(status);
         }

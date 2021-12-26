@@ -62,7 +62,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     @Override
     public void setAngles(@NotNull FrogEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
 
-        if(entity.getTogue() == 10) {
+        if(entity.getTongue() == 10) {
             this.togueBegin = 100;
         } else if(this.togueBegin > 0) {
             this.togueBegin = this.togueBegin - 0.6f;
@@ -79,15 +79,16 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             if(entity.isOnGround()) {
                 float rightanimation = (float) MathAddon.cutCos(limbAngle * animationspeed, 0, false) * defaultmultiplier;
                 float leftanimation = (float) MathAddon.cutCos(limbAngle * animationspeed, 0, true) * defaultmultiplier;
-
+                // sos alsaomais papadins are in yo mama. hlpe plese your gay lol h
                 this.main.roll = -2 * rightanimation;
                 this.main.pitch = -rightanimation;
+                //im learning code for good sussy baka your gay hhaha i codng first time
                 this.right_arm.roll = 2 * rightanimation;
-
+                //your mom is sus
                 this.body.roll = leftanimation;
                 this.body.pitch = -leftanimation;
                 this.left_arm.roll = -leftanimation;
-
+                //my mom is your mom
                 this.right_arm.pitch = -9 * leftanimation;
                 this.left_arm.pitch = -9 * rightanimation;
 
