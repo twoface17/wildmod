@@ -1,12 +1,10 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.MathAddon;
-import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,9 +13,6 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     private final ModelPart main;
     private final ModelPart body;
     private final ModelPart head;
-    private final ModelPart eyes;
-    private final ModelPart right_eye;
-    private final ModelPart left_eye;
     private final ModelPart croaking_body;
     private final ModelPart tongue;
     private final ModelPart left_arm;
@@ -42,9 +37,6 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         this.tongue = this.body.getChild("tongue");
         this.croaking_body = this.body.getChild("croaking_body");
         this.head = this.body.getChild("head");
-        this.eyes = this.head.getChild("eyes");
-        this.left_eye = this.eyes.getChild("left_eye");
-        this.right_eye = this.eyes.getChild("right_eye");
     }
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
@@ -176,7 +168,6 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     @Override
     public void render(MatrixStack matrixStack, VertexConsumer	buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
         root.render(matrixStack, buffer, packedLight, packedOverlay);
-        MatrixStack matrixStack1 = matrixStack;
         float animation;
 
 
@@ -189,12 +180,12 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         } else {
             double time = this.Animationtime - this.croakstartTime;
             animation = (float) MathAddon.cutSin(time/10, 0, false);
-            matrixStack1.translate(animation/4, 1.33+animation/6, animation/4-0.05);
+            matrixStack.translate(animation/4, 1.33+animation/6, animation/4-0.05);
             if(this.c.isOnGround()) {
-                matrixStack1.scale(1.3f*animation, 2*animation, 2*animation);
-                this.croaking_body.render(matrixStack1, buffer, packedLight, packedOverlay);
+                matrixStack.scale(1.3f*animation, 2*animation, 2*animation);
+                this.croaking_body.render(matrixStack, buffer, packedLight, packedOverlay);
             } else {
-                matrixStack1.scale(0, 0, 0);
+                matrixStack.scale(0, 0, 0);
             }
             if(time > 0.1) {
                 if(animation == 0) {

@@ -124,6 +124,8 @@ public class SculkShriekerBlock extends Block implements Waterloggable {
                 while (var11.hasNext()) {
                     playerEntity = (PlayerEntity) var11.next();
                     playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 240, 0, false, true));
+
+
                 }
             }
             world.createAndScheduleBlockTick(pos1, world.getBlockState(pos1).getBlock(), 40);
