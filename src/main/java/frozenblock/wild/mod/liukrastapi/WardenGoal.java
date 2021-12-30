@@ -45,6 +45,7 @@ public class WardenGoal extends Goal {
         boolean exit = false;
         BlockPos lasteventpos = this.mob.lasteventpos;
         World lasteventWorld = this.mob.lasteventworld;
+        int eventIdentifier = this.mob.eventIdentifier;
 
         if(this.mob.getAttacker() == null) {
             if(lasteventWorld != null && lasteventpos != null) {
@@ -65,9 +66,12 @@ public class WardenGoal extends Goal {
                                 return null;
                             }
                         };
-                        CreateVibration(lasteventWorld, lasteventpos, wardenPositionSource, WardenHead);
-                        //And there you go! Vibrations! If it's too high, just change BlockPos WardenHead to .up((int) 2) instead of 3. Sadly Idk how to cast anything but ints to BlockPos so it'll always be just slightly off of the middle of its head.
-
+                        this.mob.vibrationIdentifier=this.mob.vibrationIdentifier+1;
+                        if(this.mob.vibrationIdentifier==this.mob.prevVibrationIdentifier+1) {
+                            CreateVibration(lasteventWorld, lasteventpos, wardenPositionSource, WardenHead);
+                            //And there you go! Vibrations! If it's too high, just change BlockPos WardenHead to .up((int) 2) instead of 3.
+                            this.mob.eventIdentifier = eventIdentifier + 1;
+                        }
                         exit = true;
                     }
                 }
