@@ -18,11 +18,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class WardenEntityOverlayFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends EyesFeatureRenderer<T, EntityModel<T>> {
+public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel> {
     private static final RenderLayer SKIN = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_overlay.png"));
 
-    public WardenEntityOverlayFeatureRenderer(FeatureRendererContext<T, M> featureRendererContext) {
-        super((FeatureRendererContext<T, EntityModel<T>>) featureRendererContext);
+    public WardenEntityOverlayFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel> featureRendererContext) {
+        super(featureRendererContext);
     }
 
     public RenderLayer getEyesTexture() {
