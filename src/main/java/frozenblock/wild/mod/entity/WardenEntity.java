@@ -35,8 +35,8 @@ public class WardenEntity extends HostileEntity {
     public LivingEntity lastevententity;
     public int eventIdentifier;
     public int prevEventIdentifier;
-    public int vibrationIdentifier;
-    public int prevVibrationIdentifier;
+    public int vibrationIdentifier = 1;
+    public int prevVibrationIdentifier = 0;
 
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
@@ -121,7 +121,7 @@ public class WardenEntity extends HostileEntity {
         if(this.eventIdentifier>=this.prevEventIdentifier+1) {
             this.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 0.5F, 1.0F);
             this.prevEventIdentifier=this.eventIdentifier;
-            this.prevVibrationIdentifier=this.vibrationIdentifier;
+            this.prevVibrationIdentifier=this.vibrationIdentifier-1;
             if (this.eventIdentifier>=64) {
                 this.eventIdentifier=0;
                 this.prevEventIdentifier=0;
