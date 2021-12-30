@@ -66,8 +66,8 @@ public class WardenGoal extends Goal {
                                 return null;
                             }
                         };
-                        this.mob.vibrationIdentifier=this.mob.vibrationIdentifier+1;
-                        if(this.mob.vibrationIdentifier==this.mob.prevVibrationIdentifier+1) {
+                        if(this.mob.vibrationIdentifier>=this.mob.prevVibrationIdentifier+1) {
+                            this.mob.vibrationIdentifier=this.mob.vibrationIdentifier+1;
                             CreateVibration(lasteventWorld, lasteventpos, wardenPositionSource, WardenHead);
                             //And there you go! Vibrations! If it's too high, just change BlockPos WardenHead to .up((int) 2) instead of 3.
                             this.mob.eventIdentifier = eventIdentifier + 1;
