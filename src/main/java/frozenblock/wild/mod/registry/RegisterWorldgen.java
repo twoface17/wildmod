@@ -68,7 +68,7 @@ public class RegisterWorldgen {
                 .category(Biome.Category.SWAMP)
                 .temperature(0.8F).downfall(0.9F)
                 .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
-                        .waterColor(6388580)
+                        .waterColor(0x1E6861)
                         .waterFogColor(2302743)
                         .fogColor(12638463)
                         .skyColor(getSkyColor(0.8F))
