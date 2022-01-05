@@ -1,19 +1,19 @@
 package frozenblock.wild.mod;
 
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.blocks.mangrove.MangroveWood;
 import frozenblock.wild.mod.entity.*;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityModel;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityRenderer;
-import frozenblock.wild.mod.fromAccurateSculk.*;
-import frozenblock.wild.mod.registry.*;
+import frozenblock.wild.mod.registry.MangroveWoods;
+import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterEntities;
+import frozenblock.wild.mod.registry.RegisterParticles;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -36,7 +36,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 
 @Environment(EnvType.CLIENT)
 public class WildModClient implements ClientModInitializer {
@@ -49,10 +48,6 @@ public class WildModClient implements ClientModInitializer {
 
     public static final EntityModelLayer MODEL_FIREFLY_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "firefly"), "main");
 
-    public static final Identifier SHRIEKER_SHRIEK_PACKET = new Identifier("shriek_packet");
-    public static final Identifier SHRIEKER_GARGLE1_PACKET = new Identifier("gargle1_packet");
-    public static final Identifier SHRIEKER_GARGLE2_PACKET = new Identifier("gargle2_packet");
-
     @Override
     public void onInitializeClient() {
 
@@ -60,24 +55,9 @@ public class WildModClient implements ClientModInitializer {
             registry.register(new Identifier(WildMod.MOD_ID, "particle/firefly"));
         }));
 
-        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((spriteAtlasTexture, registry) -> {
-            registry.register(new Identifier("accuratesculk", "particle/sculk_shriek"));
-            registry.register(new Identifier("accuratesculk", "particle/sculk_shriek2"));
-            registry.register(new Identifier("accuratesculk", "particle/sculk_shriekz"));
-            registry.register(new Identifier("accuratesculk", "particle/sculk_shriekz2"));
-            registry.register(new Identifier("accuratesculk", "particle/sculk_shrieknx"));
-            registry.register(new Identifier("accuratesculk", "particle/sculk_shrieknx2"));
-            registry.register(new Identifier("accuratesculk", "particle/sculk_shriekx"));
-            registry.register(new Identifier("accuratesculk", "particle/sculk_shriekx2"));
+        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
+            registry.register(new Identifier(WildMod.MOD_ID, "particle/shriek"));
         }));
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK, ShriekParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK2, ShriekParticle2.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKZ, ShriekParticlePosZ.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKZ2, ShriekParticle2PosZ.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKNX, ShriekParticleNX.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKNX2, ShriekParticleNX2.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX, ShriekParticleX.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX2, ShriekParticleX2.Factory::new);
 
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_soul"));
@@ -86,6 +66,7 @@ public class WildModClient implements ClientModInitializer {
 
 
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.FIREFLY, FlameParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(RegisterParticles.SHRIEK, FlameParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_SOUL, FlameParticle.Factory::new);
 
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_LEAVES, RenderLayer.getCutout());
@@ -94,6 +75,7 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_TRAPDOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_PROPAGULE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_VEIN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_SHRIEKER, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.FROG_EGG, RenderLayer.getCutout());
 
 
@@ -123,27 +105,6 @@ public class WildModClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> FoliageColors.getDefaultColor()), MangroveWoods.MANGROVE_LEAVES);
 
-        BlockRenderLayerMap.INSTANCE.putBlock(SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, RenderLayer.getCutout());
 
-        ClientPlayNetworking.registerGlobalReceiver(SHRIEKER_SHRIEK_PACKET, (client, handler, buf, responseSender) -> {
-            BlockPos shrieker = buf.readBlockPos();
-            int direction = buf.readInt();
-            client.execute(() -> {
-                SculkParticleHandler.shriekerShriek(client.world, shrieker, direction);
-            });
-        });
-        ClientPlayNetworking.registerGlobalReceiver(SHRIEKER_GARGLE1_PACKET, (client, handler, buf, responseSender) -> {
-            BlockPos shrieker = buf.readBlockPos();
-            client.execute(() -> {
-                assert client.world != null;
-                SculkParticleHandler.shriekerGargle1(client.world, shrieker);
-            });
-        });
-        ClientPlayNetworking.registerGlobalReceiver(SHRIEKER_GARGLE2_PACKET, (client, handler, buf, responseSender) -> {
-            BlockPos shrieker = buf.readBlockPos();
-            client.execute(() -> {
-                SculkParticleHandler.shriekerGargle2(client.world, shrieker);
-            });
-        });
     }
 }

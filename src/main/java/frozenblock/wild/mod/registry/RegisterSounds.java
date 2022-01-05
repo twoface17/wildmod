@@ -19,13 +19,6 @@ public class RegisterSounds {
     public static SoundEvent ENTITY_FROG_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.ambient"));
     public static SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
     public static SoundEvent MUSIC_OVERWORLD_DEEPDARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deepdark"));
-    public static SoundEvent BLOCK_SCULK_STEP = new SoundEvent(new Identifier("accuratesculk", "block.sculk.step"));
-    public static SoundEvent BLOCK_SCULK_HIT = new SoundEvent(new Identifier("accuratesculk", "block.sculk.hit"));
-    public static SoundEvent BLOCK_SCULK_FALL = new SoundEvent(new Identifier("accuratesculk", "block.sculk.fall"));
-    public static SoundEvent BLOCK_SCULK_BREAK = new SoundEvent(new Identifier("accuratesculk", "block.sculk.break"));
-    public static SoundEvent BLOCK_SCULK_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk.place"));
-    public static SoundEvent BLOCK_SCULK_SHRIEKER_BREAK = new SoundEvent(new Identifier("accuratesculk", "block.sculk_shrieker.break"));
-    public static SoundEvent BLOCK_SCULK_SHRIEKER_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk_shrieker.place"));
 
 
     public static void RegisterSounds() {
