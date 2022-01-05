@@ -2,6 +2,7 @@ package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.FrogGoal;
 import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -35,6 +36,8 @@ public class FrogEntity extends PathAwareEntity {
     public static final int TROPICAL = 2;
     private static final double speed = 0.3D;
     private int tongue;
+
+    public long eatTimer = 0;
 
     public FrogEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
@@ -99,7 +102,7 @@ public class FrogEntity extends PathAwareEntity {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putInt(VARIANT_KEY, this.getVariant().getId());
-
+        nbt.putLong("eatTimer", this.eatTimer);
     }
 
     public FrogEntity.Variant getVariant() {
@@ -118,6 +121,7 @@ public class FrogEntity extends PathAwareEntity {
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.setVariant(FrogEntity.Variant.VARIANTS[nbt.getInt(VARIANT_KEY)]);
+        this.eatTimer = nbt.getLong("eatTimer");
     }
 
     protected void initGoals() {
