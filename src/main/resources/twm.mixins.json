@@ -12,7 +12,10 @@
     "SculkSensorBlockMixin",
     "SimpleGameEventDispatcherMixin",
     "TreeDecoratorTypeInvoker",
-    "VanillaBiomeParametersMixin"
+    "TrunkPlacerTypeInvoker",
+    "VanillaBiomeParametersMixin",
+    "VanillaSurfaceRulesBlockInvoker",
+    "VanillaSurfaceRulesInjector"
   ],
   "client": [
   ],
