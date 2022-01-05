@@ -17,6 +17,7 @@ import net.minecraft.potion.Potions;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -27,6 +28,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Objects;
 
 @Mixin(AbstractBlock.class)
 public class AbstractBlockMixin {
@@ -76,11 +79,12 @@ public class AbstractBlockMixin {
         if (world.isClient) {
             return;
         }
-        if(world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState() || world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState().with(Properties.WATERLOGGED, true)) {
+        if(world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState()) {
             SculkSensorBlock.setActive(world, pos, state, 10);
         }
-        if(world.getBlockState(pos) == RegisterBlocks.SCULK_SHRIEKER.getDefaultState()) {
-            SculkShriekerBlock.setShrieker(world, pos, state);
+        if(world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState() || world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(Properties.WATERLOGGED, true)) {
+            ((SculkShriekerBlock) Objects.requireNonNull(world.getBlockState(pos)).getBlock()).writeDir(world, pos, entity.getBlockPos());
+            SculkShriekerBlock.setActive(world, pos, state);
         }
     }
 
