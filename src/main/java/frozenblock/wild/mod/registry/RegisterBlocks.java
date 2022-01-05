@@ -47,7 +47,7 @@ public abstract class RegisterBlocks {
             .of(Material.PLANT)
             .strength(0.1f, 1f)
             .requiresTool()
-            .luminance(12);
+            .luminance(15);
 
 
     public static final Block MUD_BLOCK = new MudBlock();
