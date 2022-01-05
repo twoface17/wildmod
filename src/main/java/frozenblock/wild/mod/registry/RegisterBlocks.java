@@ -61,7 +61,6 @@ public abstract class RegisterBlocks {
                     RegisterSounds.BLOCK_SCULK_CATALYST_STEP
             )));
 
-    public static final Block SCULK_SHRIEKER = new SculkShriekerBlock(SCULK_PROPERTIES.strength(2f, 2f).nonOpaque());
     public static final Block DEEPSLATE_FRAME = new PillarBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
 
     // ALL BLOCKS HERE HAVE NO COLLISION
@@ -69,6 +68,7 @@ public abstract class RegisterBlocks {
     public static final Block SCULK_VEIN = new SculkVeinBlock(SCULK_PROPERTIES.nonOpaque().noCollision().strength(0.5f, 0.5f));
 
     public static void RegisterBlocks() {
+
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud_block"), MUD_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mud_block"), new BlockItem(MUD_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
@@ -93,8 +93,8 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), SCULK_CATALYST);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), new BlockItem(SCULK_CATALYST, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), SCULK_SHRIEKER);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem(SCULK_SHRIEKER, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.BLOCK, new Identifier("twm", "sculk_shrieker"), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem( SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_sensor"), new BlockItem(Blocks.SCULK_SENSOR, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
@@ -103,6 +103,7 @@ public abstract class RegisterBlocks {
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_egg"), FROG_EGG);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_egg"), new FrogEggItem(FROG_EGG, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+
 
 
         MangroveWoods.RegisterMangrove();
