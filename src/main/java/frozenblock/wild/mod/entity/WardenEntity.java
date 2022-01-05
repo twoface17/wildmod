@@ -33,10 +33,6 @@ public class WardenEntity extends HostileEntity {
     public BlockPos lasteventpos;
     public World lasteventworld;
     public LivingEntity lastevententity;
-    public int eventIdentifier;
-    public int prevEventIdentifier;
-    public int vibrationIdentifier = 1;
-    public int prevVibrationIdentifier = 0;
 
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
@@ -118,16 +114,8 @@ public class WardenEntity extends HostileEntity {
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
-        if(this.eventIdentifier>=this.prevEventIdentifier+1) {
+        if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity) {
             this.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 0.5F, 1.0F);
-            this.prevEventIdentifier=this.eventIdentifier;
-            this.prevVibrationIdentifier=this.vibrationIdentifier-1;
-            if (this.eventIdentifier>=64) {
-                this.eventIdentifier=0;
-                this.prevEventIdentifier=0;
-                this.vibrationIdentifier=1;
-                this.prevVibrationIdentifier=0;
-            }
         }
         this.lasteventpos = eventPos;
         this.lasteventworld = eventWorld;
@@ -135,5 +123,4 @@ public class WardenEntity extends HostileEntity {
         System.out.println("ahhhhhhhhhhhhhhhhhhhhhhhhhh");
     }
     //your mom is fat lol
-    //no she isn't
 }
