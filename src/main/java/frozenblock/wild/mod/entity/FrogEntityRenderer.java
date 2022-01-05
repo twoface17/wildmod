@@ -11,6 +11,7 @@ import net.minecraft.client.render.entity.model.MediumPufferfishEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PufferfishEntity;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntityModel> {
@@ -18,6 +19,7 @@ public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntity
     private static final Identifier SWAMP_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_swamp.png");
     private static final Identifier COLD_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_snowy.png");
     private static final Identifier TROPICAL_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_tropical.png");
+    private static final Identifier SUS_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_sus.png");
 
     public FrogEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new FrogEntityModel(context.getPart(WildModClient.MODEL_FROG_LAYER)), 0.5f);
@@ -25,6 +27,10 @@ public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntity
 
     @Override
     public Identifier getTexture(FrogEntity entity) {
+        String string = Formatting.strip(entity.getName().getString());
+        if (string != null && "Xfrtrex".equals(string)) {
+            return SUS_TEXTURE;
+        }
         if(entity.getVariant() == FrogEntity.Variant.TROPICAL) {
             return TROPICAL_TEXTURE;
         } else if(entity.getVariant() == FrogEntity.Variant.COLD) {
