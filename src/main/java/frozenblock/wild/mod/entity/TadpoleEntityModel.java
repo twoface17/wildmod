@@ -18,8 +18,8 @@ public class TadpoleEntityModel extends EntityModel<TadpoleEntity> {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData1 = modelPartData.addChild("body", ModelPartBuilder.create().uv(0,0).cuboid(-1.5F, -2.0F, -2.0F, 3.0F, 2.0F, 3.0F), ModelTransform.pivot(0.0F,24.0F,0.0F));
-        modelPartData1.addChild("tail", ModelPartBuilder.create().uv(0,-2).cuboid(0.0F, -1.0F, 0.0F, 0.0F, 2.0F, 7.0F), ModelTransform.pivot(0.0F,-1.0F,1.0F));
-        return TexturedModelData.of(modelData,16,8);
+        modelPartData1.addChild("tail", ModelPartBuilder.create().uv(0,0).cuboid(0.0F, -1.0F, 0.0F, 0.0F, 2.0F, 7.0F), ModelTransform.pivot(0.0F,-1.0F,1.0F));
+        return TexturedModelData.of(modelData,16,16);
     }
     @Override
     public void setAngles(TadpoleEntity entity, float limbSwing, float limbSwingAmount, float time, float netHeadYaw, float headPitch){

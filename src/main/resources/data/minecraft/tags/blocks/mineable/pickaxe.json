@@ -326,6 +326,9 @@
     "#minecraft:cauldrons",
     "#minecraft:rails",
     "minecraft:conduit",
-    "twm:mud_bricks"
+    "twm:mud_bricks",
+    "twm:pearlescent_froglight",
+    "twm:verdant_froglight",
+    "twm:ochre_froglight"
   ]
 }

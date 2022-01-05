@@ -38,6 +38,9 @@
   "item.twm.tadpole_bucket": "Bucket Of Tadpole",
 
   "block.twm.frog_egg": "Frog Egg",
+  "block.twm.pearlescent_froglight": "Pearlescent Froglight",
+  "block.twm.verdant_froglight": "Verdant Froglight",
+  "block.twm.ochre_froglight": "Ochre Froglight",
 
   "entity.twm.frog": "Frog",
   "entity.twm.warden": "Warden",

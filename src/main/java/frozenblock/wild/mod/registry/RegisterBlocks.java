@@ -43,6 +43,12 @@ public abstract class RegisterBlocks {
             .strength(1.5f, 10f)
             .requiresTool();
 
+    public static final FabricBlockSettings FROGLIGHT_SETTINGS = FabricBlockSettings
+            .of(Material.PLANT)
+            .strength(0.1f, 1f)
+            .requiresTool()
+            .luminance(12);
+
 
     public static final Block MUD_BLOCK = new MudBlock();
     public static final Block MUD_BRICKS = new MudBricks(MUD_BRICKS_SETTINGS);
@@ -50,6 +56,10 @@ public abstract class RegisterBlocks {
     public static final SlabBlock MUD_BRICKS_SLAB = new SlabBlock(MUD_BRICKS_SETTINGS);
     public static final StairsBlock MUD_BRICKS_STAIRS = new CustomStairs(Blocks.OAK_STAIRS.getDefaultState(), MUD_BRICKS_SETTINGS);
     public static final Block SCULK = new SculkBlock(SCULK_PROPERTIES.strength(0.9f, 0.9f));
+    public static final Block PEARLESCENT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
+    public static final Block VERDANT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
+    public static final Block OCHRE_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
+
 
     public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES
             .strength(2f, 2f)
@@ -104,6 +114,14 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_egg"), FROG_EGG);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_egg"), new FrogEggItem(FROG_EGG, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), PEARLESCENT_FROGLIGHT);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), new BlockItem(PEARLESCENT_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "verdant_froglight"), VERDANT_FROGLIGHT);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "verdant_froglight"), new BlockItem(VERDANT_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "ochre_froglight"), OCHRE_FROGLIGHT);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "ochre_froglight"), new BlockItem(OCHRE_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
 
         MangroveWoods.RegisterMangrove();

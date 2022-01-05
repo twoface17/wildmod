@@ -15,7 +15,7 @@ public class TadpoleEntityRenderer extends MobEntityRenderer<TadpoleEntity, Tadp
 
     @Override
     public Identifier getTexture(TadpoleEntity entity) {
-        return new Identifier(WildMod.MOD_ID, "textures/entity/tadpole_old.png");
+        return new Identifier(WildMod.MOD_ID, "textures/entity/tadpole.png");
     }
 
 
