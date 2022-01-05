@@ -172,7 +172,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         float animation;
 
 
-
+        /*
         if(this.croak) {
             if(Math.random() < 0.005) {
                 this.croak = false;
@@ -193,6 +193,6 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
                     this.croak = true;
                 }
             }
-        }
+        } */
     }
 }

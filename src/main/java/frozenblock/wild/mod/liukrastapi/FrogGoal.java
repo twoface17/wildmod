@@ -2,6 +2,8 @@ package frozenblock.wild.mod.liukrastapi;
 
 import frozenblock.wild.mod.entity.FireflyEntity;
 import frozenblock.wild.mod.entity.FrogEntity;
+import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.BigDripleafBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
@@ -127,6 +129,7 @@ public class FrogGoal extends Goal {
                                 target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                                 target.kill();
                                 target.deathTime=10;
+                                mob.dropItem(RegisterBlocks.OCHRE_FROGLIGHT);
                                 mob.eatTimer = world.getTime();
                             }
                         }
@@ -150,6 +153,7 @@ public class FrogGoal extends Goal {
                     double radius = Math.random() * 0.3;
                     this.mob.updateVelocity(2F, new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
                     this.mob.getLookControl().lookAt(new Vec3d(-Math.sin(angle) * radius, jumpamount, -Math.cos(angle) * radius));
+                    this.mob.playSound(RegisterSounds.ENTITY_FROG_LONG_JUMP, 1.0f, 1.0f);
                 } else {
                     // LILYPAD/DRIPLEAF JUMP
 
@@ -183,6 +187,7 @@ public class FrogGoal extends Goal {
 
                         if(Math.sqrt(dx*dx) > 0 || Math.sqrt(dz*dz) > 0) {
                             this.mob.updateVelocity(2F, new Vec3d(dx / 10, jumpamount + dy/10, dz / 10));
+                            this.mob.playSound(RegisterSounds.ENTITY_FROG_LONG_JUMP, 1.0f, 1.0f);
                         }
                     }
 

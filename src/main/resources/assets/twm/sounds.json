@@ -3,8 +3,64 @@
     "category": "neutral",
     "subtitle": "subtitles.entity.twm.frog.ambient",
     "sounds": [
-      {"name": "twm:entity/frog/ambient1"},
-      {"name": "twm:entity/frog/ambient2"}
+      {"name": "twm:entity/frog/idle1"},
+      {"name": "twm:entity/frog/idle2"},
+      {"name": "twm:entity/frog/idle3"},
+      {"name": "twm:entity/frog/idle4"},
+      {"name": "twm:entity/frog/idle5"},
+      {"name": "twm:entity/frog/idle6"},
+      {"name": "twm:entity/frog/idle7"},
+      {"name": "twm:entity/frog/idle8"}
+    ]
+  },
+  "entity.frog.hurt": {
+    "category": "neutral",
+    "subtitle": "subtitles.entity.twm.frog.hurt",
+    "sounds": [
+      {"name": "twm:entity/frog/hurt1"},
+      {"name": "twm:entity/frog/hurt2"},
+      {"name": "twm:entity/frog/hurt3"},
+      {"name": "twm:entity/frog/hurt4"},
+      {"name": "twm:entity/frog/hurt5"}
+    ]
+  },
+  "entity.frog.death": {
+    "category": "neutral",
+    "subtitle": "subtitles.entity.twm.frog.death",
+    "sounds": [
+      {"name": "twm:entity/frog/death1"},
+      {"name": "twm:entity/frog/death2"},
+      {"name": "twm:entity/frog/death3"}
+    ]
+  },
+  "entity.frog.eat": {
+    "category": "neutral",
+    "subtitle": "subtitles.entity.twm.frog.eat",
+    "sounds": [
+      {"name": "twm:entity/frog/eat1"},
+      {"name": "twm:entity/frog/eat2"},
+      {"name": "twm:entity/frog/eat3"},
+      {"name": "twm:entity/frog/eat4"}
+    ]
+  },
+  "entity.frog.tongue": {
+    "category": "neutral",
+    "subtitle": "subtitles.entity.twm.frog.tongue",
+    "sounds": [
+      {"name": "twm:entity/frog/tongue1"},
+      {"name": "twm:entity/frog/tongue2"},
+      {"name": "twm:entity/frog/tongue3"},
+      {"name": "twm:entity/frog/tongue4"}
+    ]
+  },
+  "entity.frog.long_jump": {
+    "category": "neutral",
+    "subtitle": "subtitles.entity.twm.frog.long_jump",
+    "sounds": [
+      {"name": "twm:entity/frog/long_jump1"},
+      {"name": "twm:entity/frog/long_jump2"},
+      {"name": "twm:entity/frog/long_jump3"},
+      {"name": "twm:entity/frog/long_jump4"}
     ]
   },
   "block.sculk_shrieker.shriek": {
