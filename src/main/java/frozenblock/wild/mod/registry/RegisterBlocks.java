@@ -45,6 +45,7 @@ public abstract class RegisterBlocks {
 
     public static final FabricBlockSettings FROGLIGHT_SETTINGS = FabricBlockSettings
             .of(Material.PLANT)
+            .sounds(BlockSoundGroup.WET_GRASS)
             .strength(0.1f, 1f)
             .requiresTool()
             .luminance(15);
@@ -122,7 +123,6 @@ public abstract class RegisterBlocks {
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "ochre_froglight"), OCHRE_FROGLIGHT);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "ochre_froglight"), new BlockItem(OCHRE_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
-
 
         MangroveWoods.RegisterMangrove();
     }
