@@ -5,8 +5,11 @@ import frozenblock.wild.mod.entity.FrogEntity;
 import net.minecraft.block.BigDripleafBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.mob.MagmaCubeEntity;
 import net.minecraft.entity.mob.SlimeEntity;
+import net.minecraft.server.ServerTask;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -15,6 +18,7 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FrogGoal extends Goal {
 
@@ -90,19 +94,46 @@ public class FrogGoal extends Goal {
 
                 List<FireflyEntity> list = world.getNonSpectatingEntities(FireflyEntity.class, box);
                 if (list.size() > 0) {
-                    FireflyEntity target = list.get(0);
-                    world.sendEntityStatus(this.mob, (byte) 4);
-                    target.kill();
+                    if (world.getTime()-mob.eatTimer>=10) {
+                        FireflyEntity target = list.get(0);
+                        world.sendEntityStatus(this.mob, (byte) 4);
+                        target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
+                        target.kill();
+                        target.deathTime=10;
+                        mob.eatTimer = world.getTime();
+                    }
                 }
 
                 List<SlimeEntity> slimelist = world.getNonSpectatingEntities(SlimeEntity.class, box);
                 if (slimelist.size() > 0) {
-                    SlimeEntity target = slimelist.get(0);
-                    world.sendEntityStatus(this.mob, (byte) 4);
-                    target.kill();
-
+                    for (SlimeEntity target : slimelist) {
+                        if (target.getSize() == 1) {
+                            if (world.getTime()-mob.eatTimer>=10) {
+                                world.sendEntityStatus(this.mob, (byte) 4);
+                                target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
+                                target.kill();
+                                target.deathTime=10;
+                                mob.eatTimer = world.getTime();
+                            }
+                        }
+                    }
+                }
+                List<MagmaCubeEntity> magmalist = world.getNonSpectatingEntities(MagmaCubeEntity.class, box);
+                if (magmalist.size() > 0) {
+                    for (MagmaCubeEntity target : magmalist) {
+                        if (target.getSize() == 1) {
+                            if (world.getTime()-mob.eatTimer>=10) {
+                                world.sendEntityStatus(this.mob, (byte) 4);
+                                target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
+                                target.kill();
+                                target.deathTime=10;
+                                mob.eatTimer = world.getTime();
+                            }
+                        }
+                    }
                 }
             }
+        }
 
             if (Math.random() < 0.025) {
 
@@ -158,7 +189,6 @@ public class FrogGoal extends Goal {
                 }
             }
         }
-    }
 
     private static ArrayList<BlockPos> checkforSafePlaceToGo(World world, BlockPos pos, Integer radius) {
 
