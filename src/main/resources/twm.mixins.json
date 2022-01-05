@@ -12,7 +12,6 @@
     "SculkSensorBlockMixin",
     "SimpleGameEventDispatcherMixin",
     "TreeDecoratorTypeInvoker",
-    "TrunkPlacerTypeInvoker",
     "VanillaBiomeParametersMixin",
     "VanillaSurfaceRulesBlockInvoker",
     "VanillaSurfaceRulesInjector"
