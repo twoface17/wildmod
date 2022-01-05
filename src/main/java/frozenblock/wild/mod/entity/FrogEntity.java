@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.FrogGoal;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
@@ -17,6 +18,8 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -131,6 +134,21 @@ public class FrogEntity extends PathAwareEntity {
         this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
     }
 
+    protected SoundEvent getAmbientSound() {return RegisterSounds.ENTITY_FROG_AMBIENT;}
+
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return RegisterSounds.ENTITY_FROG_HURT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return RegisterSounds.ENTITY_FROG_DEATH;
+    }
+
+    protected SoundEvent getStepSound() {return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;}
+
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        this.playSound(this.getStepSound(), 0.15F, 1.0F);
+    }
 
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
         return false;
