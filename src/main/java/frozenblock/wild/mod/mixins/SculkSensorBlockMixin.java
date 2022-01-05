@@ -1,38 +1,27 @@
 package frozenblock.wild.mod.mixins;
 
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
-import frozenblock.wild.mod.liukrastapi.GenerateSculk;
-import frozenblock.wild.mod.liukrastapi.Sphere;
-import frozenblock.wild.mod.registry.RegisterBlocks;
-import frozenblock.wild.mod.registry.RegisterParticles;
-import frozenblock.wild.mod.registry.RegisterSounds;
-import frozenblock.wild.mod.registry.RegisterStatusEffects;
-import net.minecraft.block.Block;
+import frozenblock.wild.mod.fromAccurateSculk.ClickGameEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
-import net.minecraft.block.enums.SculkSensorPhase;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.swing.text.html.HTMLDocument;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 @Mixin(SculkSensorBlock.class)
 public class SculkSensorBlockMixin {
+    //FROM ACCURATE SCULK
+    private ServerWorld world;
 
-    @Inject(at = @At("TAIL"), method = "setActive")
-    private static void setActive(World world, BlockPos pos, BlockState state, int power, CallbackInfo ci) {
-        SculkShriekerBlock.setShrieker(world, pos, state);
+    public SculkSensorBlockMixin(ServerWorld world) {
+        this.world = world;
+    }
+
+    @Inject(method = "setActive", at = @At("TAIL"))
+    private static void setActive(World world, BlockPos blockPos, BlockState blockState, int i, CallbackInfo info) {
+        world.emitGameEvent(ClickGameEvent.CLICK, blockPos.add(0.5, 0, 0.5));
     }
 }
