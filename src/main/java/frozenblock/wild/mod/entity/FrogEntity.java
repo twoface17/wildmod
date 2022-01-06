@@ -1,13 +1,19 @@
 package frozenblock.wild.mod.entity;
 
+import frozenblock.wild.mod.blocks.FrogEggBlock;
 import frozenblock.wild.mod.liukrastapi.FrogGoal;
+import frozenblock.wild.mod.liukrastapi.FrogMateGoal;
+import frozenblock.wild.mod.liukrastapi.FrogWanderInWaterGoal;
+import frozenblock.wild.mod.liukrastapi.LayFrogEggGoal;
+import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterItems;
 import frozenblock.wild.mod.registry.RegisterSounds;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -16,34 +22,61 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 
-public class FrogEntity extends PathAwareEntity {
+public class FrogEntity extends AnimalEntity {
 
+    static final int BREEDING_COOLDOWN = 6000;
     private static final TrackedData<Integer> VARIANT;
     public static final String VARIANT_KEY = "Variant";
     public static final int SWAMP = 0;
     public static final int COLD = 1;
     public static final int TROPICAL = 2;
     private static final double speed = 0.3D;
+    public static final TrackedData<Boolean> HAS_FROG_EGG;
+    public static final TrackedData<BlockPos> TRAVEL_POS;
+    public static final TrackedData<Boolean> ACTIVELY_TRAVELLING;
+    public static final Ingredient BREEDING_ITEM;
+    private int loveTicks;
+
     private int tongue;
 
     public long eatTimer = 0;
 
-    public FrogEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
+    public FrogEntity(EntityType<? extends FrogEntity> entityType, World world) {
         super(entityType, world);
+        this.setPathfindingPenalty(PathNodeType.WATER, 0.0F);
+        this.moveControl = new FrogMoveControl(this);
+    }
+
+    static {
+        HAS_FROG_EGG = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        TRAVEL_POS = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
+        ACTIVELY_TRAVELLING = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        BREEDING_ITEM = Ingredient.ofItems(Blocks.SEAGRASS.asItem());
     }
 
     public static DefaultAttributeContainer.Builder createFrogAttributes() {
@@ -57,6 +90,22 @@ public class FrogEntity extends PathAwareEntity {
         return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT)  || world.getBiome(pos).getCategory().equals(Biome.Category.NETHER);
     }
 
+    void setTravelPos(BlockPos pos) {
+        this.dataTracker.set(TRAVEL_POS, pos);
+    }
+
+    BlockPos getTravelPos() {
+        return (BlockPos)this.dataTracker.get(TRAVEL_POS);
+    }
+
+    public boolean hasFrogEgg() {
+        return (Boolean)this.dataTracker.get(HAS_FROG_EGG);
+    }
+
+    public void setHasEgg(boolean hasfrogEgg) {
+        this.dataTracker.set(HAS_FROG_EGG, hasfrogEgg);
+    }
+
     public boolean isOnGround() {
         return this.onGround;
     }
@@ -66,11 +115,32 @@ public class FrogEntity extends PathAwareEntity {
     }
 
     public void tickMovement() {
+        super.tickMovement();
         if(this.tongue > 0) {
             --this.tongue;
             System.out.println(this.tongue);
         }
-        super.tickMovement();
+        if (this.getBreedingAge() != 0) {
+            this.loveTicks = 0;
+        }
+        if (this.loveTicks > 0) {
+            --this.loveTicks;
+            if (this.loveTicks % 10 == 0) {
+                double d = this.random.nextGaussian() * 0.02D;
+                double e = this.random.nextGaussian() * 0.02D;
+                double f = this.random.nextGaussian() * 0.02D;
+                this.world.addParticle(ParticleTypes.HEART, this.getParticleX(1.0D), this.getRandomBodyY() + 0.5D, this.getParticleZ(1.0D), d, e, f);
+            }
+        }
+        if (this.hasFrogEgg() && canPlace(this.world, this.getBlockPos())) {
+            World world = this.world;
+            world.playSound((PlayerEntity) null, this.getBlockPos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
+            world.setBlockState(this.getBlockPos().up(), (BlockState) RegisterBlocks.FROG_EGG.getDefaultState(), 3);
+            world.syncWorldEvent(2005, this.getBlockPos().up(), 0);
+            world.createAndScheduleBlockTick(this.getBlockPos(), world.getBlockState(this.getBlockPos()).getBlock(), UniformIntProvider.create(400, 1800).get(world.getRandom()));
+            this.setHasEgg(false);
+            this.setLoveTicks(600);
+        }
     }
 
     @Override
@@ -95,17 +165,29 @@ public class FrogEntity extends PathAwareEntity {
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
+    @Nullable
+    @Override
+    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
+        return null;
+    }
 
 
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(VARIANT, 0);
+        this.dataTracker.startTracking(HAS_FROG_EGG, false);
+        this.dataTracker.startTracking(ACTIVELY_TRAVELLING, false);
+        this.dataTracker.startTracking(TRAVEL_POS, this.getBlockPos());
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putInt(VARIANT_KEY, this.getVariant().getId());
         nbt.putLong("eatTimer", this.eatTimer);
+        nbt.putBoolean("HasEgg", this.hasFrogEgg());
+        nbt.putInt("TravelPosX", this.getTravelPos().getX());
+        nbt.putInt("TravelPosY", this.getTravelPos().getY());
+        nbt.putInt("TravelPosZ", this.getTravelPos().getZ());
     }
 
     public FrogEntity.Variant getVariant() {
@@ -125,13 +207,26 @@ public class FrogEntity extends PathAwareEntity {
         super.readCustomDataFromNbt(nbt);
         this.setVariant(FrogEntity.Variant.VARIANTS[nbt.getInt(VARIANT_KEY)]);
         this.eatTimer = nbt.getLong("eatTimer");
+        this.setHasEgg(nbt.getBoolean("HasEgg"));
+        int l = nbt.getInt("TravelPosX");
+        int m = nbt.getInt("TravelPosY");
+        int n = nbt.getInt("TravelPosZ");
+        this.setTravelPos(new BlockPos(l, m, n));
     }
 
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(5, new LayFrogEggGoal(this, 1.0D));
+        this.goalSelector.add(5, new FrogMateGoal(this, 1.0D));
+        this.goalSelector.add(3, new FrogWanderInWaterGoal(this, 1.0D));
         this.goalSelector.add(2, new WanderAroundFarGoal(this, speed));
+        this.goalSelector.add(2, new TemptGoal(this, 1.1D, BREEDING_ITEM, false));
         this.goalSelector.add(3, new FrogGoal(this));
         this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
+    }
+
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.isOf(Blocks.SEAGRASS.asItem());
     }
 
     protected SoundEvent getAmbientSound() {return RegisterSounds.ENTITY_FROG_AMBIENT;}
@@ -152,6 +247,14 @@ public class FrogEntity extends PathAwareEntity {
 
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
         return false;
+    }
+
+    public void setLoveTicks(int loveTicks) {
+        this.loveTicks = loveTicks;
+    }
+
+    public int getLoveTicks() {
+        return this.loveTicks;
     }
 
     public enum Variant {
@@ -179,10 +282,60 @@ public class FrogEntity extends PathAwareEntity {
     public void handleStatus(byte status) {
         if (status == 4) {
             this.tongue = 10;
+        } else if (status == 18) {
+            for(int i = 0; i < 7; ++i) {
+                double d = this.random.nextGaussian() * 0.02D;
+                double e = this.random.nextGaussian() * 0.02D;
+                double f = this.random.nextGaussian() * 0.02D;
+                this.world.addParticle(ParticleTypes.HEART, this.getParticleX(1.0D), this.getRandomBodyY() + 0.5D, this.getParticleZ(1.0D), d, e, f);
+            }
         } else {
             super.handleStatus(status);
         }
     }
 
+    protected boolean canPlace(World world, BlockPos pos) {
+        return world.isAir(pos.up()) && FrogEggBlock.isWater(world, pos);
+    }
 
+}
+
+class FrogMoveControl extends MoveControl {
+    private final FrogEntity frog;
+
+    FrogMoveControl(FrogEntity frog) {
+        super(frog);
+        this.frog = frog;
+    }
+
+    private void updateVelocity() {
+        if (this.frog.isTouchingWater()) {
+            this.frog.setVelocity(this.frog.getVelocity().add(0.0D, 0.005D, 0.0D));
+            if (!this.frog.getBlockPos().isWithinDistance(this.frog.getPos(), 16.0D)) {
+                this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.08F));
+            }
+        } else if (this.frog.isOnGround()) {
+            this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.06F));
+        }
+
+    }
+
+    public void tick() {
+        this.updateVelocity();
+        if (this.state == State.MOVE_TO && !this.frog.getNavigation().isIdle()) {
+            double d = this.targetX - this.frog.getX();
+            double e = this.targetY - this.frog.getY();
+            double f = this.targetZ - this.frog.getZ();
+            double g = Math.sqrt(d * d + e * e + f * f);
+            e /= g;
+            float h = (float)(MathHelper.atan2(f, d) * 57.2957763671875D) - 90.0F;
+            this.frog.setYaw(this.wrapDegrees(this.frog.getYaw(), h, 90.0F));
+            this.frog.bodyYaw = this.frog.getYaw();
+            float i = (float)(this.speed * this.frog.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED));
+            this.frog.setMovementSpeed(MathHelper.lerp(0.125F, this.frog.getMovementSpeed(), i));
+            this.frog.setVelocity(this.frog.getVelocity().add(0.0D, (double)this.frog.getMovementSpeed() * e * 0.1D, 0.0D));
+        } else {
+            this.frog.setMovementSpeed(0.0F);
+        }
+    }
 }
