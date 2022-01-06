@@ -23,12 +23,12 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class FrogEggBlock
         extends PlantBlock {
     protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 1.5, 16.0);
-
 
     public FrogEggBlock(AbstractBlock.Settings settings) {
         super(settings);
@@ -37,6 +37,7 @@ public class FrogEggBlock
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         if (!world.isClient) {
             world.syncWorldEvent(2005, pos, 0);
+            world.createAndScheduleBlockTick(pos, world.getBlockState(pos).getBlock(), UniformIntProvider.create(400, 1800).get(world.getRandom()));
         }
 
     }
@@ -52,22 +53,14 @@ public class FrogEggBlock
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        super.randomTick(state, world, pos, random);
-        if (UniformIntProvider.create(1,4).get(world.getRandom())==4) {
-            int tadpoles = UniformIntProvider.create(1, 6).get(world.getRandom());
+    public void scheduledTick(BlockState blockState, ServerWorld serverWorld, BlockPos pos, Random random) {
+            int tadpoles = UniformIntProvider.create(1, 6).get(serverWorld.getRandom());
             for (int t = 0; t < tadpoles; t++) {
-                TadpoleEntity tadpoleEntity = (TadpoleEntity) RegisterEntities.TADPOLE.create(world);
+                TadpoleEntity tadpoleEntity = (TadpoleEntity) RegisterEntities.TADPOLE.create(serverWorld);
                 tadpoleEntity.refreshPositionAndAngles((double) pos.getX() + 0.3D + 0.2D, (double) pos.getY(), (double) pos.getZ() + 0.3D, 0.0F, 0.0F);
-                world.spawnEntity(tadpoleEntity);
+                serverWorld.spawnEntity(tadpoleEntity);
             }
-            world.breakBlock(pos, false);
-        }
-    }
-
-    @Override
-    public boolean hasRandomTicks(BlockState state) {
-        return true;
+            serverWorld.breakBlock(pos, false);
     }
 
     @Override
