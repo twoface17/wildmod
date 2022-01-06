@@ -71,6 +71,7 @@ public class WildModClient implements ClientModInitializer {
             registry.register(new Identifier("accuratesculk", "particle/sculk_shrieknx2"));
             registry.register(new Identifier("accuratesculk", "particle/sculk_shriekx"));
             registry.register(new Identifier("accuratesculk", "particle/sculk_shriekx2"));
+            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_soul"));
         }));
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK, ShriekParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK2, ShriekParticle2.Factory::new);
@@ -80,10 +81,7 @@ public class WildModClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKNX2, ShriekParticleNX2.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX, ShriekParticleX.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX2, ShriekParticleX2.Factory::new);
-
-        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
-            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_soul"));
-        }));
+        ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_SOUL, SculkSoul.Factory::new);
 
 
 
