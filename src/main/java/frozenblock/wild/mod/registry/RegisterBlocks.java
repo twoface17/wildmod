@@ -32,11 +32,6 @@ public abstract class RegisterBlocks {
                     SoundEvents.BLOCK_METAL_STEP
             ));
 
-    public static final AbstractBlock.Settings SCULK_CATALYST_PROPERTIES = FabricBlockSettings
-            .of(Material.SCULK)
-            .sounds(BlockSoundGroup.SCULK_SENSOR)
-            .luminance(6);
-
     public static final FabricBlockSettings MUD_BRICKS_SETTINGS = FabricBlockSettings
             .of(Material.STONE)
             .sounds(BlockSoundGroup.DEEPSLATE_BRICKS)
@@ -56,7 +51,7 @@ public abstract class RegisterBlocks {
     public static final WallBlock MUD_BRICKS_WALL = new WallBlock(MUD_BRICKS_SETTINGS);
     public static final SlabBlock MUD_BRICKS_SLAB = new SlabBlock(MUD_BRICKS_SETTINGS);
     public static final StairsBlock MUD_BRICKS_STAIRS = new CustomStairs(Blocks.OAK_STAIRS.getDefaultState(), MUD_BRICKS_SETTINGS);
-    public static final Block SCULK = new SculkBlock(SCULK_PROPERTIES.strength(0.9f, 0.9f));
+    public static final Block SCULK = SculkBlock.SCULK_BLOCK;
     public static final Block PEARLESCENT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block VERDANT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block OCHRE_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
@@ -68,6 +63,7 @@ public abstract class RegisterBlocks {
 
     // ALL BLOCKS HERE HAVE NO COLLISION
     public static final Block FROG_EGG = new FrogEggBlock(FROG_EGG_PROPERTIES.nonOpaque().noCollision());
+    public static final Block SCULK_VEIN = SculkVeinBlock.SCULK_VEIN;
 
     public static void RegisterBlocks() {
 
