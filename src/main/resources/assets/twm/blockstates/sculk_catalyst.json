@@ -1,7 +1,7 @@
 {
   "variants": {
-    "sculk_catalyst_phase=active": { "model":  "accuratesculk:block/sculk_catalyst_bloom" },
-    "sculk_catalyst_phase=cooldown": { "model":  "accuratesculk:block/sculk_catalyst" },
-    "sculk_catalyst_phase=inactive": { "model":  "accuratesculk:block/sculk_catalyst" }
+    "sculk_catalyst_phase=active": { "model":  "twm:block/sculk_catalyst_bloom" },
+    "sculk_catalyst_phase=cooldown": { "model":  "twm:block/sculk_catalyst" },
+    "sculk_catalyst_phase=inactive": { "model":  "twm:block/sculk_catalyst" }
   }
 }

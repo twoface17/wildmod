@@ -1,7 +1,7 @@
 {
   "variants": {
-    "sculk_shrieker_phase=active": { "model":  "accuratesculk:block/sculk_shrieker" },
-    "sculk_shrieker_phase=cooldown": { "model":  "accuratesculk:block/sculk_shrieker" },
-    "sculk_shrieker_phase=inactive": { "model":  "accuratesculk:block/sculk_shrieker" }
+    "sculk_shrieker_phase=active": { "model":  "twm:block/sculk_shrieker" },
+    "sculk_shrieker_phase=cooldown": { "model":  "twm:block/sculk_shrieker" },
+    "sculk_shrieker_phase=inactive": { "model":  "twm:block/sculk_shrieker" }
   }
 }
