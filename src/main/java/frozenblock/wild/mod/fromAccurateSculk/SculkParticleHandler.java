@@ -1,12 +1,21 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
+import frozenblock.wild.mod.registry.RegisterParticles;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 
 public class SculkParticleHandler {
+
+    public static void catalystSouls(World world, BlockPos blockPos) {
+        double d = (double) blockPos.getX() + 0.5;
+        double e = (double) blockPos.getY() + 1;
+        double f = (double) blockPos.getZ() + 0.5;
+        world.addImportantParticle(RegisterParticles.SCULK_SOUL, d - 0.07, e, f - 0.07, 0.0, 0.06, 0.0);
+        world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + 0.07, e, f + 0.07, 0.0, 0.05, 0.0);
+    }
 
     public static void shriekerShriek(World world, BlockPos blockPos, int direction) {
         double d = (double) blockPos.getX() + 0.5;
