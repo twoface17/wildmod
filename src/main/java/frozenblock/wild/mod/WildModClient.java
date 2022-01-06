@@ -1,6 +1,7 @@
 package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
+import frozenblock.wild.mod.blocks.SculkVeinBlock;
 import frozenblock.wild.mod.blocks.mangrove.MangroveWood;
 import frozenblock.wild.mod.entity.*;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
@@ -52,6 +53,7 @@ public class WildModClient implements ClientModInitializer {
     public static final Identifier SHRIEKER_SHRIEK_PACKET = new Identifier("shriek_packet");
     public static final Identifier SHRIEKER_GARGLE1_PACKET = new Identifier("gargle1_packet");
     public static final Identifier SHRIEKER_GARGLE2_PACKET = new Identifier("gargle2_packet");
+    public static final Identifier CATALYST_PARTICLE_PACKET = new Identifier("catalyst_packet");
 
     @Override
     public void onInitializeClient() {
@@ -93,7 +95,7 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_TRAPDOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_PROPAGULE, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_VEIN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(SculkVeinBlock.SCULK_VEIN, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.FROG_EGG, RenderLayer.getCutout());
 
 
@@ -125,6 +127,13 @@ public class WildModClient implements ClientModInitializer {
 
         BlockRenderLayerMap.INSTANCE.putBlock(SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, RenderLayer.getCutout());
 
+        ClientPlayNetworking.registerGlobalReceiver(CATALYST_PARTICLE_PACKET, (client, handler, buf, responseSender) -> {
+            BlockPos catalyst = buf.readBlockPos();
+            client.execute(() -> {
+                assert client.world != null;
+                SculkParticleHandler.catalystSouls(client.world, catalyst);
+            });
+        });
         ClientPlayNetworking.registerGlobalReceiver(SHRIEKER_SHRIEK_PACKET, (client, handler, buf, responseSender) -> {
             BlockPos shrieker = buf.readBlockPos();
             int direction = buf.readInt();
