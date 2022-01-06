@@ -85,6 +85,13 @@
       "twm:entity/warden/slightly_angry_2"
     ]
   },
+  "entity.warden.emerge": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.twm.warden.emerge",
+    "sounds": [
+      "twm:entity/warden/emerge"
+    ]
+  },
   "entity.warden.ambient": {
     "category": "hostile",
     "subtitle": "subtitles.entity.twm.warden.ambient",
