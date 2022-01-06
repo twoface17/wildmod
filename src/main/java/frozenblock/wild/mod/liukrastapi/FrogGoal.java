@@ -126,8 +126,14 @@ public class FrogGoal extends Goal {
                                 target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                                 target.kill();
                                 target.deathTime=10;
-                                mob.dropItem(RegisterBlocks.OCHRE_FROGLIGHT);
                                 mob.eatTimer = world.getTime();
+                                if (mob.getVariant()== FrogEntity.Variant.SWAMP) {
+                                    mob.dropItem(RegisterBlocks.OCHRE_FROGLIGHT);
+                                } else if (mob.getVariant()== FrogEntity.Variant.COLD) {
+                                    mob.dropItem(RegisterBlocks.VERDANT_FROGLIGHT);
+                                } else if (mob.getVariant()== FrogEntity.Variant.TROPICAL) {
+                                    mob.dropItem(RegisterBlocks.PEARLESCENT_FROGLIGHT);
+                                }
                             }
                         }
                     }
