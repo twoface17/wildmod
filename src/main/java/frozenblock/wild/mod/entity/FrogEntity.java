@@ -6,6 +6,7 @@ import frozenblock.wild.mod.liukrastapi.FrogMateGoal;
 import frozenblock.wild.mod.liukrastapi.FrogWanderInWaterGoal;
 import frozenblock.wild.mod.liukrastapi.LayFrogEggGoal;
 import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterItems;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
@@ -38,6 +39,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
@@ -121,7 +123,6 @@ public class FrogEntity extends AnimalEntity {
         if (this.getBreedingAge() != 0) {
             this.loveTicks = 0;
         }
-
         if (this.loveTicks > 0) {
             --this.loveTicks;
             if (this.loveTicks % 10 == 0) {
@@ -130,6 +131,15 @@ public class FrogEntity extends AnimalEntity {
                 double f = this.random.nextGaussian() * 0.02D;
                 this.world.addParticle(ParticleTypes.HEART, this.getParticleX(1.0D), this.getRandomBodyY() + 0.5D, this.getParticleZ(1.0D), d, e, f);
             }
+        }
+        if (this.hasFrogEgg() && canPlace(this.world, this.getBlockPos())) {
+            World world = this.world;
+            world.playSound((PlayerEntity) null, this.getBlockPos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
+            world.setBlockState(this.getBlockPos().up(), (BlockState) RegisterBlocks.FROG_EGG.getDefaultState(), 3);
+            world.syncWorldEvent(2005, this.getBlockPos().up(), 0);
+            world.createAndScheduleBlockTick(this.getBlockPos(), world.getBlockState(this.getBlockPos()).getBlock(), UniformIntProvider.create(400, 1800).get(world.getRandom()));
+            this.setHasEgg(false);
+            this.setLoveTicks(600);
         }
     }
 
@@ -284,6 +294,9 @@ public class FrogEntity extends AnimalEntity {
         }
     }
 
+    protected boolean canPlace(World world, BlockPos pos) {
+        return world.isAir(pos.up()) && FrogEggBlock.isWater(world, pos);
+    }
 
 }
 
