@@ -1,25 +1,15 @@
 package frozenblock.wild.mod.mixins;
 
-import frozenblock.wild.mod.blocks.SculkCatalystBlock;
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.entity.WardenEntity;
-import frozenblock.wild.mod.liukrastapi.GenerateSculk;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
-import frozenblock.wild.mod.liukrastapi.Sphere;
-import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import frozenblock.wild.mod.registry.*;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -27,14 +17,12 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.SimpleGameEventDispatcher;
-import org.lwjgl.system.CallbackI;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -52,24 +40,6 @@ public class SimpleGameEventDispatcherMixin{
         BlockPos eventpos;
         World eventworld;
         LivingEntity evententity;
-
-        if(event == GameEvent.ENTITY_KILLED) {
-            if(entity != null) {
-                if (entity instanceof MobEntity) {
-                    BlockState blockState = RegisterBlocks.SCULK_CATALYST.getDefaultState();
-                    ArrayList<BlockPos> catalystnear = Sphere.checkSpherePos(blockState, entity.getEntityWorld(), entity.getBlockPos(), 10, true);
-                    if(catalystnear.size() > 0) {
-                        GenerateSculk.generateSculk(entity.getEntityWorld(), entity.getBlockPos());
-                    }
-
-                    for (BlockPos pos1 : catalystnear) {
-                        world.setBlockState(pos1, RegisterBlocks.SCULK_CATALYST.getDefaultState().with(SculkCatalystBlock.BLOOM, true));
-                        world.createAndScheduleBlockTick(pos1, world.getBlockState(pos1).getBlock(), 40);
-                        entity.getEntityWorld().addParticle(RegisterParticles.SCULK_SOUL, pos1.getX() + 0.5, pos1.getY() + 0.5, pos1.getZ() + 0.5, 0, 0.3, 0);
-                    }
-                }
-            }
-        }
 
         if(SculkSensorBlock.FREQUENCIES.containsKey(event)) {
             

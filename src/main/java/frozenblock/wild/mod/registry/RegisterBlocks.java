@@ -32,11 +32,6 @@ public abstract class RegisterBlocks {
                     SoundEvents.BLOCK_METAL_STEP
             ));
 
-    public static final AbstractBlock.Settings SCULK_CATALYST_PROPERTIES = FabricBlockSettings
-            .of(Material.SCULK)
-            .sounds(BlockSoundGroup.SCULK_SENSOR)
-            .luminance(6);
-
     public static final FabricBlockSettings MUD_BRICKS_SETTINGS = FabricBlockSettings
             .of(Material.STONE)
             .sounds(BlockSoundGroup.DEEPSLATE_BRICKS)
@@ -56,27 +51,19 @@ public abstract class RegisterBlocks {
     public static final WallBlock MUD_BRICKS_WALL = new WallBlock(MUD_BRICKS_SETTINGS);
     public static final SlabBlock MUD_BRICKS_SLAB = new SlabBlock(MUD_BRICKS_SETTINGS);
     public static final StairsBlock MUD_BRICKS_STAIRS = new CustomStairs(Blocks.OAK_STAIRS.getDefaultState(), MUD_BRICKS_SETTINGS);
-    public static final Block SCULK = new SculkBlock(SCULK_PROPERTIES.strength(0.9f, 0.9f));
+    public static final Block SCULK = SculkBlock.SCULK_BLOCK;
     public static final Block PEARLESCENT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block VERDANT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block OCHRE_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
 
 
-    public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES
-            .strength(2f, 2f)
-            .sounds(new BlockSoundGroup(0.8f, 1.0f,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_BREAK,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_PLACE,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP
-            )));
+    public static final Block SCULK_CATALYST = SculkCatalystBlock.SCULK_CATALYST_BLOCK;
 
     public static final Block DEEPSLATE_FRAME = new PillarBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
 
     // ALL BLOCKS HERE HAVE NO COLLISION
     public static final Block FROG_EGG = new FrogEggBlock(FROG_EGG_PROPERTIES.nonOpaque().noCollision());
-    public static final Block SCULK_VEIN = new SculkVeinBlock(SCULK_PROPERTIES.nonOpaque().noCollision().strength(0.5f, 0.5f));
+    public static final Block SCULK_VEIN = SculkVeinBlock.SCULK_VEIN;
 
     public static void RegisterBlocks() {
 
@@ -98,13 +85,13 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk"), SCULK);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk"), new BlockItem(SCULK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_vein"), SCULK_VEIN);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_vein"), new BlockItem(SCULK_VEIN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_vein"), SculkVeinBlock.SCULK_VEIN);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_vein"), new BlockItem(SculkVeinBlock.SCULK_VEIN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), SCULK_CATALYST);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), new BlockItem(SCULK_CATALYST, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
-        Registry.register(Registry.BLOCK, new Identifier("twm", "sculk_shrieker"), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem( SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_sensor"), new BlockItem(Blocks.SCULK_SENSOR, new FabricItemSettings().group(ItemGroup.REDSTONE)));

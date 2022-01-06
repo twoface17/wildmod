@@ -6,6 +6,7 @@ import net.minecraft.world.event.GameEvent;
 public class ClickGameEvent extends GameEvent {
 
     public static final GameEvent CLICK = ClickGameEvent.register("click");
+    public static final GameEvent DEATH = ClickGameEvent.register("death");
 
     public ClickGameEvent(String string, int i, String id, int range) {
         super(string, i);

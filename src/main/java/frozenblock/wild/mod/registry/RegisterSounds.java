@@ -36,6 +36,11 @@ public class RegisterSounds {
 
     public static void RegisterSounds() {
 
+        BLOCK_SCULK_STEP = register(BLOCK_SCULK_STEP.getId());
+        BLOCK_SCULK_HIT = register(BLOCK_SCULK_HIT.getId());
+        BLOCK_SCULK_FALL = register(BLOCK_SCULK_FALL.getId());
+        BLOCK_SCULK_BREAK = register(BLOCK_SCULK_BREAK.getId());
+        BLOCK_SCULK_PLACE = register(BLOCK_SCULK_PLACE.getId());
         BLOCK_SCULK_CATALYST_BREAK = register(BLOCK_SCULK_CATALYST_BREAK.getId());
         BLOCK_SCULK_CATALYST_PLACE = register(BLOCK_SCULK_CATALYST_PLACE.getId());
         BLOCK_SCULK_CATALYST_STEP = register(BLOCK_SCULK_CATALYST_STEP.getId());

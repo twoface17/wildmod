@@ -14,7 +14,8 @@
     "TreeDecoratorTypeInvoker",
     "VanillaBiomeParametersMixin",
     "VanillaSurfaceRulesBlockInvoker",
-    "VanillaSurfaceRulesInjector"
+    "VanillaSurfaceRulesInjector",
+    "LivingEntityMixin"
   ],
   "client": [
   ],
