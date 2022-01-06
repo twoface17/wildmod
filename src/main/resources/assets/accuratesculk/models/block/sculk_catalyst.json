@@ -1,0 +1,12 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+        "particle": "accuratesculk:block/sculk_catalyst_side",
+        "north": "accuratesculk:block/sculk_catalyst_side",
+        "south": "accuratesculk:block/sculk_catalyst_side",
+        "east": "accuratesculk:block/sculk_catalyst_side",
+        "west": "accuratesculk:block/sculk_catalyst_side",
+        "up": "accuratesculk:block/sculk_catalyst_top",
+        "down": "accuratesculk:block/sculk_catalyst_bottom"
+    }
+}
