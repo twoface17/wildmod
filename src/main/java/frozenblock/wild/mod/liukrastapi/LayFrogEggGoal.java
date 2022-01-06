@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 
@@ -32,17 +33,21 @@ public class LayFrogEggGoal extends MoveToTargetPosGoal {
     public void tick() {
         super.tick();
         BlockPos blockPos = this.frog.getBlockPos();
-        if (this.frog.isTouchingWater() && this.hasReached()) {
+        if (this.frog.isTouchingWater() && canPlace(this.frog.world, this.frog.getBlockPos())) {
             World world = this.frog.world;
             world.playSound((PlayerEntity) null, blockPos, SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
-            world.setBlockState(this.targetPos.up(), (BlockState) RegisterBlocks.FROG_EGG.getDefaultState(), 3);
-            world.syncWorldEvent(2005, this.targetPos.up(), 0);
+            world.setBlockState(this.frog.getBlockPos().up(), (BlockState) RegisterBlocks.FROG_EGG.getDefaultState(), 3);
+            world.syncWorldEvent(2005, this.frog.getBlockPos().up(), 0);
+            world.createAndScheduleBlockTick(blockPos, world.getBlockState(blockPos).getBlock(), UniformIntProvider.create(400, 1800).get(world.getRandom()));
             this.frog.setHasEgg(false);
             this.frog.setLoveTicks(600);
         }
     }
 
     protected boolean isTargetPos(WorldView world, BlockPos pos) {
+        return world.isAir(pos.up()) && FrogEggBlock.isWater(world, pos);
+    }
+    protected boolean canPlace(World world, BlockPos pos) {
         return world.isAir(pos.up()) && FrogEggBlock.isWater(world, pos);
     }
 }
