@@ -32,7 +32,7 @@ public class LayFrogEggGoal extends MoveToTargetPosGoal {
     public void tick() {
         super.tick();
         BlockPos blockPos = this.frog.getBlockPos();
-        if (!this.frog.isTouchingWater() && this.hasReached()) {
+        if (this.frog.isTouchingWater() && this.hasReached()) {
             World world = this.frog.world;
             world.playSound((PlayerEntity) null, blockPos, SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
             world.setBlockState(this.targetPos.up(), (BlockState) RegisterBlocks.FROG_EGG.getDefaultState(), 3);
