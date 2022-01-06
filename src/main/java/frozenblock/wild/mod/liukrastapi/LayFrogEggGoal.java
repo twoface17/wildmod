@@ -23,25 +23,15 @@ public class LayFrogEggGoal extends MoveToTargetPosGoal {
     }
 
     public boolean canStart() {
-        return this.frog.hasFrogEgg() && this.frog.getBlockPos().isWithinDistance(this.frog.getPos(), 9.0D) && super.canStart();
+        return this.frog.hasFrogEgg() && super.canStart();
     }
 
     public boolean shouldContinue() {
-        return super.shouldContinue() && this.frog.hasFrogEgg() && this.frog.getBlockPos().isWithinDistance(this.frog.getPos(), 9.0D);
+        return super.shouldContinue();
     }
 
     public void tick() {
         super.tick();
-        BlockPos blockPos = this.frog.getBlockPos();
-        if (this.frog.isTouchingWater() && canPlace(this.frog.world, this.frog.getBlockPos())) {
-            World world = this.frog.world;
-            world.playSound((PlayerEntity) null, blockPos, SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
-            world.setBlockState(this.frog.getBlockPos().up(), (BlockState) RegisterBlocks.FROG_EGG.getDefaultState(), 3);
-            world.syncWorldEvent(2005, this.frog.getBlockPos().up(), 0);
-            world.createAndScheduleBlockTick(blockPos, world.getBlockState(blockPos).getBlock(), UniformIntProvider.create(400, 1800).get(world.getRandom()));
-            this.frog.setHasEgg(false);
-            this.frog.setLoveTicks(600);
-        }
     }
 
     protected boolean isTargetPos(WorldView world, BlockPos pos) {
