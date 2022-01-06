@@ -62,21 +62,12 @@ public abstract class RegisterBlocks {
     public static final Block OCHRE_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
 
 
-    public static final Block SCULK_CATALYST = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES
-            .strength(2f, 2f)
-            .sounds(new BlockSoundGroup(0.8f, 1.0f,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_BREAK,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_PLACE,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP
-            )));
+    public static final Block SCULK_CATALYST = SculkCatalystBlock.SCULK_CATALYST_BLOCK;
 
     public static final Block DEEPSLATE_FRAME = new PillarBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
 
     // ALL BLOCKS HERE HAVE NO COLLISION
     public static final Block FROG_EGG = new FrogEggBlock(FROG_EGG_PROPERTIES.nonOpaque().noCollision());
-    public static final Block SCULK_VEIN = new SculkVeinBlock(SCULK_PROPERTIES.nonOpaque().noCollision().strength(0.5f, 0.5f));
 
     public static void RegisterBlocks() {
 
@@ -98,13 +89,13 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk"), SCULK);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk"), new BlockItem(SCULK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_vein"), SCULK_VEIN);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_vein"), new BlockItem(SCULK_VEIN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_vein"), SculkVeinBlock.SCULK_VEIN);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_vein"), new BlockItem(SculkVeinBlock.SCULK_VEIN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), SCULK_CATALYST);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), new BlockItem(SCULK_CATALYST, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
-        Registry.register(Registry.BLOCK, new Identifier("twm", "sculk_shrieker"), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem( SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_sensor"), new BlockItem(Blocks.SCULK_SENSOR, new FabricItemSettings().group(ItemGroup.REDSTONE)));
