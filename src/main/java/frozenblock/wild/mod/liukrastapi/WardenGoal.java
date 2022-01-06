@@ -1,22 +1,11 @@
 package frozenblock.wild.mod.liukrastapi;
 
 import frozenblock.wild.mod.entity.WardenEntity;
-import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.VibrationParticleEffect;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
-import net.minecraft.world.event.BlockPositionSource;
-import net.minecraft.world.event.PositionSource;
-import net.minecraft.world.event.PositionSourceType;
 
-import java.util.Optional;
 
 public class WardenGoal extends Goal {
     private int cooldown;
@@ -29,16 +18,10 @@ public class WardenGoal extends Goal {
 
     private final WardenEntity mob;
     private final double speed;
-    protected int delay = 0;
-    protected int distance;
 
     public WardenGoal(WardenEntity mob, double speed) {
         this.mob = mob;
         this.speed = speed;
-    }
-        public void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
-        this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;
-        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
     }
 
     public boolean canStart() {
@@ -53,21 +36,6 @@ public class WardenGoal extends Goal {
                     double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
                     double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
                     if(Math.sqrt(distancex + distancey + distancez) < 15) {
-                    BlockPos WardenHead = this.mob.getBlockPos().up((int) 3);
-                    PositionSource wardenPositionSource = new PositionSource() {
-                            @Override
-                            public Optional<BlockPos> getPos(World world) {
-                                return Optional.of(WardenHead);
-                            }
-
-                            @Override
-                            public PositionSourceType<?> getType() {
-                                return null;
-                            }
-                        };
-                        CreateVibration(lasteventWorld, lasteventpos, wardenPositionSource, WardenHead);
-                        //And there you go! Vibrations! If it's too high, just change BlockPos WardenHead to .up((int) 2) instead of 3. Sadly Idk how to cast anything but ints to BlockPos so it'll always be just slightly off of the middle of its head.
-
                         exit = true;
                     }
                 }
