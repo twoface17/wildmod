@@ -7,11 +7,9 @@ import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.BigDripleafBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MagmaCubeEntity;
 import net.minecraft.entity.mob.SlimeEntity;
-import net.minecraft.server.ServerTask;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -20,7 +18,6 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class FrogGoal extends Goal {
 
@@ -230,3 +227,4 @@ public class FrogGoal extends Goal {
         return exitList;
     }
 }
+
