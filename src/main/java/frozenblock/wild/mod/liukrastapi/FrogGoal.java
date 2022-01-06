@@ -7,9 +7,12 @@ import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.BigDripleafBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MagmaCubeEntity;
 import net.minecraft.entity.mob.SlimeEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -106,7 +109,7 @@ public class FrogGoal extends Goal {
                 List<SlimeEntity> slimelist = world.getNonSpectatingEntities(SlimeEntity.class, box);
                 if (slimelist.size() > 0) {
                     for (SlimeEntity target : slimelist) {
-                        if (target.getSize() == 1) {
+                        if (target.getSize() == 1 && target.getType()!=EntityType.MAGMA_CUBE && target.isAlive()) {
                             if (world.getTime()-mob.eatTimer>=10) {
                                 world.sendEntityStatus(this.mob, (byte) 4);
                                 target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
@@ -120,20 +123,20 @@ public class FrogGoal extends Goal {
                 List<MagmaCubeEntity> magmalist = world.getNonSpectatingEntities(MagmaCubeEntity.class, box);
                 if (magmalist.size() > 0) {
                     for (MagmaCubeEntity target : magmalist) {
-                        if (target.getSize() == 1) {
-                            if (world.getTime()-mob.eatTimer>=10) {
+                        if (target.getSize() == 1 && target.isAlive()) {
+                            if (world.getTime()-this.mob.eatTimer>=10) {
                                 world.sendEntityStatus(this.mob, (byte) 4);
                                 target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                                 target.kill();
                                 target.deathTime=10;
-                                mob.eatTimer = world.getTime();
-                                if (mob.getVariant()== FrogEntity.Variant.SWAMP) {
-                                    mob.dropItem(RegisterBlocks.OCHRE_FROGLIGHT);
-                                } else if (mob.getVariant()== FrogEntity.Variant.COLD) {
-                                    mob.dropItem(RegisterBlocks.VERDANT_FROGLIGHT);
-                                } else if (mob.getVariant()== FrogEntity.Variant.TROPICAL) {
-                                    mob.dropItem(RegisterBlocks.PEARLESCENT_FROGLIGHT);
+                                if (mob.getVariant()==FrogEntity.Variant.SWAMP) {
+                                    mob.dropItem(RegisterBlocks.OCHRE_FROGLIGHT.asItem(),0);
+                                } else if (mob.getVariant()==FrogEntity.Variant.COLD) {
+                                    mob.dropItem(RegisterBlocks.VERDANT_FROGLIGHT.asItem(),0);
+                                } else if (mob.getVariant()==FrogEntity.Variant.TROPICAL) {
+                                    mob.dropItem(RegisterBlocks.PEARLESCENT_FROGLIGHT.asItem(),0);
                                 }
+                                mob.eatTimer = world.getTime();
                             }
                         }
                     }
