@@ -40,6 +40,7 @@ public class WardenEntity extends HostileEntity {
     public World lasteventworld;
     public LivingEntity lastevententity;
 
+    public boolean hasDetected=false;
     public long vibrationTimer = 0;
     protected int delay = 0;
     protected int distance;
@@ -75,7 +76,7 @@ public class WardenEntity extends HostileEntity {
         if(this.roarTicksLeft1 > 0) {
             --this.roarTicksLeft1;
         }
-        if(world.getTime()-vibrationTimer>=1200) {
+        if(hasDetected && world.getTime()-vibrationTimer>=1200) {
             this.remove(RemovalReason.DISCARDED);
         }
         super.tickMovement();
@@ -141,6 +142,7 @@ public class WardenEntity extends HostileEntity {
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
         if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime()-this.vibrationTimer>=23) {
+            hasDetected=true;
             this.vibrationTimer=this.world.getTime();
             world.playSound(null, this.getBlockPos().up(2), SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
             BlockPos WardenHead = this.getBlockPos().up((int) 3);
