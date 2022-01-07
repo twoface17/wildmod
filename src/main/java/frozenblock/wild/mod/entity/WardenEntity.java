@@ -28,6 +28,8 @@ import java.util.Optional;
 
 public class WardenEntity extends HostileEntity {
 
+    public int emergeTicksLeft=120;
+
     private int attackTicksLeft1;
 
     private int roarTicksLeft1;
@@ -54,6 +56,13 @@ public class WardenEntity extends HostileEntity {
         return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 31.0D);
     }
 
+    @Override
+    @Nullable
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
+        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    }
+
 
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
@@ -75,6 +84,9 @@ public class WardenEntity extends HostileEntity {
         }
         if(this.roarTicksLeft1 > 0) {
             --this.roarTicksLeft1;
+        }
+        if(this.emergeTicksLeft > 0) {
+            --this.emergeTicksLeft;
         }
         if(hasDetected && world.getTime()-vibrationTimer>=1200) {
             this.remove(RemovalReason.DISCARDED);
