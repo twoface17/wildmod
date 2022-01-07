@@ -29,38 +29,41 @@ public class WardenGoal extends Goal {
         BlockPos lasteventpos = this.mob.lasteventpos;
         World lasteventWorld = this.mob.lasteventworld;
 
-        if(this.mob.getAttacker() == null) {
-            if(lasteventWorld != null && lasteventpos != null) {
-                if(lasteventWorld == this.mob.getEntityWorld()) {
-                    double distancex = Math.pow(this.mob.getBlockX() - lasteventpos.getX(), 2);
-                    double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
-                    double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
-                    if(Math.sqrt(distancex + distancey + distancez) < 15) {
-                        exit = true;
-                    }
-                }
-            }
-        } else {
-            BlockPos blockPos = this.mob.getAttacker().getBlockPos();
-            if(blockPos != null) {
-                this.VX = this.mob.getAttacker().getX();
-                this.VY = this.mob.getAttacker().getY();
-                this.VZ = this.mob.getAttacker().getZ();
-            }
-            exit = true;
-        }
+       if (this.mob.emergeTicksLeft>0) {
+            return false;
+       }
+           if (this.mob.getAttacker() == null) {
+               if (lasteventWorld != null && lasteventpos != null) {
+                   if (lasteventWorld == this.mob.getEntityWorld()) {
+                       double distancex = Math.pow(this.mob.getBlockX() - lasteventpos.getX(), 2);
+                       double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
+                       double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
+                       if (Math.sqrt(distancex + distancey + distancez) < 15) {
+                           exit = true;
+                       }
+                   }
+               }
+           } else {
+               BlockPos blockPos = this.mob.getAttacker().getBlockPos();
+               if (blockPos != null) {
+                   this.VX = this.mob.getAttacker().getX();
+                   this.VY = this.mob.getAttacker().getY();
+                   this.VZ = this.mob.getAttacker().getZ();
+               }
+               exit = true;
+           }
 
-        if(this.mob.getNavigation().isIdle()) {
-            if(Math.random() > 0.5) {
-                this.mob.roar();
-                exit = false;
-            }
-        }
+           if (this.mob.getNavigation().isIdle()) {
+               if (Math.random() > 0.5) {
+                   this.mob.roar();
+                   exit = false;
+               }
+           }
 
-        int r = this.mob.getRoarTicksLeft1();
-        if(r > 0) {
-            exit = false;
-        }
+           int r = this.mob.getRoarTicksLeft1();
+           if (r > 0) {
+               exit = false;
+           }
 
         return exit;
     }
