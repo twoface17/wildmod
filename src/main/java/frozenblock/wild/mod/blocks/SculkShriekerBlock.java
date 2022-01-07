@@ -456,11 +456,11 @@ public class SculkShriekerBlock
     public static void warn(World world, BlockPos blockPos, int i) {
         if (i==1) {
                 double a = random() * 2 * PI;
-                double r = sqrt(18) * sqrt(random());
+                double r = sqrt(16) * sqrt(random());
                 int x = (int) (r * cos(a));
                 int y = (int) (r * sin(a));
                 BlockPos play = blockPos.add(x,0,y);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.1F, 1F);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.2F, 1F);
         } else
         if (i==2) {
             double a = random() * 2 * PI;
@@ -468,15 +468,23 @@ public class SculkShriekerBlock
             int x = (int) (r * cos(a));
             int y = (int) (r * sin(a));
             BlockPos play = blockPos.add(x,0,y);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.2F, 1F);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.3F, 1F);
         } else
-        if (i>=3) {
+        if (i==3) {
+            double a = random() * 2 * PI;
+            double r = sqrt(10) * sqrt(random());
+            int x = (int) (r * cos(a));
+            int y = (int) (r * sin(a));
+            BlockPos play = blockPos.add(x,0,y);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.4F, 1F);
+        }
+        if (i>=4) {
             double a = random() * 2 * PI;
             double r = sqrt(8) * sqrt(random());
             int x = (int) (r * cos(a));
             int y = (int) (r * sin(a));
             BlockPos play = blockPos.add(x,0,y);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.3F, 1F);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.5F, 1F);
         }
     }
 
