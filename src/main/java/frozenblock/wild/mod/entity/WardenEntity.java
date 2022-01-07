@@ -159,4 +159,13 @@ public class WardenEntity extends HostileEntity {
         this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
     }
+    
+    @Override
+    public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
+    @Override
+    public void emitGameEvent(GameEvent event, @Nullable Entity entity) {}
+    @Override
+    public void emitGameEvent(GameEvent event, BlockPos pos) {}
+    @Override
+    public void emitGameEvent(GameEvent event) {}
 }
