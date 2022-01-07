@@ -25,9 +25,13 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     int ticks;
     int prevTick;
     int direction;
+    int shrieks;
 
     public int getTicks() {
         return ticks;
+    }
+    public int getShrieks() {
+        return shrieks;
     }
     public int getPrevTick() {
         return prevTick;
@@ -37,6 +41,9 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     }
     public void setTicks(int i) {
         ticks = i;
+    }
+    public void setShrieks(int i) {
+        shrieks = i;
     }
     public void setPrevTick(int i) {
         prevTick = i;
@@ -51,12 +58,11 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
         this.listener = new SculkShriekerListener(new BlockPositionSource(this.pos), ((SculkShriekerBlock)blockState.getBlock()).getRange(), this);
     }
 
-
-
     @Override
     public void readNbt(NbtCompound nbtCompound) {
         super.readNbt(nbtCompound);
         this.ticks = nbtCompound.getInt("ticks");
+        this.shrieks = nbtCompound.getInt("shrieks");
         this.direction = nbtCompound.getInt("direction");
         this.prevTick = nbtCompound.getInt("prevTick");
     }
@@ -65,6 +71,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     protected void writeNbt(NbtCompound nbtCompound) {
         super.writeNbt(nbtCompound);
         nbtCompound.putInt("ticks", this.ticks);
+        nbtCompound.putInt("shrieks", this.shrieks);
         nbtCompound.putInt("direction", this.direction);
         nbtCompound.putInt("prevTick", this.prevTick);
     }
@@ -156,7 +163,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     @Override
     public void accept(World world, GameEventListener gameEventListener, GameEvent gameEvent, int i) {
         BlockState blockState = this.getCachedState();
-        if (!world.isClient() && SculkShriekerBlock.isInactive(blockState)) {
+        if (!world.isClient() && SculkShriekerBlock.isInactive(blockState) && gameEvent==ClickGameEvent.CLICK) {
             SculkShriekerBlock.setActive(world, this.pos, blockState);
         }
     }
