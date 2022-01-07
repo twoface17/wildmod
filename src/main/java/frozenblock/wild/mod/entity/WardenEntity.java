@@ -120,6 +120,10 @@ public class WardenEntity extends HostileEntity {
 
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
 
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return RegisterSounds.ENTITY_WARDEN_HURT;
+    }
+
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
         if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime()-this.vibrationTimer>=23) {
             this.vibrationTimer=this.world.getTime();

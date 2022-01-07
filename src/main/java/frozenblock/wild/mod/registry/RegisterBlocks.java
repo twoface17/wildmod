@@ -92,7 +92,7 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), new BlockItem(SCULK_CATALYST, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem( SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem( SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_sensor"), new BlockItem(Blocks.SCULK_SENSOR, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 

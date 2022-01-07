@@ -24,6 +24,7 @@ public class RegisterSounds {
     public static SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
     public static SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
     public static SoundEvent ENTITY_WARDEN_EMERGE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.emerge"));
+    public static SoundEvent ENTITY_WARDEN_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.hurt"));
     public static SoundEvent MUSIC_OVERWORLD_DEEPDARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deepdark"));
     public static SoundEvent BLOCK_SCULK_STEP = new SoundEvent(new Identifier("accuratesculk", "block.sculk.step"));
     public static SoundEvent BLOCK_SCULK_HIT = new SoundEvent(new Identifier("accuratesculk", "block.sculk.hit"));
@@ -56,6 +57,7 @@ public class RegisterSounds {
         ENTITY_FROG_TONGUE = register(ENTITY_FROG_TONGUE.getId());
         ENTITY_WARDEN_AMBIENT = register(ENTITY_WARDEN_AMBIENT.getId());
         ENTITY_WARDEN_EMERGE = register(ENTITY_WARDEN_EMERGE.getId());
+        ENTITY_WARDEN_HURT = register(ENTITY_WARDEN_HURT.getId());
         MUSIC_OVERWORLD_DEEPDARK = register(MUSIC_OVERWORLD_DEEPDARK.getId());
 
     }
