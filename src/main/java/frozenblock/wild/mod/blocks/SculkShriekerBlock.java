@@ -4,14 +4,9 @@
 package frozenblock.wild.mod.blocks;
 
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.fromAccurateSculk.NewBlockEntityType;
-import frozenblock.wild.mod.fromAccurateSculk.NewProperties;
-import frozenblock.wild.mod.fromAccurateSculk.SculkShriekerBlockEntity;
-import frozenblock.wild.mod.fromAccurateSculk.SculkShriekerPhase;
-import frozenblock.wild.mod.registry.RegisterAccurateSculk;
-import frozenblock.wild.mod.registry.RegisterBlocks;
-import frozenblock.wild.mod.registry.RegisterSounds;
-import frozenblock.wild.mod.registry.RegisterStatusEffects;
+import frozenblock.wild.mod.entity.WardenEntity;
+import frozenblock.wild.mod.fromAccurateSculk.*;
+import frozenblock.wild.mod.registry.*;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -52,10 +47,9 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
+
+import static java.lang.Math.*;
 
 //SCULK SHRIEKER REWRITE FROM LUNADE'S MOD ACCURATE SCULK
 
@@ -232,19 +226,6 @@ public class SculkShriekerBlock
                 playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 600, 0, true, false, false));
             }
         }
-    }
-
-    public static void setCooldown(World world, BlockPos blockPos, BlockState blockState) {
-        world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.COOLDOWN)).with(POWER, 0), 3);
-        world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
-        if(!world.isClient) {
-            if (world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK) && world.getBlockState(blockPos.down()).getBlock() == RegisterBlocks.SCULK) {
-                sendDarkness(8, blockPos, world);
-            } else if (!world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK)) {
-                sendDarkness(8, blockPos, world);
-            }
-        }
-        SculkShriekerBlock.updateNeighbors(world, blockPos);
     }
 
     public static void setActive(World world, BlockPos blockPos, BlockState blockState) {
@@ -432,5 +413,115 @@ public class SculkShriekerBlock
             RegisterSounds.BLOCK_SCULK_HIT,
             RegisterSounds.BLOCK_SCULK_FALL
     )).nonOpaque(), 8);
+
+    public static void setCooldown(World world, BlockPos blockPos, BlockState blockState) {
+        world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.COOLDOWN)).with(POWER, 0), 3);
+        world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
+        if(!world.isClient) {
+            if (world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK) && world.getBlockState(blockPos.down()).getBlock() == RegisterBlocks.SCULK) {
+                sendDarkness(8, blockPos, world);
+            } else if (!world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK)) {
+                sendDarkness(8, blockPos, world);
+            }
+            if ((world.getTime()-WildMod.timeSinceWarden) >= 2400) {
+                int currentShrieks = ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).getShrieks();
+                ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setShrieks(currentShrieks + 1);
+                currentShrieks = ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).getShrieks();
+                for (int t = 8; t > 0; t--) {
+                    if (!findBlock(blockPos, t, true, world).isEmpty()) {
+                        ArrayList<BlockPos> candidates = findBlock(blockPos, t, true, world);
+                        for (int o=0; o<16; o++) {
+                            int ran = UniformIntProvider.create(1,candidates.size()-1).get(world.getRandom());
+                            BlockPos currentCheck = candidates.get(ran);
+                            warn(world, blockPos, currentShrieks);
+                            if (currentShrieks >= 4) {
+                                ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setShrieks(0);
+                                WardenEntity warden = (WardenEntity) RegisterEntities.WARDEN.create(world);
+                                warden.refreshPositionAndAngles((double) currentCheck.getX() + 1D, (double) currentCheck.up(1).getY(), (double) currentCheck.getZ() + 1D, 0.0F, 0.0F);
+                                world.spawnEntity(warden);
+                                world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
+                                WildMod.timeSinceWarden=world.getTime();
+                                break;
+                            }
+                            break;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        SculkShriekerBlock.updateNeighbors(world, blockPos);
+    }
+
+    public static void warn(World world, BlockPos blockPos, int i) {
+        if (i==1) {
+                double a = random() * 2 * PI;
+                double r = sqrt(18) * sqrt(random());
+                int x = (int) (r * cos(a));
+                int y = (int) (r * sin(a));
+                BlockPos play = blockPos.add(x,0,y);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.5F, 1F);
+        } else
+        if (i==2) {
+            double a = random() * 2 * PI;
+            double r = sqrt(12) * sqrt(random());
+            int x = (int) (r * cos(a));
+            int y = (int) (r * sin(a));
+            BlockPos play = blockPos.add(x,0,y);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.5F, 1F);
+        } else
+        if (i>=3) {
+            double a = random() * 2 * PI;
+            double r = sqrt(8) * sqrt(random());
+            int x = (int) (r * cos(a));
+            int y = (int) (r * sin(a));
+            BlockPos play = blockPos.add(x,0,y);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.5F, 1F);
+        }
+    }
+
+    public static ArrayList<BlockPos> findBlock(BlockPos centerBlock, int radius, boolean hollow, World world) {
+        int bx = centerBlock.getX();
+        int by = centerBlock.getY();
+        int bz = centerBlock.getZ();
+        ArrayList<BlockPos> candidates = new ArrayList<>();
+        for (int x = bx - radius; x <= bx + radius; x++) {
+            for (int y = by - radius; y <= by + radius; y++) {
+                for (int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
+                    if (distance < radius * radius && !(hollow && distance < ((radius - 1) * (radius - 1)))) {
+                        BlockPos l = new BlockPos(x, y, z);
+                        if (SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(l).getBlock())) {
+                            if (verifyWardenSpawn(l, world)) {
+                                candidates.add(l);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        return candidates;
+    }
+    public static boolean verifyWardenSpawn(BlockPos p, World world) {
+        if (SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p).getBlock())) {
+                    if (wardenNonCollide(p, world)) {
+                        if (wardenNonCollide(p.add(1,0,0), world)) {
+                            if (wardenNonCollide(p.add(1,0,1), world)) {
+                                if (wardenNonCollide(p.add(0,0,1), world)) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+        return false;
+    }
+    public static boolean wardenNonCollide(BlockPos p, World world) {
+        if (SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up()).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(2)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(3)).getBlock())) {
+            return true;
+        }
+        return false;
+    }
 
 }

@@ -78,14 +78,17 @@ implements GameEventListener {
     }
 
     private boolean shouldActivate(GameEvent gameEvent) {
-        return gameEvent.equals(ClickGameEvent.CLICK);
+        if (gameEvent.equals(ClickGameEvent.CLICK)) { return true; }
+        return false;
     }
 
     private void listen(World world, GameEvent gameEvent, BlockPos blockPos, BlockPos blockPos2) {
         this.event = Optional.of(gameEvent);
         if (world instanceof ServerWorld) {
-            this.delay = this.distance = MathHelper.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;
-            ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
+            if (gameEvent==ClickGameEvent.CLICK) {
+                this.delay = this.distance = MathHelper.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2;
+                ((ServerWorld) world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
+            }
         }
     }
 

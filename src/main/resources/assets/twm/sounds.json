@@ -123,6 +123,34 @@
       }
     ]
   },
+    "entity.warden.close": {
+    "category": "hostile",
+    "subtitle": "subtitles.twm.nearby_close",
+    "sounds": [
+      "twm:entity/warden/nearby_close_1",
+      "twm:entity/warden/nearby_close_2",
+      "twm:entity/warden/nearby_close_3",
+      "twm:entity/warden/nearby_close_4"
+    ]
+  },
+  "entity.warden.closer": {
+    "category": "hostile",
+    "subtitle": "subtitles.twm.nearby_closer",
+    "sounds": [
+      "twm:entity/warden/nearby_closer_1",
+      "twm:entity/warden/nearby_closer_2",
+      "twm:entity/warden/nearby_closer_3"
+    ]
+  },
+  "entity.warden.closest": {
+    "category": "hostile",
+    "subtitle": "subtitles.twm.nearby_closest",
+    "sounds": [
+      "twm:entity/warden/nearby_closest_1",
+      "twm:entity/warden/nearby_closest_2",
+      "twm:entity/warden/nearby_closest_3"
+    ]
+  },
   "music.overworld.deepdark": {
     "category": "music",
     "sounds": [

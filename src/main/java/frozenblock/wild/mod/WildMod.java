@@ -46,4 +46,7 @@ public class WildMod implements ModInitializer {
 
         RegisterAccurateSculk.RegisterAccurateSculk();
     }
+    
+        public static long timeSinceWarden = 0;
+    
 }
