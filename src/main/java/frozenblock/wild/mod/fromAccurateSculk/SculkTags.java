@@ -21,4 +21,6 @@ public class SculkTags {
     public static final Tag.Identified<EntityType<?>> ONEHUNDRED = TagFactory.ENTITY_TYPE.create(new Identifier("twm", "100xp"));
     public static final Tag.Identified<EntityType<?>> DROPSXP = TagFactory.ENTITY_TYPE.create(new Identifier("twm", "dropsxp"));
     public static final Tag.Identified<Block> ALWAYS_WATER = TagFactory.BLOCK.create(new Identifier("twm", "always_water_sculk"));
+    public static final Tag.Identified<Block> WARDEN_SPAWNABLE = TagFactory.BLOCK.create(new Identifier("twm", "warden_spawnable"));
+    public static final Tag.Identified<Block> WARDEN_NON_COLLIDE = TagFactory.BLOCK.create(new Identifier("twm", "warden_non_collide"));
 }
