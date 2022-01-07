@@ -18,8 +18,10 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.PositionSourceType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -54,6 +56,14 @@ public class WardenEntity extends HostileEntity {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new WardenGoal(this, speed));
     }
+    @Override
+    public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
+    @Override
+    public void emitGameEvent(GameEvent event, @Nullable Entity entity) {}
+    @Override
+    public void emitGameEvent(GameEvent event, BlockPos pos) {}
+    @Override
+    public void emitGameEvent(GameEvent event) {}
 
 
     public void tickMovement() {
@@ -120,10 +130,6 @@ public class WardenEntity extends HostileEntity {
 
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
 
-    protected SoundEvent getHurtSound(DamageSource source) {
-        return RegisterSounds.ENTITY_WARDEN_HURT;
-    }
-
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
         if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime()-this.vibrationTimer>=23) {
             this.vibrationTimer=this.world.getTime();
@@ -159,13 +165,4 @@ public class WardenEntity extends HostileEntity {
         this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
     }
-    
-    @Override
-    public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
-    @Override
-    public void emitGameEvent(GameEvent event, @Nullable Entity entity) {}
-    @Override
-    public void emitGameEvent(GameEvent event, BlockPos pos) {}
-    @Override
-    public void emitGameEvent(GameEvent event) {}
 }
