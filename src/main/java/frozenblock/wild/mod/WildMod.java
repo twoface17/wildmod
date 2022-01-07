@@ -10,6 +10,22 @@ public class WildMod implements ModInitializer {
 
     public static final String MOD_ID = "twm";
 
+    @Override
+    public void onInitialize() {
+        RegisterBlocks.RegisterBlocks();
+        RegisterItems.RegisterItems();
+        RegisterEntities.RegisterEntities();
+        RegisterDispenser.RegisterDispenser();
+        RegisterParticles.RegisterParticles();
+        RegisterSounds.RegisterSounds();
+        RegisterStatusEffects.RegisterStatusEffects();
+        RegisterWorldgen.RegisterWorldgen();
+
+        RegisterAccurateSculk.RegisterAccurateSculk();
+    }
+    
+        public static long timeSinceWarden = 0;
+
     public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_NEEDS_SCULK =
             GameRuleRegistry.register("shriekerNeedsSculk", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
     public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_SHRIEKS =
@@ -32,21 +48,6 @@ public class WildMod implements ModInitializer {
             GameRuleRegistry.register("upwardSpread", GameRules.Category.MISC, GameRuleFactory.createIntRule(3, 1, 100));
     public static final GameRules.Key<GameRules.IntRule> DOWNWARD_SPREAD =
             GameRuleRegistry.register("downwardSpread", GameRules.Category.MISC, GameRuleFactory.createIntRule(8, 1, 100));
-
-    @Override
-    public void onInitialize() {
-        RegisterBlocks.RegisterBlocks();
-        RegisterItems.RegisterItems();
-        RegisterEntities.RegisterEntities();
-        RegisterDispenser.RegisterDispenser();
-        RegisterParticles.RegisterParticles();
-        RegisterSounds.RegisterSounds();
-        RegisterStatusEffects.RegisterStatusEffects();
-        RegisterWorldgen.RegisterWorldgen();
-
-        RegisterAccurateSculk.RegisterAccurateSculk();
-    }
-    
-        public static long timeSinceWarden = 0;
-    
+    public static final GameRules.Key<GameRules.BooleanRule> NO_WARDEN_COOLDOWN =
+            GameRuleRegistry.register("noWardenCooldown", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
 }
