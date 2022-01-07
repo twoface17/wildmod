@@ -2,10 +2,8 @@ package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import org.lwjgl.system.CallbackI;
 
 public class RegisterSounds {
 
@@ -64,6 +62,8 @@ public class RegisterSounds {
         ENTITY_WARDEN_AMBIENT = register(ENTITY_WARDEN_AMBIENT.getId());
         ENTITY_WARDEN_EMERGE = register(ENTITY_WARDEN_EMERGE.getId());
         ENTITY_WARDEN_HURT = register(ENTITY_WARDEN_HURT.getId());
+        BLOCK_SCULK_SHRIEKER_BREAK = register(BLOCK_SCULK_SHRIEKER_BREAK.getId());
+        BLOCK_SCULK_SHRIEKER_PLACE = register(BLOCK_SCULK_SHRIEKER_PLACE.getId());
         MUSIC_OVERWORLD_DEEPDARK = register(MUSIC_OVERWORLD_DEEPDARK.getId());
 
     }
