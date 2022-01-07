@@ -19,13 +19,14 @@ import static java.lang.Math.*;
 
 public class ShriekCounter {
     public static int shrieks = 0;
-    public static long timer = 0;
+    private static long timer;
+    private static boolean running;
 
     public static void addShriek(BlockPos pos, World world) {
-        if (!world.isClient()) {
-            if (!findWarden(world, pos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN) && world.getTime() - timer < 15) {
+        if (!world.isClient() && world.getTime() > timer && !running) {
+            timer=world.getTime()+30;
+            if (!findWarden(world, pos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
                 //To hopefully only allow one Shrieker to use the method, and prevent sound spamming
-                timer = world.getTime();
                 shrieks = shrieks + 1;
                 for (int t = 8; t > 0; t--) {
                     ArrayList<BlockPos> candidates = findBlock(pos.add(-1, 0, -1), t, true, world);
@@ -34,6 +35,7 @@ public class ShriekCounter {
                             int ran = UniformIntProvider.create(0, candidates.size() - 1).get(world.getRandom());
                             BlockPos currentCheck = candidates.get(ran);
                             warn(world, pos);
+                            timer=world.getTime()+30;
                             if (shrieks >= 4) {
                                 shrieks = 0;
                                 WardenEntity warden = (WardenEntity) RegisterEntities.WARDEN.create(world);
@@ -45,7 +47,8 @@ public class ShriekCounter {
                             break;
                         }
                         break;
-                    }
+                    } else
+                    break;
                 }
             } else if (findWarden(world, pos)) {
                 shrieks = 0;
@@ -84,10 +87,8 @@ public class ShriekCounter {
                     double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
                     if (distance < radius * radius && !(hollow && distance < ((radius - 1) * (radius - 1)))) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (!SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(l).getBlock()) && world.getBlockState(l)!= Blocks.AIR.getDefaultState()) {
                             if (verifyWardenSpawn(l, world)) {
                                 candidates.add(l);
-                            }
                         }
                     }
 
@@ -108,7 +109,7 @@ public class ShriekCounter {
         return !SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p).getBlock()) && !world.getBlockState(p).isAir();
     }
     public static boolean wardenNonCollide(BlockPos p, World world) {
-        if (SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up()).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(2)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(3)).getBlock())) {
+        if (SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up()).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(2)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(3)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(4)).getBlock())) {
             return true;
         }
         return false;
