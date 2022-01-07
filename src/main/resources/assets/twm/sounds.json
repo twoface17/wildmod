@@ -65,7 +65,11 @@
   },
   "block.sculk_shrieker.shriek": {
     "sounds": [
-      {"name": "twm:block/sculk_shrieker/shriek1", "volume": 1}
+      {"name": "twm:block/sculk_shrieker/shriek1", "volume": 1},
+      {"name": "twm:block/sculk_shrieker/shriek2", "volume": 1},
+      {"name": "twm:block/sculk_shrieker/shriek3", "volume": 1},
+      {"name": "twm:block/sculk_shrieker/shriek4", "volume": 1},
+      {"name": "twm:block/sculk_shrieker/shriek5", "volume": 1}
     ],
     "subtitle": "subtitles.block.sculk_shrieker.shriek"
   },
