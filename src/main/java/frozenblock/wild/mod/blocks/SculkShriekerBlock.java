@@ -478,14 +478,6 @@ public class SculkShriekerBlock
             BlockPos play = blockPos.add(x,0,y);
             world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.4F, 1F);
         }
-        if (i>=4) {
-            double a = random() * 2 * PI;
-            double r = sqrt(8) * sqrt(random());
-            int x = (int) (r * cos(a));
-            int y = (int) (r * sin(a));
-            BlockPos play = blockPos.add(x,0,y);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.5F, 1F);
-        }
     }
 
     public static ArrayList<BlockPos> findBlock(BlockPos centerBlock, int radius, boolean hollow, World world) {
