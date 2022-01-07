@@ -2,6 +2,7 @@ package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterEntities;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -79,10 +80,10 @@ public class AbstractBlockMixin {
         if (world.isClient) {
             return;
         }
-        if(world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState()) {
+        if(world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState() && entity.getType()!=RegisterEntities.WARDEN) {
             SculkSensorBlock.setActive(world, pos, state, 10);
         }
-        if(world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState() || world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(Properties.WATERLOGGED, true)) {
+        if(entity.getType()!=RegisterEntities.WARDEN && world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState() || world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(Properties.WATERLOGGED, true)) {
             ((SculkShriekerBlock) Objects.requireNonNull(world.getBlockState(pos)).getBlock()).writeDir(world, pos, entity.getBlockPos());
             SculkShriekerBlock.setActive(world, pos, state);
         }
