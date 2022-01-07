@@ -33,6 +33,7 @@ public class ShriekCounter {
                         BlockPos currentCheck = candidates.get(ran);
                         warn(world, pos);
                         if (shrieks >= 4) {
+                            shrieks=0;
                             WardenEntity warden = (WardenEntity) RegisterEntities.WARDEN.create(world);
                             warden.refreshPositionAndAngles((double) currentCheck.getX() + 1D, (double) currentCheck.up(1).getY(), (double) currentCheck.getZ() + 1D, 0.0F, 0.0F);
                             world.spawnEntity(warden);
