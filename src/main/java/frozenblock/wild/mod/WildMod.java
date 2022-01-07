@@ -24,7 +24,6 @@ public class WildMod implements ModInitializer {
         RegisterAccurateSculk.RegisterAccurateSculk();
     }
     
-        public static long timeSinceWarden = 0;
 
     public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_NEEDS_SCULK =
             GameRuleRegistry.register("shriekerNeedsSculk", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
