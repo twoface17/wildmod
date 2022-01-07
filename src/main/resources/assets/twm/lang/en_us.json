@@ -62,7 +62,7 @@
   "subtitles.entity.twm.warden.ambient":"Warden Whines",
   "subtitles.entity.twm.warden.slightly_angry":"Warden Irked",
   "subtitles.block.sculk_shrieker.shriek":"Shrieker Shrieks",
-  "subtitles.twm.nearby_close":"?",
-  "subtitles.twm.nearby_closer":"??",
-  "subtitles.twm.nearby_closest":"???"
+  "subtitles.twm.nearby_close":"Warden Close",
+  "subtitles.twm.nearby_closer":"Warden Closer",
+  "subtitles.twm.nearby_closest":"Warden Angered"
 }
