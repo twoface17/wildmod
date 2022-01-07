@@ -15,6 +15,9 @@ public class RegisterSounds {
     public static SoundEvent BLOCK_SCULK_SHRIEKER_SHRIEK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.shriek"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_EFFECT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.effect"));
     public static SoundEvent ENTITY_WARDEN_SLIGHTLY_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.slightly_angry"));
+    public static SoundEvent ENTITY_WARDEN_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.close"));
+    public static SoundEvent ENTITY_WARDEN_CLOSER = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.closer"));
+    public static SoundEvent ENTITY_WARDEN_CLOSEST = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.closest"));
     public static SoundEvent EFFECT_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID, "effect.nearby_close"));
     public static SoundEvent ENTITY_FROG_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.ambient"));
     public static SoundEvent ENTITY_FROG_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.death"));
@@ -49,6 +52,9 @@ public class RegisterSounds {
         BLOCK_SCULK_SHRIEKER_EFFECT = register(BLOCK_SCULK_SHRIEKER_EFFECT.getId());
         ENTITY_WARDEN_SLIGHTLY_ANGRY = register(ENTITY_WARDEN_SLIGHTLY_ANGRY.getId());
         EFFECT_NEARBY_CLOSE = register(EFFECT_NEARBY_CLOSE.getId());
+        ENTITY_WARDEN_CLOSE = register(ENTITY_WARDEN_CLOSE.getId());
+        ENTITY_WARDEN_CLOSER = register(ENTITY_WARDEN_CLOSER.getId());
+        ENTITY_WARDEN_CLOSEST = register(ENTITY_WARDEN_CLOSEST.getId());
         ENTITY_FROG_AMBIENT = register(ENTITY_FROG_AMBIENT.getId());
         ENTITY_FROG_DEATH = register(ENTITY_FROG_DEATH.getId());
         ENTITY_FROG_EAT = register(ENTITY_FROG_EAT.getId());
