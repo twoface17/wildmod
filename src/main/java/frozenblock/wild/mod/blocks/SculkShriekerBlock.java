@@ -504,7 +504,7 @@ public class SculkShriekerBlock
         return candidates;
     }
     public static boolean verifyWardenSpawn(BlockPos p, World world) {
-        if (SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p).getBlock())) {
+        if (SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p).getBlock()) && SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p.add(1,0,0)).getBlock()) && SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p.add(1,0,1)).getBlock()) && SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p.add(0,0,1)).getBlock())) {
                     if (wardenNonCollide(p, world) && wardenNonCollide(p.add(1,0,0), world) && wardenNonCollide(p.add(1,0,1), world) && wardenNonCollide(p.add(0,0,1), world)) {
                                     return true;
                                 }
