@@ -13,6 +13,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -97,7 +98,7 @@ public class WardenEntity extends HostileEntity {
             this.world.sendEntityStatus(this, (byte)4);
             target.setVelocity(target.getVelocity().add(0.0D, 0.4000000059604645D, 0.0D));
             this.applyDamageEffects(this, target);
-            this.playSound(RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, 1.0F,1.0F);
+            world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F,1.0F);
         }
         return bl;
     }
@@ -117,7 +118,7 @@ public class WardenEntity extends HostileEntity {
     public void handleStatus(byte status) {
         if (status == 4) {
             this.attackTicksLeft1 = 10;
-            this.playSound(RegisterSounds.ENTITY_WARDEN_AMBIENT, 1.0F, 1.0F);
+            world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 1.0F,1.0F);
         } else if(status == 3) {
             this.roarTicksLeft1 = 10;
         } else {
@@ -137,7 +138,7 @@ public class WardenEntity extends HostileEntity {
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
         if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime()-this.vibrationTimer>=23) {
             this.vibrationTimer=this.world.getTime();
-            this.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
+            world.playSound(null, this.getBlockPos().up(2), SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
             BlockPos WardenHead = this.getBlockPos().up((int) 3);
             PositionSource wardenPositionSource = new PositionSource() {
                 @Override
