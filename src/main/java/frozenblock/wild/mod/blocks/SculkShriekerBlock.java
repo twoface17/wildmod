@@ -423,7 +423,7 @@ public class SculkShriekerBlock
             } else if (!world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK)) {
                 sendDarkness(8, blockPos, world);
             }
-            if ((world.getTime()-WildMod.timeSinceWarden) >= 2400 || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
+            if (!findWarden(world, blockPos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
                 int currentShrieks = ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).getShrieks();
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setShrieks(currentShrieks + 1);
                 currentShrieks = ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).getShrieks();
@@ -478,6 +478,27 @@ public class SculkShriekerBlock
             BlockPos play = blockPos.add(x,0,y);
             world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.4F, 1F);
         }
+    }
+
+    public static boolean findWarden(World world, BlockPos pos) {
+        double x1 = pos.getX();
+        double y1 = pos.getY();
+        double z1 = pos.getZ();
+        BlockPos side1 = new BlockPos(x1-50, y1-50, z1-50);
+        BlockPos side2 = new BlockPos(x1+50, y1+50, z1+50);
+        Box box = (new Box(side1, side2));
+        List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
+        if (!list.isEmpty()) {
+            Iterator<WardenEntity> var11 = list.iterator();
+            WardenEntity warden;
+            while (var11.hasNext()) {
+                warden = var11.next();
+                if (warden.getBlockPos().isWithinDistance(pos, (49))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static ArrayList<BlockPos> findBlock(BlockPos centerBlock, int radius, boolean hollow, World world) {
