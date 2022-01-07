@@ -75,6 +75,9 @@ public class WardenEntity extends HostileEntity {
         if(this.roarTicksLeft1 > 0) {
             --this.roarTicksLeft1;
         }
+        if(world.getTime()-vibrationTimer>=1200) {
+            this.remove(RemovalReason.DISCARDED);
+        }
         super.tickMovement();
     }
 
