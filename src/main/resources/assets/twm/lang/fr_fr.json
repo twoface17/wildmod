@@ -49,5 +49,8 @@
   "item.twm.acacia_chest_boat": "Bateau avec un coffre en acacia",
   "item.twm.jungle_chest_boat": "Bateau avec un coffre en acajou",
   "item.twm.dark_oak_chest_boat": "Bateau avec un coffre en chêne noir",
-  "item.twm.mangrove_chest_boat": "Bateau avec un coffre en mangrove"
+  "item.twm.mangrove_chest_boat": "Bateau avec un coffre en mangrove",
+  "subtitles.twm.nearby_close":"?",
+  "subtitles.twm.nearby_closer":"??",
+  "subtitles.twm.nearby_closest":"???"
 }

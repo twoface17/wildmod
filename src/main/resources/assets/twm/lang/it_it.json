@@ -30,5 +30,8 @@
   "item.twm.frog_spawn_egg": "Uovo generatore di rana",
 
   "entity.twm.frog": "Rana",
-  "entity.twm.warden": "Warden"
+  "entity.twm.warden": "Warden",
+  "subtitles.twm.nearby_close":"?",
+  "subtitles.twm.nearby_closer":"??",
+  "subtitles.twm.nearby_closest":"???"
 }
