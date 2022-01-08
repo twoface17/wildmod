@@ -6,6 +6,7 @@ import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.Blocks;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
@@ -41,6 +42,7 @@ public class ShriekCounter {
                                 WardenEntity warden = (WardenEntity) RegisterEntities.WARDEN.create(world);
                                 warden.refreshPositionAndAngles((double) currentCheck.getX() + 1D, (double) currentCheck.up(1).getY(), (double) currentCheck.getZ() + 1D, 0.0F, 0.0F);
                                 world.spawnEntity(warden);
+                                world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
                                 break;
                             }
                             break;
@@ -105,7 +107,7 @@ public class ShriekCounter {
         return false;
     }
     public static boolean canSpawn(World world, BlockPos p) {
-        return !SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p).getBlock()) && !world.getBlockState(p).isAir();
+        return !SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p).getBlock()) && !world.getBlockState(p).isAir() && world.getBlockState(p).getBlock()!=Blocks.WATER &&  world.getBlockState(p).getBlock()!=Blocks.LAVA;
     }
     public static boolean wardenNonCollide(BlockPos p, World world) {
         if (SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up()).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(2)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(3)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(4)).getBlock())) {
