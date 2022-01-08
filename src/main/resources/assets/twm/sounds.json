@@ -114,7 +114,7 @@
     ],
     "subtitle": "subtitles.block.generic.place"
   },
-  "block.deepslate_frame.step": {
+  "block.mud.step": {
     "sounds": [
       "twm:block/mud/step1",
       "twm:block/mud/step2",
@@ -132,7 +132,7 @@
     ],
     "subtitle": "subtitles.block.generic.hit"
   },
-  "block.deepslate_frame.break": {
+  "block.mud.break": {
     "sounds": [
       "twm:block/mud/break1",
       "twm:block/mud/break2",
