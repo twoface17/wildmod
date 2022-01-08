@@ -17,6 +17,29 @@ public class SculkParticleHandler {
         world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + 0.07, e, f + 0.07, 0.0, 0.05, 0.0);
     }
 
+    public static void wardenDig(World world, BlockPos p, int ticks) {
+        int random = UniformIntProvider.create(1, 9).get(world.getRandom());
+        if (ticks>79 || (ticks<58 && ticks>30)) {
+            if (random == 1) {
+                world.addBlockBreakParticles(p.add(-0.5, 0, -0.5), world.getBlockState(p.add(-0.5, -1, -0.5)));
+            } else if (random == 2) {
+                world.addBlockBreakParticles(p.add(0.5, 0, 0.5), world.getBlockState(p.add(0.5, -1, 0.5)));
+            } else if (random == 3) {
+                world.addBlockBreakParticles(p.add(0, 0, -0.5), world.getBlockState(p.add(0, -1, -0.5)));
+            } else if (random == 4) {
+                world.addBlockBreakParticles(p.add(0, 0, 0.5), world.getBlockState(p.add(0, -1, 0.5)));
+            } else if (random == 5) {
+                world.addBlockBreakParticles(p.add(0.5, 0, -0.5), world.getBlockState(p.add(0.5, -1, -0.5)));
+            } else if (random == 6) {
+                world.addBlockBreakParticles(p.add(-0.5, 0, 0.5), world.getBlockState(p.add(-0.5, -1, 0.5)));
+            } else if (random == 7) {
+                world.addBlockBreakParticles(p.add(-0.5, 0, 0), world.getBlockState(p.add(-0.5, -1, 0)));
+            } else if (random == 8) {
+                world.addBlockBreakParticles(p.add(0.5, 0, 0), world.getBlockState(p.add(0.5, -1, 0)));
+            }
+        }
+    }
+
     public static void shriekerShriek(World world, BlockPos blockPos, int direction) {
         double d = (double) blockPos.getX() + 0.5;
         double e = (double) blockPos.getY() + 0;
