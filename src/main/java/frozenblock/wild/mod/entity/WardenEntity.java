@@ -51,6 +51,7 @@ public class WardenEntity extends HostileEntity {
     public int emergeTicksLeft;
     public boolean hasEmerged;
     public long vibrationTimer = 0;
+    public long leaveTime;
     protected int delay = 0;
     protected int distance;
 
@@ -66,8 +67,8 @@ public class WardenEntity extends HostileEntity {
     @Override
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
         this.handleStatus((byte) 5);
+        this.leaveTime=this.world.getTime()+1200;
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
@@ -104,8 +105,17 @@ public class WardenEntity extends HostileEntity {
             this.hasEmerged=true;
             this.emergeTicksLeft=-1;
         }
-        if(hasDetected && world.getTime()-vibrationTimer>=1200) {
+        if(this.emergeTicksLeft > 0 && this.hasEmerged) {
+            digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
+            this.setInvulnerable(true);
+            this.setVelocity(0,0,0);
+            --this.emergeTicksLeft;
+        }
+        if (this.emergeTicksLeft==0 && this.hasEmerged) {
             this.remove(RemovalReason.DISCARDED);
+        }
+        if(world.getTime()==this.leaveTime) {
+            this.handleStatus((byte) 6);
         }
         super.tickMovement();
     }
@@ -155,9 +165,16 @@ public class WardenEntity extends HostileEntity {
         } else if(status == 3) {
             this.roarTicksLeft1 = 10;
         } else if(status == 5) {
+            //Emerging
             this.emergeTicksLeft=120;
             this.hasEmerged=false;
-        } else {
+            world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
+        } else if(status == 6) {
+            //Digging Back
+            this.emergeTicksLeft=120;
+            this.hasEmerged=true;
+            world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
+        }  else {
             super.handleStatus(status);
         }
 
@@ -182,6 +199,7 @@ public class WardenEntity extends HostileEntity {
         if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime()-this.vibrationTimer>=23) {
             this.hasDetected=true;
             this.vibrationTimer=this.world.getTime();
+            this.leaveTime=this.world.getTime()+1200;
             world.playSound(null, this.getBlockPos().up(2), SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
             BlockPos WardenHead = this.getBlockPos().up((int) 3);
             PositionSource wardenPositionSource = new PositionSource() {
@@ -204,12 +222,14 @@ public class WardenEntity extends HostileEntity {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putLong("vibrationTimer", this.vibrationTimer);
+        nbt.putLong("leaveTime", this.leaveTime);
         nbt.putInt("emergeTicksLeft", this.emergeTicksLeft);
         nbt.putBoolean("hasEmerged", this.hasEmerged);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.vibrationTimer = nbt.getLong("vibrationTimer");
+        this.leaveTime = nbt.getLong("leaveTime");
         this.emergeTicksLeft = nbt.getInt("emergeTicksLeft");
         this.hasEmerged = nbt.getBoolean("hasEmerged");
     }

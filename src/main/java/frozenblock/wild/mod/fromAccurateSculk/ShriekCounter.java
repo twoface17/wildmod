@@ -42,6 +42,8 @@ public class ShriekCounter {
                                 WardenEntity warden = (WardenEntity) RegisterEntities.WARDEN.create(world);
                                 warden.refreshPositionAndAngles((double) currentCheck.getX() + 1D, (double) currentCheck.up(1).getY(), (double) currentCheck.getZ() + 1D, 0.0F, 0.0F);
                                 world.spawnEntity(warden);
+                                warden.handleStatus((byte) 5);
+                                warden.leaveTime=world.getTime()+1200;
                                 world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
                                 break;
                             }
