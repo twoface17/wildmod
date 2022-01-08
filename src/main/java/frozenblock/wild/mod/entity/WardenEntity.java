@@ -2,7 +2,11 @@ package frozenblock.wild.mod.entity;
 
 
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
+import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -10,11 +14,14 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.*;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.Vibration;
@@ -28,13 +35,11 @@ import java.util.Optional;
 
 public class WardenEntity extends HostileEntity {
 
-    public int emergeTicksLeft=120;
+    public int attackTicksLeft1;
 
-    private int attackTicksLeft1;
+    public int roarTicksLeft1;
 
-    private int roarTicksLeft1;
-
-    private double roarAnimationProgress;
+    public double roarAnimationProgress;
 
     private static final double speed = 0.5D;
 
@@ -43,6 +48,8 @@ public class WardenEntity extends HostileEntity {
     public LivingEntity lastevententity;
 
     public boolean hasDetected=false;
+    public int emergeTicksLeft;
+    public boolean hasEmerged;
     public long vibrationTimer = 0;
     protected int delay = 0;
     protected int distance;
@@ -60,6 +67,7 @@ public class WardenEntity extends HostileEntity {
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
+        this.handleStatus((byte) 5);
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
@@ -85,8 +93,16 @@ public class WardenEntity extends HostileEntity {
         if(this.roarTicksLeft1 > 0) {
             --this.roarTicksLeft1;
         }
-        if(this.emergeTicksLeft > 0) {
-            --this.emergeTicksLeft;
+        if(this.emergeTicksLeft > 0 && !this.hasEmerged) {
+            digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
+            this.setInvulnerable(true);
+            this.setVelocity(0,0,0);
+            this.emergeTicksLeft--;
+        }
+        if (this.emergeTicksLeft==0 && !this.hasEmerged) {
+            this.setInvulnerable(false);
+            this.hasEmerged=true;
+            this.emergeTicksLeft=-1;
         }
         if(hasDetected && world.getTime()-vibrationTimer>=1200) {
             this.remove(RemovalReason.DISCARDED);
@@ -138,13 +154,23 @@ public class WardenEntity extends HostileEntity {
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 1.0F,1.0F);
         } else if(status == 3) {
             this.roarTicksLeft1 = 10;
+        } else if(status == 5) {
+            this.emergeTicksLeft=120;
+            this.hasEmerged=false;
         } else {
             super.handleStatus(status);
         }
 
     }
 
-
+    public void digParticles(World world, BlockPos pos, int ticks) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeBlockPos(pos);
+        buf.writeInt(ticks);
+        for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, pos, 32)) {
+            ServerPlayNetworking.send(player, RegisterAccurateSculk.WARDEN_DIG_PARTICLES, buf);
+        }
+    }
 
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
     
@@ -154,7 +180,7 @@ public class WardenEntity extends HostileEntity {
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {
         if(this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime()-this.vibrationTimer>=23) {
-            hasDetected=true;
+            this.hasDetected=true;
             this.vibrationTimer=this.world.getTime();
             world.playSound(null, this.getBlockPos().up(2), SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
             BlockPos WardenHead = this.getBlockPos().up((int) 3);
@@ -163,7 +189,6 @@ public class WardenEntity extends HostileEntity {
                 public Optional<BlockPos> getPos(World world) {
                     return Optional.of(WardenHead);
                 }
-
                 @Override
                 public PositionSourceType<?> getType() {
                     return null;
@@ -179,10 +204,14 @@ public class WardenEntity extends HostileEntity {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putLong("vibrationTimer", this.vibrationTimer);
+        nbt.putInt("emergeTicksLeft", this.emergeTicksLeft);
+        nbt.putBoolean("hasEmerged", this.hasEmerged);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.vibrationTimer = nbt.getLong("vibrationTimer");
+        this.emergeTicksLeft = nbt.getInt("emergeTicksLeft");
+        this.hasEmerged = nbt.getBoolean("hasEmerged");
     }
     public void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
         this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;
