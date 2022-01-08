@@ -1,5 +1,5 @@
 {
-  "block.twm.mud_block": "Mud Block",
+  "block.twm.mud_block": "Mud",
   "block.twm.mud_bricks": "Mud Bricks",
   "block.twm.mud_brick_stairs": "Mud Brick Stairs",
   "block.twm.mud_brick_slab": "Mud Brick Slab",
@@ -23,7 +23,7 @@
   "block.twm.mangrove_roots": "Mangrove Roots",
   "block.twm.propagule": "Propagule",
 
-  "biome.twm.mangrove_swamp": "Mangrove Swamps",
+  "biome.twm.mangrove_swamp": "Mangrove Swamp",
 
   "block.twm.sculk": "Sculk",
   "block.twm.sculk_vein": "Sculk Vein",
