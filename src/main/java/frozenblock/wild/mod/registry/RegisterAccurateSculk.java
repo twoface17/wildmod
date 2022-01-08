@@ -15,6 +15,7 @@ public abstract class RegisterAccurateSculk {
     public static final Identifier SHRIEKER_GARGLE1_PACKET = new Identifier("gargle1_packet");
     public static final Identifier SHRIEKER_GARGLE2_PACKET = new Identifier("gargle2_packet");
     public static final Identifier CATALYST_PARTICLE_PACKET = new Identifier("catalyst_packet");
+    public static final Identifier WARDEN_DIG_PARTICLES = new Identifier("warden_dig_packet");
 
     public static final DefaultParticleType SCULK_SHRIEK = FabricParticleTypes.simple();
     public static final DefaultParticleType SCULK_SHRIEK2 = FabricParticleTypes.simple();
