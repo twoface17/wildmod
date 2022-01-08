@@ -35,11 +35,11 @@ import java.util.Optional;
 
 public class WardenEntity extends HostileEntity {
 
-    public int attackTicksLeft1;
+    private int attackTicksLeft1;
 
-    public int roarTicksLeft1;
+    private int roarTicksLeft1;
 
-    public double roarAnimationProgress;
+    private double roarAnimationProgress;
 
     private static final double speed = 0.5D;
 
