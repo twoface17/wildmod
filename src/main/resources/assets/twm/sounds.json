@@ -105,6 +105,46 @@
     ],
     "subtitle": "subtitles.block.generic.break"
   },
+  "block.mangrove_roots.place": {
+    "sounds": [
+      "twm:block/mangrove_roots/break1",
+      "twm:block/mangrove_roots/break2",
+      "twm:block/mangrove_roots/break3",
+      "twm:block/mangrove_roots/break4"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.mangrove_roots.step": {
+    "sounds": [
+      "twm:block/mangrove_roots/step1",
+      "twm:block/mangrove_roots/step2",
+      "twm:block/mangrove_roots/step3",
+      "twm:block/mangrove_roots/step4",
+	  "twm:block/mangrove_roots/step5",
+	  "twm:block/mangrove_roots/step6"
+    ],
+    "subtitle": "subtitles.block.generic.step"
+  },
+  "block.mangrove_roots.hit": {
+    "sounds": [
+      "twm:block/mangrove_roots/step1",
+      "twm:block/mangrove_roots/step2",
+      "twm:block/mangrove_roots/step3",
+      "twm:block/mangrove_roots/step4",
+	  "twm:block/mangrove_roots/step5",
+	  "twm:block/mangrove_roots/step6"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.mangrove_roots.break": {
+    "sounds": [
+      "twm:block/mangrove_roots/break1",
+      "twm:block/mangrove_roots/break2",
+      "twm:block/mangrove_roots/break3",
+      "twm:block/mangrove_roots/break4"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
   "block.mud.place": {
     "sounds": [
       "twm:block/mud/break1",
