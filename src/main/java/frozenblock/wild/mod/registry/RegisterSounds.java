@@ -25,8 +25,18 @@ public class RegisterSounds {
     public static SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
     public static SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
     public static SoundEvent ENTITY_WARDEN_EMERGE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.emerge"));
+    public static SoundEvent ENTITY_WARDEN_DIG = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.dig"));
+    public static SoundEvent ENTITY_WARDEN_ROAR = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.roar"));
     public static SoundEvent ENTITY_WARDEN_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.hurt"));
     public static SoundEvent MUSIC_OVERWORLD_DEEPDARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deepdark"));
+    public static SoundEvent BLOCK_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.step"));
+    public static SoundEvent BLOCK_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.break"));
+    public static SoundEvent BLOCK_MUD_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.place"));
+    public static SoundEvent BLOCK_MUD_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.hit"));
+    public static SoundEvent BLOCK_DEEPSLATE_FRAME_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.step"));
+    public static SoundEvent BLOCK_DEEPSLATE_FRAME_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.break"));
+    public static SoundEvent BLOCK_DEEPSLATE_FRAME_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.place"));
+    public static SoundEvent BLOCK_DEEPSLATE_FRAME_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.hit"));
     public static SoundEvent BLOCK_SCULK_STEP = new SoundEvent(new Identifier("accuratesculk", "block.sculk.step"));
     public static SoundEvent BLOCK_SCULK_HIT = new SoundEvent(new Identifier("accuratesculk", "block.sculk.hit"));
     public static SoundEvent BLOCK_SCULK_FALL = new SoundEvent(new Identifier("accuratesculk", "block.sculk.fall"));
@@ -36,6 +46,7 @@ public class RegisterSounds {
     public static SoundEvent BLOCK_SCULK_SHRIEKER_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk_shrieker.place"));
 
 
+
     public static void RegisterSounds() {
 
         BLOCK_SCULK_STEP = register(BLOCK_SCULK_STEP.getId());
@@ -43,6 +54,14 @@ public class RegisterSounds {
         BLOCK_SCULK_FALL = register(BLOCK_SCULK_FALL.getId());
         BLOCK_SCULK_BREAK = register(BLOCK_SCULK_BREAK.getId());
         BLOCK_SCULK_PLACE = register(BLOCK_SCULK_PLACE.getId());
+        BLOCK_MUD_STEP = register(BLOCK_MUD_STEP.getId());
+        BLOCK_MUD_HIT = register(BLOCK_MUD_HIT.getId());
+        BLOCK_MUD_BREAK = register(BLOCK_MUD_BREAK.getId());
+        BLOCK_MUD_PLACE = register(BLOCK_MUD_PLACE.getId());
+        BLOCK_DEEPSLATE_FRAME_STEP = register(BLOCK_DEEPSLATE_FRAME_STEP.getId());
+        BLOCK_DEEPSLATE_FRAME_HIT = register(BLOCK_DEEPSLATE_FRAME_HIT.getId());
+        BLOCK_DEEPSLATE_FRAME_BREAK = register(BLOCK_DEEPSLATE_FRAME_BREAK.getId());
+        BLOCK_DEEPSLATE_FRAME_PLACE = register(BLOCK_DEEPSLATE_FRAME_PLACE.getId());
         BLOCK_SCULK_CATALYST_BREAK = register(BLOCK_SCULK_CATALYST_BREAK.getId());
         BLOCK_SCULK_CATALYST_PLACE = register(BLOCK_SCULK_CATALYST_PLACE.getId());
         BLOCK_SCULK_CATALYST_STEP = register(BLOCK_SCULK_CATALYST_STEP.getId());
@@ -61,6 +80,8 @@ public class RegisterSounds {
         ENTITY_FROG_TONGUE = register(ENTITY_FROG_TONGUE.getId());
         ENTITY_WARDEN_AMBIENT = register(ENTITY_WARDEN_AMBIENT.getId());
         ENTITY_WARDEN_EMERGE = register(ENTITY_WARDEN_EMERGE.getId());
+        ENTITY_WARDEN_DIG = register(ENTITY_WARDEN_DIG.getId());
+        ENTITY_WARDEN_ROAR = register(ENTITY_WARDEN_ROAR.getId());
         ENTITY_WARDEN_HURT = register(ENTITY_WARDEN_HURT.getId());
         BLOCK_SCULK_SHRIEKER_BREAK = register(BLOCK_SCULK_SHRIEKER_BREAK.getId());
         BLOCK_SCULK_SHRIEKER_PLACE = register(BLOCK_SCULK_SHRIEKER_PLACE.getId());

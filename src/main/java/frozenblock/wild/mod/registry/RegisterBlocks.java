@@ -18,6 +18,18 @@ import net.minecraft.util.registry.Registry;
 
 public abstract class RegisterBlocks {
 
+    public static final AbstractBlock.Settings DEEPSLATE_FRAME_SETTINGS = FabricBlockSettings
+            .of(Material.STONE, MapColor.DEEPSLATE_GRAY)
+            .requiresTool()
+            .strength(3.0F, 6.0F)
+            .sounds(new BlockSoundGroup(1.0f, 1.5f,
+                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_BREAK,
+                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_STEP,
+                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_PLACE,
+                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_HIT,
+                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_STEP
+            ));
+
     public static final AbstractBlock.Settings SCULK_PROPERTIES = FabricBlockSettings
             .of(Material.SCULK)
             .sounds(BlockSoundGroup.SCULK_SENSOR);
@@ -40,7 +52,6 @@ public abstract class RegisterBlocks {
 
     public static final FabricBlockSettings FROGLIGHT_SETTINGS = FabricBlockSettings
             .of(Material.PLANT)
-            .sounds(BlockSoundGroup.WET_GRASS)
             .strength(0.1f, 1f)
             .requiresTool()
             .luminance(15);
@@ -59,7 +70,7 @@ public abstract class RegisterBlocks {
 
     public static final Block SCULK_CATALYST = SculkCatalystBlock.SCULK_CATALYST_BLOCK;
 
-    public static final Block DEEPSLATE_FRAME = new PillarBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE));
+    public static final Block DEEPSLATE_FRAME = new PillarBlock(DEEPSLATE_FRAME_SETTINGS);
 
     // ALL BLOCKS HERE HAVE NO COLLISION
     public static final Block FROG_EGG = new FrogEggBlock(FROG_EGG_PROPERTIES.nonOpaque().noCollision());

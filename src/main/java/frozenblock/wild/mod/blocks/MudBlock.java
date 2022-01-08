@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.blocks;
 
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.*;
@@ -22,9 +23,16 @@ public class MudBlock extends Block {
     public MudBlock() {
         super(FabricBlockSettings
                 .of(Material.SOIL, MapColor.GRAY)
-                .sounds(BlockSoundGroup.GRAVEL)
+                .sounds(new BlockSoundGroup(1.0f, 1.0f,
+                        RegisterSounds.BLOCK_MUD_BREAK,
+                        RegisterSounds.BLOCK_MUD_STEP,
+                        RegisterSounds.BLOCK_MUD_PLACE,
+                        RegisterSounds.BLOCK_MUD_HIT,
+                        RegisterSounds.BLOCK_MUD_STEP
+                ))
                 .strength(0.5f, 0.5f)
                 .ticksRandomly()
+
         );
     }
 

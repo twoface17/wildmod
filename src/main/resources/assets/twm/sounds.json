@@ -190,6 +190,13 @@
       "twm:entity/warden/roar"
     ]
   },
+  "entity.warden.dig": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.twm.warden.dig",
+    "sounds": [
+      "twm:entity/warden/dig"
+    ]
+  },
   "entity.warden.ambient": {
     "category": "hostile",
     "subtitle": "subtitles.entity.twm.warden.ambient",
