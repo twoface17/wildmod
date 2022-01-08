@@ -9,7 +9,7 @@ public class MangroveLeaves extends LeavesBlock {
     public MangroveLeaves() {
         super(FabricBlockSettings
                 .of(Material.LEAVES)
-                .sounds(BlockSoundGroup.AZALEA)
+                .sounds(BlockSoundGroup.AZALEA_LEAVES)
                 .nonOpaque()
                 .strength(0.2f)
         );
