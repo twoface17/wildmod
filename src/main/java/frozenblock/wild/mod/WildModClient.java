@@ -54,6 +54,7 @@ public class WildModClient implements ClientModInitializer {
     public static final Identifier SHRIEKER_GARGLE1_PACKET = new Identifier("gargle1_packet");
     public static final Identifier SHRIEKER_GARGLE2_PACKET = new Identifier("gargle2_packet");
     public static final Identifier CATALYST_PARTICLE_PACKET = new Identifier("catalyst_packet");
+    public static final Identifier WARDEN_EMERGE_PACKET = new Identifier("warden_emerge_packet");
 
     @Override
     public void onInitializeClient() {
@@ -148,6 +149,13 @@ public class WildModClient implements ClientModInitializer {
             BlockPos shrieker = buf.readBlockPos();
             client.execute(() -> {
                 SculkParticleHandler.shriekerGargle2(client.world, shrieker);
+            });
+        });
+        ClientPlayNetworking.registerGlobalReceiver(WARDEN_EMERGE_PACKET, (client, handler, buf, responseSender) -> {
+            BlockPos pos = buf.readBlockPos();
+            int ticks = buf.readInt();
+            client.execute(() -> {
+                SculkParticleHandler.wardenDig(client.world, pos, ticks);
             });
         });
     }
