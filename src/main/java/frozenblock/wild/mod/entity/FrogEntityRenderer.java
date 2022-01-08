@@ -16,9 +16,9 @@ import net.minecraft.util.Identifier;
 
 public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntityModel> {
 
-    private static final Identifier SWAMP_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_swamp.png");
-    private static final Identifier COLD_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_snowy.png");
-    private static final Identifier TROPICAL_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_tropical.png");
+    private static final Identifier TEMPERATE_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_temperate.png");
+    private static final Identifier COLD_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_cold.png");
+    private static final Identifier WARM_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_warm.png");
     private static final Identifier SUS_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/frog_sus.png");
 
     public FrogEntityRenderer(EntityRendererFactory.Context context) {
@@ -31,12 +31,12 @@ public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntity
         if (string != null && "Xfrtrex".equals(string)) {
             return SUS_TEXTURE;
         }
-        if(entity.getVariant() == FrogEntity.Variant.TROPICAL) {
-            return TROPICAL_TEXTURE;
+        if(entity.getVariant() == FrogEntity.Variant.WARM) {
+            return WARM_TEXTURE;
         } else if(entity.getVariant() == FrogEntity.Variant.COLD) {
             return COLD_TEXTURE;
         } else {
-            return SWAMP_TEXTURE;
+            return TEMPERATE_TEXTURE;
         }
     }
 

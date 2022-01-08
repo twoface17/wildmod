@@ -52,9 +52,9 @@ public class FrogEntity extends AnimalEntity {
     static final int BREEDING_COOLDOWN = 6000;
     private static final TrackedData<Integer> VARIANT;
     public static final String VARIANT_KEY = "Variant";
-    public static final int SWAMP = 0;
+    public static final int TEMPERATE = 0;
     public static final int COLD = 1;
-    public static final int TROPICAL = 2;
+    public static final int WARM = 2;
     private static final double speed = 0.3D;
     public static final TrackedData<Boolean> HAS_FROG_EGG;
     public static final TrackedData<BlockPos> TRAVEL_POS;
@@ -86,7 +86,7 @@ public class FrogEntity extends AnimalEntity {
     public static boolean canColdSpawn(World world, BlockPos pos) {
         return world.getBiome(pos).isCold(pos) || world.getBiome(pos).getCategory().equals(Biome.Category.ICY)  || world.getBiome(pos).getCategory().equals(Biome.Category.THEEND);
     }
-    public static boolean canTropicalSpawn(World world, BlockPos pos) {
+    public static boolean canWarmSpawn(World world, BlockPos pos) {
         return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT)  || world.getBiome(pos).getCategory().equals(Biome.Category.NETHER);
     }
 
@@ -158,8 +158,8 @@ public class FrogEntity extends AnimalEntity {
         if (spawnReason == SpawnReason.COMMAND || spawnReason == SpawnReason.SPAWN_EGG || spawnReason == SpawnReason.SPAWNER || spawnReason == SpawnReason.DISPENSER) {
             if(canColdSpawn(this.getEntityWorld(), this.getBlockPos())) {
                 this.setVariant(Variant.COLD);
-            } else if(canTropicalSpawn(this.getEntityWorld(), this.getBlockPos())) {
-                this.setVariant(Variant.TROPICAL);
+            } else if(canWarmSpawn(this.getEntityWorld(), this.getBlockPos())) {
+                this.setVariant(Variant.WARM);
             }
         }
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
@@ -258,9 +258,9 @@ public class FrogEntity extends AnimalEntity {
     }
 
     public enum Variant {
-        SWAMP(FrogEntity.SWAMP, "swamp"),
+        TEMPERATE(FrogEntity.TEMPERATE, "temperate"),
         COLD(FrogEntity.COLD, "cold"),
-        TROPICAL(FrogEntity.TROPICAL, "tropical");
+        WARM(FrogEntity.WARM, "warm");
         public static final FrogEntity.Variant[] VARIANTS = Arrays.stream(values()).sorted(Comparator.comparingInt(Variant::getId)).toArray(Variant[]::new);
         private final int id;
         private final String name;
