@@ -183,6 +183,13 @@
       "twm:entity/warden/emerge"
     ]
   },
+  "entity.warden.roar": {
+    "category": "hostile",
+    "subtitle": "subtitles.twm.warden.roar",
+    "sounds": [
+      "twm:entity/warden/roar"
+    ]
+  },
   "entity.warden.ambient": {
     "category": "hostile",
     "subtitle": "subtitles.entity.twm.warden.ambient",
