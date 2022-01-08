@@ -76,6 +76,7 @@ public class WardenEntity extends HostileEntity {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new WardenGoal(this, speed));
+        this.goalSelector.add(3, new WanderAroundGoal(this, 0.3));
     }
     @Override
     public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
@@ -171,9 +172,9 @@ public class WardenEntity extends HostileEntity {
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
         } else if(status == 6) {
             //Digging Back
-            this.emergeTicksLeft=120;
+            this.emergeTicksLeft=60;
             this.hasEmerged=true;
-            world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
+            world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_DIG, SoundCategory.HOSTILE, 1F, 1F);
         }  else {
             super.handleStatus(status);
         }
