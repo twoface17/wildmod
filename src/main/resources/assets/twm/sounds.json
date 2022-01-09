@@ -257,6 +257,17 @@
 		],
 		"subtitle": "subtitles.block.generic.break"
 	},
+	"block.mangrove_roots.fall": {
+		"sounds": [
+			"twm:block/mangrove_roots/step1",
+			"twm:block/mangrove_roots/step2",
+			"twm:block/mangrove_roots/step3",
+			"twm:block/mangrove_roots/step4",
+			"twm:block/mangrove_roots/step5",
+			"twm:block/mangrove_roots/step6"
+		],
+		"subtitle": "subtitles.block.generic.fall"
+	},
 	"block.mud.place": {
 		"sounds": [
 			"twm:block/mud/break1",
