@@ -18,16 +18,6 @@ public abstract class MangroveWoods {
     // THIS VARIABLE DEFINES ALL PROPERTIES FOR WOOD
     public static final AbstractBlock.Settings WOOD_PROPERTIES = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS);
 
-    public static final AbstractBlock.Settings MANGROVE_ROOTS_SETTINGS = FabricBlockSettings
-    .of(Material.WOOD)
-    .sounds(new BlockSoundGroup(1.0f, 1.0f,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
-    ));
-
     // DEFINES ALL BLOCKS AS VARIABLES
     public static final Block MANGROVE_LOG = new MangroveLog(WOOD_PROPERTIES);
     public static final Block MANGROVE_PLANKS = new MangrovePlanks(WOOD_PROPERTIES);
@@ -45,7 +35,15 @@ public abstract class MangroveWoods {
     public static final Block MANGROVE_ROOTS = new MangroveRoots(MANGROVE_ROOTS_SETTINGS.nonOpaque());
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
     public static final MangrovePropagule MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).hardness(0.5F));
-
+    public static final AbstractBlock.Settings MANGROVE_ROOTS_SETTINGS = FabricBlockSettings
+    .of(Material.WOOD)
+    .sounds(new BlockSoundGroup(1.0f, 1.0f,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
+    ));
     public static void RegisterMangrove() {
             
 
@@ -79,7 +77,7 @@ public abstract class MangroveWoods {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_leaves"),
                 new BlockItem(MANGROVE_LEAVES, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
-         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_roots"), MANGROVE_ROOTS);
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_roots"), MANGROVE_ROOTS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_roots"),
                 new BlockItem(MANGROVE_ROOTS, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
