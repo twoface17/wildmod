@@ -18,6 +18,16 @@ public abstract class MangroveWoods {
     // THIS VARIABLE DEFINES ALL PROPERTIES FOR WOOD
     public static final AbstractBlock.Settings WOOD_PROPERTIES = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS);
 
+    public static final AbstractBlock.Settings MANGROVE_ROOTS_SETTINGS = FabricBlockSettings
+    .of(Material.WOOD)
+    .sounds(new BlockSoundGroup(1.0f, 1.0f,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP
+    ));
+
     // DEFINES ALL BLOCKS AS VARIABLES
     public static final Block MANGROVE_LOG = new MangroveLog(WOOD_PROPERTIES);
     public static final Block MANGROVE_PLANKS = new MangrovePlanks(WOOD_PROPERTIES);
@@ -32,11 +42,12 @@ public abstract class MangroveWoods {
     public static final PressurePlateBlock MANGROVE_PRESSURE_PLATE = new MangrovePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, WOOD_PROPERTIES);
     public static final Block MANGROVE_TRAPDOOR = new MangroveTrapdoor(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_LEAVES = new MangroveLeaves();
-    public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES.nonOpaque());
+    public static final Block MANGROVE_ROOTS = new MangroveRoots(MANGROVE_ROOTS_SETTINGS.nonOpaque());
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
     public static final MangrovePropagule MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).hardness(0.5F));
 
     public static void RegisterMangrove() {
+            
 
         // REGISTERING BLOCKS
 
