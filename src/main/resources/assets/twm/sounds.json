@@ -121,12 +121,30 @@
 	},
 	"block.deepslate_frame.place": {
 		"sounds": [
-			"twm:block/deepslate_frame/place1",
-			"twm:block/deepslate_frame/place2",
-			"twm:block/deepslate_frame/place3",
-			"twm:block/deepslate_frame/place4",
-			"twm:block/deepslate_frame/place5",
-			"twm:block/deepslate_frame/place6"
+			{
+				"name": "twm:block/deepslate_frame/place1",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/place2",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/place3",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/place4",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/place5",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/place6",
+				"pitch": 0.8
+			}
 		],
 		"subtitle": "subtitles.block.generic.place"
 	},
@@ -143,21 +161,59 @@
 	},
 	"block.deepslate_frame.hit": {
 		"sounds": [
-			"twm:block/deepslate_frame/step1",
-			"twm:block/deepslate_frame/step2",
-			"twm:block/deepslate_frame/step3",
-			"twm:block/deepslate_frame/step4",
-			"twm:block/deepslate_frame/step5",
-			"twm:block/deepslate_frame/step6"
+			{
+				"name": "twm:block/deepslate_frame/step1",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step2",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step3",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step4",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step5",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step6",
+				"pitch": 0.8
+			}
 		],
 		"subtitle": "subtitles.block.generic.hit"
 	},
 	"block.deepslate_frame.break": {
 		"sounds": [
-			"twm:block/deepslate_frame/break1",
-			"twm:block/deepslate_frame/break2",
-			"twm:block/deepslate_frame/break3",
-			"twm:block/deepslate_frame/break4"
+			{
+				"name": "twm:block/deepslate_frame/step1",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step2",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step3",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step4",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step5",
+				"pitch": 0.8
+			},
+			{
+				"name": "twm:block/deepslate_frame/step6",
+				"pitch": 0.8
+			}
 		],
 		"subtitle": "subtitles.block.generic.break"
 	},

@@ -18,6 +18,16 @@ import net.minecraft.util.registry.Registry;
 
 public abstract class RegisterBlocks {
 
+        public static final AbstractBlock.Settings MANGROVE_ROOTS_SETTINGS = FabricBlockSettings
+        .of(Material.WOOD)
+        .sounds(new BlockSoundGroup(1.0f, 1.0f,
+                RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
+                RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
+                RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
+                RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
+                RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP
+        ));
+
     public static final AbstractBlock.Settings DEEPSLATE_FRAME_SETTINGS = FabricBlockSettings
             .of(Material.STONE, MapColor.DEEPSLATE_GRAY)
             .requiresTool()

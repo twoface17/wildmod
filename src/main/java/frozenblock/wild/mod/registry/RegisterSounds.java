@@ -45,6 +45,10 @@ public class RegisterSounds {
     public static SoundEvent BLOCK_SCULK_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk.place"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_BREAK = new SoundEvent(new Identifier("accuratesculk", "block.sculk_shrieker.break"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk_shrieker.place"));
+    public static SoundEvent BLOCK_MANGROVE_ROOTS_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.break"));
+    public static SoundEvent BLOCK_MANGROVE_ROOTS_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.place"));
+    public static SoundEvent BLOCK_MANGROVE_ROOTS_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.step"));
+    public static SoundEvent BLOCK_MANGROVE_ROOTS_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.hit"));
 
 
 
@@ -68,6 +72,10 @@ public class RegisterSounds {
         BLOCK_SCULK_CATALYST_STEP = register(BLOCK_SCULK_CATALYST_STEP.getId());
         BLOCK_SCULK_SHRIEKER_SHRIEK = register(BLOCK_SCULK_SHRIEKER_SHRIEK.getId());
         BLOCK_SCULK_SHRIEKER_EFFECT = register(BLOCK_SCULK_SHRIEKER_EFFECT.getId());
+        BLOCK_MANGROVE_ROOTS_BREAK = register(BLOCK_MANGROVE_ROOTS_BREAK.getId());
+        BLOCK_MANGROVE_ROOTS_PLACE = register(BLOCK_MANGROVE_ROOTS_PLACE.getId());
+        BLOCK_MANGROVE_ROOTS_STEP = register(BLOCK_MANGROVE_ROOTS_STEP.getId());
+        BLOCK_MANGROVE_ROOTS_HIT = register(BLOCK_MANGROVE_ROOTS_HIT.getId());
         ENTITY_WARDEN_SLIGHTLY_ANGRY = register(ENTITY_WARDEN_SLIGHTLY_ANGRY.getId());
         EFFECT_NEARBY_CLOSE = register(EFFECT_NEARBY_CLOSE.getId());
         ENTITY_WARDEN_CLOSE = register(ENTITY_WARDEN_CLOSE.getId());
