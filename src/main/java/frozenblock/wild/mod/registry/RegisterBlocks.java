@@ -20,6 +20,7 @@ public abstract class RegisterBlocks {
 
         public static final AbstractBlock.Settings MANGROVE_ROOTS_SETTINGS = FabricBlockSettings
         .of(Material.WOOD)
+        .strength(2.0F, 3.0F)
         .sounds(new BlockSoundGroup(1.0f, 1.0f,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
