@@ -25,7 +25,7 @@ public abstract class MangroveWoods {
             RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
             RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
             RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
     ));
 
     // DEFINES ALL BLOCKS AS VARIABLES
