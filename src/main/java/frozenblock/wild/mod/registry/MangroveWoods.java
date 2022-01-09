@@ -32,7 +32,7 @@ public abstract class MangroveWoods {
     public static final PressurePlateBlock MANGROVE_PRESSURE_PLATE = new MangrovePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, WOOD_PROPERTIES);
     public static final Block MANGROVE_TRAPDOOR = new MangroveTrapdoor(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_LEAVES = new MangroveLeaves();
-    public static final Block MANGROVE_ROOTS = new MangroveRoots(MANGROVE_ROOTS_SETTINGS.nonOpaque());
+    public static final Block MANGROVE_ROOTS = new MangroveRoots(MANGROVE_ROOTS_SETTINGS);
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
     public static final MangrovePropagule MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).hardness(0.5F));
 
