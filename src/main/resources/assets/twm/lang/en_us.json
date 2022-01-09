@@ -59,13 +59,13 @@
   "item.twm.dark_oak_chest_boat": "Dark Oak Chest Boat",
   "item.twm.mangrove_chest_boat": "Mangrove Chest Boat",
 
-  "subtitles.twm.entity.warden.emerge":"Warden emerges",
-  "subtitles.twm.entity.warden.ambient":"Warden whines",
-  "subtitles.twm.entity.warden.slightly_angry":"Warden grumbles",
-  "subtitles.twm.entity.warden.roar":"Warden roars",
-  "subtitles.twm.entity.warden.sniff":"Warden sniffs",
+  "subtitles.entity.warden.emerge":"Warden emerges",
+  "subtitles.entity.warden.ambient":"Warden whines",
+  "subtitles.entity.warden.slightly_angry":"Warden grumbles",
+  "subtitles.entity.warden.roar":"Warden roars",
+  "subtitles.entity.warden.sniff":"Warden sniffs",
   "subtitles.block.sculk_shrieker.shriek":"Sculk Shrieker shrieks",
-  "subtitles.twm.entity.warden.nearby_close":"Quiet Heartbeat",
-  "subtitles.twm.entity.warden.nearby_closer":"Heartbeat",
-  "subtitles.twm.entity.warden.nearby_closest":"Loud Heartbeat"
+  "subtitles.entity.warden.nearby_close":"Quiet Heartbeat",
+  "subtitles.entity.warden.nearby_closer":"Heartbeat",
+  "subtitles.entity.warden.nearby_closest":"Loud Heartbeat"
 }
