@@ -111,11 +111,5 @@ public abstract class MangroveWoods {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_fence_gate"),
                 new BlockItem(MANGROVE_FENCE_GATE, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_roots"), MANGROVE_ROOTS);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_roots"),
-                new BlockItem(MANGROVE_ROOTS, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
-
-
-
     }
 }
