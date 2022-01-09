@@ -60,7 +60,9 @@
   "item.twm.mangrove_chest_boat": "Mangrove Chest Boat",
 
   "subtitles.entity.warden.emerge":"Warden emerges",
+  "subtitles.entity.warden.dig":"Warden digs",
   "subtitles.entity.warden.ambient":"Warden whines",
+  "subtitles.entity.warden.hurt":"Warden hurts",
   "subtitles.entity.warden.slightly_angry":"Warden grumbles",
   "subtitles.entity.warden.roar":"Warden roars",
   "subtitles.entity.warden.sniff":"Warden sniffs",

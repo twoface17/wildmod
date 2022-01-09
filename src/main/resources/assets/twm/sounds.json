@@ -139,7 +139,7 @@
 			"twm:block/deepslate_frame/step5",
 			"twm:block/deepslate_frame/step6"
 		],
-		"subtitle": "subtitles.block.generic.step"
+		"subtitle": "subtitles.block.generic.footsteps"
 	},
 	"block.deepslate_frame.hit": {
 		"sounds": [
@@ -179,7 +179,7 @@
 			"twm:block/mangrove_roots/step5",
 			"twm:block/mangrove_roots/step6"
 		],
-		"subtitle": "subtitles.block.generic.step"
+		"subtitle": "subtitles.block.generic.footsteps"
 	},
 	"block.mangrove_roots.hit": {
 		"sounds": [
@@ -217,7 +217,7 @@
 			"twm:block/mud/step3",
 			"twm:block/mud/step4"
 		],
-		"subtitle": "subtitles.block.generic.step"
+		"subtitle": "subtitles.block.generic.footsteps"
 	},
 	"block.mud.hit": {
 		"sounds": [
@@ -408,7 +408,7 @@
 			"twm:block/sculk_catalyst/step5",
 			"twm:block/sculk_catalyst/step6"
 		],
-		"subtitle": "subtitles.block.generic.step"
+		"subtitle": "subtitles.block.generic.footsteps"
 	},
 	"block.sculk_catalyst.break": {
 		"sounds": [
