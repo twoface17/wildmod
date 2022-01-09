@@ -38,7 +38,7 @@ public abstract class MangroveWoods {
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
-        ));
+        )));
     public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
     public static final MangrovePropagule MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).hardness(0.5F));
 
