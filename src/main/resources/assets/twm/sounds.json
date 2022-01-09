@@ -1,6 +1,5 @@
 {
 	"entity.frog.ambient": {
-		"category": "neutral",
 		"subtitle": "subtitles.entity.twm.frog.ambient",
 		"sounds": [
 			{
@@ -30,7 +29,6 @@
 		]
 	},
 	"entity.frog.hurt": {
-		"category": "neutral",
 		"subtitle": "subtitles.entity.twm.frog.hurt",
 		"sounds": [
 			{
@@ -51,7 +49,6 @@
 		]
 	},
 	"entity.frog.death": {
-		"category": "neutral",
 		"subtitle": "subtitles.entity.twm.frog.death",
 		"sounds": [
 			{
@@ -66,7 +63,6 @@
 		]
 	},
 	"entity.frog.eat": {
-		"category": "neutral",
 		"subtitle": "subtitles.entity.twm.frog.eat",
 		"sounds": [
 			{
@@ -84,7 +80,6 @@
 		]
 	},
 	"entity.frog.tongue": {
-		"category": "neutral",
 		"subtitle": "subtitles.entity.twm.frog.tongue",
 		"sounds": [
 			{
@@ -102,7 +97,6 @@
 		]
 	},
 	"entity.frog.long_jump": {
-		"category": "neutral",
 		"subtitle": "subtitles.entity.twm.frog.long_jump",
 		"sounds": [
 			{
@@ -300,23 +294,28 @@
 		"sounds": [
 			{
 				"name": "twm:block/sculk_shrieker/shriek1",
-				"volume": 1
+				"volume": 1,
+				"attenuation_distance": 32
 			},
 			{
 				"name": "twm:block/sculk_shrieker/shriek2",
-				"volume": 1
+				"volume": 1,
+				"attenuation_distance": 32
 			},
 			{
 				"name": "twm:block/sculk_shrieker/shriek3",
-				"volume": 1
+				"volume": 1,
+				"attenuation_distance": 32
 			},
 			{
 				"name": "twm:block/sculk_shrieker/shriek4",
-				"volume": 1
+				"volume": 1,
+				"attenuation_distance": 32
 			},
 			{
 				"name": "twm:block/sculk_shrieker/shriek5",
-				"volume": 1
+				"volume": 1,
+				"attenuation_distance": 32
 			}
 		],
 		"subtitle": "subtitles.block.sculk_shrieker.shriek"
@@ -339,7 +338,6 @@
 		"subtitle": "subtitles.effect.nearby_close"
 	},
 	"entity.warden.slightly_angry": {
-		"category": "hostile",
 		"subtitle": "subtitles.twm.slightly_angry",
 		"sounds": [
 			"twm:entity/warden/slightly_angry_1",
@@ -347,37 +345,45 @@
 		]
 	},
 	"entity.warden.hurt": {
-		"category": "hostile",
 		"subtitle": "subtitles.entity.warden.hurt",
 		"sounds": [
-			"twm:entity/warden/hurt1",
-			"twm:entity/warden/hurt2",
-			"twm:entity/warden/hurt3"
+			{
+				"name": "twm:entity/warden/hurt1",
+				"volume": 1
+			},
+			{
+				"name": "twm:entity/warden/hurt2",
+				"volume": 1
+			},
+			{
+				"name": "twm:entity/warden/hurt3",
+				"volume": 1
+			}
 		]
 	},
 	"entity.warden.emerge": {
-		"category": "hostile",
 		"subtitle": "subtitles.entity.warden.emerge",
 		"sounds": [
-			"twm:entity/warden/emerge"
+			{
+				"name": "twm:entity/warden/emerge",
+				"volume": 1,
+				"attenuation_distance": 32
+			}
 		]
 	},
 	"entity.warden.roar": {
-		"category": "hostile",
 		"subtitle": "subtitles.entity.warden.roar",
 		"sounds": [
 			"twm:entity/warden/roar"
 		]
 	},
 	"entity.warden.dig": {
-		"category": "hostile",
 		"subtitle": "subtitles.entity.warden.dig",
 		"sounds": [
 			"twm:entity/warden/dig"
 		]
 	},
 	"entity.warden.ambient": {
-		"category": "hostile",
 		"subtitle": "subtitles.entity.warden.ambient",
 		"sounds": [
 			{
@@ -395,7 +401,6 @@
 		]
 	},
 	"entity.warden.close": {
-		"category": "hostile",
 		"subtitle": "subtitles.entity.warden.nearby_close",
 		"sounds": [
 			"twm:entity/warden/nearby_close_1",
@@ -405,7 +410,6 @@
 		]
 	},
 	"entity.warden.closer": {
-		"category": "hostile",
 		"subtitle": "subtitles.entity.warden.nearby_closer",
 		"sounds": [
 			"twm:entity/warden/nearby_closer_1",
@@ -414,7 +418,6 @@
 		]
 	},
 	"entity.warden.closest": {
-		"category": "hostile",
 		"subtitle": "subtitles.entity.warden.nearby_closest",
 		"sounds": [
 			"twm:entity/warden/nearby_closest_1",
@@ -423,7 +426,6 @@
 		]
 	},
 	"entity.warden.sniff": {
-		"category": "hostile",
 		"subtitle": "subtitles.entity.warden.sniff",
 		"sounds": [
 			"twm:entity/warden/sniff1",
@@ -432,7 +434,6 @@
 		]
 	},
 	"music.overworld.deepdark": {
-		"category": "music",
 		"sounds": [
 			{
 				"name": "twm:music/game/ancestry",
