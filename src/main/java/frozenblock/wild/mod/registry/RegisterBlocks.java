@@ -20,7 +20,6 @@ public abstract class RegisterBlocks {
 
         public static final AbstractBlock.Settings MANGROVE_ROOTS_SETTINGS = FabricBlockSettings
         .of(Material.WOOD)
-        .strength(2.0F, 3.0F)
         .sounds(new BlockSoundGroup(1.0f, 1.0f,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
@@ -123,9 +122,6 @@ public abstract class RegisterBlocks {
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_egg"), FROG_EGG);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_egg"), new FrogEggItem(FROG_EGG, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
-
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_roots"), MANGROVE_ROOTS);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_roots"), new BlockItem(MANGROVE_ROOTS, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), PEARLESCENT_FROGLIGHT);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), new BlockItem(PEARLESCENT_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
