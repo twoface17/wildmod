@@ -19,7 +19,7 @@ import net.minecraft.util.registry.Registry;
 public abstract class RegisterBlocks {
 
         public static final AbstractBlock.Settings MANGROVE_ROOTS_SETTINGS = FabricBlockSettings
-        .of(Material.MANGROVE_ROOTS)
+        .of(Material.WOOD)
         .sounds(new BlockSoundGroup(1.0f, 1.0f,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
