@@ -21,7 +21,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.Vibration;
@@ -31,7 +30,9 @@ import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.PositionSourceType;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 public class WardenEntity extends HostileEntity {
 
@@ -46,6 +47,8 @@ public class WardenEntity extends HostileEntity {
     public BlockPos lasteventpos;
     public World lasteventworld;
     public LivingEntity lastevententity;
+    public ArrayList<UUID> entityList = new ArrayList<UUID>();
+    public ArrayList<Integer> susList = new ArrayList<Integer>();
 
     public boolean hasDetected=false;
     public int emergeTicksLeft;
@@ -191,7 +194,7 @@ public class WardenEntity extends HostileEntity {
     }
 
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
-    
+
     protected SoundEvent getHurtSound(DamageSource source) {
         return RegisterSounds.ENTITY_WARDEN_HURT;
     }
@@ -213,11 +216,39 @@ public class WardenEntity extends HostileEntity {
                     return null;
                 }
             };
-                CreateVibration(this.world, lasteventpos, wardenPositionSource, WardenHead);
+            CreateVibration(this.world, lasteventpos, wardenPositionSource, WardenHead);
+            if (eventEntity!=null) {
+                addSuspicion(eventEntity);
             }
+        }
         this.lasteventpos = eventPos;
         this.lasteventworld = eventWorld;
         this.lastevententity = eventEntity;
+    }
+
+    public void addSuspicion(LivingEntity entity) {
+        if (!this.entityList.isEmpty()) {
+            if (this.entityList.contains(entity.getUuid())) {
+                int slot = this.entityList.indexOf(entity.getUuid());
+                this.susList.set(slot, this.susList.get(slot) + 1);
+            } else {
+                this.entityList.add(entity.getUuid());
+                this.susList.add(1);
+            }
+        } else {
+            this.entityList.add(entity.getUuid());
+            this.susList.add(1);
+        }
+    }
+
+    public int getSuspicion(UUID id) {
+        if (!this.entityList.isEmpty()) {
+            if (this.entityList.contains(id)) {
+                int slot = this.entityList.indexOf(id);
+                return this.susList.get(slot);
+            }
+        }
+        return 0;
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
