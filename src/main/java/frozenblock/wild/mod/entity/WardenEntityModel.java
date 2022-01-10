@@ -52,6 +52,7 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         this.right_leg.pivotY = 66 - AnimationAPI.easeOut(0, 33, 55, animationProgress);
 
 
+
         if(r > 0) {
             if(r == 10) {
                 entity.setRoarAnimationProgress(animationProgress);
