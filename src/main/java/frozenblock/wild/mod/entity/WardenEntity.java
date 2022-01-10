@@ -42,7 +42,7 @@ public class WardenEntity extends HostileEntity {
 
     private double roarAnimationProgress;
 
-    private static final double speed = 0.5D;
+    private static final double speed = 0.4D;
 
     public BlockPos lasteventpos;
     public World lasteventworld;
@@ -78,8 +78,8 @@ public class WardenEntity extends HostileEntity {
 
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new WardenGoal(this, 0.3));
-        this.goalSelector.add(4, new WanderAroundGoal(this, speed));
+        this.goalSelector.add(2, new WardenGoal(this, speed));
+        this.goalSelector.add(4, new WanderAroundGoal(this, 0.3));
     }
     @Override
     public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
