@@ -208,7 +208,7 @@ public class WardenEntity extends HostileEntity {
             this.hasDetected=true;
             this.vibrationTimer=this.world.getTime();
             this.leaveTime=this.world.getTime()+1200;
-            world.playSound(null, this.getBlockPos().up(2), SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
+            world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
             BlockPos WardenHead = this.getBlockPos().up((3));
             PositionSource wardenPositionSource = new PositionSource() {
                 @Override

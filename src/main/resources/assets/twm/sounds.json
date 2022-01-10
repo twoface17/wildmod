@@ -450,6 +450,17 @@
 			"twm:entity/warden/heartbeat4"
 		]
 	},
+	"entity.warden.vibration": {
+		"subtitle": "subtitles.entity.warden.vibration",
+		"sounds": [
+			"twm:entity/warden/detect_vibration1",
+			"twm:entity/warden/detect_vibration2",
+			"twm:entity/warden/detect_vibration3",
+			"twm:entity/warden/detect_vibration4",
+			"twm:entity/warden/detect_vibration5",
+			"twm:entity/warden/detect_vibration6"
+		]
+	},
 	"music.overworld.deepdark": {
 		"sounds": [
 			{
