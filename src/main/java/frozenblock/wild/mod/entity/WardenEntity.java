@@ -47,8 +47,8 @@ public class WardenEntity extends HostileEntity {
     public BlockPos lasteventpos;
     public World lasteventworld;
     public LivingEntity lastevententity;
-    public ArrayList<UUID> entityList = new ArrayList<UUID>();
-    public ArrayList<Integer> susList = new ArrayList<Integer>();
+    public ArrayList<UUID> entityList = new ArrayList<>();
+    public ArrayList<Integer> susList = new ArrayList<>();
 
     public boolean hasDetected=false;
     public int emergeTicksLeft;
@@ -78,8 +78,8 @@ public class WardenEntity extends HostileEntity {
 
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new WardenGoal(this, speed));
-        this.goalSelector.add(4, new WanderAroundGoal(this, 0.3));
+        this.goalSelector.add(2, new WardenGoal(this, 0.3));
+        this.goalSelector.add(4, new WanderAroundGoal(this, speed));
     }
     @Override
     public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
@@ -205,7 +205,7 @@ public class WardenEntity extends HostileEntity {
             this.vibrationTimer=this.world.getTime();
             this.leaveTime=this.world.getTime()+1200;
             world.playSound(null, this.getBlockPos().up(2), SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
-            BlockPos WardenHead = this.getBlockPos().up((int) 3);
+            BlockPos WardenHead = this.getBlockPos().up((3));
             PositionSource wardenPositionSource = new PositionSource() {
                 @Override
                 public Optional<BlockPos> getPos(World world) {
