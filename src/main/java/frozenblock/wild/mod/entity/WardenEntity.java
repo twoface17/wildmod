@@ -7,6 +7,7 @@ import frozenblock.wild.mod.registry.RegisterSounds;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -79,7 +80,6 @@ public class WardenEntity extends HostileEntity {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new WardenGoal(this, speed));
-        this.goalSelector.add(4, new WanderAroundGoal(this, 0.3));
     }
     @Override
     public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
@@ -195,8 +195,12 @@ public class WardenEntity extends HostileEntity {
 
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
 
-    protected SoundEvent getHurtSound(DamageSource source) {
-        return RegisterSounds.ENTITY_WARDEN_HURT;
+    protected SoundEvent getHurtSound(DamageSource source) {return RegisterSounds.ENTITY_WARDEN_HURT;}
+
+    protected SoundEvent getStepSound() {return RegisterSounds.ENTITY_WARDEN_STEP;}
+
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        this.playSound(this.getStepSound(), 0.5F, 1.0F);
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity) {

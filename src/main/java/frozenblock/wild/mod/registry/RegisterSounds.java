@@ -29,6 +29,7 @@ public class RegisterSounds {
     public static SoundEvent ENTITY_WARDEN_SNIFF = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.sniff"));
     public static SoundEvent ENTITY_WARDEN_ROAR = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.roar"));
     public static SoundEvent ENTITY_WARDEN_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.hurt"));
+    public static SoundEvent ENTITY_WARDEN_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.step"));
     public static SoundEvent MUSIC_OVERWORLD_DEEPDARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deepdark"));
     public static SoundEvent BLOCK_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.step"));
     public static SoundEvent BLOCK_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.break"));
@@ -81,6 +82,7 @@ public class RegisterSounds {
         ENTITY_WARDEN_SLIGHTLY_ANGRY = register(ENTITY_WARDEN_SLIGHTLY_ANGRY.getId());
         EFFECT_NEARBY_CLOSE = register(EFFECT_NEARBY_CLOSE.getId());
         ENTITY_WARDEN_CLOSE = register(ENTITY_WARDEN_CLOSE.getId());
+        ENTITY_WARDEN_STEP = register(ENTITY_WARDEN_STEP.getId());
         ENTITY_WARDEN_CLOSER = register(ENTITY_WARDEN_CLOSER.getId());
         ENTITY_WARDEN_CLOSEST = register(ENTITY_WARDEN_CLOSEST.getId());
         ENTITY_FROG_AMBIENT = register(ENTITY_FROG_AMBIENT.getId());
