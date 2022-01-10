@@ -67,7 +67,8 @@
   "subtitles.entity.warden.roar":"Warden roars",
   "subtitles.entity.warden.sniff":"Warden sniffs",
   "subtitles.block.sculk_shrieker.shriek":"Sculk Shrieker shrieks",
-  "subtitles.entity.warden.nearby_close":"Quiet Heartbeat",
-  "subtitles.entity.warden.nearby_closer":"Heartbeat",
-  "subtitles.entity.warden.nearby_closest":"Loud Heartbeat"
+  "subtitles.twm.nearby_close":"?",
+  "subtitles.twm.nearby_closer":"??",
+  "subtitles.twm.nearby_closest":"???",
+  "subtitles.entity.warden.heartbeat":"Heartbeat"
 }

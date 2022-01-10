@@ -31,7 +31,7 @@
 
   "entity.twm.frog": "Rana",
   "entity.twm.warden": "Warden",
-  "subtitles.twm.nearby_close":"?",
-  "subtitles.twm.nearby_closer":"??",
-  "subtitles.twm.nearby_closest":"???"
+  "subtitles.entity.warden.nearby_close":"?",
+  "subtitles.entity.warden.nearby_closer":"??",
+  "subtitles.entity.warden.nearby_closest":"???"
 }

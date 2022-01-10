@@ -433,6 +433,23 @@
 			"twm:entity/warden/sniff3"
 		]
 	},
+	"entity.warden.step": {
+		"subtitle": "subtitles.block.generic.footsteps",
+		"sounds": [
+			"twm:entity/warden/step1",
+			"twm:entity/warden/step2",
+			"twm:entity/warden/step3"
+		]
+	},
+	"entity.warden.heartbeat": {
+		"subtitle": "subtitles.entity.warden.heartbeat",
+		"sounds": [
+			"twm:entity/warden/heartbeat1",
+			"twm:entity/warden/heartbeat2",
+			"twm:entity/warden/heartbeat3",
+			"twm:entity/warden/heartbeat4"
+		]
+	},
 	"music.overworld.deepdark": {
 		"sounds": [
 			{
