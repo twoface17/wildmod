@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.entity;
 
+import frozenblock.wild.mod.liukrastapi.AnimationAPI;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
@@ -46,6 +47,9 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
 
         int r = entity.getRoarTicksLeft1();
 
+        this.body.pivotY = 66 - AnimationAPI.easeOut(0, 33, 55, animationProgress);
+        this.left_leg.pivotY = 66 - AnimationAPI.easeOut(0, 33, 55, animationProgress);
+        this.right_leg.pivotY = 66 - AnimationAPI.easeOut(0, 33, 55, animationProgress);
 
 
         if(r > 0) {

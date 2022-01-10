@@ -9,13 +9,13 @@
     "ClientPlayerEntityMixin",
     "ItemsMixin",
     "LightmapTextureManagerMixin",
+    "LivingEntityMixin",
     "SculkSensorBlockMixin",
     "SimpleGameEventDispatcherMixin",
     "TreeDecoratorTypeInvoker",
     "VanillaBiomeParametersMixin",
     "VanillaSurfaceRulesBlockInvoker",
-    "VanillaSurfaceRulesInjector",
-    "LivingEntityMixin"
+    "VanillaSurfaceRulesInjector"
   ],
   "client": [
   ],
