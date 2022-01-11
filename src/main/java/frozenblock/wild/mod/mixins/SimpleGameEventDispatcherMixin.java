@@ -109,7 +109,11 @@ public class SimpleGameEventDispatcherMixin{
                             wardie.getEntityWorld() == eventworld &&
                             MathAddon.distance(eventpos.getX(), eventpos.getY(), eventpos.getZ(), wardie.getX(), wardie.getY(), wardie.getZ()) <= 15
                     ) {
-                        wardie.listen(eventpos, eventworld, evententity);
+                        if (event!=GameEvent.PROJECTILE_LAND) {
+                            wardie.listen(eventpos, eventworld, evententity, wardie.eventSuspicionValue(event, evententity));
+                        } else {
+                            wardie.listen(eventpos, eventworld, null, 0);
+                        }
                     }
                 }
             }
