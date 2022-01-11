@@ -292,9 +292,11 @@ public class WardenEntity extends HostileEntity {
         List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
+                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=16) {
                     if (this.getSuspicion(target)>highest) {
                         highest = this.getSuspicion(target);
-                        most=target;
+                        most = target;
+                    }
                 }
             }
         }
@@ -313,8 +315,10 @@ public class WardenEntity extends HostileEntity {
         List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (Objects.equals(this.trackingEntity, target.getUuidAsString())) {
-                    most=target;
+                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=16) {
+                    if (Objects.equals(this.trackingEntity, target.getUuidAsString())) {
+                        most = target;
+                    }
                 }
             }
         }
