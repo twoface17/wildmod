@@ -58,15 +58,15 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         float bodyY = -13;
 
         this.rig.pivotY = rigY + 40 + (
-                AnimationAPI.easeOutSine(0, 0.68f, -40, time)
-                + AnimationAPI.easeOutSine(0.68f, 1.04f, +10, time)
-                + AnimationAPI.easeOutBack(1.04f, 1.2f, +2, time)
-                + AnimationAPI.easeOutBack(1.2f, 3.24f, 0, time)
-                + AnimationAPI.easeOutSine(3.24f, 3.92f, -17, time)
-                + AnimationAPI.easeOutSine(3.92f, 4.6f, -5F, time)
-                + AnimationAPI.easeInSine(4.6f, 4.76f, +1.13F, time)
-                + AnimationAPI.easeOutSine(4.76f, 5.84f, -1.13F, time)
-                + AnimationAPI.easeOutSine(5.84f, 4.76f, -10F, time)
+                AnimationAPI.linear(0, 0.68f, 0, time)
+                + AnimationAPI.linear(0.68f, 1.04f, -10F, time)
+                + AnimationAPI.linear(1.04f, 1.2f, +2F, time)
+                + AnimationAPI.linear(1.2f, 3.24f, 0F, time)
+                + AnimationAPI.linear(3.24f, 3.92f, -17F, time)
+                + AnimationAPI.linear(3.92f, 4.6f, -5F, time)
+                + AnimationAPI.linear(4.6f, 4.76f, +1.13F, time)
+                + AnimationAPI.linear(4.76f, 5.48f, -1.13F, time)
+                + AnimationAPI.linear(5.48f, 5.84f, -10F, time)
                 );
         this.body.pitch = (float)Math.toRadians(0);
         this.body.roll = (float)Math.toRadians(-10);
