@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
+import frozenblock.wild.mod.WildMod;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.event.GameEvent;
 

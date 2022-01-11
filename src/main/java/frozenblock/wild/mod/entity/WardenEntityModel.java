@@ -50,7 +50,6 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
     }
     @Override
     public void setAngles(WardenEntity entity, float limbSwing, float limbSwingAmount, float animationProgress, float netHeadYaw, float headPitch) {
-        float animW = 10f;
         float time = animationProgress/10;
         // Default pivots of the anim
         float rigY = 24;
@@ -58,7 +57,9 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         float left_armY = -17;
         float bodyY = -13;
 
-        this.rig.pivotY = rigY + 40;
+        this.rig.pivotY = rigY + 40 + (
+                AnimationAPI.easeOutSine(0, 2.5f, -40, time)
+                );
         this.body.pitch = (float)Math.toRadians(0);
         this.body.roll = (float)Math.toRadians(-10);
 
