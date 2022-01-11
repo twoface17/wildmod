@@ -235,7 +235,6 @@ public class WardenEntity extends HostileEntity {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
                 int slot = this.entityList.indexOf(entity.getUuid().hashCode());
                 this.susList.set(slot, this.susList.get(slot) + 1);
-                System.out.println(this.susList.get(slot));
             } else {
                 this.entityList.add(entity.getUuid().hashCode());
                 this.susList.add(1);
