@@ -71,8 +71,8 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
 
                 this.body.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
 
-                this.left_ear.yaw = MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.cos(animationProgress / 20) / 5;
-                this.right_ear.yaw = -MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.cos(animationProgress / 20) / 5;
+                this.left_ear.pitch = MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.cos(animationProgress / 20) / 15;
+                this.right_ear.pitch = -MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.cos(animationProgress / 20) / 15;
 
                 this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
 
