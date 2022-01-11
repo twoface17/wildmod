@@ -4,6 +4,7 @@ package frozenblock.wild.mod.entity;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -31,7 +32,6 @@ import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.PositionSourceType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,8 +48,8 @@ public class WardenEntity extends HostileEntity {
     public BlockPos lasteventpos;
     public World lasteventworld;
     public LivingEntity lastevententity;
-    public ArrayList<UUID> entityList = new ArrayList<>();
-    public ArrayList<Integer> susList = new ArrayList<>();
+    public IntArrayList entityList = new IntArrayList();
+    public IntArrayList susList = new IntArrayList();
 
     public boolean hasDetected=false;
     public int emergeTicksLeft;
@@ -208,7 +208,7 @@ public class WardenEntity extends HostileEntity {
             this.hasDetected=true;
             this.vibrationTimer=this.world.getTime();
             this.leaveTime=this.world.getTime()+1200;
-            world.playSound(null, this.getBlockPos().up(2), SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
+            world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
             BlockPos WardenHead = this.getBlockPos().up((3));
             PositionSource wardenPositionSource = new PositionSource() {
                 @Override
@@ -232,23 +232,23 @@ public class WardenEntity extends HostileEntity {
 
     public void addSuspicion(LivingEntity entity) {
         if (!this.entityList.isEmpty()) {
-            if (this.entityList.contains(entity.getUuid())) {
-                int slot = this.entityList.indexOf(entity.getUuid());
+            if (this.entityList.contains(entity.getUuid().hashCode())) {
+                int slot = this.entityList.indexOf(entity.getUuid().hashCode());
                 this.susList.set(slot, this.susList.get(slot) + 1);
             } else {
-                this.entityList.add(entity.getUuid());
+                this.entityList.add(entity.getUuid().hashCode());
                 this.susList.add(1);
             }
         } else {
-            this.entityList.add(entity.getUuid());
+            this.entityList.add(entity.getUuid().hashCode());
             this.susList.add(1);
         }
     }
 
-    public int getSuspicion(UUID id) {
+    public int getSuspicion(LivingEntity entity) {
         if (!this.entityList.isEmpty()) {
-            if (this.entityList.contains(id)) {
-                int slot = this.entityList.indexOf(id);
+            if (this.entityList.contains(entity.getUuid().hashCode())) {
+                int slot = this.entityList.indexOf(entity.getUuid().hashCode());
                 return this.susList.get(slot);
             }
         }
@@ -261,6 +261,8 @@ public class WardenEntity extends HostileEntity {
         nbt.putLong("leaveTime", this.leaveTime);
         nbt.putInt("emergeTicksLeft", this.emergeTicksLeft);
         nbt.putBoolean("hasEmerged", this.hasEmerged);
+        nbt.putIntArray("entityList", entityList);
+        nbt.putIntArray("susList", susList);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -268,6 +270,8 @@ public class WardenEntity extends HostileEntity {
         this.leaveTime = nbt.getLong("leaveTime");
         this.emergeTicksLeft = nbt.getInt("emergeTicksLeft");
         this.hasEmerged = nbt.getBoolean("hasEmerged");
+        this.entityList = IntArrayList.wrap(nbt.getIntArray("entityList"));
+        this.susList = IntArrayList.wrap(nbt.getIntArray("susList"));
     }
     public void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
         this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;

@@ -30,6 +30,7 @@ public class RegisterSounds {
     public static SoundEvent ENTITY_WARDEN_ROAR = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.roar"));
     public static SoundEvent ENTITY_WARDEN_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.hurt"));
     public static SoundEvent ENTITY_WARDEN_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.step"));
+    public static SoundEvent ENTITY_WARDEN_VIBRATION = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.vibration"));
     public static SoundEvent MUSIC_OVERWORLD_DEEPDARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deepdark"));
     public static SoundEvent BLOCK_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.step"));
     public static SoundEvent BLOCK_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.break"));
@@ -97,6 +98,7 @@ public class RegisterSounds {
         ENTITY_WARDEN_ROAR = register(ENTITY_WARDEN_ROAR.getId());
         ENTITY_WARDEN_HURT = register(ENTITY_WARDEN_HURT.getId());
         ENTITY_WARDEN_SNIFF = register(ENTITY_WARDEN_SNIFF.getId());
+        ENTITY_WARDEN_VIBRATION = register(ENTITY_WARDEN_VIBRATION.getId());
         BLOCK_SCULK_SHRIEKER_BREAK = register(BLOCK_SCULK_SHRIEKER_BREAK.getId());
         BLOCK_SCULK_SHRIEKER_PLACE = register(BLOCK_SCULK_SHRIEKER_PLACE.getId());
         MUSIC_OVERWORLD_DEEPDARK = register(MUSIC_OVERWORLD_DEEPDARK.getId());
