@@ -4,6 +4,7 @@ import frozenblock.wild.mod.entity.WardenEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 
@@ -79,13 +80,13 @@ public class WardenGoal extends Goal {
         BlockPos lasteventpos = this.mob.lasteventpos;
         LivingEntity lastevententity = this.mob.lastevententity;
         if(this.mob.getAttacker() != null) {
-            double distance = MathAddon.distance(this.VX, this.VY, this.VZ, this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
+            /*double distance = MathAddon.distance(this.VX, this.VY, this.VZ, this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
             if(distance < 2) {distance = 2;}
             double finalspeed = (speed * 2) / (distance -1);
-            if(finalspeed < speed) {finalspeed = speed;}
+            if(finalspeed < speed) {finalspeed = speed;}*/
 
             LivingEntity target = this.mob.getAttacker();
-            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, finalspeed);
+            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed + (5*0.15) + (this.mob.overallAnger()*0.009));
             double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
             double e = this.mob.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
             this.cooldown = Math.max(this.cooldown - 1, 0);
@@ -102,18 +103,19 @@ public class WardenGoal extends Goal {
         } else {
 
             //Calculating a good speed for the warden depending on his distance from the event.
-            double distance = MathAddon.distance(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
+            /*double distance = MathAddon.distance(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
             if(distance < 2) {distance = 2;}
             double finalspeed = (speed * 2) / (distance - 1);
-            if(finalspeed < speed) {finalspeed = speed;}
+            if(finalspeed < speed) {finalspeed = speed;}*/
 
             //start moving the warden to the location
 
-            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), finalspeed);
+            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed + (this.mob.overallAnger()*0.008));
 
             if(lastevententity != null) {
                 double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
                 double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
+                this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed+ (MathHelper.clamp(this.mob.getSuspicion(lastevententity),0,15)*0.04) + (this.mob.overallAnger()*0.008)));
                 this.cooldown = Math.max(this.cooldown - 1, 0);
                 if (!(e > d)) {
                     /*if (this.cooldown <= 0) {
