@@ -43,7 +43,7 @@ public class WardenEntity extends HostileEntity {
 
     private double roarAnimationProgress;
 
-    private static final double speed = 0.4D;
+    private static final double speed = 0.5D;
 
     public BlockPos lasteventpos;
     public World lasteventworld;
