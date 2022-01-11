@@ -335,10 +335,10 @@
 				"volume": 1
 			}
 		],
-		"subtitle": "subtitles.effect.nearby_close"
+		"subtitle": "subtitles.twm.nearby_close"
 	},
 	"entity.warden.slightly_angry": {
-		"subtitle": "subtitles.twm.slightly_angry",
+		"subtitle": "subtitles.entity.warden.slightly_angry",
 		"sounds": [
 			"twm:entity/warden/slightly_angry_1",
 			"twm:entity/warden/slightly_angry_2"
@@ -444,10 +444,26 @@
 	"entity.warden.heartbeat": {
 		"subtitle": "subtitles.entity.warden.heartbeat",
 		"sounds": [
-			"twm:entity/warden/heartbeat1",
-			"twm:entity/warden/heartbeat2",
-			"twm:entity/warden/heartbeat3",
-			"twm:entity/warden/heartbeat4"
+			{
+				"name": "twm:entity/warden/heartbeat1",
+				"volume": 1,
+				"attenuation_distance": 32
+			},
+			{
+				"name": "twm:entity/warden/heartbeat2",
+				"volume": 1,
+				"attenuation_distance": 32
+			},
+			{
+				"name": "twm:entity/warden/heartbeat3",
+				"volume": 1,
+				"attenuation_distance": 32
+			},
+			{
+				"name": "twm:entity/warden/heartbeat4",
+				"volume": 1,
+				"attenuation_distance": 32
+			}
 		]
 	},
 	"entity.warden.vibration": {
