@@ -51,10 +51,12 @@ public class WardenEntity extends HostileEntity {
     public IntArrayList entityList = new IntArrayList();
     public IntArrayList susList = new IntArrayList();
     public String trackingEntity = "null";
+    public int followingEntity;
 
     public boolean hasDetected=false;
     public int emergeTicksLeft;
     public boolean hasEmerged;
+    public int followTicksLeft;
     public long vibrationTimer = 0;
     public long leaveTime;
     protected int delay = 0;
@@ -69,6 +71,7 @@ public class WardenEntity extends HostileEntity {
     }
 
     public static DefaultAttributeContainer.Builder createWardenAttributes() {
+
         return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 31.0D);
     }
 
@@ -124,6 +127,18 @@ public class WardenEntity extends HostileEntity {
         }
         if(world.getTime()==this.leaveTime) {
             this.handleStatus((byte) 6);
+        }
+        if(this.followTicksLeft > 0) {
+            --this.followTicksLeft;
+            if (this.world.getEntityById(this.followingEntity)!=null) {
+                Entity entity = this.world.getEntityById(this.followingEntity);
+                assert entity != null;
+                if (entity.isAlive() && canFollow(entity)) {
+                    this.getNavigation().startMovingTo(entity.getX(), entity.getY(), entity.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.04) + (this.overallAnger() * 0.004)));
+                } else {
+                    this.followTicksLeft=0;
+                }
+            }
         }
         //Heartbeat
         this.hearbeatTime = (int) (60 - ((MathHelper.clamp(this.overallAnger(),0,15)*3.3)));
@@ -246,6 +261,11 @@ public class WardenEntity extends HostileEntity {
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
     }
 
+    public void followForTicks(LivingEntity entity, int ticks) {
+        this.followingEntity = entity.getId();
+        this.followTicksLeft = ticks;
+    }
+
     public void addSuspicion(LivingEntity entity, int suspicion) {
         if (!this.entityList.isEmpty()) {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
@@ -266,11 +286,11 @@ public class WardenEntity extends HostileEntity {
         }
     }
 
-    public int getSuspicion(LivingEntity entity) {
-        if (!this.entityList.isEmpty()) {
+    public int getSuspicion(Entity entity) {
+        if (!this.entityList.isEmpty() && entity!=null) {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
                 int slot = this.entityList.indexOf(entity.getUuid().hashCode());
-                return this.susList.get(slot);
+                return this.susList.getInt(slot);
             }
         }
         return 0;
@@ -324,6 +344,17 @@ public class WardenEntity extends HostileEntity {
         }
         return null;
     }
+    public boolean canFollow(Entity entity) {
+        Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
+        if (this.getSuspicion(entity)>=15) {
+            box = new Box(this.getBlockPos().add(-20, -20, -20), this.getBlockPos().add(20, 20, 20));
+        }
+        List<Entity> entities = world.getNonSpectatingEntities(Entity.class, box);
+        if (!entities.isEmpty() && entities.contains(entity)) {
+            return true;
+        }
+        return false;
+    }
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putLong("vibrationTimer", this.vibrationTimer);
@@ -333,6 +364,8 @@ public class WardenEntity extends HostileEntity {
         nbt.putIntArray("entityList", this.entityList);
         nbt.putIntArray("susList", this.susList);
         nbt.putString("trackingEntity", this.trackingEntity);
+        nbt.putInt("followTicksLeft", this.followTicksLeft);
+        nbt.putInt("followingEntity", this.followingEntity);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -343,6 +376,8 @@ public class WardenEntity extends HostileEntity {
         this.entityList = IntArrayList.wrap(nbt.getIntArray("entityList"));
         this.susList = IntArrayList.wrap(nbt.getIntArray("susList"));
         this.trackingEntity = nbt.getString("trackingEntity");
+        this.followTicksLeft = nbt.getInt("followTicksLeft");
+        this.followingEntity = nbt.getInt("followingEntity");
     }
 
     public int eventSuspicionValue(GameEvent event, LivingEntity livingEntity) {
