@@ -48,9 +48,11 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
 
         int r = entity.getRoarTicksLeft1();
 
-        this.body.pivotY = 40 + (AnimationAPI.easeOutSine(0, 2.5f, -40, 0f));
-        this.left_leg.pivotY = 40 + (AnimationAPI.easeOutSine(0, 2.5f, -40, 0f));
-        this.right_leg.pivotY = 40 + (AnimationAPI.easeOutSine(0, 2.5f, -40, 0f));
+        float time = animationProgress/10;
+
+        this.body.pivotY = 40 + (AnimationAPI.easeOutSine(0, 2.5f, -28, time));
+        this.left_leg.pivotY = 40 + (AnimationAPI.easeOutSine(0, 2.5f, -28, time));
+        this.right_leg.pivotY = 40 + (AnimationAPI.easeOutSine(0, 2.5f, -28, time));
 
 
 
