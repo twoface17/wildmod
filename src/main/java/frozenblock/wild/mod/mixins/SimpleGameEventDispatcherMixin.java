@@ -10,12 +10,17 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
+import net.minecraft.world.event.EntityPositionSource;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.event.PositionSource;
+import net.minecraft.world.event.PositionSourceType;
 import net.minecraft.world.event.listener.SimpleGameEventDispatcher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Mixin(SimpleGameEventDispatcher.class)
 public class SimpleGameEventDispatcherMixin{
@@ -120,5 +126,4 @@ public class SimpleGameEventDispatcherMixin{
 
         }
     }
-
 }

@@ -24,14 +24,11 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.PositionSource;
-import net.minecraft.world.event.PositionSourceType;
+import net.minecraft.world.event.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -46,7 +43,7 @@ public class WardenEntity extends HostileEntity {
 
     private double roarAnimationProgress;
 
-    private static final double speed = 0.5D;
+    private static final double speed = 0.4D;
 
     public BlockPos lasteventpos;
     public World lasteventworld;
@@ -54,10 +51,12 @@ public class WardenEntity extends HostileEntity {
     public IntArrayList entityList = new IntArrayList();
     public IntArrayList susList = new IntArrayList();
     public String trackingEntity = "null";
+    public int followingEntity;
 
     public boolean hasDetected=false;
     public int emergeTicksLeft;
     public boolean hasEmerged;
+    public int followTicksLeft;
     public long vibrationTimer = 0;
     public long leaveTime;
     protected int delay = 0;
@@ -72,6 +71,7 @@ public class WardenEntity extends HostileEntity {
     }
 
     public static DefaultAttributeContainer.Builder createWardenAttributes() {
+
         return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 31.0D);
     }
 
@@ -87,6 +87,7 @@ public class WardenEntity extends HostileEntity {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new WardenGoal(this, speed));
+        this.goalSelector.add(1, new WanderAroundGoal(this, 0.4));
     }
     @Override
     public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
@@ -127,6 +128,18 @@ public class WardenEntity extends HostileEntity {
         }
         if(world.getTime()==this.leaveTime) {
             this.handleStatus((byte) 6);
+        }
+        if(this.followTicksLeft > 0) {
+            --this.followTicksLeft;
+            if (this.world.getEntityById(this.followingEntity)!=null) {
+                Entity entity = this.world.getEntityById(this.followingEntity);
+                assert entity != null;
+                if (entity.isAlive() && canFollow(entity)) {
+                    this.getNavigation().startMovingTo(entity.getX(), entity.getY(), entity.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.04) + (this.overallAnger() * 0.004)));
+                } else {
+                    this.followTicksLeft=0;
+                }
+            }
         }
         //Heartbeat
         this.hearbeatTime = (int) (60 - ((MathHelper.clamp(this.overallAnger(),0,15)*3.3)));
@@ -213,42 +226,53 @@ public class WardenEntity extends HostileEntity {
     protected SoundEvent getStepSound() {return RegisterSounds.ENTITY_WARDEN_STEP;}
 
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(this.getStepSound(), 0.5F, 1.0F);
+        this.playSound(this.getStepSound(), 1.0F, 1.0F);
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
-        if(!(this.emergeTicksLeft>0) && this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime()-this.vibrationTimer>=23) {
-            this.hasDetected=true;
-            this.vibrationTimer=this.world.getTime();
-            this.leaveTime=this.world.getTime()+1200;
-            world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
-            BlockPos WardenHead = this.getBlockPos().up((3));
-            PositionSource wardenPositionSource = new PositionSource() {
-                @Override
-                public Optional<BlockPos> getPos(World world) {
-                    return Optional.of(WardenHead);
+            if (!(this.emergeTicksLeft > 0) && this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime() - this.vibrationTimer >= 23) {
+                this.hasDetected = true;
+                this.vibrationTimer = this.world.getTime();
+                this.leaveTime = this.world.getTime() + 1200;
+                this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
+                BlockPos WardenHead = this.getBlockPos().up((3));
+                //Find a way to use EntityPositionSource AND have the vibration move to Warden's head (Might be impossible atm)
+                BlockPositionSource wardenPositionSource = new BlockPositionSource(Optional.of(WardenHead)) {
+                    @Override
+                    public Optional<BlockPos> getPos(World world) {
+                        return Optional.of(WardenHead);
+                    }
+                    @Override
+                    public PositionSourceType<?> getType() {
+                        return PositionSourceType.BLOCK;
+                    }
+                };
+                CreateVibration(this.world, lasteventpos, wardenPositionSource, WardenHead);
+                if (eventEntity != null) {
+                    addSuspicion(eventEntity, suspicion);
                 }
-                @Override
-                public PositionSourceType<?> getType() {
-                    return null;
-                }
-            };
-            CreateVibration(this.world, lasteventpos, wardenPositionSource, WardenHead);
-            if (eventEntity!=null) {
-                addSuspicion(eventEntity, suspicion);
             }
-        }
-        this.lasteventpos = eventPos;
-        this.lasteventworld = eventWorld;
-        this.lastevententity = eventEntity;
+            this.lasteventpos = eventPos;
+            this.lasteventworld = eventWorld;
+            this.lastevententity = eventEntity;
+    }
+
+    public void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
+        this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2;
+        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
+    }
+
+    public void followForTicks(LivingEntity entity, int ticks) {
+        this.followingEntity = entity.getId();
+        this.followTicksLeft = ticks;
     }
 
     public void addSuspicion(LivingEntity entity, int suspicion) {
         if (!this.entityList.isEmpty()) {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
                 int slot = this.entityList.indexOf(entity.getUuid().hashCode());
-                this.susList.set(slot, this.susList.get(slot) + suspicion);
-                if (this.susList.get(slot)>=15 && this.getTrackingEntity()==null) {
+                this.susList.set(slot, this.susList.getInt(slot) + suspicion);
+                if (this.susList.getInt(slot)>=15 && this.getTrackingEntity()==null) {
                     this.trackingEntity=entity.getUuidAsString();
                     this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_ROAR, SoundCategory.HOSTILE, 1F, 1F);
                     this.roar();
@@ -263,11 +287,11 @@ public class WardenEntity extends HostileEntity {
         }
     }
 
-    public int getSuspicion(LivingEntity entity) {
-        if (!this.entityList.isEmpty()) {
+    public int getSuspicion(Entity entity) {
+        if (!this.entityList.isEmpty() && entity!=null) {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
                 int slot = this.entityList.indexOf(entity.getUuid().hashCode());
-                return this.susList.get(slot);
+                return this.susList.getInt(slot);
             }
         }
         return 0;
@@ -310,19 +334,27 @@ public class WardenEntity extends HostileEntity {
         return value;
     }
     public LivingEntity getTrackingEntity() {
-        LivingEntity most = null;
-        Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
-        List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
+        Box box = new Box(this.getBlockPos().add(-20,-20,-20), this.getBlockPos().add(20,20,20));
+        List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=16) {
-                    if (Objects.equals(this.trackingEntity, target.getUuidAsString())) {
-                        most = target;
-                    }
+                if (Objects.equals(this.trackingEntity, target.getUuidAsString())) {
+                    return target;
                 }
             }
         }
-        return most;
+        return null;
+    }
+    public boolean canFollow(Entity entity) {
+        Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
+        if (this.getSuspicion(entity)>=15) {
+            box = new Box(this.getBlockPos().add(-20, -20, -20), this.getBlockPos().add(20, 20, 20));
+        }
+        List<Entity> entities = world.getNonSpectatingEntities(Entity.class, box);
+        if (!entities.isEmpty() && entities.contains(entity)) {
+            return true;
+        }
+        return false;
     }
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
@@ -333,6 +365,8 @@ public class WardenEntity extends HostileEntity {
         nbt.putIntArray("entityList", this.entityList);
         nbt.putIntArray("susList", this.susList);
         nbt.putString("trackingEntity", this.trackingEntity);
+        nbt.putInt("followTicksLeft", this.followTicksLeft);
+        nbt.putInt("followingEntity", this.followingEntity);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -343,16 +377,15 @@ public class WardenEntity extends HostileEntity {
         this.entityList = IntArrayList.wrap(nbt.getIntArray("entityList"));
         this.susList = IntArrayList.wrap(nbt.getIntArray("susList"));
         this.trackingEntity = nbt.getString("trackingEntity");
+        this.followTicksLeft = nbt.getInt("followTicksLeft");
+        this.followingEntity = nbt.getInt("followingEntity");
     }
-    public void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
-        this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;
-        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
-    }
+
     public int eventSuspicionValue(GameEvent event, LivingEntity livingEntity) {
         int total=1;
         EntityType entity=livingEntity.getType();
         if (entity==EntityType.PLAYER) {
-            total=total+3;
+            total=total+2;
         }
         if (entity==EntityType.IRON_GOLEM) { //They're loud, you know?
             total=total+1;
@@ -364,13 +397,12 @@ public class WardenEntity extends HostileEntity {
             total=total+1;
         }
         if(this.getBlockPos().getSquaredDistance(livingEntity.getBlockPos(), true)<=8) {
-            total=total+ UniformIntProvider.create(1,2).get(world.getRandom());
+            total=total+1;
         }
         return total;
     }
     public int overallAnger() {
         int anger=0;
-        int divideBy=1;
         for (int i=0; i<this.susList.size(); i++) {
             anger=anger+this.susList.getInt(i);
         }
