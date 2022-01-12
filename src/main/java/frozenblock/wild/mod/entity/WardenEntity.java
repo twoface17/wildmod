@@ -17,8 +17,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.EntityPositionS2CPacket;
-import net.minecraft.server.ServerTask;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -26,16 +24,11 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
-import net.minecraft.world.event.EntityPositionSource;
-import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.PositionSource;
-import net.minecraft.world.event.PositionSourceType;
+import net.minecraft.world.event.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -226,6 +219,19 @@ public class WardenEntity extends HostileEntity {
                 this.vibrationTimer = this.world.getTime();
                 this.leaveTime = this.world.getTime() + 1200;
                 this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
+                BlockPos WardenHead = this.getBlockPos().up((3));
+                //Find a way to use EntityPositionSource AND have the vibration move to Warden's head (Might be impossible atm)
+                BlockPositionSource wardenPositionSource = new BlockPositionSource(Optional.of(WardenHead)) {
+                    @Override
+                    public Optional<BlockPos> getPos(World world) {
+                        return Optional.of(WardenHead);
+                    }
+                    @Override
+                    public PositionSourceType<?> getType() {
+                        return PositionSourceType.BLOCK;
+                    }
+                };
+                CreateVibration(this.world, lasteventpos, wardenPositionSource, WardenHead);
                 if (eventEntity != null) {
                     addSuspicion(eventEntity, suspicion);
                 }
@@ -235,8 +241,9 @@ public class WardenEntity extends HostileEntity {
             this.lastevententity = eventEntity;
     }
 
-    public BlockPos getHead() {
-        return this.getBlockPos().up(3);
+    public void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
+        this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2;
+        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
     }
 
     public void addSuspicion(LivingEntity entity, int suspicion) {
