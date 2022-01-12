@@ -117,37 +117,13 @@ public class SimpleGameEventDispatcherMixin{
                     ) {
                         if (event!=GameEvent.PROJECTILE_LAND) {
                             wardie.listen(eventpos, eventworld, evententity, wardie.eventSuspicionValue(event, evententity));
-                            if (world.getTime() - wardie.vibrationTimer >= 23) {
-                            createVibration(wardie, eventpos);
-                            }
                         } else {
                             wardie.listen(eventpos, eventworld, null, 0);
-                            if (world.getTime() - wardie.vibrationTimer >= 23) {
-                                createVibration(wardie, eventpos);
-                            }
                         }
                     }
                 }
             }
 
         }
-    }
-//TODO: FIGURE OUT HOW TO MAKE VIBRATION APPEAR AT WARDEN'S HEAD
-    private void createVibration(WardenEntity wardie, BlockPos eventpos) {
-        BlockPos WardenHead = wardie.getBlockPos().up((3));
-        EntityPositionSource wardenPositionSource = new EntityPositionSource(wardie.getId()) {
-            @Override
-            public Optional<BlockPos> getPos(World world) {
-                return Optional.of(WardenHead);
-            }
-
-            @Override
-            public PositionSourceType<?> getType() {
-                return PositionSourceType.ENTITY;
-            }
-        };
-
-        int distance = (int)Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos, false))) * 2 ;
-        ((ServerWorld)world).sendVibrationPacket(new Vibration(eventpos, wardenPositionSource, distance));
     }
 }
