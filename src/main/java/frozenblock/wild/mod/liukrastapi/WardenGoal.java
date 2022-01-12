@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 
 public class WardenGoal extends Goal {
-    public int cooldown;
+    private int cooldown;
 
     private double VX;
     private double VY;
