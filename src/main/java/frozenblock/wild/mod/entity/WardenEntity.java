@@ -87,6 +87,7 @@ public class WardenEntity extends HostileEntity {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new WardenGoal(this, speed));
+        this.goalSelector.add(1, new WanderAroundGoal(this, 0.4));
     }
     @Override
     public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
@@ -225,7 +226,7 @@ public class WardenEntity extends HostileEntity {
     protected SoundEvent getStepSound() {return RegisterSounds.ENTITY_WARDEN_STEP;}
 
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(this.getStepSound(), 0.5F, 1.0F);
+        this.playSound(this.getStepSound(), 1.0F, 1.0F);
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
