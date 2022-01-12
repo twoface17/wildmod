@@ -250,8 +250,8 @@ public class WardenEntity extends HostileEntity {
         if (!this.entityList.isEmpty()) {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
                 int slot = this.entityList.indexOf(entity.getUuid().hashCode());
-                this.susList.set(slot, this.susList.get(slot) + suspicion);
-                if (this.susList.get(slot)>=15 && this.getTrackingEntity()==null) {
+                this.susList.set(slot, this.susList.getInt(slot) + suspicion);
+                if (this.susList.getInt(slot)>=15 && this.getTrackingEntity()==null) {
                     this.trackingEntity=entity.getUuidAsString();
                     this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_ROAR, SoundCategory.HOSTILE, 1F, 1F);
                     this.roar();
@@ -313,19 +313,16 @@ public class WardenEntity extends HostileEntity {
         return value;
     }
     public LivingEntity getTrackingEntity() {
-        LivingEntity most = null;
         Box box = new Box(this.getBlockPos().add(-20,-20,-20), this.getBlockPos().add(20,20,20));
-        List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
+        List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=21) {
-                    if (Objects.equals(this.trackingEntity, target.getUuidAsString())) {
-                        most = target;
-                    }
+                if (Objects.equals(this.trackingEntity, target.getUuidAsString())) {
+                    return target;
                 }
             }
         }
-        return most;
+        return null;
     }
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
