@@ -17,6 +17,8 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.s2c.play.EntityPositionS2CPacket;
+import net.minecraft.server.ServerTask;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -25,10 +27,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
+import net.minecraft.world.event.EntityPositionSource;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.PositionSourceType;
@@ -46,7 +50,7 @@ public class WardenEntity extends HostileEntity {
 
     private double roarAnimationProgress;
 
-    private static final double speed = 0.5D;
+    private static final double speed = 0.4D;
 
     public BlockPos lasteventpos;
     public World lasteventworld;
@@ -217,30 +221,22 @@ public class WardenEntity extends HostileEntity {
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
-        if(!(this.emergeTicksLeft>0) && this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime()-this.vibrationTimer>=23) {
-            this.hasDetected=true;
-            this.vibrationTimer=this.world.getTime();
-            this.leaveTime=this.world.getTime()+1200;
-            world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F,world.random.nextFloat() * 0.2F + 0.8F);
-            BlockPos WardenHead = this.getBlockPos().up((3));
-            PositionSource wardenPositionSource = new PositionSource() {
-                @Override
-                public Optional<BlockPos> getPos(World world) {
-                    return Optional.of(WardenHead);
+            if (!(this.emergeTicksLeft > 0) && this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime() - this.vibrationTimer >= 23) {
+                this.hasDetected = true;
+                this.vibrationTimer = this.world.getTime();
+                this.leaveTime = this.world.getTime() + 1200;
+                this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
+                if (eventEntity != null) {
+                    addSuspicion(eventEntity, suspicion);
                 }
-                @Override
-                public PositionSourceType<?> getType() {
-                    return null;
-                }
-            };
-            CreateVibration(this.world, lasteventpos, wardenPositionSource, WardenHead);
-            if (eventEntity!=null) {
-                addSuspicion(eventEntity, suspicion);
             }
-        }
-        this.lasteventpos = eventPos;
-        this.lasteventworld = eventWorld;
-        this.lastevententity = eventEntity;
+            this.lasteventpos = eventPos;
+            this.lasteventworld = eventWorld;
+            this.lastevententity = eventEntity;
+    }
+
+    public BlockPos getHead() {
+        return this.getBlockPos().up(3);
     }
 
     public void addSuspicion(LivingEntity entity, int suspicion) {
@@ -311,11 +307,11 @@ public class WardenEntity extends HostileEntity {
     }
     public LivingEntity getTrackingEntity() {
         LivingEntity most = null;
-        Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
+        Box box = new Box(this.getBlockPos().add(-20,-20,-20), this.getBlockPos().add(20,20,20));
         List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=16) {
+                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=21) {
                     if (Objects.equals(this.trackingEntity, target.getUuidAsString())) {
                         most = target;
                     }
@@ -344,15 +340,12 @@ public class WardenEntity extends HostileEntity {
         this.susList = IntArrayList.wrap(nbt.getIntArray("susList"));
         this.trackingEntity = nbt.getString("trackingEntity");
     }
-    public void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
-        this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2 ;
-        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
-    }
+
     public int eventSuspicionValue(GameEvent event, LivingEntity livingEntity) {
         int total=1;
         EntityType entity=livingEntity.getType();
         if (entity==EntityType.PLAYER) {
-            total=total+3;
+            total=total+2;
         }
         if (entity==EntityType.IRON_GOLEM) { //They're loud, you know?
             total=total+1;
@@ -364,13 +357,12 @@ public class WardenEntity extends HostileEntity {
             total=total+1;
         }
         if(this.getBlockPos().getSquaredDistance(livingEntity.getBlockPos(), true)<=8) {
-            total=total+ UniformIntProvider.create(1,2).get(world.getRandom());
+            total=total+1;
         }
         return total;
     }
     public int overallAnger() {
         int anger=0;
-        int divideBy=1;
         for (int i=0; i<this.susList.size(); i++) {
             anger=anger+this.susList.getInt(i);
         }
