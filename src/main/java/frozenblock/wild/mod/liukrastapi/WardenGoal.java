@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 
 public class WardenGoal extends Goal {
-    private int cooldown;
+    public int cooldown;
 
     private double VX;
     private double VY;
@@ -86,7 +86,7 @@ public class WardenGoal extends Goal {
             if(finalspeed < speed) {finalspeed = speed;}*/
 
             LivingEntity target = this.mob.getAttacker();
-            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed + (5*0.15) + (this.mob.overallAnger()*0.009));
+            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed + (5*0.15) + (this.mob.overallAnger()*0.004));
             double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
             double e = this.mob.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
             this.cooldown = Math.max(this.cooldown - 1, 0);
@@ -115,7 +115,7 @@ public class WardenGoal extends Goal {
             if(lastevententity != null) {
                 double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
                 double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
-                this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed+ (MathHelper.clamp(this.mob.getSuspicion(lastevententity),0,15)*0.04) + (this.mob.overallAnger()*0.008)));
+                this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed+ (MathHelper.clamp(this.mob.getSuspicion(lastevententity),0,15)*0.04) + (this.mob.overallAnger()*0.004)));
                 this.cooldown = Math.max(this.cooldown - 1, 0);
                 if (!(e > d)) {
                     /*if (this.cooldown <= 0) {
