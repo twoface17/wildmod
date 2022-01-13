@@ -42,7 +42,7 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         modelPartData.addChild("right_leg", ModelPartBuilder.create().uv(58,36).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(-6.0F,11.0F,0.0F));
         return TexturedModelData.of(modelData,128,64);
     }
-
+    //Emerge animation
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
@@ -54,6 +54,7 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         this.left_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 10f, -69, time));
         this.right_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 10f, -69, time));
 
+    //Walk animation(?)
         if(r > 0) {
             if(r == 10) {
                 entity.setRoarAnimationProgress(animationProgress);
@@ -83,7 +84,7 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
             }
         }
 
-
+    //Idle animation
         int a = entity.getAttackTicksLeft1();
         float eq;
         if (a > 0) {
