@@ -199,7 +199,7 @@ public class SculkCatalystListener implements GameEventListener {
         int downward = world.getGameRules().getInt(WildMod.DOWNWARD_SPREAD);
         int MIN = world.getBottomY();
         if (blockPos.getY() - downward <= MIN) {
-            downward = (blockPos.getY()-MIN)+1;
+            downward = (blockPos.getY()-MIN)-1;
         }
         for (int h = 0; h < downward; h++) {
             if (solrepsculk(world, blockPos.down(h))) {
