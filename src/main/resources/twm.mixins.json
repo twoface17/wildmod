@@ -10,6 +10,7 @@
     "ItemsMixin",
     "LightmapTextureManagerMixin",
     "LivingEntityMixin",
+    "SculkSensorListenerMixin",
     "SculkSensorBlockMixin",
     "SimpleGameEventDispatcherMixin",
     "TreeDecoratorTypeInvoker",
