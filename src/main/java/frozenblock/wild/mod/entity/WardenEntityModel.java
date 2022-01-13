@@ -50,11 +50,9 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
 
         float time = animationProgress/10;
 
-        this.body.pivotY = 80 + (AnimationAPI.easeOutSine(0, 2.5f, -67, time));
-        this.left_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 2.5f, -67, time));
-        this.right_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 2.5f, -67, time));
-
-
+        this.body.pivotY = 80 + (AnimationAPI.easeOutSine(0, 5.0f, -69, time));
+        this.left_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 5.0f, -69, time));
+        this.right_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 5.0f, -69, time));
 
         if(r > 0) {
             if(r == 10) {
@@ -77,8 +75,8 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
 
                 this.body.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
 
-                this.left_ear.yaw = MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.cos(animationProgress / 20) / 5;
-                this.right_ear.yaw = -MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.cos(animationProgress / 20) / 5;
+                this.left_ear.yaw = MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.sin(animationProgress / 20) / 5;
+                this.right_ear.yaw = -MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.sin(animationProgress / 20) / 5;
 
                 this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
 
@@ -109,8 +107,8 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
 
         this.body.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
 
-        this.left_ear.yaw = MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.cos(animationProgress / 20) / 5;
-        this.right_ear.yaw = -MathHelper.cos(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.cos(animationProgress / 20) / 5;
+        this.left_ear.yaw = MathHelper.sin(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.sin(animationProgress / 20) / 5;
+        this.right_ear.yaw = -MathHelper.sin(animationProgress / 20 * MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.sin(animationProgress / 20) / 5;
 
         this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
 
