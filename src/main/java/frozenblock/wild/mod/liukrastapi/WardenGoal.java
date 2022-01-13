@@ -39,7 +39,7 @@ public class WardenGoal extends Goal {
                        double distancex = Math.pow(this.mob.getBlockX() - lasteventpos.getX(), 2);
                        double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
                        double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
-                       if (Math.sqrt(distancex + distancey + distancez) < 15) {
+                       if (Math.sqrt(distancex + distancey + distancez) < 25) {
                            exit = true;
                        }
                    }
