@@ -163,7 +163,7 @@ class ActivatorThread extends Thread {
         int downward = world.getGameRules().getInt(WildMod.DOWNWARD_SPREAD);
         int MIN = world.getBottomY();
         if (blockPos.getY() - downward <= MIN) {
-            downward = (blockPos.getY()-MIN)+1;
+            downward = (blockPos.getY()-MIN)-1;
         }
         for (int h = 0; h < downward; h++) {
             if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.down(h)).getBlock()) &&
@@ -293,7 +293,7 @@ class SculkThread extends Thread {
         int downward = world.getGameRules().getInt(WildMod.DOWNWARD_SPREAD);
         int MIN = world.getBottomY();
         if (blockPos.getY() - downward <= MIN) {
-            downward = (blockPos.getY()-MIN)+1;
+            downward = (blockPos.getY()-MIN)-1;
         }
         for (int h = 0; h < downward; h++) {
             if (solrepsculk(world, blockPos.down(h))) {
