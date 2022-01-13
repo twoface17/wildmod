@@ -90,8 +90,10 @@ public class ShriekCounter {
                     double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
                     if (distance < radius * radius && !(hollow && distance < ((radius - 1) * (radius - 1)))) {
                         BlockPos l = new BlockPos(x, y, z);
+                        if (l.getY()>world.getBottomY()) {
                             if (verifyWardenSpawn(l, world)) {
                                 candidates.add(l);
+                            }
                         }
                     }
 
