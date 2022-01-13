@@ -68,17 +68,8 @@ public class SculkVeinBlock extends GlowLichenBlock implements Waterloggable {
     public boolean isTranslucent(BlockState blockState, BlockView blockView, BlockPos blockPos) {
         return blockState.getFluidState().isEmpty();
     }
-    public static final AbstractBlock.Settings SCULK_VEIN_PROPERTIES = FabricBlockSettings
-            .of(Material.REPLACEABLE_PLANT)
-            .sounds(BlockSoundGroup.SCULK_SENSOR)
-            .strength(0.2f);
 
-    public static final Block SCULK_VEIN = new SculkVeinBlock(SCULK_VEIN_PROPERTIES
-            .mapColor(MapColor.CYAN)
-            .ticksRandomly()
-            .nonOpaque()
-            .noCollision()
-            .sounds(new BlockSoundGroup(0.8f, 1.0f,
+    public static final GlowLichenBlock SCULK_VEIN = new GlowLichenBlock(GlowLichenBlock.Settings.of(Material.REPLACEABLE_PLANT, MapColor.CYAN).ticksRandomly().nonOpaque().noCollision().strength(0.2f).sounds(new BlockSoundGroup(0.8f, 1.0f,
             RegisterSounds.BLOCK_SCULK_VEIN_BREAK,
             RegisterSounds.BLOCK_SCULK_STEP,
             RegisterSounds.BLOCK_SCULK_VEIN_PLACE,
@@ -86,3 +77,4 @@ public class SculkVeinBlock extends GlowLichenBlock implements Waterloggable {
             RegisterSounds.BLOCK_SCULK_FALL
     )));
 }
+
