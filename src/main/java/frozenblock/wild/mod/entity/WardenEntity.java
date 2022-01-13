@@ -64,6 +64,9 @@ public class WardenEntity extends HostileEntity {
 
     public int hearbeatTime = 60;
     public long nextHeartBeat;
+    public int timeStuck=0;
+    public BlockPos stuckPos;
+    public long timeSinceLastRecalculation;
 
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
@@ -129,12 +132,23 @@ public class WardenEntity extends HostileEntity {
         if(world.getTime()==this.leaveTime) {
             this.handleStatus((byte) 6);
         }
+        //Movement
+        if(this.stuckPos!=null && this.getBlockPos().getSquaredDistance(this.stuckPos)<2 && this.hasEmerged && this.hasDetected) {
+            this.timeStuck++;
+        } else {
+            this.timeStuck=0;
+            this.stuckPos=this.getBlockPos();
+        }
+        if(this.timeStuck>=60 && this.hasEmerged && this.world.getTime()-this.vibrationTimer<120 && this.world.getTime()-this.timeSinceLastRecalculation>60) {
+            this.getNavigation().recalculatePath();
+            this.timeSinceLastRecalculation=this.world.getTime();
+        }
         if(this.followTicksLeft > 0) {
             --this.followTicksLeft;
             if (this.world.getEntityById(this.followingEntity)!=null) {
                 Entity entity = this.world.getEntityById(this.followingEntity);
                 assert entity != null;
-                if (entity.isAlive() && canFollow(entity)) {
+                if (entity.isAlive() && canFollow(entity, true)) {
                     this.getNavigation().startMovingTo(entity.getX(), entity.getY(), entity.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.04) + (this.overallAnger() * 0.004)));
                 } else {
                     this.followTicksLeft=0;
@@ -235,19 +249,8 @@ public class WardenEntity extends HostileEntity {
                 this.vibrationTimer = this.world.getTime();
                 this.leaveTime = this.world.getTime() + 1200;
                 this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
-                BlockPos WardenHead = this.getBlockPos().up((3));
-                //Find a way to use EntityPositionSource AND have the vibration move to Warden's head (Might be impossible atm)
-                BlockPositionSource wardenPositionSource = new BlockPositionSource(Optional.of(WardenHead)) {
-                    @Override
-                    public Optional<BlockPos> getPos(World world) {
-                        return Optional.of(WardenHead);
-                    }
-                    @Override
-                    public PositionSourceType<?> getType() {
-                        return PositionSourceType.BLOCK;
-                    }
-                };
-                CreateVibration(this.world, lasteventpos, wardenPositionSource, WardenHead);
+                this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                CreateVibration(this.world, this, lasteventpos);
                 if (eventEntity != null) {
                     addSuspicion(eventEntity, suspicion);
                 }
@@ -257,9 +260,19 @@ public class WardenEntity extends HostileEntity {
             this.lastevententity = eventEntity;
     }
 
-    public void CreateVibration(World world, BlockPos blockPos, PositionSource positionSource, BlockPos blockPos2) {
-        this.delay = this.distance = (int)Math.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2;
-        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, positionSource, this.delay));
+    public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
+        EntityPositionSource wardenPositionSource = new EntityPositionSource(this.getId()) {
+            @Override
+            public Optional<BlockPos> getPos(World world) {
+                return Optional.of(warden.getCameraBlockPos());
+            }
+            @Override
+            public PositionSourceType<?> getType() {
+                return PositionSourceType.ENTITY;
+            }
+        };
+        this.delay = this.distance = (int)Math.floor(Math.sqrt(warden.getCameraBlockPos().getSquaredDistance(blockPos2, false))) * 2;
+        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
 
     public void followForTicks(LivingEntity entity, int ticks) {
@@ -345,14 +358,20 @@ public class WardenEntity extends HostileEntity {
         }
         return null;
     }
-    public boolean canFollow(Entity entity) {
+    public boolean canFollow(Entity entity, boolean mustBeTracking) {
         Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
         if (this.getSuspicion(entity)>=15) {
             box = new Box(this.getBlockPos().add(-20, -20, -20), this.getBlockPos().add(20, 20, 20));
         }
         List<Entity> entities = world.getNonSpectatingEntities(Entity.class, box);
         if (!entities.isEmpty() && entities.contains(entity)) {
-            return true;
+            if (mustBeTracking) {
+                if (entity == this.getTrackingEntity()) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
         }
         return false;
     }
