@@ -2,6 +2,7 @@ package frozenblock.wild.mod.entity;
 
 
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
+import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
@@ -48,6 +49,7 @@ public class WardenEntity extends HostileEntity {
     public BlockPos lasteventpos;
     public World lasteventworld;
     public LivingEntity lastevententity;
+    public LivingEntity navigationEntity;
     public IntArrayList entityList = new IntArrayList();
     public IntArrayList susList = new IntArrayList();
     public String trackingEntity = "null";
@@ -90,7 +92,7 @@ public class WardenEntity extends HostileEntity {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new WardenGoal(this, speed));
-        this.goalSelector.add(1, new WanderAroundGoal(this, 0.4));
+        this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
     @Override
     public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
@@ -244,7 +246,10 @@ public class WardenEntity extends HostileEntity {
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
-        if (!(this.emergeTicksLeft > 0) && this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime() - this.vibrationTimer >= 23) {
+        if (!(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
+            this.lasteventpos = eventPos;
+            this.lasteventworld = eventWorld;
+            this.lastevententity = eventEntity;
             this.hasDetected = true;
             this.vibrationTimer = this.world.getTime();
             this.leaveTime = this.world.getTime() + 1200;
@@ -255,13 +260,13 @@ public class WardenEntity extends HostileEntity {
                 addSuspicion(eventEntity, suspicion);
             }
         }
-        this.lasteventpos = eventPos;
-        this.lasteventworld = eventWorld;
-        this.lastevententity = eventEntity;
     }
 
     public void sculkSensorListen(BlockPos eventPos, BlockPos vibrationPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
         if (!(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
+            this.lasteventpos = eventPos;
+            this.lastevententity = eventEntity;
+            this.lasteventworld = eventWorld;
             this.hasDetected = true;
             this.vibrationTimer = this.world.getTime();
             this.leaveTime = this.world.getTime() + 1200;
@@ -271,9 +276,6 @@ public class WardenEntity extends HostileEntity {
             if (eventEntity != null) {
                 addSuspicion(eventEntity, suspicion);
             }
-            this.lasteventpos = eventPos;
-            this.lastevententity = eventEntity;
-            this.lasteventworld = eventWorld;
         }
     }
 
@@ -364,7 +366,7 @@ public class WardenEntity extends HostileEntity {
         return value;
     }
     public LivingEntity getTrackingEntity() {
-        Box box = new Box(this.getBlockPos().add(-20,-20,-20), this.getBlockPos().add(20,20,20));
+        Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
@@ -377,9 +379,6 @@ public class WardenEntity extends HostileEntity {
     }
     public boolean canFollow(Entity entity, boolean mustBeTracking) {
         Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
-        if (this.getSuspicion(entity)>=15) {
-            box = new Box(this.getBlockPos().add(-20, -20, -20), this.getBlockPos().add(20, 20, 20));
-        }
         List<Entity> entities = world.getNonSpectatingEntities(Entity.class, box);
         if (!entities.isEmpty() && entities.contains(entity)) {
             if (mustBeTracking) {
