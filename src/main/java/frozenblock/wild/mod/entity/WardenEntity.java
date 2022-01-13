@@ -149,7 +149,7 @@ public class WardenEntity extends HostileEntity {
                 Entity entity = this.world.getEntityById(this.followingEntity);
                 assert entity != null;
                 if (entity.isAlive() && canFollow(entity, true)) {
-                    this.getNavigation().startMovingTo(entity.getX(), entity.getY(), entity.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.04) + (this.overallAnger() * 0.004)));
+                    this.getNavigation().startMovingTo(entity.getX(), entity.getY(), entity.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.03) + (this.overallAnger() * 0.004)));
                 } else {
                     this.followTicksLeft=0;
                 }
@@ -244,20 +244,20 @@ public class WardenEntity extends HostileEntity {
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
-            if (!(this.emergeTicksLeft > 0) && this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime() - this.vibrationTimer >= 23) {
-                this.hasDetected = true;
-                this.vibrationTimer = this.world.getTime();
-                this.leaveTime = this.world.getTime() + 1200;
-                this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
-                this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                CreateVibration(this.world, this, lasteventpos);
-                if (eventEntity != null) {
-                    addSuspicion(eventEntity, suspicion);
-                }
+        if (!(this.emergeTicksLeft > 0) && this.lasteventpos == eventPos && this.lasteventworld == eventWorld && this.lastevententity == eventEntity && this.world.getTime() - this.vibrationTimer >= 23) {
+            this.hasDetected = true;
+            this.vibrationTimer = this.world.getTime();
+            this.leaveTime = this.world.getTime() + 1200;
+            this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
+            this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+            CreateVibration(this.world, this, lasteventpos);
+            if (eventEntity != null) {
+                addSuspicion(eventEntity, suspicion);
             }
-            this.lasteventpos = eventPos;
-            this.lasteventworld = eventWorld;
-            this.lastevententity = eventEntity;
+        }
+        this.lasteventpos = eventPos;
+        this.lasteventworld = eventWorld;
+        this.lastevententity = eventEntity;
     }
 
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
