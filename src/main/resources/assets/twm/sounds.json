@@ -197,23 +197,23 @@
 	},
 	"block.sculk.fall": {
 		"sounds": [
-			"block/sculk/step1",
-			"block/sculk/step2",
-			"block/sculk/step3",
-			"block/sculk/step4",
-			"block/sculk/step5",
-			"block/sculk/step6"
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
 		],
 		"subtitle": "subtitles.block.generic.fall"
 	},
 	"block.sculk.hit": {
 		"sounds": [
-			"block/sculk/step1",
-			"block/sculk/step2",
-			"block/sculk/step3",
-			"block/sculk/step4",
-			"block/sculk/step5",
-			"block/sculk/step6"
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
 		],
 		"subtitle": "subtitles.block.generic.hit"
 	},
@@ -229,12 +229,12 @@
 	},
 	"block.sculk.step": {
 		"sounds": [
-			"block/sculk/step1",
-			"block/sculk/step2",
-			"block/sculk/step3",
-			"block/sculk/step4",
-			"block/sculk/step5",
-			"block/sculk/step6"
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
@@ -250,23 +250,23 @@
 	},
 	"block.sculk_vein.fall": {
 		"sounds": [
-			"block/sculk/step1",
-			"block/sculk/step2",
-			"block/sculk/step3",
-			"block/sculk/step4",
-			"block/sculk/step5",
-			"block/sculk/step6"
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
 		],
 		"subtitle": "subtitles.block.generic.fall"
 	},
 	"block.sculk_vein.hit": {
 		"sounds": [
-			"block/sculk/step1",
-			"block/sculk/step2",
-			"block/sculk/step3",
-			"block/sculk/step4",
-			"block/sculk/step5",
-			"block/sculk/step6"
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
 		],
 		"subtitle": "subtitles.block.generic.hit"
 	},
@@ -282,12 +282,12 @@
 	},
 	"block.sculk_vein.step": {
 		"sounds": [
-			"block/sculk/step1",
-			"block/sculk/step2",
-			"block/sculk/step3",
-			"block/sculk/step4",
-			"block/sculk/step5",
-			"block/sculk/step6"
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
@@ -366,23 +366,23 @@
 	},
 	"block.sculk_shrieker.fall": {
 		"sounds": [
-			"block/sculk/step1",
-			"block/sculk/step2",
-			"block/sculk/step3",
-			"block/sculk/step4",
-			"block/sculk/step5",
-			"block/sculk/step6"
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
 		],
 		"subtitle": "subtitles.block.generic.fall"
 	},
 	"block.sculk_shrieker.hit": {
 		"sounds": [
-			"block/sculk/step1",
-			"block/sculk/step2",
-			"block/sculk/step3",
-			"block/sculk/step4",
-			"block/sculk/step5",
-			"block/sculk/step6"
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
 		],
 		"subtitle": "subtitles.block.generic.hit"
 	},
@@ -427,12 +427,12 @@
 	},
 	"block.sculk_shrieker.step": {
 		"sounds": [
-			"block/sculk/step1",
-			"block/sculk/step2",
-			"block/sculk/step3",
-			"block/sculk/step4",
-			"block/sculk/step5",
-			"block/sculk/step6"
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
