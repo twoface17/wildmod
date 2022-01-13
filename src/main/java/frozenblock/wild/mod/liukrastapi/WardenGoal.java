@@ -116,7 +116,7 @@ public class WardenGoal extends Goal {
                 if (lastevententity==this.mob.getTrackingEntity()) {
                     this.mob.followForTicks(lastevententity, MathHelper.clamp(this.mob.getSuspicion(lastevententity),0,40));
                 } else {
-                    this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed+ (MathHelper.clamp(this.mob.getSuspicion(lastevententity),0,15)*0.04) + (this.mob.overallAnger()*0.004)));
+                    this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed+ (MathHelper.clamp(this.mob.getSuspicion(lastevententity),0,15)*0.03) + (this.mob.overallAnger()*0.004)));
                 }
                 this.cooldown = Math.max(this.cooldown - 1, 0);
                 if (!(e > d)) {
