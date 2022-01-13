@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.blocks;
 
 import frozenblock.wild.mod.registry.RegisterSounds;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -68,7 +69,7 @@ public class SculkVeinBlock extends GlowLichenBlock implements Waterloggable {
         return blockState.getFluidState().isEmpty();
     }
 
-    public static final GlowLichenBlock SCULK_VEIN = new GlowLichenBlock(GlowLichenBlock.Settings.of(Material.REPLACEABLE_PLANT, MapColor.CYAN).ticksRandomly().nonOpaque().noCollision().strength(0.2f).sounds(new BlockSoundGroup(0.8f, 1.0f,
+    public static final Block SCULK_VEIN = new GlowLichenBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).mapColor(MapColor.CYAN).ticksRandomly().nonOpaque().noCollision().strength(0.2f).sounds(new BlockSoundGroup(0.8f, 1.0f,
             RegisterSounds.BLOCK_SCULK_VEIN_BREAK,
             RegisterSounds.BLOCK_SCULK_STEP,
             RegisterSounds.BLOCK_SCULK_VEIN_PLACE,

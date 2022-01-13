@@ -42,14 +42,14 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         modelPartData.addChild("right_leg", ModelPartBuilder.create().uv(58,36).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(-6.0F,11.0F,0.0F));
         return TexturedModelData.of(modelData,128,64);
     }
-    //Emerge animation
+
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
         int r = entity.getRoarTicksLeft1();
-
         float time = animationProgress/10;
 
+    //Emerge animation
         this.body.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
         this.left_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
         this.right_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
@@ -61,11 +61,11 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
             } else {
                 double a = animationProgress - entity.getRoarAnimationProgress();
 
-                this.right_arm.roll = 90f;
-                this.left_arm.roll = -90f;
+                this.right_arm.roll = (-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F;
+                this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F;
 
-                this.right_arm.pitch = MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20;
-                this.left_arm.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20;
+                this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20;
+                this.left_arm.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
 
                 this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
                 this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
@@ -84,7 +84,7 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
             }
         }
 
-    //Idle animation
+
         int a = entity.getAttackTicksLeft1();
         float eq;
         if (a > 0) {
@@ -92,7 +92,7 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         } else {
             eq = 0;
         }
-
+    //Idle animation
         this.right_arm.roll = (-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F;
         this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F;
 
