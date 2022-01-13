@@ -249,6 +249,7 @@ public class WardenEntity extends HostileEntity {
                 this.vibrationTimer = this.world.getTime();
                 this.leaveTime = this.world.getTime() + 1200;
                 this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
+                this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                 CreateVibration(this.world, this, lasteventpos);
                 if (eventEntity != null) {
                     addSuspicion(eventEntity, suspicion);
