@@ -260,6 +260,23 @@ public class WardenEntity extends HostileEntity {
         this.lastevententity = eventEntity;
     }
 
+    public void sculkSensorListen(BlockPos eventPos, BlockPos vibrationPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
+        if (!(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
+            this.hasDetected = true;
+            this.vibrationTimer = this.world.getTime();
+            this.leaveTime = this.world.getTime() + 1200;
+            this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
+            this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+            CreateVibration(this.world, this, vibrationPos);
+            if (eventEntity != null) {
+                addSuspicion(eventEntity, suspicion);
+            }
+            this.lasteventpos = eventPos;
+            this.lastevententity = eventEntity;
+            this.lasteventworld = eventWorld;
+        }
+    }
+
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         EntityPositionSource wardenPositionSource = new EntityPositionSource(this.getId()) {
             @Override
