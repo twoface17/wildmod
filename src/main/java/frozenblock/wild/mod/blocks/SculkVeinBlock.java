@@ -71,7 +71,7 @@ public class SculkVeinBlock extends GlowLichenBlock implements Waterloggable {
     public static final GlowLichenBlock SCULK_VEIN = new GlowLichenBlock(GlowLichenBlock.Settings.of(Material.REPLACEABLE_PLANT, MapColor.CYAN).ticksRandomly().nonOpaque().noCollision().strength(0.2f).sounds(new BlockSoundGroup(0.8f, 1.0f,
             RegisterSounds.BLOCK_SCULK_VEIN_BREAK,
             RegisterSounds.BLOCK_SCULK_STEP,
-            RegisterSounds.BLOCK_SCULK_PLACE,
+            RegisterSounds.BLOCK_SCULK_VEIN_PLACE,
             RegisterSounds.BLOCK_SCULK_HIT,
             RegisterSounds.BLOCK_SCULK_FALL
     )));
