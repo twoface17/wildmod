@@ -207,7 +207,6 @@ public class WardenEntity extends HostileEntity {
         }  else {
             super.handleStatus(status);
         }
-
     }
 
     public void digParticles(World world, BlockPos pos, int ticks) {
