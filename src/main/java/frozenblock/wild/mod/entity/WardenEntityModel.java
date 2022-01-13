@@ -50,9 +50,9 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
 
         float time = animationProgress/10;
 
-        this.body.pivotY = 40 + (AnimationAPI.easeOutSine(0, 2.5f, -29, time));
-        this.left_leg.pivotY = 40 + (AnimationAPI.easeOutSine(0, 2.5f, -29, time));
-        this.right_leg.pivotY = 40 + (AnimationAPI.easeOutSine(0, 2.5f, -29, time));
+        this.body.pivotY = 69 + (AnimationAPI.easeOutSine(0, 2.5f, -40, time));
+        this.left_leg.pivotY = 69 + (AnimationAPI.easeOutSine(0, 2.5f, -40, time));
+        this.right_leg.pivotY = 69 + (AnimationAPI.easeOutSine(0, 2.5f, -40, time));
 
 
 
