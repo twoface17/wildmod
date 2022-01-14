@@ -54,7 +54,7 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         this.left_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
         this.right_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
 
-    //Walk animation(?)
+    //Walk & idle animation
         if(r > 0) {
             if(r == 10) {
                 entity.setRoarAnimationProgress(animationProgress);
@@ -92,7 +92,7 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         } else {
             eq = 0;
         }
-    //Idle animation
+
         this.right_arm.roll = (-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F;
         this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F;
 
