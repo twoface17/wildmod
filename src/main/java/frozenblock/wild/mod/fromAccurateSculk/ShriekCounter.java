@@ -24,6 +24,9 @@ public class ShriekCounter {
     private static boolean running;
 
     public static void addShriek(BlockPos pos, World world) {
+        if (world.getTime()-timer<0) {
+            timer=0;
+        }
         if (!world.isClient() && world.getTime() > timer && !running) {
             timer=world.getTime()+30;
             if (!findWarden(world, pos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
