@@ -1,10 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 
-import frozenblock.wild.mod.liukrastapi.MathAddon;
-import frozenblock.wild.mod.liukrastapi.SniffGoal;
-import frozenblock.wild.mod.liukrastapi.WardenGoal;
-import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
+import frozenblock.wild.mod.liukrastapi.*;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
@@ -57,12 +54,10 @@ public class WardenEntity extends HostileEntity {
     public IntArrayList susList = new IntArrayList();
     public String trackingEntity = "null";
     public String sniffEntity = "null";
-    public int followingEntity;
 
     public boolean hasDetected=false;
     public int emergeTicksLeft;
     public boolean hasEmerged;
-    public int followTicksLeft;
     public long vibrationTimer = 0;
     public long leaveTime;
     protected int delay = 0;
@@ -99,8 +94,8 @@ public class WardenEntity extends HostileEntity {
 
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new SniffGoal(this, speed));
         this.goalSelector.add(3, new WardenGoal(this, speed));
+        this.goalSelector.add(2, new SniffGoal(this, speed));
         this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
     @Override
@@ -152,19 +147,8 @@ public class WardenEntity extends HostileEntity {
         }
         if(this.timeStuck>=60 && this.hasEmerged && this.world.getTime()-this.vibrationTimer<120 && this.world.getTime()-this.timeSinceLastRecalculation>60 && !(this.sniffTicksLeft>0)) {
             this.getNavigation().recalculatePath();
+            this.jump();
             this.timeSinceLastRecalculation=this.world.getTime();
-        }
-        if(this.followTicksLeft > 0) {
-            --this.followTicksLeft;
-            if (this.world.getEntityById(this.followingEntity)!=null) {
-                Entity entity = this.world.getEntityById(this.followingEntity);
-                assert entity != null;
-                if (entity.isAlive() && canFollow(entity, true) && !(this.sniffTicksLeft>0)) {
-                    this.getNavigation().startMovingTo(entity.getX(), entity.getY(), entity.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.03) + (this.overallAnger() * 0.003)));
-                } else {
-                    this.followTicksLeft=0;
-                }
-            }
         }
         //Sniffing
         if(this.sniffTicksLeft > 0) {
@@ -187,8 +171,6 @@ public class WardenEntity extends HostileEntity {
             this.addSuspicion(sniffEntity, UniformIntProvider.create(1, 2).get(this.getRandom()) + extraSuspicion);
             if (sniffEntity!=this.getTrackingEntity()) {
                 this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, speed + (this.overallAnger() * 0.012));
-            } else if (sniffEntity==this.getTrackingEntity()) {
-                this.followForTicks(sniffEntity, 15);
             }
             }
         }
@@ -329,11 +311,6 @@ public class WardenEntity extends HostileEntity {
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
 
-    public void followForTicks(LivingEntity entity, int ticks) {
-        this.followingEntity = entity.getId();
-        this.followTicksLeft = ticks;
-    }
-
     public void addSuspicion(LivingEntity entity, int suspicion) {
         if (!this.entityList.isEmpty()) {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
@@ -407,7 +384,7 @@ public class WardenEntity extends HostileEntity {
             for (LivingEntity target : entities) {
                 if (Objects.equals(this.trackingEntity, target.getUuidAsString())) {
                     if (MathAddon.distance(target.getX(), target.getY(), target.getZ(), this.getX(), this.getY(), this.getZ()) <= 16) {
-                    return target;
+                        return target;
                     }
                 }
             }
@@ -451,8 +428,6 @@ public class WardenEntity extends HostileEntity {
         nbt.putIntArray("entityList", this.entityList);
         nbt.putIntArray("susList", this.susList);
         nbt.putString("trackingEntity", this.trackingEntity);
-        nbt.putInt("followTicksLeft", this.followTicksLeft);
-        nbt.putInt("followingEntity", this.followingEntity);
         nbt.putInt("sniffTicksLeft", this.sniffTicksLeft);
         nbt.putInt("sniffCooldown", this.sniffCooldown);
         nbt.putInt("sniffX", this.sniffX);
@@ -469,8 +444,6 @@ public class WardenEntity extends HostileEntity {
         this.entityList = IntArrayList.wrap(nbt.getIntArray("entityList"));
         this.susList = IntArrayList.wrap(nbt.getIntArray("susList"));
         this.trackingEntity = nbt.getString("trackingEntity");
-        this.followTicksLeft = nbt.getInt("followTicksLeft");
-        this.followingEntity = nbt.getInt("followingEntity");
         this.sniffTicksLeft = nbt.getInt("sniffTicksLeft");
         this.sniffCooldown = nbt.getInt("sniffCooldown");
         this.sniffX = nbt.getInt("sniffX");
