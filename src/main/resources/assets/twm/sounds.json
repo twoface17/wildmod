@@ -272,11 +272,11 @@
 	},
 	"block.sculk_vein.place": {
 		"sounds": [
-			"block/sculk_vein/break1",
-			"block/sculk_vein/break2",
-			"block/sculk_vein/break3",
-			"block/sculk_vein/break4",
-			"block/sculk_vein/break5"
+			"twm:block/sculk_vein/break1",
+			"twm:block/sculk_vein/break2",
+			"twm:block/sculk_vein/break3",
+			"twm:block/sculk_vein/break4",
+			"twm:block/sculk_vein/break5"
 		],
 		"subtitle": "subtitles.block.generic.place"
 	},
