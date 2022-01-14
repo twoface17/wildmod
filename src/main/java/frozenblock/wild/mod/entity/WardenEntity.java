@@ -176,6 +176,7 @@ public class WardenEntity extends HostileEntity {
         if(this.sniffTicksLeft==0) {
             this.sniffTicksLeft=-1;
             int extraSuspicion=0;
+            if (this.getSniffEntity()!=null) {
             LivingEntity sniffEntity = this.getSniffEntity();
             if (this.getBlockPos().getSquaredDistance(sniffEntity.getBlockPos(), true) <= 8) {
                 extraSuspicion = extraSuspicion + 1;
@@ -187,7 +188,8 @@ public class WardenEntity extends HostileEntity {
             if (sniffEntity!=this.getTrackingEntity()) {
                 this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, speed + (this.overallAnger() * 0.012));
             } else if (sniffEntity==this.getTrackingEntity()) {
-                this.followForTicks(sniffEntity,15);
+                this.followForTicks(sniffEntity, 15);
+            }
             }
         }
         //Heartbeat
