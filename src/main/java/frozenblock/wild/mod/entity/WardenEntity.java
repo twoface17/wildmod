@@ -1,10 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 
-import frozenblock.wild.mod.liukrastapi.MathAddon;
-import frozenblock.wild.mod.liukrastapi.SniffGoal;
-import frozenblock.wild.mod.liukrastapi.WardenGoal;
-import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
+import frozenblock.wild.mod.liukrastapi.*;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
@@ -102,6 +99,7 @@ public class WardenEntity extends HostileEntity {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(3, new WardenGoal(this, speed));
+        this.goalSelector.add(4, new WardenFollowGoal(this, speed));
         this.goalSelector.add(2, new SniffGoal(this, speed));
         this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
@@ -156,28 +154,8 @@ public class WardenEntity extends HostileEntity {
             this.getNavigation().recalculatePath();
             this.timeSinceLastRecalculation=this.world.getTime();
         }
-        if (this.world.getEntityById(this.followingEntity)!=null && this.followTicksLeft>0 && this.attackTicksLeft1<=0) {
-            Entity entity = this.world.getEntityById(this.followingEntity);
-            double d = (this.getWidth() * 2.0F * this.getWidth() * 2.0F);
-            assert entity != null;
-            double e = this.squaredDistanceTo(entity.getX(), entity.getY(), entity.getZ());
-            if (!(e > d)) {
-                this.attackTicksLeft1=20;
-                this.tryAttack(entity);
-            }
-        }
         if(this.followTicksLeft > 0) {
             --this.followTicksLeft;
-            if (this.world.getEntityById(this.followingEntity)!=null) {
-                Entity entity = this.world.getEntityById(this.followingEntity);
-                assert entity != null;
-                if (entity.isAlive() && canFollow(entity, true) && !(this.sniffTicksLeft>0)) {
-                    this.getNavigation().startMovingTo(entity, (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.03) + (this.overallAnger() * 0.003)));
-                    this.getNavigation().recalculatePath();
-                } else {
-                    this.followTicksLeft=0;
-                }
-            }
         }
         //Sniffing
         if(this.sniffTicksLeft > 0) {
@@ -201,7 +179,7 @@ public class WardenEntity extends HostileEntity {
             if (sniffEntity!=this.getTrackingEntity()) {
                 this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, speed + (this.overallAnger() * 0.012));
             } else if (sniffEntity==this.getTrackingEntity()) {
-                this.followForTicks(sniffEntity, 15);
+                this.followForTicks(sniffEntity, 35);
             }
             }
         }
