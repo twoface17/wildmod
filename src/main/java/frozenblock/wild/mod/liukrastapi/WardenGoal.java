@@ -29,6 +29,7 @@ public class WardenGoal extends Goal {
         boolean exit = false;
         BlockPos lasteventpos = this.mob.lasteventpos;
         World lasteventWorld = this.mob.lasteventworld;
+        LivingEntity lasteventEntity = this.mob.lastevententity;
 
        if (this.mob.emergeTicksLeft>0) {
             return false;
@@ -40,7 +41,16 @@ public class WardenGoal extends Goal {
                        double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
                        double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
                        if (Math.sqrt(distancex + distancey + distancez) < 25) {
-                           exit = true;
+                               exit = true;
+                               if (this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity)) {
+                                   exit=true;
+                               }
+                               if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
+                                   exit= false;
+                               }
+                               if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
+                                   exit=true;
+                               }
                        }
                    }
                }
@@ -54,25 +64,38 @@ public class WardenGoal extends Goal {
                exit = true;
            }
 
-           if (this.mob.getNavigation().isIdle()) {
-               if (Math.random() > 0.5) {
-                   this.mob.roar();
-                   exit = false;
-               }
-           }
-
            int r = this.mob.getRoarTicksLeft1();
            if (r > 0) {
                exit = false;
            }
-
+        int s = this.mob.sniffTicksLeft;
+        if (s > 0) {
+            exit = false;
+        }
+        if (exit && this.mob.getAttacker() == null) {
+            this.mob.navigationEntity = this.mob.lastevententity;
+        }
         return exit;
     }
 
     public boolean shouldContinue() {
-        boolean exit;
-        exit = !this.mob.getNavigation().isIdle();
-
+        boolean exit=false;
+        if (this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity)) {
+            exit=true;
+        }
+        if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
+            exit= false;
+        }
+        if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
+            exit=true;
+        }
+        if (exit) {
+            this.mob.navigationEntity = this.mob.lastevententity;
+        }
+        int s = this.mob.sniffTicksLeft;
+        if (s > 0) {
+            exit = false;
+        }
         return exit;
     }
 
@@ -101,18 +124,10 @@ public class WardenGoal extends Goal {
             this.mob.lasteventpos = null;
             this.mob.lasteventworld = null;
         } else {
-
-            //Calculating a good speed for the warden depending on his distance from the event.
-            /*double distance = MathAddon.distance(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
-            if(distance < 2) {distance = 2;}
-            double finalspeed = (speed * 2) / (distance - 1);
-            if(finalspeed < speed) {finalspeed = speed;}*/
-
-            //start moving the warden to the location
-
-            if(lastevententity != null) {
+            if(lastevententity!=null) {
                 double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
                 double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
+                this.mob.getNavigation().stop();
                 if (lastevententity==this.mob.getTrackingEntity()) {
                     this.mob.followForTicks(lastevententity, MathHelper.clamp(this.mob.getSuspicion(lastevententity),0,40));
                 } else {
