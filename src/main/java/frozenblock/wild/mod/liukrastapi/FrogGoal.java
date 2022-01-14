@@ -3,12 +3,15 @@ package frozenblock.wild.mod.liukrastapi;
 import frozenblock.wild.mod.entity.FireflyEntity;
 import frozenblock.wild.mod.entity.FrogEntity;
 import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.BigDripleafBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MagmaCubeEntity;
 import net.minecraft.entity.mob.SlimeEntity;
@@ -92,51 +95,67 @@ public class FrogGoal extends Goal {
             this.mob.setBodyYaw((float)Math.random());
             if(this.mob.getTongue() < 1) {
                 double d = 3;
-                Box box = (new Box(this.mob.getBlockPos())).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
+                Box box2 = new Box(this.mob.getBlockPos().add(-12,-4,-12), this.mob.getBlockPos().add(12,6,12));
+                List<SlimeEntity> slimes = this.mob.getWorld().getNonSpectatingEntities(SlimeEntity.class, box2);
+                List<FireflyEntity> fireflies = this.mob.getWorld().getNonSpectatingEntities(FireflyEntity.class, box2);
+                ArrayList<LivingEntity> allEntities = new ArrayList<>();
+                if (slimes.size() > 0) {
+                    for (SlimeEntity target : slimes) {
+                        if (target.getSize()==1) {
+                            allEntities.add(target);
+                        }
+                    }
+                }
+                allEntities.addAll(fireflies);
+                LivingEntity chosen = this.mob.getWorld().getClosestEntity(allEntities, TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
+                if (chosen!=null) {
+                    this.mob.getNavigation().startMovingTo(chosen, 1.8);
+                }
 
-                List<FireflyEntity> list = world.getNonSpectatingEntities(FireflyEntity.class, box);
+
+                List<FireflyEntity> list = world.getNonSpectatingEntities(FireflyEntity.class, box2);
                 if (list.size() > 0) {
-                    if (world.getTime()-mob.eatTimer>=10) {
+                    if (world.getTime()-this.mob.eatTimer>=10 && this.mob.getBlockPos().getSquaredDistance(list.get(0).getBlockPos())<=3) {
                         FireflyEntity target = list.get(0);
                         world.sendEntityStatus(this.mob, (byte) 4);
                         target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                         target.kill();
                         target.deathTime=10;
-                        mob.eatTimer = world.getTime();
+                        this.mob.eatTimer = world.getTime();
                     }
                 }
 
-                List<SlimeEntity> slimelist = world.getNonSpectatingEntities(SlimeEntity.class, box);
+                List<SlimeEntity> slimelist = world.getNonSpectatingEntities(SlimeEntity.class, box2);
                 if (slimelist.size() > 0) {
                     for (SlimeEntity target : slimelist) {
                         if (target.getSize() == 1 && target.getType()!=EntityType.MAGMA_CUBE && target.isAlive()) {
-                            if (world.getTime()-mob.eatTimer>=10) {
+                            if (world.getTime()-this.mob.eatTimer>=10 && this.mob.getBlockPos().getSquaredDistance(target.getBlockPos())<=3) {
                                 world.sendEntityStatus(this.mob, (byte) 4);
                                 target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                                 target.kill();
                                 target.deathTime=10;
-                                mob.eatTimer = world.getTime();
+                                this.mob.eatTimer = world.getTime();
                             }
                         }
                     }
                 }
-                List<MagmaCubeEntity> magmalist = world.getNonSpectatingEntities(MagmaCubeEntity.class, box);
+                List<MagmaCubeEntity> magmalist = world.getNonSpectatingEntities(MagmaCubeEntity.class, box2);
                 if (magmalist.size() > 0) {
                     for (MagmaCubeEntity target : magmalist) {
                         if (target.getSize() == 1 && target.isAlive()) {
-                            if (world.getTime()-this.mob.eatTimer>=10) {
+                            if (world.getTime()-this.mob.eatTimer>=10 && this.mob.getBlockPos().getSquaredDistance(target.getBlockPos())<=3) {
                                 world.sendEntityStatus(this.mob, (byte) 4);
                                 target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                                 target.kill();
                                 target.deathTime=10;
-                                if (mob.getVariant()==FrogEntity.Variant.TEMPERATE) {
-                                    mob.dropItem(RegisterBlocks.OCHRE_FROGLIGHT.asItem(),0);
+                                if (this.mob.getVariant()==FrogEntity.Variant.TEMPERATE) {
+                                    this.mob.dropItem(RegisterBlocks.OCHRE_FROGLIGHT.asItem(),0);
                                 } else if (mob.getVariant()==FrogEntity.Variant.COLD) {
-                                    mob.dropItem(RegisterBlocks.VERDANT_FROGLIGHT.asItem(),0);
+                                    this.mob.dropItem(RegisterBlocks.VERDANT_FROGLIGHT.asItem(),0);
                                 } else if (mob.getVariant()==FrogEntity.Variant.WARM) {
-                                    mob.dropItem(RegisterBlocks.PEARLESCENT_FROGLIGHT.asItem(),0);
+                                    this.mob.dropItem(RegisterBlocks.PEARLESCENT_FROGLIGHT.asItem(),0);
                                 }
-                                mob.eatTimer = world.getTime();
+                                this.mob.eatTimer = world.getTime();
                             }
                         }
                     }
