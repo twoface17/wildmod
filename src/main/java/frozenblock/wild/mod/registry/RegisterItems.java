@@ -23,9 +23,9 @@ public abstract class RegisterItems {
     public static final ChestBoatItem DARK_OAK_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.DARK_OAK, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
     public static final ChestBoatItem MANGROVE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.MANGROVE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
 
-    public static final Item WARDEN_SPAWN_EGG = new SpawnEggItem(RegisterEntities.WARDEN, Integer.parseInt("074857", 16), Integer.parseInt("d1d6b6", 16), new FabricItemSettings().group(ItemGroup.MISC));
-    public static final Item FROG_SPAWN_EGG = new SpawnEggItem(RegisterEntities.FROG, Integer.parseInt("d97c54", 16), Integer.parseInt("d5a56c", 16), new FabricItemSettings().group(ItemGroup.MISC));
-    public static final Item TADPOLE_SPAWN_EGG = new SpawnEggItem(RegisterEntities.TADPOLE, Integer.parseInt("4a3729", 16), Integer.parseInt("332115", 16), new FabricItemSettings().group(ItemGroup.MISC));
+    public static final Item WARDEN_SPAWN_EGG = new SpawnEggItem(RegisterEntities.WARDEN, Integer.parseInt("074857", 16), Integer.parseInt("29dfeb", 16), new FabricItemSettings().group(ItemGroup.MISC));
+    public static final Item FROG_SPAWN_EGG = new SpawnEggItem(RegisterEntities.FROG, Integer.parseInt("d07444", 16), Integer.parseInt("ffc77c", 16), new FabricItemSettings().group(ItemGroup.MISC));
+    public static final Item TADPOLE_SPAWN_EGG = new SpawnEggItem(RegisterEntities.TADPOLE, Integer.parseInt("160a00", 16), Integer.parseInt("332115", 16), new FabricItemSettings().group(ItemGroup.MISC));
     public static final EntityBucketItem TADPOLE_BUCKET = new EntityBucketItem(RegisterEntities.TADPOLE, Fluids.WATER, SoundEvents.ITEM_BUCKET_EMPTY_FISH, new FabricItemSettings().group(ItemGroup.MISC).maxCount(1));
 
     public static void RegisterItems() {
