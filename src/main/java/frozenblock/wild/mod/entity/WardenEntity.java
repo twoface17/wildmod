@@ -62,9 +62,13 @@ public class WardenEntity extends HostileEntity {
     public int emergeTicksLeft;
     public boolean hasEmerged;
     public long vibrationTimer = 0;
+    public long timeSinceLastTracking = 0;
     public long leaveTime;
     protected int delay = 0;
     protected int distance;
+
+    public int followingEntity;
+    public int followTicksLeft;
 
     public int hearbeatTime = 60;
     public long nextHeartBeat;
@@ -148,9 +152,32 @@ public class WardenEntity extends HostileEntity {
             this.timeStuck=0;
             this.stuckPos=this.getBlockPos();
         }
-        if(this.timeStuck>=60 && this.hasEmerged && this.world.getTime()-this.vibrationTimer<120 && this.world.getTime()-this.timeSinceLastRecalculation>60 && !(this.sniffTicksLeft>0)) {
+        if(this.timeStuck>=30 && this.hasEmerged && this.world.getTime()-this.vibrationTimer<120 && this.world.getTime()-this.timeSinceLastRecalculation>49 && !(this.sniffTicksLeft>0)) {
             this.getNavigation().recalculatePath();
             this.timeSinceLastRecalculation=this.world.getTime();
+        }
+        if (this.world.getEntityById(this.followingEntity)!=null && this.followTicksLeft>0 && this.attackTicksLeft1<=0) {
+            Entity entity = this.world.getEntityById(this.followingEntity);
+            double d = (this.getWidth() * 2.0F * this.getWidth() * 2.0F);
+            assert entity != null;
+            double e = this.squaredDistanceTo(entity.getX(), entity.getY(), entity.getZ());
+            if (!(e > d)) {
+                this.attackTicksLeft1=20;
+                this.tryAttack(entity);
+            }
+        }
+        if(this.followTicksLeft > 0) {
+            --this.followTicksLeft;
+            if (this.world.getEntityById(this.followingEntity)!=null) {
+                Entity entity = this.world.getEntityById(this.followingEntity);
+                assert entity != null;
+                if (entity.isAlive() && canFollow(entity, true) && !(this.sniffTicksLeft>0)) {
+                    this.getNavigation().startMovingTo(entity, (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.03) + (this.overallAnger() * 0.003)));
+                    this.getNavigation().recalculatePath();
+                } else {
+                    this.followTicksLeft=0;
+                }
+            }
         }
         //Sniffing
         if(this.sniffTicksLeft > 0) {
@@ -161,18 +188,20 @@ public class WardenEntity extends HostileEntity {
         }
         if(this.sniffTicksLeft==0) {
             this.sniffTicksLeft=-1;
-            int extraSuspicion=0;
+            int extraSuspicion=1;
             if (this.getSniffEntity()!=null) {
             LivingEntity sniffEntity = this.getSniffEntity();
             if (this.getBlockPos().getSquaredDistance(sniffEntity.getBlockPos(), true) <= 8) {
-                extraSuspicion = extraSuspicion + 1;
+                extraSuspicion = extraSuspicion + UniformIntProvider.create(0,2).get(this.getRandom());
             }
             if (sniffEntity.getType()== EntityType.PLAYER) {
-                extraSuspicion = extraSuspicion + UniformIntProvider.create(1, 3).get(this.getRandom());
+                extraSuspicion = extraSuspicion + 1;
             }
-            this.addSuspicion(sniffEntity, UniformIntProvider.create(1, 2).get(this.getRandom()) + extraSuspicion);
+            this.addSuspicion(sniffEntity, extraSuspicion);
             if (sniffEntity!=this.getTrackingEntity()) {
                 this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, speed + (this.overallAnger() * 0.012));
+            } else if (sniffEntity==this.getTrackingEntity()) {
+                this.followForTicks(sniffEntity, 15);
             }
             }
         }
@@ -277,6 +306,9 @@ public class WardenEntity extends HostileEntity {
             CreateVibration(this.world, this, lasteventpos);
             if (eventEntity != null) {
                 addSuspicion(eventEntity, suspicion);
+                if(this.getTrackingEntity()!=null && eventEntity==this.getTrackingEntity()) {
+                    this.timeSinceLastTracking=this.world.getTime();
+                }
             }
         }
     }
@@ -294,6 +326,9 @@ public class WardenEntity extends HostileEntity {
             CreateVibration(this.world, this, vibrationPos);
             if (eventEntity != null) {
                 addSuspicion(eventEntity, suspicion);
+                if(this.getTrackingEntity()!=null && eventEntity==this.getTrackingEntity()) {
+                    this.timeSinceLastTracking=this.world.getTime();
+                }
             }
         }
     }
@@ -331,6 +366,11 @@ public class WardenEntity extends HostileEntity {
             this.entityList.add(entity.getUuid().hashCode());
             this.susList.add(suspicion);
         }
+    }
+
+    public void followForTicks(LivingEntity entity, int ticks) {
+        this.followingEntity = entity.getId();
+        this.followTicksLeft = ticks;
     }
 
     public int getSuspicion(Entity entity) {
@@ -408,15 +448,17 @@ public class WardenEntity extends HostileEntity {
         return null;
     }
     public boolean canFollow(Entity entity, boolean mustBeTracking) {
-        Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
+        Box box = new Box(this.getBlockPos().add(-20,-20,-20), this.getBlockPos().add(20,20,20));
         List<Entity> entities = world.getNonSpectatingEntities(Entity.class, box);
         if (!entities.isEmpty() && entities.contains(entity)) {
-            if (mustBeTracking) {
-                if (entity == this.getTrackingEntity()) {
+            if (MathAddon.distance(entity.getX(), entity.getY(), entity.getZ(), this.getX(), this.getY(), this.getZ()) <= 18) {
+                if (mustBeTracking) {
+                    if (entity == this.getTrackingEntity()) {
+                        return true;
+                    }
+                } else {
                     return true;
                 }
-            } else {
-                return true;
             }
         }
         return false;
@@ -424,6 +466,7 @@ public class WardenEntity extends HostileEntity {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putLong("vibrationTimer", this.vibrationTimer);
+        nbt.putLong("timeSinceLastTracking", this.timeSinceLastTracking);
         nbt.putLong("leaveTime", this.leaveTime);
         nbt.putInt("emergeTicksLeft", this.emergeTicksLeft);
         nbt.putBoolean("hasEmerged", this.hasEmerged);
@@ -436,10 +479,13 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("sniffY", this.sniffY);
         nbt.putInt("sniffZ", this.sniffZ);
         nbt.putString("sniffEntity", this.sniffEntity);
+        nbt.putInt("followTicksLeft", this.followTicksLeft);
+        nbt.putInt("followingEntity", this.followingEntity);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.vibrationTimer = nbt.getLong("vibrationTimer");
+        this.timeSinceLastTracking = nbt.getLong("timeSinceLastTracking");
         this.leaveTime = nbt.getLong("leaveTime");
         this.emergeTicksLeft = nbt.getInt("emergeTicksLeft");
         this.hasEmerged = nbt.getBoolean("hasEmerged");
@@ -452,25 +498,18 @@ public class WardenEntity extends HostileEntity {
         this.sniffY = nbt.getInt("sniffY");
         this.sniffZ = nbt.getInt("sniffZ");
         this.sniffEntity = nbt.getString("sniffEntity");
+        this.followTicksLeft = nbt.getInt("followTicksLeft");
+        this.followingEntity = nbt.getInt("followingEntity");
     }
 
     public int eventSuspicionValue(GameEvent event, LivingEntity livingEntity) {
         int total=1;
         EntityType entity=livingEntity.getType();
         if (entity==EntityType.PLAYER) {
-            total=total+2;
-        }
-        if (entity==EntityType.IRON_GOLEM) { //They're loud, you know?
-            total=total+1;
-        }
-        if (entity==EntityType.VILLAGER) { //It's similar to a player, you know?
-            total=total+1;
-        }
-        if (entity==EntityType.WITHER) { //It's loud, you know?
             total=total+1;
         }
         if(this.getBlockPos().getSquaredDistance(livingEntity.getBlockPos(), true)<=8) {
-            total=total+1;
+            total=total+UniformIntProvider.create(0,2).get(this.getWorld().getRandom());
         }
         if(event==GameEvent.PROJECTILE_LAND && total>1) {
             total=total-1;
