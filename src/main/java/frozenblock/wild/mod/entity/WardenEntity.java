@@ -27,6 +27,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.Vibration;
@@ -55,6 +56,7 @@ public class WardenEntity extends HostileEntity {
     public IntArrayList entityList = new IntArrayList();
     public IntArrayList susList = new IntArrayList();
     public String trackingEntity = "null";
+    public String sniffEntity = "null";
     public int followingEntity;
 
     public boolean hasDetected=false;
@@ -158,7 +160,7 @@ public class WardenEntity extends HostileEntity {
                 Entity entity = this.world.getEntityById(this.followingEntity);
                 assert entity != null;
                 if (entity.isAlive() && canFollow(entity, true) && !(this.sniffTicksLeft>0)) {
-                    this.getNavigation().startMovingTo(entity.getX(), entity.getY(), entity.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.03) + (this.overallAnger() * 0.004)));
+                    this.getNavigation().startMovingTo(entity.getX(), entity.getY(), entity.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.03) + (this.overallAnger() * 0.003)));
                 } else {
                     this.followTicksLeft=0;
                 }
@@ -173,7 +175,20 @@ public class WardenEntity extends HostileEntity {
         }
         if(this.sniffTicksLeft==0) {
             this.sniffTicksLeft=-1;
-            this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, speed + (this.overallAnger()*0.012));
+            int extraSuspicion=0;
+            LivingEntity sniffEntity = this.getSniffEntity();
+            if (this.getBlockPos().getSquaredDistance(sniffEntity.getBlockPos(), true) <= 8) {
+                extraSuspicion = extraSuspicion + 1;
+            }
+            if (sniffEntity.getType()== EntityType.PLAYER) {
+                extraSuspicion = extraSuspicion + UniformIntProvider.create(1, 2).get(this.getRandom());
+            }
+            this.addSuspicion(sniffEntity, UniformIntProvider.create(1, 2).get(this.getRandom()) + extraSuspicion);
+            if (sniffEntity!=this.getTrackingEntity()) {
+                this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, speed + (this.overallAnger() * 0.012));
+            } else if (sniffEntity==this.getTrackingEntity()) {
+                this.followForTicks(sniffEntity,15);
+            }
         }
         //Heartbeat
         this.hearbeatTime = (int) (60 - ((MathHelper.clamp(this.overallAnger(),0,15)*3.3)));
@@ -397,6 +412,20 @@ public class WardenEntity extends HostileEntity {
         }
         return null;
     }
+    public LivingEntity getSniffEntity() {
+        Box box = new Box(this.getBlockPos().add(-18,-18,-18), this.getBlockPos().add(18,18,18));
+        List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
+        if (!entities.isEmpty()) {
+            for (LivingEntity target : entities) {
+                if (Objects.equals(this.sniffEntity, target.getUuidAsString())) {
+                    if (MathAddon.distance(target.getX(), target.getY(), target.getZ(), this.getX(), this.getY(), this.getZ()) <= 16) {
+                        return target;
+                    }
+                }
+            }
+        }
+        return null;
+    }
     public boolean canFollow(Entity entity, boolean mustBeTracking) {
         Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
         List<Entity> entities = world.getNonSpectatingEntities(Entity.class, box);
@@ -427,6 +456,7 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("sniffX", this.sniffX);
         nbt.putInt("sniffY", this.sniffY);
         nbt.putInt("sniffZ", this.sniffZ);
+        nbt.putString("sniffEntity", this.sniffEntity);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -444,6 +474,7 @@ public class WardenEntity extends HostileEntity {
         this.sniffX = nbt.getInt("sniffX");
         this.sniffY = nbt.getInt("sniffY");
         this.sniffZ = nbt.getInt("sniffZ");
+        this.sniffEntity = nbt.getString("sniffEntity");
     }
 
     public int eventSuspicionValue(GameEvent event, LivingEntity livingEntity) {
