@@ -97,8 +97,8 @@ public class WardenEntity extends HostileEntity {
 
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(3, new SniffGoal(this, speed));
-        this.goalSelector.add(2, new WardenGoal(this, speed));
+        this.goalSelector.add(2, new SniffGoal(this, speed));
+        this.goalSelector.add(3, new WardenGoal(this, speed));
         this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
     @Override
@@ -166,10 +166,10 @@ public class WardenEntity extends HostileEntity {
         }
         //Sniffing
         if(this.sniffTicksLeft > 0) {
-            this.sniffTicksLeft--;
+            --this.sniffTicksLeft;
         }
         if(this.sniffCooldown > 0) {
-            this.sniffCooldown--;
+            --this.sniffCooldown;
         }
         if(this.sniffTicksLeft==0) {
             this.sniffTicksLeft=-1;
