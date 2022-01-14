@@ -48,7 +48,7 @@ public class SniffGoal extends Goal {
                 Box box = new Box(this.mob.getBlockPos().add(-16,-16,-16), this.mob.getBlockPos().add(16,16,16));
                 List<LivingEntity> entities = this.mob.getWorld().getNonSpectatingEntities(LivingEntity.class, box);
                 LivingEntity chosen = this.mob.getWorld().getClosestEntity(entities, TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
-                if (chosen!=null && MathAddon.distance(chosen.getX(), chosen.getY(), chosen.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ())<=16) {
+                if (chosen!=null && MathAddon.distance(chosen.getX(), chosen.getY(), chosen.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ())<=16 && chosen.getType()!=RegisterEntities.WARDEN) {
                     sniffEntity=chosen;
                 }
             }
