@@ -1,7 +1,10 @@
 package frozenblock.wild.mod.entity;
 
 
-import frozenblock.wild.mod.liukrastapi.*;
+import frozenblock.wild.mod.liukrastapi.MathAddon;
+import frozenblock.wild.mod.liukrastapi.SniffGoal;
+import frozenblock.wild.mod.liukrastapi.WardenGoal;
+import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
@@ -166,7 +169,7 @@ public class WardenEntity extends HostileEntity {
                 extraSuspicion = extraSuspicion + 1;
             }
             if (sniffEntity.getType()== EntityType.PLAYER) {
-                extraSuspicion = extraSuspicion + UniformIntProvider.create(1, 2).get(this.getRandom());
+                extraSuspicion = extraSuspicion + UniformIntProvider.create(1, 3).get(this.getRandom());
             }
             this.addSuspicion(sniffEntity, UniformIntProvider.create(1, 2).get(this.getRandom()) + extraSuspicion);
             if (sniffEntity!=this.getTrackingEntity()) {
