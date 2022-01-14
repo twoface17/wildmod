@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 
+import frozenblock.wild.mod.liukrastapi.SniffGoal;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
@@ -69,7 +70,11 @@ public class WardenEntity extends HostileEntity {
     public int timeStuck=0;
     public BlockPos stuckPos;
     public long timeSinceLastRecalculation;
-
+    public int sniffTicksLeft;
+    public int sniffCooldown;
+    public int sniffX;
+    public int sniffY;
+    public int sniffZ;
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
@@ -91,6 +96,7 @@ public class WardenEntity extends HostileEntity {
 
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(3, new SniffGoal(this, speed));
         this.goalSelector.add(2, new WardenGoal(this, speed));
         this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
@@ -135,13 +141,13 @@ public class WardenEntity extends HostileEntity {
             this.handleStatus((byte) 6);
         }
         //Movement
-        if(this.stuckPos!=null && this.getBlockPos().getSquaredDistance(this.stuckPos)<2 && this.hasEmerged && this.hasDetected) {
+        if(this.stuckPos!=null && this.getBlockPos().getSquaredDistance(this.stuckPos)<2 && this.hasEmerged && this.hasDetected && !(this.sniffTicksLeft>0)) {
             this.timeStuck++;
         } else {
             this.timeStuck=0;
             this.stuckPos=this.getBlockPos();
         }
-        if(this.timeStuck>=60 && this.hasEmerged && this.world.getTime()-this.vibrationTimer<120 && this.world.getTime()-this.timeSinceLastRecalculation>60) {
+        if(this.timeStuck>=60 && this.hasEmerged && this.world.getTime()-this.vibrationTimer<120 && this.world.getTime()-this.timeSinceLastRecalculation>60 && !(this.sniffTicksLeft>0)) {
             this.getNavigation().recalculatePath();
             this.timeSinceLastRecalculation=this.world.getTime();
         }
@@ -150,12 +156,23 @@ public class WardenEntity extends HostileEntity {
             if (this.world.getEntityById(this.followingEntity)!=null) {
                 Entity entity = this.world.getEntityById(this.followingEntity);
                 assert entity != null;
-                if (entity.isAlive() && canFollow(entity, true)) {
+                if (entity.isAlive() && canFollow(entity, true) && !(this.sniffTicksLeft>0)) {
                     this.getNavigation().startMovingTo(entity.getX(), entity.getY(), entity.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(entity), 0, 15) * 0.03) + (this.overallAnger() * 0.004)));
                 } else {
                     this.followTicksLeft=0;
                 }
             }
+        }
+        //Sniffing
+        if(this.sniffTicksLeft > 0) {
+            this.sniffTicksLeft--;
+        }
+        if(this.sniffCooldown > 0) {
+            this.sniffCooldown--;
+        }
+        if(this.sniffTicksLeft==0) {
+            this.sniffTicksLeft=-1;
+            this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, speed + (this.overallAnger()*0.012));
         }
         //Heartbeat
         this.hearbeatTime = (int) (60 - ((MathHelper.clamp(this.overallAnger(),0,15)*3.3)));
@@ -402,6 +419,11 @@ public class WardenEntity extends HostileEntity {
         nbt.putString("trackingEntity", this.trackingEntity);
         nbt.putInt("followTicksLeft", this.followTicksLeft);
         nbt.putInt("followingEntity", this.followingEntity);
+        nbt.putInt("sniffTicksLeft", this.sniffTicksLeft);
+        nbt.putInt("sniffCooldown", this.sniffCooldown);
+        nbt.putInt("sniffX", this.sniffX);
+        nbt.putInt("sniffY", this.sniffY);
+        nbt.putInt("sniffZ", this.sniffZ);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -414,6 +436,11 @@ public class WardenEntity extends HostileEntity {
         this.trackingEntity = nbt.getString("trackingEntity");
         this.followTicksLeft = nbt.getInt("followTicksLeft");
         this.followingEntity = nbt.getInt("followingEntity");
+        this.sniffTicksLeft = nbt.getInt("sniffTicksLeft");
+        this.sniffCooldown = nbt.getInt("sniffCooldown");
+        this.sniffX = nbt.getInt("sniffX");
+        this.sniffY = nbt.getInt("sniffY");
+        this.sniffZ = nbt.getInt("sniffZ");
     }
 
     public int eventSuspicionValue(GameEvent event, LivingEntity livingEntity) {
