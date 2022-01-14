@@ -43,14 +43,12 @@ public class WardenGoal extends Goal {
                        if (Math.sqrt(distancex + distancey + distancez) < 25) {
                                exit = true;
                                if (this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity)) {
-                                   this.mob.navigationEntity = this.mob.lastevententity;
                                    exit=true;
                                }
                                if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
                                    exit= false;
                                }
                                if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
-                                   this.mob.navigationEntity = this.mob.lastevententity;
                                    exit=true;
                                }
                        }
@@ -70,22 +68,33 @@ public class WardenGoal extends Goal {
            if (r > 0) {
                exit = false;
            }
-
+        int s = this.mob.sniffTicksLeft;
+        if (s > 0) {
+            exit = false;
+        }
+        if (exit && this.mob.getAttacker() == null) {
+            this.mob.navigationEntity = this.mob.lastevententity;
+        }
         return exit;
     }
 
     public boolean shouldContinue() {
         boolean exit=false;
         if (this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity)) {
-            this.mob.navigationEntity = this.mob.lastevententity;
             exit=true;
         }
         if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
             exit= false;
         }
         if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
-            this.mob.navigationEntity = this.mob.lastevententity;
             exit=true;
+        }
+        if (exit) {
+            this.mob.navigationEntity = this.mob.lastevententity;
+        }
+        int s = this.mob.sniffTicksLeft;
+        if (s > 0) {
+            exit = false;
         }
         return exit;
     }
