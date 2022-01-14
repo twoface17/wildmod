@@ -73,7 +73,7 @@ public class WardenWanderGoal
 
     @Override
     public boolean shouldContinue() {
-        return !this.mob.getNavigation().isIdle() && !this.mob.hasPassengers() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>400;
+        return false;
     }
 
     @Override
