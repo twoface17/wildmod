@@ -41,17 +41,18 @@ public class WardenGoal extends Goal {
                        double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
                        double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
                        if (Math.sqrt(distancex + distancey + distancez) < 25) {
-                           if(this.mob.lastevententity!=null && this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity) || this.mob.navigationEntity==null) {
-                               if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
-                                   return false;
-                               } else if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
+                               exit = true;
+                               if (this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity)) {
                                    this.mob.navigationEntity = this.mob.lastevententity;
-                                   return true;
+                                   exit=true;
                                }
-                               this.mob.navigationEntity = this.mob.lastevententity;
-                               return true;
-                           }
-                           exit = true;
+                               if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
+                                   exit= false;
+                               }
+                               if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
+                                   this.mob.navigationEntity = this.mob.lastevententity;
+                                   exit=true;
+                               }
                        }
                    }
                }
@@ -74,18 +75,19 @@ public class WardenGoal extends Goal {
     }
 
     public boolean shouldContinue() {
-        if(this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity) || this.mob.navigationEntity==null) {
-            if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
-                return false;
-            } else if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
-                this.mob.navigationEntity = this.mob.lastevententity;
-                return true;
-            }
+        boolean exit=false;
+        if (this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity)) {
             this.mob.navigationEntity = this.mob.lastevententity;
-            return true;
-        } else {
-            return this.mob.lastevententity == this.mob.navigationEntity;
+            exit=true;
         }
+        if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
+            exit= false;
+        }
+        if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
+            this.mob.navigationEntity = this.mob.lastevententity;
+            exit=true;
+        }
+        return exit;
     }
 
     public void start() {
@@ -135,7 +137,6 @@ public class WardenGoal extends Goal {
                 this.mob.lasteventpos = null;
                 this.mob.lasteventworld = null;
             } else
-                this.mob.getNavigation().stop();
                 this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed + (this.mob.overallAnger()*0.009));
 
         }
