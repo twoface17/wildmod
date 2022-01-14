@@ -464,6 +464,9 @@ public class WardenEntity extends HostileEntity {
         if(this.getBlockPos().getSquaredDistance(livingEntity.getBlockPos(), true)<=8) {
             total=total+1;
         }
+        if(event==GameEvent.PROJECTILE_LAND && total>1) {
+            total=total-1;
+        }
         return total;
     }
     public int overallAnger() {
