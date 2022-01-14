@@ -150,7 +150,6 @@ public class WardenEntity extends HostileEntity {
         }
         if(this.timeStuck>=60 && this.hasEmerged && this.world.getTime()-this.vibrationTimer<120 && this.world.getTime()-this.timeSinceLastRecalculation>60 && !(this.sniffTicksLeft>0)) {
             this.getNavigation().recalculatePath();
-            this.jump();
             this.timeSinceLastRecalculation=this.world.getTime();
         }
         //Sniffing
