@@ -34,9 +34,7 @@ public class WardenGoal extends Goal {
        if (this.mob.emergeTicksLeft>0) {
             return false;
        }
-       if (this.mob.getTrackingEntity()!=null) {
-           return true;
-       }
+
            if (this.mob.getAttacker() == null) {
                if (lasteventWorld != null && lasteventpos != null) {
                    if (lasteventWorld == this.mob.getEntityWorld()) {
@@ -67,10 +65,13 @@ public class WardenGoal extends Goal {
                exit = true;
            }
 
-           int r = this.mob.getRoarTicksLeft1();
-           if (r > 0) {
-               exit = false;
-           }
+        if (this.mob.getTrackingEntity()!=null) {
+            exit = true;
+        }
+        int r = this.mob.getRoarTicksLeft1();
+        if (r > 0) {
+            exit = false;
+        }
         int s = this.mob.sniffTicksLeft;
         if (s > 0) {
             exit = false;
