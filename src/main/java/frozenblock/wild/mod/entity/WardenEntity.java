@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 
+import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.SniffGoal;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
@@ -383,12 +384,14 @@ public class WardenEntity extends HostileEntity {
         return value;
     }
     public LivingEntity getTrackingEntity() {
-        Box box = new Box(this.getBlockPos().add(-16,-16,-16), this.getBlockPos().add(16,16,16));
+        Box box = new Box(this.getBlockPos().add(-18,-18,-18), this.getBlockPos().add(18,18,18));
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
                 if (Objects.equals(this.trackingEntity, target.getUuidAsString())) {
+                    if (MathAddon.distance(target.getX(), target.getY(), target.getZ(), this.getX(), this.getY(), this.getZ()) <= 16) {
                     return target;
+                    }
                 }
             }
         }
