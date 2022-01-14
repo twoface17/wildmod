@@ -118,26 +118,28 @@ public class SniffGoal extends Goal {
                 Box box = new Box(this.mob.getBlockPos().add(-16,-16,-16), this.mob.getBlockPos().add(16,16,16));
                 List<LivingEntity> entities = this.mob.getWorld().getNonSpectatingEntities(LivingEntity.class, box);
                 LivingEntity chosen = this.mob.getWorld().getClosestEntity(entities, TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
-                if (chosen!=null) {
+                if (chosen!=null && MathAddon.distance(chosen.getX(), chosen.getY(), chosen.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ())<=16) {
                     sniffEntity=chosen;
                 }
             }
         }
 
         if (sniffEntity!=null) {
-            int extraSuspicion=0;
-            this.mob.sniffTicksLeft=34;
-            this.mob.sniffCooldown=134;
-            this.mob.sniffX=sniffEntity.getBlockPos().getX();
-            this.mob.sniffY=sniffEntity.getBlockPos().getY();
-            this.mob.sniffZ=sniffEntity.getBlockPos().getZ();
-            this.mob.vibrationTimer=this.mob.getWorld().getTime();
-            this.mob.getWorld().playSound(null, this.mob.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SNIFF, SoundCategory.HOSTILE, 1F, 1F);
-            if(this.mob.getBlockPos().getSquaredDistance(sniffEntity.getBlockPos(), true)<=8) {
-                extraSuspicion=extraSuspicion+1;
+            if (MathAddon.distance(sniffEntity.getX(), sniffEntity.getY(), sniffEntity.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) <= 16) {
+                int extraSuspicion = 0;
+                this.mob.sniffTicksLeft = 34;
+                this.mob.sniffCooldown = 134;
+                this.mob.sniffX = sniffEntity.getBlockPos().getX();
+                this.mob.sniffY = sniffEntity.getBlockPos().getY();
+                this.mob.sniffZ = sniffEntity.getBlockPos().getZ();
+                this.mob.vibrationTimer = this.mob.getWorld().getTime();
+                this.mob.getWorld().playSound(null, this.mob.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SNIFF, SoundCategory.HOSTILE, 1F, 1F);
+                if (this.mob.getBlockPos().getSquaredDistance(sniffEntity.getBlockPos(), true) <= 8) {
+                    extraSuspicion = extraSuspicion + 1;
+                }
+                this.mob.addSuspicion(sniffEntity, UniformIntProvider.create(1, 2).get(this.mob.getRandom()) + extraSuspicion);
+                this.mob.leaveTime = this.mob.getWorld().getTime() + 1200;
             }
-            this.mob.addSuspicion(sniffEntity, UniformIntProvider.create(1,2).get(this.mob.getRandom()) + extraSuspicion);
-            this.mob.leaveTime=this.mob.getWorld().getTime()+1200;
         }
     }
 
