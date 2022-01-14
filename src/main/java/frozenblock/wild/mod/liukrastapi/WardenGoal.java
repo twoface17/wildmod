@@ -34,6 +34,9 @@ public class WardenGoal extends Goal {
        if (this.mob.emergeTicksLeft>0) {
             return false;
        }
+       if (this.mob.getTrackingEntity()!=null) {
+           return true;
+       }
            if (this.mob.getAttacker() == null) {
                if (lasteventWorld != null && lasteventpos != null) {
                    if (lasteventWorld == this.mob.getEntityWorld()) {
@@ -79,35 +82,14 @@ public class WardenGoal extends Goal {
     }
 
     public boolean shouldContinue() {
-        boolean exit=false;
-        if (this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity)) {
-            exit=true;
-        }
-        if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
-            exit= false;
-        }
-        if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
-            exit=true;
-        }
-        if (exit) {
-            this.mob.navigationEntity = this.mob.lastevententity;
-        }
-        int s = this.mob.sniffTicksLeft;
-        if (s > 0) {
-            exit = false;
-        }
-        return exit;
+        return false;
     }
 
     public void start() {
         BlockPos lasteventpos = this.mob.lasteventpos;
         LivingEntity lastevententity = this.mob.lastevententity;
+        LivingEntity entity = this.mob.getTrackingEntity();
         if(this.mob.getAttacker() != null) {
-            /*double distance = MathAddon.distance(this.VX, this.VY, this.VZ, this.mob.getX(), this.mob.getY(), this.mob.getZ()) / 2;
-            if(distance < 2) {distance = 2;}
-            double finalspeed = (speed * 2) / (distance -1);
-            if(finalspeed < speed) {finalspeed = speed;}*/
-
             LivingEntity target = this.mob.getAttacker();
             this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed + (5*0.15) + (this.mob.overallAnger()*0.004));
             double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
@@ -119,36 +101,30 @@ public class WardenGoal extends Goal {
                     this.mob.tryAttack(target);
                 }
             }
-
             this.mob.lastevententity = null;
             this.mob.lasteventpos = null;
             this.mob.lasteventworld = null;
-        } else {
-            if(lastevententity!=null) {
+        } else if(entity!=null) {
                 double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
-                double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
-                if (lastevententity==this.mob.getTrackingEntity()) {
-                    this.mob.followForTicks(lastevententity, MathHelper.clamp(this.mob.getSuspicion(lastevententity),0,40));
-                } else {
-                    this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed+ (MathHelper.clamp(this.mob.getSuspicion(lastevententity),0,15)*0.03) + (this.mob.overallAnger()*0.004)));
-                }
-                this.cooldown = Math.max(this.cooldown - 1, 0);
+                double e = this.mob.squaredDistanceTo(entity.getX(), entity.getY(), entity.getZ());
+                this.mob.getNavigation().startMovingTo(entity.getBlockX(), entity.getBlockY(), entity.getBlockZ(), (speed + (15 * 0.032) + (this.mob.overallAnger() * 0.0035)));
                 if (!(e > d)) {
-                    /*if (this.cooldown <= 0) {
-                        this.cooldown = 20;
-                        this.mob.tryAttack(lastevententity);
-                    }*/
-                    this.mob.tryAttack(lastevententity);
+                    this.mob.tryAttack(entity);
                 }
-
-                this.mob.lastevententity = null;
-                this.mob.lasteventpos = null;
-                this.mob.lasteventworld = null;
-            } else
-                this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed + (this.mob.overallAnger()*0.009));
-
+            } else if(lastevententity!=null) {
+                    double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
+                    double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
+                    this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed + (MathHelper.clamp(this.mob.getSuspicion(lastevententity), 0, 15) * 0.03) + (this.mob.overallAnger() * 0.004)));
+                    if (!(e > d)) {
+                        this.mob.tryAttack(lastevententity);
+                    }
+                    this.mob.lastevententity = null;
+                    this.mob.lasteventpos = null;
+                    this.mob.lasteventworld = null;
+                } else {
+                this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed + (this.mob.overallAnger() * 0.009));
+            }
         }
-    }
 
     public void stop() {
     }
