@@ -65,43 +65,11 @@ public class SniffGoal extends Goal {
             exit = false;
         }
 
-        return exit && UniformIntProvider.create(0,3).get(this.mob.getRandom())>0;
+        return exit && UniformIntProvider.create(0,3).get(this.mob.getRandom())>1;
     }
 
     public boolean shouldContinue() {
-        boolean exit = false;
-        LivingEntity sniffEntity = null;
-        if (this.mob.mostSuspiciousAround()!=null) {
-            sniffEntity=this.mob.mostSuspiciousAround();
-        }
-        if (this.mob.getTrackingEntity()!=null) {
-            sniffEntity=this.mob.getTrackingEntity();
-        }
-        if (sniffEntity==null) {
-            LivingEntity closestPlayer = this.mob.getWorld().getClosestPlayer(this.mob, 16);
-            sniffEntity=closestPlayer;
-            if (closestPlayer==null) {
-                Box box = new Box(this.mob.getBlockPos().add(-16,-16,-16), this.mob.getBlockPos().add(16,16,16));
-                List<LivingEntity> entities = this.mob.getWorld().getNonSpectatingEntities(LivingEntity.class, box);
-                LivingEntity chosen = this.mob.getWorld().getClosestEntity(entities, TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
-                if (chosen!=null && MathAddon.distance(chosen.getX(), chosen.getY(), chosen.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ())<=16) {
-                    sniffEntity=chosen;
-                }
-            }
-        }
-        if (this.mob.emergeTicksLeft>0) {
-            return false;
-        }
-        if (this.mob.getWorld().getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null) {
-            exit = true;
-        }
-
-        int r = this.mob.getRoarTicksLeft1();
-        if (r > 0) {
-            exit = false;
-        }
-
-        return exit && UniformIntProvider.create(0,3).get(this.mob.getRandom())>0;
+        return false;
     }
 
     public void start() {
