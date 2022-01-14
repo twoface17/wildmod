@@ -3,6 +3,7 @@ package frozenblock.wild.mod.liukrastapi;
 import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
@@ -126,18 +127,14 @@ public class SniffGoal extends Goal {
 
         if (sniffEntity!=null) {
             if (MathAddon.distance(sniffEntity.getX(), sniffEntity.getY(), sniffEntity.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) <= 16) {
-                int extraSuspicion = 0;
                 this.mob.sniffTicksLeft = 34;
                 this.mob.sniffCooldown = 134;
                 this.mob.sniffX = sniffEntity.getBlockPos().getX();
                 this.mob.sniffY = sniffEntity.getBlockPos().getY();
                 this.mob.sniffZ = sniffEntity.getBlockPos().getZ();
+                this.mob.sniffEntity=sniffEntity.getUuidAsString();
                 this.mob.vibrationTimer = this.mob.getWorld().getTime();
                 this.mob.getWorld().playSound(null, this.mob.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SNIFF, SoundCategory.HOSTILE, 1F, 1F);
-                if (this.mob.getBlockPos().getSquaredDistance(sniffEntity.getBlockPos(), true) <= 8) {
-                    extraSuspicion = extraSuspicion + 1;
-                }
-                this.mob.addSuspicion(sniffEntity, UniformIntProvider.create(1, 2).get(this.mob.getRandom()) + extraSuspicion);
                 this.mob.leaveTime = this.mob.getWorld().getTime() + 1200;
             }
         }
