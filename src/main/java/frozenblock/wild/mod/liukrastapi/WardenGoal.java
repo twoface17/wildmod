@@ -85,7 +85,6 @@ public class WardenGoal extends Goal {
     public void start() {
         BlockPos lasteventpos = this.mob.lasteventpos;
         LivingEntity lastevententity = this.mob.lastevententity;
-        if (this.mob.followTicksLeft <= 0) {
             if (this.mob.getAttacker() != null) {
                 LivingEntity target = this.mob.getAttacker();
                 this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed + (5 * 0.15) + (this.mob.overallAnger() * 0.004));
@@ -105,7 +104,7 @@ public class WardenGoal extends Goal {
                 if (this.mob.getTrackingEntity() != null && lastevententity == this.mob.getTrackingEntity()) {
                     double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
                     double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
-                    this.mob.followForTicks(lastevententity, this.mob.getSuspicion(lastevententity));
+                    this.mob.followForTicks(lastevententity, MathHelper.clamp(this.mob.getSuspicion(lastevententity),0, 60));
                     if (!(e > d)) {
                         this.mob.tryAttack(lastevententity);
                     }
@@ -127,7 +126,6 @@ public class WardenGoal extends Goal {
                 this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed + (this.mob.overallAnger() * 0.009));
             }
         }
-    }
 
     public void stop() {
     }
