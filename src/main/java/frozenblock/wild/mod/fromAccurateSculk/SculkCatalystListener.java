@@ -155,7 +155,7 @@ public class SculkCatalystListener implements GameEventListener {
     }
     public void sculk(BlockPos blockPos, World world, @Nullable Entity entity) {
         if (entity!=null) {
-            world.playSound(null, blockPos, RegisterSounds.SCULK_SPREAD, SoundCategory.BLOCKS, 1F, 1F);
+            world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             BlockPos down = blockPos.down();
             if (!world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
                 if (SculkTags.THREE.contains(entity.getType())) {
