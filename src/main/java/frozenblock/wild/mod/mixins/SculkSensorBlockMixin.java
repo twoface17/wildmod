@@ -47,8 +47,7 @@ public class SculkSensorBlockMixin {
             WardenEntity wardenEntity;
             while (var11.hasNext()) {
                 wardenEntity = var11.next();
-                /*if (MathAddon.distance(wardenEntity.getBlockPos().getX(), wardenEntity.getBlockPos().getY(), wardenEntity.getBlockPos().getZ(),
-                        pos.getX(), pos.getY(), pos.getZ())<=18) {*/
+                if (wardenEntity.getBlockPos().isWithinDistance(pos, 16)) {
                     if (event!=GameEvent.PROJECTILE_LAND && event!=GameEvent.BLOCK_DESTROY && event!=GameEvent.BLOCK_PLACE && event!=GameEvent.BLOCK_ATTACH
                             && event!=GameEvent.BLOCK_CHANGE && event!=GameEvent.BLOCK_CLOSE && event!=GameEvent.BLOCK_OPEN && event!=GameEvent.BLOCK_PRESS
                             && event!=GameEvent.BLOCK_SWITCH && event!=GameEvent.BLOCK_DETACH && event!=GameEvent.BLOCK_UNPRESS && event!=GameEvent.BLOCK_UNSWITCH
@@ -56,7 +55,7 @@ public class SculkSensorBlockMixin {
                         wardenEntity.sculkSensorListen(lastEventPos, pos, wardenEntity.getWorld(), target, wardenEntity.eventSuspicionValue(event,target));
                     } else {
                         wardenEntity.sculkSensorListen(lastEventPos, pos, wardenEntity.getWorld(), null, 1);
-                   // }
+                   }
                 }
             }
         }
