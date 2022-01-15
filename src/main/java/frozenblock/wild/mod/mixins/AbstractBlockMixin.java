@@ -111,7 +111,7 @@ public class AbstractBlockMixin {
         if(entity.getType()!=RegisterEntities.WARDEN && world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState() || world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(Properties.WATERLOGGED, true)) {
             if (!ShriekCounter.findWarden(world, pos)) {
                 ((SculkShriekerBlock) Objects.requireNonNull(world.getBlockState(pos)).getBlock()).writeDir(world, pos, entity.getBlockPos());
-                SculkShriekerBlock.setActive(world, pos, state);
+                SculkShriekerBlock.setStepActive(world, pos, state);
             }
         }
     }
