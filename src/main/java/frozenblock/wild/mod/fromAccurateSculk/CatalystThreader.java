@@ -27,7 +27,7 @@ public class CatalystThreader {
         float threads = world.getGameRules().getInt(WildMod.SCULK_THREADS);
         int lbd = (int) Math.ceil(l * div);
         if (div > 0) {
-            world.playSound(null, blockPos, RegisterSounds.SCULK_SPREAD, SoundCategory.BLOCKS, 1F, 1F);
+            world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             if (threads >= 21) {
                 for (int h = 0; h < lbd; h++) {
                     SculkThread T1 = new SculkThread("Sculk" + h);
