@@ -18,6 +18,7 @@ public class RegisterSounds {
     public static SoundEvent ENTITY_WARDEN_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.close"));
     public static SoundEvent ENTITY_WARDEN_CLOSER = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.closer"));
     public static SoundEvent ENTITY_WARDEN_CLOSEST = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.closest"));
+    public static SoundEvent ENTITY_WARDEN_ATTACK = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.attack"));
     public static SoundEvent EFFECT_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID, "effect.nearby_close"));
     public static SoundEvent ENTITY_FROG_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.ambient"));
     public static SoundEvent ENTITY_FROG_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.death"));
@@ -90,6 +91,7 @@ public class RegisterSounds {
         ENTITY_WARDEN_HEARTBEAT = register(ENTITY_WARDEN_HEARTBEAT.getId());
         ENTITY_WARDEN_CLOSER = register(ENTITY_WARDEN_CLOSER.getId());
         ENTITY_WARDEN_CLOSEST = register(ENTITY_WARDEN_CLOSEST.getId());
+        ENTITY_WARDEN_ATTACK = register(ENTITY_WARDEN_ATTACK.getId());
         ENTITY_FROG_AMBIENT = register(ENTITY_FROG_AMBIENT.getId());
         ENTITY_FROG_DEATH = register(ENTITY_FROG_DEATH.getId());
         ENTITY_FROG_EAT = register(ENTITY_FROG_EAT.getId());

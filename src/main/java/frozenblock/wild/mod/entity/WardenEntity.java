@@ -214,7 +214,7 @@ public class WardenEntity extends HostileEntity {
             this.world.sendEntityStatus(this, (byte)4);
             target.setVelocity(target.getVelocity().add(0.0D, 0.4000000059604645D, 0.0D));
             this.applyDamageEffects(this, target);
-            world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F,1.0F);
+            world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_ATTACK, SoundCategory.HOSTILE, 1.0F,1.0F);
         }
         return bl;
     }
@@ -478,9 +478,7 @@ public class WardenEntity extends HostileEntity {
         if (!entities.isEmpty() && entities.contains(entity)) {
             if (MathAddon.distance(entity.getX(), entity.getY(), entity.getZ(), this.getX(), this.getY(), this.getZ()) <= 18) {
                 if (mustBeTracking) {
-                    if (entity == this.getTrackingEntity()) {
-                        return true;
-                    }
+                    return entity == this.getTrackingEntity();
                 } else {
                     return true;
                 }
