@@ -19,8 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class MudBlock extends Block {
-    public MudBlock() {
+public class Mud extends Block {
+    public Mud() {
         super(FabricBlockSettings
                 .of(Material.SOIL, MapColor.GRAY)
                 .sounds(new BlockSoundGroup(1.0f, 1.0f,

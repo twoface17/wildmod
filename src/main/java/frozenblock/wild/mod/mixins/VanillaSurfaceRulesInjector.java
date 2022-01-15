@@ -31,7 +31,7 @@ public class VanillaSurfaceRulesInjector {
                                 MaterialRules.biome(
                                         RegisterWorldgen.MANGROVE_SWAMP),
                                 VanillaSurfaceRulesBlockInvoker.invokeBlock(
-                                        RegisterBlocks.MUD_BLOCK
+                                        RegisterBlocks.MUD
                                 )
                         ),
                         MaterialRules.condition(

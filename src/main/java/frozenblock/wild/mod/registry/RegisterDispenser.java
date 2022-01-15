@@ -25,7 +25,7 @@ public class RegisterDispenser {
                 this.setSuccess(true);
                 if (blockState.isOf(Blocks.DIRT)) {
                     if (PotionUtil.getPotion(stack) == Potions.WATER) {
-                        world.setBlockState(blockPos, RegisterBlocks.MUD_BLOCK.getDefaultState());
+                        world.setBlockState(blockPos, RegisterBlocks.MUD.getDefaultState());
                         return new ItemStack(Items.GLASS_BOTTLE);
 
                     } else {
