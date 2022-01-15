@@ -268,7 +268,7 @@
 		],
 		"subtitle": "subtitles.block.generic.place"
 	},
-	"block.sculk_catalyst.spread_sculk": {
+	"block.sculk_catalyst.bloom": {
 		"sounds": [
 			"twm:block/sculk_catalyst/spread1",
 			"twm:block/sculk_catalyst/spread2",

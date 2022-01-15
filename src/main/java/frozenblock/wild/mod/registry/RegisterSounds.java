@@ -10,7 +10,7 @@ public class RegisterSounds {
     public static SoundEvent BLOCK_SCULK_CATALYST_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.break"));
     public static SoundEvent BLOCK_SCULK_CATALYST_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.place"));
     public static SoundEvent BLOCK_SCULK_CATALYST_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.step"));
-    public static SoundEvent SCULK_SPREAD = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.spread_sculk"));
+    public static SoundEvent BLOCK_SCULK_CATALYST_BLOOM = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.bloom"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_SHRIEK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.shriek"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_EFFECT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.effect"));
     public static SoundEvent BLOCK_SCULK_VEIN_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.place"));
@@ -67,7 +67,6 @@ public class RegisterSounds {
         BLOCK_SCULK_FALL = register(BLOCK_SCULK_FALL.getId());
         BLOCK_SCULK_BREAK = register(BLOCK_SCULK_BREAK.getId());
         BLOCK_SCULK_PLACE = register(BLOCK_SCULK_PLACE.getId());
-        SCULK_SPREAD = register(SCULK_SPREAD.getId());
         BLOCK_MUD_STEP = register(BLOCK_MUD_STEP.getId());
         BLOCK_MUD_HIT = register(BLOCK_MUD_HIT.getId());
         BLOCK_MUD_BREAK = register(BLOCK_MUD_BREAK.getId());
@@ -79,6 +78,7 @@ public class RegisterSounds {
         BLOCK_SCULK_CATALYST_BREAK = register(BLOCK_SCULK_CATALYST_BREAK.getId());
         BLOCK_SCULK_CATALYST_PLACE = register(BLOCK_SCULK_CATALYST_PLACE.getId());
         BLOCK_SCULK_CATALYST_STEP = register(BLOCK_SCULK_CATALYST_STEP.getId());
+        BLOCK_SCULK_CATALYST_BLOOM = register(BLOCK_SCULK_CATALYST_BLOOM.getId());
         BLOCK_SCULK_SHRIEKER_SHRIEK = register(BLOCK_SCULK_SHRIEKER_SHRIEK.getId());
         BLOCK_SCULK_SHRIEKER_EFFECT = register(BLOCK_SCULK_SHRIEKER_EFFECT.getId());
         BLOCK_MANGROVE_ROOTS_BREAK = register(BLOCK_MANGROVE_ROOTS_BREAK.getId());
