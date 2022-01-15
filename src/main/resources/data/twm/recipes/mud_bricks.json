@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "twm:mud_block"
+      "item": "twm:mud"
     },
     {
       "item": "minecraft:sand"
