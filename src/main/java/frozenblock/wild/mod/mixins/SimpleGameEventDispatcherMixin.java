@@ -4,7 +4,6 @@ import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.registry.*;
 import net.minecraft.block.SculkSensorBlock;
-import net.minecraft.client.RunArgs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
