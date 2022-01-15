@@ -10,6 +10,7 @@ public class RegisterSounds {
     public static SoundEvent BLOCK_SCULK_CATALYST_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.break"));
     public static SoundEvent BLOCK_SCULK_CATALYST_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.place"));
     public static SoundEvent BLOCK_SCULK_CATALYST_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.step"));
+    public static SoundEvent BLOCK_SCULK_CATALYST_BLOOM = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.bloom"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_SHRIEK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.shriek"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_EFFECT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.effect"));
     public static SoundEvent BLOCK_SCULK_VEIN_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.place"));
@@ -18,6 +19,7 @@ public class RegisterSounds {
     public static SoundEvent ENTITY_WARDEN_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.close"));
     public static SoundEvent ENTITY_WARDEN_CLOSER = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.closer"));
     public static SoundEvent ENTITY_WARDEN_CLOSEST = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.closest"));
+    public static SoundEvent ENTITY_WARDEN_ATTACK = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.attack"));
     public static SoundEvent EFFECT_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID, "effect.nearby_close"));
     public static SoundEvent ENTITY_FROG_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.ambient"));
     public static SoundEvent ENTITY_FROG_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.death"));
@@ -76,6 +78,7 @@ public class RegisterSounds {
         BLOCK_SCULK_CATALYST_BREAK = register(BLOCK_SCULK_CATALYST_BREAK.getId());
         BLOCK_SCULK_CATALYST_PLACE = register(BLOCK_SCULK_CATALYST_PLACE.getId());
         BLOCK_SCULK_CATALYST_STEP = register(BLOCK_SCULK_CATALYST_STEP.getId());
+        BLOCK_SCULK_CATALYST_BLOOM = register(BLOCK_SCULK_CATALYST_BLOOM.getId());
         BLOCK_SCULK_SHRIEKER_SHRIEK = register(BLOCK_SCULK_SHRIEKER_SHRIEK.getId());
         BLOCK_SCULK_SHRIEKER_EFFECT = register(BLOCK_SCULK_SHRIEKER_EFFECT.getId());
         BLOCK_MANGROVE_ROOTS_BREAK = register(BLOCK_MANGROVE_ROOTS_BREAK.getId());
@@ -90,6 +93,7 @@ public class RegisterSounds {
         ENTITY_WARDEN_HEARTBEAT = register(ENTITY_WARDEN_HEARTBEAT.getId());
         ENTITY_WARDEN_CLOSER = register(ENTITY_WARDEN_CLOSER.getId());
         ENTITY_WARDEN_CLOSEST = register(ENTITY_WARDEN_CLOSEST.getId());
+        ENTITY_WARDEN_ATTACK = register(ENTITY_WARDEN_ATTACK.getId());
         ENTITY_FROG_AMBIENT = register(ENTITY_FROG_AMBIENT.getId());
         ENTITY_FROG_DEATH = register(ENTITY_FROG_DEATH.getId());
         ENTITY_FROG_EAT = register(ENTITY_FROG_EAT.getId());

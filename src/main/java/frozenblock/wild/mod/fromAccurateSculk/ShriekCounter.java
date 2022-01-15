@@ -24,7 +24,7 @@ public class ShriekCounter {
     private static boolean running;
 
     public static void addShriek(BlockPos pos, World world) {
-        if (world.getTime()-timer<0) {
+        if (world.getTime()-timer< -90) {
             timer=0;
         }
         if (!world.isClient() && world.getTime() > timer && !running) {

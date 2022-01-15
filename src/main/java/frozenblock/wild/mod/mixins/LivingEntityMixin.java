@@ -67,13 +67,13 @@ public class LivingEntityMixin {
 		BlockState sensor = Blocks.SCULK_SENSOR.getDefaultState();
 		BlockState shrieker = SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState();
 		BlockPos NewSculk;
-		int chanceCheck = (chance - 1);
+		int chanceCheck = (chance + 4);
 		if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(solidsculkCheck(blockPos, world).up()).getBlock()) && world.getBlockState(solidsculkCheck(blockPos, world)) == sculk) {
 			NewSculk = solidsculkCheck(blockPos, world);
 			if (NewSculk.getY() != 64) {
-				int uniInt = UniformIntProvider.create(0, 1).get(world.getRandom());
-				if ((UniformIntProvider.create(0, chance).get(world.getRandom()) > chanceCheck)) {
-					if (uniInt > 0.5) {
+				int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
+				if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > chanceCheck)) {
+					if (uniInt <= 16) {
 						if (world.getBlockState(NewSculk.up()) == Blocks.WATER.getDefaultState()) {
 							world.setBlockState(NewSculk.up(), sensor.with(Properties.WATERLOGGED, true));
 						} else if (world.getBlockState(NewSculk.up()).getBlock() != Blocks.WATER) {
@@ -83,7 +83,7 @@ public class LivingEntityMixin {
 								world.removeBlock(NewSculk.up(), true);
 							world.setBlockState(NewSculk.up(), sensor);
 						}
-					} else if (uniInt < 0.5) {
+					} else {
 							if (world.getBlockState(NewSculk.up()) == Blocks.WATER.getDefaultState()) {
 								world.setBlockState(NewSculk.up(), shrieker.with(Properties.WATERLOGGED, true));
 							} else if (world.getBlockState(NewSculk.up()).getBlock() != Blocks.WATER) {

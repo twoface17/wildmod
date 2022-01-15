@@ -67,6 +67,9 @@ implements GameEventListener {
             return false;
         }
         BlockPos blockPos2 = optional.get();
+        if (ShriekCounter.findWarden(world, blockPos2)) {
+            return false;
+        }
         if (!this.callback.accepts(world, this, blockPos, gameEvent, entity)) {
             return false;
         }

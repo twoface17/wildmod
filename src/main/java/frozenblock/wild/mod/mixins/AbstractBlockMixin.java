@@ -1,6 +1,9 @@
 package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
+import frozenblock.wild.mod.entity.WardenEntity;
+import frozenblock.wild.mod.fromAccurateSculk.SensorLastEntity;
+import frozenblock.wild.mod.fromAccurateSculk.ShriekCounter;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import net.minecraft.block.AbstractBlock;
@@ -8,6 +11,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -23,13 +27,18 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 
 @Mixin(AbstractBlock.class)
@@ -81,11 +90,29 @@ public class AbstractBlockMixin {
             return;
         }
         if(world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState() && entity.getType()!=RegisterEntities.WARDEN) {
-            SculkSensorBlock.setActive(world, pos, state, 10);
+            SensorLastEntity.addEntity(entity, pos, entity.getBlockPos(), null);
+            int lastEntity = SensorLastEntity.getLastEntity(pos);
+            LivingEntity target = (LivingEntity) world.getEntityById(lastEntity);
+            BlockPos lastEventPos = SensorLastEntity.getLastPos(pos);
+            if (lastEventPos!=null) {
+                Box box = new Box(pos.getX()-18, pos.getY()-18, pos.getZ()-18, pos.getX()+18, pos.getY()+18, pos.getZ()+18);
+                List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
+                Iterator<WardenEntity> var11 = list.iterator();
+                WardenEntity wardenEntity;
+                while (var11.hasNext()) {
+                    wardenEntity = var11.next();
+                        if (wardenEntity.getBlockPos().isWithinDistance(pos, 16)) {
+                        wardenEntity.sculkSensorListen(lastEventPos, pos, wardenEntity.getWorld(), target, UniformIntProvider.create(1,2).get(world.getRandom()));
+                        }
+                    }
+                }
+            SculkSensorBlock.setActive(world, pos, state, 15);
         }
         if(entity.getType()!=RegisterEntities.WARDEN && world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState() || world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(Properties.WATERLOGGED, true)) {
-            ((SculkShriekerBlock) Objects.requireNonNull(world.getBlockState(pos)).getBlock()).writeDir(world, pos, entity.getBlockPos());
-            SculkShriekerBlock.setActive(world, pos, state);
+            if (!ShriekCounter.findWarden(world, pos)) {
+                ((SculkShriekerBlock) Objects.requireNonNull(world.getBlockState(pos)).getBlock()).writeDir(world, pos, entity.getBlockPos());
+                SculkShriekerBlock.setStepActive(world, pos, state);
+            }
         }
     }
 

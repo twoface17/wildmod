@@ -4,6 +4,7 @@ import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -14,6 +15,7 @@ import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.tag.GameEventTags;
@@ -153,6 +155,7 @@ public class SculkCatalystListener implements GameEventListener {
     }
     public void sculk(BlockPos blockPos, World world, @Nullable Entity entity) {
         if (entity!=null) {
+            world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             BlockPos down = blockPos.down();
             if (!world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
                 if (SculkTags.THREE.contains(entity.getType())) {

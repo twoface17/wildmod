@@ -4,10 +4,12 @@ import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
 import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.SculkSensorPhase;
 import net.minecraft.server.ServerTask;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +27,7 @@ public class CatalystThreader {
         float threads = world.getGameRules().getInt(WildMod.SCULK_THREADS);
         int lbd = (int) Math.ceil(l * div);
         if (div > 0) {
+            world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             if (threads >= 21) {
                 for (int h = 0; h < lbd; h++) {
                     SculkThread T1 = new SculkThread("Sculk" + h);
@@ -118,19 +121,19 @@ class ActivatorThread extends Thread {
     }
 
     public void placeActiveOptim(double loop, double rVal, BlockPos pos, World world, int chnce) {
-        int chanceCheck = chnce - 1;
+        int chanceCheck = chnce + 4;
         for (int l = 0; l < loop; l++) {
-            if (UniformIntProvider.create(0, chnce).get(world.getRandom()) > chanceCheck) {
+            if (UniformIntProvider.create(0, chnce+5).get(world.getRandom()) > chanceCheck) {
                 double a = random() * 2 * PI;
                 double ra = rVal * sqrt(random());
                 int x = (int) (ra * cos(a));
                 int y = (int) (ra * sin(a));
                 BlockPos NewSculk = solidsculkCheck(pos.add(x, 0, y), world);
                 if (NewSculk.getY() != -64) {
-                        int uniInt = UniformIntProvider.create(0, 1).get(world.getRandom());
-                        if (uniInt > 0.5) {
+                        int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
+                        if (uniInt <= 16) {
                             ActivOptim1(sensor, world, NewSculk.up());
-                        } else if (uniInt < 0.5) {
+                        } else {
                             ActivOptim1(shrieker, world, NewSculk.up());
                         }
                     }
@@ -424,7 +427,7 @@ class SculkThread extends Thread {
         Objects.requireNonNull(world.getServer()).send(new ServerTask(0, runa2));
     }
     public void callDestroy(World world, BlockPos pos) {
-        Runnable runa = () -> world.removeBlock(pos, false);
+        Runnable runa = () -> world.setBlockState(pos, Blocks.AIR.getDefaultState());
          
         Objects.requireNonNull(world.getServer()).send(new ServerTask(0, runa));
     }
