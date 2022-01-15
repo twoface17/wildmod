@@ -48,10 +48,10 @@ public class SniffGoal extends Goal {
         if (this.mob.emergeTicksLeft>0) {
             return false;
         }
-        if (this.mob.getTrackingEntity()==null && this.mob.getWorld().getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null) {
+        if (this.mob.getTrackingEntity()==null && this.mob.getWorld().getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null && this.mob.sniffCooldown<=0) {
             exit = true;
         }
-        if (this.mob.getTrackingEntity()!=null && this.mob.getWorld().getTime()-this.mob.timeSinceLastTracking>160 && sniffEntity!=null) {
+        if (this.mob.getTrackingEntity()!=null && this.mob.getWorld().getTime()-this.mob.timeSinceLastTracking>160 && sniffEntity!=null && this.mob.sniffCooldown<=0) {
             exit=true;
         }
 
@@ -90,13 +90,12 @@ public class SniffGoal extends Goal {
 
         if (sniffEntity!=null) {
             if (MathAddon.distance(sniffEntity.getX(), sniffEntity.getY(), sniffEntity.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) <= 16) {
-                this.mob.sniffTicksLeft = 34;
-                this.mob.sniffCooldown = 134;
+                this.mob.sniffTicksLeft = 44;
+                this.mob.sniffCooldown = 144;
                 this.mob.sniffX = sniffEntity.getBlockPos().getX();
                 this.mob.sniffY = sniffEntity.getBlockPos().getY();
                 this.mob.sniffZ = sniffEntity.getBlockPos().getZ();
                 this.mob.sniffEntity=sniffEntity.getUuidAsString();
-                this.mob.vibrationTimer = this.mob.getWorld().getTime();
                 this.mob.getWorld().playSound(null, this.mob.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SNIFF, SoundCategory.HOSTILE, 1F, 1F);
                 this.mob.leaveTime = this.mob.getWorld().getTime() + 1200;
                 if (this.mob.getTrackingEntity()!=null && sniffEntity==this.mob.getTrackingEntity()) {
