@@ -4,6 +4,7 @@ import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.registry.*;
 import net.minecraft.block.SculkSensorBlock;
+import net.minecraft.client.RunArgs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -115,7 +116,11 @@ public class SimpleGameEventDispatcherMixin{
                             wardie.getEntityWorld() == eventworld &&
                             MathAddon.distance(eventpos.getX(), eventpos.getY(), eventpos.getZ(), wardie.getX(), wardie.getY(), wardie.getZ()) <= 15
                     ) {
+                        if (event!=GameEvent.PROJECTILE_LAND) {
                             wardie.listen(eventpos, eventworld, evententity, wardie.eventSuspicionValue(event, evententity));
+                        } else {
+                            wardie.listen(eventpos, eventworld, null, 0);
+                        }
                     }
                 }
             }
