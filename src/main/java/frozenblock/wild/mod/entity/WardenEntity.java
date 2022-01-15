@@ -178,7 +178,7 @@ public class WardenEntity extends HostileEntity {
             }
             this.addSuspicion(sniffEntity, extraSuspicion);
             if (sniffEntity!=this.getTrackingEntity()) {
-                this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(lastevententity), 0, 15) * 0.02) + (this.overallAnger() * 0.004)));
+                this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 15) * 0.02) + (this.overallAnger() * 0.004)));
             } else if (sniffEntity==this.getTrackingEntity()) {
                 this.followForTicks(sniffEntity, 35);
             }
