@@ -25,10 +25,6 @@ public class FireflyEntity extends MobEntity {
         return false;
     }
 
-    public boolean damage(DamageSource source, float amount) {
-        return false;
-    }
-
     public void tick() {
         this.world.addParticle(RegisterParticles.FIREFLY, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
     }
