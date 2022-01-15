@@ -291,6 +291,7 @@ public class WardenEntity extends HostileEntity {
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
         if (!(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
+            this.sniffTicksLeft=-1;
             this.lasteventpos = eventPos;
             this.lasteventworld = eventWorld;
             this.lastevententity = eventEntity;
@@ -334,6 +335,7 @@ public class WardenEntity extends HostileEntity {
 
     public void sculkSensorListen(BlockPos eventPos, BlockPos vibrationPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
         if (!(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
+            this.sniffTicksLeft=-1;
             this.lasteventpos = eventPos;
             this.lastevententity = eventEntity;
             this.lasteventworld = eventWorld;
