@@ -14,9 +14,7 @@
     "sounds": [
       "accuratesculk:gargle1",
       "accuratesculk:gargle2",
-      "accuratesculk:gargle3",
-      "accuratesculk:gargle4",
-      "accuratesculk:gargle5"
+      "accuratesculk:gargle3"
     ]
   },
   "block.sculk_shrieker.break": {
@@ -62,7 +60,7 @@
     ]
   },
   "block.sculk.fall": {
-    "subtitle": "subtitles.entity.generic.big_fall",
+    "subtitle": "subtitles.entity.generic.fall",
     "sounds": [
       "accuratesculk:block/sculk/step1",
       "accuratesculk:block/sculk/step2",
