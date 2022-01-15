@@ -68,7 +68,7 @@ public class SculkShriekerBlock
 
     public SculkShriekerBlock(Settings settings, int i) {
         super(settings);
-        this.setDefaultState(((this.stateManager.getDefaultState()).with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.INACTIVE)).with(WATERLOGGED, false).with(POWER, 0));
+        this.setDefaultState(((this.stateManager.getDefaultState()).with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.INACTIVE)).with(WATERLOGGED, false));
         this.range = i;
     }
 
@@ -199,11 +199,6 @@ public class SculkShriekerBlock
     }
 
     @Override
-    public boolean emitsRedstonePower(BlockState blockState) {
-        return false;
-    }
-
-    @Override
     public int getWeakRedstonePower(BlockState blockState, BlockView blockView, BlockPos blockPos, Direction direction) {
         return blockState.get(POWER);
     }
@@ -233,6 +228,56 @@ public class SculkShriekerBlock
             world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.ACTIVE)), 3);
             SculkShriekerBlock.updateNeighbors(world, blockPos);
             if (!world.isClient) {
+                if (!world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
+                    ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
+                    (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
+                    world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
+                    if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
+                        world.playSound(
+                                null,
+                                blockPos,
+                                RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
+                                SoundCategory.BLOCKS,
+                                1f,
+                                1F
+                        );
+                    }
+                } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
+                    ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setPrevTick(85);
+                    ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(80);
+                    (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
+                    world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
+                    world.playSound(
+                            null,
+                            blockPos,
+                            RegisterAccurateSculk.GARGLE_EVENT,
+                            SoundCategory.BLOCKS,
+                            0.3f,
+                            1f
+                    );
+                } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
+                    ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
+                    (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
+                    world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
+                    world.playSound(
+                            null,
+                            blockPos,
+                            RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
+                            SoundCategory.BLOCKS,
+                            1f,
+                            1f
+                    );
+                }
+            }
+        }
+    }
+
+    public static void setStepActive(World world, BlockPos blockPos, BlockState blockState) {
+        if (!ShriekCounter.findWarden(world, blockPos)) {
+            world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.ACTIVE)), 3);
+            SculkShriekerBlock.updateNeighbors(world, blockPos);
+            if (!world.isClient) {
+                ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setStepped(true);
                 if (!world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                     (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
@@ -417,8 +462,12 @@ public class SculkShriekerBlock
     )).nonOpaque(), 8);
 
     public static void setCooldown(World world, BlockPos blockPos, BlockState blockState) {
-        world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.COOLDOWN)).with(POWER, 0), 3);
-        world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
+        world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.COOLDOWN)), 3);
+        if (((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).getStepped()) {
+            world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 20);
+        } else {
+            world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
+        }
         if(!world.isClient) {
             if (world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK) && world.getBlockState(blockPos.down()).getBlock() == RegisterBlocks.SCULK) {
                 sendDarkness(8, blockPos, world);
