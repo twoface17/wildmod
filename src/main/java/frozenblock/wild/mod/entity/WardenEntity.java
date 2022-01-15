@@ -305,7 +305,7 @@ public class WardenEntity extends HostileEntity {
                 if(this.getTrackingEntity()!=null && eventEntity==this.getTrackingEntity()) {
                     this.timeSinceLastTracking=this.world.getTime();
                 }
-                if (this.world.getTime()-reactionSoundTimer>60) {
+                if (this.world.getTime()-reactionSoundTimer>40) {
                     this.reactionSoundTimer=this.world.getTime();
                     if (getSuspicion(eventEntity)<15 && getSuspicion(eventEntity)>10) {
                         //ENTITY_WARDEN_ANGRY or VERY_ANGRY
@@ -321,7 +321,7 @@ public class WardenEntity extends HostileEntity {
                 }
             } else {
                 this.timeSinceNonEntity = this.world.getTime();
-                if (this.world.getTime()-reactionSoundTimer>60) {
+                if (this.world.getTime()-reactionSoundTimer>40) {
                     this.reactionSoundTimer = this.world.getTime();
                     if (this.overallAnger()<5) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
