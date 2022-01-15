@@ -611,7 +611,9 @@
 	"entity.warden.slightly_angry": {
 		"sounds": [
 			"twm:entity/warden/slightly_angry_1",
-			"twm:entity/warden/slightly_angry_2"
+			"twm:entity/warden/slightly_angry_2",
+			"twm:entity/warden/slightly_angry_3",
+			"twm:entity/warden/slightly_angry_4"
 		],
 		"subtitle": "subtitles.entity.warden.slightly_angry"
 	},
