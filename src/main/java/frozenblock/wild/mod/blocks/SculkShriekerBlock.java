@@ -59,7 +59,7 @@ public class SculkShriekerBlock
     public static final int field_31240 = 1;
     public static final EnumProperty<SculkShriekerPhase> SCULK_SHRIEKER_PHASE = NewProperties.SCULK_SHRIEKER_PHASE;
     public static final IntProperty POWER = Properties.POWER;
-    protected static final VoxelShape OUTLINE_SHAPE = Block.createCuboidShape(0.5, 0.0, 0.5, 15.5, 7.0, 15.5);
+    protected static final VoxelShape OUTLINE_SHAPE = Block.createCuboidShape(0, 0.0, 0, 16, 8.0, 16);
     private final int range;
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public int getRange() {
