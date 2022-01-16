@@ -519,6 +519,21 @@
 		],
 		"subtitle": "subtitles.entity.warden.ambient"
 	},
+	"entity.warden.slightly_angry": {
+		"sounds": [
+			"twm:entity/warden/slightly_angry_1",
+			"twm:entity/warden/slightly_angry_2",
+			"twm:entity/warden/slightly_angry_3",
+			"twm:entity/warden/slightly_angry_4"
+		],
+		"subtitle": "subtitles.entity.warden.slightly_angry"
+	},
+	"entity.warden.angry": {
+		"sounds": [
+			"twm:entity/warden/angry_1"
+		],
+		"subtitle": "subtitles.entity.warden.angry"
+	},
 	"entity.warden.close": {
 		"sounds": [
 			"twm:entity/warden/nearby_close_1",
@@ -607,15 +622,6 @@
 			"twm:entity/warden/roar"
 		],
 		"subtitle": "subtitles.entity.warden.roar"
-	},
-	"entity.warden.slightly_angry": {
-		"sounds": [
-			"twm:entity/warden/slightly_angry_1",
-			"twm:entity/warden/slightly_angry_2",
-			"twm:entity/warden/slightly_angry_3",
-			"twm:entity/warden/slightly_angry_4"
-		],
-		"subtitle": "subtitles.entity.warden.slightly_angry"
 	},
 	"entity.warden.attack": {
 		"sounds": [
