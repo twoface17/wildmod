@@ -23,8 +23,9 @@ public class WildMod implements ModInitializer {
 
         RegisterAccurateSculk.RegisterAccurateSculk();
     }
-    
 
+    public static final GameRules.Key<GameRules.BooleanRule> DARKNESS_ENABLED =
+            GameRuleRegistry.register("doDarkness", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
     public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_NEEDS_SCULK =
             GameRuleRegistry.register("shriekerNeedsSculk", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
     public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_SHRIEKS =
