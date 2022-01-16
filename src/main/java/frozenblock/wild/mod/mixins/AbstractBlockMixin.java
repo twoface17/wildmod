@@ -51,7 +51,7 @@ public class AbstractBlockMixin {
 
             if (itemStack.isItemEqual(Items.POTION.getDefaultStack())) {
                 if (PotionUtil.getPotion(itemStack) == Potions.WATER) {
-                    world.setBlockState(pos, RegisterBlocks.MUD.getDefaultState());
+                    world.setBlockState(pos, RegisterBlocks.MUD_BLOCK.getDefaultState());
                     if (!world.isClient) {
                         world.playSound(
                                 null,
@@ -61,7 +61,7 @@ public class AbstractBlockMixin {
                                 1f,
                                 1f
                         );
-                        ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, RegisterBlocks.MUD.getDefaultState()),
+                        ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, RegisterBlocks.MUD_BLOCK.getDefaultState()),
                                 hit.getBlockPos().getX() + 0.5,
                                 hit.getBlockPos().getY() + 0.5,
                                 hit.getBlockPos().getZ() + 0.5,
