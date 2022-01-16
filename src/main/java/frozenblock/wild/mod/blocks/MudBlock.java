@@ -49,7 +49,7 @@ public class MudBlock extends Block {
                 world.playSound(
                         null,
                         pos,
-                        SoundEvents.BLOCK_GRAVEL_BREAK,
+                        RegisterSounds.BLOCK_MUD_STEP,
                         SoundCategory.BLOCKS,
                         1f,
                         1f
