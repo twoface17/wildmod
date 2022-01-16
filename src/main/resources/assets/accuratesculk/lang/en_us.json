@@ -9,5 +9,6 @@
   "gamerule.sculkThreading": "Multithreaded Sculk Growths",
   "gamerule.sculkThreads": "Threads Available to Sculk Growths",
   "gamerule.upwardSpread": "Upward Spread of Sculk Growths",
-  "gamerule.downwardSpread": "Downward Spread of Sculk Growths"
+  "gamerule.downwardSpread": "Downward Spread of Sculk Growths",
+  "gamerule.doDarkness": "Darkness Enabled"
 }
