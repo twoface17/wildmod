@@ -40,6 +40,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -59,7 +60,8 @@ public class SculkShriekerBlock
     public static final int field_31240 = 1;
     public static final EnumProperty<SculkShriekerPhase> SCULK_SHRIEKER_PHASE = NewProperties.SCULK_SHRIEKER_PHASE;
     public static final IntProperty POWER = Properties.POWER;
-    protected static final VoxelShape OUTLINE_SHAPE = Block.createCuboidShape(0, 0.0, 0, 16, 8.0, 16);
+    private static final VoxelShape SHAPE = VoxelShapes.union(Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.createCuboidShape(1.0D, 8.0D, 1.0D, 15.0D, 16D, 15.0D));
+    private static final VoxelShape COLLISION = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
     private final int range;
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public int getRange() {
@@ -195,7 +197,12 @@ public class SculkShriekerBlock
 
     @Override
     public VoxelShape getOutlineShape(BlockState blockState, BlockView blockView, BlockPos blockPos, ShapeContext shapeContext) {
-        return OUTLINE_SHAPE;
+        return SHAPE;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState blockState, BlockView blockView, BlockPos blockPos, ShapeContext shapeContext) {
+        return COLLISION;
     }
 
     @Override
