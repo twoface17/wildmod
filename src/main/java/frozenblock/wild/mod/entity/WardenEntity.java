@@ -68,6 +68,7 @@ public class WardenEntity extends HostileEntity {
 
     public int followingEntity;
     public int followTicksLeft;
+    public int attackCooldown;
 
     public int hearbeatTime = 60;
     public long nextHeartBeat;
@@ -122,6 +123,9 @@ public class WardenEntity extends HostileEntity {
         }
         if(this.roarTicksLeft1 > 0) {
             --this.roarTicksLeft1;
+        }
+        if(this.attackCooldown > 0) {
+            --this.attackCooldown;
         }
         if(this.emergeTicksLeft > 0 && !this.hasEmerged) {
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
@@ -214,12 +218,13 @@ public class WardenEntity extends HostileEntity {
         float f = this.getAttackDamage();
         float g = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
         boolean bl = target.damage(DamageSource.mob(this), g);
-        if (bl) {
+        if (bl && this.attackCooldown<=0) {
             this.attackTicksLeft1 = 10;
             this.world.sendEntityStatus(this, (byte)4);
             target.setVelocity(target.getVelocity().add(0.0D, 0.4000000059604645D, 0.0D));
             this.applyDamageEffects(this, target);
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_ATTACK, SoundCategory.HOSTILE, 1.0F,1.0F);
+            this.attackCooldown=35;
         }
         return bl;
     }
@@ -519,6 +524,7 @@ public class WardenEntity extends HostileEntity {
         nbt.putString("trackingEntity", this.trackingEntity);
         nbt.putInt("sniffTicksLeft", this.sniffTicksLeft);
         nbt.putInt("sniffCooldown", this.sniffCooldown);
+        nbt.putInt("attackCooldown", this.attackCooldown);
         nbt.putInt("sniffX", this.sniffX);
         nbt.putInt("sniffY", this.sniffY);
         nbt.putInt("sniffZ", this.sniffZ);
@@ -540,6 +546,7 @@ public class WardenEntity extends HostileEntity {
         this.trackingEntity = nbt.getString("trackingEntity");
         this.sniffTicksLeft = nbt.getInt("sniffTicksLeft");
         this.sniffCooldown = nbt.getInt("sniffCooldown");
+        this.attackCooldown = nbt.getInt("attackCooldown");
         this.sniffX = nbt.getInt("sniffX");
         this.sniffY = nbt.getInt("sniffY");
         this.sniffZ = nbt.getInt("sniffZ");
