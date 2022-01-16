@@ -568,7 +568,7 @@ public class WardenEntity extends HostileEntity {
         List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=16 && target.isAlive()) {
+                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=24 && target.isAlive()) {
                     anger = anger + this.getSuspicion(target);
                 }
             }
