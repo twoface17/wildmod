@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 
+import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.liukrastapi.*;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
@@ -123,29 +124,27 @@ public class WardenEntity extends HostileEntity {
 
 
     public void tickMovement() {
-
-        if (this.isAlive()) {
-            boolean bl = this.burnsInDaylight() && this.isAffectedByDaylight();
-            if (bl) {
-                ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
-                if (!itemStack.isEmpty()) {
-                    if (itemStack.isDamageable()) {
-                        itemStack.setDamage(itemStack.getDamage() + this.random.nextInt(2));
-                        if (itemStack.getDamage() >= itemStack.getMaxDamage()) {
-                            this.sendEquipmentBreakStatus(EquipmentSlot.HEAD);
-                            this.equipStack(EquipmentSlot.HEAD, ItemStack.EMPTY);
-                        }
-                    }
-
-                    bl = false;
-                }
-
+        if (world.getGameRules().getBoolean(WildMod.WARDEN_BURNS)) {
+            if (this.isAlive()) {
+                boolean bl = this.burnsInDaylight() && this.isAffectedByDaylight();
                 if (bl) {
-                    this.setOnFireFor(8);
+                    ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
+                    if (!itemStack.isEmpty()) {
+                        if (itemStack.isDamageable()) {
+                            itemStack.setDamage(itemStack.getDamage() + this.random.nextInt(2));
+                            if (itemStack.getDamage() >= itemStack.getMaxDamage()) {
+                                this.sendEquipmentBreakStatus(EquipmentSlot.HEAD);
+                                this.equipStack(EquipmentSlot.HEAD, ItemStack.EMPTY);
+                            }
+                        }
+                        bl = false;
+                    }
+                    if (bl) {
+                        this.setOnFireFor(8);
+                    }
                 }
             }
         }
-
         if(this.attackTicksLeft1 > 0) {
             --this.attackTicksLeft1;
         }
