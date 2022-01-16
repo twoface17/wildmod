@@ -218,14 +218,16 @@ public class SculkShriekerBlock
         return SculkShriekerBlock.getPhase(blockState) == SculkShriekerPhase.INACTIVE;
     }
     public static void sendDarkness(int dist, BlockPos blockPos, World world) {
-        Box box = (new Box(blockPos.add(-10, -10, -10), blockPos.add(10,10,10)));
-        List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
-        Iterator<PlayerEntity> var11 = list.iterator();
-        PlayerEntity playerEntity;
-        while (var11.hasNext()) {
-            playerEntity = var11.next();
-            if (playerEntity.getBlockPos().isWithinDistance(blockPos, (dist+1))) {
-                playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 600, 0, true, false, false));
+        if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
+            Box box = (new Box(blockPos.add(-10, -10, -10), blockPos.add(10, 10, 10)));
+            List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
+            Iterator<PlayerEntity> var11 = list.iterator();
+            PlayerEntity playerEntity;
+            while (var11.hasNext()) {
+                playerEntity = var11.next();
+                if (playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
+                    playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 600, 0, true, false, false));
+                }
             }
         }
     }
