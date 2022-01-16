@@ -1,7 +1,13 @@
 {
   "variants": {
-    "": {
-      "model": "twm:block/mud"
-    }
+    "": [
+      {
+        "model": "twm:block/mud"
+      },
+      {
+        "model": "twm:block/mud",
+        "y": 180
+      }
+    ]
   }
 }
