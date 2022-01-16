@@ -252,7 +252,7 @@ public class SculkShriekerBlock
                             blockPos,
                             RegisterAccurateSculk.GARGLE_EVENT,
                             SoundCategory.BLOCKS,
-                            0.3f,
+                            1f,
                             1f
                     );
                 } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
