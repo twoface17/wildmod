@@ -49,7 +49,7 @@ public class MudBlock extends Block {
                 world.playSound(
                         null,
                         pos,
-                        RegisterSounds.BLOCK_MUD_STEP,
+                        SoundEvents.ITEM_HONEYCOMB_WAX_ON,
                         SoundCategory.BLOCKS,
                         1f,
                         1f
