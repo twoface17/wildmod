@@ -6,9 +6,7 @@ import frozenblock.wild.mod.liukrastapi.FrogMateGoal;
 import frozenblock.wild.mod.liukrastapi.FrogWanderInWaterGoal;
 import frozenblock.wild.mod.liukrastapi.LayFrogEggGoal;
 import frozenblock.wild.mod.registry.RegisterBlocks;
-import frozenblock.wild.mod.registry.RegisterItems;
 import frozenblock.wild.mod.registry.RegisterSounds;
-import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.MoveControl;
@@ -21,22 +19,17 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
@@ -65,6 +58,8 @@ public class FrogEntity extends AnimalEntity {
     private int tongue;
 
     public long eatTimer = 0;
+    public int targetRemoveTimer;
+    public int targetID;
 
     public FrogEntity(EntityType<? extends FrogEntity> entityType, World world) {
         super(entityType, world);
@@ -118,7 +113,9 @@ public class FrogEntity extends AnimalEntity {
         super.tickMovement();
         if(this.tongue > 0) {
             --this.tongue;
-            System.out.println(this.tongue);
+        }
+        if(this.targetRemoveTimer > 0) {
+            --this.targetRemoveTimer;
         }
         if (this.getBreedingAge() != 0) {
             this.loveTicks = 0;
@@ -134,13 +131,17 @@ public class FrogEntity extends AnimalEntity {
         }
         if (this.hasFrogEgg() && canPlace(this.world, this.getBlockPos())) {
             World world = this.world;
-            world.playSound((PlayerEntity) null, this.getBlockPos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
-            world.setBlockState(this.getBlockPos().up(), (BlockState) RegisterBlocks.FROG_EGG.getDefaultState(), 3);
+            world.playSound(null, this.getBlockPos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
+            world.setBlockState(this.getBlockPos().up(), RegisterBlocks.FROG_EGG.getDefaultState(), 3);
             world.syncWorldEvent(2005, this.getBlockPos().up(), 0);
             world.createAndScheduleBlockTick(this.getBlockPos(), world.getBlockState(this.getBlockPos()).getBlock(), UniformIntProvider.create(400, 1800).get(world.getRandom()));
             this.setHasEgg(false);
             this.setLoveTicks(600);
         }
+    }
+    
+    public LivingEntity getTarget() {
+        return (LivingEntity) world.getEntityById(this.targetID);
     }
 
     @Override
@@ -188,6 +189,8 @@ public class FrogEntity extends AnimalEntity {
         nbt.putInt("TravelPosX", this.getTravelPos().getX());
         nbt.putInt("TravelPosY", this.getTravelPos().getY());
         nbt.putInt("TravelPosZ", this.getTravelPos().getZ());
+        nbt.putInt("targetID", this.targetID);
+        nbt.putInt("targetRemoveTimer", this.targetRemoveTimer);
     }
 
     public FrogEntity.Variant getVariant() {
@@ -211,6 +214,8 @@ public class FrogEntity extends AnimalEntity {
         int l = nbt.getInt("TravelPosX");
         int m = nbt.getInt("TravelPosY");
         int n = nbt.getInt("TravelPosZ");
+        this.targetID = nbt.getInt("targetID");
+        this.targetRemoveTimer = nbt.getInt("targetRemoveTimer");
         this.setTravelPos(new BlockPos(l, m, n));
     }
 
