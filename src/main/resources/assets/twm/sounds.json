@@ -530,7 +530,7 @@
 	},
 	"entity.warden.angry": {
 		"sounds": [
-			"twm:entity/warden/angry_1"
+			"twm:entity/warden/angry1"
 		],
 		"subtitle": "subtitles.entity.warden.angry"
 	},
