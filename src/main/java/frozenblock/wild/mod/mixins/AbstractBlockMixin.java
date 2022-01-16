@@ -90,22 +90,24 @@ public class AbstractBlockMixin {
             return;
         }
         if(world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState() && entity.getType()!=RegisterEntities.WARDEN) {
-            SensorLastEntity.addEntity(entity, pos, entity.getBlockPos(), null);
-            int lastEntity = SensorLastEntity.getLastEntity(pos);
-            LivingEntity target = (LivingEntity) world.getEntityById(lastEntity);
-            BlockPos lastEventPos = SensorLastEntity.getLastPos(pos);
-            if (lastEventPos!=null) {
-                Box box = new Box(pos.getX()-18, pos.getY()-18, pos.getZ()-18, pos.getX()+18, pos.getY()+18, pos.getZ()+18);
-                List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
-                Iterator<WardenEntity> var11 = list.iterator();
-                WardenEntity wardenEntity;
-                while (var11.hasNext()) {
-                    wardenEntity = var11.next();
+            if (entity instanceof LivingEntity) {
+                SensorLastEntity.addEntity(entity, pos, entity.getBlockPos(), null);
+                int lastEntity = SensorLastEntity.getLastEntity(pos);
+                LivingEntity target = (LivingEntity) world.getEntityById(lastEntity);
+                BlockPos lastEventPos = SensorLastEntity.getLastPos(pos);
+                if (lastEventPos != null) {
+                    Box box = new Box(pos.getX() - 18, pos.getY() - 18, pos.getZ() - 18, pos.getX() + 18, pos.getY() + 18, pos.getZ() + 18);
+                    List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
+                    Iterator<WardenEntity> var11 = list.iterator();
+                    WardenEntity wardenEntity;
+                    while (var11.hasNext()) {
+                        wardenEntity = var11.next();
                         if (wardenEntity.getBlockPos().isWithinDistance(pos, 16)) {
-                        wardenEntity.sculkSensorListen(lastEventPos, pos, wardenEntity.getWorld(), target, UniformIntProvider.create(1,2).get(world.getRandom()));
+                            wardenEntity.sculkSensorListen(lastEventPos, pos, wardenEntity.getWorld(), target, UniformIntProvider.create(1, 2).get(world.getRandom()));
                         }
                     }
                 }
+            }
             SculkSensorBlock.setActive(world, pos, state, 15);
         }
         if(entity.getType()!=RegisterEntities.WARDEN && world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState() || world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(Properties.WATERLOGGED, true)) {
