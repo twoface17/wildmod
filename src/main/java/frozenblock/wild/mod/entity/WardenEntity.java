@@ -86,6 +86,7 @@ public class WardenEntity extends HostileEntity {
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
+        this.stepHeight = 1.0F;
     }
 
     public static DefaultAttributeContainer.Builder createWardenAttributes() {
