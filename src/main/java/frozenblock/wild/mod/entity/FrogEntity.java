@@ -6,6 +6,7 @@ import frozenblock.wild.mod.liukrastapi.FrogMateGoal;
 import frozenblock.wild.mod.liukrastapi.FrogWanderInWaterGoal;
 import frozenblock.wild.mod.liukrastapi.LayFrogEggGoal;
 import frozenblock.wild.mod.registry.RegisterBlocks;
+import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
@@ -23,6 +24,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
@@ -79,10 +81,11 @@ public class FrogEntity extends AnimalEntity {
     }
 
     public static boolean canColdSpawn(World world, BlockPos pos) {
-        return world.getBiome(pos).isCold(pos) || world.getBiome(pos).getCategory().equals(Biome.Category.ICY)  || world.getBiome(pos).getCategory().equals(Biome.Category.THEEND);
+        return world.getBiome(pos).isCold(pos) || world.getBiome(pos).getCategory().equals(Biome.Category.ICY) || world.getBiome(pos).getCategory().equals(Biome.Category.THEEND);
     }
+
     public static boolean canWarmSpawn(World world, BlockPos pos) {
-        return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT)  || world.getBiome(pos).getCategory().equals(Biome.Category.NETHER);
+        return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT) || world.getBiome(pos).getCategory().equals(Biome.Category.NETHER);
     }
 
     void setTravelPos(BlockPos pos) {
@@ -90,11 +93,11 @@ public class FrogEntity extends AnimalEntity {
     }
 
     BlockPos getTravelPos() {
-        return (BlockPos)this.dataTracker.get(TRAVEL_POS);
+        return (BlockPos) this.dataTracker.get(TRAVEL_POS);
     }
 
     public boolean hasFrogEgg() {
-        return (Boolean)this.dataTracker.get(HAS_FROG_EGG);
+        return (Boolean) this.dataTracker.get(HAS_FROG_EGG);
     }
 
     public void setHasEgg(boolean hasfrogEgg) {
@@ -111,10 +114,10 @@ public class FrogEntity extends AnimalEntity {
 
     public void tickMovement() {
         super.tickMovement();
-        if(this.tongue > 0) {
+        if (this.tongue > 0) {
             --this.tongue;
         }
-        if(this.targetRemoveTimer > 0) {
+        if (this.targetRemoveTimer > 0) {
             --this.targetRemoveTimer;
         }
         if (this.getBreedingAge() != 0) {
@@ -138,15 +141,19 @@ public class FrogEntity extends AnimalEntity {
             this.setHasEgg(false);
             this.setLoveTicks(600);
         }
+        if (this.targetRemoveTimer == 0 && this.getTarget() != null) {
+            this.dropItems(this.world, this.getTarget());
+            this.getTarget().remove(RemovalReason.KILLED);
+        }
     }
-    
+
     public LivingEntity getTarget() {
         return (LivingEntity) world.getEntityById(this.targetID);
     }
 
     @Override
     public boolean isSubmergedInWater() {
-        if(this.getEntityWorld().getBlockState(new BlockPos(this.getPos().x, this.getPos().y - 1/16f, this.getPos().z)) == Blocks.WATER.getDefaultState()) {
+        if (this.getEntityWorld().getBlockState(new BlockPos(this.getPos().x, this.getPos().y - 1 / 16f, this.getPos().z)) == Blocks.WATER.getDefaultState()) {
             return true;
         } else {
             return this.submergedInWater && this.isTouchingWater();
@@ -157,9 +164,9 @@ public class FrogEntity extends AnimalEntity {
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         if (spawnReason == SpawnReason.COMMAND || spawnReason == SpawnReason.SPAWN_EGG || spawnReason == SpawnReason.SPAWNER || spawnReason == SpawnReason.DISPENSER) {
-            if(canColdSpawn(this.getEntityWorld(), this.getBlockPos())) {
+            if (canColdSpawn(this.getEntityWorld(), this.getBlockPos())) {
                 this.setVariant(Variant.COLD);
-            } else if(canWarmSpawn(this.getEntityWorld(), this.getBlockPos())) {
+            } else if (canWarmSpawn(this.getEntityWorld(), this.getBlockPos())) {
                 this.setVariant(Variant.WARM);
             }
         }
@@ -234,7 +241,9 @@ public class FrogEntity extends AnimalEntity {
         return stack.isOf(Blocks.SEAGRASS.asItem());
     }
 
-    protected SoundEvent getAmbientSound() {return RegisterSounds.ENTITY_FROG_AMBIENT;}
+    protected SoundEvent getAmbientSound() {
+        return RegisterSounds.ENTITY_FROG_AMBIENT;
+    }
 
     protected SoundEvent getHurtSound(DamageSource source) {
         return RegisterSounds.ENTITY_FROG_HURT;
@@ -244,7 +253,9 @@ public class FrogEntity extends AnimalEntity {
         return RegisterSounds.ENTITY_FROG_DEATH;
     }
 
-    protected SoundEvent getStepSound() {return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;}
+    protected SoundEvent getStepSound() {
+        return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;
+    }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
@@ -288,7 +299,7 @@ public class FrogEntity extends AnimalEntity {
         if (status == 4) {
             this.tongue = 10;
         } else if (status == 18) {
-            for(int i = 0; i < 7; ++i) {
+            for (int i = 0; i < 7; ++i) {
                 double d = this.random.nextGaussian() * 0.02D;
                 double e = this.random.nextGaussian() * 0.02D;
                 double f = this.random.nextGaussian() * 0.02D;
@@ -303,44 +314,65 @@ public class FrogEntity extends AnimalEntity {
         return world.isAir(pos.up()) && FrogEggBlock.isWater(world, pos);
     }
 
-}
-
-class FrogMoveControl extends MoveControl {
-    private final FrogEntity frog;
-
-    FrogMoveControl(FrogEntity frog) {
-        super(frog);
-        this.frog = frog;
+    public void dropItems(World world, LivingEntity entity) {
+        if (entity.getType() == EntityType.MAGMA_CUBE) {
+            if (this.getVariant() == FrogEntity.Variant.TEMPERATE) {
+                this.dropItem(RegisterBlocks.OCHRE_FROGLIGHT.asItem(), 0);
+            } else if (this.getVariant() == FrogEntity.Variant.COLD) {
+                this.dropItem(RegisterBlocks.VERDANT_FROGLIGHT.asItem(), 0);
+            } else if (this.getVariant() == FrogEntity.Variant.WARM) {
+                this.dropItem(RegisterBlocks.PEARLESCENT_FROGLIGHT.asItem(), 0);
+            }
+            for (int i = 0; i < 4; i++) {
+                if (UniformIntProvider.create(0, 3).get(world.getRandom()) > 2) {
+                    this.dropItem(Items.MAGMA_CREAM);
+                }
+            }
+        }
+        if (entity.getType() == EntityType.SLIME) {
+            for (int i = 0; i < UniformIntProvider.create(1, 3).get(world.getRandom()); i++) {
+                this.dropItem(Items.SLIME_BALL);
+            }
+        }
     }
 
-    private void updateVelocity() {
-        if (this.frog.isTouchingWater()) {
-            this.frog.setVelocity(this.frog.getVelocity().add(0.0D, 0.005D, 0.0D));
-            if (!this.frog.getBlockPos().isWithinDistance(this.frog.getPos(), 16.0D)) {
-                this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.08F));
-            }
-        } else if (this.frog.isOnGround()) {
-            this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.06F));
+    class FrogMoveControl extends MoveControl {
+        private final FrogEntity frog;
+
+        FrogMoveControl(FrogEntity frog) {
+            super(frog);
+            this.frog = frog;
         }
 
-    }
+        private void updateVelocity() {
+            if (this.frog.isTouchingWater()) {
+                this.frog.setVelocity(this.frog.getVelocity().add(0.0D, 0.005D, 0.0D));
+                if (!this.frog.getBlockPos().isWithinDistance(this.frog.getPos(), 16.0D)) {
+                    this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.08F));
+                }
+            } else if (this.frog.isOnGround()) {
+                this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.06F));
+            }
 
-    public void tick() {
-        this.updateVelocity();
-        if (this.state == State.MOVE_TO && !this.frog.getNavigation().isIdle()) {
-            double d = this.targetX - this.frog.getX();
-            double e = this.targetY - this.frog.getY();
-            double f = this.targetZ - this.frog.getZ();
-            double g = Math.sqrt(d * d + e * e + f * f);
-            e /= g;
-            float h = (float)(MathHelper.atan2(f, d) * 57.2957763671875D) - 90.0F;
-            this.frog.setYaw(this.wrapDegrees(this.frog.getYaw(), h, 90.0F));
-            this.frog.bodyYaw = this.frog.getYaw();
-            float i = (float)(this.speed * this.frog.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED));
-            this.frog.setMovementSpeed(MathHelper.lerp(0.125F, this.frog.getMovementSpeed(), i));
-            this.frog.setVelocity(this.frog.getVelocity().add(0.0D, (double)this.frog.getMovementSpeed() * e * 0.1D, 0.0D));
-        } else {
-            this.frog.setMovementSpeed(0.0F);
+        }
+
+        public void tick() {
+            this.updateVelocity();
+            if (this.state == State.MOVE_TO && !this.frog.getNavigation().isIdle()) {
+                double d = this.targetX - this.frog.getX();
+                double e = this.targetY - this.frog.getY();
+                double f = this.targetZ - this.frog.getZ();
+                double g = Math.sqrt(d * d + e * e + f * f);
+                e /= g;
+                float h = (float) (MathHelper.atan2(f, d) * 57.2957763671875D) - 90.0F;
+                this.frog.setYaw(this.wrapDegrees(this.frog.getYaw(), h, 90.0F));
+                this.frog.bodyYaw = this.frog.getYaw();
+                float i = (float) (this.speed * this.frog.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED));
+                this.frog.setMovementSpeed(MathHelper.lerp(0.125F, this.frog.getMovementSpeed(), i));
+                this.frog.setVelocity(this.frog.getVelocity().add(0.0D, (double) this.frog.getMovementSpeed() * e * 0.1D, 0.0D));
+            } else {
+                this.frog.setMovementSpeed(0.0F);
+            }
         }
     }
 }
