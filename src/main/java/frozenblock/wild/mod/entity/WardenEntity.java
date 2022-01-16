@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 
+import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.liukrastapi.*;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
@@ -15,6 +16,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -91,6 +93,10 @@ public class WardenEntity extends HostileEntity {
         return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 31.0D);
     }
 
+    protected boolean burnsInDaylight() {
+        return true;
+    }
+
     @Override
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
@@ -118,6 +124,27 @@ public class WardenEntity extends HostileEntity {
 
 
     public void tickMovement() {
+        if (world.getGameRules().getBoolean(WildMod.WARDEN_BURNS)) {
+            if (this.isAlive()) {
+                boolean bl = this.burnsInDaylight() && this.isAffectedByDaylight();
+                if (bl) {
+                    ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
+                    if (!itemStack.isEmpty()) {
+                        if (itemStack.isDamageable()) {
+                            itemStack.setDamage(itemStack.getDamage() + this.random.nextInt(2));
+                            if (itemStack.getDamage() >= itemStack.getMaxDamage()) {
+                                this.sendEquipmentBreakStatus(EquipmentSlot.HEAD);
+                                this.equipStack(EquipmentSlot.HEAD, ItemStack.EMPTY);
+                            }
+                        }
+                        bl = false;
+                    }
+                    if (bl) {
+                        this.setOnFireFor(8);
+                    }
+                }
+            }
+        }
         if(this.attackTicksLeft1 > 0) {
             --this.attackTicksLeft1;
         }
