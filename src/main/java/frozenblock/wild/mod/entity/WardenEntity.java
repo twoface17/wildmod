@@ -124,7 +124,6 @@ public class WardenEntity extends HostileEntity {
 
 
     public void tickMovement() {
-        if (world.getGameRules().getBoolean(WildMod.WARDEN_BURNS)) {
             if (this.isAlive()) {
                 boolean bl = this.burnsInDaylight() && this.isAffectedByDaylight();
                 if (bl) {
@@ -144,7 +143,6 @@ public class WardenEntity extends HostileEntity {
                     }
                 }
             }
-        }
         if(this.attackTicksLeft1 > 0) {
             --this.attackTicksLeft1;
         }
