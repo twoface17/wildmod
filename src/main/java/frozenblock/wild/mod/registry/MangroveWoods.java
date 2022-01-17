@@ -32,7 +32,6 @@ public abstract class MangroveWoods {
     public static final PressurePlateBlock MANGROVE_PRESSURE_PLATE = new MangrovePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, WOOD_PROPERTIES);
     public static final Block MANGROVE_TRAPDOOR = new MangroveTrapdoor(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_LEAVES = new MangroveLeaves();
-    public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
     public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES.nonOpaque().strength(0.5f, 0.5f).sounds(new BlockSoundGroup(1.0f, 1.0f,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
                 RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
@@ -47,6 +46,7 @@ public abstract class MangroveWoods {
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_HIT,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_FALL
     )));
+    public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
 
     public static void RegisterMangrove() {
             
