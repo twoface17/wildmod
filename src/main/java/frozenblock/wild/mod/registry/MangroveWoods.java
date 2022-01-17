@@ -9,6 +9,7 @@ import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.SignType;
 import net.minecraft.util.registry.Registry;
@@ -33,12 +34,12 @@ public abstract class MangroveWoods {
     public static final Block MANGROVE_TRAPDOOR = new MangroveTrapdoor(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_LEAVES = new MangroveLeaves();
     public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES.nonOpaque().strength(0.5f, 0.5f).sounds(new BlockSoundGroup(1.0f, 1.0f,
-                RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
-                RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
-                RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
-                RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
-                RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
-        )));
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
+    )));
     public static final MangrovePropagule MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).hardness(0.5F).sounds(new BlockSoundGroup(1.0f, 1.0f,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_BREAK,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_STEP,
@@ -46,7 +47,13 @@ public abstract class MangroveWoods {
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_HIT,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_FALL
     )));
-    public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision());
+    public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision().sounds(new BlockSoundGroup(1.0f, 1.0f,
+            SoundEvents.BLOCK_WOOD_BREAK,
+            SoundEvents.BLOCK_WOOD_STEP,
+            SoundEvents.BLOCK_WOOD_PLACE,
+            SoundEvents.BLOCK_WOOD_HIT,
+            SoundEvents.BLOCK_WOOD_FALL
+    )));
 
     public static void RegisterMangrove() {
             
