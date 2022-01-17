@@ -128,6 +128,59 @@
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
+	"block.propagule.break": {
+		"sounds": [
+			"twm:block/propagule/break1",
+			"twm:block/propagule/break2",
+			"twm:block/propagule/break3",
+			"twm:block/propagule/break4",
+			"twm:block/propagule/break5"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.propagule.fall": {
+		"sounds": [
+			"twm:block/propagule/step1",
+			"twm:block/propagule/step2",
+			"twm:block/propagule/step3",
+			"twm:block/propagule/step4",
+			"twm:block/propagule/step5",
+			"twm:block/propagule/step6"
+		],
+		"subtitle": "subtitles.block.generic.fall"
+	},
+	"block.propagule.hit": {
+		"sounds": [
+			"twm:block/propagule/step1",
+			"twm:block/propagule/step2",
+			"twm:block/propagule/step3",
+			"twm:block/propagule/step4",
+			"twm:block/propagule/step5",
+			"twm:block/propagule/step6"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"block.propagule.place": {
+		"sounds": [
+			"twm:block/propagule/break1",
+			"twm:block/propagule/break2",
+			"twm:block/propagule/break3",
+			"twm:block/propagule/break4",
+			"twm:block/propagule/break5"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.propagule.step": {
+		"sounds": [
+			"twm:block/propagule/step1",
+			"twm:block/propagule/step2",
+			"twm:block/propagule/step3",
+			"twm:block/propagule/step4",
+			"twm:block/propagule/step5",
+			"twm:block/propagule/step6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
 	"block.sculk.break": {
 		"sounds": [
 			"twm:block/sculk/break1",

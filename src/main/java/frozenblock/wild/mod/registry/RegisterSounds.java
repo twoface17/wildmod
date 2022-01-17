@@ -54,6 +54,11 @@ public class RegisterSounds {
     public static SoundEvent BLOCK_SCULK_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk.place"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_BREAK = new SoundEvent(new Identifier("accuratesculk", "block.sculk_shrieker.break"));
     public static SoundEvent BLOCK_SCULK_SHRIEKER_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk_shrieker.place"));
+    public static SoundEvent BLOCK_MANGROVE_PROPAGULE_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.break"));
+    public static SoundEvent BLOCK_MANGROVE_PROPAGULE_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.place"));
+    public static SoundEvent BLOCK_MANGROVE_PROPAGULE_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.step"));
+    public static SoundEvent BLOCK_MANGROVE_PROPAGULE_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.hit"));
+    public static SoundEvent BLOCK_MANGROVE_PROPAGULE_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.fall"));
     public static SoundEvent BLOCK_MANGROVE_ROOTS_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.break"));
     public static SoundEvent BLOCK_MANGROVE_ROOTS_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.place"));
     public static SoundEvent BLOCK_MANGROVE_ROOTS_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.step"));
@@ -88,6 +93,11 @@ public class RegisterSounds {
         BLOCK_MANGROVE_ROOTS_STEP = register(BLOCK_MANGROVE_ROOTS_STEP.getId());
         BLOCK_MANGROVE_ROOTS_HIT = register(BLOCK_MANGROVE_ROOTS_HIT.getId());
         BLOCK_MANGROVE_ROOTS_FALL = register(BLOCK_MANGROVE_ROOTS_FALL.getId());
+        BLOCK_MANGROVE_PROPAGULE_BREAK = register(BLOCK_MANGROVE_PROPAGULE_BREAK.getId());
+        BLOCK_MANGROVE_PROPAGULE_PLACE = register(BLOCK_MANGROVE_PROPAGULE_PLACE.getId());
+        BLOCK_MANGROVE_PROPAGULE_STEP = register(BLOCK_MANGROVE_PROPAGULE_STEP.getId());
+        BLOCK_MANGROVE_PROPAGULE_HIT = register(BLOCK_MANGROVE_PROPAGULE_HIT.getId());
+        BLOCK_MANGROVE_PROPAGULE_FALL = register(BLOCK_MANGROVE_PROPAGULE_FALL.getId());
         ENTITY_WARDEN_SLIGHTLY_ANGRY = register(ENTITY_WARDEN_SLIGHTLY_ANGRY.getId());
         ENTITY_WARDEN_ANGRY = register(ENTITY_WARDEN_ANGRY.getId());
         EFFECT_NEARBY_CLOSE = register(EFFECT_NEARBY_CLOSE.getId());
