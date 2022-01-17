@@ -46,7 +46,7 @@ public abstract class RegisterBlocks {
 
     public static final FabricBlockSettings MUD_BRICKS_SETTINGS = FabricBlockSettings
             .of(Material.STONE)
-            .sounds(BlockSoundGroup.DEEPSLATE_BRICKS)
+            .sounds(BlockSoundGroup.STONE)
             .strength(1.5f, 10f)
             .requiresTool();
 
