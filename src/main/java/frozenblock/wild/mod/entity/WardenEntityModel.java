@@ -50,7 +50,9 @@ public class WardenEntityModel extends EntityModel<WardenEntity> {
         float time = animationProgress/10;
 
     //Emerge animation
-        this.body.pivotY = 80 + (AnimationAPI.easeOutSine(0.68f, 7f, -69, time));
+        this.body.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
+        this.left_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
+        this.right_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
 
     //Walk & idle animation
         if(r > 0) {
