@@ -4,9 +4,17 @@
       {
         "model": "twm:block/mud"
       },
+	  {
+        "model": "twm:block/mud",
+        "y": 90
+      },
       {
         "model": "twm:block/mud",
         "y": 180
+      },
+	  {
+        "model": "twm:block/mud",
+        "y": 270
       }
     ]
   }
