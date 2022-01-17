@@ -617,6 +617,12 @@
 		],
 		"subtitle": "subtitles.entity.warden.hurt"
 	},
+	"entity.warden.death": {
+		"sounds": [
+			"twm:entity/warden/death"
+		],
+		"subtitle": "subtitles.entity.warden.death"
+	},
 	"entity.warden.roar": {
 		"sounds": [
 			"twm:entity/warden/roar"

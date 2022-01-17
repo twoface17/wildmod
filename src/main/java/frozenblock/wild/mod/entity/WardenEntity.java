@@ -23,6 +23,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -319,6 +320,10 @@ public class WardenEntity extends HostileEntity {
     }
 
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
+
+    protected SoundEvent getDeathSound() {
+        return RegisterSounds.ENTITY_WARDEN_DEATH;
+    }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
         if (!(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
