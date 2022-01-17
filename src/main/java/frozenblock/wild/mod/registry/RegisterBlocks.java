@@ -22,7 +22,7 @@ public abstract class RegisterBlocks {
             .of(Material.STONE, MapColor.DEEPSLATE_GRAY)
             .requiresTool()
             .strength(3.0F, 6.0F)
-            .sounds(new BlockSoundGroup(1.0f, 0.8f,
+            .sounds(new BlockSoundGroup(1.0f, 1.0f,
                     RegisterSounds.BLOCK_DEEPSLATE_FRAME_BREAK,
                     RegisterSounds.BLOCK_DEEPSLATE_FRAME_STEP,
                     RegisterSounds.BLOCK_DEEPSLATE_FRAME_PLACE,
