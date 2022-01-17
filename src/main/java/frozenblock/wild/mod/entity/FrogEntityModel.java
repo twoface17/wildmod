@@ -43,17 +43,17 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         ModelPartData modelPartData = modelData.getRoot();
 
 
-        ModelPartData modelPartData1 = modelPartData.addChild("root", ModelPartBuilder.create(), ModelTransform.pivot(0.0F,24.0F,0.0F));
+        ModelPartData modelPartData1 = modelPartData.addChild("root", ModelPartBuilder.create(), ModelTransform.pivot(0.0F,0.0F,0.0F));
         ModelPartData modelPartData2 = modelPartData1.addChild("main", ModelPartBuilder.create(), ModelTransform.pivot(-3.0F,-2.0F,4.0F));
-        ModelPartData modelPartData3 = modelPartData2.addChild("body", ModelPartBuilder.create().uv(3,1).cuboid(-6.5F, -2.0F, -8.0F, 7.0F, 3.0F, 9.0F).uv(23,22).cuboid(-6.5F, -1.0F, -8.0F, 7.0F, 0.0F, 9.0F), ModelTransform.pivot(6.0F,0.0F,0.0F));
-        ModelPartData modelPartData4 = modelPartData3.addChild("head", ModelPartBuilder.create().uv(23,13).cuboid(-3.5F, -1.0F, -7.0F, 7.0F, 0.0F, 9.0F).uv(0,13).cuboid(-3.5F, -2.0F, -7.0F, 7.0F, 3.0F, 9.0F), ModelTransform.pivot(-3.0F,-2.0F,-1.0F));
-        ModelPartData modelPartData5 = modelPartData4.addChild("eyes", ModelPartBuilder.create(), ModelTransform.pivot(-0.5F,0.0F,2.0F));
-        modelPartData5.addChild("right_eye", ModelPartBuilder.create().uv(0,0).cuboid(-1.5F, -1.0F, -1.5F, 3.0F, 2.0F, 3.0F), ModelTransform.pivot(-1.5F,-3.0F,-6.5F));
-        modelPartData5.addChild("left_eye", ModelPartBuilder.create().uv(0,5).cuboid(-1.5F, -1.0F, -1.5F, 3.0F, 2.0F, 3.0F), ModelTransform.pivot(2.5F,-3.0F,-6.5F));
-        modelPartData3.addChild("croaking_body", ModelPartBuilder.create().uv(26, 5).cuboid(3.5f, 1.1f, 3.9f,7, 2, 3, new Dilation(-0.1f)), ModelTransform.pivot(-10F,-3F,-8F));
-        modelPartData3.addChild("tongue", ModelPartBuilder.create().uv(17,13).cuboid(-2.0F, 0.0F, -7.1F, 4.0F, 0.0F, 7.0F), ModelTransform.pivot(-3.0F,-1.1F,1.0F));
-        modelPartData3.addChild("left_arm", ModelPartBuilder.create().uv(0,32).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 3.0F).uv(18,40).cuboid(-4.0F, 3.01F, -5.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(1.0F,-1.0F,-6.5F));
-        modelPartData3.addChild("right_arm", ModelPartBuilder.create().uv(0,38).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 3.0F).uv(2,40).cuboid(-4.0F, 3.01F, -5.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(-7.0F,-1.0F,-6.5F));
+        ModelPartData modelPartData3 = modelPartData2.addChild("body", ModelPartBuilder.create().uv(3,1).cuboid(-3.5F, 1.0F, -4.0F, 7.0F, 3.0F, 9.0F).uv(23,22).cuboid(-3.5F, 3.0F, -4.0F, 7.0F, 0.0F, 9.0F), ModelTransform.pivot(0.0F,2.0F,4.0F));
+        ModelPartData modelPartData4 = modelPartData3.addChild("head", ModelPartBuilder.create().uv(23,13).cuboid(-3.5F, 5.0F, -4.0F, 7.0F, 0.0F, 9.0F).uv(0,13).cuboid(-3.5F, 3.0F, -4.0F, 7.0F, 3.0F, 9.0F), ModelTransform.pivot(0.0F,4.0F,3.0F));
+        ModelPartData modelPartData5 = modelPartData4.addChild("eyes", ModelPartBuilder.create(), ModelTransform.pivot(0.5F,4.0F,5.0F));
+        modelPartData5.addChild("right_eye", ModelPartBuilder.create().uv(0,0).cuboid(0.5F, 6.0F, -3F, 3.0F, 2.0F, 3.0F), ModelTransform.pivot(2F,7F,-1.5F));
+        modelPartData5.addChild("left_eye", ModelPartBuilder.create().uv(0,5).cuboid(-3.5F, 6.0F, -3F, 3.0F, 2.0F, 3.0F), ModelTransform.pivot(-2F,7F,-1.5F));
+        modelPartData3.addChild("croaking_body", ModelPartBuilder.create().uv(26, 5).cuboid(-3.5f, 1.1f, -3.9f,7, 2, 3, new Dilation(-0.1f)), ModelTransform.pivot(0F,3F,-1F));
+        modelPartData3.addChild("tongue", ModelPartBuilder.create().uv(17,13).cuboid(-2.0F, 3.1F, -2.1F, 4.0F, 0.0F, 7.0F), ModelTransform.pivot(-2.0F,-3.1F,-2.1F));
+        modelPartData3.addChild("left_arm", ModelPartBuilder.create().uv(0,32).cuboid(-5.0F, 0.0F, -3.5F, 2.0F, 3.0F, 3.0F).uv(18,40).cuboid(-8.0F, -0.01F, -7.5F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(-4.0F,3F,-2.5F));
+        modelPartData3.addChild("right_arm", ModelPartBuilder.create().uv(0,38).cuboid(3.0F, 0.0F, -3.5F, 2.0F, 3.0F, 3.0F).uv(2,40).cuboid(3.0F, -0.01F, -7.5F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(4.0F,3.0F,-2.5F));
         modelPartData1.addChild("left_leg", ModelPartBuilder.create().uv(14,25).cuboid(-1.0F, 0.0F, -2.0F, 3.0F, 3.0F, 4.0F).uv(2,32).cuboid(-2.0F, 3.01F, -4.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(3.5F,-3.0F,4.0F));
         modelPartData1.addChild("right_leg", ModelPartBuilder.create().uv(0,25).cuboid(-2.0F, 0.0F, -2.0F, 3.0F, 3.0F, 4.0F).uv(18,32).cuboid(-6.0F, 3.01F, -4.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(-3.5F,-3.0F,4.0F));
         return TexturedModelData.of(modelData,48,48);
