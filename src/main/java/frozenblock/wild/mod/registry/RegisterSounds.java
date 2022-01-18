@@ -43,6 +43,11 @@ public class RegisterSounds {
     public static SoundEvent BLOCK_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.break"));
     public static SoundEvent BLOCK_MUD_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.place"));
     public static SoundEvent BLOCK_MUD_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.hit"));
+    public static SoundEvent BLOCK_MUD_BRICKS_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.step"));
+    public static SoundEvent BLOCK_MUD_BRICKS_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.break"));
+    public static SoundEvent BLOCK_MUD_BRICKS_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.place"));
+    public static SoundEvent BLOCK_MUD_BRICKS_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.hit"));
+    public static SoundEvent BLOCK_MUD_BRICKS_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.fall"));
     public static SoundEvent BLOCK_DEEPSLATE_FRAME_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.step"));
     public static SoundEvent BLOCK_DEEPSLATE_FRAME_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.break"));
     public static SoundEvent BLOCK_DEEPSLATE_FRAME_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.place"));
@@ -78,6 +83,11 @@ public class RegisterSounds {
         BLOCK_MUD_HIT = register(BLOCK_MUD_HIT.getId());
         BLOCK_MUD_BREAK = register(BLOCK_MUD_BREAK.getId());
         BLOCK_MUD_PLACE = register(BLOCK_MUD_PLACE.getId());
+        BLOCK_MUD_BRICKS_STEP = register(BLOCK_MUD_BRICKS_STEP.getId());
+        BLOCK_MUD_BRICKS_HIT = register(BLOCK_MUD_BRICKS_HIT.getId());
+        BLOCK_MUD_BRICKS_BREAK = register(BLOCK_MUD_BRICKS_BREAK.getId());
+        BLOCK_MUD_BRICKS_PLACE = register(BLOCK_MUD_BRICKS_PLACE.getId());
+        BLOCK_MUD_BRICKS_FALL = register(BLOCK_MUD_BRICKS_FALL.getId());
         BLOCK_DEEPSLATE_FRAME_STEP = register(BLOCK_DEEPSLATE_FRAME_STEP.getId());
         BLOCK_DEEPSLATE_FRAME_HIT = register(BLOCK_DEEPSLATE_FRAME_HIT.getId());
         BLOCK_DEEPSLATE_FRAME_BREAK = register(BLOCK_DEEPSLATE_FRAME_BREAK.getId());

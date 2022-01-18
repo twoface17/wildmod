@@ -30,10 +30,6 @@ public abstract class RegisterBlocks {
                     RegisterSounds.BLOCK_DEEPSLATE_FRAME_STEP
             ));
 
-    public static final AbstractBlock.Settings SCULK_PROPERTIES = FabricBlockSettings
-            .of(Material.SCULK)
-            .sounds(BlockSoundGroup.SCULK_SENSOR);
-
     public static final AbstractBlock.Settings FROG_EGG_PROPERTIES = FabricBlockSettings
             .of(Material.EGG)
             .sounds(new BlockSoundGroup(1.0f, 1.5f,
@@ -46,16 +42,21 @@ public abstract class RegisterBlocks {
 
     public static final FabricBlockSettings MUD_BRICKS_SETTINGS = FabricBlockSettings
             .of(Material.STONE)
-            .sounds(BlockSoundGroup.STONE)
             .strength(1.5f, 10f)
-            .requiresTool();
+            .requiresTool()
+            .sounds(new BlockSoundGroup(1.0f, 1.0f,
+                   RegisterSounds.BLOCK_MUD_BRICKS_BREAK,
+                   RegisterSounds.BLOCK_MUD_BRICKS_STEP,
+                   RegisterSounds.BLOCK_MUD_BRICKS_PLACE,
+                   RegisterSounds.BLOCK_MUD_BRICKS_HIT,
+                   RegisterSounds.BLOCK_MUD_BRICKS_STEP
+            ));
 
     public static final FabricBlockSettings FROGLIGHT_SETTINGS = FabricBlockSettings
             .of(Material.PLANT)
             .strength(0.1f, 1f)
             .requiresTool()
             .luminance(15);
-
 
     public static final Block MUD_BLOCK = new MudBlock();
     public static final Block MUD_BRICKS = new MudBricks(MUD_BRICKS_SETTINGS);
