@@ -250,23 +250,59 @@
 	},
 	"block.sculk.fall": {
 		"sounds": [
-			"minecraft:block/sculk/step1",
-			"minecraft:block/sculk/step2",
-			"minecraft:block/sculk/step3",
-			"minecraft:block/sculk/step4",
-			"minecraft:block/sculk/step5",
-			"minecraft:block/sculk/step6"
+			{
+				"name": "minecraft:block/sculk/step1",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step2",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step3",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step4",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step5",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step6",
+				"pitch": 0.8
+			}
 		],
 		"subtitle": "subtitles.block.generic.fall"
 	},
 	"block.sculk.hit": {
 		"sounds": [
-			"minecraft:block/sculk/step1",
-			"minecraft:block/sculk/step2",
-			"minecraft:block/sculk/step3",
-			"minecraft:block/sculk/step4",
-			"minecraft:block/sculk/step5",
-			"minecraft:block/sculk/step6"
+		{
+			"name": "minecraft:block/sculk/step1",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step2",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step3",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step4",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step5",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step6",
+			"pitch": 0.8
+		}
 		],
 		"subtitle": "subtitles.block.generic.hit"
 	},
@@ -282,12 +318,30 @@
 	},
 	"block.sculk.step": {
 		"sounds": [
-			"minecraft:block/sculk/step1",
-			"minecraft:block/sculk/step2",
-			"minecraft:block/sculk/step3",
-			"minecraft:block/sculk/step4",
-			"minecraft:block/sculk/step5",
-			"minecraft:block/sculk/step6"
+		{
+			"name": "minecraft:block/sculk/step1",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step2",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step3",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step4",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step5",
+			"pitch": 0.8
+		},
+		{
+			"name": "minecraft:block/sculk/step6",
+			"pitch": 0.8
+		}
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
