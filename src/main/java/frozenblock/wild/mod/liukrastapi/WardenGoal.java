@@ -34,7 +34,6 @@ public class WardenGoal extends Goal {
        if (this.mob.emergeTicksLeft>0) {
             return false;
        }
-
            if (this.mob.getAttacker() == null) {
                if (lasteventWorld != null && lasteventpos != null) {
                    if (lasteventWorld == this.mob.getEntityWorld()) {
@@ -43,15 +42,6 @@ public class WardenGoal extends Goal {
                        double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
                        if (Math.sqrt(distancex + distancey + distancez) < 25) {
                                exit = true;
-                               if (this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity)) {
-                                   exit=true;
-                               }
-                               if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
-                                   exit= false;
-                               }
-                               if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
-                                   exit=true;
-                               }
                        }
                    }
                }
