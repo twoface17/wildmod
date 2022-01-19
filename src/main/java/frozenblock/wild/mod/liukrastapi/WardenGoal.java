@@ -34,7 +34,6 @@ public class WardenGoal extends Goal {
        if (this.mob.emergeTicksLeft>0) {
             return false;
        }
-
            if (this.mob.getAttacker() == null) {
                if (lasteventWorld != null && lasteventpos != null) {
                    if (lasteventWorld == this.mob.getEntityWorld()) {
@@ -43,15 +42,6 @@ public class WardenGoal extends Goal {
                        double distancez = Math.pow(this.mob.getBlockZ() - lasteventpos.getZ(), 2);
                        if (Math.sqrt(distancex + distancey + distancez) < 25) {
                                exit = true;
-                               if (this.mob.getSuspicion(this.mob.lastevententity)>=this.mob.getSuspicion(this.mob.navigationEntity)) {
-                                   exit=true;
-                               }
-                               if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity!=this.mob.getTrackingEntity()) {
-                                   exit= false;
-                               }
-                               if (this.mob.getTrackingEntity()!=null && this.mob.lastevententity==this.mob.getTrackingEntity()) {
-                                   exit=true;
-                               }
                        }
                    }
                }
@@ -101,17 +91,6 @@ public class WardenGoal extends Goal {
                 this.mob.lasteventpos = null;
                 this.mob.lasteventworld = null;
             } else if (lastevententity != null) {
-                if (this.mob.getTrackingEntity() != null && lastevententity == this.mob.getTrackingEntity()) {
-                    double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
-                    double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
-                    this.mob.followForTicks(lastevententity, MathHelper.clamp(this.mob.getSuspicion(lastevententity),0, 60));
-                    if (!(e > d)) {
-                        this.mob.tryAttack(lastevententity);
-                    }
-                    this.mob.lastevententity = null;
-                    this.mob.lasteventpos = null;
-                    this.mob.lasteventworld = null;
-                } else if (this.mob.getTrackingEntity() == null) {
                     double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
                     double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
                     this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed + (MathHelper.clamp(this.mob.getSuspicion(lastevententity), 0, 15) * 0.03) + (this.mob.overallAnger() * 0.004)));
@@ -121,7 +100,6 @@ public class WardenGoal extends Goal {
                     this.mob.lastevententity = null;
                     this.mob.lasteventpos = null;
                     this.mob.lasteventworld = null;
-                }
             } else {
                 this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed + (this.mob.overallAnger() * 0.009));
             }
