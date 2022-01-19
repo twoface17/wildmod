@@ -327,6 +327,8 @@
     "#minecraft:rails",
     "minecraft:conduit",
     "twm:mud_bricks",
+    "twm:mud_brick_slab",
+    "twm:mud_brick_stairs",
     "twm:deepslate_frame",
     "twm:pearlescent_froglight",
     "twm:verdant_froglight",
