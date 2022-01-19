@@ -42,14 +42,14 @@ public abstract class RegisterBlocks {
 
     public static final FabricBlockSettings MUD_BRICKS_SETTINGS = FabricBlockSettings
             .of(Material.STONE)
-            .strength(1.5f, 10f)
+            .strength(0.5f, 1.0f)
             .requiresTool()
-            .sounds(new BlockSoundGroup(1.0f, 1.0f,
-                   RegisterSounds.BLOCK_MUD_BRICKS_BREAK,
-                   RegisterSounds.BLOCK_MUD_BRICKS_STEP,
-                   RegisterSounds.BLOCK_MUD_BRICKS_PLACE,
-                   RegisterSounds.BLOCK_MUD_BRICKS_HIT,
-                   RegisterSounds.BLOCK_MUD_BRICKS_STEP
+            .sounds(new BlockSoundGroup(1.0f, 1.1f,
+                    RegisterSounds.BLOCK_MUD_BRICKS_BREAK,
+                    RegisterSounds.BLOCK_MUD_BRICKS_STEP,
+                    RegisterSounds.BLOCK_MUD_BRICKS_PLACE,
+                    RegisterSounds.BLOCK_MUD_BRICKS_HIT,
+                    RegisterSounds.BLOCK_MUD_BRICKS_STEP
             ));
 
     public static final FabricBlockSettings FROGLIGHT_SETTINGS = FabricBlockSettings
