@@ -30,9 +30,6 @@ public class SniffGoal extends Goal {
         if (this.mob.mostSuspiciousAround()!=null) {
             sniffEntity=this.mob.mostSuspiciousAround();
         }
-        if (this.mob.getTrackingEntity()!=null) {
-            sniffEntity=this.mob.getTrackingEntity();
-        }
         if (sniffEntity==null) {
             LivingEntity closestPlayer = this.mob.getWorld().getClosestPlayer(this.mob, 16);
             sniffEntity=closestPlayer;
@@ -71,9 +68,6 @@ public class SniffGoal extends Goal {
         LivingEntity sniffEntity = null;
         if (this.mob.mostSuspiciousAround()!=null) {
             sniffEntity=this.mob.mostSuspiciousAround();
-        }
-        if (this.mob.getTrackingEntity()!=null) {
-            sniffEntity=this.mob.getTrackingEntity();
         }
         if (sniffEntity==null) {
             LivingEntity closestPlayer = this.mob.getWorld().getClosestPlayer(this.mob, 16);
