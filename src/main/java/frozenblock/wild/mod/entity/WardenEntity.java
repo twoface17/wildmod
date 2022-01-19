@@ -533,7 +533,7 @@ public class WardenEntity extends HostileEntity {
         }
         return false;
     }
-    
+
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putLong("vibrationTimer", this.vibrationTimer);
