@@ -69,8 +69,6 @@ public class WardenEntity extends HostileEntity {
     protected int delay = 0;
     protected int distance;
 
-    public int followingEntity;
-    public int followTicksLeft;
     public int attackCooldown;
 
     public int hearbeatTime = 60;
@@ -111,7 +109,6 @@ public class WardenEntity extends HostileEntity {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(3, new WardenGoal(this, speed));
-        this.goalSelector.add(4, new WardenFollowGoal(this, speed));
         this.goalSelector.add(2, new SniffGoal(this, speed));
         this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
@@ -188,9 +185,6 @@ public class WardenEntity extends HostileEntity {
             this.getNavigation().recalculatePath();
             this.timeSinceLastRecalculation=this.world.getTime();
         }
-        if(this.followTicksLeft > 0) {
-            --this.followTicksLeft;
-        }
         //Sniffing
         if(this.sniffTicksLeft > 0) {
             --this.sniffTicksLeft;
@@ -213,7 +207,7 @@ public class WardenEntity extends HostileEntity {
             if (sniffEntity!=this.getTrackingEntity()) {
                 this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 15) * 0.02) + (this.overallAnger() * 0.004)));
             } else if (sniffEntity==this.getTrackingEntity()) {
-                this.followForTicks(sniffEntity, 35);
+                this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 15) * 0.04) + (this.overallAnger() * 0.004)));
             }
             }
         }
@@ -450,11 +444,6 @@ public class WardenEntity extends HostileEntity {
         }
     }
 
-    public void followForTicks(LivingEntity entity, int ticks) {
-        this.followingEntity = entity.getId();
-        this.followTicksLeft = ticks;
-    }
-
     public int getSuspicion(Entity entity) {
         if (!this.entityList.isEmpty() && entity!=null) {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
@@ -515,6 +504,7 @@ public class WardenEntity extends HostileEntity {
         }
         return null;
     }
+
     public LivingEntity getSniffEntity() {
         Box box = new Box(this.getBlockPos().add(-18,-18,-18), this.getBlockPos().add(18,18,18));
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
@@ -543,6 +533,7 @@ public class WardenEntity extends HostileEntity {
         }
         return false;
     }
+    
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putLong("vibrationTimer", this.vibrationTimer);
@@ -560,8 +551,6 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("sniffY", this.sniffY);
         nbt.putInt("sniffZ", this.sniffZ);
         nbt.putString("sniffEntity", this.sniffEntity);
-        nbt.putInt("followTicksLeft", this.followTicksLeft);
-        nbt.putInt("followingEntity", this.followingEntity);
         nbt.putInt("nonEntityAnger", this.nonEntityAnger);
         nbt.putLong("timeSinceNonEntity", this.timeSinceNonEntity);
     }
@@ -582,8 +571,6 @@ public class WardenEntity extends HostileEntity {
         this.sniffY = nbt.getInt("sniffY");
         this.sniffZ = nbt.getInt("sniffZ");
         this.sniffEntity = nbt.getString("sniffEntity");
-        this.followTicksLeft = nbt.getInt("followTicksLeft");
-        this.followingEntity = nbt.getInt("followingEntity");
         this.nonEntityAnger = nbt.getInt("nonEntityAnger");
         this.timeSinceNonEntity = nbt.getLong("timeSinceNonEntity");
     }
