@@ -42,7 +42,7 @@ public class WardenWanderGoal
     @Override
     public boolean canStart() {
         Vec3d vec3d;
-        if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>280 && this.mob.world.getTime()-this.mob.timeSinceLastTracking>280) {
+        if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>280) {
             if (this.mob.hasPassengers()) {
                 return false;
             }
@@ -74,25 +74,7 @@ public class WardenWanderGoal
     @Override
     public boolean shouldContinue() {
         Vec3d vec3d;
-        if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>280 && this.mob.world.getTime()-this.mob.timeSinceLastTracking>280) {
-            if (this.mob.hasPassengers()) {
-                return false;
-            }
-            if (!this.ignoringChance) {
-                if (this.canDespawn && this.mob.getDespawnCounter() >= 100) {
-                    return false;
-                }
-                if (this.mob.getRandom().nextInt(WardenWanderGoal.toGoalTicks(this.chance)) != 0) {
-                    return false;
-                }
-            }
-            if ((vec3d = this.getWanderTarget()) == null) {
-                return false;
-            }
-            this.targetX = vec3d.x;
-            this.targetY = vec3d.y;
-            this.targetZ = vec3d.z;
-            this.ignoringChance = false;
+        if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>280) {
             return true;
         }
         return false;

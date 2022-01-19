@@ -30,9 +30,6 @@ public class SniffGoal extends Goal {
         if (this.mob.mostSuspiciousAround()!=null) {
             sniffEntity=this.mob.mostSuspiciousAround();
         }
-        if (this.mob.getTrackingEntity()!=null) {
-            sniffEntity=this.mob.getTrackingEntity();
-        }
         if (sniffEntity==null) {
             LivingEntity closestPlayer = this.mob.getWorld().getClosestPlayer(this.mob, 16);
             sniffEntity=closestPlayer;
@@ -48,11 +45,8 @@ public class SniffGoal extends Goal {
         if (this.mob.emergeTicksLeft>0) {
             return false;
         }
-        if (this.mob.getTrackingEntity()==null && this.mob.getWorld().getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null && this.mob.sniffCooldown<=0) {
+        if (this.mob.getWorld().getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null && this.mob.sniffCooldown<=0) {
             exit = true;
-        }
-        if (this.mob.getTrackingEntity()!=null && this.mob.getWorld().getTime()-this.mob.timeSinceLastTracking>160 && sniffEntity!=null && this.mob.sniffCooldown<=0) {
-            exit=true;
         }
 
         int r = this.mob.getRoarTicksLeft1();
@@ -71,9 +65,6 @@ public class SniffGoal extends Goal {
         LivingEntity sniffEntity = null;
         if (this.mob.mostSuspiciousAround()!=null) {
             sniffEntity=this.mob.mostSuspiciousAround();
-        }
-        if (this.mob.getTrackingEntity()!=null) {
-            sniffEntity=this.mob.getTrackingEntity();
         }
         if (sniffEntity==null) {
             LivingEntity closestPlayer = this.mob.getWorld().getClosestPlayer(this.mob, 16);
@@ -98,9 +89,6 @@ public class SniffGoal extends Goal {
                 this.mob.sniffEntity=sniffEntity.getUuidAsString();
                 this.mob.getWorld().playSound(null, this.mob.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SNIFF, SoundCategory.HOSTILE, 1F, 1F);
                 this.mob.leaveTime = this.mob.getWorld().getTime() + 1200;
-                if (this.mob.getTrackingEntity()!=null && sniffEntity==this.mob.getTrackingEntity()) {
-                    this.mob.timeSinceLastTracking = this.mob.getWorld().getTime();
-                }
             }
         }
     }
