@@ -64,7 +64,6 @@ public class WardenEntity extends HostileEntity {
     public int emergeTicksLeft;
     public boolean hasEmerged;
     public long vibrationTimer = 0;
-    public long timeSinceLastTracking = 0;
     public long leaveTime;
     protected int delay = 0;
     protected int distance;
@@ -332,9 +331,6 @@ public class WardenEntity extends HostileEntity {
             CreateVibration(this.world, this, lasteventpos);
             if (eventEntity != null) {
                 addSuspicion(eventEntity, suspicion);
-                if(this.getTrackingEntity()!=null && eventEntity==this.getTrackingEntity()) {
-                    this.timeSinceLastTracking=this.world.getTime();
-                }
                 if (this.world.getTime()-reactionSoundTimer>40) {
                     this.reactionSoundTimer=this.world.getTime();
                     if (getSuspicion(eventEntity)<15 && getSuspicion(eventEntity)>10) {
@@ -377,9 +373,6 @@ public class WardenEntity extends HostileEntity {
             CreateVibration(this.world, this, vibrationPos);
             if (eventEntity != null) {
                 addSuspicion(eventEntity, suspicion);
-                if(this.getTrackingEntity()!=null && eventEntity==this.getTrackingEntity()) {
-                    this.timeSinceLastTracking=this.world.getTime();
-                }
                 if (this.world.getTime()-reactionSoundTimer>60) {
                     this.reactionSoundTimer=this.world.getTime();
                 if (getSuspicion(eventEntity)<15 && getSuspicion(eventEntity)>10) {
@@ -537,7 +530,6 @@ public class WardenEntity extends HostileEntity {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putLong("vibrationTimer", this.vibrationTimer);
-        nbt.putLong("timeSinceLastTracking", this.timeSinceLastTracking);
         nbt.putLong("leaveTime", this.leaveTime);
         nbt.putInt("emergeTicksLeft", this.emergeTicksLeft);
         nbt.putBoolean("hasEmerged", this.hasEmerged);
@@ -557,7 +549,6 @@ public class WardenEntity extends HostileEntity {
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.vibrationTimer = nbt.getLong("vibrationTimer");
-        this.timeSinceLastTracking = nbt.getLong("timeSinceLastTracking");
         this.leaveTime = nbt.getLong("leaveTime");
         this.emergeTicksLeft = nbt.getInt("emergeTicksLeft");
         this.hasEmerged = nbt.getBoolean("hasEmerged");
