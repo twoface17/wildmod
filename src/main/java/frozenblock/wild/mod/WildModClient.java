@@ -84,7 +84,7 @@ public class WildModClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX2, ShriekParticleX2.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_SOUL, SculkSoul.Factory::new);
 
-        ParticleFactoryRegistry.getInstance().register(RegisterParticles.FIREFLY, FlameParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(RegisterParticles.FIREFLY, FireFlyParticle.Factory::new);
 
 
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_LEAVES, RenderLayer.getCutout());
