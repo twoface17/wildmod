@@ -38,10 +38,10 @@ public class VanillaSurfaceRulesInjector {
                                 MaterialRules.biome(
                                         RegisterWorldgen.MANGROVE_SWAMP),
                                 MaterialRules.condition(
-                                        MaterialRules.aboveY(YOffset.fixed(62), 0),
+                                        MaterialRules.aboveY(YOffset.fixed(62), 3),
                                         MaterialRules.condition(
                                                 MaterialRules.not(
-                                                        MaterialRules.aboveY(YOffset.fixed(63), 0)),
+                                                        MaterialRules.aboveY(YOffset.fixed(63), 3)),
                                                 MaterialRules.condition(
                                                         MaterialRules.noiseThreshold(
                                                                 NoiseParametersKeys.SURFACE_SWAMP, 0.1),
