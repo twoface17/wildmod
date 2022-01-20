@@ -20,7 +20,7 @@ public class FireflyWanderGoal extends Goal {
     }
 
     public boolean canStart() {
-        return true;
+        return !mob.isInvulnerable();
     }
 
     public boolean shouldContinue() {
@@ -39,7 +39,7 @@ public class FireflyWanderGoal extends Goal {
     private BlockPos getRandomLocation() {
         BlockPos pos;
         if (!mob.getBlockPos().isWithinDistance(mob.getSpawnPos(), 6)) {
-            pos = mob.getSpawnPos().add(getRandom(12, mob), getRandom(12, mob), getRandom(12, mob));
+            pos = mob.getSpawnPos().add(getRandom(6, mob), getRandom(6, mob), getRandom(6, mob));
         } else {
             pos = mob.getBlockPos().add(getRandom(2, mob), getRandom(2, mob), getRandom(2, mob));
         }
