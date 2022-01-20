@@ -19,7 +19,7 @@ public class VanillaBiomeParametersMixin {
     private RegistryKey<Biome>[][] UNCOMMON_BIOMES;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void injectForest(CallbackInfo ci) {
+    private void injectMangrove(CallbackInfo ci) {
         UNCOMMON_BIOMES[1][0] = RegisterWorldgen.MANGROVE_SWAMP;
     }
 
