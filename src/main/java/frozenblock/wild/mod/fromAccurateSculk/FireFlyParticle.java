@@ -12,9 +12,6 @@ import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 
-//shriek more like SHREK am i right?
-
-
 public class FireFlyParticle extends AbstractSlowingParticle {
     private final SpriteProvider spriteProvider;
 
@@ -63,7 +60,7 @@ public class FireFlyParticle extends AbstractSlowingParticle {
         for(int k = 0; k < 4; ++k) {
             Vec3f vec3f = vec3fs[k];
             vec3f.rotate(quaternion);
-            vec3f.scale(1);
+            vec3f.scale(0.1F);
             vec3f.add(f, g, h);
         }
 
