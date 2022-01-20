@@ -38,7 +38,7 @@ public class FireflyWanderGoal extends Goal {
     @Nullable
     private BlockPos getRandomLocation() {
         BlockPos pos;
-        if (!mob.getBlockPos().isWithinDistance(mob.getSpawnPos(), 12)) {
+        if (!mob.getBlockPos().isWithinDistance(mob.getSpawnPos(), 6)) {
             pos = mob.getSpawnPos().add(getRandom(12, mob), getRandom(12, mob), getRandom(12, mob));
         } else {
             pos = mob.getBlockPos().add(getRandom(2, mob), getRandom(2, mob), getRandom(2, mob));
