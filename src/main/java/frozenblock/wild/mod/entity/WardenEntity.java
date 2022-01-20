@@ -237,7 +237,7 @@ public class WardenEntity extends HostileEntity {
     public boolean tryAttack(Entity target) {
         float f = this.getAttackDamage();
         float g = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-        boolean bl = target.damage(DamageSource.mob(this), g);
+        boolean bl = target.damage(DamageSource.mob(this), f);
         if (bl && this.attackCooldown<=0) {
             this.attackTicksLeft1 = 10;
             this.world.sendEntityStatus(this, (byte)4);
