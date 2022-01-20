@@ -147,6 +147,7 @@ public class FrogEntity extends AnimalEntity {
         }
     }
 
+    @Nullable
     public LivingEntity getTarget() {
         return (LivingEntity) world.getEntityById(this.targetID);
     }
