@@ -1,6 +1,5 @@
 package frozenblock.wild.mod.mixins;
 
-import frozenblock.wild.mod.fromAccurateSculk.ClickGameEvent;
 import frozenblock.wild.mod.fromAccurateSculk.SensorLastEntity;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
