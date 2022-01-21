@@ -50,8 +50,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-import static java.lang.Math.*;
-
 //SCULK SHRIEKER REWRITE FROM LUNADE'S MOD ACCURATE SCULK
 
 public class SculkShriekerBlock
@@ -136,7 +134,7 @@ public class SculkShriekerBlock
 
     @Override
     public BlockState getStateForNeighborUpdate(BlockState blockState, Direction direction, BlockState blockState2, WorldAccess worldAccess, BlockPos blockPos, BlockPos blockPos2) {
-        if (blockState.get(WATERLOGGED).booleanValue()) {
+        if (blockState.get(WATERLOGGED)) {
             worldAccess.createAndScheduleFluidTick(blockPos, Fluids.WATER, Fluids.WATER.getTickRate(worldAccess));
         }
         return super.getStateForNeighborUpdate(blockState, direction, blockState2, worldAccess, blockPos, blockPos2);
@@ -144,7 +142,7 @@ public class SculkShriekerBlock
 
     @Override
     public FluidState getFluidState(BlockState blockState) {
-        if (blockState.get(WATERLOGGED).booleanValue()) {
+        if (blockState.get(WATERLOGGED)) {
             return Fluids.WATER.getStill(false);
         }
         return super.getFluidState(blockState);
@@ -232,8 +230,29 @@ public class SculkShriekerBlock
         }
     }
 
+    public static boolean findWarden(World world, BlockPos pos) {
+        double x1 = pos.getX();
+        double y1 = pos.getY();
+        double z1 = pos.getZ();
+        BlockPos side1 = new BlockPos(x1-50, y1-50, z1-50);
+        BlockPos side2 = new BlockPos(x1+50, y1+50, z1+50);
+        Box box = (new Box(side1, side2));
+        List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
+        if (!list.isEmpty()) {
+            Iterator<WardenEntity> var11 = list.iterator();
+            WardenEntity warden;
+            while (var11.hasNext()) {
+                warden = var11.next();
+                if (warden.getBlockPos().isWithinDistance(pos, (49))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static void setActive(World world, BlockPos blockPos, BlockState blockState) {
-        if (!ShriekCounter.findWarden(world, blockPos)) {
+        if (!findWarden(world, blockPos)) {
             world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.ACTIVE)), 3);
             SculkShriekerBlock.updateNeighbors(world, blockPos);
             if (!world.isClient) {
@@ -282,7 +301,7 @@ public class SculkShriekerBlock
     }
 
     public static void setStepActive(World world, BlockPos blockPos, BlockState blockState) {
-        if (!ShriekCounter.findWarden(world, blockPos)) {
+        if (!findWarden(world, blockPos)) {
             world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.ACTIVE)), 3);
             SculkShriekerBlock.updateNeighbors(world, blockPos);
             if (!world.isClient) {
