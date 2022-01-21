@@ -1,14 +1,12 @@
 package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.entity.WardenEntity;
-import frozenblock.wild.mod.fromAccurateSculk.ClickGameEvent;
 import frozenblock.wild.mod.fromAccurateSculk.SensorLastEntity;
-import frozenblock.wild.mod.liukrastapi.MathAddon;
+import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.GameEventTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -20,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 @Mixin(SculkSensorBlock.class)
 public class SculkSensorBlockMixin {
@@ -33,7 +30,7 @@ public class SculkSensorBlockMixin {
 
     @Inject(method = "setActive", at = @At("TAIL"))
     private static void setActive(World world, BlockPos pos, BlockState state, int power, CallbackInfo info) {
-        world.emitGameEvent(ClickGameEvent.CLICK, pos.add(0.5, 0, 0.5));
+        world.emitGameEvent(RegisterAccurateSculk.CLICK, pos.add(0.5, 0, 0.5));
 
         int lastEntity = SensorLastEntity.getLastEntity(pos);
         LivingEntity target = (LivingEntity) world.getEntityById(lastEntity);
