@@ -20,10 +20,6 @@ public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<Ward
 
     @Override
     public RenderLayer getEyesTexture() {
-        String string = Formatting.strip(entity.getName().getString());
-        if (string != null && "Osmiooo".equals(string)) {
-            return SECRET_OVERLAY;
-        }
         return OVERLAY;
     }
 }
