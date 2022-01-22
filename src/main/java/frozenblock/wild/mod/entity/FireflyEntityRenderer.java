@@ -16,6 +16,6 @@ public class FireflyEntityRenderer extends EntityRenderer<FireflyEntity> {
 
     @Override
     public Identifier getTexture(FireflyEntity entity) {
-        return new Identifier(WildMod.MOD_ID, "textures/entity/tadpole.png");
+        return new Identifier(WildMod.MOD_ID, "textures/entity/firefly.png");
     }
 }

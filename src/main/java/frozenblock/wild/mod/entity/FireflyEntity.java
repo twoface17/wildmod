@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.FireflyWanderGoal;
-import frozenblock.wild.mod.registry.RegisterParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.ai.NoWaterTargeting;
@@ -102,17 +101,6 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
 
     public BlockPos getSpawnPos() {
         return new BlockPos(this.spawnX, this.spawnY, this.spawnZ);
-    }
-
-    public void tick() {
-        super.tick();
-        this.world.addParticle(RegisterParticles.FIREFLY, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
-        if (!this.spawnSet && !this.world.isClient) {
-            this.spawnSet=true;
-            this.spawnX=this.getBlockX();
-            this.spawnY=this.getBlockY();
-            this.spawnZ=this.getBlockZ();
-        }
     }
 
     protected EntityNavigation createNavigation(World world) {
