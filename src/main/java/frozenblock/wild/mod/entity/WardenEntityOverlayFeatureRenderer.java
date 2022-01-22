@@ -19,7 +19,11 @@ public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<Ward
     }
 
     @Override
-    public RenderLayer getEyesTexture() {
+    public RenderLayer getEyesTexture(WardenEntity entity) {
+        String string = Formatting.strip(entity.getName().getString());
+        if ("Osmiooo".equals(string)) {
+            return SECRET_OVERLAY;
+        }
         return OVERLAY;
     }
 }

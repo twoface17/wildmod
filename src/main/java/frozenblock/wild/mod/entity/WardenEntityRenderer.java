@@ -21,7 +21,7 @@ public class WardenEntityRenderer extends MobEntityRenderer<WardenEntity, Warden
     @Override
     public Identifier getTexture(WardenEntity entity) {
         String string = Formatting.strip(entity.getName().getString());
-        if (string != null && "Osmiooo".equals(string)) {
+        if ("Osmiooo".equals(string)) {
             return SECRET_WARDEN_TEXTURE;
         }
             return WARDEN_TEXTURE;
