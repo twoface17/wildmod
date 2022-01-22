@@ -7,9 +7,8 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
-import org.w3c.dom.html.HTMLImageElement;
 
-public class WardenEntityModel extends EntityModel<WardenEntity> {
+public class WardenEntityModel<T extends WardenEntity> extends EntityModel<WardenEntity> {
     private final ModelPart body;
     private final ModelPart head;
     private final ModelPart right_ear;

@@ -70,7 +70,7 @@ public class WardenEntity extends HostileEntity {
 
     public int attackCooldown;
 
-    public int hearbeatTime = 60;
+    public int heartbeatTime = 60;
     public long nextHeartBeat;
     public int timeStuck=0;
     public BlockPos stuckPos;
@@ -211,10 +211,10 @@ public class WardenEntity extends HostileEntity {
             }
         }
         //Heartbeat & Anger
-        this.hearbeatTime = (int) (60 - ((MathHelper.clamp(this.overallAnger(),0,15)*3.3)));
+        this.heartbeatTime = (int) (60 - ((MathHelper.clamp(this.overallAnger(),0,15)*3.3)));
         if (this.world.getTime()>=this.nextHeartBeat) {
             this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, SoundCategory.HOSTILE, 1F, (float) (0.85F + (MathHelper.clamp(this.overallAnger(),0,15)*0.02)));
-            this.nextHeartBeat=this.world.getTime()+hearbeatTime;
+            this.nextHeartBeat=this.world.getTime()+heartbeatTime;
         }
         if (this.world.getTime()-this.timeSinceNonEntity>300 && this.nonEntityAnger>0) {
             --this.nonEntityAnger;
@@ -591,5 +591,9 @@ public class WardenEntity extends HostileEntity {
         }
         anger = anger + nonEntityAnger;
         return MathHelper.clamp(anger,0,25);
+    }
+
+    public float heartbeatTime() {
+        return heartbeatTime;
     }
 }

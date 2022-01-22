@@ -6,24 +6,21 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.feature.EyesFeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.util.Formatting;
+import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
-public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel> {
+public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel<WardenEntity>> {
+
     private static final RenderLayer OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_overlay.png"));
     private static final RenderLayer SECRET_OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_overlay.png"));
 
-    public WardenEntityOverlayFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel> featureRendererContext) {
+    public WardenEntityOverlayFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
     }
-
-    @Override
-    public RenderLayer getEyesTexture(WardenEntity entity) {
-        String string = Formatting.strip(entity.getName().getString());
-        if ("Osmiooo".equals(string)) {
-            return SECRET_OVERLAY;
+        public RenderLayer getEyesTexture() {
+            return OVERLAY;
         }
-        return OVERLAY;
-    }
 }
