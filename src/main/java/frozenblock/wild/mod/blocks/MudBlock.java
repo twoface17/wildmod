@@ -4,6 +4,7 @@ import frozenblock.wild.mod.registry.RegisterSounds;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.*;
+import net.minecraft.block.enums.Thickness;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.particle.BlockStateParticleEffect;
@@ -32,7 +33,6 @@ public class MudBlock extends Block {
                 ))
                 .strength(0.5f, 0.5f)
                 .ticksRandomly()
-
         );
     }
 
@@ -42,8 +42,8 @@ public class MudBlock extends Block {
         int y = pos.getY();
         int z = pos.getZ();
         BlockState blockState = Blocks.POINTED_DRIPSTONE.getDefaultState();
-        blockState = (BlockState) blockState.with(PointedDripstoneBlock.VERTICAL_DIRECTION, Direction.DOWN);
-        if (world.getBlockState(new BlockPos((int) x, (int) y - 2, (int) z)) == blockState) {
+        blockState = blockState.with(PointedDripstoneBlock.VERTICAL_DIRECTION, Direction.UP);
+        if (world.getBlockState(new BlockPos((int) x, (int) y - 2, (int) z)) != blockState) {
             world.setBlockState(new BlockPos(pos), Blocks.CLAY.getDefaultState());
             if (!world.isClient) {
                 world.playSound(
@@ -54,7 +54,7 @@ public class MudBlock extends Block {
                         1f,
                         1f
                 );
-                ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.CLAY.getDefaultState()),
+                ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.WATER.getDefaultState()),
                         x + 0.5,
                         y + 0.5,
                         z + 0.5,
