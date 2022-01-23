@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.Thickness;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.particle.BlockStateParticleEffect;
@@ -19,6 +20,8 @@ import net.minecraft.util.math.Direction;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+import static net.minecraft.block.PointedDripstoneBlock.VERTICAL_DIRECTION;
 
 public class MudBlock extends Block {
     public MudBlock() {
@@ -42,8 +45,8 @@ public class MudBlock extends Block {
         int y = pos.getY();
         int z = pos.getZ();
         BlockState blockState = Blocks.POINTED_DRIPSTONE.getDefaultState();
-        blockState = blockState.with(PointedDripstoneBlock.VERTICAL_DIRECTION, Direction.UP);
-        if (world.getBlockState(new BlockPos((int) x, (int) y - 2, (int) z)) != blockState) {
+        blockState = blockState.with(VERTICAL_DIRECTION, Direction.DOWN);
+        if (blockState.with(PointedDripstoneBlock.THICKNESS, Thickness.TIP).with(PointedDripstoneBlock.THICKNESS, Thickness.BASE).with(PointedDripstoneBlock.THICKNESS, Thickness.FRUSTUM) == world.getBlockState(new BlockPos(x, y - 2, z))) {
             world.setBlockState(new BlockPos(pos), Blocks.CLAY.getDefaultState());
             if (!world.isClient) {
                 world.playSound(
@@ -54,7 +57,7 @@ public class MudBlock extends Block {
                         1f,
                         1f
                 );
-                ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.WATER.getDefaultState()),
+                ((ServerWorld) world).spawnParticles(ParticleTypes.SPLASH,
                         x + 0.5,
                         y + 0.5,
                         z + 0.5,
@@ -66,7 +69,6 @@ public class MudBlock extends Block {
                 );
 
             }
-
         }
     }
 
