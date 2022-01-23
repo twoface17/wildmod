@@ -46,7 +46,7 @@ public class MudBlock extends Block {
         int z = pos.getZ();
         BlockState blockState = Blocks.POINTED_DRIPSTONE.getDefaultState();
         blockState = blockState.with(VERTICAL_DIRECTION, Direction.DOWN);
-        if (blockState.with(PointedDripstoneBlock.THICKNESS, Thickness.TIP).with(PointedDripstoneBlock.THICKNESS, Thickness.BASE).with(PointedDripstoneBlock.THICKNESS, Thickness.FRUSTUM) == world.getBlockState(new BlockPos(x, y - 2, z))) {
+        if (blockState == world.getBlockState(new BlockPos(x, y - 2, z))) {
             world.setBlockState(new BlockPos(pos), Blocks.CLAY.getDefaultState());
             if (!world.isClient) {
                 world.playSound(
