@@ -4,9 +4,9 @@ import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
 import frozenblock.wild.mod.fromAccurateSculk.CatalystThreader;
-import frozenblock.wild.mod.fromAccurateSculk.ClickGameEvent;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.liukrastapi.Sphere;
+import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -103,13 +103,13 @@ public class LivingEntityMixin {
 	private void setHealth(float f, CallbackInfo info) {
 		LivingEntity entity = LivingEntity.class.cast(this);
 		if (entity.getType()==EntityType.ENDER_DRAGON && f==0.0F) {
-			entity.emitGameEvent(ClickGameEvent.DEATH, entity, entity.getBlockPos().down(20));
-			entity.emitGameEvent(ClickGameEvent.DEATH, entity, entity.getBlockPos().down(14));
-			entity.emitGameEvent(ClickGameEvent.DEATH, entity, entity.getBlockPos().down(7));
-			entity.emitGameEvent(ClickGameEvent.DEATH, entity, entity.getBlockPos());
-			entity.emitGameEvent(ClickGameEvent.DEATH, entity, entity.getBlockPos().up(7));
-			entity.emitGameEvent(ClickGameEvent.DEATH, entity, entity.getBlockPos().up(14));
-			entity.emitGameEvent(ClickGameEvent.DEATH, entity, entity.getBlockPos().up(20));
+			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().down(20));
+			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().down(14));
+			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().down(7));
+			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos());
+			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(7));
+			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(14));
+			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(20));
 			}
 		}
 
@@ -136,51 +136,51 @@ public class LivingEntityMixin {
 			if (Sphere.sphereBlock(RegisterBlocks.SCULK_CATALYST, entity.world, pos, 8)) {
 				if (!entity.world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
 					if (SculkTags.THREE.contains(entity.getType())) {
-						entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+						entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 						placeActiveOmptim(3, 4, 7, pos, entity);
 					}
 					if (SculkTags.FIVE.contains(entity.getType())) {
-						entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+						entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 						placeActiveOmptim(4, 5, 7, pos, entity);
 					}
 					if (SculkTags.TEN.contains(entity.getType())) {
-						entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+						entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 						placeActiveOmptim(9, 10, 6, pos, entity);
 					}
 					if (SculkTags.TWENTY.contains(entity.getType())) {
-						entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+						entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 						placeActiveOmptim(19, 20, 9, pos, entity);
 					}
 					if (SculkTags.FIFTY.contains(entity.getType())) {
-						entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+						entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 						placeActiveOmptim(59, 50, 14, pos, entity);
 					}
 					if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
-						entity.emitGameEvent(ClickGameEvent.DEATH, entity, entity.getBlockPos());
+						entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos());
 						placeActiveOmptim(1000, 33, 20, pos, entity);
 					}
 				} else if (entity.world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
 						int numCatalysts = Sphere.generateSphere(pos, 8, false, entity.world);
 						if (SculkTags.THREE.contains(entity.getType())) {
-							entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+							entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 							CatalystThreader.main(entity.world, pos, 3, 4, numCatalysts, 7);
 						} else if (SculkTags.FIVE.contains(entity.getType())) {
-							entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+							entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 							CatalystThreader.main(entity.world, pos, 4, 5, numCatalysts, 7);
 						} else if (SculkTags.TEN.contains(entity.getType())) {
-							entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+							entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 							CatalystThreader.main(entity.world, pos, 9, 10, numCatalysts, 6);
 						} else if (SculkTags.TWENTY.contains(entity.getType())) {
-							entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+							entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 							CatalystThreader.main(entity.world, pos, 19, 20, numCatalysts, 9);
 						} else if (SculkTags.FIFTY.contains(entity.getType())) {
-							entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+							entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 							CatalystThreader.main(entity.world, pos, 59, 50, numCatalysts, 14);
 						} else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
-							entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+							entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 							CatalystThreader.main(entity.world, pos, 1599, 33, numCatalysts, 20);
 						} else if (entity.world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
-							entity.emitGameEvent(ClickGameEvent.DEATH, entity, pos);
+							entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 							CatalystThreader.main(entity.world, pos, (UniformIntProvider.create(1, 7).get(entity.world.getRandom())) * numCatalysts, (UniformIntProvider.create(1, 7).get(entity.world.getRandom())), numCatalysts, 5);
 						}
 					}

@@ -3,6 +3,7 @@
  */
 package frozenblock.wild.mod.fromAccurateSculk;
 
+import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
@@ -81,14 +82,14 @@ implements GameEventListener {
     }
 
     private boolean shouldActivate(GameEvent gameEvent) {
-        if (gameEvent.equals(ClickGameEvent.CLICK)) { return true; }
+        if (gameEvent.equals(RegisterAccurateSculk.CLICK)) { return true; }
         return false;
     }
 
     private void listen(World world, GameEvent gameEvent, BlockPos blockPos, BlockPos blockPos2) {
         this.event = Optional.of(gameEvent);
         if (world instanceof ServerWorld) {
-            if (gameEvent==ClickGameEvent.CLICK) {
+            if (gameEvent==RegisterAccurateSculk.CLICK) {
                 this.delay = this.distance = MathHelper.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2;
                 ((ServerWorld) world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
             }

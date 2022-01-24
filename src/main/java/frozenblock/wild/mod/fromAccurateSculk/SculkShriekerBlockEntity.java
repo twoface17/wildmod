@@ -4,6 +4,7 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
+import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -171,7 +172,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     @Override
     public void accept(World world, GameEventListener gameEventListener, GameEvent gameEvent, int i) {
         BlockState blockState = this.getCachedState();
-        if (!world.isClient() && SculkShriekerBlock.isInactive(blockState) && gameEvent==ClickGameEvent.CLICK) {
+        if (!world.isClient() && SculkShriekerBlock.isInactive(blockState) && gameEvent== RegisterAccurateSculk.CLICK) {
             SculkShriekerBlock.setActive(world, this.pos, blockState);
         }
     }

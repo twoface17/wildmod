@@ -327,14 +327,9 @@ public class FrogEntity extends AnimalEntity {
             } else if (this.getVariant() == FrogEntity.Variant.WARM) {
                 this.dropItem(RegisterBlocks.PEARLESCENT_FROGLIGHT.asItem(), 0);
             }
-            for (int i = 0; i < 4; i++) {
-                if (UniformIntProvider.create(0, 3).get(world.getRandom()) > 2) {
-                    this.dropItem(Items.MAGMA_CREAM);
-                }
-            }
         }
         if (entity.getType() == EntityType.SLIME) {
-            for (int i = 0; i < UniformIntProvider.create(1, 3).get(world.getRandom()); i++) {
+            for (int i = 0; i < UniformIntProvider.create(0, 2).get(world.getRandom()); i++) {
                 this.dropItem(Items.SLIME_BALL);
             }
         }
