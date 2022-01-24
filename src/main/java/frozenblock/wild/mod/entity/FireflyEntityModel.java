@@ -3,9 +3,10 @@ package frozenblock.wild.mod.entity;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.render.Camera;
 import org.jetbrains.annotations.NotNull;
 
 public class FireflyEntityModel extends EntityModel<FireflyEntity> {
@@ -21,9 +22,10 @@ public class FireflyEntityModel extends EntityModel<FireflyEntity> {
     }
 
     @Override
-    public void setAngles(FireflyEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-
-    }
+    public void setAngles(@NotNull FireflyEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
+        Camera camera = new Camera();
+        this.plane.yaw = -camera.getYaw();
+        }
 
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
