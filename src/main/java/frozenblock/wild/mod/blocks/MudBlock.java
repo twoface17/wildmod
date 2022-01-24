@@ -39,6 +39,8 @@ public class MudBlock extends Block {
         );
     }
 
+//please dont kill me i know this is a mess but its the only way i could get it working lol -merp
+
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int x = pos.getX();
