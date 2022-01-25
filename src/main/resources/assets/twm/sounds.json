@@ -818,7 +818,7 @@
 		],
 		"subtitle": "subtitles.entity.warden.vibration"
 	},
-	"music.overworld.deepdark": {
+	"music.overworld.deep_dark": {
 		"sounds": [
 			{
 				"name": "twm:music/game/ancestry",
