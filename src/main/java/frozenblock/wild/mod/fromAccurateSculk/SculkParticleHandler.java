@@ -13,8 +13,8 @@ public class SculkParticleHandler {
         double d = (double) blockPos.getX() + 0.5;
         double e = (double) blockPos.getY() + 1;
         double f = (double) blockPos.getZ() + 0.5;
-        world.addImportantParticle(RegisterParticles.SCULK_SOUL, d - 0.07, e, f - 0.07, 0.0, 0.06, 0.0);
-        world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + 0.07, e, f + 0.07, 0.0, 0.05, 0.0);
+        world.addImportantParticle(RegisterParticles.SCULK_SOUL, d - 0.07, e, f - 0.07, 0.0, 0.03, 0.0);
+        world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + 0.07, e, f + 0.07, 0.0, 0.02, 0.0);
     }
 
     public static void wardenDig(World world, BlockPos p, int ticks) {
