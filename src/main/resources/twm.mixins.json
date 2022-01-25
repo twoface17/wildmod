@@ -17,7 +17,8 @@
     "VanillaBiomeParametersMixin",
     "VanillaSurfaceRulesBlockInvoker",
     "VanillaSurfaceRulesInjector",
-    "VillagerTypeMixin"
+    "VillagerTypeMixin",
+    "UndergroundPlacedFeaturesMixin"
   ],
   "client": [
   ],
