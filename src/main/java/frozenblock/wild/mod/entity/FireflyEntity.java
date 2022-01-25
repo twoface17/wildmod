@@ -46,7 +46,7 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
     }
 
     public static DefaultAttributeContainer.Builder createFireflyAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 10D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.5);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 1D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.5);
     }
 
     @Nullable
@@ -132,10 +132,6 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         return !this.onGround;
     }
 
-    @Override
-    public boolean collides() {
-        return false;
-    }
     @Override
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
         return false;
