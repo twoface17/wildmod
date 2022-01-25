@@ -100,7 +100,6 @@ public class WildModClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_CHEST_BOAT_LAYER, ChestBoatEntityModel::getTexturedModelData);
 
         EntityRendererRegistry.register(RegisterEntities.FIREFLY, FireflyEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_FIREFLY_LAYER, FireflyEntityModel::getTexturedModelData);
 
 
 
