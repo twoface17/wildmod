@@ -28,7 +28,7 @@ public class DarknessStatusEffect extends StatusEffect {
                         pos,
                         RegisterSounds.ENTITY_WARDEN_CLOSE,
                         SoundCategory.AMBIENT,
-                        1f,
+                        5f,
                         1f
                 );
             }

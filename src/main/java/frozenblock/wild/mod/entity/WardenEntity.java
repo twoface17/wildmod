@@ -219,7 +219,7 @@ public class WardenEntity extends HostileEntity {
         }
     }
 
-    /** SUSPISION */
+    /** SUSPICION */
     public void addSuspicion(LivingEntity entity, int suspicion) {
         if (!this.entityList.isEmpty()) {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
