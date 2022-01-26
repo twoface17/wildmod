@@ -14,7 +14,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 import org.jetbrains.annotations.Nullable;
 
-public class FireFlyParticle extends AbstractSlowingParticle {
+public class FireFlyParticle extends SpriteBillboardParticle {
     private final SpriteProvider spriteProvider;
     protected FireflyEntity entity;
 
