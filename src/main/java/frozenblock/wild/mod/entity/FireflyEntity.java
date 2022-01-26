@@ -2,6 +2,7 @@ package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.FireflyWanderGoal;
 import frozenblock.wild.mod.registry.RegisterParticles;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.ai.NoWaterTargeting;
@@ -18,6 +19,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -125,6 +127,21 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         birdNavigation.setCanSwim(false);
         birdNavigation.setCanEnterOpenDoors(true);
         return birdNavigation;
+    }
+    protected SoundEvent getAmbientSound() {
+        return RegisterSounds.ENTITY_FIREFLY_AMBIENT;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return RegisterSounds.ENTITY_FIREFLY_HURT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return RegisterSounds.ENTITY_FIREFLY_HURT;
+    }
+
+    protected float getSoundVolume() {
+        return 0.4F;
     }
 
     @Override
