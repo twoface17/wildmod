@@ -502,7 +502,11 @@ public class SculkShriekerBlock
             } else if (!world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK)) {
                 sendDarkness(8, blockPos, world);
             }
-            ShriekCounter.addShriek(blockPos, world);
+            BlockEntity blockEntity = world.getBlockEntity(blockPos);
+            if (blockEntity instanceof SculkShriekerBlockEntity) {
+                SculkShriekerBlockEntity shrieker = (SculkShriekerBlockEntity)blockEntity;
+                ShriekCounter.addShriek(blockPos, world, shrieker.getLastVibrationFrequency());
+            }
         }
         SculkShriekerBlock.updateNeighbors(world, blockPos);
     }
