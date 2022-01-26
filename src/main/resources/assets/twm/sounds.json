@@ -543,11 +543,13 @@
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
-	"entity.firefly.ambient": {
+	"entity.firefly.loop": {
 		"sounds": [
-			"twm:entity/firefly/ambient1",
-			"twm:entity/firefly/ambient2",
-			"twm:entity/firefly/ambient3"
+			"twm:entity/firefly/loop1",
+			"twm:entity/firefly/loop2",
+			"twm:entity/firefly/loop3",
+			"twm:entity/firefly/loop4",
+			"twm:entity/firefly/loop5"
 		]
 	},
 	"entity.firefly.hurt": {
