@@ -4,6 +4,8 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.SculkSensorBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
@@ -92,7 +94,19 @@ implements GameEventListener {
             if (gameEvent==RegisterAccurateSculk.CLICK) {
                 this.delay = this.distance = MathHelper.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2;
                 ((ServerWorld) world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
+                BlockEntity sensor = world.getBlockEntity(blockPos2);
+                if (sensor instanceof SculkSensorBlockEntity) {
+                    SculkSensorBlockEntity sculkSensorBlockEntity = (SculkSensorBlockEntity)sensor;
+                    writeValue(sculkSensorBlockEntity.getLastVibrationFrequency(), blockPos, world);
+                }
             }
+        }
+    }
+
+    public void writeValue(int i, BlockPos blockPos, World world) {
+        BlockEntity blockEntity = world.getBlockEntity(blockPos);
+        if (blockEntity instanceof SculkShriekerBlockEntity shriekerBlockEntity) {
+            shriekerBlockEntity.setLastVibrationFrequency(i);
         }
     }
 
