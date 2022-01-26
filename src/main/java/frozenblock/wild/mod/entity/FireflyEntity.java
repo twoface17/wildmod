@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.ai.NoWaterTargeting;
 import net.minecraft.entity.ai.control.FlightMoveControl;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
@@ -31,6 +31,7 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
     public int spawnX;
     public int spawnY;
     public int spawnZ;
+    private int ticksToParticle;
 
     public FireflyEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
@@ -43,8 +44,8 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
     }
 
     protected void initGoals() {
-        this.goalSelector.add(8, new FireflyWanderGoal(this));
-        this.goalSelector.add(7, new SwimGoal(this));
+        this.goalSelector.add(2, new FireflyWanderGoal(this));
+        this.goalSelector.add(1, new SwimGoal(this));
     }
 
     public static DefaultAttributeContainer.Builder createFireflyAttributes() {
@@ -108,7 +109,7 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
 
     public void tick() {
         super.tick();
-        this.world.addParticle(RegisterParticles.FIREFLY, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+        this.world.addImportantParticle(RegisterParticles.FIREFLY, this.getX(), this.getY(), this.getZ(), this.getVelocity().getX(), this.getVelocity().getY(), this.getVelocity().getZ());
         if (!this.spawnSet && !this.world.isClient) {
             this.spawnSet=true;
             this.spawnX=this.getBlockX();
