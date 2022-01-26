@@ -126,7 +126,6 @@ public class WardenEntity extends HostileEntity {
 
 
     public void tickMovement() {
-        if (!this.isAiDisabled()) {
             if (this.isAlive()) {
                 if (world.getGameRules().getBoolean(WildMod.WARDEN_BURNS)) {
                     if (this.isAlive()) {
@@ -150,6 +149,7 @@ public class WardenEntity extends HostileEntity {
                     }
                 }
             }
+        if (!this.isAiDisabled()) {
             if (this.attackTicksLeft1 > 0) {
                 --this.attackTicksLeft1;
             }
