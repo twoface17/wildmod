@@ -26,7 +26,7 @@ public class ShriekCounter {
         if (world.getTime()-timer< -90) {
             timer=0;
         }
-        if (!world.isClient() && world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.getTime() > timer) {
+        if (!world.isClient() && world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.getGameRules().getBoolean(WildMod.WARDEN_SPAWNING) && world.getTime() > timer) {
             timer=world.getTime()+30;
             if (!findWarden(world, pos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
                 shrieks = shrieks + 1;
