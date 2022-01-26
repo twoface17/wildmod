@@ -15,7 +15,9 @@ import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MagmaCubeEntity;
 import net.minecraft.entity.mob.SlimeEntity;
+import net.minecraft.entity.passive.GoatEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -97,6 +99,7 @@ public class FrogGoal extends Goal {
                 double d = 3;
                 List<SlimeEntity> slimes = this.mob.getWorld().getNonSpectatingEntities(SlimeEntity.class, box2);
                 List<FireflyEntity> fireflies = this.mob.getWorld().getNonSpectatingEntities(FireflyEntity.class, box2);
+                List<GoatEntity> goats = this.mob.getWorld().getNonSpectatingEntities(GoatEntity.class, box2);
                 ArrayList<LivingEntity> allEntities = new ArrayList<>();
                 if (slimes.size() > 0) {
                     for (SlimeEntity target : slimes) {
@@ -175,12 +178,28 @@ public class FrogGoal extends Goal {
                 world.sendEntityStatus(this.mob, (byte) 4);
                 target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                 target.setInvulnerable(true);
+                this.mob.playSound(RegisterSounds.ENTITY_FROG_TONGUE, 1.0F, 1.0F);
                 this.mob.targetRemoveTimer=10;
                 this.mob.targetID=target.getId();
                 this.mob.eatTimer = world.getTime();
             }
         }
-
+        List<GoatEntity> goatlist = world.getNonSpectatingEntities(GoatEntity.class, box2);
+        String string = Formatting.strip(this.mob.getName().getString());
+        if ("Osmiooo".equals(string)) {
+            if (goatlist.size() > 0) {
+                if (world.getTime() - this.mob.eatTimer >= 50 && this.mob.getBlockPos().getSquaredDistance(list.get(0).getBlockPos()) <= 6) {
+                    GoatEntity target = goatlist.get(0);
+                    world.sendEntityStatus(this.mob, (byte) 4);
+                    target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
+                    target.setInvulnerable(true);
+                    this.mob.playSound(RegisterSounds.ENTITY_FROG_TONGUE, 1.0F, 1.0F);
+                    this.mob.targetRemoveTimer = 10;
+                    this.mob.targetID = target.getId();
+                    this.mob.eatTimer = world.getTime();
+                }
+            }
+        }
         List<SlimeEntity> slimelist = world.getNonSpectatingEntities(SlimeEntity.class, box2);
         if (slimelist.size() > 0) {
             for (SlimeEntity target : slimelist) {
@@ -189,6 +208,7 @@ public class FrogGoal extends Goal {
                         world.sendEntityStatus(this.mob, (byte) 4);
                         target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                         target.setInvulnerable(true);
+                        this.mob.playSound(RegisterSounds.ENTITY_FROG_TONGUE, 1.0F, 1.0F);
                         this.mob.targetRemoveTimer=10;
                         this.mob.targetID=target.getId();
                         this.mob.eatTimer = world.getTime();
@@ -204,6 +224,7 @@ public class FrogGoal extends Goal {
                         world.sendEntityStatus(this.mob, (byte) 4);
                         target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                         target.setInvulnerable(true);
+                        this.mob.playSound(RegisterSounds.ENTITY_FROG_TONGUE, 1.0F, 1.0F);
                         this.mob.targetRemoveTimer=10;
                         this.mob.targetID=target.getId();
                         this.mob.eatTimer = world.getTime();
