@@ -4,7 +4,6 @@ import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.SculkSensorBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
