@@ -129,7 +129,7 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         return birdNavigation;
     }
     protected SoundEvent getAmbientSound() {
-        return RegisterSounds.ENTITY_FIREFLY_AMBIENT;
+        return null;
     }
 
     protected SoundEvent getHurtSound(DamageSource source) {
