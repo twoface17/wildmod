@@ -1,12 +1,10 @@
-/*
- * Decompiled with CFR 0.0.9 (FabricMC cc05e23f).
- */
 package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.SculkSensorBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +26,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     int direction;
     int shrieks;
     boolean stepped;
+    private int lastVibrationFrequency;
 
     public int getTicks() {
         return ticks;
@@ -74,6 +73,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
         this.shrieks = nbtCompound.getInt("shrieks");
         this.direction = nbtCompound.getInt("direction");
         this.prevTick = nbtCompound.getInt("prevTick");
+        this.lastVibrationFrequency = nbtCompound.getInt("last_vibration_frequency");
     }
 
     @Override
@@ -83,12 +83,16 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
         nbtCompound.putInt("shrieks", this.shrieks);
         nbtCompound.putInt("direction", this.direction);
         nbtCompound.putInt("prevTick", this.prevTick);
+        nbtCompound.putInt("last_vibration_frequency", this.lastVibrationFrequency);
     }
 
     public SculkShriekerListener getEventListener() {
         return this.listener;
     }
 
+    public int getLastVibrationFrequency() {
+        return this.lastVibrationFrequency;
+    }
 
     @Override
     public boolean accepts(World world, GameEventListener gameEventListener, BlockPos blockPos, GameEvent gameEvent, @Nullable Entity entity) {
