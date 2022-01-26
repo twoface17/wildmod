@@ -93,6 +93,10 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
         return this.lastVibrationFrequency;
     }
 
+    public void setLastVibrationFrequency(int i) {
+        this.lastVibrationFrequency=i;
+    }
+
     @Override
     public boolean accepts(World world, GameEventListener gameEventListener, BlockPos blockPos, GameEvent gameEvent, @Nullable Entity entity) {
         boolean bl = gameEvent == GameEvent.BLOCK_DESTROY && blockPos.equals(this.getPos());
