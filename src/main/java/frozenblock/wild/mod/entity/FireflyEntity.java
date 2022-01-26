@@ -141,10 +141,6 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         return RegisterSounds.ENTITY_FIREFLY_HURT;
     }
 
-    protected float getSoundVolume() {
-        return 0.4F;
-    }
-
     @Override
     public boolean isInAir() {
         return !this.onGround;
