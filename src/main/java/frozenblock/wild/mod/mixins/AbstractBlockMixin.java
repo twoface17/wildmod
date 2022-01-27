@@ -103,7 +103,7 @@ public class AbstractBlockMixin {
                     while (var11.hasNext()) {
                         wardenEntity = var11.next();
                         if (wardenEntity.getBlockPos().isWithinDistance(pos, 16)) {
-                            wardenEntity.sculkSensorListen(lastEventPos, pos, wardenEntity.getWorld(), target, UniformIntProvider.create(1, 2).get(world.getRandom()));
+                            wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), target, UniformIntProvider.create(1, 2).get(world.getRandom()), pos);
                         }
                     }
                 }
