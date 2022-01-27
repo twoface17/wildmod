@@ -1,11 +1,13 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.FireflyWanderGoal;
+import frozenblock.wild.mod.registry.RegisterParticles;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.ai.NoWaterTargeting;
 import net.minecraft.entity.ai.control.FlightMoveControl;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
@@ -17,6 +19,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -40,12 +43,12 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
     }
 
     protected void initGoals() {
-        this.goalSelector.add(8, new FireflyWanderGoal(this));
-        this.goalSelector.add(7, new SwimGoal(this));
+        this.goalSelector.add(2, new FireflyWanderGoal(this));
+        this.goalSelector.add(1, new SwimGoal(this));
     }
 
     public static DefaultAttributeContainer.Builder createFireflyAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 10D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1).add(EntityAttributes.GENERIC_FLYING_SPEED, 1);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 1D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.5);
     }
 
     @Nullable
@@ -103,6 +106,17 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         return new BlockPos(this.spawnX, this.spawnY, this.spawnZ);
     }
 
+    public void tick() {
+        super.tick();
+        this.world.addImportantParticle(RegisterParticles.FIREFLY, this.getX(), this.getY(), this.getZ(), this.getVelocity().getX(), this.getVelocity().getY(), this.getVelocity().getZ());
+        if (!this.spawnSet && !this.world.isClient) {
+            this.spawnSet=true;
+            this.spawnX=this.getBlockX();
+            this.spawnY=this.getBlockY();
+            this.spawnZ=this.getBlockZ();
+        }
+    }
+
     protected EntityNavigation createNavigation(World world) {
         BirdNavigation birdNavigation = new BirdNavigation(this, world) {
             public boolean isValidPosition(BlockPos pos) {
@@ -114,16 +128,23 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         birdNavigation.setCanEnterOpenDoors(true);
         return birdNavigation;
     }
+    protected SoundEvent getAmbientSound() {
+        return null;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return RegisterSounds.ENTITY_FIREFLY_HURT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return RegisterSounds.ENTITY_FIREFLY_HURT;
+    }
 
     @Override
     public boolean isInAir() {
         return !this.onGround;
     }
 
-    @Override
-    public boolean collides() {
-        return false;
-    }
     @Override
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
         return false;

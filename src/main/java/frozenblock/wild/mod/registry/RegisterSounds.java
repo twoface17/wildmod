@@ -38,7 +38,9 @@ public class RegisterSounds {
     public static SoundEvent ENTITY_FROG_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.hurt"));
     public static SoundEvent ENTITY_FROG_LONG_JUMP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.long_jump"));
     public static SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
-    public static SoundEvent MUSIC_OVERWORLD_DEEPDARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deepdark"));
+    public static SoundEvent ENTITY_FIREFLY_LOOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.firefly.loop"));
+    public static SoundEvent ENTITY_FIREFLY_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.firefly.hurt"));
+    public static SoundEvent MUSIC_OVERWORLD_DEEP_DARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deep_dark"));
     public static SoundEvent BLOCK_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.step"));
     public static SoundEvent BLOCK_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.break"));
     public static SoundEvent BLOCK_MUD_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.place"));
@@ -131,9 +133,11 @@ public class RegisterSounds {
         ENTITY_FROG_HURT = register(ENTITY_FROG_HURT.getId());
         ENTITY_FROG_LONG_JUMP = register(ENTITY_FROG_LONG_JUMP.getId());
         ENTITY_FROG_TONGUE = register(ENTITY_FROG_TONGUE.getId());
+        ENTITY_FIREFLY_LOOP = register(ENTITY_FIREFLY_LOOP.getId());
+        ENTITY_FIREFLY_HURT = register(ENTITY_FIREFLY_HURT.getId());
         BLOCK_SCULK_SHRIEKER_BREAK = register(BLOCK_SCULK_SHRIEKER_BREAK.getId());
         BLOCK_SCULK_SHRIEKER_PLACE = register(BLOCK_SCULK_SHRIEKER_PLACE.getId());
-        MUSIC_OVERWORLD_DEEPDARK = register(MUSIC_OVERWORLD_DEEPDARK.getId());
+        MUSIC_OVERWORLD_DEEP_DARK = register(MUSIC_OVERWORLD_DEEP_DARK.getId());
         BLOCK_SCULK_VEIN_BREAK = register(BLOCK_SCULK_VEIN_BREAK.getId());
         BLOCK_SCULK_VEIN_PLACE = register(BLOCK_SCULK_VEIN_PLACE.getId());
 

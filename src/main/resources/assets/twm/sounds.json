@@ -543,6 +543,22 @@
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
+	"entity.firefly.loop": {
+		"sounds": [
+			"twm:entity/firefly/loop1",
+			"twm:entity/firefly/loop2",
+			"twm:entity/firefly/loop3",
+			"twm:entity/firefly/loop4",
+			"twm:entity/firefly/loop5"
+		]
+	},
+	"entity.firefly.hurt": {
+		"sounds": [
+			"twm:entity/firefly/hurt1",
+			"twm:entity/firefly/hurt2",
+			"twm:entity/firefly/hurt3"
+		]
+	},
 	"entity.frog.ambient": {
 		"sounds": [
 			{
@@ -818,7 +834,7 @@
 		],
 		"subtitle": "subtitles.entity.warden.vibration"
 	},
-	"music.overworld.deepdark": {
+	"music.overworld.deep_dark": {
 		"sounds": [
 			{
 				"name": "twm:music/game/ancestry",

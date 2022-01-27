@@ -50,7 +50,7 @@ public class FrogEntity extends AnimalEntity {
     public static final int TEMPERATE = 0;
     public static final int COLD = 1;
     public static final int WARM = 2;
-    private static final double speed = 0.3D;
+    private static final double speed = 0.4D;
     public static final TrackedData<Boolean> HAS_FROG_EGG;
     public static final TrackedData<BlockPos> TRAVEL_POS;
     public static final TrackedData<Boolean> ACTIVELY_TRAVELLING;
@@ -150,7 +150,9 @@ public class FrogEntity extends AnimalEntity {
     @Nullable
     public LivingEntity getTarget() {
         if (world.getEntityById(this.targetID)!=null) {
-            return (LivingEntity) world.getEntityById(this.targetID);
+            if (world.getEntityById(this.targetID) instanceof LivingEntity) {
+                return (LivingEntity) world.getEntityById(this.targetID);
+            }
         }
         return null;
     }
@@ -234,6 +236,7 @@ public class FrogEntity extends AnimalEntity {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(5, new LayFrogEggGoal(this, 1.0D));
         this.goalSelector.add(5, new FrogMateGoal(this, 1.0D));
+        this.goalSelector.add(2, new WanderAroundGoal(this, speed));
         this.goalSelector.add(3, new FrogWanderInWaterGoal(this, 1.0D));
         this.goalSelector.add(2, new WanderAroundFarGoal(this, speed));
         this.goalSelector.add(2, new TemptGoal(this, 1.1D, BREEDING_ITEM, false));

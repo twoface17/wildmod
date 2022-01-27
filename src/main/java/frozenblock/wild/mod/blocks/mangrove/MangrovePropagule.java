@@ -3,6 +3,8 @@ package frozenblock.wild.mod.blocks.mangrove;
 
 
 import frozenblock.wild.mod.liukrastapi.MangroveSaplingGenerator;
+import frozenblock.wild.mod.registry.MangroveWoods;
+import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.block.sapling.OakSaplingGenerator;
@@ -46,7 +48,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     }
 
     protected static Direction attachedDirection(BlockState state) {
-        return (Boolean) state.get(HANGING) ? Direction.DOWN : Direction.UP;
+        return state.get(HANGING) ? Direction.DOWN : Direction.UP;
     }
 
     @Nullable
@@ -73,13 +75,16 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        Direction direction = attachedDirection(state).getOpposite();
-        if (direction == Direction.UP) {
-            return world.getBlockState(new BlockPos(pos.up())).getMaterial() == Material.LEAVES;
-        } else {
-            BlockPos blockPos = pos.down();
-            return world.getBlockState(new BlockPos(blockPos)).isIn(BlockTags.DIRT);
+        if (state.getBlock()==MangroveWoods.MANGROVE_PROPAGULE) {
+            Direction direction = attachedDirection(state).getOpposite();
+            if (direction == Direction.UP) {
+                return world.getBlockState(new BlockPos(pos.up())).getMaterial() == Material.LEAVES;
+            } else {
+                BlockPos blockPos = pos.down();
+                return world.getBlockState(new BlockPos(blockPos)).isIn(BlockTags.DIRT);
+            }
         }
+        return false;
     }
 
     public PistonBehavior getPistonBehavior(BlockState state) {
@@ -87,7 +92,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     }
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if ((Boolean) state.get(WATERLOGGED)) {
+        if (state.get(WATERLOGGED)) {
             world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 

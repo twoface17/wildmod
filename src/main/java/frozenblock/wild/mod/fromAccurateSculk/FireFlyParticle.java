@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
+import frozenblock.wild.mod.entity.FireflyEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
@@ -11,9 +12,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
+import org.jetbrains.annotations.Nullable;
 
-public class FireFlyParticle extends AbstractSlowingParticle {
+public class FireFlyParticle extends SpriteBillboardParticle {
     private final SpriteProvider spriteProvider;
+    protected FireflyEntity entity;
 
     public int getBrightness(float f) {
         return 240;
@@ -24,7 +27,14 @@ public class FireFlyParticle extends AbstractSlowingParticle {
         this.spriteProvider = spriteProvider;
         this.scale(1.0f);
         this.setSpriteForAge(spriteProvider);
-        this.setMaxAge(1);
+        this.setMaxAge(0);
+    }
+
+    public void setEntity(FireflyEntity entity) {
+        if (entity!=null) {
+            this.entity = entity;
+        }
+        this.markDead();
     }
 
     @Override
@@ -32,17 +42,22 @@ public class FireFlyParticle extends AbstractSlowingParticle {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
 
+    //TODO: How do we actually SET the entity? I've tried a few things and none work.
     @Override
     public void tick() {
         super.tick();
         this.setSpriteForAge(this.spriteProvider);
+        if (entity!=null) {
+            this.move(entity.getX(), entity.getY(), entity.getZ());
+            this.setMaxAge(this.age+5);
+        }
     }
 
     public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
         Vec3d vec3d = camera.getPos();
-        float f = (float)(MathHelper.lerp((double)tickDelta, this.prevPosX, this.x) - vec3d.getX());
-        float g = (float)(MathHelper.lerp((double)tickDelta, this.prevPosY, this.y) - vec3d.getY());
-        float h = (float)(MathHelper.lerp((double)tickDelta, this.prevPosZ, this.z) - vec3d.getZ());
+        float f = (float)(MathHelper.lerp(tickDelta, this.prevPosX, this.x) - vec3d.getX());
+        float g = (float)(MathHelper.lerp(tickDelta, this.prevPosY, this.y) - vec3d.getY());
+        float h = (float)(MathHelper.lerp(tickDelta, this.prevPosZ, this.z) - vec3d.getZ());
         Quaternion quaternion;
         if (this.angle == 0.0F) {
             quaternion = camera.getRotation();
