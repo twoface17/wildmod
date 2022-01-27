@@ -5,13 +5,10 @@ import frozenblock.wild.mod.blocks.*;
 import frozenblock.wild.mod.items.FrogEggItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -30,7 +27,7 @@ public abstract class RegisterBlocks {
                     RegisterSounds.BLOCK_DEEPSLATE_FRAME_STEP
             ));
 
-    public static final AbstractBlock.Settings FROG_EGG_PROPERTIES = FabricBlockSettings
+    public static final AbstractBlock.Settings FROG_SPAWN_PROPERTIES = FabricBlockSettings
             .of(Material.EGG)
             .sounds(new BlockSoundGroup(1.0f, 1.5f,
                     SoundEvents.ENTITY_TURTLE_EGG_BREAK,
@@ -74,7 +71,7 @@ public abstract class RegisterBlocks {
     public static final Block DEEPSLATE_FRAME = new PillarBlock(DEEPSLATE_FRAME_SETTINGS);
 
     // ALL BLOCKS HERE HAVE NO COLLISION
-    public static final Block FROG_EGG = new FrogEggBlock(FROG_EGG_PROPERTIES.nonOpaque().noCollision());
+    public static final Block FROG_SPAWN = new FrogSpawnBlock(FROG_SPAWN_PROPERTIES.nonOpaque().noCollision());
     public static final Block SCULK_VEIN = SculkVeinBlock.SCULK_VEIN;
 
     public static void RegisterBlocks() {
@@ -111,8 +108,8 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "deepslate_frame"), DEEPSLATE_FRAME);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "deepslate_frame"), new BlockItem(DEEPSLATE_FRAME, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_egg"), FROG_EGG);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_egg"), new FrogEggItem(FROG_EGG, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_spawn"), FROG_SPAWN);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_spawn"), new FrogEggItem(FROG_SPAWN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), PEARLESCENT_FROGLIGHT);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), new BlockItem(PEARLESCENT_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
