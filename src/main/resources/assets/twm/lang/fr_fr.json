@@ -21,6 +21,7 @@
   "block.twm.mangrove_leaves": "Feuilles de mangrove",
   "block.twm.mangrove_sapling": "Propagule de mangrove",
   "block.twm.mangrove_roots": "Racines de mangrove",
+  "block.twm.propagule": "Propagule",
 
   "biome.twm.mangrove_swamps": "Mangrove",
 
@@ -34,7 +35,13 @@
   "item.twm.warden_spawn_egg": "Oeuf d'apparition de warden",
   "item.twm.frog_spawn_egg": "Oeuf d'apparition de grenouille",
   "item.twm.tadpole_spawn_egg": "Oeuf d'apparition de tétard",
+  "item.twm.firefly_spawn_egg": "Oeuf d'apparition de luciole",
   "item.twm.tadpole_bucket": "Tétard dans un sceau",
+
+  "block.twm.frog_spawn": "Frai de grenouille",
+  "block.twm.pearlescent_froglight": "Feu de grenouille nacrée",
+  "block.twm.verdant_froglight": "Feu de grenouille verdoyant",
+  "block.twm.ochre_froglight": "Feu de grenouille ocre",
 
   "entity.twm.frog": "Grenouille",
   "entity.twm.warden": "Warden",
@@ -50,7 +57,27 @@
   "item.twm.jungle_chest_boat": "Bateau avec un coffre en acajou",
   "item.twm.dark_oak_chest_boat": "Bateau avec un coffre en chêne noir",
   "item.twm.mangrove_chest_boat": "Bateau avec un coffre en mangrove",
-  "subtitles.entity.warden.nearby_close":"?",
-  "subtitles.entity.warden.nearby_closer":"??",
-  "subtitles.entity.warden.nearby_closest":"???"
+
+  "subtitles.entity.twm.frog.ambient": "Croassement de grenouille",
+  "subtitles.entity.twm.frog.eat": "Grenouille qui mange",
+  "subtitles.entity.twm.frog.long_jump": "Sauts de grenouille",
+  "subtitles.entity.warden.emerge":"Warden qui émerge",
+  "subtitles.entity.warden.dig":"Warden qui creuse",
+  "subtitles.entity.warden.ambient":"Gémissement de warden",
+  "subtitles.entity.warden.slightly_angry":"Plaintes de warden",
+  "subtitles.entity.warden.angry":"Grognement de warden",
+  "subtitles.entity.warden.hurt":"Warden qui est touché",
+  "subtitles.entity.warden.death":"Warden qui meurt",
+  "subtitles.entity.warden.roar":"Rugissement de warden",
+  "subtitles.entity.warden.sniff":"Warden qui renifle",
+  "subtitles.entity.warden.vibration":"Les vrilles du warden qui cliquent",
+  "subtitles.entity.warden.attack":"Coups de warden",
+  "subtitles.block.sculk_shrieker.shriek":"Hurleur sculk qui hurle",
+  "subtitles.entity.warden.nearby_close":"Battements de coeur lointains",
+  "subtitles.entity.warden.nearby_closer":"Battements de coeur distants",
+  "subtitles.entity.warden.nearby_closest":"Battements de coeur proche",
+  "subtitles.twm.nearby_close":"?",
+  "subtitles.twm.nearby_closer":"??",
+  "subtitles.twm.nearby_closest":"???",
+  "subtitles.entity.warden.heartbeat":"Battement de coeur"
 }
