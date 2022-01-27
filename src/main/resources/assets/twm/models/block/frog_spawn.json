@@ -1,8 +1,8 @@
 {
 	"ambientocclusion": false,
 	"textures": {
-		"particle": "twm:block/frog_egg",
-		"texture": "twm:block/frog_egg"
+		"particle": "twm:block/frog_spawn",
+		"texture": "twm:block/frog_spawn"
 	},
 	"elements": [
 		{   "from": [  0, 0.25,  0 ],

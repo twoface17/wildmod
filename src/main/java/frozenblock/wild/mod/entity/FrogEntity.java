@@ -1,10 +1,10 @@
 package frozenblock.wild.mod.entity;
 
-import frozenblock.wild.mod.blocks.FrogEggBlock;
+import frozenblock.wild.mod.blocks.FrogSpawnBlock;
 import frozenblock.wild.mod.liukrastapi.FrogGoal;
 import frozenblock.wild.mod.liukrastapi.FrogMateGoal;
 import frozenblock.wild.mod.liukrastapi.FrogWanderInWaterGoal;
-import frozenblock.wild.mod.liukrastapi.LayFrogEggGoal;
+import frozenblock.wild.mod.liukrastapi.LayFrogSpawnGoal;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
@@ -51,7 +51,7 @@ public class FrogEntity extends AnimalEntity {
     public static final int COLD = 1;
     public static final int WARM = 2;
     private static final double speed = 0.4D;
-    public static final TrackedData<Boolean> HAS_FROG_EGG;
+    public static final TrackedData<Boolean> PREGNANT;
     public static final TrackedData<BlockPos> TRAVEL_POS;
     public static final TrackedData<Boolean> ACTIVELY_TRAVELLING;
     public static final Ingredient BREEDING_ITEM;
@@ -70,7 +70,7 @@ public class FrogEntity extends AnimalEntity {
     }
 
     static {
-        HAS_FROG_EGG = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        PREGNANT = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
         TRAVEL_POS = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
         ACTIVELY_TRAVELLING = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
         BREEDING_ITEM = Ingredient.ofItems(Blocks.SEAGRASS.asItem());
@@ -96,12 +96,10 @@ public class FrogEntity extends AnimalEntity {
         return (BlockPos) this.dataTracker.get(TRAVEL_POS);
     }
 
-    public boolean hasFrogEgg() {
-        return (Boolean) this.dataTracker.get(HAS_FROG_EGG);
-    }
+    public boolean pregnant() {return (Boolean) this.dataTracker.get(PREGNANT);}
 
-    public void setHasEgg(boolean hasfrogEgg) {
-        this.dataTracker.set(HAS_FROG_EGG, hasfrogEgg);
+    public void becomePregnant(boolean pregnant) {
+        this.dataTracker.set(PREGNANT, pregnant);
     }
 
     public boolean isOnGround() {
@@ -132,13 +130,13 @@ public class FrogEntity extends AnimalEntity {
                 this.world.addParticle(ParticleTypes.HEART, this.getParticleX(1.0D), this.getRandomBodyY() + 0.5D, this.getParticleZ(1.0D), d, e, f);
             }
         }
-        if (this.hasFrogEgg() && canPlace(this.world, this.getBlockPos())) {
+        if (this.pregnant() && canPlace(this.world, this.getBlockPos())) {
             World world = this.world;
             world.playSound(null, this.getBlockPos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
-            world.setBlockState(this.getBlockPos().up(), RegisterBlocks.FROG_EGG.getDefaultState(), 3);
+            world.setBlockState(this.getBlockPos().up(), RegisterBlocks.FROG_SPAWN.getDefaultState(), 3);
             world.syncWorldEvent(2005, this.getBlockPos().up(), 0);
             world.createAndScheduleBlockTick(this.getBlockPos(), world.getBlockState(this.getBlockPos()).getBlock(), UniformIntProvider.create(400, 1800).get(world.getRandom()));
-            this.setHasEgg(false);
+            this.becomePregnant(false);
             this.setLoveTicks(600);
         }
         if (this.targetRemoveTimer == 0 && this.getTarget() != null) {
@@ -189,7 +187,7 @@ public class FrogEntity extends AnimalEntity {
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(VARIANT, 0);
-        this.dataTracker.startTracking(HAS_FROG_EGG, false);
+        this.dataTracker.startTracking(PREGNANT, false);
         this.dataTracker.startTracking(ACTIVELY_TRAVELLING, false);
         this.dataTracker.startTracking(TRAVEL_POS, this.getBlockPos());
     }
@@ -198,7 +196,7 @@ public class FrogEntity extends AnimalEntity {
         super.writeCustomDataToNbt(nbt);
         nbt.putInt(VARIANT_KEY, this.getVariant().getId());
         nbt.putLong("eatTimer", this.eatTimer);
-        nbt.putBoolean("HasEgg", this.hasFrogEgg());
+        nbt.putBoolean("IsPregnant", this.pregnant());
         nbt.putInt("TravelPosX", this.getTravelPos().getX());
         nbt.putInt("TravelPosY", this.getTravelPos().getY());
         nbt.putInt("TravelPosZ", this.getTravelPos().getZ());
@@ -223,7 +221,7 @@ public class FrogEntity extends AnimalEntity {
         super.readCustomDataFromNbt(nbt);
         this.setVariant(FrogEntity.Variant.VARIANTS[nbt.getInt(VARIANT_KEY)]);
         this.eatTimer = nbt.getLong("eatTimer");
-        this.setHasEgg(nbt.getBoolean("HasEgg"));
+        this.becomePregnant(nbt.getBoolean("IsPregnant"));
         int l = nbt.getInt("TravelPosX");
         int m = nbt.getInt("TravelPosY");
         int n = nbt.getInt("TravelPosZ");
@@ -234,7 +232,7 @@ public class FrogEntity extends AnimalEntity {
 
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(5, new LayFrogEggGoal(this, 1.0D));
+        this.goalSelector.add(5, new LayFrogSpawnGoal(this, 1.0D));
         this.goalSelector.add(5, new FrogMateGoal(this, 1.0D));
         this.goalSelector.add(2, new WanderAroundGoal(this, speed));
         this.goalSelector.add(3, new FrogWanderInWaterGoal(this, 1.0D));
@@ -318,7 +316,7 @@ public class FrogEntity extends AnimalEntity {
     }
 
     protected boolean canPlace(World world, BlockPos pos) {
-        return world.isAir(pos.up()) && FrogEggBlock.isWater(world, pos);
+        return world.isAir(pos.up()) && FrogSpawnBlock.isWater(world, pos);
     }
 
     public void dropItems(World world, LivingEntity entity) {

@@ -20,7 +20,7 @@ public class FrogMateGoal extends AnimalMateGoal {
     }
 
     public boolean canStart() {
-        return super.canStart() && !this.frog.hasFrogEgg();
+        return super.canStart() && !this.frog.pregnant();
     }
 
     protected void breed() {
@@ -34,7 +34,7 @@ public class FrogMateGoal extends AnimalMateGoal {
             Criteria.BRED_ANIMALS.trigger(serverPlayerEntity, this.animal, this.mate, (PassiveEntity) null);
         }
 
-        this.frog.setHasEgg(true);
+        this.frog.becomePregnant(true);
         this.animal.resetLoveTicks();
         this.mate.resetLoveTicks();
         Random random = this.animal.getRandom();

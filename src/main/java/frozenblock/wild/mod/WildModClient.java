@@ -81,7 +81,7 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_TRAPDOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_PROPAGULE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(SculkVeinBlock.SCULK_VEIN, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.FROG_EGG, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.FROG_SPAWN, RenderLayer.getCutout());
 
 
         EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);

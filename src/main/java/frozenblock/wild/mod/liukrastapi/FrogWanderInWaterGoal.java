@@ -21,7 +21,7 @@ public class FrogWanderInWaterGoal extends MoveToTargetPosGoal {
     }
 
     public boolean canStart() {
-        return !this.frog.isTouchingWater() && !this.frog.hasFrogEgg() && super.canStart();
+        return !this.frog.isTouchingWater() && !this.frog.pregnant() && super.canStart();
     }
 
     public boolean shouldResetPath() {
