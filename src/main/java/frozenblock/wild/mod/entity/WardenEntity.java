@@ -44,47 +44,17 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class WardenEntity extends HostileEntity {
-    //Animation
-    private double roarAnimationProgress;
-    //Movement
-    public int timeStuck=0;
-    public BlockPos stuckPos;
-    public long timeSinceLastRecalculation;
-    public BlockPos lasteventpos;
-    public World lasteventworld;
-    public LivingEntity lastevententity;
-    public LivingEntity navigationEntity;
-    public int sniffX;
-    public int sniffY;
-    public int sniffZ;
-    //Lists & Entity Tracking
-    public IntArrayList entityList = new IntArrayList();
-    public IntArrayList susList = new IntArrayList();
-    public String trackingEntity = "null";
-    public String sniffEntity = "null";
-    //Anger & Heartbeat
-    public int heartbeatTime = 60;
-    public int nonEntityAnger;
-    public long nextHeartBeat;
-    //Emerging & Digging
-    public boolean hasDetected=false;
-    public boolean hasEmerged;
-    public int emergeTicksLeft;
-    //Timers
-    public long leaveTime;
-    public long vibrationTimer = 0;
-    public int attackCooldown;
-    public long reactionSoundTimer;
-    private int attackTicksLeft1;
-    private int roarTicksLeft1;
-    public int sniffTicksLeft;
-    //Stopwatches
-    public long timeSinceNonEntity;
-    public int sniffCooldown;
-
-    protected int delay = 0;
-    protected int distance;
-    private static final double speed = 0.4D;
+    /** WELCOME TO THE WARDEN MUSEUM
+     * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
+     * SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}
+     * SNIFFING {@link WardenEntity#getSniffEntity()}
+     * ATTACKING & ROARING {@link WardenEntity#setRoarAnimationProgress(double)}
+     * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
+     * OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
+     * VISUAlS {@link WardenEntity#CreateVibration(World, WardenEntity, BlockPos)}
+     * TICKMOVEMENT METHODS {@link WardenEntity#tickEmerge()}
+     * ALL VALUES ARE STORED AT THE END OF THIS MUSEUM.
+     * */
 
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
@@ -132,10 +102,9 @@ public class WardenEntity extends HostileEntity {
         }  else {
             super.handleStatus(status);
         }
-
     }
 
-    public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
+    public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion, BlockPos vibrationPos) {
         if (!this.isAiDisabled() && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
             this.sniffTicksLeft=-1;
             this.lasteventpos = eventPos;
@@ -145,16 +114,18 @@ public class WardenEntity extends HostileEntity {
             this.vibrationTimer = this.world.getTime();
             this.leaveTime = this.world.getTime() + 1200;
             this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
-            CreateVibration(this.world, this, lasteventpos);
+            if (vibrationPos != null) {
+                CreateVibration(this.world, this, vibrationPos);
+            } else {
+                CreateVibration(this.world, this, lasteventpos);
+            }
             if (eventEntity != null) {
                 addSuspicion(eventEntity, suspicion);
                 if (this.world.getTime()-reactionSoundTimer>40) {
                     this.reactionSoundTimer=this.world.getTime();
                     if (getSuspicion(eventEntity)<15 && getSuspicion(eventEntity)>10) {
-                        //ENTITY_WARDEN_ANGRY or VERY_ANGRY
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     } else if (getSuspicion(eventEntity)>=15) {
-                        //ENTITY_WARDEN_VERY_ANGRY or ANGRY
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     } else if (this.overallAnger()<5) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
@@ -171,48 +142,6 @@ public class WardenEntity extends HostileEntity {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     } else {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    }
-                }
-            }
-        }
-    }
-
-    public void sculkSensorListen(BlockPos eventPos, BlockPos vibrationPos, World eventWorld, LivingEntity eventEntity, int suspicion) {
-        if (!this.isAiDisabled() && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
-            this.sniffTicksLeft=-1;
-            this.lasteventpos = eventPos;
-            this.lastevententity = eventEntity;
-            this.lasteventworld = eventWorld;
-            this.hasDetected = true;
-            this.vibrationTimer = this.world.getTime();
-            this.leaveTime = this.world.getTime() + 1200;
-            this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
-            CreateVibration(this.world, this, vibrationPos);
-            if (eventEntity != null) {
-                addSuspicion(eventEntity, suspicion);
-                if (this.world.getTime()-reactionSoundTimer>60) {
-                    this.reactionSoundTimer=this.world.getTime();
-                if (getSuspicion(eventEntity)<15 && getSuspicion(eventEntity)>10) {
-                    //ENTITY_WARDEN_ANGRY or VERY_ANGRY
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                } else if (getSuspicion(eventEntity)>=15) {
-                    //ENTITY_WARDEN_VERY_ANGRY or ANGRY
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                } else if (this.overallAnger()<5) {
-                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                } else if (this.overallAnger()<10) {
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                }
-                }
-            } else {
-                this.timeSinceNonEntity = this.world.getTime();
-                this.nonEntityAnger=this.nonEntityAnger+1;
-                if (this.world.getTime()-reactionSoundTimer>60) {
-                    this.reactionSoundTimer = this.world.getTime();
-                    if (this.overallAnger()<5) {
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                } else {
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     }
                 }
             }
@@ -571,4 +500,46 @@ public class WardenEntity extends HostileEntity {
         }
     }
     }
+
+    //Animation
+    private double roarAnimationProgress;
+    //Movement
+    public int timeStuck=0;
+    public BlockPos stuckPos;
+    public long timeSinceLastRecalculation;
+    public BlockPos lasteventpos;
+    public World lasteventworld;
+    public LivingEntity lastevententity;
+    public LivingEntity navigationEntity;
+    public int sniffX;
+    public int sniffY;
+    public int sniffZ;
+    //Lists & Entity Tracking
+    public IntArrayList entityList = new IntArrayList();
+    public IntArrayList susList = new IntArrayList();
+    public String trackingEntity = "null";
+    public String sniffEntity = "null";
+    //Anger & Heartbeat
+    public int heartbeatTime = 60;
+    public int nonEntityAnger;
+    public long nextHeartBeat;
+    //Emerging & Digging
+    public boolean hasDetected=false;
+    public boolean hasEmerged;
+    public int emergeTicksLeft;
+    //Timers
+    public long leaveTime;
+    public long vibrationTimer = 0;
+    public int attackCooldown;
+    public long reactionSoundTimer;
+    private int attackTicksLeft1;
+    private int roarTicksLeft1;
+    public int sniffTicksLeft;
+    //Stopwatches
+    public long timeSinceNonEntity;
+    public int sniffCooldown;
+
+    protected int delay = 0;
+    protected int distance;
+    private static final double speed = 0.4D;
 }
