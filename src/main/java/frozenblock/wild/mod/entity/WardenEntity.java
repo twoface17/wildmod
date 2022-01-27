@@ -141,20 +141,22 @@ public class WardenEntity extends HostileEntity {
 
     /** SUSPICION */
     public void addSuspicion(LivingEntity entity, int suspicion) {
-        if (!this.entityList.isEmpty()) {
-            if (this.entityList.contains(entity.getUuid().hashCode())) {
-                int slot = this.entityList.indexOf(entity.getUuid().hashCode());
-                this.susList.set(slot, this.susList.getInt(slot) + suspicion);
-                if (this.susList.getInt(slot)>=45 && this.getTrackingEntity()==null) {
-                    this.trackingEntity=entity.getUuidAsString();
-                    this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_ROAR, SoundCategory.HOSTILE, 1F, 1F);
-                    this.roar();
+        if (this.world.getDifficulty().getId() != 0) {
+            if (!this.entityList.isEmpty()) {
+                if (this.entityList.contains(entity.getUuid().hashCode())) {
+                    int slot = this.entityList.indexOf(entity.getUuid().hashCode());
+                    this.susList.set(slot, this.susList.getInt(slot) + suspicion);
+                    if (this.susList.getInt(slot) >= 45 && this.getTrackingEntity() == null) {
+                        this.trackingEntity = entity.getUuidAsString();
+                        this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_ROAR, SoundCategory.HOSTILE, 1F, 1F);
+                        this.roar();
+                    }
+                } else { this.entityList.add(entity.getUuid().hashCode());
+                    this.susList.add(suspicion);
                 }
             } else { this.entityList.add(entity.getUuid().hashCode());
                 this.susList.add(suspicion);
             }
-        } else { this.entityList.add(entity.getUuid().hashCode());
-            this.susList.add(suspicion);
         }
     }
     public int getSuspicion(Entity entity) {
@@ -175,14 +177,15 @@ public class WardenEntity extends HostileEntity {
     }
     public int overallAnger() {
         int anger=0;
-        Box box = new Box(this.getBlockPos().add(-24,-24,-24), this.getBlockPos().add(24,24,24));
-        List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
-        if (!entities.isEmpty()) {
-            for (LivingEntity target : entities) { anger = anger + this.getSuspicion(target); }
-        }
-        anger = anger + nonEntityAnger;
-        anger = MathHelper.clamp(anger,0,50);
-        return anger / 2;
+        if (this.world.getDifficulty().getId()!=0) {
+            Box box = new Box(this.getBlockPos().add(-24, -24, -24), this.getBlockPos().add(24, 24, 24));
+            List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
+            if (!entities.isEmpty()) {
+                for (LivingEntity target : entities) {anger = anger + this.getSuspicion(target); }
+            }
+            anger = anger + nonEntityAnger;
+            anger = MathHelper.clamp(anger, 0, 50);
+        } return anger / 2;
     }
     public LivingEntity getTrackingEntity() {
         Box box = new Box(this.getBlockPos().add(-18,-18,-18), this.getBlockPos().add(18,18,18));
@@ -226,15 +229,17 @@ public class WardenEntity extends HostileEntity {
     }
 
     public boolean tryAttack(Entity target) {
-        boolean bl = target.damage(DamageSource.mob(this), this.getAttackDamage());
-        if (bl && this.attackCooldown<=0) {
-            this.attackTicksLeft1 = 10;
-            this.world.sendEntityStatus(this, (byte)4);
-            target.setVelocity(target.getVelocity().add(0.0D, 0.4000000059604645D, 0.0D));
-            this.applyDamageEffects(this, target);
-            world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_ATTACK, SoundCategory.HOSTILE, 1.0F,1.0F);
-            this.attackCooldown=35;
-        } return bl;
+        if (this.world.getDifficulty().getId()!=0) {
+            boolean bl = target.damage(DamageSource.mob(this), this.getAttackDamage());
+            if (bl && this.attackCooldown <= 0) {
+                this.attackTicksLeft1 = 10;
+                this.world.sendEntityStatus(this, (byte) 4);
+                target.setVelocity(target.getVelocity().add(0.0D, 0.4000000059604645D, 0.0D));
+                this.applyDamageEffects(this, target);
+                world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_ATTACK, SoundCategory.HOSTILE, 1.0F, 1.0F);
+                this.attackCooldown = 35;
+            } return bl;
+        } return false;
     }
 
     /** NBT, VALUES & BOOLEANS */
@@ -321,7 +326,9 @@ public class WardenEntity extends HostileEntity {
     protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(this.getStepSound(), 1.0F, 1.0F); }
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
     protected SoundEvent getDeathSound() { return RegisterSounds.ENTITY_WARDEN_DEATH; }
-
+    protected boolean isDisallowedInPeaceful() {
+        return false;
+    }
     @Override
     public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
     @Override
@@ -390,20 +397,12 @@ public class WardenEntity extends HostileEntity {
             this.setVelocity(0, 0, 0);
             --this.emergeTicksLeft;
         }
-        if (this.emergeTicksLeft == 0 && this.hasEmerged) {
-            this.remove(RemovalReason.DISCARDED);
-        }
-        if (world.getTime() == this.leaveTime) {
-            this.handleStatus((byte) 6);
-        }
+        if (this.emergeTicksLeft == 0 && this.hasEmerged) { this.remove(RemovalReason.DISCARDED); }
+        if (world.getTime() == this.leaveTime) { this.handleStatus((byte) 6); }
     }
     public void tickSniff() {
-        if (this.sniffTicksLeft > 0) {
-            --this.sniffTicksLeft;
-        }
-        if (this.sniffCooldown > 0) {
-            --this.sniffCooldown;
-        }
+        if (this.sniffTicksLeft > 0) { --this.sniffTicksLeft; }
+        if (this.sniffCooldown > 0) { --this.sniffCooldown; }
         if (this.sniffTicksLeft == 0) {
             this.sniffTicksLeft = -1;
             int extraSuspicion = 1;
@@ -412,9 +411,7 @@ public class WardenEntity extends HostileEntity {
                 if (this.getBlockPos().getSquaredDistance(sniffEntity.getBlockPos(), true) <= 8) {
                     extraSuspicion = extraSuspicion + UniformIntProvider.create(0, 2).get(this.getRandom());
                 }
-                if (sniffEntity.getType() == EntityType.PLAYER) {
-                    extraSuspicion = extraSuspicion + 1;
-                }
+                if (sniffEntity.getType() == EntityType.PLAYER) { extraSuspicion = extraSuspicion + 1; }
                 this.addSuspicion(sniffEntity, extraSuspicion);
                 if (sniffEntity != this.getTrackingEntity()) {
                     this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 15) * 0.02) + (this.overallAnger() * 0.004)));
@@ -440,20 +437,16 @@ public class WardenEntity extends HostileEntity {
     if (this.isAlive()) {
         if (world.getGameRules().getBoolean(WildMod.WARDEN_BURNS)) {
             boolean bl = this.burnsInDaylight() && this.isAffectedByDaylight();
-            if (bl) {
-                ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
+            if (bl) { ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
                 if (!itemStack.isEmpty()) {
                     if (itemStack.isDamageable()) {itemStack.setDamage(itemStack.getDamage() + this.random.nextInt(2));
                         if (itemStack.getDamage() >= itemStack.getMaxDamage()) {
                             this.sendEquipmentBreakStatus(EquipmentSlot.HEAD);
                             this.equipStack(EquipmentSlot.HEAD, ItemStack.EMPTY);
                         }
-                    }
-                    bl = false;
+                    } bl = false;
                 }
-                if (bl) {
-                    this.setOnFireFor(8);
-                }
+                if (bl) { this.setOnFireFor(8); }
             }
         }
     }
