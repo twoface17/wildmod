@@ -110,12 +110,12 @@ public class LightmapTextureManagerMixin {
                             }
                         }
 
-                        vec3f2.clamp(0.2F, 1.0F);
+                        vec3f2.clamp(0.0F, 1.0F);
                         float v;
                         if (l > 0.0F) {
                             v = Math.max(vec3f2.getX(), Math.max(vec3f2.getY(), vec3f2.getZ()));
-                            if (v < 0.9F) {
-                                w = 0.9F / v;
+                            if (v < 1.0F) {
+                                w = 1.0F / v;
                                 vec3f5 = vec3f2.copy();
                                 vec3f5.scale(w);
                                 vec3f2.lerp(vec3f5, l);
@@ -127,7 +127,7 @@ public class LightmapTextureManagerMixin {
                         vec3f6.modify(this::easeOutQuart);
                         vec3f2.lerp(vec3f6, v - (float)dark);
                         vec3f2.lerp(new Vec3f(0.75F, 0.75F, 0.75F), 0.04F);
-                        vec3f2.clamp(0.0F, 0.9F);
+                        vec3f2.clamp(0.0F, 1.0F);
                         vec3f2.scale(255.0F);
                         int z = (int)vec3f2.getX();
                         int aa = (int)vec3f2.getY();
