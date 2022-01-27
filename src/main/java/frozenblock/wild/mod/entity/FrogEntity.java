@@ -84,7 +84,7 @@ public class FrogEntity extends AnimalEntity {
         return world.getBiome(pos).isCold(pos) || world.getBiome(pos).getCategory().equals(Biome.Category.ICY) || world.getBiome(pos).getCategory().equals(Biome.Category.THEEND);
     }
 
-    public static boolean canWarmSpawn(World world, BlockPos pos) {
+    public static boolean canTemperateSpawn(World world, BlockPos pos) {
         return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT) || world.getBiome(pos).getCategory().equals(Biome.Category.NETHER);
     }
 
@@ -170,7 +170,7 @@ public class FrogEntity extends AnimalEntity {
         if (spawnReason == SpawnReason.COMMAND || spawnReason == SpawnReason.SPAWN_EGG || spawnReason == SpawnReason.SPAWNER || spawnReason == SpawnReason.DISPENSER) {
             if (canColdSpawn(this.getEntityWorld(), this.getBlockPos())) {
                 this.setVariant(Variant.COLD);
-            } else if (canWarmSpawn(this.getEntityWorld(), this.getBlockPos())) {
+            } else if (canTemperateSpawn(this.getEntityWorld(), this.getBlockPos())) {
                 this.setVariant(Variant.WARM);
             }
         }

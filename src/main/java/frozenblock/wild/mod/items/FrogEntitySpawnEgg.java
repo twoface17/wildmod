@@ -60,7 +60,7 @@ public class FrogEntitySpawnEgg extends SpawnEggItem {
             }
             if(FrogEntity.canColdSpawn(world, blockPos3)) {
                 frogEntity.setVariant(FrogEntity.Variant.COLD);
-            } else if(FrogEntity.canWarmSpawn(world, blockPos3)) {
+            } else if(FrogEntity.canTemperateSpawn(world, blockPos3)) {
                 frogEntity.setVariant(FrogEntity.Variant.WARM);
             }
             frogEntity.setPos(blockPos3.getX()+0.5, blockPos3.getY()+0.1, blockPos3.getZ()+0.5);
