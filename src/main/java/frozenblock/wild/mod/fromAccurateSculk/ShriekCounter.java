@@ -27,16 +27,18 @@ public class ShriekCounter {
         if (world.getTime()-timer< -90) {
             timer=0;
         }
-        i = (int) MathHelper.clamp(i,2,15);
         int a = 1;
-        if (world.getDifficulty().getId()==1) {
+        if (world.getDifficulty().getId()==0) {
             a = (int) MathHelper.clamp(i,1,15);
         }
+        if (world.getDifficulty().getId()==1) {
+            a = (int) MathHelper.clamp(i,2,15);
+        }
         if (world.getDifficulty().getId()==2) {
-            a = (int) MathHelper.clamp(i,1*1.5,15);
+            a = (int) MathHelper.clamp(i*1.5,3,15);
         }
         if (world.getDifficulty().getId()==3) {
-            a = (int) MathHelper.clamp(i*2,1,15);
+            a = (int) MathHelper.clamp(i*2,3,15);
         }
         if (!world.isClient() && world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.getGameRules().getBoolean(WildMod.WARDEN_SPAWNING) && world.getTime() > timer) {
             timer=world.getTime()+30;

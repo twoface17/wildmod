@@ -45,7 +45,7 @@ public class WardenGoal extends Goal {
                        }
                    }
                }
-           } else {
+           } else if (this.mob.getAttacker() != null && this.mob.world.getDifficulty().getId()!=0) {
                BlockPos blockPos = this.mob.getAttacker().getBlockPos();
                if (blockPos != null) {
                    this.VX = this.mob.getAttacker().getX();
