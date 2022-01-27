@@ -12,8 +12,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
-public class FrogEggItem extends BlockItem {
-    public FrogEggItem(Block block, Settings settings) {
+public class FrogSpawnItem extends BlockItem {
+    public FrogSpawnItem(Block block, Settings settings) {
         super(block, settings);
     }
 
@@ -24,7 +24,7 @@ public class FrogEggItem extends BlockItem {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        BlockHitResult blockHitResult = FrogEggItem.raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
+        BlockHitResult blockHitResult = FrogSpawnItem.raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
         BlockHitResult blockHitResult2 = blockHitResult.withBlockPos(blockHitResult.getBlockPos().up());
         ActionResult actionResult = super.useOnBlock(new ItemUsageContext(user, hand, blockHitResult2));
         return new TypedActionResult<ItemStack>(actionResult, user.getStackInHand(hand));

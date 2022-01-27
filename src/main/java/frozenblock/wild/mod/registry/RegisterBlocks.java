@@ -2,7 +2,7 @@ package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.*;
-import frozenblock.wild.mod.items.FrogEggItem;
+import frozenblock.wild.mod.items.FrogSpawnItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -109,7 +109,7 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "deepslate_frame"), new BlockItem(DEEPSLATE_FRAME, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_spawn"), FROG_SPAWN);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_spawn"), new FrogEggItem(FROG_SPAWN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_spawn"), new FrogSpawnItem(FROG_SPAWN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), PEARLESCENT_FROGLIGHT);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), new BlockItem(PEARLESCENT_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
