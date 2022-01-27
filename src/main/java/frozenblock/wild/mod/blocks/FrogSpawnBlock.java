@@ -3,19 +3,9 @@ package frozenblock.wild.mod.blocks;
 import frozenblock.wild.mod.entity.TadpoleEntity;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.SchoolingFishEntity;
-import net.minecraft.entity.passive.TurtleEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
@@ -23,14 +13,13 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import java.util.Objects;
 import java.util.Random;
 
-public class FrogEggBlock
+public class FrogSpawnBlock
         extends PlantBlock {
     protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 1.5, 16.0);
 
-    public FrogEggBlock(AbstractBlock.Settings settings) {
+    public FrogSpawnBlock(AbstractBlock.Settings settings) {
         super(settings);
     }
 
