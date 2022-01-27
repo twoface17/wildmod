@@ -15,6 +15,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -326,9 +327,7 @@ public class WardenEntity extends HostileEntity {
     protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(this.getStepSound(), 1.0F, 1.0F); }
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
     protected SoundEvent getDeathSound() { return RegisterSounds.ENTITY_WARDEN_DEATH; }
-    protected boolean isDisallowedInPeaceful() {
-        return false;
-    }
+    protected boolean isDisallowedInPeaceful() { return false; }
     @Override
     public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {}
     @Override
@@ -340,6 +339,12 @@ public class WardenEntity extends HostileEntity {
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
+        this.setPathfindingPenalty(PathNodeType.LAVA, 16.0F);
+        this.setPathfindingPenalty(PathNodeType.POWDER_SNOW, -1.0F);
+        this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 8.0F);
+        this.setPathfindingPenalty(PathNodeType.DAMAGE_OTHER, -1.0F);
+        this.setPathfindingPenalty(PathNodeType.DANGER_OTHER, 8.0F);
+        this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, -1.0F);
         this.stepHeight = 1.0F;
     }
 
