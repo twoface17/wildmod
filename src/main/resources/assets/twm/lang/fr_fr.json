@@ -19,9 +19,8 @@
   "block.twm.mangrove_fence_gate": "Portillon en mangrove",
   "block.twm.mangrove_door": "Porte en mangrove",
   "block.twm.mangrove_leaves": "Feuilles de mangrove",
-  "block.twm.mangrove_sapling": "Propagule de mangrove",
   "block.twm.mangrove_roots": "Racines de mangrove",
-  "block.twm.propagule": "Propagule",
+  "block.twm.mangrove_propagule": "Propagule de Mangrove",
 
   "biome.twm.mangrove_swamps": "Mangrove",
 
