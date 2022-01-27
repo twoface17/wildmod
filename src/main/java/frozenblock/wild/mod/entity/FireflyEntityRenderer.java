@@ -16,7 +16,7 @@ public class FireflyEntityRenderer extends EntityRenderer<FireflyEntity> {
         super(ctx);
     }
 
-    private final Identifier TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden.png");
+    private final Identifier TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/firefly/firefly.png");
     private final RenderLayer LAYER = RenderLayer.getEntityCutout(TEXTURE);
 
     @Override
