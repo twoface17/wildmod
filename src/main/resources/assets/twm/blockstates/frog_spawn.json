@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "twm:block/frog_spawn"
+      },
+      {
+        "model": "twm:block/frog_spawn",
+        "y": 90
+      },
+      {
+        "model": "twm:block/frog_spawn",
+        "y": 180
+      },
+      {
+        "model": "twm:block/frog_spawn",
+        "y": 270
+      }
+    ]
+  }
+}
