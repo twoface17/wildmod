@@ -53,6 +53,7 @@ public class SniffGoal extends Goal {
         if (r > 0) {
             exit = false;
         }
+        if (this.mob.world.getDifficulty().getId()==0) { return false; }
 
         return exit && UniformIntProvider.create(0,3).get(this.mob.getRandom())>1;
     }
