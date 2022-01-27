@@ -106,17 +106,6 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         return new BlockPos(this.spawnX, this.spawnY, this.spawnZ);
     }
 
-    public void tick() {
-        super.tick();
-        this.world.addImportantParticle(RegisterParticles.FIREFLY, this.getX(), this.getY(), this.getZ(), this.getVelocity().getX(), this.getVelocity().getY(), this.getVelocity().getZ());
-        if (!this.spawnSet && !this.world.isClient) {
-            this.spawnSet=true;
-            this.spawnX=this.getBlockX();
-            this.spawnY=this.getBlockY();
-            this.spawnZ=this.getBlockZ();
-        }
-    }
-
     protected EntityNavigation createNavigation(World world) {
         BirdNavigation birdNavigation = new BirdNavigation(this, world) {
             public boolean isValidPosition(BlockPos pos) {
