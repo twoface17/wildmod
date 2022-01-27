@@ -133,7 +133,7 @@ public class FrogEntity extends AnimalEntity {
         if (this.pregnant() && canPlace(this.world, this.getBlockPos())) {
             World world = this.world;
             world.playSound(null, this.getBlockPos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
-            world.setBlockState(this.getBlockPos().up(), RegisterBlocks.FROG_EGG.getDefaultState(), 3);
+            world.setBlockState(this.getBlockPos().up(), RegisterBlocks.FROG_SPAWN.getDefaultState(), 3);
             world.syncWorldEvent(2005, this.getBlockPos().up(), 0);
             world.createAndScheduleBlockTick(this.getBlockPos(), world.getBlockState(this.getBlockPos()).getBlock(), UniformIntProvider.create(400, 1800).get(world.getRandom()));
             this.becomePregnant(false);
