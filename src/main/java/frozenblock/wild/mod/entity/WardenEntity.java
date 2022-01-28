@@ -76,7 +76,7 @@ public class WardenEntity extends HostileEntity {
             this.tickSniff();
         }
         //Heartbeat & Anger
-        this.heartbeatTime = (int) (60 - ((MathHelper.clamp(this.overallAnger(),0,15)*3.3)));
+        this.heartbeatTime = (int) (60 - ((MathHelper.clamp(this.trueOverallAnger(),0,45)*1.1)));
         if (this.world.getTime()>=this.nextHeartBeat) {
             this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, SoundCategory.HOSTILE, 1F, (float) (0.85F + (MathHelper.clamp(this.overallAnger(),0,15)*0.02)));
             this.nextHeartBeat=this.world.getTime()+heartbeatTime;
@@ -194,6 +194,18 @@ public class WardenEntity extends HostileEntity {
             anger = anger + nonEntityAnger;
             anger = MathHelper.clamp(anger, 0, 50);
         } return anger / 2;
+    }
+    public int trueOverallAnger() {
+        int anger=0;
+        if (this.world.getDifficulty().getId()!=0) {
+            Box box = new Box(this.getBlockPos().add(-24, -24, -24), this.getBlockPos().add(24, 24, 24));
+            List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
+            if (!entities.isEmpty()) {
+                for (LivingEntity target : entities) {anger = anger + this.getSuspicion(target); }
+            }
+            anger = anger + nonEntityAnger;
+            anger = MathHelper.clamp(anger, 0, 50);
+        } return anger;
     }
     public LivingEntity getTrackingEntity() {
         Box box = new Box(this.getBlockPos().add(-18,-18,-18), this.getBlockPos().add(18,18,18));
