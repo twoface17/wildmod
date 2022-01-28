@@ -18,22 +18,23 @@ public class WardenEntitySoulsFeatureRenderer extends EyesFeatureRenderer<Warden
 
     public WardenEntitySoulsFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
-        SOULS = RenderLayer.getEntityTranslucentCull(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_souls.png"));
+        SOULS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_souls.png"));
     }
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {;
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.SOULS);
-        this.getContextModel().render(matrices, vertexConsumer, 15728640, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, calculateBeats(entity));
+        this.getContextModel().render(matrices, vertexConsumer, (int) (calculateBeats(entity)*15728640), OverlayTexture.DEFAULT_UV, calculateBeats(entity), calculateBeats(entity), calculateBeats(entity), 1.0f);
     }
 
     private static float calculateBeats(WardenEntity warden) {
+        //TODO: FIX #63 SO THIS WORKS PROPERLY (BUT HOW DO WE DO IT?)
         float a = warden.lastHeartBeat;
         float b = warden.world.getTime();
-        float c = warden.heartbeatTime;
+        float c = warden.heartbeatTime-10;
 
         float toNow = (a-b) * -1;
-        float d = (float) ((float) Math.cos((toNow)/c));
+        float d = (float) ((float) Math.cos((toNow)/(c/1.3)));
 
         return MathHelper.clamp(d,0,1);
     }
