@@ -31,10 +31,10 @@ public class WardenEntitySoulsFeatureRenderer extends EyesFeatureRenderer<Warden
         //TODO: FIX #63 SO THIS WORKS PROPERLY (BUT HOW DO WE DO IT?)
         float a = warden.lastHeartBeat;
         float b = warden.world.getTime();
-        float c = warden.heartbeatTime-10;
+        float c = warden.heartbeatTime;
 
         float toNow = (a-b) * -1;
-        float d = (float) ((float) Math.cos((toNow)/(c/1.3)));
+        float d = (float) ((float) Math.cos((toNow)/(c/1.5)));
 
         return MathHelper.clamp(d,0,1);
     }
