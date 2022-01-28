@@ -81,6 +81,7 @@ public class WardenEntity extends HostileEntity {
             this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, SoundCategory.HOSTILE, 1F, (float) (0.85F + (MathHelper.clamp(this.overallAnger(),0,15)*0.02)));
             this.nextHeartBeat=this.world.getTime()+heartbeatTime;
             this.lastHeartBeat=this.world.getTime();
+            this.world.sendEntityStatus(this, (byte)8);
         }
         if (this.world.getTime()-this.timeSinceNonEntity>300 && this.nonEntityAnger>0) { --this.nonEntityAnger; }
         super.tickMovement();
@@ -102,7 +103,9 @@ public class WardenEntity extends HostileEntity {
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_DIG, SoundCategory.HOSTILE, 1F, 1F);
         } else if (!this.isAiDisabled() && status == 7) {
             this.vibrationTimer=this.world.getTime();
-        }  else { super.handleStatus(status); }
+        } else if (!this.isAiDisabled() && status == 8) {
+            this.lastClientHeartBeat=this.world.getTime();
+        } else { super.handleStatus(status); }
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion, BlockPos vibrationPos) {
@@ -518,4 +521,7 @@ public class WardenEntity extends HostileEntity {
     protected int delay = 0;
     protected int distance;
     private static final double speed = 0.4D;
+
+    //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
+    public long lastClientHeartBeat;
 }
