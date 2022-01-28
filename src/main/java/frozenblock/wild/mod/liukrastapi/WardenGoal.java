@@ -65,7 +65,7 @@ public class WardenGoal extends Goal {
         if (exit && this.mob.getAttacker() == null) {
             this.mob.navigationEntity = this.mob.lastevententity;
             if (this.mob.lastevententity instanceof PlayerEntity) {
-                    return !((PlayerEntity) this.mob.lastevententity).getAbilities().creativeMode;
+                    exit = !((PlayerEntity) this.mob.lastevententity).getAbilities().creativeMode;
                 }
             }
         return exit;
