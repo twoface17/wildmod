@@ -20,6 +20,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -105,7 +106,9 @@ public class WardenEntity extends HostileEntity {
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion, BlockPos vibrationPos) {
-        if (!this.isAiDisabled() && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
+        boolean shouldListen = true;
+        if (eventEntity instanceof PlayerEntity) { shouldListen = !((PlayerEntity)eventEntity).getAbilities().creativeMode; }
+        if (!this.isAiDisabled() && shouldListen && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
             this.sniffTicksLeft=-1;
             this.lasteventpos = eventPos;
             this.lasteventworld = eventWorld;
