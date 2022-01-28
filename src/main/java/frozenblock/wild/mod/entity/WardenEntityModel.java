@@ -83,11 +83,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             }
         }
 
-
+        //Attack animation
         int a = entity.getAttackTicksLeft1();
         float eq;
         if (a > 0) {
-            eq = -2.0F + 1.5F * MathHelper.wrap((float) a - animationProgress / 200, 0.2F);
+            eq = 90 + (AnimationAPI.easeInSine(0, 2f, -50, time)) + 90 + (AnimationAPI.easeInOutSine(2, 4f, +50, time));
         } else {
             eq = 0;
         }
