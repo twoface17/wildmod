@@ -99,6 +99,8 @@ public class WardenEntity extends HostileEntity {
             this.emergeTicksLeft=60;
             this.hasEmerged=true;
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_DIG, SoundCategory.HOSTILE, 1F, 1F);
+        } else if (!this.isAiDisabled() && status == 7) {
+            this.vibrationTimer=this.world.getTime();
         }  else { super.handleStatus(status); }
     }
 
@@ -109,8 +111,9 @@ public class WardenEntity extends HostileEntity {
             this.lasteventworld = eventWorld;
             this.lastevententity = eventEntity;
             this.hasDetected = true;
-            this.vibrationTimer = this.world.getTime();
             this.leaveTime = this.world.getTime() + 1200;
+            this.world.sendEntityStatus(this, (byte)7);
+            this.vibrationTimer=this.world.getTime();
             this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
             if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos); }
             else { CreateVibration(this.world, this, lasteventpos); }
