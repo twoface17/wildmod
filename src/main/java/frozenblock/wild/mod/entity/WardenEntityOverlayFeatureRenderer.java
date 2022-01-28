@@ -43,7 +43,7 @@ public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<Ward
 
     private int calculateLight(int light) {
         float d = (float) ((float) Math.cos((light*lightLevel)/(15728640/3)));
-        return (int) (MathHelper.clamp(d,0,1)) * (15728640/2);
+        return (int) (MathHelper.clamp(d,0,1)) * 15728640;
     }
     private float colors(int light) {
         float d = (float) ((float) Math.cos((light*lightLevel)/(15728640/3)));
