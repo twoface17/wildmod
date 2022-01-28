@@ -6,6 +6,7 @@ import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
@@ -54,7 +55,9 @@ public class SniffGoal extends Goal {
             exit = false;
         }
         if (this.mob.world.getDifficulty().getId()==0) { return false; }
-
+        if (exit && sniffEntity instanceof PlayerEntity) {
+            exit = !((PlayerEntity)sniffEntity).getAbilities().creativeMode;
+        }
         return exit && UniformIntProvider.create(0,3).get(this.mob.getRandom())>1;
     }
 

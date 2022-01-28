@@ -15,6 +15,7 @@ public class WardenEntityRenderer extends MobEntityRenderer<WardenEntity, Warden
     public WardenEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new WardenEntityModel<>(context.getPart(WildModClient.MODEL_WARDEN_LAYER)), 0.5f);
         this.addFeature(new WardenEntitySoulsFeatureRenderer(this));
+        this.addFeature(new WardenEntityTendrilsFeatureRenderer(this));
         this.addFeature(new WardenEntityOverlayFeatureRenderer(this));
     }
 
