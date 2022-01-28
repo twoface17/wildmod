@@ -3,10 +3,10 @@ package frozenblock.wild.mod.liukrastapi;
 import frozenblock.wild.mod.entity.WardenEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
 
 public class WardenGoal extends Goal {
     private int cooldown;
@@ -64,7 +64,10 @@ public class WardenGoal extends Goal {
         }
         if (exit && this.mob.getAttacker() == null) {
             this.mob.navigationEntity = this.mob.lastevententity;
-        }
+            if (this.mob.lastevententity instanceof PlayerEntity) {
+                    return !((PlayerEntity) this.mob.lastevententity).getAbilities().creativeMode;
+                }
+            }
         return exit;
     }
 
