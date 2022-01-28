@@ -1,24 +1,16 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.feature.EyesFeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 
-import java.util.Random;
 
 public class WardenEntitySoulsFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel<WardenEntity>> {
 
@@ -32,14 +24,18 @@ public class WardenEntitySoulsFeatureRenderer extends EyesFeatureRenderer<Warden
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {;
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.SOULS);
-        this.getContextModel().render(matrices, vertexConsumer, 15728640, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, calculateBeats(entity));
+        this.getContextModel().render(matrices, vertexConsumer, 15728640, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 0.75f, calculateBeats(entity));
     }
 
     private static float calculateBeats(WardenEntity warden) {
-        float a = warden.nextHeartBeat;
+        float a = warden.lastHeartBeat;
         float b = warden.world.getTime();
-        float c = 255 / (a-b);
-        return MathHelper.clamp(c,0,255);
+        float c = warden.heartbeatTime;
+
+        float toNow = (a-b) * -1;
+        float d = (float) ((float) Math.cos((toNow)/c));
+
+        return MathHelper.clamp(d,0,1);
     }
 
     public RenderLayer getEyesTexture() {
