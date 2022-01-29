@@ -36,8 +36,6 @@ public class WildModClient implements ClientModInitializer {
     public static final EntityModelLayer MODEL_MANGROVE_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "mangrove_boat"), "main");
     public static final EntityModelLayer MODEL_CHEST_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "chest_boat"), "main");
 
-    public static final EntityModelLayer MODEL_FIREFLY_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "firefly"), "main");
-
     public static final Identifier SHRIEKER_SHRIEK_PACKET = new Identifier("shriek_packet");
     public static final Identifier SHRIEKER_GARGLE1_PACKET = new Identifier("gargle1_packet");
     public static final Identifier SHRIEKER_GARGLE2_PACKET = new Identifier("gargle2_packet");
@@ -71,9 +69,6 @@ public class WildModClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX, ShriekParticleX.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX2, ShriekParticleX2.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_SOUL, SculkSoul.Factory::new);
-
-        ParticleFactoryRegistry.getInstance().register(RegisterParticles.FIREFLY, FireFlyParticle.Factory::new);
-
 
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_LEAVES, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_ROOTS, RenderLayer.getCutoutMipped());
