@@ -74,10 +74,7 @@ public class WardenWanderGoal
     @Override
     public boolean shouldContinue() {
         Vec3d vec3d;
-        if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>280) {
-            return true;
-        }
-        return false;
+        return this.mob.getWorld().getTime() - this.mob.vibrationTimer > 280;
     }
 
     @Override
