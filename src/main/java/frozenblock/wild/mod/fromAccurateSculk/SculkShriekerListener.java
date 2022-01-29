@@ -94,10 +94,10 @@ implements GameEventListener {
             if (gameEvent==RegisterAccurateSculk.CLICK) {
                 this.delay = this.distance = MathHelper.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2, false))) * 2;
                 ((ServerWorld) world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
-                BlockEntity sensor = world.getBlockEntity(blockPos2);
+                BlockEntity sensor = world.getBlockEntity(blockPos);
                 if (sensor instanceof SculkSensorBlockEntity) {
                     SculkSensorBlockEntity sculkSensorBlockEntity = (SculkSensorBlockEntity)sensor;
-                    writeValue(sculkSensorBlockEntity.getLastVibrationFrequency(), blockPos, world);
+                    writeValue(sculkSensorBlockEntity.getLastVibrationFrequency(), blockPos2, world);
                 }
             }
         }

@@ -243,7 +243,7 @@ public class SculkShriekerBlock
             WardenEntity warden;
             while (var11.hasNext()) {
                 warden = var11.next();
-                if (warden.getBlockPos().isWithinDistance(pos, (49))) {
+                if (warden.getBlockPos().isWithinDistance(pos, (48))) {
                     return true;
                 }
             }
@@ -503,10 +503,9 @@ public class SculkShriekerBlock
                 sendDarkness(8, blockPos, world);
             }
             BlockEntity blockEntity = world.getBlockEntity(blockPos);
-            if (blockEntity instanceof SculkShriekerBlockEntity) {
-                SculkShriekerBlockEntity shrieker = (SculkShriekerBlockEntity)blockEntity;
+            if (blockEntity instanceof SculkShriekerBlockEntity shrieker) {
                 ShriekCounter.addShriek(blockPos, world, shrieker.getLastVibrationFrequency());
-            }
+            } else { ShriekCounter.addShriek(blockPos, world, 1); }
         }
         SculkShriekerBlock.updateNeighbors(world, blockPos);
     }

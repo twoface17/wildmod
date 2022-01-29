@@ -8,6 +8,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.EyesFeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -22,8 +23,14 @@ public class WardenEntitySoulsFeatureRenderer extends EyesFeatureRenderer<Warden
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {;
+    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.SOULS);
+        String string = Formatting.strip(entity.getName().getString());
+        if ("Osmiooo".equals(string)) {
+            SOULS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_souls.png"));
+        } else {
+            SOULS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_souls.png"));
+        }
         this.getContextModel().render(matrices, vertexConsumer, (int) (calcBeats(entity)*15728640), OverlayTexture.DEFAULT_UV, calcBeats(entity), calcBeats(entity), calcBeats(entity), 1.0f);
     }
 
