@@ -157,13 +157,13 @@ public class WardenEntity extends HostileEntity {
             if (eventEntity != null) {
                 addSuspicion(eventEntity, suspicion);
                 if (this.world.getTime()-reactionSoundTimer>40) { this.reactionSoundTimer=this.world.getTime();
-                    if (getSuspicion(eventEntity)<15 && getSuspicion(eventEntity)>10) {
+                    if (getSuspicion(eventEntity)<13 && getSuspicion(eventEntity)>10) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else if (getSuspicion(eventEntity)>=15) {
+                    } else if (getSuspicion(eventEntity)<25) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else if (this.overallAnger()<5) {
+                    } else if (this.overallAnger()<40) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else if (this.overallAnger()<10) {
+                    } else if (this.overallAnger()>=41) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     }
                 }
