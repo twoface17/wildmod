@@ -38,9 +38,9 @@
   "item.twm.tadpole_bucket": "Balde com girino",
 
   "block.twm.frog_spawn": "Ovos de sapo",
-  "block.twm.pearlescent_froglight": "Pearlescent Froglight",
-  "block.twm.verdant_froglight": "Verdant Froglight",
-  "block.twm.ochre_froglight": "Ochre Froglight",
+  "block.twm.pearlescent_froglight": "Luz de sapo Perolada",
+  "block.twm.verdant_froglight": "Luz de sapo Verdejante",
+  "block.twm.ochre_froglight": "Luz de sapo Ocre",
 
   "entity.twm.frog": "Sapo",
   "entity.twm.warden": "Warden",
