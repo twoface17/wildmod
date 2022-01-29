@@ -499,11 +499,7 @@ public class WardenEntity extends HostileEntity {
             int extraSuspicion = 1;
             if (this.getSniffEntity() != null) {
                 LivingEntity sniffEntity = this.getSniffEntity();
-                if (this.getBlockPos().getSquaredDistance(sniffEntity.getBlockPos(), true) <= 8) {
-                    extraSuspicion = extraSuspicion + UniformIntProvider.create(0, 2).get(this.getRandom());
-                }
-                if (sniffEntity.getType() == EntityType.PLAYER) { extraSuspicion = extraSuspicion + 1; }
-                this.addSuspicion(sniffEntity, extraSuspicion);
+                this.addSuspicion(sniffEntity, 10);
                 if (sniffEntity != this.getTrackingEntity()) {
                     this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 15) * 0.02) + (this.overallAnger() * 0.004)));
                 } else if (sniffEntity == this.getTrackingEntity()) {
