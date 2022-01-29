@@ -135,7 +135,7 @@ public class WardenEntity extends HostileEntity {
             this.digStop=this.world.getTime()+60;
         } else if (!this.isAiDisabled() && status == 19) { //Subtract Client Emerge Ticks
             if (this.clientEmergeTicks>0) { this.clientEmergeTicks=this.clientEmergeTicks-1; }
-        } else if (!this.isAiDisabled() && status == 20) { //Subtract Client Dig Ticks
+        } else if (!this.isAiDisabled() && status == 21) { //Subtract Client Dig Ticks
             if (this.clientDigTicks>0) { this.clientDigTicks=this.clientDigTicks-1; }
         } else { super.handleStatus(status); }
     }
@@ -412,6 +412,7 @@ public class WardenEntity extends HostileEntity {
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         this.handleStatus((byte) 5);
         this.leaveTime=this.world.getTime()+1200;
+        this.setPersistent();
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
@@ -464,7 +465,7 @@ public class WardenEntity extends HostileEntity {
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
-            this.world.sendEntityStatus(this, (byte)20);
+            this.world.sendEntityStatus(this, (byte)21);
             --this.emergeTicksLeft;
         }
         if (this.emergeTicksLeft == 0 && this.hasEmerged) { this.remove(RemovalReason.DISCARDED); }
@@ -589,7 +590,7 @@ public class WardenEntity extends HostileEntity {
     //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
     public long lastClientHeartBeat; //Status 8
     public int clientEmergeTicks; //Set to 120: Status 9. Subtract: Status 19.
-    public int clientDigTicks; //Set to 60: Status 10. Subtract: Status 20.
+    public int clientDigTicks; //Set to 60: Status 10. Subtract: Status 21.
     public boolean isEmerging; //Set to true: Status 11. Set to false: Status 12.
     public boolean isDigging; //Set to true: Status 13. Set to false: Status 14.
     public long emergeStart; //Status 15
