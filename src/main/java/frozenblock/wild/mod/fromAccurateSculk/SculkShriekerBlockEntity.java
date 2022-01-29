@@ -25,7 +25,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     int direction;
     int shrieks;
     boolean stepped;
-    private int lastVibrationFrequency;
+    int lastVibrationFrequency;
 
     public int getTicks() {
         return ticks;
