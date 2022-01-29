@@ -213,7 +213,10 @@ public class WardenEntity extends HostileEntity {
         int total=1;
         if (event==GameEvent.PROJECTILE_LAND) { return 0; }
         if (SculkSensorBlock.FREQUENCIES.containsKey(event)) { total=total + SculkSensorBlock.FREQUENCIES.getInt(event); }
-        return total;
+        if (livingEntity instanceof PlayerEntity) {
+        return MathHelper.clamp(total, 5,15);
+        }
+        return MathHelper.clamp(total, 3,15);
     }
     public int overallAnger() {
         int anger=0;
