@@ -507,7 +507,8 @@
 			{
 				"attenuation_distance": 32,
 				"name": "twm:block/sculk_shrieker/shriek1",
-				"volume": 1
+				"volume": 1,
+				"pitch": 0.5
 			},
 			{
 				"attenuation_distance": 32,
@@ -689,6 +690,13 @@
 			}
 		],
 		"subtitle": "subtitles.entity.warden.ambient"
+	},
+	"entity.warden.ambient_angry": {
+		"sounds": [
+			"twm:entity/warden/ambient_angry1",
+			"twm:entity/warden/ambient_angry2"
+		],
+		"subtitle": "subtitles.entity.warden.ambient_angry"
 	},
 	"entity.warden.slightly_angry": {
 		"sounds": [
