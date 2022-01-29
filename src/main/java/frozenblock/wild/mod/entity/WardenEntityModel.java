@@ -48,12 +48,12 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         int r = entity.getRoarTicksLeft1();
         float time = animationProgress/10;
 
-    //Emerge animation
+        //Emerge animation
         this.body.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
         this.left_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
         this.right_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
 
-    //Walk & idle animation
+        //Walk & idle animation
         if(r > 0) {
             if(r == 10) {
                 entity.setRoarAnimationProgress(animationProgress);
@@ -69,9 +69,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                 this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance,-35,35);
                 this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance,-35,35);
 
-                this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 10;
+                this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2;
                 this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * limbDistance / 2;
-                this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 10;
+                this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2;
 
                 this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
 
@@ -83,11 +83,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             }
         }
 
-        //Attack animation
+
         int a = entity.getAttackTicksLeft1();
         float eq;
         if (a > 0) {
-            eq = 90 + (AnimationAPI.easeInSine(0, 2f, -50, time)) + 90 + (AnimationAPI.easeInOutSine(2, 4f, +50, time));
+            eq = -2.0F + 1.5F * MathHelper.wrap((float) a - animationProgress / 200, 0.2F);
         } else {
             eq = 0;
         }
