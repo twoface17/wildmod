@@ -34,12 +34,8 @@ public class WardenGoal extends Goal {
        if (this.mob.emergeTicksLeft>0) {
             return false;
        }
-       boolean attacker = false;
-       if (this.mob.getAttacker() != null) {
-           attacker=true;
-           if (this.mob.getAttacker() instanceof PlayerEntity) { attacker = !((PlayerEntity) this.mob.getAttacker()).getAbilities().creativeMode; }
-       }
-       if (attacker  && this.mob.world.getDifficulty().getId()!=0) {
+
+       if (this.mob.getAttacker() != null && this.mob.world.getDifficulty().getId()!=0) {
            BlockPos blockPos = this.mob.getAttacker().getBlockPos();
            if (blockPos != null) {
                this.VX = this.mob.getAttacker().getX();
@@ -67,13 +63,6 @@ public class WardenGoal extends Goal {
         }
         if (exit && this.mob.getAttacker() == null) {
             this.mob.navigationEntity = this.mob.lastevententity;
-            if (this.mob.lastevententity instanceof PlayerEntity) {
-                exit = !((PlayerEntity) this.mob.lastevententity).getAbilities().creativeMode;
-            }
-        }
-        if (exit && this.mob.getAttacker() != null) {
-            if (this.mob.getAttacker() instanceof PlayerEntity) { attacker = !((PlayerEntity) this.mob.getAttacker()).getAbilities().creativeMode; }
-            if (!attacker) { exit = lasteventWorld != null && lasteventpos != null; }
         }
         return exit;
     }
@@ -85,12 +74,7 @@ public class WardenGoal extends Goal {
     public void start() {
         BlockPos lasteventpos = this.mob.lasteventpos;
         LivingEntity lastevententity = this.mob.lastevententity;
-        boolean attacker = false;
-        if (this.mob.getAttacker() != null) {
-            attacker = true;
-            if (this.mob.getAttacker() instanceof PlayerEntity) { attacker = !((PlayerEntity) this.mob.getAttacker()).getAbilities().creativeMode; }
-        }
-            if (attacker) {
+            if (this.mob.getAttacker() != null && this.mob.world.getDifficulty().getId()!=0) {
                 LivingEntity target = this.mob.getAttacker();
                 this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed + (5 * 0.15) + (this.mob.overallAnger() * 0.004));
                 double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);

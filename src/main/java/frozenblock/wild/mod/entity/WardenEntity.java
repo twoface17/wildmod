@@ -141,9 +141,7 @@ public class WardenEntity extends HostileEntity {
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion, BlockPos vibrationPos) {
-        boolean shouldListen = true;
-        if (eventEntity instanceof PlayerEntity) { shouldListen = !((PlayerEntity)eventEntity).getAbilities().creativeMode; }
-        if (!this.isAiDisabled() && shouldListen && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
+        if (!this.isAiDisabled() && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23) {
             this.sniffTicksLeft=-1;
             this.lasteventpos = eventPos;
             this.lasteventworld = eventWorld;
@@ -214,9 +212,9 @@ public class WardenEntity extends HostileEntity {
         if (event==GameEvent.PROJECTILE_LAND) { return 0; }
         if (SculkSensorBlock.FREQUENCIES.containsKey(event)) { total=total + SculkSensorBlock.FREQUENCIES.getInt(event); }
         if (livingEntity instanceof PlayerEntity) {
-        return MathHelper.clamp(total, 5,15);
-        }
         return MathHelper.clamp(total, 3,15);
+        }
+        return MathHelper.clamp(total, 2,15);
     }
     public int overallAnger() {
         int anger=0;
@@ -500,7 +498,7 @@ public class WardenEntity extends HostileEntity {
             int extraSuspicion = 1;
             if (this.getSniffEntity() != null) {
                 LivingEntity sniffEntity = this.getSniffEntity();
-                this.addSuspicion(sniffEntity, 10);
+                this.addSuspicion(sniffEntity, 5);
                 if (sniffEntity != this.getTrackingEntity()) {
                     this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 15) * 0.02) + (this.overallAnger() * 0.004)));
                 } else if (sniffEntity == this.getTrackingEntity()) {
