@@ -39,19 +39,16 @@ public class ShriekCounter {
                 } else if (world.getDifficulty().getId()==3) {
                     i = (int) MathHelper.clamp(i*2,5,15);
                 }
-                System.out.println("AAAAAAAA");
                 shrieks = shrieks + i;
                 for (int t = 8; t > 0; t--) {
                     ArrayList<BlockPos> candidates = findBlock(pos.add(-1, 0, -1), t, true, world);
                     if (!candidates.isEmpty()) {
-                        System.out.println("candidates");
                             int ran = UniformIntProvider.create(0, candidates.size() - 1).get(world.getRandom());
                             BlockPos currentCheck = candidates.get(ran);
                             warn(world, pos);
                             timer=world.getTime()+30;
                             if (angerLevel() == 4) {
                                 shrieks = 0;
-                                System.out.println("summon warden");
                                 WardenEntity warden = RegisterEntities.WARDEN.create(world);
                                 assert warden != null;
                                 warden.refreshPositionAndAngles((double) currentCheck.getX() + 1D, currentCheck.up(1).getY(), (double) currentCheck.getZ() + 1D, 0.0F, 0.0F);
