@@ -1,12 +1,14 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.SniffGoal;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
+import frozenblock.wild.mod.registry.RegisterStatusEffects;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -19,6 +21,7 @@ import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -41,6 +44,7 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSourceType;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -74,6 +78,11 @@ public class WardenEntity extends HostileEntity {
             this.tickEmerge();
             this.tickStuck();
             this.tickSniff();
+            if (this.ticksToDarkness > 0) { --this.ticksToDarkness; }
+            if (this.ticksToDarkness==0) {
+                this.sendDarkness(48, this.getBlockPos(), this.world);
+                this.ticksToDarkness=100;
+            }
         }
         //Heartbeat & Anger
         this.heartbeatTime = (int) (60 - ((MathHelper.clamp(this.trueOverallAnger(),0,45)*1.1)));
@@ -88,10 +97,10 @@ public class WardenEntity extends HostileEntity {
     }
 
     public void handleStatus(byte status) {
-        if (!this.isAiDisabled() && status == 4) {
+        if (!this.isAiDisabled() && status == 4) { //Set Attack Ticks
             this.attackTicksLeft1 = 10;
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 1.0F,1.0F);
-        } else if(!this.isAiDisabled() && status == 3) {
+        } else if(!this.isAiDisabled() && status == 3) { //Set Roar Ticks
             this.roarTicksLeft1 = 10;
         } else if(!this.isAiDisabled() && status == 5) { //Emerging
             this.emergeTicksLeft=120;
@@ -101,10 +110,34 @@ public class WardenEntity extends HostileEntity {
             this.emergeTicksLeft=60;
             this.hasEmerged=true;
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_DIG, SoundCategory.HOSTILE, 1F, 1F);
-        } else if (!this.isAiDisabled() && status == 7) {
+        } else if (!this.isAiDisabled() && status == 7) { //Set Last Vibration Time
             this.vibrationTimer=this.world.getTime();
-        } else if (!this.isAiDisabled() && status == 8) {
+        } else if (!this.isAiDisabled() && status == 8) { //Set Last Client Beat Time
             this.lastClientHeartBeat=this.world.getTime();
+        } else if (!this.isAiDisabled() && status == 9) { //Set Client Emerge Ticks
+            this.clientEmergeTicks=120;
+        } else if (!this.isAiDisabled() && status == 10) { //Set Client Dig Ticks
+            this.clientDigTicks=60;
+        } else if (!this.isAiDisabled() && status == 11) { //Set Client isEmerging
+            this.isEmerging=true;
+        } else if (!this.isAiDisabled() && status == 12) { //Set Client isEmerging To False
+            this.isEmerging=false;
+        } else if (!this.isAiDisabled() && status == 13) { //Set Client isDigging
+            this.isDigging=true;
+        } else if (!this.isAiDisabled() && status == 14) { //Set Client isDigging To False
+            this.isDigging=false;
+        } else if (!this.isAiDisabled() && status == 15) { //Set Client emergeStart
+            this.emergeStart=this.world.getTime();
+        } else if (!this.isAiDisabled() && status == 16) { //Set Client emergeStop
+            this.emergeStop=this.world.getTime()+120;
+        } else if (!this.isAiDisabled() && status == 17) { //Set Client digStart
+            this.digStart=this.world.getTime();
+        } else if (!this.isAiDisabled() && status == 18) { //Set Client digStop
+            this.digStop=this.world.getTime()+60;
+        } else if (!this.isAiDisabled() && status == 19) { //Subtract Client Emerge Ticks
+            if (this.clientEmergeTicks>0) { this.clientEmergeTicks=this.clientEmergeTicks-1; }
+        } else if (!this.isAiDisabled() && status == 20) { //Subtract Client Dig Ticks
+            if (this.clientDigTicks>0) { this.clientDigTicks=this.clientDigTicks-1; }
         } else { super.handleStatus(status); }
     }
 
@@ -272,6 +305,7 @@ public class WardenEntity extends HostileEntity {
         nbt.putLong("leaveTime", this.leaveTime);
         nbt.putInt("emergeTicksLeft", this.emergeTicksLeft);
         nbt.putBoolean("hasEmerged", this.hasEmerged);
+        nbt.putBoolean("hasSentStatusStart", this.hasSentStatusStart);
         nbt.putIntArray("entityList", this.entityList);
         nbt.putIntArray("susList", this.susList);
         nbt.putString("trackingEntity", this.trackingEntity);
@@ -291,6 +325,7 @@ public class WardenEntity extends HostileEntity {
         this.leaveTime = nbt.getLong("leaveTime");
         this.emergeTicksLeft = nbt.getInt("emergeTicksLeft");
         this.hasEmerged = nbt.getBoolean("hasEmerged");
+        this.hasSentStatusStart = nbt.getBoolean("hasSentStatusStart");
         this.entityList = IntArrayList.wrap(nbt.getIntArray("entityList"));
         this.susList = IntArrayList.wrap(nbt.getIntArray("susList"));
         this.trackingEntity = nbt.getString("trackingEntity");
@@ -397,35 +432,63 @@ public class WardenEntity extends HostileEntity {
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
     public void digParticles(World world, BlockPos pos, int ticks) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(pos);
-        buf.writeInt(ticks);
-        for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, pos, 32)) {
-            ServerPlayNetworking.send(player, RegisterAccurateSculk.WARDEN_DIG_PARTICLES, buf);
+        if (world instanceof ServerWorld) {
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeBlockPos(pos);
+            buf.writeInt(ticks);
+            for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, pos, 32)) {
+                ServerPlayNetworking.send(player, RegisterAccurateSculk.WARDEN_DIG_PARTICLES, buf);
+            }
         }
     }
 
     /** TICKMOVEMENT METHODS */
     public void tickEmerge() {
+        if (!this.hasSentStatusStart) {
+            this.world.sendEntityStatus(this, (byte)9);
+            this.hasSentStatusStart=true;
+        }
         if (this.emergeTicksLeft > 0 && !this.hasEmerged) {
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
+            this.world.sendEntityStatus(this, (byte)19);
             this.emergeTicksLeft--;
         }
         if (this.emergeTicksLeft == 0 && !this.hasEmerged) {
             this.setInvulnerable(false);
             this.hasEmerged = true;
+            this.world.sendEntityStatus(this, (byte)12);
             this.emergeTicksLeft = -1;
         }
         if (this.emergeTicksLeft > 0 && this.hasEmerged) {
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
+            this.world.sendEntityStatus(this, (byte)20);
             --this.emergeTicksLeft;
         }
         if (this.emergeTicksLeft == 0 && this.hasEmerged) { this.remove(RemovalReason.DISCARDED); }
-        if (world.getTime() == this.leaveTime) { this.handleStatus((byte) 6); }
+        if (world.getTime() == this.leaveTime) {
+            this.world.sendEntityStatus(this, (byte)10);
+            this.world.sendEntityStatus(this, (byte)13);
+            this.handleStatus((byte) 6);
+
+        }
+    }
+    public void sendDarkness(int dist, BlockPos blockPos, World world) {
+        if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
+            Box box = (new Box(blockPos.add(-50, -50, -50), blockPos.add(50, 50, 50)));
+            List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
+            Iterator<PlayerEntity> var11 = list.iterator();
+            PlayerEntity playerEntity;
+            while (var11.hasNext()) {
+                playerEntity = var11.next();
+                if (playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
+                    playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 0, true, false, false));
+                }
+            }
+        }
     }
     public void tickSniff() {
         if (this.sniffTicksLeft > 0) { --this.sniffTicksLeft; }
@@ -505,6 +568,7 @@ public class WardenEntity extends HostileEntity {
     //Emerging & Digging
     public boolean hasDetected=false;
     public boolean hasEmerged;
+    public boolean hasSentStatusStart;
     public int emergeTicksLeft;
     //Timers
     public long leaveTime;
@@ -514,6 +578,7 @@ public class WardenEntity extends HostileEntity {
     private int attackTicksLeft1;
     private int roarTicksLeft1;
     public int sniffTicksLeft;
+    public int ticksToDarkness;
     //Stopwatches
     public long timeSinceNonEntity;
     public int sniffCooldown;
@@ -523,5 +588,13 @@ public class WardenEntity extends HostileEntity {
     private static final double speed = 0.4D;
 
     //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
-    public long lastClientHeartBeat;
+    public long lastClientHeartBeat; //Status 8
+    public int clientEmergeTicks; //Set to 120: Status 9. Subtract: Status 19.
+    public int clientDigTicks; //Set to 60: Status 10. Subtract: Status 20.
+    public boolean isEmerging; //Set to true: Status 11. Set to false: Status 12.
+    public boolean isDigging; //Set to true: Status 13. Set to false: Status 14.
+    public long emergeStart; //Status 15
+    public long digStart; //Status 16
+    public long emergeStop; //Status 17
+    public long digStop; //Status 18
 }
