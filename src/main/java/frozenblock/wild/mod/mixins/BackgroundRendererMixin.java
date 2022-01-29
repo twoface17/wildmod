@@ -100,7 +100,7 @@ public class BackgroundRendererMixin {
 
             RenderSystem.setShaderFogStart(y);
             RenderSystem.setShaderFogEnd(ab);
-            RenderSystem.setShaderFogColor(0, 0, 0);
+            //RenderSystem.setShaderFogColor(math, math, math);
         }
     }
 }
