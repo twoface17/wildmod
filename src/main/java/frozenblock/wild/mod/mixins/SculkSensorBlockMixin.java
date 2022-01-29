@@ -49,7 +49,7 @@ public class SculkSensorBlockMixin {
                             && event!=GameEvent.BLOCK_CHANGE && event!=GameEvent.BLOCK_CLOSE && event!=GameEvent.BLOCK_OPEN && event!=GameEvent.BLOCK_PRESS
                             && event!=GameEvent.BLOCK_SWITCH && event!=GameEvent.BLOCK_DETACH && event!=GameEvent.BLOCK_UNPRESS && event!=GameEvent.BLOCK_UNSWITCH
                             && event!=GameEvent.RING_BELL) {
-                        wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), target, 10, pos);
+                        wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), target, wardenEntity.eventSuspicionValue(event,target), pos);
                     } else {
                         wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), null, 1, pos);
                    }
