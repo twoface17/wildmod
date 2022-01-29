@@ -211,9 +211,7 @@ public class WardenEntity extends HostileEntity {
     }
     public int eventSuspicionValue(GameEvent event, LivingEntity livingEntity) {
         int total=1;
-        EntityType<?> entity = livingEntity.getType();
-        if (entity==EntityType.PLAYER) { total=total+1; }
-        if (event==GameEvent.PROJECTILE_LAND && total>1) { total=total-1; }
+        if (event==GameEvent.PROJECTILE_LAND) { return 0; }
         if (SculkSensorBlock.FREQUENCIES.containsKey(event)) { total=total + SculkSensorBlock.FREQUENCIES.getInt(event); }
         return total;
     }
