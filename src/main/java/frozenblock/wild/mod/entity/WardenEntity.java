@@ -477,15 +477,17 @@ public class WardenEntity extends HostileEntity {
         }
     }
     public void sendDarkness(int dist, BlockPos blockPos, World world) {
-        if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
-            Box box = (new Box(blockPos.add(-50, -50, -50), blockPos.add(50, 50, 50)));
-            List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
-            Iterator<PlayerEntity> var11 = list.iterator();
-            PlayerEntity playerEntity;
-            while (var11.hasNext()) {
-                playerEntity = var11.next();
-                if (playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
-                    playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 0, true, false, false));
+        if (world instanceof ServerWorld) {
+            if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
+                Box box = (new Box(blockPos.add(-50, -50, -50), blockPos.add(50, 50, 50)));
+                List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
+                Iterator<PlayerEntity> var11 = list.iterator();
+                PlayerEntity playerEntity;
+                while (var11.hasNext()) {
+                    playerEntity = var11.next();
+                    if (playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
+                        playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 0, true, false, false));
+                    }
                 }
             }
         }
