@@ -14,9 +14,11 @@ public abstract class RegisterParticles {
     // instance of our particle
     public static final DefaultParticleType FIREFLY = FabricParticleTypes.simple();
     public static final DefaultParticleType SCULK_SOUL = FabricParticleTypes.simple();
+    public static final DefaultParticleType SCULK_SPREAD = FabricParticleTypes.simple();
 
     public static void RegisterParticles() {
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "firefly"), FIREFLY);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_soul"), SCULK_SOUL);
+        Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_spread"), SCULK_SPREAD);
     }
 }
