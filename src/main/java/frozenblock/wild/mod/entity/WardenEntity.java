@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.SniffGoal;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
