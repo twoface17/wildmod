@@ -10,51 +10,60 @@ public class AnimationAPI {
 
     /*
     ANIMATION API BY LIUKRAST - PRIVATE FOR @FROZENBLOCKSTUDIOS MODS ONLY
+    VERSION 2.1
      */
 
     public static float easeInSine(float from, float to, float size, float time) {
         float exit = 0;
         float w = to - from;
-        if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
+        float x = time - from;
+        if( x >= 0 && x <= w) {
+            float eq = (time/w) - 1 - (from/w);
+            exit = eq*eq;
         }
-        if(time >= from && time <= from + to) {
-            exit = -size * MathHelper.cos((time-from)/w * (float)Math.PI/2) + size;
+        if (x > w) {
+            return size;
         }
-        if(time > from + to) {
-            exit = size;
+        if( x >= 0) {
+            return (-exit * size) + size;
+        } else {
+            return 0;
         }
-        return exit;
     }
 
     public static float easeOutSine(float from, float to, float size, float time) {
         float exit = 0;
         float w = to - from;
-        if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
+        float x = time - from;
+        if( x >= 0 && x <= w) {
+            float eq = (time/w) - (from/w);
+            exit = eq*eq;
         }
-        if(time >= from && time <= from + to) {
-            exit = size * MathHelper.sin((time-from)/w * (float)Math.PI/2);
+        if (x > w) {
+            return size;
         }
-        if(time > from + to) {
-            exit = size;
+        if( x >= 0) {
+            return exit * size;
+        } else {
+            return 0;
         }
-        return exit;
     }
 
     public static float easeInOutSine(float from, float to, float size, float time) {
         float exit = 0;
         float w = to - from;
-        if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
+        float x = time - from;
+        if( x >= 0 && x <= w) {
+            exit = (-(float)Math.cos((x/w)*Math.PI)/2)+0.5f;
         }
-        if(time >= from && time <= from + to) {
-            exit = -(size/2) * (MathHelper.cos((float)Math.PI * ((time-from)/w))-1);
+        if (x > w) {
+            return size;
         }
-        if(time > from + to) {
-            exit = size;
+        if( x >= 0) {
+            return exit * size;
+        } else {
+            return 0;
         }
-        return exit;
     }
 
     public static float easeInBack(float from, float to, float size, float time) {
@@ -62,7 +71,6 @@ public class AnimationAPI {
         float w = to - from;
         float s = 1.70158f;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(time >= from && time <= from + to) {
@@ -79,7 +87,6 @@ public class AnimationAPI {
         float w = to - from;
         float s = 1.70158f;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(time >= from && time <= from + to) {
@@ -96,7 +103,6 @@ public class AnimationAPI {
         float w = to - from;
         float s = 1.70158f;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(time >= from && time <= from + to) {
@@ -115,7 +121,6 @@ public class AnimationAPI {
         float exit = 0;
         float w = to - from;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(timelessfrom == 0) return 0; if((timelessfrom/=w)==1) return size;
@@ -134,7 +139,6 @@ public class AnimationAPI {
         float exit = 0;
         float w = to - from;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(timelessfrom == 0) return 0; if((timelessfrom/=w)==1) return size;
@@ -153,7 +157,6 @@ public class AnimationAPI {
         float exit = 0;
         float w = to - from;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(timelessfrom == 0) return 0; if((timelessfrom/=w/2)==2) return size;
@@ -176,7 +179,6 @@ public class AnimationAPI {
         float exit = 0;
         float w = to - from;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(time >= from && time <= from + to) {
@@ -192,7 +194,6 @@ public class AnimationAPI {
         float exit = 0;
         float w = to - from;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(time >= from && time <= from + to) {
@@ -216,7 +217,6 @@ public class AnimationAPI {
         float exit = 0;
         float w = to - from;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(time >= from && time <= from + to) {
@@ -236,7 +236,6 @@ public class AnimationAPI {
         float exit = 0;
         float w = to - from;
         if(w < 0) {
-            sendAnimationError("negative-time", from, to, size, time);
         }
         float timelessfrom = time-from;
         if(time >= from && time <= from + to) {
@@ -246,12 +245,6 @@ public class AnimationAPI {
             exit = size;
         }
         return exit;
-    }
-
-    private static void sendAnimationError(String type, float a, float b, float c, float t) {
-        if(Objects.equals(type, "negative-time")) {
-            System.out.println(errorprfx + "Error: unable to animate negative time: [ from=" + a + " , to=" + b + " ]");
-        }
     }
 
 }

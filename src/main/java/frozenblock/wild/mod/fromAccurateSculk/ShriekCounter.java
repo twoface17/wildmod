@@ -20,39 +20,34 @@ import java.util.List;
 import static java.lang.Math.*;
 
 public class ShriekCounter {
-    public static int shrieks = 0;
+    public static int shrieks;
     private static long timer;
 
     public static void addShriek(BlockPos pos, World world, int i) {
         if (world.getTime()-timer< -90) {
             timer=0;
         }
-        int a = 1;
-        if (world.getDifficulty().getId()==0) {
-            a = (int) MathHelper.clamp(i,1,15);
-        }
-        if (world.getDifficulty().getId()==1) {
-            a = (int) MathHelper.clamp(i,2,15);
-        }
-        if (world.getDifficulty().getId()==2) {
-            a = (int) MathHelper.clamp(i*1.5,3,15);
-        }
-        if (world.getDifficulty().getId()==3) {
-            a = (int) MathHelper.clamp(i*2,3,15);
-        }
         if (!world.isClient() && world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.getGameRules().getBoolean(WildMod.WARDEN_SPAWNING) && world.getTime() > timer) {
             timer=world.getTime()+30;
             if (!findWarden(world, pos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
-                shrieks = shrieks + a;
+                if (world.getDifficulty().getId()==0) {
+                    i = (int) MathHelper.clamp(i,2,5);
+                }else if (world.getDifficulty().getId()==1) {
+                    i = (int) MathHelper.clamp(i*1.25,3,10);
+                } else if (world.getDifficulty().getId()==2) {
+                    i = (int) MathHelper.clamp(i*1.5,4,15);
+                } else if (world.getDifficulty().getId()==3) {
+                    i = (int) MathHelper.clamp(i*2,5,15);
+                }
+                shrieks = shrieks + i;
                 for (int t = 8; t > 0; t--) {
                     ArrayList<BlockPos> candidates = findBlock(pos.add(-1, 0, -1), t, true, world);
                     if (!candidates.isEmpty()) {
-                        for (int o = 0; o < 16; o++) {
                             int ran = UniformIntProvider.create(0, candidates.size() - 1).get(world.getRandom());
                             BlockPos currentCheck = candidates.get(ran);
                             warn(world, pos);
                             timer=world.getTime()+30;
-                            if (angerLevel(shrieks) >= 4) {
+                            if (angerLevel() == 4) {
                                 shrieks = 0;
                                 WardenEntity warden = RegisterEntities.WARDEN.create(world);
                                 assert warden != null;
@@ -62,8 +57,6 @@ public class ShriekCounter {
                                 warden.leaveTime=world.getTime()+1200;
                                 world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
                                 break;
-                            }
-                            break;
                         }
                         break;
                     }
@@ -95,7 +88,7 @@ public class ShriekCounter {
     }
 
     public static void warn(World world, BlockPos blockPos) {
-        if (angerLevel(shrieks)==1) {
+        if (angerLevel()==1) {
             double a = random() * 2 * PI;
             double r = sqrt(16) * sqrt(random());
             int x = (int) (r * cos(a));
@@ -103,7 +96,7 @@ public class ShriekCounter {
             BlockPos play = blockPos.add(x,0,z);
             world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.2F, 1F);
         } else
-        if (angerLevel(shrieks)==2) {
+        if (angerLevel()==2) {
             double a = random() * 2 * PI;
             double r = sqrt(12) * sqrt(random());
             int x = (int) (r * cos(a));
@@ -111,7 +104,7 @@ public class ShriekCounter {
             BlockPos play = blockPos.add(x,0,z);
             world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.3F, 1F);
         } else
-        if (angerLevel(shrieks)==3) {
+        if (angerLevel()==3) {
             double a = random() * 2 * PI;
             double r = sqrt(8) * sqrt(random());
             int x = (int) (r * cos(a));
@@ -121,20 +114,16 @@ public class ShriekCounter {
         }
     }
 
-    public static int angerLevel(int i) {
-        if (i>0 && i < 8) {
+    public static int angerLevel() {
+        if (shrieks<8) {
             return 1;
-        }
-        if (i>8 && i < 13) {
+        } else if (shrieks<13) {
             return 2;
-        }
-        if (i>13 && i <= 19) {
+        } else if (shrieks<=19) {
             return 3;
-        }
-        if (i>=20) {
+        } else {
             return 4;
         }
-        return 0;
     }
 
     public static ArrayList<BlockPos> findBlock(BlockPos centerBlock, int radius, boolean hollow, World world) {

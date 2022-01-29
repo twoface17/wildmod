@@ -48,12 +48,12 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         int r = entity.getRoarTicksLeft1();
         float time = animationProgress/10;
 
-    //Emerge animation
+        //Emerge animation
         this.body.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
         this.left_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
         this.right_leg.pivotY = 80 + (AnimationAPI.easeOutSine(0, 7f, -69, time));
 
-    //Walk & idle animation
+        //Walk & idle animation
         if(r > 0) {
             if(r == 10) {
                 entity.setRoarAnimationProgress(animationProgress);

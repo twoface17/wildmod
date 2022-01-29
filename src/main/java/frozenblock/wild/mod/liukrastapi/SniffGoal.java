@@ -58,7 +58,7 @@ public class SniffGoal extends Goal {
         if (exit && sniffEntity instanceof PlayerEntity) {
             exit = !((PlayerEntity)sniffEntity).getAbilities().creativeMode;
         }
-        return exit && UniformIntProvider.create(0,3).get(this.mob.getRandom())>1;
+        return exit;
     }
 
     public boolean shouldContinue() {
