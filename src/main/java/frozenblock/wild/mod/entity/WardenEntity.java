@@ -213,7 +213,6 @@ public class WardenEntity extends HostileEntity {
         int total=1;
         EntityType<?> entity = livingEntity.getType();
         if (entity==EntityType.PLAYER) { total=total+1; }
-        if (this.getBlockPos().getSquaredDistance(livingEntity.getBlockPos(), true)<=8) { total=total+UniformIntProvider.create(0,2).get(this.getWorld().getRandom()); }
         if (event==GameEvent.PROJECTILE_LAND && total>1) { total=total-1; }
         if (SculkSensorBlock.FREQUENCIES.containsKey(event)) { total=total + SculkSensorBlock.FREQUENCIES.getInt(event); }
         return total;
