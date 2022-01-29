@@ -169,7 +169,7 @@ public class WardenEntity extends HostileEntity {
                     }
                 }
             } else { this.timeSinceNonEntity = this.world.getTime();
-                this.nonEntityAnger=this.nonEntityAnger+1;
+                this.nonEntityAnger=this.nonEntityAnger+3;
                 if (this.world.getTime()-reactionSoundTimer>40) {
                     this.reactionSoundTimer = this.world.getTime();
                     if (this.overallAnger()<5) {
