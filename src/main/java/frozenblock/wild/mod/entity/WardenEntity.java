@@ -448,7 +448,6 @@ public class WardenEntity extends HostileEntity {
             this.hasSentStatusStart=true;
         }
         if (this.emergeTicksLeft > 0 && !this.hasEmerged) {
-            digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
             this.world.sendEntityStatus(this, (byte)19);

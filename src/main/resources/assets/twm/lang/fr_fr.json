@@ -38,9 +38,9 @@
   "item.twm.tadpole_bucket": "Tétard dans un sceau",
 
   "block.twm.frog_spawn": "Frai de grenouille",
-  "block.twm.pearlescent_froglight": "Feu de grenouille nacrée",
-  "block.twm.verdant_froglight": "Feu de grenouille verdoyant",
-  "block.twm.ochre_froglight": "Feu de grenouille ocre",
+  "block.twm.pearlescent_froglight": "Froglight nacrée",
+  "block.twm.verdant_froglight": "Froglight verdoyant",
+  "block.twm.ochre_froglight": "Froglight ocre",
 
   "entity.twm.frog": "Grenouille",
   "entity.twm.warden": "Warden",
