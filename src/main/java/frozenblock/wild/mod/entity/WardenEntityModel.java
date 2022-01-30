@@ -53,6 +53,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
         /* EMERGE ANIMATION */
 
+        //65% accuracy to my original animation. a failing grade. how wonderful.
+
         float t = 2; //Multiplier for animation length
         float j = (float) (180/PI);
         float bodyY = 13;
