@@ -101,7 +101,7 @@ public class WardenEntity extends HostileEntity {
         } else if(!this.isAiDisabled() && status == 3) { //Set Roar Ticks
             this.roarTicksLeft1 = 10;
         } else if(!this.isAiDisabled() && status == 5) { //Emerging
-            this.emergeTicksLeft=120;
+            this.emergeTicksLeft=160;
             this.hasEmerged=false;
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
         } else if(!this.isAiDisabled() && status == 6) { //Digging Back
@@ -113,7 +113,7 @@ public class WardenEntity extends HostileEntity {
         } else if (!this.isAiDisabled() && status == 8) { //Set Last Client Beat Time
             this.lastClientHeartBeat=this.world.getTime();
         } else if (!this.isAiDisabled() && status == 9) { //Set Client Emerge Ticks
-            this.clientEmergeTicks=120;
+            this.clientEmergeTicks=160;
         } else if (!this.isAiDisabled() && status == 10) { //Set Client Dig Ticks
             this.clientDigTicks=60;
         } else if (!this.isAiDisabled() && status == 11) { //Set Client isEmerging
@@ -127,7 +127,7 @@ public class WardenEntity extends HostileEntity {
         } else if (!this.isAiDisabled() && status == 15) { //Set Client emergeStart
             this.emergeStart=this.world.getTime();
         } else if (!this.isAiDisabled() && status == 16) { //Set Client emergeStop
-            this.emergeStop=this.world.getTime()+120;
+            this.emergeStop=this.world.getTime()+160;
         } else if (!this.isAiDisabled() && status == 17) { //Set Client digStart
             this.digStart=this.world.getTime();
         } else if (!this.isAiDisabled() && status == 18) { //Set Client digStop
@@ -586,7 +586,7 @@ public class WardenEntity extends HostileEntity {
 
     //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
     public long lastClientHeartBeat; //Status 8
-    public int clientEmergeTicks; //Set to 120: Status 9. Subtract: Status 19.
+    public int clientEmergeTicks; //Set to 160: Status 9. Subtract: Status 19.
     public int clientDigTicks; //Set to 60: Status 10. Subtract: Status 22.
     public boolean isEmerging; //Set to true: Status 11. Set to false: Status 12.
     public boolean isDigging; //Set to true: Status 13. Set to false: Status 14.
