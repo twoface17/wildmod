@@ -85,7 +85,7 @@ public class WardenEntity extends HostileEntity {
         //Heartbeat & Anger
         this.heartbeatTime = (int) (60 - ((MathHelper.clamp(this.trueOverallAnger(),0,45)*1.1)));
         if (this.world.getTime()>=this.nextHeartBeat) {
-            this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, SoundCategory.HOSTILE, 1F, (float) (0.85F + (MathHelper.clamp(this.overallAnger(),0,15)*0.02)));
+            this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, SoundCategory.HOSTILE, 1F, (float) (0.85F + (MathHelper.clamp(this.trueOverallAnger(),0,45)*0.0066)));
             this.nextHeartBeat=this.world.getTime()+heartbeatTime;
             this.lastHeartBeat=this.world.getTime();
             this.world.sendEntityStatus(this, (byte)8);
@@ -161,9 +161,9 @@ public class WardenEntity extends HostileEntity {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     } else if (getSuspicion(eventEntity)<25) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else if (this.overallAnger()<40) {
+                    } else if (this.trueOverallAnger()<40) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else if (this.overallAnger()>=41) {
+                    } else if (this.trueOverallAnger()>=41) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     }
                 }
@@ -171,10 +171,10 @@ public class WardenEntity extends HostileEntity {
                 this.nonEntityAnger=this.nonEntityAnger+3;
                 if (this.world.getTime()-reactionSoundTimer>40) {
                     this.reactionSoundTimer = this.world.getTime();
-                    if (this.overallAnger()<5) {
+                    if (this.trueOverallAnger()<25) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     } else {
-                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     }
                 }
             }
@@ -216,18 +216,6 @@ public class WardenEntity extends HostileEntity {
         return MathHelper.clamp(total, 3,15);
         }
         return MathHelper.clamp(total, 2,15);
-    }
-    public int overallAnger() {
-        int anger=0;
-        if (this.world.getDifficulty().getId()!=0) {
-            Box box = new Box(this.getBlockPos().add(-24, -24, -24), this.getBlockPos().add(24, 24, 24));
-            List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
-            if (!entities.isEmpty()) {
-                for (LivingEntity target : entities) {anger = anger + this.getSuspicion(target); }
-            }
-            anger = anger + nonEntityAnger;
-            anger = MathHelper.clamp(anger, 0, 50);
-        } return anger / 2;
     }
     public int trueOverallAnger() {
         int anger=0;
@@ -496,14 +484,13 @@ public class WardenEntity extends HostileEntity {
         if (this.sniffCooldown > 0) { --this.sniffCooldown; }
         if (this.sniffTicksLeft == 0) {
             this.sniffTicksLeft = -1;
-            int extraSuspicion = 1;
             if (this.getSniffEntity() != null) {
                 LivingEntity sniffEntity = this.getSniffEntity();
                 this.addSuspicion(sniffEntity, 5);
                 if (sniffEntity != this.getTrackingEntity()) {
-                    this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 15) * 0.02) + (this.overallAnger() * 0.004)));
+                    this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.006) + (this.trueOverallAnger() * 0.002)));
                 } else if (sniffEntity == this.getTrackingEntity()) {
-                    this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 15) * 0.04) + (this.overallAnger() * 0.004)));
+                    this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.013) + (this.trueOverallAnger() * 0.002)));
                 }
             }
         }
