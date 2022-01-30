@@ -121,16 +121,16 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             );
 
             //Right Leg transforms
-        this.right_leg.pivotY = legY + 60 + (AnimationAPI.easeOutSine(t * 0f, t * 0.68f, 0f, time) +
-                AnimationAPI.easeOutSine(t * 0.68f, t * 1.04f, -30f, time) +
-                AnimationAPI.easeOutSine(t * 1.04f, t * 1.2f, +2f, time) +
-                AnimationAPI.easeOutSine(t * 1.2f, t * 3.24f, 0f, time) +
-                AnimationAPI.easeOutSine(t * 3.24f, t * 3.92f, -17f, time) +
-                AnimationAPI.easeOutSine(t * 3.92f, t * 4.6f, -5f, time) +
-                AnimationAPI.easeInSine(t * 4.6f, t * 4.76f, +1.13f, time) +
-                AnimationAPI.easeOutSine(t * 4.76f, t * 5.48f, -1.13f, time) +
-                AnimationAPI.easeInOutSine(t * 5.48f, t * 5.84f, -10f, time)
-        );
+            this.right_leg.pivotY = legY + 60 + (AnimationAPI.easeOutSine(t * 0f, t * 0.68f, 0f, time) +
+                    AnimationAPI.easeOutSine(t * 0.68f, t * 1.04f, -30f, time) +
+                    AnimationAPI.easeOutSine(t * 1.04f, t * 1.2f, +2f, time) +
+                    AnimationAPI.easeOutSine(t * 1.2f, t * 3.24f, 0f, time) +
+                    AnimationAPI.easeOutSine(t * 3.24f, t * 3.92f, -17f, time) +
+                    AnimationAPI.easeOutSine(t * 3.92f, t * 4.6f, -5f, time) +
+                    AnimationAPI.easeInSine(t * 4.6f, t * 4.76f, +1.13f, time) +
+                    AnimationAPI.easeOutSine(t * 4.76f, t * 5.48f, -1.13f, time) +
+                    AnimationAPI.easeInOutSine(t * 5.48f, t * 5.84f, -10f, time)
+            );
             this.right_leg.pivotZ = 10 + (AnimationAPI.easeOutSine(0, t * 5.48f, 0, time) +
                     AnimationAPI.easeOutSine(t * 5.48f, t * 5.84f, -10f, time)
             );
@@ -264,8 +264,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 1.32f, t * 1.6f, -47.5f / j, time) +
                     AnimationAPI.easeInSine(t * 1.6f, t * 1.76f, 15f / j, time)
             );
-            /* WALK & IDLE ANIMATION */
 
+            /* WALK & IDLE ANIMATION */
                 if (r > 0) {
                     if (r == 10) {
                         entity.setRoarAnimationProgress(animationProgress);
