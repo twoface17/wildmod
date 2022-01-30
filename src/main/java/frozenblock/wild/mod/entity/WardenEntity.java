@@ -49,14 +49,22 @@ import java.util.Optional;
 
 public class WardenEntity extends HostileEntity {
     /** WELCOME TO THE WARDEN MUSEUM
+     * <p>
      * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
-     * SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}
-     * SNIFFING {@link WardenEntity#getSniffEntity()}
-     * ATTACKING & ROARING {@link WardenEntity#setRoarAnimationProgress(double)}
-     * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
-     * OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
-     * VISUAlS {@link WardenEntity#CreateVibration(World, WardenEntity, BlockPos)}
-     * TICKMOVEMENT METHODS {@link WardenEntity#tickEmerge()}
+     * <li> SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}
+     * <p>
+     * <li> SNIFFING {@link WardenEntity#getSniffEntity()}
+     * <p>
+     * <li> ATTACKING & ROARING {@link WardenEntity#setRoarAnimationProgress(double)}
+     * <p>
+     * <li> NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
+     * <p>
+     * <li> OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
+     * <p>
+     * <li> VISUAlS {@link WardenEntity#CreateVibration(World, WardenEntity, BlockPos)}
+     * <p>
+     * <li> TICKMOVEMENT METHODS {@link WardenEntity#tickEmerge()}
+     * </ul><p>
      * ALL VALUES ARE STORED AT THE END OF THIS MUSEUM.
      * */
 
