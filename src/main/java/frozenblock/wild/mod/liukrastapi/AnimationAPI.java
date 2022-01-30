@@ -1,15 +1,13 @@
 package frozenblock.wild.mod.liukrastapi;
 
-import net.minecraft.item.DyeableArmorItem;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.MathHelper;
-
-import java.util.Objects;
-
 public class AnimationAPI {
 
     /*
-    ANIMATION API BY LIUKRAST - PRIVATE FOR @FROZENBLOCKSTUDIOS MODS ONLY
+    AnimationAPI
+    By LiukRast
+
+    Only for FrozenBlockStaff
+
     VERSION 2.3
      */
 
