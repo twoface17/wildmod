@@ -1,16 +1,16 @@
 package frozenblock.wild.mod.liukrastapi;
 
+import net.minecraft.item.DyeableArmorItem;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.Objects;
 
 public class AnimationAPI {
 
-    private static final String errorprfx = "[AnimationAPI] ";
-
     /*
     ANIMATION API BY LIUKRAST - PRIVATE FOR @FROZENBLOCKSTUDIOS MODS ONLY
-    VERSION 2.2
+    VERSION 2.3
      */
 
     public static float easeInSine(float from, float to, float size, float time) {
@@ -136,134 +136,154 @@ public class AnimationAPI {
         return easeInOutBack(from, to, size, time, 1.5f);
     }
 
-    public static float easeInElastic(float from, float to, float size, float time, float amount) {
+    public static float easeInElastic(float from, float to, float size, float time, int amount) {
         float exit = 0;
         float w = to - from;
-        if(w < 0) {
+        float x = time - from;
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)Math.cos(2*Math.PI*b*(x/w))*(x/w);
         }
-        float timelessfrom = time-from;
-        if(timelessfrom == 0) return 0; if((timelessfrom/=w)==1) return size;
-        float p=w*.3f;
-        float s=p/4;
-        if(time >= from && time <= from + to) {
-            exit = -(amount *(float)Math.pow(2,10*(timelessfrom-=1)) * (float)Math.sin( (timelessfrom*w-s)*(2*(float)Math.PI)/p ));
+        if (x > w) {
+            return size;
         }
-        if(time > from + to) {
-            exit = size;
+        if( x >= 0) {
+            return exit * size;
+        } else {
+            return 0;
         }
-        return exit;
     }
 
-    public static float easeOutElastic(float from, float to, float size, float time, float amount) {
-        float exit = 0;
-        float w = to - from;
-        if(w < 0) {
-        }
-        float timelessfrom = time-from;
-        if(timelessfrom == 0) return 0; if((timelessfrom/=w)==1) return size;
-        float p=w*.3f;
-        float s=p/4;
-        if(time >= from && time <= from + to) {
-            exit = (amount *(float)Math.pow(2,-10*timelessfrom) * (float)Math.sin( (timelessfrom*w-s)*(2*(float)Math.PI)/p ) + size);
-        }
-        if(time > from + to) {
-            exit = size;
-        }
-        return exit;
+    public static float easeInElastic(float from, float to, float size, float time) {
+        int w = (int)(to - from)/10;
+        return easeInElastic(from, to, size, time, w);
     }
 
-    public static float easeInOutElastic(float from, float to, float size, float time, float amount) {
+    public static float easeOutElastic(float from, float to, float size, float time, int amount) {
         float exit = 0;
         float w = to - from;
-        if(w < 0) {
+        float x = time - from;
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)(-Math.cos(2*Math.PI*b*(x/w))*(1-(x/w))+1);
         }
-        float timelessfrom = time-from;
-        if(timelessfrom == 0) return 0; if((timelessfrom/=w/2)==2) return size;
-        float p=w*(.3f*1.5f);
-        float s=p/4;
-        if(time >= from && time <= from + to) {
-            if(timelessfrom < 1) {
-                exit = -.5f*(amount *(float)Math.pow(2,10*(timelessfrom-=1)) * (float)Math.sin( (timelessfrom*w-s)*(2*(float)Math.PI)/p ));
-            } else {
-                exit = amount *(float)Math.pow(2,-10*(timelessfrom-=1)) * (float)Math.sin( (timelessfrom*w-s)*(2*(float)Math.PI)/p )*.5f + size;
-            }
+        if (x > w) {
+            return size;
         }
-        if(time > from + to) {
-            exit = size;
+        if( x >= 0) {
+            return exit * size;
+        } else {
+            return 0;
         }
-        return exit;
+    }
+
+    public static float easeOutElastic(float from, float to, float size, float time) {
+        int w = (int)(to - from)/10;
+        return easeOutElastic(from, to, size, time, w);
+    }
+
+    public static float easeInOutElastic(float from, float to, float size, float time, int amount) {
+        float exit = 0;
+        float w = to - from;
+        float x = time - from;
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)(Math.sin(2*Math.PI*b*(x/w))*Math.sin(Math.PI*(x/w)))+(x/w);
+        }
+        if (x > w) {
+            return size;
+        }
+        if( x >= 0) {
+            return exit * size;
+        } else {
+            return 0;
+        }
+    }
+
+    public static float easeInOutElastic(float from, float to, float size, float time) {
+        int w = (int)(to - from)/10;
+        return easeInOutElastic(from, to, size, time, w);
+    }
+
+    public static float easeInBounce(float from, float to, float size, float time, int amount) {
+        float exit = 0;
+        float w = to - from;
+        float x = time - from;
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)Math.abs(Math.cos(2*Math.PI*b*(x/w))*(x/w));
+        }
+        if (x > w) {
+            return size;
+        }
+        if( x >= 0) {
+            return exit * size;
+        } else {
+            return 0;
+        }
     }
 
     public static float easeInBounce(float from, float to, float size, float time) {
+        int w = (int)(to - from)/10;
+        return easeInBounce(from, to, size, time, w);
+    }
+
+    public static float easeOutBounce(float from, float to, float size, float time, int amount) {
         float exit = 0;
         float w = to - from;
-        if(w < 0) {
+        float x = time - from;
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)(Math.abs(-Math.cos(2*Math.PI*b*(x/w))*(1-(x/w)))+1);
         }
-        float timelessfrom = time-from;
-        if(time >= from && time <= from + to) {
-            exit = size - easeOutBounce(0, to, w, w-timelessfrom);
+        if (x > w) {
+            return size;
         }
-        if(time > from + to) {
-            exit = size;
+        if( x >= 0) {
+            return exit * size;
+        } else {
+            return 0;
         }
-        return exit;
     }
 
     public static float easeOutBounce(float from, float to, float size, float time) {
-        float exit = 0;
-        float w = to - from;
-        if(w < 0) {
-        }
-        float timelessfrom = time-from;
-        if(time >= from && time <= from + to) {
-            if ((timelessfrom/=w) < (1/2.75f)) {
-                return size*(7.5625f*timelessfrom*timelessfrom);
-            } else if (timelessfrom < (2/2.75f)) {
-                return size*(7.5625f*(timelessfrom-=(1.5f/2.75f))*timelessfrom + .75f);
-            } else if (timelessfrom < (2.5/2.75)) {
-                return size*(7.5625f*(timelessfrom-=(2.25f/2.75f))*timelessfrom + .9375f);
-            } else {
-                return size*(7.5625f*(timelessfrom-=(2.625f/2.75f))*timelessfrom + .984375f);
-            }
-        }
-        if(time > from + to) {
-            exit = size;
-        }
-        return exit;
+        int w = (int)(to - from)/10;
+        return easeOutBounce(from, to, size, time, w);
     }
 
-    public static float easeInOutBounce(float from, float to, float size, float time) {
+    public static float easeInOutBounce(float from, float to, float size, float time, int amount) {
         float exit = 0;
         float w = to - from;
-        if(w < 0) {
+        float x = time - from;
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)Math.abs(Math.sin(2*Math.PI*b*(x/w))*Math.sin(Math.PI*(x/w)))+(x/w);
         }
-        float timelessfrom = time-from;
-        if(time >= from && time <= from + to) {
-            if(timelessfrom < w/2) {
-                exit = easeInBounce(0, w, size, time*2) * .5f;
-            } else {
-                exit = easeOutBounce(0, w, size, time*2-w) * size * .5f * .5f;
-            }
+        if (x > w) {
+            return size;
         }
-        if(time > from + to) {
-            exit = size;
+        if( x >= 0) {
+            return exit * size;
+        } else {
+            return 0;
         }
-        return exit;
     }
 
     public static float linear(float from, float to, float size, float time) {
         float exit = 0;
         float w = to - from;
-        if(w < 0) {
+        float x = time - from;
+        if( x >= 0 && x <= w) {
+            exit = x/w;
         }
-        float timelessfrom = time-from;
-        if(time >= from && time <= from + to) {
-            exit = timelessfrom*(size/w);
+        if (x > w) {
+            return size;
         }
-        if(time > from + to) {
-            exit = size;
+        if( x >= 0) {
+            return (-exit * size);
+        } else {
+            return 0;
         }
-        return exit;
     }
 
 }
