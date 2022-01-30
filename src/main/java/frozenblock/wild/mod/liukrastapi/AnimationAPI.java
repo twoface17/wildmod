@@ -8,7 +8,7 @@ public class AnimationAPI {
 
     Only for FrozenBlockStaff
 
-    VERSION 2.3
+    VERSION 2.4
      */
 
     public static float easeInSine(float from, float to, float size, float time) {
@@ -281,6 +281,20 @@ public class AnimationAPI {
             return (-exit * size);
         } else {
             return 0;
+        }
+    }
+
+    public static float loopTime(float time, float size) {
+        return time-(size * (float)Math.floor(time/size));
+    }
+
+    public static float boomerangTime(float time, float size) {
+        float eq1 = time-(2*size * (float)Math.floor(time/(size*2)));
+        float eq2 = -time+(2*size * (float)Math.floor(time/(size*2)))+(2*size);
+        if(eq1>=0&&eq1<=size) {
+            return eq1;
+        } else {
+            return eq2;
         }
     }
 
