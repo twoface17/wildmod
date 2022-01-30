@@ -141,7 +141,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 6.8f, t * 6f, -37.5f / j, time)
             );
 
-            //Left Arm Transformations
+            //Left Arm transforms
             this.left_arm.pivotY = armY + (AnimationAPI.easeOutSine(t * 0f, t * 0.36f, -25f, time) +
                     AnimationAPI.easeInSine(t * 0.36f, t * 0.72f, +23f, time) +
                     AnimationAPI.easeInSine(t * 0.72f, t * 1.08f, 0f, time) +
@@ -222,7 +222,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 6.12f, t * 6.96f, -3.5f / j, time)
             );
 
-            //Right Arm transformations
+            //Right Arm transforms
             this.right_arm.pivotY = armY + (AnimationAPI.easeOutSine(t * 0f, t * 1.24f, 0f, time) +
                     AnimationAPI.easeOutSine(t * 1.24f, t * 1.48f, -4.4f, time) +
                     AnimationAPI.easeInSine(t * 1.48f, t * 1.64f, +0.4f, time) +
