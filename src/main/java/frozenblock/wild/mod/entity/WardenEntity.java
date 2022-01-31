@@ -593,4 +593,8 @@ public class WardenEntity extends HostileEntity {
     public long emergeStop; //Status 17
     public long digStop; //Status 18
     public long clientSniffStart; //Status 23
+
+    //ANIMATION
+    public float emergeAnimStartTime;
+    public float emergeAnimTime;
 }
