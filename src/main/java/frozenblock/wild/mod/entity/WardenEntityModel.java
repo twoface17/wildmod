@@ -416,10 +416,4 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         left_leg.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         right_leg.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
-
-    /** COMPLEX ANIMATIONS*/
-    private void emerge(float t, float time) {
-
-    }
-
 }
