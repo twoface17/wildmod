@@ -8,7 +8,7 @@ public class AnimationAPI {
 
     Only for FrozenBlockStaff
 
-    VERSION 2.4
+    VERSION 2.5
      */
 
     public static float easeInSine(float fromTime, float toTime, float size, float time) {
@@ -295,6 +295,17 @@ public class AnimationAPI {
             return eq1;
         } else {
             return eq2;
+        }
+    }
+
+    public static float animationTimer(float time, float from, float to) {
+        float x = time - from;
+        float w = to - from;
+
+        if(x>=0&&x<=w) {
+            return x;
+        } else {
+            return 0;
         }
     }
 
