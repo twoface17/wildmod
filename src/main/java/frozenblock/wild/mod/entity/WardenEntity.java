@@ -81,7 +81,7 @@ public class WardenEntity extends HostileEntity {
             if (this.attackTicksLeft1 > 0) { --this.attackTicksLeft1; }
             if (this.roarTicksLeft1 > 0) { --this.roarTicksLeft1; }
             if (this.attackCooldown > 0) { --this.attackCooldown; }
-            if (this.sniffTicksLeft>43) {this.world.sendEntityStatus(this, (byte)23);}
+            if (this.sniffTicksLeft>=44) {this.world.sendEntityStatus(this, (byte)23);}
             this.tickEmerge();
             this.tickStuck();
             this.tickSniff();
@@ -597,4 +597,7 @@ public class WardenEntity extends HostileEntity {
     //ANIMATION
     public float emergeAnimStartTime;
     public float emergeAnimTime;
+
+    public float sniffAnimStartTime;
+    public float sniffAnimTime;
 }
