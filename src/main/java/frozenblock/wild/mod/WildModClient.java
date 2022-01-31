@@ -54,6 +54,9 @@ public class WildModClient implements ClientModInitializer {
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriekx"));
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriekx2"));
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_soul"));
+            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_rf_0"));
+            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_rf_1"));
+            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_rf_0"));
         }));
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK, ShriekParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK2, ShriekParticle2.Factory::new);
