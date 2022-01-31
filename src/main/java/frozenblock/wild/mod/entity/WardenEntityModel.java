@@ -48,8 +48,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
         int r = entity.getRoarTicksLeft1();
-        long emergeticksleft = entity.clientEmergeTicks; //The time (in ticks) from the start of the Warden's emerge
-        long sniffticks = entity.world.getTime()-entity.clientSniffStart; //The time between last sniffing started and now
+        long emergeticksleft = entity.clientEmergeTicks; //The time (in ticks) left before emerging ends.
+        long sniffticks = entity.world.getTime()-entity.clientSniffStart; //The time between last sniffing started and now.
         int digticks = entity.clientDigTicks; //How much time is left (in ticks) before digging ends.
         float time = animationProgress / 10;
 
