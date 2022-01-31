@@ -271,62 +271,67 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
 
         /** SNIFF ANIMATION **/
-        if (sniffticks <= 43) {
+        if (sniffticks<1) {
+            entity.sniffAnimStartTime=animationProgress;
+        }
+        if (sniffticks < 44) {
+            entity.sniffAnimTime=AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime+43)/10;
+            float sniffTime=entity.sniffAnimTime;
             /* Body */
-            this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -15f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.64f, 7.5f / j, time)
+            this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -15f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.64f, 7.5f / j, sniffTime)
             );
-            this.body.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, 27.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -55f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.64f, 27.5f / j, time)
+            this.body.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, 27.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -55f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.64f, 27.5f / j, sniffTime)
             );
-            this.body.roll = (AnimationAPI.easeOutSine(0, t * 0.52f, 12.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 0f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.64f, -12.5f / j, time)
+            this.body.roll = (AnimationAPI.easeOutSine(0, t * 0.52f, 12.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 0f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.64f, -12.5f / j, sniffTime)
             );
 
             /* Head */
-            this.head.pitch = (AnimationAPI.easeInOutSine(0, t * 0.52f, -5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -15f / j, time) +
-                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, 15f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -15f / j, time) +
-                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, 15f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -15f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, 15f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 5f / j, time)
+            this.head.pitch = (AnimationAPI.easeInOutSine(0, t * 0.52f, -5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -15f / j, sniffTime) +
+                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, 15f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -15f / j, sniffTime) +
+                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, 15f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -15f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, 15f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 5f / j, sniffTime)
             );
-            this.head.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, 27.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -15f / j, time) +
-                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, -5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -7.5f / j, time) +
-                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, -7.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, -7.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 20f / j, time)
+            this.head.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, 27.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -15f / j, sniffTime) +
+                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, -5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -7.5f / j, sniffTime) +
+                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, -7.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, -7.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 20f / j, sniffTime)
             );
-            this.head.roll = (AnimationAPI.easeInOutSine(0, t * 0.52f, 12.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -7.5f / j, time) +
-                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, -2.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -2.5f / j, time) +
-                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, -2.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -2.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, 0f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 5f / j, time)
+            this.head.roll = (AnimationAPI.easeInOutSine(0, t * 0.52f, 12.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -7.5f / j, sniffTime) +
+                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, -2.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -2.5f / j, sniffTime) +
+                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, -2.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -2.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, 0f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 5f / j, sniffTime)
             );
 
             /* Left Arm */
-            this.left_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.52f, 30f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -48f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, time)
+            this.left_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.52f, 30f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -48f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, sniffTime)
             );
-            this.left_arm.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, -12.5f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 20f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -7.5f / j, time)
+            this.left_arm.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, -12.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 20f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -7.5f / j, sniffTime)
             );
-            this.left_arm.roll = (AnimationAPI.easeInOutSine(0, t * 0.52f, -25f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 7f / j, time) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, time)
+            this.left_arm.roll = (AnimationAPI.easeInOutSine(0, t * 0.52f, -25f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 7f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, sniffTime)
             );
         }
 
@@ -336,7 +341,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     if (r == 10) {
                         entity.setRoarAnimationProgress(animationProgress);
                     } else {
-                        if (emergeticksleft == 0 && sniffticks >= 44) {
+                        if (emergeticksleft == 0 && sniffticks >= 43) {
                             double b = animationProgress - entity.getRoarAnimationProgress();
                             /* Head */
                             this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2;
@@ -370,7 +375,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                 }
 
         /* ATTACK ANIMATION */
-            if (emergeticksleft == 0 && sniffticks >= 44) {
+
+            if (emergeticksleft <= 0 && sniffticks > 44) {
                     //Attack Animation Handler
                     int a = entity.getAttackTicksLeft1();
 
