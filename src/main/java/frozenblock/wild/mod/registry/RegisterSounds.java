@@ -58,9 +58,6 @@ public class RegisterSounds { //Register sound definitions
         public static SoundEvent BLOCK_SCULK_VEIN_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.place"));
         public static SoundEvent BLOCK_SCULK_VEIN_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.break"));
 
-    /** EFFECTS **/
-        public static SoundEvent EFFECT_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID, "twm.nearby_close"));
-
     /** ENTITIES **/
     //Firefly
         public static SoundEvent ENTITY_FIREFLY_LOOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.firefly.loop"));
@@ -157,9 +154,6 @@ public class RegisterSounds { //Register sound definitions
         BLOCK_MANGROVE_ROOTS_STEP = register(BLOCK_MANGROVE_ROOTS_STEP.getId());
         BLOCK_MANGROVE_ROOTS_HIT = register(BLOCK_MANGROVE_ROOTS_HIT.getId());
         BLOCK_MANGROVE_ROOTS_FALL = register(BLOCK_MANGROVE_ROOTS_FALL.getId());
-
-    /** EFFECTS **/
-        EFFECT_NEARBY_CLOSE = register(EFFECT_NEARBY_CLOSE.getId());
 
     /** ENTITIES **/
         //Firefly

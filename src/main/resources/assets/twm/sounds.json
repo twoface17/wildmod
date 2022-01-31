@@ -347,12 +347,12 @@
 	},
 	"block.sculk_sensor.receive_rf": {
 		"sounds": [
-			"twm:block/sculk_sensor/recieve_rf1",
-			"twm:block/sculk_sensor/recieve_rf2",
-			"twm:block/sculk_sensor/recieve_rf3",
-			"twm:block/sculk_sensor/recieve_rf4",
-			"twm:block/sculk_sensor/recieve_rf5",
-			"twm:block/sculk_sensor/recieve_rf6"
+			"twm:block/sculk_sensor/receive_rf1",
+			"twm:block/sculk_sensor/receive_rf2",
+			"twm:block/sculk_sensor/receive_rf3",
+			"twm:block/sculk_sensor/receive_rf4",
+			"twm:block/sculk_sensor/receive_rf5",
+			"twm:block/sculk_sensor/receive_rf6"
 		],
 		"subtitle": "subtitles.block.twm.sculk_sensor.rf"
 	},

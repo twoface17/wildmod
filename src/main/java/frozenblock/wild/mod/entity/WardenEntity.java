@@ -81,6 +81,7 @@ public class WardenEntity extends HostileEntity {
             if (this.attackTicksLeft1 > 0) { --this.attackTicksLeft1; }
             if (this.roarTicksLeft1 > 0) { --this.roarTicksLeft1; }
             if (this.attackCooldown > 0) { --this.attackCooldown; }
+            if (this.sniffTicksLeft>43) {this.world.sendEntityStatus(this, (byte)23);}
             this.tickEmerge();
             this.tickStuck();
             this.tickSniff();
@@ -144,6 +145,8 @@ public class WardenEntity extends HostileEntity {
             if (this.clientEmergeTicks>0) { this.clientEmergeTicks=this.clientEmergeTicks-1; }
         } else if (!this.isAiDisabled() && status == 22) { //Subtract Client Dig Ticks
             if (this.clientDigTicks>0) { this.clientDigTicks=this.clientDigTicks-1; }
+        } else if (!this.isAiDisabled() && status == 23) { //Subtract Client Dig Ticks
+            this.clientSniffStart=this.world.getTime();
         } else { super.handleStatus(status); }
     }
 
@@ -444,6 +447,7 @@ public class WardenEntity extends HostileEntity {
             this.hasSentStatusStart=true;
         }
         if (this.emergeTicksLeft > 0 && !this.hasEmerged) {
+            digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
             this.world.sendEntityStatus(this, (byte)19);
@@ -588,4 +592,5 @@ public class WardenEntity extends HostileEntity {
     public long digStart; //Status 16
     public long emergeStop; //Status 17
     public long digStop; //Status 18
+    public long clientSniffStart; //Status 23
 }
