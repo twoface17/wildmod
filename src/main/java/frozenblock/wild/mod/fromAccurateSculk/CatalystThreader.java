@@ -1,20 +1,28 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.blocks.SculkBlock;
+import frozenblock.wild.mod.blocks.SculkCatalystBlock;
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
+import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterSounds;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.enums.SculkSensorPhase;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.server.ServerTask;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -23,82 +31,47 @@ import static java.lang.Math.*;
 public class CatalystThreader {
     public static int running;
 
-    public static void main(World world, BlockPos blockPos, int l, int r, int div, int chance) throws InterruptedException {
-        float threads = world.getGameRules().getInt(WildMod.SCULK_THREADS);
-        int lbd = (int) Math.ceil(l * div);
+    public static void main(World world, Entity entity, BlockPos blockPos, int div) throws InterruptedException {
         if (div > 0) {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
-            if (threads >= 21) {
-                for (int h = 0; h < lbd; h++) {
-                    SculkThread T1 = new SculkThread("Sculk" + h);
-                    T1.blockPos = blockPos;
-                    T1.world = world;
-                    T1.l = 1;
-                    T1.r = r;
-                    T1.setPriority(Thread.MAX_PRIORITY);
-                    T1.start();
-                    T1.join();
-                }
-                ActivatorThread T2 = new ActivatorThread("activatorThread");
-                T2.blockPos = blockPos;
-                T2.world = world;
-                T2.r = sqrt(r * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER));
-                T2.chance = chance;
-                T2.setPriority(Thread.MIN_PRIORITY);
-                T2.l = l*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
-                T2.start();
-            } else {
-                if ((int) Math.floor(l / threads * div) >= 1) {
-                    int numThreads = (int) Math.floor(l / threads * div);
-                    for (int h = 0; (h < numThreads) || h < l; h++) {
-                            SculkThread T1 = new SculkThread("Sculk" + h);
-                            T1.blockPos = blockPos;
-                            T1.world = world;
-                            T1.l = div;
-                            T1.r = r;
-                            T1.setPriority(Thread.MAX_PRIORITY);
-                            T1.start();
-                        T1.join();
-                        }
-                    ActivatorThread T2 = new ActivatorThread("activatorThread");
-                    T2.blockPos = blockPos;
-                    T2.world = world;
-                    T2.r = sqrt(r * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER));
-                    T2.chance = chance;
-                    T2.setPriority(Thread.MIN_PRIORITY);
-                    T2.l = l*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
-                    T2.start();
-                } else for (int h = 0; h < l; h++) {
-                    SculkThread T1 = new SculkThread("Sculk" + h);
-                    T1.blockPos = blockPos;
-                    T1.world = world;
-                    T1.r = r;
-                    T1.setPriority(Thread.MAX_PRIORITY);
-                    T1.l = div;
-                    T1.start();
-                    T1.join();
-                }
-                ActivatorThread T2 = new ActivatorThread("activatorThread");
-                T2.blockPos = blockPos;
-                T2.world = world;
-                T2.r = sqrt(r * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER));
-                T2.chance = chance;
-                T2.setPriority(Thread.MIN_PRIORITY);
-                T2.l = l*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
-                T2.start();
-                }
+            SculkThread T1 = new SculkThread("sculkThread");
+            T1.blockPos = blockPos;
+            T1.world = world;
+            T1.setPriority(Thread.MAX_PRIORITY);
+            T1.l = div;
+            T1.entity=entity;
+            T1.start();
+            T1.join();
+
+            ActivatorThread T2 = new ActivatorThread("activatorThread");
+            T2.blockPos = blockPos;
+            T2.world = world;
+            T2.setPriority(Thread.MAX_PRIORITY);
+            T2.l = (int) ((48)*Math.sin((getHighestRadius(world, blockPos)/40.75)));
+            T2.r = getHighestRadius(world, blockPos);
+            T2.start();
+            }
         }
+
+    public static int getHighestRadius(World world, BlockPos pos) {
+        int current = 0;
+        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
+            BlockEntity catalyst = world.getBlockEntity(blockPos);
+            if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+                current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);
+            }
+        }
+        return current;
     }
-}
+    }
 
 class ActivatorThread extends Thread {
     private Thread t;
     public String threadName;
     public World world;
     public BlockPos blockPos;
-    public double l;
-    public double r;
-    public int chance;
+    public int l;
+    public int r;
     ActivatorThread(String name) {
         this.threadName=name;
     }
@@ -107,7 +80,7 @@ class ActivatorThread extends Thread {
     public void run() {
         try {
             Thread.sleep(50);
-            placeActiveOptim(l, r, blockPos, world, chance);
+            placeActiveOmptim(l,r,blockPos,world);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,166 +93,71 @@ class ActivatorThread extends Thread {
         }
     }
 
-    public void placeActiveOptim(double loop, double rVal, BlockPos pos, World world, int chnce) {
-        int chanceCheck = chnce + 4;
-        for (int l = 0; l < loop; l++) {
-            if (UniformIntProvider.create(0, chnce+5).get(world.getRandom()) > chanceCheck) {
-                double a = random() * 2 * PI;
-                double ra = rVal * sqrt(random());
-                int x = (int) (ra * cos(a));
-                int y = (int) (ra * sin(a));
-                BlockPos NewSculk = solidsculkCheck(pos.add(x, 0, y), world);
-                if (NewSculk.getY() != -64) {
-                        int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
-                        if (uniInt <= 16) {
-                            ActivOptim1(sensor, world, NewSculk.up());
+    public static final BlockState sculk = RegisterBlocks.SCULK.getDefaultState();
+    public static final BlockState sensor = Blocks.SCULK_SENSOR.getDefaultState();
+    public static final BlockState shrieker = SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState();
+    public static final BlockState vein = SculkVeinBlock.SCULK_VEIN.getDefaultState();
+    public static final BlockState water = Blocks.WATER.getDefaultState();
+    public static final Block waterBlock = Blocks.WATER;
+    public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
+
+    public void placeActiveOmptim(int loop, int rVal, BlockPos pos, World world) { //Call For Placement
+        for (int l = 0; l < loop; ++l) {
+            double a = random() * 2 * PI;
+            double r = sqrt(rVal) * sqrt(random());
+            int x = (int) (r * cos(a));
+            int y = (int) (r * sin(a));
+            placeActivator(pos.add(x, 0, y), world, loop/2);
+        }
+    }
+
+    public void placeActivator(BlockPos blockPos, World world, int chance) { //Place Activators
+        int chanceCheck = (chance + 4);
+        int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
+        if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > chanceCheck)) {
+            BlockPos NewSculk = solidsculkCheck(blockPos, world);
+            if (NewSculk != null  && !checkForOthers(NewSculk, world)) {
+                BlockState stateUp = world.getBlockState(NewSculk.up());
+                if (uniInt <= 16) {
+                    if (stateUp == water) {
+                        callPlace(world, NewSculk.up(), sensor.with(waterLogged, true));
+                    } else if (stateUp.getBlock() !=waterBlock) {
+                        if (stateUp == vein.with(waterLogged, true)) {
+                            callPlace(world, NewSculk.up(), sensor.with(waterLogged, true));
                         } else {
-                            ActivOptim1(shrieker, world, NewSculk.up());
+                            callPlace(world, NewSculk.up(), sensor);
+                        }
+                    }
+                } else {
+                    if (stateUp == water) {
+                        callPlace(world, NewSculk.up(), shrieker.with(waterLogged, true));
+                    } else if (stateUp.getBlock() != waterBlock) {
+                        if (stateUp == vein.with(waterLogged, true)) {
+                            callPlace(world, NewSculk.up(), shrieker.with(waterLogged, true));
+                        } else {
+                            world.removeBlock(NewSculk.up(), true);
+                            callPlace(world, NewSculk.up(), shrieker);
                         }
                     }
                 }
             }
         }
+    }
+    public boolean checkForOthers(BlockPos pos, World world) {
+        boolean bl1 = Sphere.sphereBlock(sensor.getBlock(), world, pos, 3);
+        boolean bl2 = Sphere.sphereBlock(shrieker.getBlock(), world, pos, 3);
+        return bl1 || bl2;
+    }
 
-    public BlockPos solidsculkCheck(BlockPos blockPos, World world) {
-        if (checkPt1(blockPos, world).getY()!=-64) {
-            return checkPt1(blockPos, world);
-        } else if (checkPt2(blockPos, world).getY()!=-64) {
+    /** CAlCULATIONS & CHECKS */
+    public BlockPos solidsculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
+        if (checkPt2(blockPos, world)!=null) {
             return checkPt2(blockPos, world);
-        } else { return new BlockPos(0,-64,0); }
-    }
-    public BlockPos checkPt1(BlockPos blockPos, World world) {
-        int upward = world.getGameRules().getInt(WildMod.UPWARD_SPREAD);
-        int MAX = world.getHeight();
-        if (blockPos.getY() + upward >= MAX) {
-            upward = (MAX - blockPos.getY())-1;
-        }
-        for (int h = 0; h < upward; h++) {
-            if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up(h+1)).getBlock()) &&
-                    world.getBlockState(blockPos.add(0,(h),0))==RegisterBlocks.SCULK.getDefaultState()) {
-                return blockPos.up(h);
-            }
-        }
-        return new BlockPos(0,-64,0);
-    }
-    public BlockPos checkPt2(BlockPos blockPos, World world) {
-        int downward = world.getGameRules().getInt(WildMod.DOWNWARD_SPREAD);
-        int MIN = world.getBottomY();
-        if (blockPos.getY() - downward <= MIN) {
-            downward = (blockPos.getY()-MIN)-1;
-        }
-        for (int h = 0; h < downward; h++) {
-            if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.down(h)).getBlock()) &&
-                    world.getBlockState(blockPos.down(h+1))==RegisterBlocks.SCULK.getDefaultState()) {
-                return blockPos.down(h+1);
-            }
-        }
-        return new BlockPos(0,-64,0);
-    }
-
-    BlockState sensor = Blocks.SCULK_SENSOR.getDefaultState().with(Properties.SCULK_SENSOR_PHASE, SculkSensorPhase.COOLDOWN);
-    BlockState shrieker = SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(NewProperties.SCULK_SHRIEKER_PHASE, SculkShriekerPhase.COOLDOWN);
-
-    public void ActivOptim1(BlockState blockState, World world, BlockPos NewSculk) {
-          if (world.getBlockState(NewSculk).getBlock() != Blocks.WATER) {
-            if (world.getBlockState(NewSculk) == SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.WATERLOGGED, true)) {
-                callPlace(world, blockState.with(Properties.WATERLOGGED, true), NewSculk);
-                world.createAndScheduleBlockTick(NewSculk, blockState.getBlock(), 20);
-            } else
-                callPlace(world, blockState, NewSculk);
-              world.createAndScheduleBlockTick(NewSculk, blockState.getBlock(), 20);
-        } else if (world.getBlockState(NewSculk) == Blocks.WATER.getDefaultState()) {
-              callPlace(world, blockState.with(Properties.WATERLOGGED, true), NewSculk);
-              world.createAndScheduleBlockTick(NewSculk, blockState.getBlock(), 20);
-          }
-    }
-
-    public void callPlace(World world, BlockState blockState, BlockPos pos) {
-        Runnable runa2 = () -> world.setBlockState(pos, blockState);
-        Objects.requireNonNull(world.getServer()).send(new ServerTask(0, runa2));
-    }
-}
-
-class SculkThread extends Thread {
-    private Thread t;
-    public String threadName;
-    public World world;
-    public BlockPos blockPos;
-    public int l;
-    public int r;
-
-    SculkThread( String name) {
-        threadName = name;
-    }
-@Override
-    public void run() {
-        try {
-            CatalystThreader.running++;
-        sculkOptim(l, r, blockPos, world);
-            CatalystThreader.running--;
-} catch (Exception e) {
-        e.printStackTrace();
-        CatalystThreader.running--;
-    }
-    }
-
-    public void start () {
-        if (t == null) {
-            t = new Thread (this, threadName);
-            t.start ();
-        }
-    }
-
-    public void sculkOptim(float loop, int rVal, BlockPos down, World world) {
-        placeSculk(down, world);
-        float fLoop = loop * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
-        for (int l = 0; l < fLoop; ++l) {
-            double a = random() * 2 * PI;
-            double r = sqrt(rVal*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER)) * sqrt(random());
-            int x = (int) (r * cos(a));
-            int y = (int) (r * sin(a));
-            placeSculk(down.add(x, 0, y), world);
-        }
-    }
-
-    public void placeSculk(BlockPos blockPos, World world) {
-        BlockPos NewSculk;
-        if (SculkTags.BLOCK_REPLACEABLE.contains(world.getBlockState(blockPos).getBlock()) && SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock())) {
-            NewSculk = blockPos;
-            placeSculkOptim(NewSculk, world);
-        } else if (SculkTags.BLOCK_REPLACEABLE.contains(world.getBlockState(sculkCheck(blockPos, world, blockPos)).getBlock()) && air(world, sculkCheck(blockPos, world, blockPos))) {
-            NewSculk = sculkCheck(blockPos, world, blockPos);
-            if (NewSculk != blockPos) {
-                placeSculkOptim(NewSculk, world);
-            }
-        } else if (solid(world, sculkCheck(blockPos, world, blockPos))) {
-            NewSculk = sculkCheck(blockPos, world, blockPos);
-            veins(NewSculk, world);
-        }
-    }
-    public void placeSculkOptim(BlockPos NewSculk, World world) {
-        BlockState sculk = RegisterBlocks.SCULK.getDefaultState();
-        veins(NewSculk, world);
-        callDestroy(world, NewSculk);
-        callPlace(world, sculk, NewSculk);
-        if (world.getBlockState(NewSculk.up()).getBlock()!=Blocks.WATER && world.getBlockState(NewSculk.up()).getBlock()!=Blocks.AIR) {
-            if (world.getBlockState(NewSculk.up()).contains(Properties.WATERLOGGED) && world.getBlockState(NewSculk.up()).get(Properties.WATERLOGGED)) {
-                callPlace(world, Blocks.WATER.getDefaultState(), NewSculk.up());
-            } else
-            callDestroy(world, NewSculk.up());
-        }
-    }
-    public boolean solid(World world, BlockPos blockPos) {
-        return (!world.getBlockState(blockPos).isAir() && !SculkTags.SCULK_UNTOUCHABLE.contains(world.getBlockState(blockPos).getBlock()));
-    }
-    public BlockPos sculkCheck(BlockPos blockPos, World world, BlockPos blockPos2) {
-        if (checkPt1(blockPos, world).getY()!=-64) {
+        } else if (checkPt1(blockPos, world)!=null) {
             return checkPt1(blockPos, world);
-        } else if (checkPt2(blockPos, world).getY()!=-64) {
-            return checkPt2(blockPos, world);
-        } else { return blockPos2; }
+        } else { return null; }
     }
-    public BlockPos checkPt1(BlockPos blockPos, World world) {
+    public BlockPos checkPt1(BlockPos blockPos, World world) { //Check For Valid Placement Above
         int upward = world.getGameRules().getInt(WildMod.UPWARD_SPREAD);
         int MAX = world.getHeight();
         if (blockPos.getY() + upward >= MAX) {
@@ -290,9 +168,9 @@ class SculkThread extends Thread {
                 return blockPos.up(h);
             }
         }
-        return new BlockPos(0,-64,0);
+        return null;
     }
-    public BlockPos checkPt2(BlockPos blockPos, World world) {
+    public BlockPos checkPt2(BlockPos blockPos, World world) { //Check For Valid Placement Below
         int downward = world.getGameRules().getInt(WildMod.DOWNWARD_SPREAD);
         int MIN = world.getBottomY();
         if (blockPos.getY() - downward <= MIN) {
@@ -303,108 +181,265 @@ class SculkThread extends Thread {
                 return blockPos.down(h);
             }
         }
-        return new BlockPos(0,-64,0);
+        return null;
     }
+
     public boolean solrepsculk(World world, BlockPos blockPos) {
-        return (!SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos).getBlock()) && SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock()) && !SculkTags.SCULK.contains(world.getBlockState(blockPos).getBlock()));
+        Block block = world.getBlockState(blockPos).getBlock();
+        return (block==sculk.getBlock() && SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock()));
     }
-    public boolean air(World world, BlockPos blockPos) {
-        return SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock());
+
+    public void callPlace(World world, BlockPos pos, BlockState blockState) {
+        Runnable runa2 = () -> world.setBlockState(pos, blockState);
+        Objects.requireNonNull(world.getServer()).send(new ServerTask(0, runa2));
+    }
+}
+
+class SculkThread extends Thread {
+    private Thread t;
+    public String threadName;
+    public World world;
+    public BlockPos blockPos;
+    public Entity entity;
+    public int l;
+
+    SculkThread( String name) {
+        threadName = name;
+    }
+    @Override
+    public void run() {
+        try {
+            CatalystThreader.running++;
+            sculk(blockPos, world, entity);
+            CatalystThreader.running--;
+        } catch (Exception e) {
+            e.printStackTrace();
+            CatalystThreader.running--;
+        }
+    }
+
+    public void start () {
+        if (t == null) {
+            t = new Thread (this, threadName);
+            t.start ();
+        }
+    }
+    /** DEFAULT VARIABLES */
+    public static final BlockState vein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, true);
+    public static final BlockState water = Blocks.WATER.getDefaultState();
+    public static final BlockState air = Blocks.AIR.getDefaultState();
+    public static final Block waterBlock = Blocks.WATER;
+    public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
+
+    /** MAIN CODE */
+    public void sculk(BlockPos blockPos, World world, @Nullable Entity entity) { //Choose Amount Of Sculk + Initial Radius
+        if (entity!=null) {
+            world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
+            BlockPos down = blockPos.down();
+            if (SculkTags.THREE.contains(entity.getType())) {
+                sculkOptim(3*l, 4, down, world);
+            } else if (SculkTags.FIVE.contains(entity.getType())) {
+                sculkOptim(5*l, 5, down, world);
+            } else if (SculkTags.TEN.contains(entity.getType())) {
+                sculkOptim(10*l, 10, down, world);
+            } else if (SculkTags.TWENTY.contains(entity.getType())) {
+                sculkOptim(20*l, 20, down, world);
+            } else if (SculkTags.FIFTY.contains(entity.getType())) {
+                sculkOptim(50*l, 50, down, world);
+            } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
+                sculkOptim(1000*l, 33, down, world);
+            } else if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
+                sculkOptim((UniformIntProvider.create(1, 7).get(world.getRandom())), (UniformIntProvider.create(1, 7).get(world.getRandom())), down, world);
+            }
+        }
+    }
+    public void sculkOptim(float loop, int rVal, BlockPos down, World world) { //Call For Sculk Placement & Increase Radius If Stuck
+        int rVal2 = MathHelper.clamp(rVal*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 64);
+        int timesFailed=0;
+        int groupsFailed=1;
+        float fLoop = loop * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
+
+        for (int l = 0; l < fLoop;) {
+            double a = random() * 2 * PI;
+            double r = sqrt(rVal2+(groupsFailed-1)) * sqrt(random());
+            boolean succeed = placeSculk(down.add((int) (r * sin(a)), 0, (int) (r * cos(a))), world);
+            if (!succeed) { ++timesFailed; } else { ++l; }
+            if (timesFailed>=10) {
+                timesFailed=0;
+                groupsFailed=groupsFailed+2;
+            }
+            if (rVal2>64) {
+                break;
+            }
+        }
+        setCatalystRVal(world, down, rVal2+(groupsFailed-1));
+    }
+
+    public boolean placeSculk(BlockPos blockPos, World world) { //Call For Sculk & Call For Veins
+        BlockPos NewSculk;
+        if (SculkTags.BLOCK_REPLACEABLE.contains(world.getBlockState(blockPos).getBlock()) && SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock())) {
+            NewSculk = blockPos;
+            placeSculkOptim(NewSculk, world);
+            return true;
+        } else {
+            NewSculk = sculkCheck(blockPos, world);
+            if (NewSculk != null) {
+                if (SculkTags.BLOCK_REPLACEABLE.contains(world.getBlockState(NewSculk).getBlock()) && SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(NewSculk.up()).getBlock())) {
+                    placeSculkOptim(NewSculk, world);
+                    return true;
+                } else if (solid(world, NewSculk)) {
+                    if (!SculkTags.SCULK.contains(world.getBlockState(NewSculk.up()).getBlock())) {
+                        veins(NewSculk, world);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public void placeSculkOptim(BlockPos NewSculk, World world) { //Place Sculk & Call For Veins
+        veins(NewSculk, world);
+        callPlace(world, SculkBlock.SCULK_BLOCK.getDefaultState(), NewSculk);
+        BlockState upBlock = world.getBlockState(NewSculk.up());
+        if (upBlock.getBlock()!=waterBlock) {
+            if (upBlock.contains(waterLogged) && upBlock.get(waterLogged)) {
+                callPlace(world, water, NewSculk.up());
+            } else { callPlace(world, air, NewSculk.up()); }
+        }
     }
 
     public void veinPlaceOptim(BlockPos curr, World world) {
-        if (SculkTags.ALWAYS_WATER.contains(world.getBlockState(curr).getBlock()) || world.getBlockState(curr)==Blocks.WATER.getDefaultState()) {
-            callVeinPlace(world, vein.with(Properties.WATERLOGGED, true), curr);
-        } else if (world.getBlockState(curr).getBlock() != Blocks.WATER) {
-            //if (world.getBlockState(curr).getBlock()==SculkVein.SCULK_VEIN) {
-            //    callVeinPlace(world, world.getBlockState(curr).with(Properties.DOWN, true), curr);
-            //} else
-                callVeinPlace(world, vein, curr);
+        if (SculkTags.ALWAYS_WATER.contains(world.getBlockState(curr).getBlock()) || world.getBlockState(curr)==water) {
+            callVeinPlace(world, vein.with(waterLogged, true), curr);
+        } else if (world.getBlockState(curr).getBlock() != waterBlock) {
+            callVeinPlace(world, vein, curr);
         }
     }
-    public BlockState vein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, true);
-    public void tiltNorth(BlockPos blockPos, World world) {
-        if (SculkTags.VEIN_CONNECTABLE.contains(world.getBlockState(blockPos.add(0, 1, -1)).getBlock()) && !SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.add(0, 0, -1))).getBlock())) {
-            world.setBlockState(blockPos, world.getBlockState(blockPos).with(Properties.NORTH, true));
+
+    public void tiltVeinsDown(BlockPos blockPos, World world) { //Tilt Veins Downwards
+        if (!SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.down())).getBlock())) {
+            if (world.getBlockState(blockPos.add(1, -1, 0)).getBlock() == SculkVeinBlock.SCULK_VEIN) {
+                world.setBlockState(blockPos.add(1, -1, 0), world.getBlockState(blockPos.add(1, -1, 0)).with(Properties.WEST, true));
+            }
+            if (world.getBlockState(blockPos.add(-1, -1, 0)).getBlock() == SculkVeinBlock.SCULK_VEIN) {
+                world.setBlockState(blockPos.add(-1, -1, 0), world.getBlockState(blockPos.add(-1, -1, 0)).with(Properties.EAST, true));
+            }
+            if (world.getBlockState(blockPos.add(0, -1, -1)).getBlock() == SculkVeinBlock.SCULK_VEIN) {
+                world.setBlockState(blockPos.add(0, -1, -1), world.getBlockState(blockPos.add(0, -1, -1)).with(Properties.SOUTH, true));
+            }
+            if (world.getBlockState(blockPos.add(0, -1, 1)).getBlock() == SculkVeinBlock.SCULK_VEIN) {
+                world.setBlockState(blockPos.add(0, -1, 1), world.getBlockState(blockPos.add(0, -1, 1)).with(Properties.NORTH, true));}
         }
     }
-    public void tiltSouth(BlockPos blockPos, World world) {
-        if (SculkTags.VEIN_CONNECTABLE.contains(world.getBlockState(blockPos.add(0, 1, 1)).getBlock()) && !SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.add(0, 0, -1))).getBlock())) {
-            world.setBlockState(blockPos, world.getBlockState(blockPos).with(Properties.SOUTH, true));
+    public void tiltVeins(BlockPos blockPos, World world) { //Tilt Sculk Veins
+        if (!SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.down())).getBlock())) {
+            if (SculkTags.VEIN_CONNECTABLE.contains(world.getBlockState(blockPos.add(1, 1, 0)).getBlock()) && !SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.add(1, 0, 0))).getBlock())) {
+                world.setBlockState(blockPos, world.getBlockState(blockPos).with(Properties.EAST, true));
+            }
+            if (SculkTags.VEIN_CONNECTABLE.contains(world.getBlockState(blockPos.add(-1, 1, 0)).getBlock()) && !SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.add(-1, 0, 0))).getBlock())) {
+                world.setBlockState(blockPos, world.getBlockState(blockPos).with(Properties.WEST, true));
+            }
+            if (SculkTags.VEIN_CONNECTABLE.contains(world.getBlockState(blockPos.add(0, 1, -1)).getBlock()) && !SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.add(0, 0, -1))).getBlock())) {
+                world.setBlockState(blockPos, world.getBlockState(blockPos).with(Properties.NORTH, true));
+            }
+            if (SculkTags.VEIN_CONNECTABLE.contains(world.getBlockState(blockPos.add(0, 1, 1)).getBlock()) && !SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.add(0, 0, 1))).getBlock())) {
+                world.setBlockState(blockPos, world.getBlockState(blockPos).with(Properties.SOUTH, true));
+            }
         }
     }
-    public void tiltEast(BlockPos blockPos, World world) {
-        if (SculkTags.VEIN_CONNECTABLE.contains(world.getBlockState(blockPos.add(1, 1, 0)).getBlock()) && !SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.add(0, 0, -1))).getBlock())) {
-            world.setBlockState(blockPos, world.getBlockState(blockPos).with(Properties.EAST, true));
+    public void veins(BlockPos blockPos, World world) { //Calculate Vein Placement
+        veinsPartTwo(world,blockPos.add(1, 1, 0),blockPos.add(1, 0, 0));
+        veinsPartTwo(world,blockPos.add(-1, 1, 0),blockPos.add(-1, 0, 0));
+        veinsPartTwo(world,blockPos.add(0, 1, 1),blockPos.add(0, 0, 1));
+        veinsPartTwo(world,blockPos.add(0, 1, -1),blockPos.add(0, 0, -1));
+        veinsPartTwo(world,blockPos.up(),blockPos);
+    }
+
+    public void veinsPartTwo(World world, BlockPos one, BlockPos two) {
+        if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(one).getBlock()) && solid(world, two) && airveins(world, two)) {
+            veinPlaceOptim(one, world);
+        } else { BlockPos check = sculkCheck(one, world);
+            if (check != null && solidrep(world, check) && airveins(world, check)) {
+                veinPlaceOptim(check.up(), world);
+            }
         }
     }
-    public void tiltWest(BlockPos blockPos, World world) {
-        if (SculkTags.VEIN_CONNECTABLE.contains(world.getBlockState(blockPos.add(-1, 1, 0)).getBlock()) && !SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.add(0, 0, -1))).getBlock())) {
-            world.setBlockState(blockPos, world.getBlockState(blockPos).with(Properties.WEST, true));
-        }
+
+    /** CAlCULATIONS & CHECKS */
+    public BlockPos sculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
+        if (checkPt2(blockPos, world)!=null) {
+            return checkPt2(blockPos, world);
+        } else if (checkPt1(blockPos, world)!=null) {
+            return checkPt1(blockPos, world);
+        } else { return null; }
     }
-    public void tiltDownNorth(BlockPos blockPos, World world) {
-        if (world.getBlockState(blockPos.add(0, -1, 1)).getBlock() == SculkVeinBlock.SCULK_VEIN) {
-            world.setBlockState(blockPos.add(0, -1, 1), world.getBlockState(blockPos.add(0, -1, 1)).with(Properties.NORTH, true));
+    public BlockPos checkPt1(BlockPos blockPos, World world) { //Check For Valid Placement Above
+        int upward = world.getGameRules().getInt(WildMod.UPWARD_SPREAD);
+        int MAX = world.getHeight();
+        if (blockPos.getY() + upward >= MAX) {
+            upward = (MAX - blockPos.getY())-1;
         }
+        for (int h = 0; h < upward; h++) {
+            if (solrepsculk(world, blockPos.up(h))) {
+                return blockPos.up(h);
+            }
+        }
+        return null;
     }
-    public void tiltDownSouth(BlockPos blockPos, World world) {
-        if (world.getBlockState(blockPos.add(0, -1, -1)).getBlock() == SculkVeinBlock.SCULK_VEIN) {
-            world.setBlockState(blockPos.add(0, -1, -1), world.getBlockState(blockPos.add(0, -1, -1)).with(Properties.SOUTH, true));
+    public BlockPos checkPt2(BlockPos blockPos, World world) { //Check For Valid Placement Below
+        int downward = world.getGameRules().getInt(WildMod.DOWNWARD_SPREAD);
+        int MIN = world.getBottomY();
+        if (blockPos.getY() - downward <= MIN) {
+            downward = (blockPos.getY()-MIN)-1;
         }
+        for (int h = 0; h < downward; h++) {
+            if (solrepsculk(world, blockPos.down(h))) {
+                return blockPos.down(h);
+            }
+        }
+        return null;
     }
-    public void tiltDownEast(BlockPos blockPos, World world) {
-        if (world.getBlockState(blockPos.add(-1, -1, 0)).getBlock() == SculkVeinBlock.SCULK_VEIN) {
-            world.setBlockState(blockPos.add(-1, -1, 0), world.getBlockState(blockPos.add(-1, -1, 0)).with(Properties.EAST, true));
-        }
-    }
-    public void tiltDownWest(BlockPos blockPos, World world) {
-        if (world.getBlockState(blockPos.add(1, -1, 0)).getBlock() == SculkVeinBlock.SCULK_VEIN) {
-            world.setBlockState(blockPos.add(1, -1, 0), world.getBlockState(blockPos.add(1, -1, 0)).with(Properties.WEST, true));
-        }
-    }
-    public void veins(BlockPos blockPos, World world) {
-        if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.add(1, 1, 0)).getBlock()) && solid(world, blockPos.add(1, 0, 0)) && airveins(world, blockPos.add(1, 0, 0))) {
-            veinPlaceOptim(blockPos.add(1, 1, 0), world);
-        } else if (sculkCheck(blockPos.add(1, 1, 0), world, blockPos) != blockPos.add(1, 1, 0) && solidrep(world, sculkCheck(blockPos.add(1, 1, 0), world, blockPos)) && airveins(world, sculkCheck(blockPos.add(1, 1, 0), world, blockPos))) {
-            veinPlaceOptim(sculkCheck(blockPos.add(1, 1, 0), world, blockPos).up(), world);
-        }
-        if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.add(-1, 1, 0)).getBlock()) && solid(world, blockPos.add(-1, 0, 0)) && airveins(world, blockPos.add(-1, 0, 0))) {
-            veinPlaceOptim(blockPos.add(-1,1,0), world);
-        } else if (sculkCheck(blockPos.add(-1, 1, 0), world, blockPos) != blockPos.add(-1, 1, 0) && solidrep(world, sculkCheck(blockPos.add(-1, 1, 0), world, blockPos)) && airveins(world, sculkCheck(blockPos.add(-1, 1, 0), world, blockPos))) {
-            veinPlaceOptim(sculkCheck(blockPos.add(-1,1,0), world, blockPos).up(), world);
-        }
-        if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.add(0, 1, 1)).getBlock()) && solid(world, blockPos.add(0, 0, 1)) && airveins(world, blockPos.add(0, 0, 1))) {
-            veinPlaceOptim(blockPos.add(0,1,1), world);
-        } else if (sculkCheck(blockPos.add(0, 1, 1), world, blockPos) != blockPos.add(0, 1, 1) && solidrep(world, sculkCheck(blockPos.add(0, 1, 1), world, blockPos)) && airveins(world, sculkCheck(blockPos.add(0, 1, 1), world, blockPos))) {
-            veinPlaceOptim(sculkCheck(blockPos.add(0,1,0), world, blockPos).up(), world);
-        }
-        if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.add(0, 1, -1)).getBlock()) && solid(world, blockPos.add(0, 0, -1)) && airveins(world, blockPos.add(0, 0, -1))) {
-            veinPlaceOptim(blockPos.add(0, 1, -1), world);
-        } else if (sculkCheck(blockPos.add(0, 1, -1), world, blockPos) != blockPos.add(0, 1, -1) && solidrep(world, sculkCheck(blockPos.add(0, 1, -1), world, blockPos)) && airveins(world, sculkCheck(blockPos.add(0, 1, -1), world, blockPos))) {
-            veinPlaceOptim(sculkCheck(blockPos.add(0,1,-1), world, blockPos).up(), world);
-        }
-        if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock()) && solid(world, blockPos.add(0, 0, 0)) && airveins(world, blockPos.add(0, 0, 0))) {
-            veinPlaceOptim(blockPos.add(0, 1, 0), world);
-        } else if (sculkCheck(blockPos.up(), world, blockPos) != blockPos.up() && solidrep(world, sculkCheck(blockPos.up(), world, blockPos)) && airveins(world, sculkCheck(blockPos.up(), world, blockPos))) {
-            veinPlaceOptim(sculkCheck(blockPos.up(), world, blockPos).up(), world);
-        }
-    }
-    public boolean airveins(World world, BlockPos blockPos) {
-        if (SculkTags.SCULK.contains(world.getBlockState(blockPos).getBlock())) {
+
+    public boolean airveins(World world, BlockPos blockPos) { //Check If Veins Are Above Invalid Block
+        BlockState state = world.getBlockState(blockPos);
+        Block block = state.getBlock();
+        if (SculkTags.SCULK.contains(block)) {
             return false;
-        } else if (world.getBlockState(blockPos).isAir()) {
+        } else if (state.isAir()) {
             return false;
         } else if (FluidTags.WATER.contains(world.getFluidState(blockPos).getFluid())) {
             return false;
         } else if (FluidTags.LAVA.contains(world.getFluidState(blockPos).getFluid())) {
             return false;
-        } else if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos).getBlock())) {
+        } else if (SculkTags.SCULK_REPLACEABLE.contains(block)) {
             return false;
-        } else return !SculkTags.SCULK_UNTOUCHABLE.contains(world.getBlockState(blockPos).getBlock());
+        } else return !SculkTags.SCULK_UNTOUCHABLE.contains(block);
+    }
+
+    public boolean solid(World world, BlockPos blockPos) {
+        return (blockPos!=null && !world.getBlockState(blockPos).isAir() && !SculkTags.SCULK_UNTOUCHABLE.contains(world.getBlockState(blockPos).getBlock()));
     }
     public boolean solidrep(World world, BlockPos blockPos) {
-        return (!world.getBlockState(blockPos).isAir() && !SculkTags.SCULK_UNTOUCHABLE.contains(world.getBlockState(blockPos).getBlock()) && SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos).getBlock()) && !SculkTags.SCULK.contains(world.getBlockState(blockPos.down()).getBlock()));
+        Block block = world.getBlockState(blockPos).getBlock();
+        return (!world.getBlockState(blockPos).isAir() && !SculkTags.SCULK_UNTOUCHABLE.contains(block) && SculkTags.SCULK_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(world.getBlockState(blockPos.down()).getBlock()));
+    }
+    public boolean solrepsculk(World world, BlockPos blockPos) {
+        Block block = world.getBlockState(blockPos).getBlock();
+        return (!SculkTags.SCULK_REPLACEABLE.contains(block) && SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock()) && !SculkTags.SCULK.contains(block));
+    }
+    /** MULTITHREADING-SPECIFIC */
+    public void setCatalysts(World world, BlockPos pos, int i) {
+        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
+            BlockEntity catalyst = world.getBlockEntity(blockPos);
+            if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+                sculkCatalystBlockEntity.lastSculkRange=i;
+            }
+        }
+    }
+
+    public void setCatalystRVal(World world, BlockPos pos, int i) {
+        Runnable runa2 = () -> setCatalysts(world, pos, i);
+        Objects.requireNonNull(world.getServer()).send(new ServerTask(0, runa2));
     }
 
     public void callPlace(World world, BlockState blockState, BlockPos pos) {
@@ -414,21 +449,15 @@ class SculkThread extends Thread {
     public void callVeinPlace(World world, BlockState blockState, BlockPos pos) {
         Runnable runa2 = () -> {
             if (world.getBlockState(pos).getBlock()!=SculkVeinBlock.SCULK_VEIN) world.setBlockState(pos, blockState);
-            tiltNorth(pos, world);
-            tiltSouth(pos, world);
-            tiltEast(pos, world);
-            tiltWest(pos, world);
-            tiltDownNorth(pos, world);
-            tiltDownSouth(pos, world);
-            tiltDownEast(pos, world);
-            tiltDownWest(pos, world);
+            tiltVeins(pos, world);
+            tiltVeinsDown(pos, world);
         };
 
         Objects.requireNonNull(world.getServer()).send(new ServerTask(0, runa2));
     }
     public void callDestroy(World world, BlockPos pos) {
         Runnable runa = () -> world.setBlockState(pos, Blocks.AIR.getDefaultState());
-         
+
         Objects.requireNonNull(world.getServer()).send(new ServerTask(0, runa));
     }
 }

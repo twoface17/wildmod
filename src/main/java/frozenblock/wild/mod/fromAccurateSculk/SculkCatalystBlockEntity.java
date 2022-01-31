@@ -19,6 +19,7 @@ import java.util.Random;
 public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensorListener.Callback {
     private final SculkCatalystListener listener;
     private int lastVibrationFrequency;
+    public int lastSculkRange;
 
     public SculkCatalystBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(NewBlockEntityType.SCULK_CATALYST, blockPos, blockState);
@@ -29,12 +30,14 @@ public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensor
     public void readNbt(NbtCompound nbtCompound) {
         super.readNbt(nbtCompound);
         this.lastVibrationFrequency = nbtCompound.getInt("last_vibration_frequency");
+        this.lastSculkRange = nbtCompound.getInt("lastSculkRange");
     }
 
     @Override
     protected void writeNbt(NbtCompound nbtCompound) {
         super.writeNbt(nbtCompound);
         nbtCompound.putInt("last_vibration_frequency", this.lastVibrationFrequency);
+        nbtCompound.putInt("lastSculkRange", this.lastSculkRange);
     }
 
     public SculkCatalystListener getEventListener() {
