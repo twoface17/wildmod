@@ -11,12 +11,12 @@ public class AnimationAPI {
     VERSION 2.4
      */
 
-    public static float easeInSine(float from, float to, float size, float time) {
+    public static float easeInSine(float fromTime, float toTime, float size, float time) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         if( x >= 0 && x <= w) {
-            float eq = (time/w) - 1 - (from/w);
+            float eq = (time/w) - 1 - (fromTime/w);
             exit = eq*eq;
         }
         if (x > w) {
@@ -29,12 +29,12 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeOutSine(float from, float to, float size, float time) {
+    public static float easeOutSine(float fromTime, float toTime, float size, float time) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         if( x >= 0 && x <= w) {
-            float eq = (time/w) - (from/w);
+            float eq = (time/w) - (fromTime/w);
             exit = eq*eq;
         }
         if (x > w) {
@@ -47,10 +47,10 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeInOutSine(float from, float to, float size, float time) {
+    public static float easeInOutSine(float fromTime, float toTime, float size, float time) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         if( x >= 0 && x <= w) {
             exit = (-(float)Math.cos((x/w)*Math.PI)/2)+0.5f;
         }
@@ -64,10 +64,10 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeInBack(float from, float to, float size, float time, float multiplier) {
+    public static float easeInBack(float fromTime, float toTime, float size, float time, float multiplier) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         float c3 = multiplier + 1;
         if( x >= 0 && x <= w) {
             exit = c3*(x/w)*(x/w)*(x/w)- multiplier *(x/w)*(x/w);
@@ -82,14 +82,14 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeInBack(float from, float to, float size, float time) {
-        return easeInBack(from, to, size, time, 1.5f);
+    public static float easeInBack(float fromTime, float toTime, float size, float time) {
+        return easeInBack(fromTime, toTime, size, time, 1.5f);
     }
 
-    public static float easeOutBack(float from, float to, float size, float time, float multiplier) {
+    public static float easeOutBack(float fromTime, float toTime, float size, float time, float multiplier) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         float c3 = multiplier + 1;
         if( x >= 0 && x <= w) {
             exit = 1+c3*(float)Math.pow(x/w - 1, 3)+ multiplier *(float)Math.pow(x/w - 1, 2);
@@ -104,14 +104,14 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeOutBack(float from, float to, float size, float time) {
-        return easeOutBack(from, to, size, time, 1.5f);
+    public static float easeOutBack(float fromTime, float toTime, float size, float time) {
+        return easeOutBack(fromTime, toTime, size, time, 1.5f);
     }
 
-    public static float easeInOutBack(float from, float to, float size, float time, float multiplier) {
+    public static float easeInOutBack(float fromTime, float toTime, float size, float time, float multiplier) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         float c2 = multiplier * 1.525f;
         if( x >= 0 && x <= w) {
             if(x < 0.5*w) {
@@ -130,14 +130,14 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeInOutBack(float from, float to, float size, float time) {
-        return easeInOutBack(from, to, size, time, 1.5f);
+    public static float easeInOutBack(float fromTime, float toTime, float size, float time) {
+        return easeInOutBack(fromTime, toTime, size, time, 1.5f);
     }
 
-    public static float easeInElastic(float from, float to, float size, float time, int amount) {
+    public static float easeInElastic(float fromTime, float toTime, float size, float time, int amount) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         int b = (2* amount)-1;
         if( x >= 0 && x <= w) {
             exit = (float)Math.cos(2*Math.PI*b*(x/w))*(x/w);
@@ -152,15 +152,15 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeInElastic(float from, float to, float size, float time) {
-        int w = (int)(to - from)/10;
-        return easeInElastic(from, to, size, time, w);
+    public static float easeInElastic(float fromTime, float toTime, float size, float time) {
+        int w = (int)(toTime - fromTime)/10;
+        return easeInElastic(fromTime, toTime, size, time, w);
     }
 
-    public static float easeOutElastic(float from, float to, float size, float time, int amount) {
+    public static float easeOutElastic(float fromTime, float toTime, float size, float time, int amount) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         int b = (2* amount)-1;
         if( x >= 0 && x <= w) {
             exit = (float)(-Math.cos(2*Math.PI*b*(x/w))*(1-(x/w))+1);
@@ -175,15 +175,15 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeOutElastic(float from, float to, float size, float time) {
-        int w = (int)(to - from)/10;
-        return easeOutElastic(from, to, size, time, w);
+    public static float easeOutElastic(float fromTime, float toTime, float size, float time) {
+        int w = (int)(toTime - fromTime)/10;
+        return easeOutElastic(fromTime, toTime, size, time, w);
     }
 
-    public static float easeInOutElastic(float from, float to, float size, float time, int amount) {
+    public static float easeInOutElastic(float fromTime, float toTime, float size, float time, int amount) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         int b = (2* amount)-1;
         if( x >= 0 && x <= w) {
             exit = (float)(Math.sin(2*Math.PI*b*(x/w))*Math.sin(Math.PI*(x/w)))+(x/w);
@@ -198,15 +198,15 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeInOutElastic(float from, float to, float size, float time) {
-        int w = (int)(to - from)/10;
-        return easeInOutElastic(from, to, size, time, w);
+    public static float easeInOutElastic(float fromTime, float toTime, float size, float time) {
+        int w = (int)(toTime - fromTime)/10;
+        return easeInOutElastic(fromTime, toTime, size, time, w);
     }
 
-    public static float easeInBounce(float from, float to, float size, float time, int amount) {
+    public static float easeInBounce(float fromTime, float toTime, float size, float time, int amount) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         int b = (2* amount)-1;
         if( x >= 0 && x <= w) {
             exit = (float)Math.abs(Math.cos(2*Math.PI*b*(x/w))*(x/w));
@@ -221,15 +221,15 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeInBounce(float from, float to, float size, float time) {
-        int w = (int)(to - from)/10;
-        return easeInBounce(from, to, size, time, w);
+    public static float easeInBounce(float fromTime, float toTime, float size, float time) {
+        int w = (int)(toTime - fromTime)/10;
+        return easeInBounce(fromTime, toTime, size, time, w);
     }
 
-    public static float easeOutBounce(float from, float to, float size, float time, int amount) {
+    public static float easeOutBounce(float fromTime, float toTime, float size, float time, int amount) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         int b = (2* amount)-1;
         if( x >= 0 && x <= w) {
             exit = (float)(Math.abs(-Math.cos(2*Math.PI*b*(x/w))*(1-(x/w)))+1);
@@ -244,15 +244,15 @@ public class AnimationAPI {
         }
     }
 
-    public static float easeOutBounce(float from, float to, float size, float time) {
-        int w = (int)(to - from)/10;
-        return easeOutBounce(from, to, size, time, w);
+    public static float easeOutBounce(float fromTime, float toTime, float size, float time) {
+        int w = (int)(toTime - fromTime)/10;
+        return easeOutBounce(fromTime, toTime, size, time, w);
     }
 
-    public static float easeInOutBounce(float from, float to, float size, float time, int amount) {
+    public static float easeInOutBounce(float fromTime, float toTime, float size, float time, int amount) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         int b = (2* amount)-1;
         if( x >= 0 && x <= w) {
             exit = (float)Math.abs(Math.sin(2*Math.PI*b*(x/w))*Math.sin(Math.PI*(x/w)))+(x/w);
@@ -267,10 +267,10 @@ public class AnimationAPI {
         }
     }
 
-    public static float linear(float from, float to, float size, float time) {
+    public static float linear(float fromTime, float toTime, float size, float time) {
         float exit = 0;
-        float w = to - from;
-        float x = time - from;
+        float w = toTime - fromTime;
+        float x = time - fromTime;
         if( x >= 0 && x <= w) {
             exit = x/w;
         }
