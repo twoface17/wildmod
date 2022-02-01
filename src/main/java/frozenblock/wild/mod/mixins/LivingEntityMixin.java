@@ -1,14 +1,17 @@
 package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.blocks.SculkBlock;
 import frozenblock.wild.mod.blocks.SculkCatalystBlock;
 import frozenblock.wild.mod.fromAccurateSculk.*;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterBlocks;
+import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,6 +43,10 @@ public class LivingEntityMixin {
 		++entity.deathTime;
 		if (entity.deathTime == 19 && !entity.world.isClient()) {
 			BlockPos pos = new BlockPos(entity.getBlockPos().getX(), entity.getBlockPos().getY(), entity.getBlockPos().getZ());
+			if (entity.world.getBlockState(pos.down()).getBlock()== SculkBlock.SCULK_BLOCK) {
+				entity.world.setBlockState(pos.down(), SculkBlock.SCULK_BLOCK.getDefaultState().with(NewProperties.ORIGINAL_RF, true).with(Properties.POWER, 15), 3);
+				entity.world.updateNeighbors(pos.down(), SculkBlock.SCULK_BLOCK);
+			}
 			if (SculkTags.DROPSXP.contains(entity.getType()) && entity.world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
 				if (Sphere.sphereBlock(RegisterBlocks.SCULK_CATALYST, entity.world, pos, 8)) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
