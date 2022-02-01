@@ -34,10 +34,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -49,6 +46,8 @@ import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+
+import static java.lang.Math.*;
 
 //SCULK SHRIEKER REWRITE FROM LUNADE'S MOD ACCURATE SCULK
 
@@ -230,32 +229,10 @@ public class SculkShriekerBlock
         }
     }
 
-    public static boolean findWarden(World world, BlockPos pos) {
-        double x1 = pos.getX();
-        double y1 = pos.getY();
-        double z1 = pos.getZ();
-        BlockPos side1 = new BlockPos(x1-50, y1-50, z1-50);
-        BlockPos side2 = new BlockPos(x1+50, y1+50, z1+50);
-        Box box = (new Box(side1, side2));
-        List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
-        if (!list.isEmpty()) {
-            Iterator<WardenEntity> var11 = list.iterator();
-            WardenEntity warden;
-            while (var11.hasNext()) {
-                warden = var11.next();
-                if (warden.getBlockPos().isWithinDistance(pos, (48))) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     public static void setActive(World world, BlockPos blockPos, BlockState blockState) {
-        if (!findWarden(world, blockPos)) {
+        if (!world.isClient && !findWarden(world, blockPos)) {
             world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.ACTIVE)), 3);
             SculkShriekerBlock.updateNeighbors(world, blockPos);
-            if (!world.isClient) {
                 if (!world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                     (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
@@ -298,45 +275,17 @@ public class SculkShriekerBlock
                 }
             }
         }
-    }
 
     public static void setStepActive(World world, BlockPos blockPos, BlockState blockState) {
-        if (!findWarden(world, blockPos)) {
+        if (!world.isClient && !findWarden(world, blockPos)) {
             world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.ACTIVE)), 3);
             SculkShriekerBlock.updateNeighbors(world, blockPos);
-            if (!world.isClient) {
-                ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setStepped(true);
-                if (!world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
-                    ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
-                    (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
-                    world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
-                    if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
-                        world.playSound(
-                                null,
-                                blockPos,
-                                RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
-                                SoundCategory.BLOCKS,
-                                1f,
-                                world.random.nextFloat() * 0.1F + 0.9F
-                        );
-                    }
-                } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
-                    ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setPrevTick(85);
-                    ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(80);
-                    (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
-                    world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
-                    world.playSound(
-                            null,
-                            blockPos,
-                            RegisterAccurateSculk.GARGLE_EVENT,
-                            SoundCategory.BLOCKS,
-                            1f,
-                            1f
-                    );
-                } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
-                    ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
-                    (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
-                    world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
+            ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setStepped(true);
+            if (!world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
+                ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
+                (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
+                world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
+                if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
                     world.playSound(
                             null,
                             blockPos,
@@ -346,29 +295,57 @@ public class SculkShriekerBlock
                             world.random.nextFloat() * 0.1F + 0.9F
                     );
                 }
+            } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
+                ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setPrevTick(85);
+                ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(80);
+                (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
+                world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
+                world.playSound(
+                        null,
+                        blockPos,
+                        RegisterAccurateSculk.GARGLE_EVENT,
+                        SoundCategory.BLOCKS,
+                        1f,
+                        1f
+                );
+            } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
+                ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
+                (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
+                world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
+                world.playSound(
+                        null,
+                        blockPos,
+                        RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
+                        SoundCategory.BLOCKS,
+                        1f,
+                        world.random.nextFloat() * 0.1F + 0.9F
+                );
             }
         }
     }
 
     public static void sendParticles(World world, BlockPos blockPos, int direction) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(blockPos);
-        buf.writeInt(direction);
-        for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, blockPos, 32)) {
-            ServerPlayNetworking.send(player, RegisterAccurateSculk.SHRIEKER_SHRIEK_PACKET, buf);
+        if (!world.isClient) {
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeBlockPos(blockPos);
+            buf.writeInt(direction);
+            for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, blockPos, 32)) {
+                ServerPlayNetworking.send(player, RegisterAccurateSculk.SHRIEKER_SHRIEK_PACKET, buf);
+            }
         }
     }
     public static void sendGargleParticles(World world, BlockPos blockPos) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(blockPos);
-        int decider = UniformIntProvider.create(0, 1).get(world.getRandom());
-        //Radius is cut from 32 to 12 in order to slightly help performance/bandwidth since this is kinda spamming tbh
-        for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, blockPos, 12)) {
-            if (decider > 0.5) {
-                ServerPlayNetworking.send(player, RegisterAccurateSculk.SHRIEKER_GARGLE1_PACKET, buf);
-            }
-            else if (decider < 0.5) {
-                ServerPlayNetworking.send(player, RegisterAccurateSculk.SHRIEKER_GARGLE2_PACKET, buf);
+        if (!world.isClient) {
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeBlockPos(blockPos);
+            int decider = UniformIntProvider.create(0, 1).get(world.getRandom());
+            //Radius is cut from 32 to 12 in order to slightly help performance/bandwidth since this is kinda spamming tbh
+            for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, blockPos, 12)) {
+                if (decider > 0.5) {
+                    ServerPlayNetworking.send(player, RegisterAccurateSculk.SHRIEKER_GARGLE1_PACKET, buf);
+                } else if (decider < 0.5) {
+                    ServerPlayNetworking.send(player, RegisterAccurateSculk.SHRIEKER_GARGLE2_PACKET, buf);
+                }
             }
         }
     }
@@ -490,13 +467,13 @@ public class SculkShriekerBlock
     )).nonOpaque(), 8);
 
     public static void setCooldown(World world, BlockPos blockPos, BlockState blockState) {
-        world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.COOLDOWN)), 3);
-        if (((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).getStepped()) {
-            world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 20);
-        } else {
-            world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
-        }
-        if(!world.isClient) {
+        if (!world.isClient) {
+            world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.COOLDOWN)), 3);
+            if (((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).getStepped()) {
+                world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 20);
+            } else {
+                world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
+            }
             if (world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK) && world.getBlockState(blockPos.down()).getBlock() == RegisterBlocks.SCULK) {
                 sendDarkness(8, blockPos, world);
             } else if (!world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK)) {
@@ -504,10 +481,159 @@ public class SculkShriekerBlock
             }
             BlockEntity blockEntity = world.getBlockEntity(blockPos);
             if (blockEntity instanceof SculkShriekerBlockEntity shrieker) {
-                ShriekCounter.addShriek(blockPos, world, shrieker.getLastVibrationFrequency());
-            } else { ShriekCounter.addShriek(blockPos, world, 1); }
+                addShriek(blockPos, world, shrieker.getLastVibrationFrequency());
+            } else {
+                addShriek(blockPos, world, 1);
+            }
+            SculkShriekerBlock.updateNeighbors(world, blockPos);
         }
-        SculkShriekerBlock.updateNeighbors(world, blockPos);
+    }
+
+    public static int shrieks;
+    private static long timer;
+
+    public static void addShriek(BlockPos pos, World world, int i) {
+        if (world instanceof ServerWorld) {
+            if (world.getTime() - timer < -90) {
+                timer = 0;
+                shrieks = 0;
+            }
+            if (world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.getGameRules().getBoolean(WildMod.WARDEN_SPAWNING) && world.getTime() > timer) {
+                timer = world.getTime() + 30;
+                if (!findWarden(world, pos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
+                    if (world.getDifficulty().getId() == 0) {
+                        i = (int) MathHelper.clamp(i, 2, 5);
+                    } else if (world.getDifficulty().getId() == 1) {
+                        i = (int) MathHelper.clamp(i * 1.25, 3, 10);
+                    } else if (world.getDifficulty().getId() == 2) {
+                        i = (int) MathHelper.clamp(i * 1.5, 4, 15);
+                    } else if (world.getDifficulty().getId() == 3) {
+                        i = (int) MathHelper.clamp(i * 2, 5, 15);
+                    }
+                    shrieks = shrieks + i;
+                    for (int t = 8; t > 0; t--) {
+                        ArrayList<BlockPos> candidates = findBlock(pos.add(-1, 0, -1), t, true, world);
+                        if (!candidates.isEmpty()) {
+                            int ran = UniformIntProvider.create(0, candidates.size() - 1).get(world.getRandom());
+                            BlockPos currentCheck = candidates.get(ran);
+                            warn(world, pos);
+                            timer = world.getTime() + 30;
+                            if (angerLevel() == 4) {
+                                shrieks = 0;
+                                WardenEntity warden = RegisterEntities.WARDEN.create(world);
+                                assert warden != null;
+                                warden.refreshPositionAndAngles((double) currentCheck.getX() + 1D, currentCheck.up(1).getY(), (double) currentCheck.getZ() + 1D, 0.0F, 0.0F);
+                                world.spawnEntity(warden);
+                                warden.handleStatus((byte) 5);
+                                warden.leaveTime = world.getTime() + 1200;
+                                warden.setPersistent();
+                                world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
+                                break;
+                            }
+                            break;
+                        }
+                    }
+                } else if (findWarden(world, pos)) {
+                    shrieks = 0;
+                }
+            }
+        }
+    }
+    public static boolean findWarden(World world, BlockPos pos) {
+        double x1 = pos.getX();
+        double y1 = pos.getY();
+        double z1 = pos.getZ();
+        BlockPos side1 = new BlockPos(x1-50, y1-50, z1-50);
+        BlockPos side2 = new BlockPos(x1+50, y1+50, z1+50);
+        Box box = (new Box(side1, side2));
+        List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
+        if (!list.isEmpty()) {
+            Iterator<WardenEntity> var11 = list.iterator();
+            WardenEntity warden;
+            while (var11.hasNext()) {
+                warden = var11.next();
+                if (warden.getBlockPos().isWithinDistance(pos, (48))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static void warn(World world, BlockPos blockPos) {
+        if (angerLevel()==1) {
+            double a = random() * 2 * PI;
+            double r = sqrt(16) * sqrt(random());
+            int x = (int) (r * cos(a));
+            int z = (int) (r * sin(a));
+            BlockPos play = blockPos.add(x,0,z);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.2F, 1F);
+        } else
+        if (angerLevel()==2) {
+            double a = random() * 2 * PI;
+            double r = sqrt(12) * sqrt(random());
+            int x = (int) (r * cos(a));
+            int z = (int) (r * sin(a));
+            BlockPos play = blockPos.add(x,0,z);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.3F, 1F);
+        } else
+        if (angerLevel()==3) {
+            double a = random() * 2 * PI;
+            double r = sqrt(8) * sqrt(random());
+            int x = (int) (r * cos(a));
+            int z = (int) (r * sin(a));
+            BlockPos play = blockPos.add(x,0,z);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.4F, 1F);
+        }
+    }
+
+    public static int angerLevel() {
+        if (shrieks<8) {
+            return 1;
+        } else if (shrieks<13) {
+            return 2;
+        } else if (shrieks<=19) {
+            return 3;
+        } else {
+            return 4;
+        }
+    }
+
+    public static ArrayList<BlockPos> findBlock(BlockPos centerBlock, int radius, boolean hollow, World world) {
+        int bx = centerBlock.getX();
+        int by = centerBlock.getY();
+        int bz = centerBlock.getZ();
+        ArrayList<BlockPos> candidates = new ArrayList<>();
+        for (int x = bx - radius; x <= bx + radius; x++) {
+            for (int y = by - radius; y <= by + radius; y++) {
+                for (int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
+                    if (distance < radius * radius && !(hollow && distance < ((radius - 1) * (radius - 1)))) {
+                        BlockPos l = new BlockPos(x, y, z);
+                        if (l.getY()>world.getBottomY()) {
+                            if (verifyWardenSpawn(l, world)) {
+                                candidates.add(l);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        return candidates;
+    }
+
+    public static boolean verifyWardenSpawn(BlockPos p, World world) {
+        if (canSpawn(world, p) && canSpawn(world, p.add(1,0,0)) && canSpawn(world, p.add(1,0,1)) && canSpawn(world, p.add(0,0,1))) {
+            return wardenNonCollide(p, world) && wardenNonCollide(p.add(1, 0, 0), world) && wardenNonCollide(p.add(1, 0, 1), world) && wardenNonCollide(p.add(0, 0, 1), world);
+        }
+        return false;
+    }
+    public static boolean canSpawn(World world, BlockPos p) {
+        return !SculkTags.WARDEN_SPAWNABLE.contains(world.getBlockState(p).getBlock()) && !world.getBlockState(p).isAir() && world.getBlockState(p).getBlock()!=Blocks.WATER &&  world.getBlockState(p).getBlock()!=Blocks.LAVA;
+    }
+    public static boolean wardenNonCollide(BlockPos p, World world) {
+        return SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up()).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(2)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(3)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(4)).getBlock());
     }
 
 }

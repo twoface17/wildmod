@@ -3,6 +3,7 @@
  */
 package frozenblock.wild.mod.fromAccurateSculk;
 
+import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.SculkSensorBlockEntity;
@@ -70,7 +71,7 @@ implements GameEventListener {
             return false;
         }
         BlockPos blockPos2 = optional.get();
-        if (ShriekCounter.findWarden(world, blockPos2)) {
+        if (SculkShriekerBlock.findWarden(world, blockPos2)) {
             return false;
         }
         if (!this.callback.accepts(world, this, blockPos, gameEvent, entity)) {
