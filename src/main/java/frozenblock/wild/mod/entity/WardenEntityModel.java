@@ -265,10 +265,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 1.32f, t * 1.6f, -47.5f / j, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.6f, t * 1.76f, 15f / j, emergeTime)
             );
-        } else if (sniffticks < 53) { //SNIFFING
-            entity.sniffAnimTime=AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime+45)/10;
+        } else if (sniffticks < 44) { //SNIFFING
+            entity.sniffAnimTime=AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime+43)/10;
             float sniffTime=entity.sniffAnimTime;
-
             /* Body */
             this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -15f / j, sniffTime) +
@@ -339,19 +338,13 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, sniffTime)
             );
 
-            /* Right Leg */
-            this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -35, 35);
-
-            /* Left Leg */
-            this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -35, 35);
-
         } else {
             /* WALK/IDLE */
             if (r > 0) {
                 if (r == 10) {
                     entity.setRoarAnimationProgress(animationProgress);
                 } else {
-                    if (emergeticksleft == 0 && sniffticks >= 54) {
+                    if (emergeticksleft == 0 && sniffticks >= 45) {
                         double b = animationProgress - entity.getRoarAnimationProgress();
                         /* Head */
                         this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2;
@@ -386,7 +379,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
             /* ATTACK ANIMATION */
 
-            if (emergeticksleft <= 0 && sniffticks >= 54) {
+            if (emergeticksleft <= 0 && sniffticks > 44) {
                 //Attack Animation Handler
                 int a = entity.getAttackTicksLeft1();
 
