@@ -433,7 +433,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                         /* Body */
                         this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
                         this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
-                        this.body.pivotY = bodyY;
+                        this.body.pivotY = 13;
 
                         /* Right Arm */
                         this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20;
@@ -445,11 +445,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
                         /* Right Leg */
                         this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -35, 35);
-                        this.body.pivotY = legY;
+                        this.right_leg.pivotY = 11;
 
                         /* Left Leg */
                         this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -35, 35);
-                        this.body.pivotY = legY;
+                        this.left_leg.pivotY = 11;
 
                     }
                 }
@@ -473,7 +473,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                 /* Body */
                 this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
                 this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
-                this.body.pivotY = bodyY;
+                this.body.pivotY = 13;
 
                 /* Right Arm */
                 this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20 - (a / 5f);
@@ -485,11 +485,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
                 /* Right Leg */
                 this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -35, 35);
-                this.body.pivotY = legY;
+                this.left_leg.pivotY = 11;
 
                 /* Left Leg */
                 this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -35, 35);
-                this.body.pivotY = legY;
+                this.left_leg.pivotY = 11;
             }
         }
     }
