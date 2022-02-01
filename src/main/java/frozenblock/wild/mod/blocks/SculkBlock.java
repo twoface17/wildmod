@@ -32,7 +32,7 @@ public class SculkBlock extends Block {
     }
 
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        boolean keepValue = state.get(ORIGINAL) && nonSculkPower(world, pos)==null;
+        boolean keepValue = state.get(ORIGINAL);
             BlockPos chosen = pos.offset(Direction.random(random));
             if (!keepValue && world.isChunkLoaded(chosen)) {
                 if (world.getBlockState(chosen).getBlock() == SCULK_BLOCK) {
@@ -43,8 +43,17 @@ public class SculkBlock extends Block {
                     world.setBlockState(pos, state.with(POWER, MathHelper.clamp(state.get(POWER) - 1, 0, 1)));
                 }
             }
+        if (keepValue && world.isChunkLoaded(chosen) && nonSculkPower(world, pos)!=null) {
+            if (world.getBlockState(chosen).getBlock() == SCULK_BLOCK) {
+                BlockState chosenState = world.getBlockState(chosen);
+                if (!chosenState.get(ORIGINAL)) { world.setBlockState(chosen, chosenState.with(POWER, MathHelper.clamp(chosenState.get(POWER) + 1, 0, 2))); }
+                world.setBlockState(pos, state.with(POWER, MathHelper.clamp(state.get(POWER) - 1, 0, 15)));
+            } else {
+                world.setBlockState(pos, state.with(POWER, MathHelper.clamp(state.get(POWER) - 1, 0, 15)));
+            }
+        }
         if (state.get(POWER)>0 && !keepValue) {world.createAndScheduleBlockTick(pos, SCULK_BLOCK, UniformIntProvider.create(1,10).get(random));}
-        if (state.get(POWER)>0 && keepValue) {world.createAndScheduleBlockTick(pos, SCULK_BLOCK, UniformIntProvider.create(1,5).get(random));}
+        if (state.get(POWER)>0 && keepValue && nonSculkPower(world, pos)!=null) {world.createAndScheduleBlockTick(pos, SCULK_BLOCK, UniformIntProvider.create(1,5).get(random));}
         if (state.get(POWER)==0 && keepValue) {world.setBlockState(pos, SCULK_BLOCK.getDefaultState());}
         }
 
