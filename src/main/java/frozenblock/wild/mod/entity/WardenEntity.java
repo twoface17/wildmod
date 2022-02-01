@@ -49,22 +49,14 @@ import java.util.Optional;
 
 public class WardenEntity extends HostileEntity {
     /** WELCOME TO THE WARDEN MUSEUM
-     * <p>
      * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
-     * <li> SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}
-     * <p>
-     * <li> SNIFFING {@link WardenEntity#getSniffEntity()}
-     * <p>
-     * <li> ATTACKING & ROARING {@link WardenEntity#setRoarAnimationProgress(double)}
-     * <p>
-     * <li> NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
-     * <p>
-     * <li> OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
-     * <p>
-     * <li> VISUAlS {@link WardenEntity#CreateVibration(World, WardenEntity, BlockPos)}
-     * <p>
-     * <li> TICKMOVEMENT METHODS {@link WardenEntity#tickEmerge()}
-     * </ul><p>
+     * SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}
+     * SNIFFING {@link WardenEntity#getSniffEntity()}
+     * ATTACKING & ROARING {@link WardenEntity#setRoarAnimationProgress(double)}
+     * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
+     * OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
+     * VISUAlS {@link WardenEntity#CreateVibration(World, WardenEntity, BlockPos)}
+     * TICKMOVEMENT METHODS {@link WardenEntity#tickEmerge()}
      * ALL VALUES ARE STORED AT THE END OF THIS MUSEUM.
      * */
 
@@ -145,8 +137,10 @@ public class WardenEntity extends HostileEntity {
             if (this.clientEmergeTicks>0) { this.clientEmergeTicks=this.clientEmergeTicks-1; }
         } else if (!this.isAiDisabled() && status == 22) { //Subtract Client Dig Ticks
             if (this.clientDigTicks>0) { this.clientDigTicks=this.clientDigTicks-1; }
-        } else if (!this.isAiDisabled() && status == 23) { //Subtract Client Dig Ticks
+        } else if (!this.isAiDisabled() && status == 23) { //Set Sniff Starting TIme
             this.clientSniffStart=this.world.getTime();
+        } else if (!this.isAiDisabled() && status == 24) { //Set Dig Start Time (DIFFERENT FROM 17, THIS IS USING WORLD TIME)
+            this.clientDigStart=this.world.getTime();
         } else { super.handleStatus(status); }
     }
 
@@ -442,34 +436,35 @@ public class WardenEntity extends HostileEntity {
 
     /** TICKMOVEMENT METHODS */
     public void tickEmerge() {
-        if (!this.hasSentStatusStart) {
+        if (!this.hasSentStatusStart) { //Set Client EmergeTicks To 160
             this.world.sendEntityStatus(this, (byte)9);
             this.hasSentStatusStart=true;
         }
-        if (this.emergeTicksLeft > 0 && !this.hasEmerged) {
+        if (this.emergeTicksLeft > 0 && !this.hasEmerged) { //Tick Down Emerging
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
             this.world.sendEntityStatus(this, (byte)19);
             this.emergeTicksLeft--;
         }
-        if (this.emergeTicksLeft == 0 && !this.hasEmerged) {
+        if (this.emergeTicksLeft == 0 && !this.hasEmerged) { //Stop Emerging
             this.setInvulnerable(false);
             this.hasEmerged = true;
             this.world.sendEntityStatus(this, (byte)12);
             this.emergeTicksLeft = -1;
         }
-        if (this.emergeTicksLeft > 0 && this.hasEmerged) {
+        if (this.emergeTicksLeft > 0 && this.hasEmerged) { //Tick Down While Digging
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
             this.world.sendEntityStatus(this, (byte)22);
             --this.emergeTicksLeft;
         }
-        if (this.emergeTicksLeft == 0 && this.hasEmerged) { this.remove(RemovalReason.DISCARDED); }
-        if (world.getTime() == this.leaveTime) {
+        if (this.emergeTicksLeft == 0 && this.hasEmerged) { this.remove(RemovalReason.DISCARDED); } //Remove Once Done Digging
+        if (world.getTime() == this.leaveTime) { //Start Digging
             this.world.sendEntityStatus(this, (byte)10);
             this.world.sendEntityStatus(this, (byte)13);
+            this.world.sendEntityStatus(this, (byte)24);
             this.handleStatus((byte) 6);
 
         }
@@ -593,6 +588,7 @@ public class WardenEntity extends HostileEntity {
     public long emergeStop; //Status 17
     public long digStop; //Status 18
     public long clientSniffStart; //Status 23
+    public long clientDigStart; //Status 24
 
     //ANIMATION
     public float emergeAnimStartTime;
@@ -600,4 +596,7 @@ public class WardenEntity extends HostileEntity {
 
     public float sniffAnimStartTime;
     public float sniffAnimTime;
+
+    public float digAnimStartTime;
+    public float digAnimTime;
 }

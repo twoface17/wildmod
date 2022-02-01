@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.0.9 (FabricMC cc05e23f).
- */
 package frozenblock.wild.mod.liukrastapi;
 
 import java.util.EnumSet;
@@ -13,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class WardenWanderGoal
         extends Goal {
-    public static final int DEFAULT_CHANCE = 120;
     protected final WardenEntity mob;
     protected double targetX;
     protected double targetY;
@@ -42,7 +38,7 @@ public class WardenWanderGoal
     @Override
     public boolean canStart() {
         Vec3d vec3d;
-        if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>280) {
+        if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>280 && this.mob.world.getTime()-this.mob.clientSniffStart>280) {
             if (this.mob.hasPassengers()) {
                 return false;
             }
@@ -73,8 +69,7 @@ public class WardenWanderGoal
 
     @Override
     public boolean shouldContinue() {
-        Vec3d vec3d;
-        return this.mob.getWorld().getTime() - this.mob.vibrationTimer > 280;
+        return this.mob.getWorld().getTime()-this.mob.vibrationTimer>280 && this.mob.world.getTime()-this.mob.clientSniffStart>280;
     }
 
     @Override
@@ -86,14 +81,6 @@ public class WardenWanderGoal
     public void stop() {
         this.mob.getNavigation().stop();
         super.stop();
-    }
-
-    public void ignoreChanceOnce() {
-        this.ignoringChance = true;
-    }
-
-    public void setChance(int chance) {
-        this.chance = chance;
     }
 }
 
