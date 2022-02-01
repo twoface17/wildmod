@@ -341,7 +341,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, sniffTime)
             );
 
-        } else if (digticks < 62) { //DIGGING
+        } else if (digticks < 5000 /*temp disabled; should be 62*/) { //DIGGING
             entity.digAnimTime = AnimationAPI.animationTimer(animationProgress, entity.digAnimStartTime, entity.digAnimStartTime + 61) / 10;
             float digTime = entity.digAnimTime;
             /* Body */
