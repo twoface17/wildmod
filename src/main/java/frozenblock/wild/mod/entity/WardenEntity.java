@@ -113,8 +113,9 @@ public class WardenEntity extends HostileEntity {
             this.vibrationTimer=this.world.getTime();
         } else if (!this.isAiDisabled() && status == 8) { //Set Last Client Beat Time
             this.lastClientHeartBeat=this.world.getTime();
-        } else if (!this.isAiDisabled() && status == 9) { //Set Client Emerge Ticks
+        } else if (!this.isAiDisabled() && status == 9) { //Set Client Emerge Ticks & CanEmergeAnim Boolean
             this.clientEmergeTicks=160;
+            this.canEmergeAnim=true;
         } else if (!this.isAiDisabled() && status == 10) { //Set Client Dig Ticks
             this.clientDigTicks=60;
         } else if (!this.isAiDisabled() && status == 11) { //Set Client isEmerging
@@ -137,10 +138,12 @@ public class WardenEntity extends HostileEntity {
             if (this.clientEmergeTicks>0) { this.clientEmergeTicks=this.clientEmergeTicks-1; }
         } else if (!this.isAiDisabled() && status == 22) { //Subtract Client Dig Ticks
             if (this.clientDigTicks>0) { this.clientDigTicks=this.clientDigTicks-1; }
-        } else if (!this.isAiDisabled() && status == 23) { //Set Sniff Starting TIme
+        } else if (!this.isAiDisabled() && status == 23) { //Set Sniff Starting TIme & CanSniffAnim Boolean
             this.clientSniffStart=this.world.getTime();
-        } else if (!this.isAiDisabled() && status == 24) { //Set Dig Start Time (DIFFERENT FROM 17, THIS IS USING WORLD TIME)
+            this.canSniffAnim=true;
+        } else if (!this.isAiDisabled() && status == 24) { //Set Dig Start Time & CanDigAnim Boolean
             this.clientDigStart=this.world.getTime();
+            this.canDigAnim=true;
         } else { super.handleStatus(status); }
     }
 
@@ -591,12 +594,15 @@ public class WardenEntity extends HostileEntity {
     public long clientDigStart; //Status 24
 
     //ANIMATION
-    public float emergeAnimStartTime;
+    public boolean canEmergeAnim;
+    public float emergeAnimStartTime=-200;
     public float emergeAnimTime;
 
-    public float sniffAnimStartTime;
+    public boolean canSniffAnim;
+    public float sniffAnimStartTime=-200;
     public float sniffAnimTime;
 
-    public float digAnimStartTime;
+    public boolean canDigAnim;
+    public float digAnimStartTime=-200;
     public float digAnimTime;
 }
