@@ -433,6 +433,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                         /* Body */
                         this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
                         this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
+                        this.body.pivotY = bodyY;
 
                         /* Right Arm */
                         this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20;
@@ -444,9 +445,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
                         /* Right Leg */
                         this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -35, 35);
+                        this.body.pivotY = legY;
 
                         /* Left Leg */
                         this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -35, 35);
+                        this.body.pivotY = legY;
 
                     }
                 }
@@ -454,7 +457,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
             /* ATTACK ANIMATION */
 
-            if (emergeticksleft <= 0 && sniffticks >= 49 && digticks >= 63) {
+            if (emergeticksleft <= 0 && sniffticks >= 49 && digticks >= 0) {
                 //Attack Animation Handler
                 int a = entity.getAttackTicksLeft1();
 
@@ -470,6 +473,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                 /* Body */
                 this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
                 this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
+                this.body.pivotY = bodyY;
 
                 /* Right Arm */
                 this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20 - (a / 5f);
@@ -481,9 +485,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
                 /* Right Leg */
                 this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -35, 35);
+                this.body.pivotY = legY;
 
                 /* Left Leg */
                 this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -35, 35);
+                this.body.pivotY = legY;
             }
         }
     }
