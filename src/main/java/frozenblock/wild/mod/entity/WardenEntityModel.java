@@ -271,15 +271,15 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             /* Body */
             this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -15f / j, sniffTime) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.64f, 7.5f / j, sniffTime)
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.55f, 7.5f / j, sniffTime)
             );
             this.body.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, 27.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -55f / j, sniffTime) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.64f, 27.5f / j, sniffTime)
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.55f, 27.5f / j, sniffTime)
             );
             this.body.roll = (AnimationAPI.easeOutSine(0, t * 0.52f, 12.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 0f / j, sniffTime) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.64f, -12.5f / j, sniffTime)
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.55f, -12.5f / j, sniffTime)
             );
 
             /* Head */
