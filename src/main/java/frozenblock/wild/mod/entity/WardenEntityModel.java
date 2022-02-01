@@ -46,28 +46,38 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-
         int r = entity.getRoarTicksLeft1();
         long emergeticksleft = entity.clientEmergeTicks; //The time (in ticks) from the start of the Warden's emerge
-        long sniffticks = entity.world.getTime()-entity.clientSniffStart; //The time between last sniffing started and now
-        long digticks = entity.world.getTime()-entity.clientDigStart; //How much time is left (in ticks) from the start of the Warden's dig
+        long sniffticks = entity.world.getTime() - entity.clientSniffStart; //The time between last sniffing started and now
+        long digticks = entity.world.getTime() - entity.clientDigStart; //How much time is left (in ticks) from the start of the Warden's dig
         float time = animationProgress / 10;
-            float t = 2; //Multiplier for animation length
-            float j = (float) (180 / PI); //Converts degrees to radians
+        float t = 2; //Multiplier for animation length
+        float j = (float) (180 / PI); //Converts degrees to radians
 
-        if (entity.clientEmergeTicks>0 && animationProgress-entity.emergeAnimStartTime==animationProgress) {
-            entity.emergeAnimStartTime=animationProgress;
+        if (entity.canEmergeAnim) {
+            entity.emergeAnimStartTime = animationProgress;
+            entity.canEmergeAnim=false;
         }
-        if (sniffticks<1) {
-            entity.sniffAnimStartTime=animationProgress;
+        if (entity.canSniffAnim) {
+            entity.sniffAnimStartTime = animationProgress;
+            entity.canSniffAnim=false;
         }
-        if (digticks<1) {
-            entity.digAnimStartTime=animationProgress;
+        if (entity.canDigAnim) {
+            entity.digAnimStartTime = animationProgress;
+            entity.canDigAnim=false;
         }
 
-        if (entity.clientEmergeTicks>0) { //EMERGING
-            entity.emergeAnimTime=AnimationAPI.animationTimer(animationProgress, entity.emergeAnimStartTime, entity.emergeAnimStartTime+160)/10;
-            float emergeTime=entity.emergeAnimTime;
+        float emergeTime = AnimationAPI.animationTimer(animationProgress, entity.emergeAnimStartTime, entity.emergeAnimStartTime + 160) / 10;
+        float sniffTime = AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime + 47) / 10;
+        float digTime = AnimationAPI.animationTimer(animationProgress, entity.digAnimStartTime, entity.digAnimStartTime + 61) / 10;
+
+        boolean canEmerge = emergeTime != 0;
+        boolean canSniff = sniffTime != 0;
+        boolean canDig = digTime != 0;
+
+
+        /** EMERGE */
+        if (canEmerge) {
             float bodyY = 13;
             float legY = 11;
             float armY = -17; //Default pivots
@@ -268,9 +278,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 1.32f, t * 1.6f, -47.5f / j, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.6f, t * 1.76f, 15f / j, emergeTime)
             );
-        } else if (sniffticks < 48) { //SNIFFING
-            entity.sniffAnimTime=AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime+47)/10;
-            float sniffTime=entity.sniffAnimTime;
+        } 
+        if (canSniff) {
+            /** SNIFFING */
             /* Body */
             this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -15f / j, sniffTime) +
@@ -340,10 +350,10 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 0f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, sniffTime)
             );
+        }
+        if (canDig) {
+            /** DIGGING */
 
-        } else if (digticks < 5000 /*temp disabled; should be 62*/) { //DIGGING
-            entity.digAnimTime = AnimationAPI.animationTimer(animationProgress, entity.digAnimStartTime, entity.digAnimStartTime + 61) / 10;
-            float digTime = entity.digAnimTime;
             /* Body */
             this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -15f / j, digTime) +
@@ -413,8 +423,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 0f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, digTime)
             );
-        } else {
-            /* WALK/IDLE */
+        } else
+
+        /** WALK AND IDLE ANIMATIONS */
             if (r > 0) {
                 if (r == 10) {
                     entity.setRoarAnimationProgress(animationProgress);
@@ -486,7 +497,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                 this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -35, 35);
             }
         }
-    }
 
 
     @Override
