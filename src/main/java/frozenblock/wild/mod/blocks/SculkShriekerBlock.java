@@ -267,7 +267,7 @@ public class SculkShriekerBlock
                                 RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                                 SoundCategory.BLOCKS,
                                 1f,
-                                world.random.nextFloat() * 0.2F + 0.8F
+                                world.random.nextFloat() * 0.1F + 0.9F
                         );
                     }
                 } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
@@ -293,7 +293,7 @@ public class SculkShriekerBlock
                             RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                             SoundCategory.BLOCKS,
                             1f,
-                            world.random.nextFloat() * 0.2F + 0.8F
+                            world.random.nextFloat() * 0.1F + 0.9F
                     );
                 }
             }
@@ -317,7 +317,7 @@ public class SculkShriekerBlock
                                 RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                                 SoundCategory.BLOCKS,
                                 1f,
-                                world.random.nextFloat() * 0.2F + 0.8F
+                                world.random.nextFloat() * 0.1F + 0.9F
                         );
                     }
                 } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
@@ -343,7 +343,7 @@ public class SculkShriekerBlock
                             RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                             SoundCategory.BLOCKS,
                             1f,
-                            world.random.nextFloat() * 0.2F + 0.8F
+                            world.random.nextFloat() * 0.1F + 0.9F
                     );
                 }
             }
