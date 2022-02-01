@@ -258,7 +258,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 1.24f, t * 1.32f, -47.5f / j, emergeTime) +
                     AnimationAPI.easeOutSine(t * 1.32f, t * 1.6f, -60f / j, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.6f, t * 1.76f, 50f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 1.76f, t * 3.04f, 0f / j, emergeTime) +
                     AnimationAPI.easeOutSine(t * 1.76f, t * 3.04f, -30f / j, emergeTime)
             );
             this.right_arm.roll = 180 / j + (AnimationAPI.easeOutSine(t * 0f, t * 1.24f, 0f / j, emergeTime) +
@@ -266,7 +265,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 1.32f, t * 1.6f, -47.5f / j, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.6f, t * 1.76f, 15f / j, emergeTime)
             );
-        } else if (sniffticks < 46) { //SNIFFING
+        } else if (sniffticks < 53) { //SNIFFING
             entity.sniffAnimTime=AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime+45)/10;
             float sniffTime=entity.sniffAnimTime;
 
@@ -314,25 +313,45 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             );
 
             /* Left Arm */
-            this.left_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.52f, 30f / j, sniffTime) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -48f / j, sniffTime) +
+            this.left_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.4f, 30f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, -48f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, sniffTime)
             );
-            this.left_arm.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, -12.5f / j, sniffTime) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 20f / j, sniffTime) +
+            this.left_arm.yaw = (AnimationAPI.easeInOutSine(0, t * 0.4f, -12.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 20f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -7.5f / j, sniffTime)
             );
-            this.left_arm.roll = (AnimationAPI.easeInOutSine(0, t * 0.52f, -25f / j, sniffTime) +
-                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 7f / j, sniffTime) +
+            this.left_arm.roll = (AnimationAPI.easeInOutSine(0, t * 0.4f, -25f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 7f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, sniffTime)
             );
+
+            /* Right Arm */
+            this.right_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.4f, -10f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 10f / j, sniffTime)
+            );
+            this.right_arm.yaw = (AnimationAPI.easeInOutSine(0, t * 0.4f, 12.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, -25f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 12.5f / j, sniffTime)
+            );
+            this.right_arm.roll = (AnimationAPI.easeInOutSine(0, t * 0.4f, 25f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 0f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, sniffTime)
+            );
+
+            /* Right Leg */
+            this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -35, 35);
+
+            /* Left Leg */
+            this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -35, 35);
+
         } else {
             /* WALK/IDLE */
             if (r > 0) {
                 if (r == 10) {
                     entity.setRoarAnimationProgress(animationProgress);
                 } else {
-                    if (emergeticksleft == 0 && sniffticks >= 47) {
+                    if (emergeticksleft == 0 && sniffticks >= 54) {
                         double b = animationProgress - entity.getRoarAnimationProgress();
                         /* Head */
                         this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2;
@@ -367,7 +386,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
             /* ATTACK ANIMATION */
 
-            if (emergeticksleft <= 0 && sniffticks > 47) {
+            if (emergeticksleft <= 0 && sniffticks >= 54) {
                 //Attack Animation Handler
                 int a = entity.getAttackTicksLeft1();
 
