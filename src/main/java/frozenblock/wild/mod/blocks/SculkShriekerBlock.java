@@ -267,7 +267,7 @@ public class SculkShriekerBlock
                                 RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                                 SoundCategory.BLOCKS,
                                 1f,
-                                1F
+                                world.random.nextFloat() * 0.2F + 0.8F
                         );
                     }
                 } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
@@ -293,7 +293,7 @@ public class SculkShriekerBlock
                             RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                             SoundCategory.BLOCKS,
                             1f,
-                            1f
+                            world.random.nextFloat() * 0.2F + 0.8F
                     );
                 }
             }
@@ -317,7 +317,7 @@ public class SculkShriekerBlock
                                 RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                                 SoundCategory.BLOCKS,
                                 1f,
-                                1F
+                                world.random.nextFloat() * 0.2F + 0.8F
                         );
                     }
                 } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
@@ -330,7 +330,7 @@ public class SculkShriekerBlock
                             blockPos,
                             RegisterAccurateSculk.GARGLE_EVENT,
                             SoundCategory.BLOCKS,
-                            0.3f,
+                            1f,
                             1f
                     );
                 } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
@@ -343,7 +343,7 @@ public class SculkShriekerBlock
                             RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                             SoundCategory.BLOCKS,
                             1f,
-                            1f
+                            world.random.nextFloat() * 0.2F + 0.8F
                     );
                 }
             }

@@ -95,7 +95,7 @@ public class ShriekCounter {
             int x = (int) (r * cos(a));
             int z = (int) (r * sin(a));
             BlockPos play = blockPos.add(x,0,z);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.2F, 1F);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 1F, 1F);
         } else
         if (angerLevel()==2) {
             double a = random() * 2 * PI;
@@ -103,7 +103,7 @@ public class ShriekCounter {
             int x = (int) (r * cos(a));
             int z = (int) (r * sin(a));
             BlockPos play = blockPos.add(x,0,z);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.3F, 1F);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.8F, 1F);
         } else
         if (angerLevel()==3) {
             double a = random() * 2 * PI;
@@ -111,7 +111,7 @@ public class ShriekCounter {
             int x = (int) (r * cos(a));
             int z = (int) (r * sin(a));
             BlockPos play = blockPos.add(x,0,z);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.4F, 1F);
+            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.6F, 1F);
         }
     }
 
