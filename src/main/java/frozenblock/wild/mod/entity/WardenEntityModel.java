@@ -50,7 +50,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         int r = entity.getRoarTicksLeft1();
         long emergeticksleft = entity.clientEmergeTicks; //The time (in ticks) from the start of the Warden's emerge
         long sniffticks = entity.world.getTime()-entity.clientSniffStart; //The time between last sniffing started and now
-        int digticks = entity.clientDigTicks; //How much time is left (in ticks) before digging ends.
+        long digticks = entity.world.getTime()-entity.clientDigStart; //How much time is left (in ticks) from the start of the Warden's dig
         float time = animationProgress / 10;
             float t = 2; //Multiplier for animation length
             float j = (float) (180 / PI); //Converts degrees to radians
@@ -60,6 +60,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         }
         if (sniffticks<1) {
             entity.sniffAnimStartTime=animationProgress;
+        }
+        if (digticks<1) {
+            entity.digAnimStartTime=animationProgress;
         }
 
         if (entity.clientEmergeTicks>0) { //EMERGING
@@ -265,8 +268,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 1.32f, t * 1.6f, -47.5f / j, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.6f, t * 1.76f, 15f / j, emergeTime)
             );
-        } else if (sniffticks < 44) { //SNIFFING
-            entity.sniffAnimTime=AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime+43)/10;
+        } else if (sniffticks < 48) { //SNIFFING
+            entity.sniffAnimTime=AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime+47)/10;
             float sniffTime=entity.sniffAnimTime;
             /* Body */
             this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, sniffTime) +
@@ -338,13 +341,85 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, sniffTime)
             );
 
+        } else if (digticks < 62) { //DIGGING
+            entity.digAnimTime = AnimationAPI.animationTimer(animationProgress, entity.digAnimStartTime, entity.digAnimStartTime + 61) / 10;
+            float digTime = entity.digAnimTime;
+            /* Body */
+            this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -15f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.55f, 7.5f / j, digTime)
+            );
+            this.body.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, 27.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -55f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.55f, 27.5f / j, digTime)
+            );
+            this.body.roll = (AnimationAPI.easeOutSine(0, t * 0.52f, 12.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 0f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.55f, -12.5f / j, digTime)
+            );
+
+            /* Head */
+            this.head.pitch = (AnimationAPI.easeInOutSine(0, t * 0.52f, -5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -15f / j, digTime) +
+                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, 15f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -15f / j, digTime) +
+                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, 15f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -15f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, 15f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 5f / j, digTime)
+            );
+            this.head.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, 27.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -15f / j, digTime) +
+                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, -5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -7.5f / j, digTime) +
+                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, -7.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, -7.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 20f / j, digTime)
+            );
+            this.head.roll = (AnimationAPI.easeInOutSine(0, t * 0.52f, 12.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -7.5f / j, digTime) +
+                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, -2.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -2.5f / j, digTime) +
+                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, -2.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -2.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, 0f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 5f / j, digTime)
+            );
+
+            /* Left Arm */
+            this.left_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.4f, 30f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, -48f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, digTime)
+            );
+            this.left_arm.yaw = (AnimationAPI.easeInOutSine(0, t * 0.4f, -12.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 20f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -7.5f / j, digTime)
+            );
+            this.left_arm.roll = (AnimationAPI.easeInOutSine(0, t * 0.4f, -25f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 7f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, digTime)
+            );
+
+            /* Right Arm */
+            this.right_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.4f, -10f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 10f / j, digTime)
+            );
+            this.right_arm.yaw = (AnimationAPI.easeInOutSine(0, t * 0.4f, 12.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, -25f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 12.5f / j, digTime)
+            );
+            this.right_arm.roll = (AnimationAPI.easeInOutSine(0, t * 0.4f, 25f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 0f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, digTime)
+            );
         } else {
             /* WALK/IDLE */
             if (r > 0) {
                 if (r == 10) {
                     entity.setRoarAnimationProgress(animationProgress);
                 } else {
-                    if (emergeticksleft == 0 && sniffticks >= 45) {
+                    if (emergeticksleft == 0 && sniffticks >= 49 && digticks >= 63) {
                         double b = animationProgress - entity.getRoarAnimationProgress();
                         /* Head */
                         this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2;
@@ -379,7 +454,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
             /* ATTACK ANIMATION */
 
-            if (emergeticksleft <= 0 && sniffticks > 44) {
+            if (emergeticksleft <= 0 && sniffticks >= 49 && digticks >= 63) {
                 //Attack Animation Handler
                 int a = entity.getAttackTicksLeft1();
 

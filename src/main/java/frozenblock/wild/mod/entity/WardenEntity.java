@@ -147,6 +147,8 @@ public class WardenEntity extends HostileEntity {
             if (this.clientDigTicks>0) { this.clientDigTicks=this.clientDigTicks-1; }
         } else if (!this.isAiDisabled() && status == 23) { //Subtract Client Dig Ticks
             this.clientSniffStart=this.world.getTime();
+        } else if (!this.isAiDisabled() && status == 24) { //Subtract Client Dig Ticks
+            this.clientDigStart=this.world.getTime();
         } else { super.handleStatus(status); }
     }
 
@@ -593,6 +595,7 @@ public class WardenEntity extends HostileEntity {
     public long emergeStop; //Status 17
     public long digStop; //Status 18
     public long clientSniffStart; //Status 23
+    public long clientDigStart; //Status 24
 
     //ANIMATION
     public float emergeAnimStartTime;
@@ -600,4 +603,7 @@ public class WardenEntity extends HostileEntity {
 
     public float sniffAnimStartTime;
     public float sniffAnimTime;
+
+    public float digAnimStartTime;
+    public float digAnimTime;
 }
