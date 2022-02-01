@@ -433,6 +433,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                         /* Body */
                         this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
                         this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20;
+                        this.body.pivotY = 13
 
                         /* Right Arm */
                         this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos(animationProgress / 20) / 20;
@@ -444,9 +445,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
                         /* Right Leg */
                         this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -35, 35);
+                        this.right_arm.pivotY = 17f
 
                         /* Left Leg */
                         this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -35, 35);
+                        this.left_arm.pivotY = 17f
 
                     }
                 }
@@ -474,10 +477,12 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                 /* Right Arm */
                 this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20 - (a / 5f);
                 this.right_arm.roll = (-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F;
+                this.right_arm.pivotY = 17f
 
                 /* Left Arm */
                 this.left_arm.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20 - (a / 5f);
                 this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F;
+                this.left_arm.pivotY = 17f
 
                 /* Right Leg */
                 this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -35, 35);
