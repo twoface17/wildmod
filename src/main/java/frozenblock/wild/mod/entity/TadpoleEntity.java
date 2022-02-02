@@ -25,7 +25,7 @@ public class TadpoleEntity extends SchoolingFishEntity {
     }
 
     public static DefaultAttributeContainer.Builder createTadpoleAttributes() {
-        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 2.0);
+        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 6.0);
     }
 
     @Override

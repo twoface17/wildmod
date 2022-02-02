@@ -243,7 +243,7 @@ public class FrogEntity extends AnimalEntity {
     }
 
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.isOf(Blocks.SEAGRASS.asItem());
+        return stack.isOf(Items.SLIME_BALL.asItem());
     }
 
     protected SoundEvent getAmbientSound() {
