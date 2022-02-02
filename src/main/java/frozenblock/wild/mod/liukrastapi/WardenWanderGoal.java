@@ -38,7 +38,7 @@ public class WardenWanderGoal
     @Override
     public boolean canStart() {
         Vec3d vec3d;
-        if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>280 && this.mob.world.getTime()-this.mob.clientSniffStart>280) {
+        if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>400 && this.mob.world.getTime()-this.mob.clientSniffStart>400) {
             if (this.mob.hasPassengers()) {
                 return false;
             }
@@ -69,7 +69,7 @@ public class WardenWanderGoal
 
     @Override
     public boolean shouldContinue() {
-        return this.mob.getWorld().getTime()-this.mob.vibrationTimer>280 && this.mob.world.getTime()-this.mob.clientSniffStart>280;
+        return this.mob.getWorld().getTime()-this.mob.vibrationTimer>400 && this.mob.world.getTime()-this.mob.clientSniffStart>400;
     }
 
     @Override
