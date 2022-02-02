@@ -137,7 +137,7 @@ public class WildModClient implements ClientModInitializer {
             BlockPos pos = buf.readBlockPos();
             int ticks = buf.readInt();
             client.execute(() -> {
-                SculkParticleHandler.wardenDig(client.world, pos, ticks);
+                SculkParticleHandler.wardenDig(client.world, pos, (160-ticks));
             });
         });
     }

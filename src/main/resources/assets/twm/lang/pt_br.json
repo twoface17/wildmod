@@ -7,7 +7,7 @@
 
   "block.twm.mangrove_planks": "Tábuas de madeira do mangue",
   "block.twm.mangrove_log": "Tronco do mangue",
-  "block.twm.stripped_mangrove_wood": "Madeira do mangue descascada",
+  "block.twm.stripped_mangrove_wood": "Madeira do mangue descascado",
   "block.twm.stripped_mangrove_log": "Tronco do mangue descascada",
   "block.twm.mangrove_wood": "Madeira do mangue",
   "block.twm.mangrove_slab": "Laje de madeira do mangue",
@@ -73,7 +73,7 @@
   "subtitles.entity.warden.sniff":"Warden fareja",
   "subtitles.entity.warden.vibration":"Antenas do warden ativam",
   "subtitles.entity.warden.attack":"Warden ataca",
-  "subtitles.block.sculk_shrieker.shriek":"Sculk Shrieker gritam ",
+  "subtitles.block.sculk_shrieker.shriek":"Sculk Shrieker grita",
   "subtitles.entity.warden.nearby_close":"Batimento cardíaco longe",
   "subtitles.entity.warden.nearby_closer":"Batimento cardíaco distante",
   "subtitles.entity.warden.nearby_closest":"Batimento cardíaco próximo",
