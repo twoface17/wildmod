@@ -68,7 +68,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         }
 
         float emergeTime = AnimationAPI.animationTimer(animationProgress, entity.emergeAnimStartTime, entity.emergeAnimStartTime + 160) / 10;
-        float sniffTime = AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime + 47) / 10;
+        float sniffTime = AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime + 50) / 10;
         float digTime = AnimationAPI.animationTimer(animationProgress, entity.digAnimStartTime, entity.digAnimStartTime + 61) / 10;
 
         boolean canEmerge = emergeTime != 0;
