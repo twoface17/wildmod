@@ -32,23 +32,23 @@ public class SculkParticleHandler {
 
     public static void wardenDig(World world, BlockPos p, int ticks) {
         int random = UniformIntProvider.create(1, 9).get(world.getRandom());
-        if (ticks>79 || (ticks<60 && ticks>40)) {
+        if (ticks<50 || (ticks>60 && ticks<95) ) {
             if (random == 1) {
-                world.addBlockBreakParticles(p.add(0.5, 0, -0.5), world.getBlockState(p.add(-0.5, -1, -0.5)));
+                world.addBlockBreakParticles(p.add(0.5, -0.4, -0.5), world.getBlockState(p.add(-0.5, -1, -0.5)));
             } else if (random == 2) {
-                world.addBlockBreakParticles(p.add(0.5, 0, 0.5), world.getBlockState(p.add(0.5, -1, 0.5)));
+                world.addBlockBreakParticles(p.add(0.5, -0.4, 0.5), world.getBlockState(p.add(0.5, -1, 0.5)));
             } else if (random == 3) {
-                world.addBlockBreakParticles(p.add(0, 0, -0.5), world.getBlockState(p.add(0, -1, -0.5)));
+                world.addBlockBreakParticles(p.add(0, -0.4, -0.5), world.getBlockState(p.add(0, -1, -0.5)));
             } else if (random == 4) {
-                world.addBlockBreakParticles(p.add(0, 0, 0.5), world.getBlockState(p.add(0, -1, 0.5)));
+                world.addBlockBreakParticles(p.add(0, -0.4, 0.5), world.getBlockState(p.add(0, -1, 0.5)));
             } else if (random == 5) {
-                world.addBlockBreakParticles(p.add(0.5, 0, -0.5), world.getBlockState(p.add(0.5, -1, -0.5)));
+                world.addBlockBreakParticles(p.add(0.5, -0.4, -0.5), world.getBlockState(p.add(0.5, -1, -0.5)));
             } else if (random == 6) {
-                world.addBlockBreakParticles(p.add(-0.5, 0, 0.5), world.getBlockState(p.add(-0.5, -1, 0.5)));
+                world.addBlockBreakParticles(p.add(-0.5, -0.4, 0.5), world.getBlockState(p.add(-0.5, -1, 0.5)));
             } else if (random == 7) {
-                world.addBlockBreakParticles(p.add(-0.5, 0, 0), world.getBlockState(p.add(-0.5, -1, 0)));
+                world.addBlockBreakParticles(p.add(-0.5, -0.4, 0), world.getBlockState(p.add(-0.5, -1, 0)));
             } else if (random == 8) {
-                world.addBlockBreakParticles(p.add(0.5, 0, 0), world.getBlockState(p.add(0.5, -1, 0)));
+                world.addBlockBreakParticles(p.add(0.5, -0.4, 0), world.getBlockState(p.add(0.5, -1, 0)));
             }
         }
     }

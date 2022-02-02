@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "twm:sculk",
+	"twm:sculk_vein",
+	"twm:sculk_catalyst",
+	"minecraft:sculk_sensor",
+	"twm:sculk_shrieker"
+  ]
+}
