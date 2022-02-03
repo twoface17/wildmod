@@ -386,8 +386,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, sniffTime)
             );
         }
+        /**ROARING*/
         if (canRoar) {
-            /**ROARING*/
             /* Stop Syncing Animations */
             this.body.pivotY = 13;
 
@@ -477,8 +477,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             );
 
         }
+        /** DIGGING */
         if (canDig) {
-            /** DIGGING */
 
             /* Body */
             this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, digTime) +
