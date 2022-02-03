@@ -101,7 +101,7 @@ public class WardenEntity extends HostileEntity {
         } else if(!this.isAiDisabled() && status == 3) { //Set Roar Ticks
             this.roarTicksLeft1 = 10;
         } else if(!this.isAiDisabled() && status == 5) { //Emerging
-            this.emergeTicksLeft=160;
+            this.emergeTicksLeft=150;
             this.hasEmerged=false;
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
         } else if(!this.isAiDisabled() && status == 6) { //Digging Back
@@ -113,7 +113,7 @@ public class WardenEntity extends HostileEntity {
         } else if (!this.isAiDisabled() && status == 8) { //Set Last Client Beat Time
             this.lastClientHeartBeat=this.world.getTime();
         } else if (!this.isAiDisabled() && status == 9) { //Set Client Emerge Ticks & CanEmergeAnim Boolean
-            this.clientEmergeTicks=160;
+            this.clientEmergeTicks=150;
             this.canEmergeAnim=true;
         } else if (!this.isAiDisabled() && status == 10) { //Set Client Dig Ticks
             this.clientDigTicks=60;
@@ -128,7 +128,7 @@ public class WardenEntity extends HostileEntity {
         } else if (!this.isAiDisabled() && status == 15) { //Set Client emergeStart
             this.emergeStart=this.world.getTime();
         } else if (!this.isAiDisabled() && status == 16) { //Set Client emergeStop
-            this.emergeStop=this.world.getTime()+160;
+            this.emergeStop=this.world.getTime()+150;
         } else if (!this.isAiDisabled() && status == 17) { //Set Client digStart
             this.digStart=this.world.getTime();
         } else if (!this.isAiDisabled() && status == 18) { //Set Client digStop
@@ -447,6 +447,7 @@ public class WardenEntity extends HostileEntity {
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
             this.world.sendEntityStatus(this, (byte)19);
+            this.sniffCooldown=110;
             this.emergeTicksLeft--;
         }
         if (this.emergeTicksLeft == 0 && !this.hasEmerged) { //Stop Emerging
