@@ -229,7 +229,7 @@ public class WardenEntity extends HostileEntity {
 
     /** SNIFFING & VIBRATIONS */
     public LivingEntity getSniffEntity() {
-        Box box = new Box(this.getBlockPos().add(-18,-18,-18), this.getBlockPos().add(18,18,18));
+        Box box = new Box(this.getBlockPos().add(-32,-32,-32), this.getBlockPos().add(32,32,32));
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
@@ -475,11 +475,11 @@ public class WardenEntity extends HostileEntity {
             this.sniffTicksLeft = -1;
             if (this.getSniffEntity() != null) {
                 LivingEntity sniffEntity = this.getSniffEntity();
-                this.addSuspicion(sniffEntity, 5);
+                this.addSuspicion(sniffEntity, 7);
                 if (sniffEntity != this.getTrackingEntity()) {
-                    this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.006) + (this.trueOverallAnger() * 0.002)));
+                    this.getNavigation().startMovingTo(this.sniffX, this.sniffY, this.sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.006) + (this.trueOverallAnger() * 0.002)));
                 } else if (sniffEntity == this.getTrackingEntity()) {
-                    this.getNavigation().startMovingTo(sniffX, sniffY, sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.013) + (this.trueOverallAnger() * 0.002)));
+                    this.getNavigation().startMovingTo(this.sniffX, this.sniffY, this.sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.013) + (this.trueOverallAnger() * 0.002)));
                 }
             }
         }
