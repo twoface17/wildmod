@@ -66,14 +66,20 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             entity.digAnimStartTime = animationProgress;
             entity.canDigAnim=false;
         }
+        if (entity.canRoarAnim) {
+            entity.roarAnimStartTime = animationProgress;
+            entity.canRoarAnim=false;
+        }
 
         float emergeTime = AnimationAPI.animationTimer(animationProgress, entity.emergeAnimStartTime, entity.emergeAnimStartTime + 150) / 10;
         float sniffTime = AnimationAPI.animationTimer(animationProgress, entity.sniffAnimStartTime, entity.sniffAnimStartTime + 53) / 10;
         float digTime = AnimationAPI.animationTimer(animationProgress, entity.digAnimStartTime, entity.digAnimStartTime + 61) / 10;
+        float roarTime = AnimationAPI.animationTimer(animationProgress, entity.roarAnimStartTime, entity.roarAnimStartTime + 70) / 10;
 
         boolean canEmerge = emergeTime != 0;
         boolean canSniff = sniffTime != 0;
         boolean canDig = digTime != 0;
+        boolean canRoar = roarTime != 0;
 
 
         /** EMERGE */
@@ -459,7 +465,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                 if (r == 10) {
                     entity.setRoarAnimationProgress(animationProgress);
                 } else {
-                    if (emergeticksleft == 0 && sniffticks >= 53 && digticks >= 63) {
+                    if (!canEmerge && !canSniff && !canRoar && !canDig) {
                         double b = animationProgress - entity.getRoarAnimationProgress();
                         /* Stop Syncing Animations */
                         this.body.yaw = 0;
