@@ -448,7 +448,7 @@ public class WardenEntity extends HostileEntity {
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
             this.world.sendEntityStatus(this, (byte)19);
-            this.sniffCooldown=110;
+            this.sniffCooldown= (int) MathHelper.clamp((trueOverallAnger() * 0.1) - 200, 100, 200);
             this.emergeTicksLeft--;
         }
         if (this.emergeTicksLeft == 0 && !this.hasEmerged) { //Stop Emerging
