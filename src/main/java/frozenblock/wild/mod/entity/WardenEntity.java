@@ -52,7 +52,7 @@ public class WardenEntity extends HostileEntity {
      * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
      * SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}
      * SNIFFING {@link WardenEntity#getSniffEntity()}
-     * ATTACKING & ROARING {@link WardenEntity#setRoarAnimationProgress(double)}
+     * ATTACKING & ROARING {@link WardenEntity#roar()}
      * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
      * OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
      * VISUAlS {@link WardenEntity#CreateVibration(World, WardenEntity, BlockPos)}
@@ -98,7 +98,7 @@ public class WardenEntity extends HostileEntity {
         if (!this.isAiDisabled() && status == 4) { //Set Attack Ticks
             this.attackTicksLeft1 = 10;
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 1.0F,1.0F);
-        } else if(!this.isAiDisabled() && status == 3) { //Set Roar Ticks & Anim Can Start
+        } else if(!this.isAiDisabled() && status == 3) { //Set CanRoarAnim Boolean
             this.canRoarAnim=true;
         } else if(!this.isAiDisabled() && status == 5) { //Emerging
             this.emergeTicksLeft=150;
@@ -112,36 +112,12 @@ public class WardenEntity extends HostileEntity {
             this.vibrationTimer=this.world.getTime();
         } else if (!this.isAiDisabled() && status == 8) { //Set Last Client Beat Time
             this.lastClientHeartBeat=this.world.getTime();
-        } else if (!this.isAiDisabled() && status == 9) { //Set Client Emerge Ticks & CanEmergeAnim Boolean
-            this.clientEmergeTicks=150;
+        } else if (!this.isAiDisabled() && status == 9) { //Set CanEmergeAnim Boolean
             this.canEmergeAnim=true;
-        } else if (!this.isAiDisabled() && status == 10) { //Set Client Dig Ticks
-            this.clientDigTicks=60;
-        } else if (!this.isAiDisabled() && status == 11) { //Set Client isEmerging
-            this.isEmerging=true;
-        } else if (!this.isAiDisabled() && status == 12) { //Set Client isEmerging To False
-            this.isEmerging=false;
-        } else if (!this.isAiDisabled() && status == 13) { //Set Client isDigging
-            this.isDigging=true;
-        } else if (!this.isAiDisabled() && status == 14) { //Set Client isDigging To False
-            this.isDigging=false;
-        } else if (!this.isAiDisabled() && status == 15) { //Set Client emergeStart
-            this.emergeStart=this.world.getTime();
-        } else if (!this.isAiDisabled() && status == 16) { //Set Client emergeStop
-            this.emergeStop=this.world.getTime()+150;
-        } else if (!this.isAiDisabled() && status == 17) { //Set Client digStart
-            this.digStart=this.world.getTime();
-        } else if (!this.isAiDisabled() && status == 18) { //Set Client digStop
-            this.digStop=this.world.getTime()+60;
-        } else if (!this.isAiDisabled() && status == 19) { //Subtract Client Emerge Ticks
-            if (this.clientEmergeTicks>0) { this.clientEmergeTicks=this.clientEmergeTicks-1; }
-        } else if (!this.isAiDisabled() && status == 22) { //Subtract Client Dig Ticks
-            if (this.clientDigTicks>0) { this.clientDigTicks=this.clientDigTicks-1; }
-        } else if (!this.isAiDisabled() && status == 23) { //Set Sniff Starting TIme & CanSniffAnim Boolean
+        } else if (!this.isAiDisabled() && status == 10) { //Set Sniff Starting Time & CanSniffAnim Boolean
             this.clientSniffStart=this.world.getTime();
             this.canSniffAnim=true;
-        } else if (!this.isAiDisabled() && status == 24) { //Set Dig Start Time & CanDigAnim Boolean
-            this.clientDigStart=this.world.getTime();
+        } else if (!this.isAiDisabled() && status == 11) { //Set CanDigAnim Boolean
             this.canDigAnim=true;
         } else { super.handleStatus(status); }
     }
@@ -271,7 +247,6 @@ public class WardenEntity extends HostileEntity {
         } return null;
     }
     /** ATTACKING & ROARING */
-    public void setRoarAnimationProgress(double a) { this.roarAnimationProgress = a; }
     public void roar() {
         this.attackTicksLeft1 = 10;
         this.world.sendEntityStatus(this, (byte)3);
@@ -334,13 +309,8 @@ public class WardenEntity extends HostileEntity {
         this.timeSinceNonEntity = nbt.getLong("timeSinceNonEntity");
     }
 
-    public float heartbeatTime() {return heartbeatTime;}
     public int getAttackTicksLeft1() {return this.attackTicksLeft1;}
-    public double getRoarAnimationProgress() {return this.roarAnimationProgress;}
     public int getRoarTicksLeft1() {return this.roarTicksLeft1;}
-    public int getEmergeTicksLeft() {return this.emergeTicksLeft;}
-    public int getSniffTicksLeft() {return this.sniffTicksLeft;}
-    public boolean getHasEmerged() {return this.hasEmerged;}
 
     @Deprecated
     public boolean canFollow(Entity entity, boolean mustBeTracking) {
@@ -447,28 +417,23 @@ public class WardenEntity extends HostileEntity {
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
-            this.world.sendEntityStatus(this, (byte)19);
             this.sniffCooldown=110;
             this.emergeTicksLeft--;
         }
         if (this.emergeTicksLeft == 0 && !this.hasEmerged) { //Stop Emerging
             this.setInvulnerable(false);
             this.hasEmerged = true;
-            this.world.sendEntityStatus(this, (byte)12);
             this.emergeTicksLeft = -1;
         }
         if (this.emergeTicksLeft > 0 && this.hasEmerged) { //Tick Down While Digging
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
-            this.world.sendEntityStatus(this, (byte)22);
             --this.emergeTicksLeft;
         }
         if (this.emergeTicksLeft == 0 && this.hasEmerged) { this.remove(RemovalReason.DISCARDED); } //Remove Once Done Digging
         if (world.getTime() == this.leaveTime) { //Start Digging
-            this.world.sendEntityStatus(this, (byte)10);
-            this.world.sendEntityStatus(this, (byte)13);
-            this.world.sendEntityStatus(this, (byte)24);
+            this.world.sendEntityStatus(this, (byte)11);
             this.handleStatus((byte) 6);
 
         }
@@ -536,8 +501,6 @@ public class WardenEntity extends HostileEntity {
     }
     }
 
-    //Animation
-
     //Movement
     public int timeStuck=0;
     public BlockPos stuckPos;
@@ -583,30 +546,18 @@ public class WardenEntity extends HostileEntity {
 
     //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
     public long lastClientHeartBeat; //Status 8
-    public int clientEmergeTicks; //Set to 160: Status 9. Subtract: Status 19.
-    public int clientDigTicks; //Set to 60: Status 10. Subtract: Status 22.
-    public boolean isEmerging; //Set to true: Status 11. Set to false: Status 12.
-    public boolean isDigging; //Set to true: Status 13. Set to false: Status 14.
-    public long emergeStart; //Status 15
-    public long digStart; //Status 16
-    public long emergeStop; //Status 17
-    public long digStop; //Status 18
-    public long clientSniffStart; //Status 23
-    public long clientDigStart; //Status 24
+    public long clientSniffStart; //Status 10
 
     //ANIMATION
-    public boolean canEmergeAnim;
+    public boolean canEmergeAnim; //Status 9
     public float emergeAnimStartTime=-200;
 
-    public boolean canSniffAnim;
+    public boolean canSniffAnim; //Status 10
     public float sniffAnimStartTime=-200;
 
-    public boolean canDigAnim;
+    public boolean canDigAnim; //Status 11
     public float digAnimStartTime=-200;
 
-    public boolean canRoarAnim;
+    public boolean canRoarAnim; //Status 3
     public float roarAnimStartTime=-200;
-
-    //We might not need this honestly, the EntityModel can handle the value on it's own just fine
-    public double roarAnimationProgress;
 }
