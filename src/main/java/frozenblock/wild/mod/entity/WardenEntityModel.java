@@ -47,10 +47,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         int r = entity.getRoarTicksLeft1();
-        long emergeticksleft = entity.clientEmergeTicks; //The time (in ticks) from the start of the Warden's emerge
-        long sniffticks = entity.world.getTime() - entity.clientSniffStart; //The time between last sniffing started and now
-        long digticks = entity.world.getTime() - entity.clientDigStart; //How much time is left (in ticks) from the start of the Warden's dig
-        float time = animationProgress / 10;
         float t = 2; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
 
@@ -86,10 +82,12 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         if (canEmerge) {
             float bodyY = 13;
             float legY = 11;
-            float armY = -17; //Default pivots
+            float armY = -17;
+            float headY = 21; //Default pivots
 
             /* Stop Syncing Animations */
             this.head.yaw = 0;
+            this.head.pivotY = -21;
 
             this.body.yaw = 0;
 
@@ -301,6 +299,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             /* Stop Syncing Animations */
             this.body.pivotY = 13;
 
+            this.head.pivotY = -21;
+
             this.left_arm.pivotZ=0;
             this.left_arm.pivotY=-17;
 
@@ -386,6 +386,97 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, sniffTime)
             );
         }
+        if (canRoar) {
+            /**ROARING*/
+            /* Stop Syncing Animations */
+            this.body.pivotY = 13;
+
+            this.left_arm.pivotZ=0;
+            this.left_arm.pivotY=-17;
+
+            this.right_arm.pivotZ=0;
+            this.right_arm.pivotY=-17;
+
+            this.left_leg.pivotY=11;
+            this.right_leg.pivotY=11;
+
+            this.left_leg.pitch=0;
+            this.right_leg.pitch=0;
+
+            this.left_ear.yaw=0;
+            this.right_ear.yaw=0;
+
+            /* Body */
+            this.body.pitch = (AnimationAPI.easeInSine(0, t * 1.32f, -25f / j, roarTime) +
+                    AnimationAPI.easeOutSine(t * 1.32f, t * 1.72f, 75f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.72f, t * 2.4f, -5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.4f, t * 2.96f, 2f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.96f, t * 3.48f, -47f / j, roarTime)
+            );
+
+            /* Head */
+            this.head.pitch = (AnimationAPI.easeInOutSine(0, t * 1.32f, 32f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.64f, -82f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.64f, t * 1.92f, 5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.92f, t * 2.24f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.24f, t * 2.6f, -1f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.6f, t * 3.48f, 46f / j, roarTime)
+            );
+            this.head.pivotY = -21f + (AnimationAPI.easeInOutSine(0, t * 1.32f, 0f, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.64f, 1f, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.64f, t * 1.92f, -1f, roarTime)
+            );
+            this.head.pivotZ = (AnimationAPI.easeInOutSine(0, t * 1.32f, 0f, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.64f, 7f, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.64f, t * 2.96f, 0f, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.96f, t * 3.48f, -7f, roarTime)
+            );
+
+            /* Left Arm */
+            this.left_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 1.12f, -102.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.12f, t * 1.32f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.72f, 168.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.72f, t * 2.12f, -16f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.12f, t * 2.8f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.8f, t * 3.08f, 2f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 3.08f, t * 3.52f, -52f / j, roarTime)
+            );
+            this.left_arm.yaw = (AnimationAPI.easeInOutSine(0, t * 1.12f, -7.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.12f, t * 1.32f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.72f, 7.5f / j, roarTime)
+            );
+            this.left_arm.roll = (AnimationAPI.easeInOutSine(0, t * 1.12f, -27.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.12f, t * 1.32f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.72f, -44.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.72f, t * 2.12f, 12f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.12f, t * 2.8f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.8f, t * 3.08f, -2f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 3.08f, t * 3.52f, 62f / j, roarTime)
+            );
+
+            /* Right Arm */
+            this.right_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.12f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 0.12f, t * 1.32f, -102.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.72f, 168.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.72f, t * 2.12f, -16f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.12f, t * 2.8f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.8f, t * 3.08f, 2f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 3.08f, t * 3.52f, -52f / j, roarTime)
+            );
+            this.right_arm.yaw = (AnimationAPI.easeInOutSine(0, t * 0.12f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 0.12f, t * 1.32f, 7.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.72f, -7.5f / j, roarTime)
+            );
+            this.right_arm.roll = (AnimationAPI.easeInOutSine(0, t * 0.12f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 0.12f, t * 1.32f, 27.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.72f, 44.5f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.72f, t * 2.12f, -12f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.12f, t * 2.8f, 0f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 2.8f, t * 3.08f, 2f / j, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 3.08f, t * 3.52f, -62f / j, roarTime)
+            );
+
+        }
         if (canDig) {
             /** DIGGING */
 
@@ -468,6 +559,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     if (!canEmerge && !canSniff && !canRoar && !canDig) {
                         double b = animationProgress - entity.getRoarAnimationProgress();
                         /* Stop Syncing Animations */
+                        this.head.pivotY = -21;
+
                         this.body.yaw = 0;
                         this.body.pivotY = 13;
 
@@ -513,10 +606,12 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
             /* ATTACK ANIMATION */
 
-            if (emergeticksleft <= 0 && sniffticks >= 53 && digticks >= 0) {
+            if (!canEmerge && !canSniff && !canRoar && !canDig) {
                 //Attack Animation Handler
                 int a = entity.getAttackTicksLeft1();
                 /* Stop Syncing Animations */
+                this.head.pivotY = -21;
+
                 this.body.yaw = 0;
                 this.body.pivotY = 13;
 
