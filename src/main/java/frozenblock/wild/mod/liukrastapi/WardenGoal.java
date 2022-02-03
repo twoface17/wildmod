@@ -53,7 +53,7 @@ public class WardenGoal extends Goal {
                 this.VZ = this.mob.getAttacker().getZ();
             }
             exit = true;
-        } else if (lasteventWorld != null && lasteventpos != null) {
+        } else if (lasteventWorld != null && lasteventpos != null && this.mob.vibrationTicks==-1) {
             if (lasteventWorld == this.mob.getEntityWorld()) {
                 double distancex = Math.pow(this.mob.getBlockX() - lasteventpos.getX(), 2);
                 double distancey = Math.pow(this.mob.getBlockY() - lasteventpos.getY(), 2);
