@@ -5,7 +5,9 @@ import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.SniffGoal;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
+import frozenblock.wild.mod.liukrastapi.WardenAttackNearGoal;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
+import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import frozenblock.wild.mod.registry.RegisterStatusEffects;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
@@ -64,6 +66,7 @@ public class WardenEntity extends HostileEntity {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(3, new WardenGoal(this, speed));
         this.goalSelector.add(2, new SniffGoal(this, speed));
+        this.goalSelector.add(1, new WardenAttackNearGoal(this));
         this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
 
@@ -93,6 +96,7 @@ public class WardenEntity extends HostileEntity {
                 this.sendDarkness(48, this.getBlockPos(), this.world);
                 this.ticksToDarkness=100;
             }
+            if (this.attackNearCooldown>0) { --this.attackNearCooldown; }
         }
         //Heartbeat & Anger
         this.heartbeatTime = (int) (40 - ((MathHelper.clamp(this.trueOverallAnger(),0,50)*0.6)));
@@ -292,6 +296,21 @@ public class WardenEntity extends HostileEntity {
         } return false;
     }
 
+    public LivingEntity getClosestEntity() {
+        Box box = new Box(this.getBlockPos().add(-2.15, -2.15, -2.15), this.getBlockPos().add(2.15, 2.15, 2.15));
+        List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
+        double closest=3;
+        LivingEntity chosen=null;
+            if (!entities.isEmpty()) {
+                for (LivingEntity target : entities) {
+                    if (target.getType()!= RegisterEntities.WARDEN && this.squaredDistanceTo(target)<closest) {
+                        closest=this.squaredDistanceTo(target);
+                        chosen=target;
+                    }
+                }
+            }return chosen;
+    }
+
     /** NBT, VALUES & BOOLEANS */
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
@@ -317,6 +336,7 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("vibY", this.vibY);
         nbt.putInt("vibZ", this.vibZ);
         nbt.putInt("queuedSuspicion", this.queuedSuspicion);
+        nbt.putInt("attackNearCooldown", this.attackNearCooldown);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -342,6 +362,7 @@ public class WardenEntity extends HostileEntity {
         this.vibY = nbt.getInt("vibY");
         this.vibZ = nbt.getInt("vibZ");
         this.queuedSuspicion = nbt.getInt("queuedSuspicion");
+        this.attackNearCooldown = nbt.getInt("attackNearCooldown");
     }
 
     public int getAttackTicksLeft1() {return this.attackTicksLeft1;}
@@ -557,7 +578,7 @@ public class WardenEntity extends HostileEntity {
             this.lastevententity=eventEntity;
             addSuspicion(eventEntity, suspicion);
             if (this.world.getTime()-reactionSoundTimer>40) { this.reactionSoundTimer=this.world.getTime();
-                if (getSuspicion(eventEntity)<13 && getSuspicion(eventEntity)>10) {
+                if (getSuspicion(eventEntity)<13) {
                     this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                 } else if (getSuspicion(eventEntity)<25) {
                     this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
@@ -621,6 +642,7 @@ public class WardenEntity extends HostileEntity {
     public int roarTicksLeft1;
     public int sniffTicksLeft;
     public int ticksToDarkness;
+    public int attackNearCooldown;
     //Stopwatches
     public long timeSinceNonEntity;
     public int sniffCooldown;
