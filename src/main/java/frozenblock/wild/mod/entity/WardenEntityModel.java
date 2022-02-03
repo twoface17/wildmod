@@ -390,11 +390,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         if (canRoar) {
             /* Stop Syncing Animations */
             this.body.pivotY = 13;
-            this.body.roll = 0;
-            this.body.yaw = 0;
-
-            this.head.roll = 0;
-            this.head.yaw = 0;
 
             this.left_arm.pivotZ=0;
             this.left_arm.pivotY=-17;
@@ -432,9 +427,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 1.64f, t * 1.92f, -1f, roarTime)
             );
             this.head.pivotZ = (AnimationAPI.easeInOutSine(0, t * 1.32f, 0f, roarTime) +
-                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.64f, -7f, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.64f, 7f, roarTime) +
                     AnimationAPI.easeInOutSine(t * 1.64f, t * 2.96f, 0f, roarTime) +
-                    AnimationAPI.easeInOutSine(t * 2.96f, t * 3.48f, 7f, roarTime)
+                    AnimationAPI.easeInOutSine(t * 2.96f, t * 3.48f, -7f, roarTime)
             );
 
             /* Left Arm */
