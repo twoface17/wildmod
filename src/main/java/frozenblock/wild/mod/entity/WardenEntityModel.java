@@ -289,9 +289,27 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 1.32f, t * 1.6f, -47.5f / j, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.6f, t * 1.76f, 15f / j, emergeTime)
             );
-        } 
+        }
+        /** SNIFFING */
         if (canSniff) {
-            /** SNIFFING */
+            /* Stop Syncing Animations */
+            this.body.pivotY = 13;
+
+            this.left_arm.pivotZ=0;
+            this.left_arm.pivotY=-17;
+
+            this.right_arm.pivotZ=0;
+            this.right_arm.pivotY=-17;
+
+            this.left_leg.pivotY=11;
+            this.right_leg.pivotY=11;
+
+            this.left_leg.pitch=0;
+            this.right_leg.pitch=0;
+
+            this.left_ear.yaw=0;
+            this.right_ear.yaw=0;
+
             /* Body */
             this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 7.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, -15f / j, sniffTime) +
