@@ -602,8 +602,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         this.right_ear.yaw = -MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.sin(animationProgress / 20) / 5;
 
         /* Body */
-        this.body.pitch = MathHelper.clamp(-MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20, -20 / j, 20 / j);
-        this.body.roll = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20, -20, 20);
+        this.body.pitch = MathHelper.clamp(-MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20, -35 / j, 10 / j);
+        this.body.roll = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20, -10, 10);
 
         /* Right Arm */
         this.right_arm.pitch = MathHelper.clamp(-MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20 - (a / 5f), -20, 20);
