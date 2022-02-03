@@ -250,6 +250,7 @@ public class WardenEntity extends HostileEntity {
     }
     /** ATTACKING & ROARING */
     public void roar() {
+        this.getNavigation().stop();
         this.attackTicksLeft1 = 10;
         this.world.sendEntityStatus(this, (byte)3);
         this.roarTicksLeft1 = 70;
