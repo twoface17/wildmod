@@ -141,8 +141,8 @@ public class WardenEntity extends HostileEntity {
             this.vibZ = eventPos.getZ();
             this.lasteventworld = eventWorld;
             if (eventEntity!=null) {
-                this.vibrationEntity = eventEntity.getId();
-            }
+                this.vibrationEntity = eventEntity.getUuidAsString();
+            } else { this.vibrationEntity = "null"; }
             this.hasDetected = true;
             this.leaveTime = this.world.getTime() + 1200;
             this.queuedSuspicion=suspicion;
@@ -233,20 +233,22 @@ public class WardenEntity extends HostileEntity {
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (Objects.equals(this.sniffEntity, target.getUuidAsString()) && MathAddon.distance(target.getX(), target.getY(), target.getZ(), this.getX(), this.getY(), this.getZ()) <= 16) { return target; }
+                if (Objects.equals(this.sniffEntity, target.getUuidAsString())) { return target; }
             }
         } return null;
     }
     public LivingEntity getVibrationEntity() {
-        if (this.vibrationEntity!=-1) {
-            Entity target = world.getEntityById(this.vibrationEntity);
-            if (target!=null && !target.isRemoved() && !target.isAlive()) {
-                if (target instanceof LivingEntity) {
-                    return (LivingEntity) target;
+        if (!Objects.equals(this.vibrationEntity, "null")) {
+            Box box = new Box(this.getBlockPos().add(-32, -32, -32), this.getBlockPos().add(32, 32, 32));
+            List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
+            if (!entities.isEmpty()) {
+                for (LivingEntity target : entities) {
+                    if (Objects.equals(this.vibrationEntity, target.getUuidAsString())) {
+                        return target;
+                    }
                 }
             }
-        }
-        return null;
+        }return null;
     }
     /** ATTACKING & ROARING */
     public void roar() {
@@ -290,7 +292,7 @@ public class WardenEntity extends HostileEntity {
         nbt.putString("sniffEntity", this.sniffEntity);
         nbt.putInt("nonEntityAnger", this.nonEntityAnger);
         nbt.putLong("timeSinceNonEntity", this.timeSinceNonEntity);
-        nbt.putInt("vibrationEntity", this.vibrationEntity);
+        nbt.putString("vibrationEntity", this.vibrationEntity);
         nbt.putInt("vibX", this.vibX);
         nbt.putInt("vibY", this.vibY);
         nbt.putInt("vibZ", this.vibZ);
@@ -315,7 +317,7 @@ public class WardenEntity extends HostileEntity {
         this.sniffEntity = nbt.getString("sniffEntity");
         this.nonEntityAnger = nbt.getInt("nonEntityAnger");
         this.timeSinceNonEntity = nbt.getLong("timeSinceNonEntity");
-        this.vibrationEntity = nbt.getInt("vibrationEntity");
+        this.vibrationEntity = nbt.getString("vibrationEntity");
         this.vibX = nbt.getInt("vibX");
         this.vibY = nbt.getInt("vibY");
         this.vibZ = nbt.getInt("vibZ");
@@ -578,7 +580,7 @@ public class WardenEntity extends HostileEntity {
     public IntArrayList susList = new IntArrayList();
     public String trackingEntity = "null";
     public String sniffEntity = "null";
-    public int vibrationEntity=-1;
+    public String vibrationEntity="null";
     public int vibrationTicks;
     public int queuedSuspicion;
     //Anger & Heartbeat
