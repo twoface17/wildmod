@@ -390,11 +390,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         if (canRoar) {
             /* Stop Syncing Animations */
             this.body.pivotY = 13;
-            this.body.roll = 0;
-            this.body.yaw = 0;
-
-            this.head.roll = 0;
-            this.head.yaw = 0;
 
             this.left_arm.pivotZ=0;
             this.left_arm.pivotY=-17;
