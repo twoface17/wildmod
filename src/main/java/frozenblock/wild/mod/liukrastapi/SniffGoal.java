@@ -87,7 +87,7 @@ public class SniffGoal extends Goal {
             if (MathAddon.distance(sniffEntity.getX(), sniffEntity.getY(), sniffEntity.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ()) <= 16) {
                 this.mob.world.sendEntityStatus(this.mob, (byte)23);
                 this.mob.sniffTicksLeft = 53;
-                this.mob.sniffCooldown = 144 + UniformIntProvider.create(-20,80).get(this.mob.getRandom());
+                this.mob.sniffCooldown = 110;
                 this.mob.sniffX = sniffEntity.getBlockPos().getX();
                 this.mob.sniffY = sniffEntity.getBlockPos().getY();
                 this.mob.sniffZ = sniffEntity.getBlockPos().getZ();

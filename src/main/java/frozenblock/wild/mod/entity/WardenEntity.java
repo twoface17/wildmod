@@ -83,7 +83,7 @@ public class WardenEntity extends HostileEntity {
             }
         }
         //Heartbeat & Anger
-        this.heartbeatTime = (int) (60 - ((MathHelper.clamp(this.trueOverallAnger(),0,45)*1.1)));
+        this.heartbeatTime = (int) (40 - ((MathHelper.clamp(this.trueOverallAnger(),0,50)*0.6)));
         if (this.world.getTime()>=this.nextHeartBeat) {
             this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, SoundCategory.HOSTILE, 1F, (float) (0.85F + (MathHelper.clamp(this.trueOverallAnger(),0,45)*0.0066)));
             this.nextHeartBeat=this.world.getTime()+heartbeatTime;
