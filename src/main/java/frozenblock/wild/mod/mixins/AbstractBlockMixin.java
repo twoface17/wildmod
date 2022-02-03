@@ -53,7 +53,7 @@ public class AbstractBlockMixin {
                         world.playSound(
                                 null,
                                 pos,
-                                SoundEvents.BLOCK_GRAVEL_BREAK,
+                                SoundEvents.ITEM_BOTTLE_EMPTY,
                                 SoundCategory.BLOCKS,
                                 1f,
                                 1f
