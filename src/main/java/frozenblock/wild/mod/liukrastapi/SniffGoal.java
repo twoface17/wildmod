@@ -29,6 +29,9 @@ public class SniffGoal extends Goal {
         if (this.mob.roarTicksLeft1 > 0) {
             return false;
         }
+        if (this.mob.sniffCooldown > 0) {
+            return false;
+        }
         boolean exit = false;
         LivingEntity sniffEntity = null;
         if (this.mob.mostSuspiciousAround()!=null) {
@@ -91,7 +94,7 @@ public class SniffGoal extends Goal {
                 this.mob.getNavigation().stop();
                 this.mob.world.sendEntityStatus(this.mob, (byte)10);
                 this.mob.sniffTicksLeft = 53;
-                this.mob.sniffCooldown = 110;
+                this.mob.sniffCooldown = 163;
                 this.mob.sniffX = sniffEntity.getBlockPos().getX();
                 this.mob.sniffY = sniffEntity.getBlockPos().getY();
                 this.mob.sniffZ = sniffEntity.getBlockPos().getZ();
