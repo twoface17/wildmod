@@ -33,7 +33,7 @@ public class ActivatorGrower {
                 double r = sqrt(rVal) * sqrt(random());
                 int x = (int) (r * cos(a));
                 int y = (int) (r * sin(a));
-                placeActivator(pos.add(x, 0, y), world, loop/4);
+                placeActivator(pos.add(x, 0, y), world, loop/3);
             }
         }
 
