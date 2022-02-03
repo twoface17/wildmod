@@ -29,9 +29,6 @@ public class SniffGoal extends Goal {
         if (this.mob.roarTicksLeft1 > 0) {
             return false;
         }
-        if (this.mob.sniffCooldown > 0) {
-            return false;
-        }
         boolean exit = false;
         LivingEntity sniffEntity = null;
         if (this.mob.mostSuspiciousAround()!=null) {

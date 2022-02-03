@@ -478,7 +478,6 @@ public class WardenEntity extends HostileEntity {
             if (this.getSniffEntity() != null) {
                 LivingEntity sniffEntity = this.getSniffEntity();
                 this.addSuspicion(sniffEntity, 7);
-                this.getNavigation().stop();
                 if (sniffEntity != this.getTrackingEntity()) {
                     this.getNavigation().startMovingTo(this.sniffX, this.sniffY, this.sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.006) + (this.trueOverallAnger() * 0.002)));
                 } else if (sniffEntity == this.getTrackingEntity()) {
