@@ -417,7 +417,7 @@ public class WardenEntity extends HostileEntity {
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
-            this.sniffCooldown=110;
+            this.sniffCooldown= (int) MathHelper.clamp((trueOverallAnger() * 0.1) - 200, 100, 200);
             this.emergeTicksLeft--;
         }
         if (this.emergeTicksLeft == 0 && !this.hasEmerged) { //Stop Emerging
