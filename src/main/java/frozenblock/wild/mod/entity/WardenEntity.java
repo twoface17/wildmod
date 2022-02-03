@@ -71,7 +71,18 @@ public class WardenEntity extends HostileEntity {
         this.tickBurn();
         if (!this.isAiDisabled()) {
             if (this.attackTicksLeft1 > 0) { --this.attackTicksLeft1; }
-            if (this.roarTicksLeft1 > 0) { --this.roarTicksLeft1; }
+            if (this.roarTicksLeft1 > 0) {
+                --this.roarTicksLeft1;
+                this.getNavigation().stop();
+            }
+            if (this.roarTicksLeft1==0) {
+                this.roarTicksLeft1=-1;
+                LivingEntity lastEvent = this.getTrackingEntityForRoarNavigation();
+                if (lastEvent!=null) {
+                    BlockPos roarPos = lastEvent.getBlockPos();
+                    this.getNavigation().startMovingTo(roarPos.getX(), roarPos.getY(), roarPos.getZ(), (speed + (45 * 0.013) + (this.trueOverallAnger() * 0.002)));
+                }
+            }
             if (this.attackCooldown > 0) { --this.attackCooldown; }
             this.tickEmerge();
             this.tickStuck();
@@ -204,11 +215,20 @@ public class WardenEntity extends HostileEntity {
         } return anger;
     }
     public LivingEntity getTrackingEntity() {
-        Box box = new Box(this.getBlockPos().add(-18,-18,-18), this.getBlockPos().add(18,18,18));
+        Box box = new Box(this.getBlockPos().add(-24,-24,-24), this.getBlockPos().add(24,24,24));
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                    if (Objects.equals(this.trackingEntity, target.getUuidAsString()) && MathAddon.distance(target.getX(), target.getY(), target.getZ(), this.getX(), this.getY(), this.getZ()) <= 16) { return target; }
+                if (Objects.equals(this.trackingEntity, target.getUuidAsString()) && MathAddon.distance(target.getX(), target.getY(), target.getZ(), this.getX(), this.getY(), this.getZ()) <= 24) { return target; }
+            }
+        } return null;
+    }
+    public LivingEntity getTrackingEntityForRoarNavigation() {
+        Box box = new Box(this.getBlockPos().add(-32,-32,-32), this.getBlockPos().add(32,32,32));
+        List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
+        if (!entities.isEmpty()) {
+            for (LivingEntity target : entities) {
+                if (Objects.equals(this.trackingEntity, target.getUuidAsString())) { return target; }
             }
         } return null;
     }
