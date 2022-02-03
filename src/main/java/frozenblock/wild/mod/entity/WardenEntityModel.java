@@ -432,9 +432,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 1.64f, t * 1.92f, -1f, roarTime)
             );
             this.head.pivotZ = (AnimationAPI.easeInOutSine(0, t * 1.32f, 0f, roarTime) +
-                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.64f, -7f, roarTime) +
+                    AnimationAPI.easeInOutSine(t * 1.32f, t * 1.64f, 7f, roarTime) +
                     AnimationAPI.easeInOutSine(t * 1.64f, t * 2.96f, 0f, roarTime) +
-                    AnimationAPI.easeInOutSine(t * 2.96f, t * 3.48f, 7f, roarTime)
+                    AnimationAPI.easeInOutSine(t * 2.96f, t * 3.48f, -7f, roarTime)
             );
 
             /* Left Arm */
