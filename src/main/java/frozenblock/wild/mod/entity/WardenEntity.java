@@ -119,6 +119,14 @@ public class WardenEntity extends HostileEntity {
             this.canSniffAnim=true;
         } else if (!this.isAiDisabled() && status == 11) { //Set CanDigAnim Boolean
             this.canDigAnim=true;
+        } else if (!this.isAiDisabled() && status == 12) { //Stop Emerge Animation
+            this.stopEmergeAnim=true;
+        } else if (!this.isAiDisabled() && status == 13) { //Stop Dig Animation
+            this.stopDigAnim=true;
+        } else if (!this.isAiDisabled() && status == 14) { //Stop Roar Animation
+            this.stopRoarAnim=true;
+        } else if (!this.isAiDisabled() && status == 15) { //Stop Sniff Animation
+            this.stopSniffAnim=true;
         } else { super.handleStatus(status); }
     }
 
@@ -550,14 +558,18 @@ public class WardenEntity extends HostileEntity {
 
     //ANIMATION
     public boolean canEmergeAnim; //Status 9
+    public boolean stopEmergeAnim; // Status 12
     public float emergeAnimStartTime=-200;
 
     public boolean canSniffAnim; //Status 10
+    public boolean stopSniffAnim; //Status 15
     public float sniffAnimStartTime=-200;
 
     public boolean canDigAnim; //Status 11
+    public boolean stopDigAnim; //Status 13
     public float digAnimStartTime=-200;
 
     public boolean canRoarAnim; //Status 3
+    public boolean stopRoarAnim; //Status 14
     public float roarAnimStartTime=-200;
 }

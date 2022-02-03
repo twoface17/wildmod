@@ -50,6 +50,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float t = 2; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
 
+        /** STARTING ANIMATIONS */
         if (entity.canEmergeAnim) {
             entity.emergeAnimStartTime = animationProgress;
             entity.canEmergeAnim=false;
@@ -65,6 +66,23 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         if (entity.canRoarAnim) {
             entity.roarAnimStartTime = animationProgress;
             entity.canRoarAnim=false;
+        }
+        /** CANCELLING ANIMATIONS (TWITTER) */
+        if (entity.stopEmergeAnim) {
+            entity.emergeAnimStartTime = -200;
+            entity.stopEmergeAnim=false;
+        }
+        if (entity.stopSniffAnim) {
+            entity.sniffAnimStartTime = -200;
+            entity.stopSniffAnim=false;
+        }
+        if (entity.stopDigAnim) {
+            entity.digAnimStartTime = -200;
+            entity.stopDigAnim=false;
+        }
+        if (entity.stopRoarAnim) {
+            entity.roarAnimStartTime = -200;
+            entity.stopRoarAnim=false;
         }
 
         float emergeTime = AnimationAPI.animationTimer(animationProgress, entity.emergeAnimStartTime, entity.emergeAnimStartTime + 150) / 10;
