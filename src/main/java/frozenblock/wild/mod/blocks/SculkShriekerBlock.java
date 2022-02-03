@@ -498,7 +498,7 @@ public class SculkShriekerBlock
                 timer = 0;
                 shrieks = 0;
             }
-            if (world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.getGameRules().getBoolean(WildMod.WARDEN_SPAWNING) && world.getTime() > timer) {
+            if (world.getGameRules().getBoolean(WildMod.WARDEN_SPAWNING) && world.getTime() > timer) {
                 timer = world.getTime() + 30;
                 if (!findWarden(world, pos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
                     if (world.getDifficulty().getId() == 0) {
