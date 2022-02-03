@@ -595,7 +595,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         /* Head */
         this.head.pitch = MathHelper.clamp(headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2, -20, 20);
         this.head.yaw = MathHelper.clamp(headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * limbDistance / 2, -20, 20);
-        this.head.roll = MathHelper.clamp(-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2, -20, 20);
+        this.head.roll = MathHelper.clamp(-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2, -10, 10);
 
         /* Ears */
         this.left_ear.yaw = MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.sin(animationProgress / 20) / 5;
@@ -607,11 +607,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
         /* Right Arm */
         this.right_arm.pitch = MathHelper.clamp(-MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20 - (a / 5f), -20, 20);
-        this.right_arm.roll = MathHelper.clamp((-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F,-15,15);
+        this.right_arm.roll = MathHelper.clamp((-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F,-10,10);
 
         /* Left Arm */
         this.left_arm.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20 - (a / 5f), -20, 10);
-        this.left_arm.roll = MathHelper.clamp((-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F,-15,15);
+        this.left_arm.roll = MathHelper.clamp((-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F,-10,10);
 
         /* Right Leg */
         this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -25, 25);
