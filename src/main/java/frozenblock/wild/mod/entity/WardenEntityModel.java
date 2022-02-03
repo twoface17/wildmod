@@ -82,6 +82,17 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             float legY = 11;
             float armY = -17; //Default pivots
 
+            /* Stop Syncing Animations */
+            this.head.yaw = 0;
+
+            this.body.yaw = 0;
+
+            this.left_ear.yaw=0;
+            this.right_ear.yaw=0;
+
+            this.left_leg.pitch=0;
+            this.right_leg.pitch=0;
+
             /* Body */
             this.body.pivotY = bodyY + 55 + (AnimationAPI.easeOutSine(t * 0f, t * 0.68f, 0f, emergeTime) +
                     AnimationAPI.easeOutSine(t * 0.68f, t * 1.04f, -30f, emergeTime) +
