@@ -96,7 +96,7 @@ public class WardenEntity extends HostileEntity {
                 this.ticksToDarkness=100;
             }
             if (this.attackNearCooldown>0) { --this.attackNearCooldown; }
-            //tickSuspicion();
+            tickSuspicion();
         }
         //Heartbeat & Anger
         this.heartbeatTime = (int) (40 - ((MathHelper.clamp(this.trueOverallAnger(),0,50)*0.6)));
@@ -552,7 +552,7 @@ public class WardenEntity extends HostileEntity {
     }
     }
     public void tickSuspicion() {
-        /*if (this.timeToNextSuspicionCheck > 0) { --this.timeToNextSuspicionCheck; }
+        if (this.timeToNextSuspicionCheck > 0) { --this.timeToNextSuspicionCheck; }
         if (this.timeToNextSuspicionCheck == 0) {
             this.timeToNextSuspicionCheck = 100;
             Box box = new Box(this.getBlockPos().add(-64, -64, -64), this.getBlockPos().add(64, 64, 64));
@@ -566,7 +566,7 @@ public class WardenEntity extends HostileEntity {
                     }
                 }
             }
-        }*/
+        }
     }
     public void tickVibration() {
         if (this.vibrationTicks>0) {
