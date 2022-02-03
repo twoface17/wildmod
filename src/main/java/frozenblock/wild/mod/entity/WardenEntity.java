@@ -437,6 +437,15 @@ public class WardenEntity extends HostileEntity {
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
+    @Override
+    public void onKilledOther(ServerWorld world, LivingEntity other) {
+        super.onKilledOther(world, other);
+        if (this.getSuspicion(other)!=0) {
+            this.susList.removeInt(this.entityList.indexOf(other.getUuid().hashCode()));
+            this.entityList.removeInt(this.entityList.indexOf(other.getUuid().hashCode()));
+        }
+    }
+
     /** VISUALS */
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         EntityPositionSource wardenPositionSource = new EntityPositionSource(this.getId()) {
