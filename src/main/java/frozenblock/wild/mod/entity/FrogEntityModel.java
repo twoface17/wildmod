@@ -77,7 +77,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         float animationspeed = 2F;
         float defaultmultiplier = 0.7F * limbDistance;
 
-        if(!entity.isSubmergedInWater()) {
+        if(!entity.isSubmergedInWater()) { //Walk Animation
             if(entity.isOnGround()) {
                 float rightanimation = (float) MathAddon.cutCos(limbAngle * animationspeed, 0, false) * defaultmultiplier;
                 float leftanimation = (float) MathAddon.cutCos(limbAngle * animationspeed, 0, true) * defaultmultiplier;
