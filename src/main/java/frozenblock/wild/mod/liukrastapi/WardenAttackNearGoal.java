@@ -14,7 +14,7 @@ public class WardenAttackNearGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        if (this.mob.emergeTicksLeft > 0) {
+        /*if (this.mob.emergeTicksLeft > 0) {
             return false;
         }
         if (this.mob.roarTicksLeft1 > 0) {
@@ -29,18 +29,18 @@ public class WardenAttackNearGoal extends Goal {
         if (this.mob.attackNearCooldown > 0) {
             return false;
         }
-        return this.mob.getClosestEntity() != null && this.mob.getSuspicion(this.mob.getClosestEntity())>13;
+        return this.mob.getClosestEntity() != null && this.mob.getSuspicion(this.mob.getClosestEntity())>13;*/
+        return false;
     }
 
     public void start() {
-        LivingEntity closeEntity=this.mob.getClosestEntity();
+        /*LivingEntity closeEntity=this.mob.getClosestEntity();
         double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
         double e = this.mob.squaredDistanceTo(closeEntity.getX(), closeEntity.getY(), closeEntity.getZ());
         if (!(e > d)) {
             this.mob.tryAttack(closeEntity);
             this.mob.attackNearCooldown = 100 - (this.mob.trueOverallAnger()/2) - (this.mob.getSuspicion(closeEntity)/4);
             this.mob.addSuspicion(closeEntity, 3);
-        }
-    }
-
+        }*/
+   }
 }

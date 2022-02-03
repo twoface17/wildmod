@@ -66,7 +66,6 @@ public class WardenEntity extends HostileEntity {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(3, new WardenGoal(this, speed));
         this.goalSelector.add(2, new SniffGoal(this, speed));
-        this.goalSelector.add(1, new WardenAttackNearGoal(this));
         this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
 
@@ -97,6 +96,7 @@ public class WardenEntity extends HostileEntity {
                 this.ticksToDarkness=100;
             }
             if (this.attackNearCooldown>0) { --this.attackNearCooldown; }
+            tickSuspicion();
         }
         //Heartbeat & Anger
         this.heartbeatTime = (int) (40 - ((MathHelper.clamp(this.trueOverallAnger(),0,50)*0.6)));
@@ -294,21 +294,6 @@ public class WardenEntity extends HostileEntity {
                 this.attackCooldown = 35;
             } return bl;
         } return false;
-    }
-
-    public LivingEntity getClosestEntity() {
-        Box box = new Box(this.getBlockPos().add(-2.15, -2.15, -2.15), this.getBlockPos().add(2.15, 2.15, 2.15));
-        List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
-        double closest=3;
-        LivingEntity chosen=null;
-            if (!entities.isEmpty()) {
-                for (LivingEntity target : entities) {
-                    if (target.getType()!= RegisterEntities.WARDEN && this.squaredDistanceTo(target)<closest) {
-                        closest=this.squaredDistanceTo(target);
-                        chosen=target;
-                    }
-                }
-            }return chosen;
     }
 
     /** NBT, VALUES & BOOLEANS */
@@ -566,6 +551,23 @@ public class WardenEntity extends HostileEntity {
         }
     }
     }
+    public void tickSuspicion() {
+        if (this.timeToNextSuspicionCheck > 0) { --this.timeToNextSuspicionCheck; }
+        if (this.timeToNextSuspicionCheck == 0) {
+            this.timeToNextSuspicionCheck = 100;
+            Box box = new Box(this.getBlockPos().add(-64, -64, -64), this.getBlockPos().add(64, 64, 64));
+            List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
+            if (!entities.isEmpty()) {
+                for (LivingEntity target : entities) {
+                    if (this.squaredDistanceTo(target)>48 && this.getSuspicion(target)!=0 && this.getSuspicion(target)<25) {
+                        int num = target.getUuid().hashCode();
+                        this.susList.removeInt(this.entityList.indexOf(num));
+                        this.entityList.removeInt(this.entityList.indexOf(num));
+                    }
+                }
+            }
+        }
+    }
     public void tickVibration() {
         if (this.vibrationTicks>0) {
             --this.vibrationTicks;
@@ -652,6 +654,7 @@ public class WardenEntity extends HostileEntity {
     public int sniffTicksLeft;
     public int ticksToDarkness;
     public int attackNearCooldown;
+    public int timeToNextSuspicionCheck=200;
     //Stopwatches
     public long timeSinceNonEntity;
     public int sniffCooldown;
