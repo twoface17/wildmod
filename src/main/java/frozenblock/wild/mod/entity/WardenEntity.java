@@ -98,8 +98,8 @@ public class WardenEntity extends HostileEntity {
         if (!this.isAiDisabled() && status == 4) { //Set Attack Ticks
             this.attackTicksLeft1 = 10;
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 1.0F,1.0F);
-        } else if(!this.isAiDisabled() && status == 3) { //Set Roar Ticks
-            this.roarTicksLeft1 = 10;
+        } else if(!this.isAiDisabled() && status == 3) { //Set Roar Ticks & Anim Can Start
+            this.canRoarAnim=true;
         } else if(!this.isAiDisabled() && status == 5) { //Emerging
             this.emergeTicksLeft=150;
             this.hasEmerged=false;
@@ -158,7 +158,7 @@ public class WardenEntity extends HostileEntity {
             this.leaveTime = this.world.getTime() + 1200;
             this.world.sendEntityStatus(this, (byte)7);
             this.vibrationTimer=this.world.getTime();
-            this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * (this.trueOverallAnger()/120F) + 0.9F);
+            this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
             if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos); }
             else { CreateVibration(this.world, this, lasteventpos); }
             if (eventEntity != null) {
@@ -275,6 +275,7 @@ public class WardenEntity extends HostileEntity {
     public void roar() {
         this.attackTicksLeft1 = 10;
         this.world.sendEntityStatus(this, (byte)3);
+        this.roarTicksLeft1 = 70;
     }
 
     public boolean tryAttack(Entity target) {
@@ -536,7 +537,7 @@ public class WardenEntity extends HostileEntity {
     }
 
     //Animation
-    private double roarAnimationProgress;
+
     //Movement
     public int timeStuck=0;
     public BlockPos stuckPos;
@@ -568,8 +569,8 @@ public class WardenEntity extends HostileEntity {
     public long vibrationTimer = 0;
     public int attackCooldown;
     public long reactionSoundTimer;
-    private int attackTicksLeft1;
-    private int roarTicksLeft1;
+    public int attackTicksLeft1;
+    public int roarTicksLeft1;
     public int sniffTicksLeft;
     public int ticksToDarkness;
     //Stopwatches
@@ -602,4 +603,10 @@ public class WardenEntity extends HostileEntity {
 
     public boolean canDigAnim;
     public float digAnimStartTime=-200;
+
+    public boolean canRoarAnim;
+    public float roarAnimStartTime=-200;
+
+    //We might not need this honestly, the EntityModel can handle the value on it's own just fine
+    public double roarAnimationProgress;
 }

@@ -34,6 +34,9 @@ public class WardenGoal extends Goal {
         if (this.mob.emergeTicksLeft > 0) {
             return false;
         }
+        if (this.mob.roarTicksLeft1 > 0) {
+            return false;
+        }
 
         boolean attacker = false;
         if (this.mob.getAttacker() != null) {
