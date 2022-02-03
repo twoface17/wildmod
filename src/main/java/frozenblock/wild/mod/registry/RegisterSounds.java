@@ -134,7 +134,6 @@ public class RegisterSounds { //Register sound definitions
         BLOCK_SCULK_SHRIEKER_BREAK = register(BLOCK_SCULK_SHRIEKER_BREAK.getId());
         BLOCK_SCULK_SHRIEKER_PLACE = register(BLOCK_SCULK_SHRIEKER_PLACE.getId());
         BLOCK_SCULK_SHRIEKER_SHRIEK = register(BLOCK_SCULK_SHRIEKER_SHRIEK.getId());
-        BLOCK_SCULK_SHRIEKER_EFFECT = register(BLOCK_SCULK_SHRIEKER_EFFECT.getId());
 
         //Sculk Vein
         BLOCK_SCULK_VEIN_BREAK = register(BLOCK_SCULK_VEIN_BREAK.getId());
