@@ -662,10 +662,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         }
 
     /* WALK, IDLE, & ATTACK ANIMATION */
-
     if (!canEmerge && !canSniff && !canRoar && !canDig) {
         //Attack Animation Handler
-        int a = entity.getAttackTicksLeft1();
         /* Stop Syncing Animations */
         this.head.pivotY = -21;
 
@@ -695,20 +693,25 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         /* Body */
         this.body.pitch = MathHelper.clamp(-MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20, -25 / j, 10 / j);
         this.body.roll = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20, -10/j, 10/j);
-
-        /* Right Arm */
-        this.right_arm.pitch = MathHelper.clamp(-MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20 - (a / 5f), -20F/j, 20F/j);
-        this.right_arm.roll = MathHelper.clamp((-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F,-5F/j,5F/j);
-
-        /* Left Arm */
-        this.left_arm.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20 - (a / 5f), -10F/j, 10F/j);
-        this.left_arm.roll = MathHelper.clamp((-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F,-5F/j,5F/j);
-
         /* Right Leg */
         this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -25/j, 25/j);
 
         /* Left Leg */
         this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -25/j, 25/j);
+
+        if (!canAttack) {
+            /* Right Arm */
+            this.right_arm.pitch = MathHelper.clamp(-MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20, -20F / j, 20F / j);
+            this.right_arm.roll = MathHelper.clamp((-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F, -5F / j, 5F / j);
+            /* Left Arm */
+            this.left_arm.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20, -10F / j, 10F / j);
+            this.left_arm.roll = MathHelper.clamp((-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F, -5F / j, 5F / j);
+            } else {
+                this.left_arm.pitch = (AnimationAPI.easeOutSine(t * 0f, t * 0.24f, -120f / j, attackTime) +
+                                    AnimationAPI.easeInOutSine(t * 0.24f, t * 0.44f, 120f / j, attackTime));
+                this.right_arm.pitch = (AnimationAPI.easeOutSine(t * 0f, t * 0.24f, -120f / j, attackTime) +
+                        AnimationAPI.easeInOutSine(t * 0.24f, t * 0.44f, 120f / j, attackTime));
+            }
         }
     }
 
