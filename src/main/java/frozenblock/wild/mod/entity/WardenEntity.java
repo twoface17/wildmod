@@ -127,6 +127,7 @@ public class WardenEntity extends HostileEntity {
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_DIG, SoundCategory.HOSTILE, 1F, 1F);
         } else if (!this.isAiDisabled() && status == 7) { //Set Last Vibration Time
             this.vibrationTimer=this.world.getTime();
+            this.canTendrilAnim=true;
         } else if (!this.isAiDisabled() && status == 8) { //Set Last Client Beat Time
             this.lastClientHeartBeat=this.world.getTime();
         } else if (!this.isAiDisabled() && status == 9) { //Set CanEmergeAnim Boolean
@@ -704,4 +705,7 @@ public class WardenEntity extends HostileEntity {
     public boolean canAttackAnim; //Status 4
     public boolean stopAttackAnim; //Status 16
     public float attackAnimStartTime=-200;
+
+    public boolean canTendrilAnim; //Status 7
+    public float tendrilAnimStartTime=-200;
 }

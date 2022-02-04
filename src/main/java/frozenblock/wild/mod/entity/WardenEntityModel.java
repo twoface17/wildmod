@@ -71,6 +71,10 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             entity.attackAnimStartTime = animationProgress;
             entity.canAttackAnim=false;
         }
+        if (entity.canTendrilAnim) {
+            entity.tendrilAnimStartTime = animationProgress;
+            entity.canTendrilAnim=false;
+        }
         /** CANCELLING ANIMATIONS (TWITTER) */
         if (entity.stopEmergeAnim) {
             entity.emergeAnimStartTime = -200;
@@ -98,12 +102,14 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float digTime = AnimationAPI.animationTimer(animationProgress, entity.digAnimStartTime, entity.digAnimStartTime + 61) / 10;
         float roarTime = AnimationAPI.animationTimer(animationProgress, entity.roarAnimStartTime, entity.roarAnimStartTime + 70) / 10;
         float attackTime = AnimationAPI.animationTimer(animationProgress, entity.attackAnimStartTime, entity.attackAnimStartTime + 70/*EDIT THIS*/) / 10;
+        float tendrilTime = AnimationAPI.animationTimer(animationProgress, entity.tendrilAnimStartTime, entity.tendrilAnimStartTime + 70/*EDIT THIS*/) / 10;
 
         boolean canEmerge = emergeTime != 0;
         boolean canSniff = sniffTime != 0;
         boolean canDig = digTime != 0;
         boolean canRoar = roarTime != 0;
         boolean canAttack = attackTime != 0;
+        boolean canTendril = tendrilTime != 0;
 
         float bodyY = 11;
         float legY = 11;
