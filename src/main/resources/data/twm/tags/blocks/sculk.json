@@ -5,7 +5,6 @@
     "twm:sculk_catalyst",
     "twm:sculk_vein",
     "minecraft:sculk_sensor",
-    "twm:sculk_shrieker",
-    "twmplus:sculk_jaw"
+    "twm:sculk_shrieker"
   ]
 }
