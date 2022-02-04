@@ -98,14 +98,14 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float bodyY = 11;
         float legY = 11;
         float armY = -17;
-        float headY = 21; //Default pivots
+        float headY = -21; //Default pivots
 
         /** EMERGE */
         if (canEmerge) {
 
             /* Stop Syncing Animations */
             this.head.yaw = 0;
-            this.head.pivotY = -21;
+            this.head.pivotY = headY;
 
             this.body.yaw = 0;
 
