@@ -684,31 +684,31 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         this.right_leg.pivotY=11;
 
         /* Head */
-        this.head.pitch = MathHelper.clamp(headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2, -20, 20);
-        this.head.yaw = MathHelper.clamp(headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * limbDistance / 2, -20, 20);
-        this.head.roll = MathHelper.clamp(-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2, -10, 10);
+        this.head.pitch = MathHelper.clamp(headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2, -20/j, 20/j);
+        this.head.yaw = MathHelper.clamp(headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * limbDistance / 2, -7.5f/j, 7.5f/j);
+        this.head.roll = MathHelper.clamp(-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2, -7.5f/j, 7.5f/j);
 
         /* Tendrils */
         //this.left_tendril.yaw = MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.sin(animationProgress / 20) / 5;
         //this.right_tendril.yaw = -MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.sin(animationProgress / 20) / 5;
 
         /* Body */
-        this.body.pitch = MathHelper.clamp(-MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20, -35 / j, 10 / j);
-        this.body.roll = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20, -10, 10);
+        this.body.pitch = MathHelper.clamp(-MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20, -25 / j, 10 / j);
+        this.body.roll = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20, -10/j, 10/j);
 
         /* Right Arm */
-        this.right_arm.pitch = MathHelper.clamp(-MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20 - (a / 5f), -20, 20);
-        this.right_arm.roll = MathHelper.clamp((-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F,-10,10);
+        this.right_arm.pitch = MathHelper.clamp(-MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20 - (a / 5f), -20F/j, 20F/j);
+        this.right_arm.roll = MathHelper.clamp((-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F,-5F/j,5F/j);
 
         /* Left Arm */
-        this.left_arm.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20 - (a / 5f), -20, 10);
-        this.left_arm.roll = MathHelper.clamp((-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F,-10,10);
+        this.left_arm.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20 - (a / 5f), -10F/j, 10F/j);
+        this.left_arm.roll = MathHelper.clamp((-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F,-5F/j,5F/j);
 
         /* Right Leg */
-        this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -25, 25);
+        this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -25/j, 25/j);
 
         /* Left Leg */
-        this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -25, 25);
+        this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -25/j, 25/j);
         }
     }
 
