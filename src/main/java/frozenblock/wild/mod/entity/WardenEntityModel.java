@@ -568,7 +568,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 0.6f, t * 2.88f, 35f / j, digTime)
             );
 
-        } else
+        }
 
     /* WALK, IDLE, & ATTACK ANIMATION */
 
