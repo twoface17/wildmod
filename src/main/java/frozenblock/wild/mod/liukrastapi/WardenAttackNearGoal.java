@@ -29,7 +29,7 @@ public class WardenAttackNearGoal extends Goal {
         if (this.mob.attackNearCooldown > 0) {
             return false;
         }
-        return this.mob.getClosestEntity() != null && this.mob.getSuspicion(this.mob.getClosestEntity())>13;
+        return this.mob.getClosestEntity() != null && this.mob.getSuspicion(this.mob.getClosestEntity())>=7;
     }
 
     public void start() {
