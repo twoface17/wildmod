@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.SculkSensorBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.property.BooleanProperty;
@@ -35,23 +34,23 @@ public class SculkGrower {
         if (entity!=null) {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             BlockPos down = blockPos.down();
-                if (SculkTags.THREE.contains(entity.getType())) {
-                    sculkOptim(3, 4, down, world, catalystPos);
-                } else if (SculkTags.FIVE.contains(entity.getType())) {
-                    sculkOptim(5, 5, down, world, catalystPos);
-                } else if (SculkTags.TEN.contains(entity.getType())) {
-                    sculkOptim(10, 10, down, world, catalystPos);
-                } else if (SculkTags.TWENTY.contains(entity.getType())) {
-                    sculkOptim(20, 20, down, world, catalystPos);
-                } else if (SculkTags.FIFTY.contains(entity.getType())) {
-                    sculkOptim(50, 50, down, world, catalystPos);
-                } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
-                    sculkOptim(1000, 33, down, world, catalystPos);
-                } else if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
-                    sculkOptim((UniformIntProvider.create(1, 7).get(world.getRandom())), (UniformIntProvider.create(1, 7).get(world.getRandom())), down, world, catalystPos);
-                }
+            if (SculkTags.THREE.contains(entity.getType())) {
+                sculkOptim(3, 4, down, world, catalystPos);
+            } else if (SculkTags.FIVE.contains(entity.getType())) {
+                sculkOptim(5, 5, down, world, catalystPos);
+            } else if (SculkTags.TEN.contains(entity.getType())) {
+                sculkOptim(10, 10, down, world, catalystPos);
+            } else if (SculkTags.TWENTY.contains(entity.getType())) {
+                sculkOptim(20, 20, down, world, catalystPos);
+            } else if (SculkTags.FIFTY.contains(entity.getType())) {
+                sculkOptim(50, 50, down, world, catalystPos);
+            } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
+                sculkOptim(1000, 33, down, world, catalystPos);
+            } else if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
+                sculkOptim((UniformIntProvider.create(1, 7).get(world.getRandom())), (UniformIntProvider.create(1, 7).get(world.getRandom())), down, world, catalystPos);
             }
         }
+    }
 
     public static void sculkOptim(float loop, int rVal, BlockPos down, World world, BlockPos catalystPos) { //Call For Sculk Placement & Increase Radius If Stuck
         int rVal2 = MathHelper.clamp(rVal*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 64);
@@ -147,7 +146,7 @@ public class SculkGrower {
         }
     }
 
-/** BLOCKSTATE TWEAKING */
+    /** BLOCKSTATE TWEAKING */
     public static void tiltVeins(BlockPos blockPos, World world) { //Tilt Sculk Veins
         if (!SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.down())).getBlock())) {
             if (SculkTags.VEIN_CONNECTABLE.contains(world.getBlockState(blockPos.add(1, 1, 0)).getBlock()) && !SculkTags.SCULK_UNBENDABLE.contains((world.getBlockState(blockPos.add(1, 0, 0))).getBlock())) {
@@ -177,7 +176,7 @@ public class SculkGrower {
             }
             if (world.getBlockState(blockPos.add(0, -1, 1)).getBlock() == SculkVeinBlock.SCULK_VEIN) {
                 world.setBlockState(blockPos.add(0, -1, 1), world.getBlockState(blockPos.add(0, -1, 1)).with(Properties.NORTH, true));}
-            }
+        }
     }
 
     /** CAlCULATIONS & CHECKS */
