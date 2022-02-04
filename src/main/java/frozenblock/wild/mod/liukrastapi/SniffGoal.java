@@ -35,13 +35,13 @@ public class SniffGoal extends Goal {
             sniffEntity=this.mob.mostSuspiciousAround();
         }
         if (sniffEntity==null) {
-            LivingEntity closestPlayer = this.mob.getWorld().getClosestPlayer(this.mob, 16);
+            LivingEntity closestPlayer = this.mob.world.getClosestPlayer(this.mob, 16);
             sniffEntity=closestPlayer;
             if (closestPlayer==null) {
                 Box box = new Box(this.mob.getBlockPos().add(-16,-16,-16), this.mob.getBlockPos().add(16,16,16));
-                List<LivingEntity> entities = this.mob.getWorld().getNonSpectatingEntities(LivingEntity.class, box);
-                LivingEntity chosen = this.mob.getWorld().getClosestEntity(entities, TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
-                if (chosen!=null && MathAddon.distance(chosen.getX(), chosen.getY(), chosen.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ())<=16 && chosen.getType()!=RegisterEntities.WARDEN) {
+                List<LivingEntity> entities = this.mob.world.getNonSpectatingEntities(LivingEntity.class, box);
+                LivingEntity chosen = this.mob.world.getClosestEntity(entities, TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
+                if (chosen!=null && !(chosen instanceof WardenEntity) && MathAddon.distance(chosen.getX(), chosen.getY(), chosen.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ())<=16 && chosen.getType()!=RegisterEntities.WARDEN) {
                     sniffEntity=chosen;
                 }
             }
@@ -49,7 +49,7 @@ public class SniffGoal extends Goal {
         if (this.mob.emergeTicksLeft>0) {
             return false;
         }
-        if (this.mob.getWorld().getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null && this.mob.sniffCooldown<=0) {
+        if (this.mob.world.getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null && this.mob.sniffCooldown<=0) {
             exit = true;
         }
 
@@ -74,13 +74,13 @@ public class SniffGoal extends Goal {
             sniffEntity=this.mob.mostSuspiciousAround();
         }
         if (sniffEntity==null) {
-            LivingEntity closestPlayer = this.mob.getWorld().getClosestPlayer(this.mob, 16);
+            LivingEntity closestPlayer = this.mob.world.getClosestPlayer(this.mob, 16);
             sniffEntity=closestPlayer;
             if (closestPlayer==null) {
                 Box box = new Box(this.mob.getBlockPos().add(-16,-16,-16), this.mob.getBlockPos().add(16,16,16));
-                List<LivingEntity> entities = this.mob.getWorld().getNonSpectatingEntities(LivingEntity.class, box);
-                LivingEntity chosen = this.mob.getWorld().getClosestEntity(entities, TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
-                if (chosen!=null && MathAddon.distance(chosen.getX(), chosen.getY(), chosen.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ())<=16) {
+                List<LivingEntity> entities = this.mob.world.getNonSpectatingEntities(LivingEntity.class, box);
+                LivingEntity chosen = this.mob.world.getClosestEntity(entities, TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
+                if (chosen!=null && !(chosen instanceof WardenEntity) && MathAddon.distance(chosen.getX(), chosen.getY(), chosen.getZ(), this.mob.getX(), this.mob.getY(), this.mob.getZ())<=16) {
                     sniffEntity=chosen;
                 }
             }
@@ -92,11 +92,11 @@ public class SniffGoal extends Goal {
                 this.mob.world.sendEntityStatus(this.mob, (byte)10);
                 this.mob.sniffTicksLeft = 53;
                 this.mob.sniffCooldown = 163;
-                this.mob.sniffX = sniffEntity.getBlockPos().getX();
-                this.mob.sniffY = sniffEntity.getBlockPos().getY();
-                this.mob.sniffZ = sniffEntity.getBlockPos().getZ();
+                this.mob.sniffX = sniffEntity.getX();
+                this.mob.sniffY = sniffEntity.getY();
+                this.mob.sniffZ = sniffEntity.getZ();
                 this.mob.sniffEntity=sniffEntity.getUuidAsString();
-                this.mob.getWorld().playSound(null, this.mob.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SNIFF, SoundCategory.HOSTILE, 1F, 1F);
+                this.mob.world.playSound(null, this.mob.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SNIFF, SoundCategory.HOSTILE, 1F, 1F);
                 this.mob.leaveTime = this.mob.getWorld().getTime() + 1200;
             }
         }

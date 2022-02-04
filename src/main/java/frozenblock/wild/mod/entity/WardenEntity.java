@@ -7,7 +7,6 @@ import frozenblock.wild.mod.liukrastapi.WardenGoal;
 import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
 import frozenblock.wild.mod.liukrastapi.WardenAttackNearGoal;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
-import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import frozenblock.wild.mod.registry.RegisterStatusEffects;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
@@ -66,6 +65,7 @@ public class WardenEntity extends HostileEntity {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(3, new WardenGoal(this, speed));
         this.goalSelector.add(2, new SniffGoal(this, speed));
+        this.goalSelector.add(1, new WardenAttackNearGoal(this));
         this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
 
@@ -172,7 +172,7 @@ public class WardenEntity extends HostileEntity {
 
     /** SUSPICION */
     public void addSuspicion(LivingEntity entity, int suspicion) {
-        if (this.world.getDifficulty().getId() != 0) {
+        if (this.world.getDifficulty().getId() != 0 && !(entity instanceof WardenEntity)) {
             if (!this.entityList.isEmpty()) {
                 if (this.entityList.contains(entity.getUuid().hashCode())) {
                     int slot = this.entityList.indexOf(entity.getUuid().hashCode());
@@ -191,7 +191,7 @@ public class WardenEntity extends HostileEntity {
         }
     }
     public int getSuspicion(Entity entity) {
-        if (!this.entityList.isEmpty() && entity!=null) {
+        if (!this.entityList.isEmpty() && entity!=null && !(entity instanceof WardenEntity)) {
             if (this.entityList.contains(entity.getUuid().hashCode())) {
                 return this.susList.getInt(this.entityList.indexOf(entity.getUuid().hashCode()));
             }
@@ -283,7 +283,7 @@ public class WardenEntity extends HostileEntity {
     }
 
     public boolean tryAttack(Entity target) {
-        if (this.world.getDifficulty().getId()!=0) {
+        if (this.world.getDifficulty().getId()!=0 && !(target instanceof WardenEntity)) {
             boolean bl = target.damage(DamageSource.mob(this), this.getAttackDamage());
             if (bl && this.attackCooldown <= 0) {
                 this.attackTicksLeft1 = 10;
@@ -294,6 +294,21 @@ public class WardenEntity extends HostileEntity {
                 this.attackCooldown = 35;
             } return bl;
         } return false;
+    }
+
+    public LivingEntity getClosestEntity() {
+        Box box = new Box(this.getBlockPos().add(-2.15, -2.15, -2.15), this.getBlockPos().add(2.15, 2.15, 2.15));
+        List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
+        double closest=3;
+        LivingEntity chosen=null;
+        if (!entities.isEmpty()) {
+            for (LivingEntity target : entities) {
+                if (!(target instanceof WardenEntity) && this.squaredDistanceTo(target)<closest) {
+                    closest=this.squaredDistanceTo(target);
+                    chosen=target;
+                }
+            }
+        }return chosen;
     }
 
     /** NBT, VALUES & BOOLEANS */
@@ -310,9 +325,9 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("sniffTicksLeft", this.sniffTicksLeft);
         nbt.putInt("sniffCooldown", this.sniffCooldown);
         nbt.putInt("attackCooldown", this.attackCooldown);
-        nbt.putInt("sniffX", this.sniffX);
-        nbt.putInt("sniffY", this.sniffY);
-        nbt.putInt("sniffZ", this.sniffZ);
+        nbt.putDouble("sniffX", this.sniffX);
+        nbt.putDouble("sniffY", this.sniffY);
+        nbt.putDouble("sniffZ", this.sniffZ);
         nbt.putString("sniffEntity", this.sniffEntity);
         nbt.putInt("nonEntityAnger", this.nonEntityAnger);
         nbt.putLong("timeSinceNonEntity", this.timeSinceNonEntity);
@@ -336,9 +351,9 @@ public class WardenEntity extends HostileEntity {
         this.sniffTicksLeft = nbt.getInt("sniffTicksLeft");
         this.sniffCooldown = nbt.getInt("sniffCooldown");
         this.attackCooldown = nbt.getInt("attackCooldown");
-        this.sniffX = nbt.getInt("sniffX");
-        this.sniffY = nbt.getInt("sniffY");
-        this.sniffZ = nbt.getInt("sniffZ");
+        this.sniffX = nbt.getDouble("sniffX");
+        this.sniffY = nbt.getDouble("sniffY");
+        this.sniffZ = nbt.getDouble("sniffZ");
         this.sniffEntity = nbt.getString("sniffEntity");
         this.nonEntityAnger = nbt.getInt("nonEntityAnger");
         this.timeSinceNonEntity = nbt.getLong("timeSinceNonEntity");
@@ -513,11 +528,7 @@ public class WardenEntity extends HostileEntity {
             if (this.getSniffEntity() != null) {
                 LivingEntity sniffEntity = this.getSniffEntity();
                 this.addSuspicion(sniffEntity, 7);
-                if (sniffEntity != this.getTrackingEntity()) {
-                    this.getNavigation().startMovingTo(this.sniffX, this.sniffY, this.sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.006) + (this.trueOverallAnger() * 0.002)));
-                } else if (sniffEntity == this.getTrackingEntity()) {
-                    this.getNavigation().startMovingTo(this.sniffX, this.sniffY, this.sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.013) + (this.trueOverallAnger() * 0.002)));
-                }
+                this.getNavigation().startMovingTo(this.sniffX, this.sniffY, this.sniffZ, (speed + (MathHelper.clamp(this.getSuspicion(sniffEntity), 0, 45) * 0.006) + (this.trueOverallAnger() * 0.002)));
             }
         }
     }
@@ -528,7 +539,7 @@ public class WardenEntity extends HostileEntity {
             this.timeStuck = 0;
             this.stuckPos = this.getBlockPos();
         }
-        if (this.timeStuck >= 30 && this.hasEmerged && this.world.getTime() - this.vibrationTimer < 120 && this.world.getTime() - this.timeSinceLastRecalculation > 49 && !(this.sniffTicksLeft > 0)) {
+        if (this.timeStuck >= 90 && this.hasEmerged && this.world.getTime() - this.vibrationTimer < 120 && this.world.getTime() - this.timeSinceLastRecalculation > 49 && !(this.sniffTicksLeft > 0)) {
             this.getNavigation().recalculatePath();
             this.timeSinceLastRecalculation = this.world.getTime();
         }
@@ -620,9 +631,9 @@ public class WardenEntity extends HostileEntity {
     public World lasteventworld;
     public LivingEntity lastevententity;
     public LivingEntity navigationEntity;
-    public int sniffX;
-    public int sniffY;
-    public int sniffZ;
+    public double sniffX;
+    public double sniffY;
+    public double sniffZ;
     public int vibX;
     public int vibY;
     public int vibZ;

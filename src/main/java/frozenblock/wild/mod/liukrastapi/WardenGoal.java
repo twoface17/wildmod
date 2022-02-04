@@ -39,7 +39,7 @@ public class WardenGoal extends Goal {
         }
 
         boolean attacker = false;
-        if (this.mob.getAttacker() != null) {
+        if (this.mob.getAttacker() != null && !(this.mob.getAttacker() instanceof WardenEntity)) {
             attacker = true;
             if (this.mob.getAttacker() instanceof PlayerEntity) {
                 attacker = !((PlayerEntity) this.mob.getAttacker()).getAbilities().creativeMode;
@@ -77,7 +77,7 @@ public class WardenGoal extends Goal {
                 exit = !((PlayerEntity) this.mob.lastevententity).getAbilities().creativeMode;
             }
         }
-        if (exit && this.mob.getAttacker() != null) {
+        if (exit && attacker && this.mob.getAttacker() != null && !(this.mob.getAttacker() instanceof WardenEntity)) {
             if (this.mob.getAttacker() instanceof PlayerEntity) {
                 attacker = !((PlayerEntity) this.mob.getAttacker()).getAbilities().creativeMode;
             }
@@ -96,7 +96,7 @@ public class WardenGoal extends Goal {
         BlockPos lasteventpos = this.mob.lasteventpos;
         LivingEntity lastevententity = this.mob.lastevententity;
         boolean attacker = false;
-        if (this.mob.getAttacker() != null) {
+        if (this.mob.getAttacker() != null && !(this.mob.getAttacker() instanceof WardenEntity)) {
             attacker = true;
             if (this.mob.getAttacker() instanceof PlayerEntity) { attacker = !((PlayerEntity) this.mob.getAttacker()).getAbilities().creativeMode; }
         }
