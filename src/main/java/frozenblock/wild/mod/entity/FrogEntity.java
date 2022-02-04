@@ -351,7 +351,7 @@ public class FrogEntity extends AnimalEntity {
                     this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.08F));
                 }
             } else if (this.frog.isOnGround()) {
-                this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.06F));
+                this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.04F));
             }
 
         }
@@ -369,7 +369,7 @@ public class FrogEntity extends AnimalEntity {
                 this.frog.bodyYaw = this.frog.getYaw();
                 float i = (float) (this.speed * this.frog.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED));
                 this.frog.setMovementSpeed(MathHelper.lerp(0.125F, this.frog.getMovementSpeed(), i));
-                this.frog.setVelocity(this.frog.getVelocity().add(0.0D, (double) this.frog.getMovementSpeed() * e * 0.1D, 0.0D));
+                this.frog.setVelocity(this.frog.getVelocity().add(0.0D, (double) this.frog.getMovementSpeed() * e * 0.2D, 0.0D));
             } else {
                 this.frog.setMovementSpeed(0.0F);
             }

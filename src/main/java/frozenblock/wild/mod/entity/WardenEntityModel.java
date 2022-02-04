@@ -33,7 +33,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-        ModelPartData modelPartData1 = modelPartData.addChild("body", ModelPartBuilder.create().uv(0,26).cuboid(-9.0F, -21.0F, -5.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(0.0F,13.0F,0.0F));
+        ModelPartData modelPartData1 = modelPartData.addChild("body", ModelPartBuilder.create().uv(0,26).cuboid(-9.0F, -21.0F, -5.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(0.0F,11.0F,0.0F));
         ModelPartData modelPartData2 = modelPartData1.addChild("head", ModelPartBuilder.create().uv(0,0).cuboid(-8.0F, -16.0F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(0.0F,-21.0F,0.0F));
         modelPartData2.addChild("right_ear", ModelPartBuilder.create().uv(106,36).cuboid(-10.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.001F), ModelTransform.pivot(-8.0F,-12.5F,0.0F));
         modelPartData2.addChild("left_ear", ModelPartBuilder.create().uv(106,46).cuboid(0.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.001F), ModelTransform.pivot(8.0F,-12.5F,0.0F));
@@ -315,9 +315,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         /** SNIFFING */
         if (canSniff) {
             /* Stop Syncing Animations */
-            this.body.pivotY = 11;
+            this.body.pivotY = bodyY;
 
-            this.head.pivotY = -21;
+            this.head.pivotY = headY;
 
             this.left_arm.pivotZ=0;
             this.left_arm.pivotY=-17;
@@ -526,8 +526,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 1.8f, t * 2.16f, 30f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 2.16f, t * 2.52f, -30f / j, digTime)
             );
-            this.body.pivotY = bodyY + (AnimationAPI.easeInOutSine(0, t * 0.6f, 0f, digTime) +
-                    AnimationAPI.easeInOutSine(t * 0.6f, t * 2.88f, +35f, digTime)
+            this.body.pivotY = bodyY + (AnimationAPI.easeInSine(0, t * 0.8f, 0f, digTime) +
+                    AnimationAPI.easeInSine(t * 0.8f, t * 3.88f, +35f, digTime)
             );
 
             /* Head */
@@ -593,8 +593,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 0.2f, t * 0.32f, -32.5f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 0.32f, t * 0.56f, 155f / j, digTime) +
                     AnimationAPI.easeInSine(t * 0.56f, t * 0.88f, -122.5f / j, digTime) +
-                    AnimationAPI.easeOutSine(t * 0.88f, t * 1.0f, -32.5f / j, digTime) +
-                    AnimationAPI.easeInOutSine(t * 1.0f, t * 1.24f, 155f / j, digTime) +
+                    AnimationAPI.easeOutSine(t * 0.88f, t, -32.5f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t, t * 1.24f, 155f / j, digTime) +
                     AnimationAPI.easeInSine(t * 1.24f, t * 1.56f, -122.5f / j, digTime) +
                     AnimationAPI.easeOutSine(t * 1.56f, t * 1.68f, -32.5f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 1.68f, t * 1.92f, 155f / j, digTime) +
@@ -604,8 +604,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 0.2f, t * 0.32f, 0f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 0.32f, t * 0.56f, -17.5f / j, digTime) +
                     AnimationAPI.easeInSine(t * 0.56f, t * 0.88f, 17.5f / j, digTime) +
-                    AnimationAPI.easeOutSine(t * 0.88f, t * 1.0f, 0f / j, digTime) +
-                    AnimationAPI.easeInOutSine(t * 1.0f, t * 1.24f, -17.5f / j, digTime) +
+                    AnimationAPI.easeOutSine(t * 0.88f, t, 0f / j, digTime) +
+                    AnimationAPI.easeInOutSine(t, t * 1.24f, -17.5f / j, digTime) +
                     AnimationAPI.easeInSine(t * 1.24f, t * 1.56f, 17.5f / j, digTime) +
                     AnimationAPI.easeOutSine(t * 1.56f, t * 1.68f, 0f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 1.68f, t * 1.92f, -17.5f / j, digTime) +
@@ -615,8 +615,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 0.2f, t * 0.32f, 22.5f / j, digTime) +
                     AnimationAPI.easeOutSine(t * 0.32f, t * 0.56f, -2.5f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 0.56f, t * 0.88f, -20f / j, digTime) +
-                    AnimationAPI.easeInSine(t * 0.88f, t * 1.0f, 22.5f / j, digTime) +
-                    AnimationAPI.easeOutSine(t * 1.0f, t * 1.24f, -2.5f / j, digTime) +
+                    AnimationAPI.easeInSine(t * 0.88f, t, 22.5f / j, digTime) +
+                    AnimationAPI.easeOutSine(t, t * 1.24f, -2.5f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 1.24f, t * 1.56f, -20f / j, digTime) +
                     AnimationAPI.easeInSine(t * 1.56f, t * 1.68f, 22.5f / j, digTime) +
                     AnimationAPI.easeOutSine(t * 1.68f, t * 1.92f, -2.5f / j, digTime) +
@@ -634,13 +634,13 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             );
 
             /* Left Leg */
-            this.left_leg.pivotY = legY + (AnimationAPI.easeInOutSine(0, t * 0.6f, 0f, digTime) +
-                    AnimationAPI.easeInSine(t * 0.6f, t * 2.88f, +35f, digTime)
+            this.left_leg.pivotY = legY + (AnimationAPI.easeInSine(0, t * 0.8f, 0f, digTime) +
+                    AnimationAPI.easeInSine(t * 0.8f, t * 3.88f, +35f, digTime)
             );
 
             /* Right Leg */
-            this.right_leg.pivotY = legY + (AnimationAPI.easeInOutSine(0, t * 0.6f, 0f, digTime) +
-                    AnimationAPI.easeInSine(t * 0.6f, t * 2.88f, +35f, digTime)
+            this.right_leg.pivotY = legY + (AnimationAPI.easeInSine(0, t * 0.8f, 0f, digTime) +
+                    AnimationAPI.easeInSine(t * 0.8f, t * 3.88f, +35f, digTime)
             );
 
         }

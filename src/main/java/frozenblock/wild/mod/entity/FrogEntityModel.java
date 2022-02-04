@@ -9,6 +9,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 
+import static java.lang.Math.PI;
+
 public class FrogEntityModel extends EntityModel<FrogEntity> {
     private final ModelPart root;
     private final ModelPart main;
@@ -64,6 +66,9 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     public void setAngles(@NotNull FrogEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
         //this.main.pivotY = - 2 + AnimationAPI.easeInOutSine(100, 160, 10, time) + AnimationAPI.easeInOutSine(160, 220, 10, time);
 
+        float t = 2; //Multiplier for animation length
+        float j = (float) (180 / PI); //Converts degrees to radians
+
         if(entity.getTongue() == 10) {
             this.togueBegin = 100;
         } else if(this.togueBegin > 0) {
@@ -75,20 +80,21 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         c = entity;
         this.Animationtime = time;
         float animationspeed = 2F;
-        float defaultmultiplier = 0.7F * limbDistance;
+        float defaultmultiplier = MathHelper.clamp(0.7F * limbDistance,-7.5f,7.5f);
 
         if(!entity.isSubmergedInWater()) { //Walk Animation
             if(entity.isOnGround()) {
-                float rightanimation = (float) MathAddon.cutCos(limbAngle * animationspeed, 0, false) * defaultmultiplier;
-                float leftanimation = (float) MathAddon.cutCos(limbAngle * animationspeed, 0, true) * defaultmultiplier;
 
-                this.main.roll = -2 * rightanimation;
-                this.main.pitch = -rightanimation;
+                float rightanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, false) * defaultmultiplier,-7.5f,7.5f);
+                float leftanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, true) * defaultmultiplier,-7.5f,7.5f);
+
+                this.main.roll = MathHelper.clamp(-2 * rightanimation,-3.75f,3.75f);
+                this.main.pitch = MathHelper.clamp(-rightanimation,-3.75f,3.75f);
 
                 this.right_arm.roll = 2 * rightanimation;
 
-                this.body.roll = leftanimation;
-                this.body.pitch = -leftanimation;
+                this.body.roll = MathHelper.clamp(leftanimation,-3.75f,3.75f);
+                this.body.pitch = MathHelper.clamp(-leftanimation,-3.75f,3.75f);
                 this.left_arm.roll = -leftanimation;
 
                 this.right_arm.pitch = -9 * leftanimation;
@@ -101,11 +107,11 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
                 float translationanimation2 = (float) MathAddon.cutSin(limbAngle * animationspeed, 0, false) * defaultmultiplier;
 
                 if (limbDistance < 0.13) {
-                    this.right_arm.pivotZ = -6.5f - 30 * translationanimation1;
-                    this.left_arm.pivotZ = -6.5f - 30 * translationanimation2;
+                    this.right_arm.pivotZ = -6.5f - 35 * translationanimation1;
+                    this.left_arm.pivotZ = -6.5f - 35 * translationanimation2;
 
-                    this.right_leg.pivotZ = 4 + 30 * translationanimation2;
-                    this.left_leg.pivotZ = 4 + 30 * translationanimation1;
+                    this.right_leg.pivotZ = 4 + 35 * translationanimation2;
+                    this.left_leg.pivotZ = 4 + 35 * translationanimation1;
                 } else {
                     this.right_arm.pivotZ = -6.5f;
                     this.left_arm.pivotZ = -6.5f;
