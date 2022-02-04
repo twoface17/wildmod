@@ -243,10 +243,15 @@ public class SculkGrower {
         return (!SculkTags.SCULK_REPLACEABLE.contains(block) && airOrReplaceableUp(world, blockPos) && !SculkTags.SCULK.contains(block));
     }
     public static boolean airOrReplaceableUp(World world, BlockPos blockPos) {
-        if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock())) {return true;}
+        for (Direction direction : Direction.Type.VERTICAL) {
+            BlockState state = world.getBlockState(blockPos.offset(direction));
+            if (state.hasSidedTransparency() || SculkTags.SCULK_REPLACEABLE.contains(state.getBlock()) || state.isAir()) {
+                return true;
+            }
+        }
         for (Direction direction : Direction.Type.HORIZONTAL) {
             BlockState state = world.getBlockState(blockPos.offset(direction));
-            if (SculkTags.SCULK_REPLACEABLE.contains(state.getBlock()) || state.isAir()) {
+            if (state.hasSidedTransparency() || SculkTags.SCULK_REPLACEABLE.contains(state.getBlock()) || state.isAir()) {
                 return true;
             }
         }
