@@ -13,8 +13,8 @@ import static java.lang.Math.PI;
 public class WardenEntityModel<T extends WardenEntity> extends EntityModel<WardenEntity> {
     private final ModelPart body;
     private final ModelPart head;
-    private final ModelPart right_ear;
-    private final ModelPart left_ear;
+    private final ModelPart right_tendril;
+    private final ModelPart left_tendril;
     private final ModelPart right_arm;
     private final ModelPart left_arm;
     private final ModelPart left_leg;
@@ -25,8 +25,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         this.left_arm = this.body.getChild("left_arm");
         this.right_arm = this.body.getChild("right_arm");
         this.head = this.body.getChild("head");
-        this.left_ear = this.head.getChild("left_ear");
-        this.right_ear = this.head.getChild("right_ear");
+        this.left_tendril = this.head.getChild("left_tendril");
+        this.right_tendril = this.head.getChild("right_tendril");
         this.left_leg = root.getChild("left_leg");
         this.right_leg = root.getChild("right_leg");
     }
@@ -35,8 +35,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData1 = modelPartData.addChild("body", ModelPartBuilder.create().uv(0,26).cuboid(-9.0F, -21.0F, -5.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(0.0F,11.0F,0.0F));
         ModelPartData modelPartData2 = modelPartData1.addChild("head", ModelPartBuilder.create().uv(0,0).cuboid(-8.0F, -16.0F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(0.0F,-21.0F,0.0F));
-        modelPartData2.addChild("right_ear", ModelPartBuilder.create().uv(106,36).cuboid(-10.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.001F), ModelTransform.pivot(-8.0F,-12.5F,0.0F));
-        modelPartData2.addChild("left_ear", ModelPartBuilder.create().uv(106,46).cuboid(0.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.001F), ModelTransform.pivot(8.0F,-12.5F,0.0F));
+        modelPartData2.addChild("right_tendril", ModelPartBuilder.create().uv(106,36).cuboid(-10.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.001F), ModelTransform.pivot(-8.0F,-12.5F,0.0F));
+        modelPartData2.addChild("left_tendril", ModelPartBuilder.create().uv(106,46).cuboid(0.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.001F), ModelTransform.pivot(8.0F,-12.5F,0.0F));
         modelPartData1.addChild("right_arm", ModelPartBuilder.create().uv(52,0).cuboid(-6.0F, -4.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(-11.0F,-17.0F,0.0F));
         modelPartData1.addChild("left_arm", ModelPartBuilder.create().uv(84,0).cuboid(-2.0F, -4.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(11.0F,-17.0F,0.0F));
         modelPartData.addChild("left_leg", ModelPartBuilder.create().uv(82,36).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(6.0F,11.0F,0.0F));
@@ -109,8 +109,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
             this.body.yaw = 0;
 
-            this.left_ear.yaw=0;
-            this.right_ear.yaw=0;
+            this.left_tendril.yaw=0;
+            this.right_tendril.yaw=0;
 
             this.left_leg.pitch=0;
             this.right_leg.pitch=0;
@@ -331,8 +331,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.left_leg.pitch=0;
             this.right_leg.pitch=0;
 
-            this.left_ear.yaw=0;
-            this.right_ear.yaw=0;
+            this.left_tendril.yaw=0;
+            this.right_tendril.yaw=0;
 
             /* Body */
             this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 12.5f / j, sniffTime) +
@@ -421,8 +421,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.left_leg.pitch=0;
             this.right_leg.pitch=0;
 
-            this.left_ear.yaw=0;
-            this.right_ear.yaw=0;
+            this.left_tendril.yaw=0;
+            this.right_tendril.yaw=0;
 
             /* Body */
             this.body.pitch = (AnimationAPI.easeInSine(0, t * 1.32f, -25f / j, roarTime) +
@@ -502,8 +502,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
             this.right_arm.pivotY=-17;
 
-            this.left_ear.yaw=0;
-            this.right_ear.yaw=0;
+            this.left_tendril.yaw=0;
+            this.right_tendril.yaw=0;
 
             /* Body */
             this.body.pitch = (AnimationAPI.easeInOutSine(0, t * 0.36f, 55f / j, digTime) +
@@ -672,9 +672,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         this.head.yaw = MathHelper.clamp(headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * limbDistance / 2, -20, 20);
         this.head.roll = MathHelper.clamp(-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2, -10, 10);
 
-        /* Ears */
-        this.left_ear.yaw = MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.sin(animationProgress / 20) / 5;
-        this.right_ear.yaw = -MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.sin(animationProgress / 20) / 5;
+        /* Tendrils */
+        //this.left_tendril.yaw = MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 + MathHelper.sin(animationProgress / 20) / 5;
+        //this.right_tendril.yaw = -MathHelper.sin(animationProgress / 20 * MathHelper.sin(limbAngle * 0.6662F) * 1.4F * limbDistance) / 5 - MathHelper.sin(animationProgress / 20) / 5;
 
         /* Body */
         this.body.pitch = MathHelper.clamp(-MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20, -35 / j, 10 / j);
