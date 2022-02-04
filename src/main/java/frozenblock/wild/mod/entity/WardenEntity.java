@@ -34,10 +34,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.Vibration;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.event.EntityPositionSource;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSourceType;
@@ -107,6 +104,12 @@ public class WardenEntity extends HostileEntity {
             this.world.sendEntityStatus(this, (byte)8);
         }
         if (this.world.getTime()-this.timeSinceNonEntity>300 && this.nonEntityAnger>0) { --this.nonEntityAnger; }
+        if (world.isClient) {
+            if (world.getLightLevel(LightType.BLOCK, this.getBlockPos())!=this.lastLightLevel) {
+                this.lightTransitionTicks=0;
+            }
+            if (this.lightTransitionTicks<100) { ++this.lightTransitionTicks; }
+        }
         super.tickMovement();
     }
 
@@ -684,6 +687,8 @@ public class WardenEntity extends HostileEntity {
     //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
     public long lastClientHeartBeat; //Status 8
     public long clientSniffStart; //Status 10
+    public int lightTransitionTicks;
+    public int lastLightLevel;
 
     //ANIMATION
     public boolean canEmergeAnim; //Status 9

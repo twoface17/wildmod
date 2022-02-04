@@ -12,6 +12,7 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LightType;
 
@@ -19,7 +20,6 @@ import net.minecraft.world.LightType;
 public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel<WardenEntity>> {
 
     private RenderLayer OVERLAY;
-    private int lightLevel = 1048576;
 
     public WardenEntityOverlayFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
@@ -34,20 +34,25 @@ public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<Ward
         } else {
             OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_overlay.png"));
         }
-        int a = entity.world.getLightLevel(LightType.BLOCK, entity.getBlockPos());
-        int b = entity.world.getLightLevel(LightType.SKY, entity.getBlockPos());
-        int o = Math.max(a, b);
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.OVERLAY);
-        this.getContextModel().render(matrices, vertexConsumer, calculateLight(o), OverlayTexture.DEFAULT_UV, colors(o),colors(o),colors(o), 1.0f);
+        int a = calculateLight(getBlockLight(entity, entity.getBlockPos()));
+        float b = colors(getBlockLight(entity, entity.getBlockPos()));
+        this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b,b,b, 1.0f);
+    }
+    private int getBlockLight(WardenEntity wardenEntity, BlockPos blockPos) {
+        int i = (int)MathHelper.clampedLerp(0.0F, 15.0F, 1.0F - wardenEntity.lightTransitionTicks / 10.0F);
+        return i == 15 ? 15 : Math.max(i, wardenEntity.world.getLightLevel(LightType.BLOCK, blockPos));
     }
 
     private int calculateLight(int light) {
-        float d = (float) ((float) Math.cos((light*lightLevel)/(15728640/3)));
-        return (int) (MathHelper.clamp(d,0,1)) * 15728640;
+        float d = (float) ((float) Math.cos((light*Math.PI)/30));
+        int ret = (int) ((MathHelper.clamp(d,0,1)) * 15728640);
+        return ret;
     }
     private float colors(int light) {
-        float d = (float) ((float) Math.cos((light*lightLevel)/(15728640/3)));
-        return MathHelper.clamp(d,0,1);
+        float d = (float) ((float) Math.cos((light*Math.PI)/30));
+        float a = MathHelper.clamp(d,0,1);
+        return a;
     }
 
         public RenderLayer getEyesTexture() {
