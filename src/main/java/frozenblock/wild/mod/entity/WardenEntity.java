@@ -645,7 +645,7 @@ public class WardenEntity extends HostileEntity {
     public String vibrationEntity="null";
     public int queuedSuspicion;
     //Anger & Heartbeat
-    public int heartbeatTime = 60;
+    public int heartbeatTime = 40;
     public int nonEntityAnger;
     public long nextHeartBeat;
     public long lastHeartBeat;
