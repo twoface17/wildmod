@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "twmplus:sculk_jaw",
     "twm:sculk",
     "twm:sculk_catalyst",
     "minecraft:sculk_sensor",
