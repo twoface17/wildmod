@@ -401,6 +401,9 @@ public class WardenEntity extends HostileEntity {
     /** OVERRIDES & NON-WARDEN-SPECIFIC */
     protected SoundEvent getHurtSound(DamageSource source) {return RegisterSounds.ENTITY_WARDEN_HURT;}
     protected SoundEvent getStepSound() {return RegisterSounds.ENTITY_WARDEN_STEP;}
+    public EntityGroup getGroup() {
+        return EntityGroup.UNDEAD;
+    }
     protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(this.getStepSound(), 1.0F, 1.0F); }
     protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
     protected SoundEvent getDeathSound() { return RegisterSounds.ENTITY_WARDEN_DEATH; }
