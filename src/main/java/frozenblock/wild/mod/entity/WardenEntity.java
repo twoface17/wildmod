@@ -643,7 +643,6 @@ public class WardenEntity extends HostileEntity {
     public String trackingEntity = "null";
     public String sniffEntity = "null";
     public String vibrationEntity="null";
-    public int vibrationTicks;
     public int queuedSuspicion;
     //Anger & Heartbeat
     public int heartbeatTime = 60;
@@ -657,7 +656,7 @@ public class WardenEntity extends HostileEntity {
     public int emergeTicksLeft;
     //Timers
     public long leaveTime;
-    public long vibrationTimer = 0;
+    public long vibrationTimer;
     public int attackCooldown;
     public long reactionSoundTimer;
     public int attackTicksLeft1;
@@ -666,6 +665,7 @@ public class WardenEntity extends HostileEntity {
     public int ticksToDarkness;
     public int attackNearCooldown;
     public int timeToNextSuspicionCheck=200;
+    public int vibrationTicks=-1;
     //Stopwatches
     public long timeSinceNonEntity;
     public int sniffCooldown;
