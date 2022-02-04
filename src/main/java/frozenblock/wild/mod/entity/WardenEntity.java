@@ -111,8 +111,9 @@ public class WardenEntity extends HostileEntity {
     }
 
     public void handleStatus(byte status) {
-        if (!this.isAiDisabled() && status == 4) { //Set Attack Ticks
+        if (!this.isAiDisabled() && status == 4) { //Set Attack Ticks And Set CanAttackAnim Boolean
             this.attackTicksLeft1 = 10;
+            this.canAttackAnim=true;
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 1.0F,1.0F);
         } else if(!this.isAiDisabled() && status == 3) { //Set CanRoarAnim Boolean
             this.canRoarAnim=true;
@@ -143,6 +144,8 @@ public class WardenEntity extends HostileEntity {
             this.stopRoarAnim=true;
         } else if (!this.isAiDisabled() && status == 15) { //Stop Sniff Animation
             this.stopSniffAnim=true;
+        } else if (!this.isAiDisabled() && status == 16) { //Stop Attack Animation
+            this.stopAttackAnim=true;
         } else { super.handleStatus(status); }
     }
 
@@ -697,4 +700,8 @@ public class WardenEntity extends HostileEntity {
     public boolean canRoarAnim; //Status 3
     public boolean stopRoarAnim; //Status 14
     public float roarAnimStartTime=-200;
+
+    public boolean canAttackAnim; //Status 4
+    public boolean stopAttackAnim; //Status 16
+    public float attackAnimStartTime=-200;
 }
