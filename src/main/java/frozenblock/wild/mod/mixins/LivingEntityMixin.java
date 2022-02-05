@@ -43,36 +43,24 @@ public class LivingEntityMixin {
 			if (SculkTags.DROPSXP.contains(entity.getType()) && entity.world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
 				if (Sphere.sphereBlock(RegisterBlocks.SCULK_CATALYST, entity.world, pos, 8)) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
+					int numCatalysts=Sphere.generateSphere(pos, 8, false, entity.world);
+					if (numCatalysts>0) {
 					if (entity.world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
-						int numCatalysts=Sphere.generateSphere(pos, 8, false, entity.world);
 						CatalystThreader.main(entity.world, entity, pos, numCatalysts);
-					} else {
-						int numCatalysts=Sphere.generateSphere(pos, 8, false, entity.world);
-						BlockPos catalyst = getRandomcatalyst(entity.world, pos);
-						if (catalyst!=null) {
-							SculkGrower.sculk(pos, entity.world, entity, catalyst, numCatalysts);
-							int rVal2 = getHighestRadius(entity.world, pos);
-							int activatorLoop = (int) ((48) * Math.sin((rVal2 / 40.75)));
-							new ActivatorGrower().placeActiveOmptim(activatorLoop, rVal2, pos, entity.world);
-						}
+					} else if (!(entity.world.getGameRules().getBoolean(WildMod.SCULK_THREADING))) {
+						SculkGrower.sculk(pos, entity.world, entity, numCatalysts);
+						int rVal2 = getHighestRadius(entity.world, pos);
+						int activatorLoop = (int) ((48) * Math.sin((rVal2 / 40.75)));
+						new ActivatorGrower().placeActiveOmptim(activatorLoop, rVal2, pos, entity.world);
+					}
 					}
 				}
 			}
 		}
 	}
 
-	public BlockPos getRandomcatalyst(World world, BlockPos pos) {
-		for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
-			BlockEntity catalyst = world.getBlockEntity(blockPos);
-			if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-				return blockPos;
-			}
-		}
-		return null;
-	}
-
 	public int getHighestRadius(World world, BlockPos pos) {
-		int current = 0;
+		int current = 3;
 		for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
 			BlockEntity catalyst = world.getBlockEntity(blockPos);
 			if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {

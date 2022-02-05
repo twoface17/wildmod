@@ -237,17 +237,17 @@ class SculkThread extends Thread {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             BlockPos down = blockPos.down();
             if (SculkTags.THREE.contains(entity.getType())) {
-                sculkOptim(3*l, getHighestRadius(world, blockPos), down, world);
+                sculkOptim(3*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.FIVE.contains(entity.getType())) {
-                sculkOptim(5*l, getHighestRadius(world, blockPos), down, world);
+                sculkOptim(5*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.TEN.contains(entity.getType())) {
-                sculkOptim(10*l, getHighestRadius(world, blockPos), down, world);
+                sculkOptim(10*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.TWENTY.contains(entity.getType())) {
-                sculkOptim(20*l, getHighestRadius(world, blockPos), down, world);
+                sculkOptim(20*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.FIFTY.contains(entity.getType())) {
-                sculkOptim(50*l, getHighestRadius(world, blockPos), down, world);
+                sculkOptim(50*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
-                sculkOptim(500*l, getHighestRadius(world, blockPos), down, world);
+                sculkOptim(500*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             }
         }
     }
@@ -365,6 +365,9 @@ class SculkThread extends Thread {
     }
 
     /** CALCULATIONS & CHECKS */
+    public static int firstRadius(World world, int i) {
+        return MathHelper.clamp(i*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 33);
+    }
     public static int getHighestRadius(World world, BlockPos pos) {
         int current = 3;
         for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
