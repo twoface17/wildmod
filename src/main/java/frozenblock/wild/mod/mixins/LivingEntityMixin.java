@@ -5,7 +5,6 @@ import frozenblock.wild.mod.blocks.SculkCatalystBlock;
 import frozenblock.wild.mod.fromAccurateSculk.*;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
-import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -39,9 +38,9 @@ public class LivingEntityMixin {
 		LivingEntity entity = LivingEntity.class.cast(this);
 		++entity.deathTime;
 		if (entity.deathTime == 19 && !entity.world.isClient()) {
-			BlockPos pos = new BlockPos(entity.getBlockPos().getX(), entity.getBlockPos().getY(), entity.getBlockPos().getZ());
+			BlockPos pos = entity.getBlockPos();
 			if (SculkTags.DROPSXP.contains(entity.getType()) && entity.world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
-				if (Sphere.sphereBlock(RegisterBlocks.SCULK_CATALYST, entity.world, pos, 8)) {
+				if (Sphere.sphereBlock(SculkCatalystBlock.SCULK_CATALYST_BLOCK, entity.world, pos, 9)) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 					int numCatalysts=Sphere.generateSphere(pos, 9, false, entity.world);
 					if (numCatalysts>0) {
