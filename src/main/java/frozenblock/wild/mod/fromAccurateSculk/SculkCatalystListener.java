@@ -78,9 +78,7 @@ public class SculkCatalystListener implements GameEventListener {
     }
 
     private boolean shouldActivate(GameEvent gameEvent, @Nullable Entity entity, World world) {
-        if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
-            return !GameEventTags.IGNORE_VIBRATIONS_SNEAKING.contains(gameEvent) || !Objects.requireNonNull(entity).bypassesSteppingEffects();
-        } else return entity != null && gameEvent == RegisterAccurateSculk.DEATH && SculkTags.DROPSXP.contains(entity.getType());
+        return entity != null && gameEvent == RegisterAccurateSculk.DEATH && SculkTags.DROPSXP.contains(entity.getType());
     }
 
     public void pseudoSculk(World world, @Nullable Entity entity) {

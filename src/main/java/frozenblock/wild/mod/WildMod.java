@@ -34,8 +34,6 @@ public class WildMod implements ModInitializer {
             GameRuleRegistry.register("catalystPollution", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
     public static final GameRules.Key<GameRules.BooleanRule> DO_CATALYST_VIBRATIONS =
             GameRuleRegistry.register("catalystVibrations", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
-    public static final GameRules.Key<GameRules.BooleanRule> CATALYST_DETECTS_ALL =
-            GameRuleRegistry.register("catalystDetectsAll", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
     public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_GARGLES =
             GameRuleRegistry.register("shriekerGargles", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
     public static final GameRules.Key<GameRules.IntRule> SCULK_MULTIPLIER =

@@ -248,8 +248,6 @@ class SculkThread extends Thread {
                 sculkOptim(50*l, 50, down, world);
             } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
                 sculkOptim(1000*l, 33, down, world);
-            } else if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
-                sculkOptim((UniformIntProvider.create(1, 7).get(world.getRandom())), (UniformIntProvider.create(1, 7).get(world.getRandom())), down, world);
             }
         }
     }

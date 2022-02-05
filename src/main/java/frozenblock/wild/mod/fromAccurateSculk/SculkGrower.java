@@ -47,8 +47,6 @@ public class SculkGrower {
                 sculkOptim(50*catalysts, 50, down, world, catalystPos);
             } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
                 sculkOptim(500*catalysts, 33, down, world, catalystPos);
-            } else if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
-                sculkOptim((UniformIntProvider.create(1, 7).get(world.getRandom())), (UniformIntProvider.create(1, 7).get(world.getRandom())), down, world, catalystPos);
             }
         }
     }
