@@ -19,7 +19,7 @@ import java.util.Random;
 public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensorListener.Callback {
     private final SculkCatalystListener listener;
     private int lastVibrationFrequency;
-    public int lastSculkRange=3;
+    public int lastSculkRange;
 
     public SculkCatalystBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(NewBlockEntityType.SCULK_CATALYST, blockPos, blockState);

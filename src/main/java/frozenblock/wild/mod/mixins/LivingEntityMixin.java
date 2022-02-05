@@ -43,7 +43,7 @@ public class LivingEntityMixin {
 			if (SculkTags.DROPSXP.contains(entity.getType()) && entity.world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
 				if (Sphere.sphereBlock(RegisterBlocks.SCULK_CATALYST, entity.world, pos, 8)) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
-					int numCatalysts=Sphere.generateSphere(pos, 8, false, entity.world);
+					int numCatalysts=Sphere.generateSphere(pos, 9, false, entity.world);
 					if (numCatalysts>0) {
 					if (entity.world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
 						CatalystThreader.main(entity.world, entity, pos, numCatalysts);
@@ -61,7 +61,7 @@ public class LivingEntityMixin {
 
 	public int getHighestRadius(World world, BlockPos pos) {
 		int current = 3;
-		for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
+		for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
 			BlockEntity catalyst = world.getBlockEntity(blockPos);
 			if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
 				current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);

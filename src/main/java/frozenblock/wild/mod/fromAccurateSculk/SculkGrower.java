@@ -182,21 +182,21 @@ public class SculkGrower {
         return MathHelper.clamp(i*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 33);
     }
     public static void setCatalysts(World world, BlockPos pos, int i) {
-        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
-            BlockEntity catalyst = world.getBlockEntity(blockPos);
-            if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-                if (sculkCatalystBlockEntity.lastSculkRange<i) {
+        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
+            if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+                if (sculkCatalystBlockEntity.lastSculkRange!=i) {
                     sculkCatalystBlockEntity.lastSculkRange=i;
                 }
             }
         }
     }
     public static int getHighestRadius(World world, BlockPos pos) {
-        int current = 3;
-        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
-            BlockEntity catalyst = world.getBlockEntity(blockPos);
-            if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-                current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);
+        int first = 3;
+        int current = 0;
+        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
+            if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+                current=Math.max(first, sculkCatalystBlockEntity.lastSculkRange);
+                first=current;
             }
         }
         return current;
