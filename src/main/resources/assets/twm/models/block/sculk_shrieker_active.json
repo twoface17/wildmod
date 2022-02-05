@@ -2,9 +2,9 @@
 	"ambientocclusion": false,
 	"textures": {
 		"0": "twm:block/sculk_shrieker_bottom",
-		"1": "twm:block/sculk_shrieker_inner_top",
+		"1": "twm:block/sculk_shrieker_inner_top_active",
 		"2": "twm:block/sculk_shrieker_side",
-		"3": "twm:block/sculk_shrieker_top_active",
+		"3": "twm:block/sculk_shrieker_top",
 		"particle": "twm:block/sculk_shrieker_bottom"
 	},
 	"elements": [
