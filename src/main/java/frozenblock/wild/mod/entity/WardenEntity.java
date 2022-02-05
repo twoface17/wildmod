@@ -443,6 +443,8 @@ public class WardenEntity extends HostileEntity {
         this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, -1.0F);
         this.stepHeight = 1.0F;
     }
+    @Override
+    public int getSafeFallDistance() { return 16; }
 
     private float getAttackDamage() { return (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE); }
     public static DefaultAttributeContainer.Builder createWardenAttributes() {return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 31.0D);}
