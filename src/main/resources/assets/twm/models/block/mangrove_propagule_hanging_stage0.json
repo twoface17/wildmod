@@ -1,0 +1,129 @@
+{
+	"ambientocclusion": false,
+	"textures": {
+		"0": "twm:block/mangrove_propagule_hanging",
+		"particle": "twm:block/mangrove_propagule_hanging"
+	},
+	"elements": [
+		{
+			"name": "bud",
+			"from": [7, 9, 7],
+			"to": [9, 13, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 11, 8]},
+			"faces": {
+				"north": {"uv": [2, 0, 4, 4], "texture": "#0"},
+				"east": {"uv": [8, 0, 10, 4], "texture": "#0"},
+				"south": {"uv": [6, 0, 8, 4], "texture": "#0"},
+				"west": {"uv": [4, 0, 6, 4], "texture": "#0"},
+				"up": {"uv": [8, 6, 6, 4], "texture": "#0"},
+				"down": {"uv": [6, 4, 4, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "hypocotyl_ne-sw",
+			"from": [7, 13, 8],
+			"to": [9, 16, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 11, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 3], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 3], "texture": "#0"}
+			}
+		},
+		{
+			"name": "hypocotyl_nw_se",
+			"from": [7, 13, 8],
+			"to": [9, 16, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 11, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 3], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 3], "texture": "#0"}
+			}
+		},
+		{
+			"name": "leaf_n",
+			"from": [7, 12, 5],
+			"to": [9, 12, 7],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 12, 7], "rescale": true},
+			"faces": {
+				"up": {"uv": [2, 4, 4, 6], "rotation": 180, "texture": "#0"},
+				"down": {"uv": [2, 4, 4, 6], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"name": "leaf_e",
+			"from": [9, 12, 7],
+			"to": [11, 12, 9],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [9, 12, 8], "rescale": true},
+			"faces": {
+				"up": {"uv": [2, 4, 4, 6], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [2, 4, 4, 6], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "leaf_s",
+			"from": [7, 12, 9],
+			"to": [9, 12, 11],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 12, 9], "rescale": true},
+			"faces": {
+				"up": {"uv": [2, 4, 4, 6], "texture": "#0"},
+				"down": {"uv": [2, 4, 4, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "leaf_w",
+			"from": [5, 12, 7],
+			"to": [7, 12, 9],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [7, 12, 8], "rescale": true},
+			"faces": {
+				"up": {"uv": [2, 4, 4, 6], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [2, 4, 4, 6], "rotation": 270, "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 225, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		}
+	},
+	"groups": [
+		0,
+		{
+			"name": "hypocotyl",
+			"origin": [8, 5.5, 8],
+			"color": 0,
+			"children": [1, 2]
+		},
+		{
+			"name": "leaves",
+			"origin": [8, 12, 8],
+			"color": 0,
+			"children": [3, 4, 5, 6]
+		}
+	]
+}

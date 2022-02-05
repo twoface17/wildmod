@@ -4,7 +4,7 @@
       "model": "twm:block/mangrove_propagule"
     },
     "hanging=true": {
-      "model": "twm:block/mangrove_propagule_hanging"
+      "model": "twm:block/mangrove_propagule_hanging_stage2"
     }
   }
 }
