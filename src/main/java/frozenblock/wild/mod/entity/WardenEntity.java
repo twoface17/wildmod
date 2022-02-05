@@ -466,7 +466,7 @@ public class WardenEntity extends HostileEntity {
     /** VISUALS */
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
-        this.delay = this.distance = (int)Math.floor(Math.sqrt(warden.getCameraBlockPos().getSquaredDistance(blockPos2, false))) * 2;
+        this.delay = this.distance = (int)Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * 2;
         this.vibrationTicks = this.delay;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
