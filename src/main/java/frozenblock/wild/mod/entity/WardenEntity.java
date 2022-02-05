@@ -464,6 +464,9 @@ public class WardenEntity extends HostileEntity {
         if (this.getSuspicion(other)!=0) {
             this.susList.removeInt(this.entityList.indexOf(other.getUuid().hashCode()));
             this.entityList.removeInt(this.entityList.indexOf(other.getUuid().hashCode()));
+            if (this.getTrackingEntityForRoarNavigation()!=null && other==this.getTrackingEntityForRoarNavigation()) {
+                this.trackingEntity="null";
+            }
         }
     }
 
