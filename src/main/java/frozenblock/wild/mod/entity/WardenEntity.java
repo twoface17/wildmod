@@ -106,9 +106,18 @@ public class WardenEntity extends HostileEntity {
         if (this.world.getTime()-this.timeSinceNonEntity>300 && this.nonEntityAnger>0) { --this.nonEntityAnger; }
         if (world.isClient) {
             if (world.getLightLevel(LightType.BLOCK, this.getBlockPos())!=this.lastLightLevel) {
-                this.lightTransitionTicks=0;
+                int light = world.getLightLevel(LightType.BLOCK, this.getBlockPos());
+                if (light>this.lastLightLevel) {
+                    this.isLightHigher=true;
+                    this.lightTransitionTicks = (int) (100 - (100*(Math.sin((light*Math.PI))/30)));
+                } else {
+                    this.lightTransitionTicks = (int) (100 + (100*(Math.cos((light*Math.PI))/30)));
+                    this.isLightHigher = false;
+                }
+                this.lastLightLevel=light;
             }
-            if (this.lightTransitionTicks<100) { ++this.lightTransitionTicks; }
+            if (this.lightTransitionTicks<100 && !this.isLightHigher) { ++this.lightTransitionTicks; }
+            if (this.lightTransitionTicks>0 && this.isLightHigher) { --this.lightTransitionTicks; }
         }
         super.tickMovement();
     }
@@ -689,6 +698,7 @@ public class WardenEntity extends HostileEntity {
     public long clientSniffStart; //Status 10
     public int lightTransitionTicks;
     public int lastLightLevel;
+    public boolean isLightHigher;
 
     //ANIMATION
     public boolean canEmergeAnim; //Status 9
