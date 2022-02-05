@@ -233,6 +233,7 @@ public class SculkShriekerBlock
         if (!world.isClient && !findWarden(world, blockPos)) {
             world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.ACTIVE)), 3);
             SculkShriekerBlock.updateNeighbors(world, blockPos);
+            ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setStepped(false);
                 if (!world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                     (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
@@ -481,7 +482,11 @@ public class SculkShriekerBlock
             }
             BlockEntity blockEntity = world.getBlockEntity(blockPos);
             if (blockEntity instanceof SculkShriekerBlockEntity shrieker) {
-                addShriek(blockPos, world, shrieker.getLastVibrationFrequency());
+                if (((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).getStepped()) {
+                    addShriek(blockPos, world, 15);
+                } else {
+                    addShriek(blockPos, world, shrieker.getLastVibrationFrequency());
+                }
             } else {
                 addShriek(blockPos, world, 1);
             }

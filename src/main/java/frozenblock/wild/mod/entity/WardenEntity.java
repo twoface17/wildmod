@@ -72,14 +72,14 @@ public class WardenEntity extends HostileEntity {
                 --this.roarTicksLeft1;
                 this.getNavigation().stop();
             }
-            if (this.roarTicksLeft1==0) {
-                this.roarTicksLeft1=-1;
+            if (this.roarTicksLeft1==0 && this.roarOtherCooldown > 0) {
                 LivingEntity lastEvent = this.getTrackingEntityForRoarNavigation();
                 if (lastEvent!=null) {
                     BlockPos roarPos = lastEvent.getBlockPos();
-                    this.getNavigation().startMovingTo(roarPos.getX(), roarPos.getY(), roarPos.getZ(), (speed + (45 * 0.013) + (this.trueOverallAnger() * 0.002)));
+                    this.getNavigation().startMovingTo(roarPos.getX(), roarPos.getY(), roarPos.getZ(), (speed + (45 * 0.01) + (45 * 0.002)));
                 }
             }
+            if (this.roarOtherCooldown > 0) { --this.roarOtherCooldown; }
             if (this.attackCooldown > 0) { --this.attackCooldown; }
             this.tickEmerge();
             this.tickStuck();
@@ -162,7 +162,7 @@ public class WardenEntity extends HostileEntity {
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion, BlockPos vibrationPos) {
         boolean shouldListen = true;
         if (eventEntity instanceof PlayerEntity) { shouldListen = !((PlayerEntity)eventEntity).getAbilities().creativeMode; }
-        if (!this.isAiDisabled() && shouldListen && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23 && this.vibrationTicks==-1) {
+        if (!this.isAiDisabled() && shouldListen && this.roarOtherCooldown<=0 && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 20 && this.vibrationTicks==-1) {
             this.sniffTicksLeft=-1;
             this.vibX = eventPos.getX();
             this.vibY = eventPos.getY();
@@ -174,8 +174,10 @@ public class WardenEntity extends HostileEntity {
             this.hasDetected = true;
             this.leaveTime = this.world.getTime() + 1200;
             this.queuedSuspicion=suspicion;
-            if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);}
-            else { CreateVibration(this.world, this, eventPos); }
+            if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos, false))) * this.vibrationDelayAnger());}
+            else { CreateVibration(this.world, this, eventPos);
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos, false))) * this.vibrationDelayAnger());}
         }
     }
 
@@ -294,6 +296,7 @@ public class WardenEntity extends HostileEntity {
         this.attackTicksLeft1 = 10;
         this.world.sendEntityStatus(this, (byte)3);
         this.roarTicksLeft1 = 70;
+        this.roarOtherCooldown = 130;
     }
 
     public boolean tryAttack(Entity target) {
@@ -351,6 +354,7 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("vibZ", this.vibZ);
         nbt.putInt("queuedSuspicion", this.queuedSuspicion);
         nbt.putInt("attackNearCooldown", this.attackNearCooldown);
+        nbt.putInt("roarOtherCooldown", this.roarOtherCooldown);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -377,6 +381,7 @@ public class WardenEntity extends HostileEntity {
         this.vibZ = nbt.getInt("vibZ");
         this.queuedSuspicion = nbt.getInt("queuedSuspicion");
         this.attackNearCooldown = nbt.getInt("attackNearCooldown");
+        this.roarOtherCooldown = nbt.getInt("roarOtherCooldown");
     }
 
     public int getAttackTicksLeft1() {return this.attackTicksLeft1;}
@@ -441,6 +446,8 @@ public class WardenEntity extends HostileEntity {
         this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, -1.0F);
         this.stepHeight = 1.0F;
     }
+    @Override
+    public int getSafeFallDistance() { return 16; }
 
     private float getAttackDamage() { return (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE); }
     public static DefaultAttributeContainer.Builder createWardenAttributes() {return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 31.0D);}
@@ -460,6 +467,9 @@ public class WardenEntity extends HostileEntity {
         if (this.getSuspicion(other)!=0) {
             this.susList.removeInt(this.entityList.indexOf(other.getUuid().hashCode()));
             this.entityList.removeInt(this.entityList.indexOf(other.getUuid().hashCode()));
+            if (this.getTrackingEntityForRoarNavigation()!=null && other==this.getTrackingEntityForRoarNavigation()) {
+                this.trackingEntity="null";
+            }
         }
     }
 
@@ -467,7 +477,6 @@ public class WardenEntity extends HostileEntity {
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
         this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * this.vibrationDelayAnger());
-        this.vibrationTicks = this.delay;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
     public void digParticles(World world, BlockPos pos, int ticks) {
@@ -655,6 +664,7 @@ public class WardenEntity extends HostileEntity {
     public int sniffTicksLeft;
     public int ticksToDarkness;
     public int attackNearCooldown;
+    public int roarOtherCooldown;
     public int timeToNextSuspicionCheck=200;
     public int vibrationTicks=-1;
     //Stopwatches
