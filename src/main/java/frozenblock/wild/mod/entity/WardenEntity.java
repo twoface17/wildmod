@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.fromAccurateSculk.WardenPositionSource;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.SniffGoal;
 import frozenblock.wild.mod.liukrastapi.WardenGoal;
@@ -35,15 +36,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.*;
-import net.minecraft.world.event.EntityPositionSource;
 import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.PositionSourceType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class WardenEntity extends HostileEntity {
     /** WELCOME TO THE WARDEN MUSEUM
@@ -467,16 +465,7 @@ public class WardenEntity extends HostileEntity {
 
     /** VISUALS */
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
-        EntityPositionSource wardenPositionSource = new EntityPositionSource(this.getId()) {
-            @Override
-            public Optional<BlockPos> getPos(World world) {
-                return Optional.of(warden.getCameraBlockPos());
-            }
-            @Override
-            public PositionSourceType<?> getType() {
-                return PositionSourceType.ENTITY;
-            }
-        };
+        WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
         this.delay = this.distance = (int)Math.floor(Math.sqrt(warden.getCameraBlockPos().getSquaredDistance(blockPos2, false))) * 2;
         this.vibrationTicks = this.delay;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));

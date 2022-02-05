@@ -2,12 +2,14 @@ package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.fromAccurateSculk.NewBlockEntityType;
+import frozenblock.wild.mod.fromAccurateSculk.WardenPositionSource;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.event.PositionSourceType;
 
 public abstract class RegisterAccurateSculk {
     //FROM LUNADE'S MOD ACCURATE SCULK
@@ -31,9 +33,11 @@ public abstract class RegisterAccurateSculk {
     public static final Identifier GARGLE = new Identifier("accuratesculk:gargle");
     public static final GameEvent CLICK = new GameEvent("click", 8);
     public static final GameEvent DEATH = new GameEvent("death", 8);
+    public static final PositionSourceType<WardenPositionSource> WARDEN = new WardenPositionSource.Type();
     public static SoundEvent GARGLE_EVENT = new SoundEvent(GARGLE);
 
     public static void RegisterAccurateSculk() {
+        Registry.register(Registry.POSITION_SOURCE_TYPE, new Identifier(WildMod.MOD_ID, "warden_source"), WARDEN);
         Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "click"), CLICK);
         Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "death"), DEATH);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_shriek"), SCULK_SHRIEK);
