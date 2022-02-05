@@ -216,13 +216,13 @@ public class SculkShriekerBlock
     }
     public static void sendDarkness(int dist, BlockPos blockPos, World world) {
         if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
-            Box box = (new Box(blockPos.add(-10, -10, -10), blockPos.add(10, 10, 10)));
+            Box box = (new Box(blockPos.add(-24, -24, -24), blockPos.add(24, 24, 24)));
             List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
             Iterator<PlayerEntity> var11 = list.iterator();
             PlayerEntity playerEntity;
             while (var11.hasNext()) {
                 playerEntity = var11.next();
-                if (playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
+                if (playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1)) && !playerEntity.getAbilities().creativeMode) {
                     playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 0, true, false, false));
                 }
             }
@@ -476,9 +476,9 @@ public class SculkShriekerBlock
                 world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
             }
             if (world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK) && world.getBlockState(blockPos.down()).getBlock() == RegisterBlocks.SCULK) {
-                sendDarkness(8, blockPos, world);
+                sendDarkness(24, blockPos, world);
             } else if (!world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK)) {
-                sendDarkness(8, blockPos, world);
+                sendDarkness(24, blockPos, world);
             }
             BlockEntity blockEntity = world.getBlockEntity(blockPos);
             if (blockEntity instanceof SculkShriekerBlockEntity shrieker) {
