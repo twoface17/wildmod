@@ -266,7 +266,7 @@ class SculkThread extends Thread {
                 timesFailed=0;
                 groupsFailed=groupsFailed+2;
             }
-            if (rVal2+(groupsFailed-1)>50) {
+            if (sqrt(rVal2+(groupsFailed-1))>50) {
                 break;
             }
         }
