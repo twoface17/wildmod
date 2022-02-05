@@ -2,7 +2,9 @@ package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.SculkBlock;
+import frozenblock.wild.mod.blocks.SculkCatalystBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
+import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -36,17 +38,17 @@ public class SculkGrower {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             BlockPos down = blockPos.down();
             if (SculkTags.THREE.contains(entity.getType())) {
-                sculkOptim(3*catalysts, 4, down, world, catalystPos);
+                sculkOptim(3*catalysts, getHighestRadius(world, blockPos), down, world, catalystPos);
             } else if (SculkTags.FIVE.contains(entity.getType())) {
-                sculkOptim(5*catalysts, 5, down, world, catalystPos);
+                sculkOptim(5*catalysts, getHighestRadius(world, blockPos), down, world, catalystPos);
             } else if (SculkTags.TEN.contains(entity.getType())) {
-                sculkOptim(10*catalysts, 10, down, world, catalystPos);
+                sculkOptim(10*catalysts, getHighestRadius(world, blockPos), down, world, catalystPos);
             } else if (SculkTags.TWENTY.contains(entity.getType())) {
-                sculkOptim(20*catalysts, 20, down, world, catalystPos);
+                sculkOptim(20*catalysts, getHighestRadius(world, blockPos), down, world, catalystPos);
             } else if (SculkTags.FIFTY.contains(entity.getType())) {
-                sculkOptim(50*catalysts, 50, down, world, catalystPos);
+                sculkOptim(50*catalysts, getHighestRadius(world, blockPos), down, world, catalystPos);
             } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
-                sculkOptim(500*catalysts, 33, down, world, catalystPos);
+                sculkOptim(500*catalysts, getHighestRadius(world, blockPos), down, world, catalystPos);
             }
         }
     }
@@ -67,10 +69,12 @@ public class SculkGrower {
                 groupsFailed=groupsFailed+2;
                 BlockEntity catalyst = world.getBlockEntity(catalystPos);
                 if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-                    sculkCatalystBlockEntity.lastSculkRange=rVal2+(groupsFailed-1);
+                    if (sculkCatalystBlockEntity.lastSculkRange<rVal2+(groupsFailed-1)) {
+                        sculkCatalystBlockEntity.lastSculkRange = rVal2 + (groupsFailed - 1);
+                    }
                 }
             }
-            if (rVal2>64) {
+            if (rVal2>50) {
                 break;
             }
         }
@@ -179,6 +183,16 @@ public class SculkGrower {
     }
 
     /** CAlCULATIONS & CHECKS */
+    public static int getHighestRadius(World world, BlockPos pos) {
+        int current = 3;
+        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
+            BlockEntity catalyst = world.getBlockEntity(blockPos);
+            if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+                current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);
+            }
+        }
+        return current;
+    }
     public static BlockPos sculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
         if (checkPt1(blockPos, world)!=null) {
             return checkPt1(blockPos, world);
