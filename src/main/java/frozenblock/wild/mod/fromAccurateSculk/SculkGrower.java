@@ -31,22 +31,22 @@ public class SculkGrower {
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
 
     /** MAIN CODE */
-    public static void sculk(BlockPos blockPos, World world, @Nullable Entity entity, BlockPos catalystPos) { //Choose Amount Of Sculk + Initial Radius
+    public static void sculk(BlockPos blockPos, World world, @Nullable Entity entity, BlockPos catalystPos, int catalysts) { //Choose Amount Of Sculk + Initial Radius
         if (entity!=null) {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             BlockPos down = blockPos.down();
             if (SculkTags.THREE.contains(entity.getType())) {
-                sculkOptim(3, 4, down, world, catalystPos);
+                sculkOptim(3*catalysts, 4, down, world, catalystPos);
             } else if (SculkTags.FIVE.contains(entity.getType())) {
-                sculkOptim(5, 5, down, world, catalystPos);
+                sculkOptim(5*catalysts, 5, down, world, catalystPos);
             } else if (SculkTags.TEN.contains(entity.getType())) {
-                sculkOptim(10, 10, down, world, catalystPos);
+                sculkOptim(10*catalysts, 10, down, world, catalystPos);
             } else if (SculkTags.TWENTY.contains(entity.getType())) {
-                sculkOptim(20, 20, down, world, catalystPos);
+                sculkOptim(20*catalysts, 20, down, world, catalystPos);
             } else if (SculkTags.FIFTY.contains(entity.getType())) {
-                sculkOptim(50, 50, down, world, catalystPos);
+                sculkOptim(50*catalysts, 50, down, world, catalystPos);
             } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
-                sculkOptim(1000, 33, down, world, catalystPos);
+                sculkOptim(500*catalysts, 33, down, world, catalystPos);
             } else if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
                 sculkOptim((UniformIntProvider.create(1, 7).get(world.getRandom())), (UniformIntProvider.create(1, 7).get(world.getRandom())), down, world, catalystPos);
             }

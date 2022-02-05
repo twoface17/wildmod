@@ -47,13 +47,28 @@ public class LivingEntityMixin {
 						int numCatalysts=Sphere.generateSphere(pos, 8, false, entity.world);
 						CatalystThreader.main(entity.world, entity, pos, numCatalysts);
 					} else {
-						int rVal2 = getHighestRadius(entity.world, pos);
-						int activatorLoop = (int) ((48)*Math.sin((rVal2/40.75)));
-						new ActivatorGrower().placeActiveOmptim(activatorLoop, rVal2, pos, entity.world);
+						int numCatalysts=Sphere.generateSphere(pos, 8, false, entity.world);
+						BlockPos catalyst = getRandomcatalyst(entity.world, pos);
+						if (catalyst!=null) {
+							SculkGrower.sculk(pos, entity.world, entity, catalyst, numCatalysts);
+							int rVal2 = getHighestRadius(entity.world, pos);
+							int activatorLoop = (int) ((48) * Math.sin((rVal2 / 40.75)));
+							new ActivatorGrower().placeActiveOmptim(activatorLoop, rVal2, pos, entity.world);
+						}
 					}
 				}
 			}
 		}
+	}
+
+	public BlockPos getRandomcatalyst(World world, BlockPos pos) {
+		for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
+			BlockEntity catalyst = world.getBlockEntity(blockPos);
+			if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+				return blockPos;
+			}
+		}
+		return null;
 	}
 
 	public int getHighestRadius(World world, BlockPos pos) {
