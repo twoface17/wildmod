@@ -3,11 +3,9 @@
   "gamerule.shriekerShrieks": "Shrieker Shrieks",
   "gamerule.catalystPollution": "Do Catalyst Pollution",
   "gamerule.catalystVibrations": "Do Catalyst Vibrations",
-  "gamerule.catalystDetectsAll": "Catalyst Detects Anything",
   "gamerule.shriekerGargles": "Shrieker Gargles",
   "gamerule.spreadMultiplier": "Sculk Growth Multiplier",
   "gamerule.sculkThreading": "Multithreaded Sculk Growths",
-  "gamerule.sculkThreads": "Threads Available to Sculk Growths",
   "gamerule.upwardSpread": "Upward Spread of Sculk Growths",
   "gamerule.downwardSpread": "Downward Spread of Sculk Growths",
   "gamerule.doDarkness": "Darkness Enabled"
