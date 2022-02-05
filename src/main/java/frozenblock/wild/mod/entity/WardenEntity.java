@@ -91,7 +91,6 @@ public class WardenEntity extends HostileEntity {
                 this.ticksToDarkness=100;
             }
             if (this.attackNearCooldown>0) { --this.attackNearCooldown; }
-            tickSuspicion();
         }
         //Heartbeat & Anger
         this.heartbeatTime = (int) (40 - ((MathHelper.clamp(this.trueOverallAnger(),0,50)*0.6)));
@@ -175,12 +174,8 @@ public class WardenEntity extends HostileEntity {
             this.hasDetected = true;
             this.leaveTime = this.world.getTime() + 1200;
             this.queuedSuspicion=suspicion;
-
-            if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);
-                this.vibrationTicks = (int)Math.floor(Math.sqrt(this.getCameraBlockPos().getSquaredDistance(vibrationPos, false))) * 2;
-            } else { CreateVibration(this.world, this, eventPos);
-                this.vibrationTicks = (int)Math.floor(Math.sqrt(this.getCameraBlockPos().getSquaredDistance(eventPos, false))) * 2;
-            }
+            if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);}
+            else { CreateVibration(this.world, this, eventPos); }
         }
     }
 
@@ -232,12 +227,17 @@ public class WardenEntity extends HostileEntity {
             anger = MathHelper.clamp(anger, 0, 50);
         } return anger;
     }
+    public double vibrationDelayAnger() {
+        int a = this.trueOverallAnger();
+        a = a/27;
+        return MathHelper.clamp(2-a,0.1,2);
+    }
     public LivingEntity getTrackingEntity() {
         Box box = new Box(this.getBlockPos().add(-24,-24,-24), this.getBlockPos().add(24,24,24));
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (Objects.equals(this.trackingEntity, target.getUuidAsString()) && MathAddon.distance(target.getX(), target.getY(), target.getZ(), this.getX(), this.getY(), this.getZ()) <= 24) { return target; }
+                if (Objects.equals(this.trackingEntity, target.getUuidAsString()) && !(target instanceof WardenEntity) && MathAddon.distance(target.getX(), target.getY(), target.getZ(), this.getX(), this.getY(), this.getZ()) <= 24) { return target; }
             }
         } return null;
     }
@@ -246,7 +246,7 @@ public class WardenEntity extends HostileEntity {
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (Objects.equals(this.trackingEntity, target.getUuidAsString())) { return target; }
+                if (Objects.equals(this.trackingEntity, target.getUuidAsString()) && !(target instanceof WardenEntity)) { return target; }
             }
         } return null;
     }
@@ -257,7 +257,7 @@ public class WardenEntity extends HostileEntity {
         List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=16 && this.getSuspicion(target)>highest) {
+                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=16 && this.getSuspicion(target)>highest && !(target instanceof WardenEntity)) {
                     highest = this.getSuspicion(target);
                     most = target;
                 }
@@ -271,7 +271,7 @@ public class WardenEntity extends HostileEntity {
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (Objects.equals(this.sniffEntity, target.getUuidAsString())) { return target; }
+                if (Objects.equals(this.sniffEntity, target.getUuidAsString()) && !(target instanceof WardenEntity)) { return target; }
             }
         } return null;
     }
@@ -281,7 +281,7 @@ public class WardenEntity extends HostileEntity {
             List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
             if (!entities.isEmpty()) {
                 for (LivingEntity target : entities) {
-                    if (Objects.equals(this.vibrationEntity, target.getUuidAsString())) {
+                    if (Objects.equals(this.vibrationEntity, target.getUuidAsString()) && !(target instanceof WardenEntity)) {
                         return target;
                     }
                 }
@@ -466,7 +466,7 @@ public class WardenEntity extends HostileEntity {
     /** VISUALS */
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
-        this.delay = this.distance = (int)Math.floor(Math.sqrt(warden.getCameraBlockPos().getSquaredDistance(blockPos2, false))) * 2;
+        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * this.vibrationDelayAnger());
         this.vibrationTicks = this.delay;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
@@ -521,7 +521,7 @@ public class WardenEntity extends HostileEntity {
                 PlayerEntity playerEntity;
                 while (var11.hasNext()) {
                     playerEntity = var11.next();
-                    if (playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
+                    if (!playerEntity.getAbilities().creativeMode && playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
                         playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 0, true, false, false));
                     }
                 }
@@ -569,23 +569,6 @@ public class WardenEntity extends HostileEntity {
             }
         }
     }
-    }
-    public void tickSuspicion() {
-        if (this.timeToNextSuspicionCheck > 0) { --this.timeToNextSuspicionCheck; }
-        if (this.timeToNextSuspicionCheck == 0) {
-            this.timeToNextSuspicionCheck = 100;
-            Box box = new Box(this.getBlockPos().add(-64, -64, -64), this.getBlockPos().add(64, 64, 64));
-            List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
-            if (!entities.isEmpty()) {
-                for (LivingEntity target : entities) {
-                    if (this.squaredDistanceTo(target)>48 && this.getSuspicion(target)!=0 && this.getSuspicion(target)<25) {
-                        int num = target.getUuid().hashCode();
-                        this.susList.removeInt(this.entityList.indexOf(num));
-                        this.entityList.removeInt(this.entityList.indexOf(num));
-                    }
-                }
-            }
-        }
     }
     public void tickVibration() {
         if (this.vibrationTicks>0) {
