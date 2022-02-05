@@ -174,11 +174,8 @@ public class WardenEntity extends HostileEntity {
             this.hasDetected = true;
             this.leaveTime = this.world.getTime() + 1200;
             this.queuedSuspicion=suspicion;
-            if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);
-                this.vibrationTicks = (int)Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos, false))) * 2;
-            } else { CreateVibration(this.world, this, eventPos);
-                this.vibrationTicks = (int)Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos, false))) * 2;
-            }
+            if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);}
+            else { CreateVibration(this.world, this, eventPos); }
         }
     }
 
@@ -229,6 +226,11 @@ public class WardenEntity extends HostileEntity {
             anger = anger + nonEntityAnger;
             anger = MathHelper.clamp(anger, 0, 50);
         } return anger;
+    }
+    public double vibrationDelayAnger() {
+        int a = this.trueOverallAnger();
+        a = a/27;
+        return MathHelper.clamp(2-a,0.1,2);
     }
     public LivingEntity getTrackingEntity() {
         Box box = new Box(this.getBlockPos().add(-24,-24,-24), this.getBlockPos().add(24,24,24));
@@ -464,7 +466,7 @@ public class WardenEntity extends HostileEntity {
     /** VISUALS */
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
-        this.delay = this.distance = (int)Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * 2;
+        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * this.vibrationDelayAnger());
         this.vibrationTicks = this.delay;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
