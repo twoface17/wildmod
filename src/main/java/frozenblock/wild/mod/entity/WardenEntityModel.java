@@ -712,26 +712,26 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         this.right_leg.pivotY=11;
 
         /* Head */
-        this.head.pitch = MathHelper.clamp(headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * limbDistance / 2, -20/j, 20/j);
-        this.head.yaw = MathHelper.clamp(headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * limbDistance / 2, -7.5f/j, 7.5f/j);
-        this.head.roll = MathHelper.clamp(-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * limbDistance / 2, -7.5f/j, 7.5f/j);
+        this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * MathHelper.clamp(limbDistance / 2,0,15f / j);
+        this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * MathHelper.clamp(limbDistance / 2,0,15f / j);
+        this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * MathHelper.clamp(limbDistance / 2,0,15f / j);
 
         /* Body */
-        this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20;
-        this.body.roll = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + MathHelper.cos(animationProgress / 20) / 20, -10/j, 10/j);
+        this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2,0,15f / j) + MathHelper.cos(animationProgress / 20) / 20;
+        this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4,0,4f/j) + MathHelper.cos(animationProgress / 20) / 20;
         /* Right Leg */
-        this.right_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance, -25/j, 25/j);
+        this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance,0,35f/j);
 
         /* Left Leg */
-        this.left_leg.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance, -25/j, 25/j);
+        this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * MathHelper.clamp(limbDistance,0,25f/j);
 
         if (!canAttack) {
             /* Right Arm */
-            this.right_arm.pitch = MathHelper.clamp(-MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * limbDistance / 2 - MathHelper.cos((animationProgress / 20)) / 20, -20F / j, 20F / j);
-            this.right_arm.roll = MathHelper.clamp((-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F, -5F / j, 5F / j);
+            this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * MathHelper.clamp(limbDistance / 2,0,15f/j) - MathHelper.cos((animationProgress / 20)) / 20;
+            this.right_arm.roll = (-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4,0,5f/j) + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F;
             /* Left Arm */
-            this.left_arm.pitch = MathHelper.clamp(MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance / 2 + MathHelper.cos(animationProgress / 20) / 20, -10F / j, 10F / j);
-            this.left_arm.roll = MathHelper.clamp((-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * limbDistance / 4 + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F, -5F / j, 5F / j);
+            this.left_arm.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2,0,10f/j) + MathHelper.cos(animationProgress / 20) / 20;
+            this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * MathHelper.clamp(limbDistance / 4,0,15f/j) + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F;
             } else {
                 this.left_arm.pitch = (AnimationAPI.easeOutSine(t * 0f, t * 0.24f, -120f / j, attackTime) +
                                     AnimationAPI.easeInOutSine(t * 0.24f, t * 0.44f, 120f / j, attackTime));
