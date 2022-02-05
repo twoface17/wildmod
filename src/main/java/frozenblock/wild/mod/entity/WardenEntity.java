@@ -162,7 +162,7 @@ public class WardenEntity extends HostileEntity {
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion, BlockPos vibrationPos) {
         boolean shouldListen = true;
         if (eventEntity instanceof PlayerEntity) { shouldListen = !((PlayerEntity)eventEntity).getAbilities().creativeMode; }
-        if (!this.isAiDisabled() && shouldListen && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 23 && this.vibrationTicks==-1) {
+        if (!this.isAiDisabled() && shouldListen && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 20 && this.vibrationTicks==-1) {
             this.sniffTicksLeft=-1;
             this.vibX = eventPos.getX();
             this.vibY = eventPos.getY();
@@ -174,8 +174,10 @@ public class WardenEntity extends HostileEntity {
             this.hasDetected = true;
             this.leaveTime = this.world.getTime() + 1200;
             this.queuedSuspicion=suspicion;
-            if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);}
-            else { CreateVibration(this.world, this, eventPos); }
+            if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos, false))) * this.vibrationDelayAnger());}
+            else { CreateVibration(this.world, this, eventPos);
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos, false))) * this.vibrationDelayAnger());}
         }
     }
 
@@ -467,7 +469,6 @@ public class WardenEntity extends HostileEntity {
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
         this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * this.vibrationDelayAnger());
-        this.vibrationTicks = this.delay;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
     public void digParticles(World world, BlockPos pos, int ticks) {

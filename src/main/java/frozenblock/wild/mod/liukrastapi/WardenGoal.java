@@ -118,7 +118,7 @@ public class WardenGoal extends Goal {
             } else if (lastevententity != null) {
                     double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
                     double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
-                    this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed + (MathHelper.clamp(this.mob.getSuspicion(lastevententity), 0, 45) * 0.01) + (this.mob.trueOverallAnger() * 0.002)));
+                    this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed + (MathHelper.clamp(this.mob.getSuspicion(lastevententity), 0, 50) * 0.01) + (this.mob.trueOverallAnger() * 0.0045)));
                     if (!(e > d)) {
                         this.mob.tryAttack(lastevententity);
                     }
