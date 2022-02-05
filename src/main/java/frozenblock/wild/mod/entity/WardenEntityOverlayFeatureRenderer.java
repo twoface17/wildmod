@@ -39,17 +39,17 @@ public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<Ward
         float b = colors(getBlockLight(entity, entity.getBlockPos()));
         this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b,b,b, 1.0f);
     }
-    private int getBlockLight(WardenEntity wardenEntity, BlockPos blockPos) {
+    private float getBlockLight(WardenEntity wardenEntity, BlockPos blockPos) {
         int i = (int)MathHelper.clampedLerp(0.0F, 15.0F, 1.0F - wardenEntity.lightTransitionTicks / 10.0F);
         return i == 15 ? 15 : Math.max(i, wardenEntity.world.getLightLevel(LightType.BLOCK, blockPos));
     }
 
-    private int calculateLight(int light) {
+    private int calculateLight(float light) {
         float d = (float) ((float) Math.cos((light*Math.PI)/30));
         int ret = (int) ((MathHelper.clamp(d,0,1)) * 15728640);
         return ret;
     }
-    private float colors(int light) {
+    private float colors(float light) {
         float d = (float) ((float) Math.cos((light*Math.PI)/30));
         float a = MathHelper.clamp(d,0,1);
         return a;
