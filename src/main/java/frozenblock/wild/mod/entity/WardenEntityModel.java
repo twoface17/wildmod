@@ -172,14 +172,15 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.right_leg.pitch=0;
 
             //Body
-            this.body.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.96f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.96f, t * 1.36f, -5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, 5f / j, emergeTime) +
+            this.body.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.48f, 0f / j, emergeTime) +
+                    AnimationAPI.easeInOutSine(t * 0.48f, t * 0.96f, 0f / j, emergeTime) +
+                    AnimationAPI.easeInOutSine(t * 0.96f, t * 1.36f, 5f / j, emergeTime) +
+                    AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, -5f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 1.68f, t * 3.16f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.16f, t * 3.88f, -55f / j, emergeTime) +
+                    AnimationAPI.easeInSine(t * 3.16f, t * 3.88f, 55f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 3.88f, t * 4.68f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 4.68f, t * 5.76f, -12.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0f, t * 0.96f, 67.5f / j, emergeTime)
+                    AnimationAPI.easeInSine(t * 4.68f, t * 5.76f, 12.5f / j, emergeTime) +
+                    AnimationAPI.easeInOutSine(t * 0f, t * 0.96f, -67.5f / j, emergeTime)
             );
             this.body.roll = (AnimationAPI.easeInOutSine(t * 0f, t * 0.01f, -10f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 0.01f, t * 0.48f, 0f / j, emergeTime) +
