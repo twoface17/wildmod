@@ -223,7 +223,7 @@ public class SculkShriekerBlock
             while (var11.hasNext()) {
                 playerEntity = var11.next();
                 if (playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1)) && !playerEntity.getAbilities().creativeMode) {
-                    playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, angerLevel(), true, false, false));
+                    playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, angerLevel()-1, true, false, false));
                 }
             }
         }

@@ -541,7 +541,7 @@ public class WardenEntity extends HostileEntity {
                 while (var11.hasNext()) {
                     playerEntity = var11.next();
                     if (!playerEntity.getAbilities().creativeMode && playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
-                        playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 0, true, false, false));
+                        playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 3, true, false, false));
                     }
                 }
             }
