@@ -566,29 +566,14 @@ public class SculkShriekerBlock
     }
 
     public static void warn(World world, BlockPos blockPos) {
-        if (angerLevel()==1) {
-            double a = random() * 2 * PI;
-            double r = sqrt(16) * sqrt(random());
-            int x = (int) (r * cos(a));
-            int z = (int) (r * sin(a));
-            BlockPos play = blockPos.add(x,0,z);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.2F, 1F);
+        if (angerLevel()<=1) {
+            world.playSound(null, blockPos, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.2F, 1F);
         } else
-        if (angerLevel()==2) {
-            double a = random() * 2 * PI;
-            double r = sqrt(12) * sqrt(random());
-            int x = (int) (r * cos(a));
-            int z = (int) (r * sin(a));
-            BlockPos play = blockPos.add(x,0,z);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.3F, 1F);
+        if (angerLevel()<=2) {
+            world.playSound(null, blockPos, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.2F, 1F);
         } else
-        if (angerLevel()==3) {
-            double a = random() * 2 * PI;
-            double r = sqrt(8) * sqrt(random());
-            int x = (int) (r * cos(a));
-            int z = (int) (r * sin(a));
-            BlockPos play = blockPos.add(x,0,z);
-            world.playSound(null, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.4F, 1F);
+        if (angerLevel()<=3) {
+            world.playSound(null, blockPos, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.2F, 1F);
         }
     }
 
