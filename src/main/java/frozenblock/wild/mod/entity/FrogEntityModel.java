@@ -100,13 +100,13 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
                 float rightanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, false) * defaultmultiplier,-7.5f,7.5f);
                 float leftanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, true) * defaultmultiplier,-7.5f,7.5f);
 
-                this.main.roll = MathHelper.clamp(-2 * rightanimation,-3.75f,3.75f);
-                this.main.pitch = MathHelper.clamp(-rightanimation,-3.75f,3.75f);
+                this.main.roll = MathHelper.clamp(-2 * rightanimation,-7.5f/j,7.5f/j);
+                this.main.pitch = MathHelper.clamp(-rightanimation,-7.5f/j,0);
 
                 this.right_arm.roll = 2 * rightanimation;
 
-                this.body.roll = MathHelper.clamp(leftanimation,-3.75f,3.75f);
-                this.body.pitch = MathHelper.clamp(-leftanimation,-3.75f,3.75f);
+                this.body.roll = MathHelper.clamp(leftanimation,-7.5f/j,7.5f/j);
+                this.body.pitch = MathHelper.clamp(-leftanimation,-7.5f/j,7.5f/j);
                 this.left_arm.roll = -leftanimation;
 
                 this.right_arm.pitch = -9 * leftanimation;
