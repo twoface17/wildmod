@@ -172,24 +172,19 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.right_leg.pitch=0;
 
             //Body
-            this.body.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.48f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.48f, t * 0.96f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.96f, t * 1.36f, 5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, -5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.68f, t * 3.16f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.16f, t * 3.88f, 55f / j, emergeTime) +
+            this.body.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 3.16f, 0f / j, emergeTime) +
+                    AnimationAPI.easeInSine(t * 3.16f, t * 3.88f, -55f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 3.88f, t * 4.68f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 4.68f, t * 5.76f, 12.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0f, t * 0.96f, -67.5f / j, emergeTime)
+                    AnimationAPI.easeInSine(t * 4.68f, t * 5.76f, -12.5f / j, emergeTime) +
+                    AnimationAPI.easeInOutSine(t * 0f, t * 0.96f, 67.5f / j, emergeTime)
             );
-            this.body.roll = (AnimationAPI.easeInOutSine(t * 0f, t * 0.01f, -10f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.01f, t * 0.48f, 0f / j, emergeTime) +
+            this.body.roll = -10 / j + (AnimationAPI.easeInOutSine(t * 0f, t * 0.48f, 0f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 0.48f, t * 0.96f, -7.5f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 0.96f, t * 1.36f, 7f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, 10.5f / j, emergeTime)
             );
-            this.body.pivotY = bodyY + 53f + (AnimationAPI.easeInOutSine(t * 0f, t * 0.64f, 0f, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 0.64f, t * 1.08f, -29f, emergeTime) +
+            this.body.pivotY = bodyY + 55 + (AnimationAPI.easeInOutSine(t * 0f, t * 0.64f, 0f, emergeTime) +
+                    AnimationAPI.easeOutSine(t * 0.64f, t * 1.08f, -30f, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 1.08f, t * 2.76f, 0f, emergeTime) +
                     AnimationAPI.easeInSine(t * 2.76f, t * 3.88f, -21f, emergeTime) +
                     AnimationAPI.easeInSine(t * 3.88f, t * 4.12f, +1f, emergeTime) +
