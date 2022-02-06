@@ -263,11 +263,11 @@ public class FrogEntity extends AnimalEntity {
     }
 
     protected SoundEvent getStepSound() {
-        return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;
+        return RegisterSounds.ENTITY_FROG_STEP;
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(this.getStepSound(), 0.15F, 1.0F);
+        this.playSound(this.getStepSound(), 0.5F, 1.0F);
     }
 
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {

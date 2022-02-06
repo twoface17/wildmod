@@ -651,6 +651,15 @@
 		],
 		"subtitle": "subtitles.entity.twm.frog.long_jump"
 	},
+	"entity.frog.step": {
+		"sounds": [
+			"twm:entity/frog/step1",
+			"twm:entity/frog/step2",
+			"twm:entity/frog/step3",
+			"twm:entity/frog/step4"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
 	"entity.frog.tongue": {
 		"sounds": [
 			{

@@ -67,6 +67,7 @@ public class RegisterSounds { //Register sound definitions
         public static SoundEvent ENTITY_FROG_EAT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.eat"));
         public static SoundEvent ENTITY_FROG_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.hurt"));
         public static SoundEvent ENTITY_FROG_LONG_JUMP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.long_jump"));
+    public static SoundEvent ENTITY_FROG_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.step"));
         public static SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
     //Warden
         public static SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
@@ -164,6 +165,7 @@ public class RegisterSounds { //Register sound definitions
         ENTITY_FROG_EAT = register(ENTITY_FROG_EAT.getId());
         ENTITY_FROG_HURT = register(ENTITY_FROG_HURT.getId());
         ENTITY_FROG_LONG_JUMP = register(ENTITY_FROG_LONG_JUMP.getId());
+        ENTITY_FROG_STEP = register(ENTITY_FROG_STEP.getId());
         ENTITY_FROG_TONGUE = register(ENTITY_FROG_TONGUE.getId());
 
         //Warden
