@@ -94,8 +94,8 @@ public class SimpleGameEventDispatcherMixin{
                     evententity = null;
                 }
             }
-
-            if(eventpos != null && eventworld != null && evententity != null) {
+            boolean bl1 = evententity != null || event==GameEvent.EAT || event==GameEvent.HIT_GROUND;
+            if(eventpos != null && eventworld != null && bl1) {
                 List<WardenEntity> wardens = this.world.getNonSpectatingEntities(WardenEntity.class, new Box(
                         eventpos.getX() -16, eventpos.getY() -16, eventpos.getZ() -16,
                         eventpos.getX() +16, eventpos.getY() +16, eventpos.getZ() +16)
@@ -109,7 +109,8 @@ public class SimpleGameEventDispatcherMixin{
                             wardie.getEntityWorld() == eventworld &&
                             MathAddon.distance(eventpos.getX(), eventpos.getY(), eventpos.getZ(), wardie.getX(), wardie.getY(), wardie.getZ()) <= 15
                     ) {
-                        if (event!=GameEvent.PROJECTILE_LAND) {
+                        boolean bl2 = event==GameEvent.HIT_GROUND && evententity==null;
+                        if (event!=GameEvent.PROJECTILE_LAND && event!=GameEvent.EAT && !bl2) {
                             wardie.listen(eventpos, eventworld, evententity, wardie.eventSuspicionValue(event, evententity), null);
                         } else {
                             wardie.listen(eventpos, eventworld, null, 0, null);
