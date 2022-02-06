@@ -161,6 +161,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             /* Stop Syncing Animations */
             this.head.yaw = 0;
             this.head.pivotY = headY;
+            this.head.pivotZ = 0;
 
             this.body.yaw = 0;
 
@@ -373,6 +374,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.body.pivotY = bodyY;
 
             this.head.pivotY = headY;
+            this.head.pivotZ = 0;
 
             this.left_arm.pivotZ=0;
             this.left_arm.pivotY=-17;
@@ -403,27 +405,27 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             /* Head */
             this.head.pitch = (AnimationAPI.easeInOutSine(0, t * 0.52f, -5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -15f / j, sniffTime) +
-                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, 15f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.72f, t * 0.92f, 15f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -15f / j, sniffTime) +
-                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, 15f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.12f, t * 1.32f, 15f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -15f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, 15f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 5f / j, sniffTime)
             );
             this.head.yaw = (AnimationAPI.easeInOutSine(0, t * 0.52f, 27.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -15f / j, sniffTime) +
-                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, -5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.72f, t * 0.92f, -5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -7.5f / j, sniffTime) +
-                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, -7.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.12f, t * 1.32f, -7.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, -7.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 20f / j, sniffTime)
             );
             this.head.roll = (AnimationAPI.easeInOutSine(0, t * 0.52f, 12.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -7.5f / j, sniffTime) +
-                    AnimationAPI.easeInSine(t * 0.72f, t * 0.92f, -2.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 0.72f, t * 0.92f, -2.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.92f, t * 1.12f, -2.5f / j, sniffTime) +
-                    AnimationAPI.easeInSine(t * 1.12f, t * 1.32f, -2.5f / j, sniffTime) +
+                    AnimationAPI.easeInOutSine(t * 1.12f, t * 1.32f, -2.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 1.32f, t * 1.52f, -2.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 1.52f, t * 1.8f, 0f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 5f / j, sniffTime)
@@ -701,6 +703,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         //Attack Animation Handler
         /* Stop Syncing Animations */
         this.head.pivotY = -21;
+        this.head.pivotZ = 0;
 
         this.body.yaw = 0;
         this.body.pivotY = 11;
