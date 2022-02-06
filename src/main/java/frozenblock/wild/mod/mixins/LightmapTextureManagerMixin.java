@@ -12,6 +12,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -44,6 +45,7 @@ public class LightmapTextureManagerMixin {
     public double soundTime;
     public boolean shouldPlay=true;
     public int lastDark;
+    public int lastDarkTime;
 
     @Inject(at = @At("HEAD"), method = "tick")
     public void tick(CallbackInfo ci) {
@@ -51,14 +53,18 @@ public class LightmapTextureManagerMixin {
             time = time + 0.075/2;
             ++soundTime;
             MathAddon.time = time;
+            int darkTime = Objects.requireNonNull(this.client.player.getStatusEffect(RegisterStatusEffects.DARKNESS)).getDuration();
             int angerLevel = Objects.requireNonNull(this.client.player.getStatusEffect(RegisterStatusEffects.DARKNESS)).getAmplifier();
             if (angerLevel!=lastDark) {
                 lastDark=angerLevel;
                 shouldPlay=true;
             }
-            double soundTimer = Math.cos((soundTime*PI)/80);
+            if (lastDarkTime<darkTime || angerLevel==3) {
+                shouldPlay=true;
+            }
+            double soundTimer = Math.cos((soundTime*PI)/80); //Can Someone Please Find A Way To Get This To Sync With The Fog Pulsing?
             if (soundTimer==-1 && shouldPlay) {
-                if (angerLevel == 1) {
+                if (angerLevel == 0) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
                     double r = sqrt(16) * sqrt(random());
@@ -66,8 +72,8 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.4F, 1F);
-                } else if (angerLevel == 2) {
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.AMBIENT, 0.4F, 1F);
+                } else if (angerLevel == 1) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
                     double r = sqrt(12) * sqrt(random());
@@ -75,8 +81,8 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.6F, 1F);
-                } else if (angerLevel == 3) {
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 0.6F, 1F);
+                } else if (angerLevel == 2) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
                     double r = sqrt(8) * sqrt(random());
@@ -84,9 +90,19 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.8F, 1F);
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.AMBIENT, 0.8F, 1F);
+                } else if (angerLevel == 3) { //WARDEN DARKNESS
+                    shouldPlay=false;
+                    double a = random() * 2 * PI;
+                    double r = sqrt(16) * sqrt(random());
+                    int x = (int) (r * cos(a));
+                    int z = (int) (r * sin(a));
+                    BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
+                    assert this.client.world != null;
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 0.05F, 1F);
                 }
             }
+            lastDarkTime=darkTime;
         } else {
             time = 0;
             soundTime=0;
@@ -102,7 +118,7 @@ public class LightmapTextureManagerMixin {
 
         assert this.client.player != null;
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            dark = MathAddon.cutCos(time, 0, true) * 1.6;
+            dark = MathAddon.cutCos(time, 0, true) + MathHelper.lerpFromProgress(time, 0, 0.5f, 0, 0.6);
         } else {
             dark = 0;
         }
