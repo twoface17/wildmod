@@ -206,7 +206,7 @@ public class SculkGrower {
         int current = 0;
         for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
             if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-                current=Math.max(first, (sculkCatalystBlockEntity.lastSculkRange)/2);
+                current= (int) Math.max(first, (sculkCatalystBlockEntity.lastSculkRange)/(2*Math.cos((sculkCatalystBlockEntity.lastSculkRange*Math.PI)/175)));
                 first=current;
             }
         }
