@@ -213,11 +213,9 @@ public class SculkGrower {
         return current;
     }
     public static BlockPos sculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
-        if (checkPt2(blockPos, world)!=null) {
-            return checkPt2(blockPos, world);
-        } else if (checkPt1(blockPos, world)!=null) {
-            return checkPt1(blockPos, world);
-        } else { return null; }
+        BlockPos check = checkPt2(blockPos, world);
+        if (check!=null) { return check; }
+        return checkPt1(blockPos, world);
     }
     public static BlockPos checkPt1(BlockPos blockPos, World world) { //Check For Valid Placement Above
         int upward = world.getGameRules().getInt(WildMod.UPWARD_SPREAD);
