@@ -50,7 +50,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float t = 2; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
 
-        /** STARTING ANIMATIONS */
+        /* STARTING ANIMATIONS */
         if (entity.canEmergeAnim) {
             entity.emergeAnimStartTime = animationProgress;
             entity.canEmergeAnim=false;
@@ -75,7 +75,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             entity.tendrilAnimStartTime = animationProgress;
             entity.canTendrilAnim=false;
         }
-        /** CANCELLING ANIMATIONS (TWITTER) */
+        /* CANCELLING ANIMATIONS (TWITTER) */
         if (entity.stopEmergeAnim) {
             entity.emergeAnimStartTime = -200;
             entity.stopEmergeAnim=false;
@@ -116,7 +116,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float armY = -17;
         float headY = -21; //Default pivots
 
-        /** TENDRIL CLICK */
+        /* TENDRIL CLICK */
         if (canTendril) {
             //Left Tendril
             this.left_tendril.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 35 / j, tendrilTime) +
@@ -155,7 +155,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.left_tendril.yaw = 0;
         }
 
-        /** EMERGE */
+        /* EMERGE */
         if (canEmerge) {
 
             /* Stop Syncing Animations */
@@ -171,7 +171,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.left_leg.pitch=0;
             this.right_leg.pitch=0;
 
-            /* Body */
+            //Body
             this.body.pivotY = bodyY + 55 + (AnimationAPI.easeOutSine(t * 0f, t * 0.68f, 0f, emergeTime) +
                     AnimationAPI.easeOutSine(t * 0.68f, t * 1.04f, -30f, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.04f, t * 1.2f, +2f, emergeTime) +
@@ -198,7 +198,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 6.04f, t * 7.44f, -67.5f / j, emergeTime)
             );
 
-            /* Head */
+            //Head
             this.head.pitch = 95 / j + (AnimationAPI.easeOutSine(0, t * 0.76f, 0 / j, emergeTime) +
                     AnimationAPI.easeOutSine(t * 0.76f, t * 1.2f, -120f / j, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.2f, t * 1.44f, 22.5f / j, emergeTime) +
@@ -215,7 +215,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeOutSine(t * 1.44f, t * 1.84f, -2.5f / j, emergeTime)
             );
 
-            /* Left Leg */
+            //Left Leg
             this.left_leg.pivotY = legY + 55 + (AnimationAPI.easeOutSine(t * 0f, t * 0.68f, 0f, emergeTime) +
                     AnimationAPI.easeOutSine(t * 0.68f, t * 1.04f, -30f, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.04f, t * 1.2f, +2f, emergeTime) +
@@ -226,7 +226,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 5.48f, t * 5.84f, -5f, emergeTime)
             );
 
-            /* Right Leg */
+            //Right Leg
             this.right_leg.pivotY = legY + 55 + (AnimationAPI.easeOutSine(t * 0f, t * 0.68f, 0f, emergeTime) +
                     AnimationAPI.easeOutSine(t * 0.68f, t * 1.04f, -30f, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.04f, t * 1.2f, +2f, emergeTime) +
@@ -237,7 +237,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 5.48f, t * 5.84f, -5f, emergeTime)
             );
 
-            /* Left Arm */
+            //Left Arm
             this.left_arm.pivotY = armY + (AnimationAPI.easeOutSine(t * 0f, t * 0.48f, -25f, emergeTime) +
                     AnimationAPI.easeInSine(t * 0.48f, t * 0.85f, +23f, emergeTime) +
                     AnimationAPI.easeInSine(t * 0.85f, t * 1.08f, 0f, emergeTime) +
@@ -319,7 +319,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 6.12f, t * 6.96f, -3.5f / j, emergeTime)
             );
 
-            /* Right Arm */
+            //Right Arm
             this.right_arm.pivotY = armY + (AnimationAPI.easeOutSine(t * 0f, t * 1.24f, 0f, emergeTime) +
                     AnimationAPI.easeOutSine(t * 1.24f, t * 1.48f, -4.4f, emergeTime) +
                     AnimationAPI.easeInSine(t * 1.48f, t * 1.64f, +0.4f, emergeTime) +
@@ -368,7 +368,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 1.6f, t * 1.76f, 15f / j, emergeTime)
             );
         }
-        /** SNIFFING */
+        /* SNIFFING */
         if (canSniff) {
             /* Stop Syncing Animations */
             this.body.pivotY = bodyY;
@@ -388,7 +388,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.left_leg.pitch=0;
             this.right_leg.pitch=0;
 
-            /* Body */
+            //Body
             this.body.pitch = (AnimationAPI.easeOutSine(0, t * 0.52f, 12.5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 2.08f, 0f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.55f, -12.5f / j, sniffTime)
@@ -402,7 +402,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.55f, 7.5f / j, sniffTime)
             );
 
-            /* Head */
+            //Head
             this.head.pitch = (AnimationAPI.easeInOutSine(0, t * 0.52f, -5f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.52f, t * 0.72f, -15f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.72f, t * 0.92f, 15f / j, sniffTime) +
@@ -431,7 +431,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 1.8f, t * 2.64f, 5f / j, sniffTime)
             );
 
-            /* Left Arm */
+            //Left Arm
             this.left_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.4f, 30f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, -48f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, sniffTime)
@@ -445,7 +445,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, 18f / j, sniffTime)
             );
 
-            /* Right Arm */
+            //Right Arm
             this.right_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.4f, -10f / j, sniffTime) +
                     AnimationAPI.easeInOutSine(t * 0.4f, t * 2.08f, 10f / j, sniffTime)
             );
@@ -458,7 +458,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.08f, t * 2.56f, -25f / j, sniffTime)
             );
         }
-        /**ROARING*/
+        /*ROARING*/
         if (canRoar) {
             /* Stop Syncing Animations */
             this.body.pivotY = 11;
@@ -480,7 +480,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.left_leg.pitch=0;
             this.right_leg.pitch=0;
 
-            /* Body */
+            //Body
             this.body.pitch = (AnimationAPI.easeInSine(0, t * 1.32f, -25f / j, roarTime) +
                     AnimationAPI.easeOutSine(t * 1.32f, t * 1.72f, 75f / j, roarTime) +
                     AnimationAPI.easeInOutSine(t * 1.72f, t * 2.4f, -5f / j, roarTime) +
@@ -488,7 +488,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.96f, t * 3.48f, -47f / j, roarTime)
             );
 
-            /* Head */
+            //Head
             this.head.pitch = (AnimationAPI.easeInOutSine(0, t * 1.32f, 32f / j, roarTime) +
                     AnimationAPI.easeInOutSine(t * 1.32f, t * 1.64f, -82f / j, roarTime) +
                     AnimationAPI.easeInOutSine(t * 1.64f, t * 1.92f, 5f / j, roarTime) +
@@ -506,7 +506,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.96f, t * 3.48f, 7f, roarTime)
             );
 
-            /* Left Arm */
+            //Left Arm
             this.left_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 1.12f, -102.5f / j, roarTime) +
                     AnimationAPI.easeInOutSine(t * 1.12f, t * 1.32f, 0f / j, roarTime) +
                     AnimationAPI.easeInOutSine(t * 1.32f, t * 1.72f, 168.5f / j, roarTime) +
@@ -528,7 +528,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 3.08f, t * 3.52f, 62f / j, roarTime)
             );
 
-            /* Right Arm */
+            //Right Arm
             this.right_arm.pitch = (AnimationAPI.easeInOutSine(0, t * 0.12f, 0f / j, roarTime) +
                     AnimationAPI.easeInOutSine(t * 0.12f, t * 1.32f, -102.5f / j, roarTime) +
                     AnimationAPI.easeInOutSine(t * 1.32f, t * 1.72f, 168.5f / j, roarTime) +
@@ -551,14 +551,14 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             );
 
         }
-        /** DIGGING */
+        /* DIGGING */
         if (canDig) {
             /* Stop Syncing Animations */
             this.left_arm.pivotY=-17;
 
             this.right_arm.pivotY=-17;
 
-            /* Body */
+            //Body
             this.body.pitch = (AnimationAPI.easeInOutSine(0, t * 0.36f, 55f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 0.36f, t * 0.6f, 0f / j, digTime) +
                     AnimationAPI.easeInSine(t * 0.6f, t * 4.16f, 25f / j, digTime)
@@ -583,7 +583,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 0.8f, t * 3.88f, +35f, digTime)
             );
 
-            /* Head */
+            //Head
             this.head.pitch = (AnimationAPI.easeInOutSine(0, t * 0.44f, 15f / j, digTime)
             );
             this.head.yaw = (AnimationAPI.easeInOutSine(0, t * 0.44f, 15f / j, digTime) +
@@ -595,7 +595,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.28f, t * 2.64f, 30f / j, digTime)
             );
 
-            /* Left Arm */
+            //Left Arm
             this.left_arm.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.4f, 0f / j, digTime) +
                     AnimationAPI.easeInSine(t * 0.4f, t * 0.6f, -62.5f / j, digTime) +
                     AnimationAPI.easeOutSine(t * 0.6f, t * 0.72f, -32.5f / j, digTime) +
@@ -641,7 +641,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 1.96f, t * 2.32f, -8f / j, digTime)
             );
 
-            /* Right Arm */
+            //Right Arm
             this.right_arm.pitch = (AnimationAPI.easeInSine(t * 0f, t * 0.2f, -62.5f / j, digTime) +
                     AnimationAPI.easeOutSine(t * 0.2f, t * 0.32f, -32.5f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 0.32f, t * 0.56f, 155f / j, digTime) +
@@ -686,12 +686,12 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.24f, t * 2.6f, -8f / j, digTime)
             );
 
-            /* Left Leg */
+            //Left Leg
             this.left_leg.pivotY = legY + (AnimationAPI.easeInSine(0, t * 0.8f, 0f, digTime) +
                     AnimationAPI.easeInSine(t * 0.8f, t * 3.88f, +35f, digTime)
             );
 
-            /* Right Leg */
+            //Right Leg
             this.right_leg.pivotY = legY + (AnimationAPI.easeInSine(0, t * 0.8f, 0f, digTime) +
                     AnimationAPI.easeInSine(t * 0.8f, t * 3.88f, +35f, digTime)
             );
@@ -719,26 +719,26 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         this.left_leg.pivotY=11;
         this.right_leg.pivotY=11;
 
-        /* Head */
+        //Head
         this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * MathHelper.clamp(limbDistance / 2,0,15f / j);
         this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * MathHelper.clamp(limbDistance / 2,0,15f / j);
         this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * MathHelper.clamp(limbDistance / 2,0,15f / j);
 
-        /* Body */
+        //Body
         this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2,0,15f / j) + MathHelper.cos(animationProgress / 20) / 20;
         this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4,0,4f/j) + MathHelper.cos(animationProgress / 20) / 20;
-        /* Right Leg */
+        //Right Leg
         this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance,0,35f/j);
 
-        /* Left Leg */
+        //Left Leg
         this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * MathHelper.clamp(limbDistance,0,25f/j);
 
-        /* Left Arm */
+        //Left Arm
         this.left_arm.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2,0,10f/j) + MathHelper.cos(animationProgress / 20) / 20;
         this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * MathHelper.clamp(limbDistance / 4,0,15f/j) + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F;
 
         if (!canAttack) {
-            /* Right Arm */
+            //Right Arm
             this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * MathHelper.clamp(limbDistance / 2,0,15f/j) - MathHelper.cos((animationProgress / 20)) / 20;
             this.right_arm.roll = (-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4,0,5f/j) + (-MathHelper.sin(animationProgress / 20) / 20)) + 0.05F;
             } else {
