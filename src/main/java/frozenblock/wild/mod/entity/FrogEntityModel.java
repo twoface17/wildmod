@@ -69,6 +69,18 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         float t = 2; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
 
+        /** STARTING ANIMATIONS */
+        if (entity.canEatAnim) {
+            entity.eatAnimStartTime = time;
+            entity.canEatAnim=false;
+        }
+
+        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 150 /*EDIT THIS*/) / 10;
+
+        boolean canEat = eatTime != 0;
+
+
+
         if(entity.getTongue() == 10) {
             this.togueBegin = 100;
         } else if(this.togueBegin > 0) {
