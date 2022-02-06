@@ -66,35 +66,47 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     public void setAngles(@NotNull FrogEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
         //this.main.pivotY = - 2 + AnimationAPI.easeInOutSine(100, 160, 10, time) + AnimationAPI.easeInOutSine(160, 220, 10, time);
 
-        float t = 2; //Multiplier for animation length
+        float t = 4f; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
 
-        if(entity.getTongue() == 10) {
-            this.togueBegin = 100;
-        } else if(this.togueBegin > 0) {
-            this.togueBegin = this.togueBegin - 0.6f;
+        /* STARTING ANIMATIONS */
+        if (entity.canEatAnim) {
+            entity.eatAnimStartTime = time;
+            entity.canEatAnim=false;
         }
-        this.tongue.pivotZ = -this.togueBegin/15;
-        this.head.pitch = -this.togueBegin/100;
+
+        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 10) / 10;
+
+        boolean canEat = eatTime != 0;
+
+        if(canEat) { //Eat animation
+            this.head.pitch = (AnimationAPI.linear(t * 0f, t * 0.0833f, -60f / j, eatTime) +
+                    AnimationAPI.linear(t * 0.0833f, t * 0.04167f, 0f / j, eatTime) +
+                    AnimationAPI.linear(t * 0.04167f, t * 0.05f, 60f / j, eatTime)
+            );
+            this.tongue.pitch = (AnimationAPI.linear(t * 0f, t * 0.0833f, 0f / j, eatTime) +
+                    AnimationAPI.linear(t * 0.0833f, t * 0.04167f, -18f / j, eatTime) +
+                    AnimationAPI.linear(t * 0.04167f, t * 0.05f, 18f / j, eatTime)
+            );
+        }
 
         c = entity;
         this.Animationtime = time;
         float animationspeed = 2F;
-        float defaultmultiplier = MathHelper.clamp(0.7F * limbDistance,-7.5f,7.5f);
+        float defaultmultiplier = MathHelper.clamp(0.7F * limbDistance,-7.5f/j,7.5f/j);
 
         if(!entity.isSubmergedInWater()) { //Walk Animation
             if(entity.isOnGround()) {
-
                 float rightanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, false) * defaultmultiplier,-7.5f,7.5f);
                 float leftanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, true) * defaultmultiplier,-7.5f,7.5f);
 
-                this.main.roll = MathHelper.clamp(-2 * rightanimation,-3.75f,3.75f);
-                this.main.pitch = MathHelper.clamp(-rightanimation,-3.75f,3.75f);
+                this.main.roll = MathHelper.clamp(-2 * rightanimation,-7.5f/j,7.5f/j);
+                this.main.pitch = MathHelper.clamp(-rightanimation,-7.5f/j,0);
 
                 this.right_arm.roll = 2 * rightanimation;
 
-                this.body.roll = MathHelper.clamp(leftanimation,-3.75f,3.75f);
-                this.body.pitch = MathHelper.clamp(-leftanimation,-3.75f,3.75f);
+                this.body.roll = MathHelper.clamp(leftanimation,-7.5f/j,7.5f/j);
+                this.body.pitch = MathHelper.clamp(-leftanimation,-7.5f/j,7.5f/j);
                 this.left_arm.roll = -leftanimation;
 
                 this.right_arm.pitch = -9 * leftanimation;

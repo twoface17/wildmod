@@ -78,9 +78,7 @@ public class SculkCatalystListener implements GameEventListener {
     }
 
     private boolean shouldActivate(GameEvent gameEvent, @Nullable Entity entity, World world) {
-        if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
-            return !GameEventTags.IGNORE_VIBRATIONS_SNEAKING.contains(gameEvent) || !Objects.requireNonNull(entity).bypassesSteppingEffects();
-        } else return entity != null && gameEvent == RegisterAccurateSculk.DEATH && SculkTags.DROPSXP.contains(entity.getType());
+        return entity != null && gameEvent == RegisterAccurateSculk.DEATH && SculkTags.DROPSXP.contains(entity.getType());
     }
 
     public void pseudoSculk(World world, @Nullable Entity entity) {
@@ -114,9 +112,6 @@ public class SculkCatalystListener implements GameEventListener {
             // Random random = new Random();
             // SculkSpreadFeatures.SCULK_PATCH_SPREAD.generate((ServerWorld) world, manager, random, blockPos.up());
             if (world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
-                if (!world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
-                    SculkGrower.sculk(blockPos, world, entity, blockPos2);
-                }
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeBlockPos(blockPos2);
                 for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, blockPos2, 32)) {

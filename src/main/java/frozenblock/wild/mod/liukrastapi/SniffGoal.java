@@ -49,7 +49,7 @@ public class SniffGoal extends Goal {
         if (this.mob.emergeTicksLeft>0) {
             return false;
         }
-        if (this.mob.world.getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null && this.mob.sniffCooldown<=0) {
+        if (this.mob.world.getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null && this.mob.sniffCooldown<=0 && this.mob.roarOtherCooldown<=0) {
             exit = true;
         }
 

@@ -5,7 +5,6 @@ import frozenblock.wild.mod.blocks.SculkCatalystBlock;
 import frozenblock.wild.mod.fromAccurateSculk.*;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
-import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -39,17 +38,20 @@ public class LivingEntityMixin {
 		LivingEntity entity = LivingEntity.class.cast(this);
 		++entity.deathTime;
 		if (entity.deathTime == 19 && !entity.world.isClient()) {
-			BlockPos pos = new BlockPos(entity.getBlockPos().getX(), entity.getBlockPos().getY(), entity.getBlockPos().getZ());
+			BlockPos pos = entity.getBlockPos();
 			if (SculkTags.DROPSXP.contains(entity.getType()) && entity.world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
-				if (Sphere.sphereBlock(RegisterBlocks.SCULK_CATALYST, entity.world, pos, 8)) {
+				if (Sphere.sphereBlock(SculkCatalystBlock.SCULK_CATALYST_BLOCK, entity.world, pos, 9)) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
+					int numCatalysts=Sphere.generateSphere(pos, 9, false, entity.world);
+					if (numCatalysts>0) {
 					if (entity.world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
-						int numCatalysts=Sphere.generateSphere(pos, 8, false, entity.world);
 						CatalystThreader.main(entity.world, entity, pos, numCatalysts);
-					} else {
+					} else if (!(entity.world.getGameRules().getBoolean(WildMod.SCULK_THREADING))) {
+						SculkGrower.sculk(pos, entity.world, entity, numCatalysts);
 						int rVal2 = getHighestRadius(entity.world, pos);
-						int activatorLoop = (int) ((48)*Math.sin((rVal2/40.75)));
-						new ActivatorGrower().placeActiveOmptim(activatorLoop, rVal2, pos, entity.world);
+						int activatorLoop = (int) ((48) * Math.sin((rVal2 / 40.75)));
+						ActivatorGrower.placeActiveOmptim(activatorLoop, rVal2, pos, entity.world);
+					}
 					}
 				}
 			}
@@ -57,8 +59,8 @@ public class LivingEntityMixin {
 	}
 
 	public int getHighestRadius(World world, BlockPos pos) {
-		int current = 0;
-		for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
+		int current = 3;
+		for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
 			BlockEntity catalyst = world.getBlockEntity(blockPos);
 			if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
 				current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);

@@ -27,7 +27,7 @@ public class ActivatorGrower {
     public static final Block waterBlock = Blocks.WATER;
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
 
-    public void placeActiveOmptim(int loop, int rVal, BlockPos pos, World world) { //Call For Placement
+    public static void placeActiveOmptim(int loop, int rVal, BlockPos pos, World world) { //Call For Placement
             for (int l = 0; l < loop; ++l) {
                 double a = random() * 2 * PI;
                 double r = sqrt(rVal) * sqrt(random());
@@ -37,7 +37,7 @@ public class ActivatorGrower {
             }
         }
 
-    public void placeActivator(BlockPos blockPos, World world, int chance) { //Place Activators
+    public static void placeActivator(BlockPos blockPos, World world, int chance) { //Place Activators
         int chanceCheck = (chance + 4);
         int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
         if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > chanceCheck)) {
@@ -70,7 +70,7 @@ public class ActivatorGrower {
             }
         }
     }
-    public boolean checkForOthers(BlockPos pos, World world) {
+    public static boolean checkForOthers(BlockPos pos, World world) {
         boolean bl1 = Sphere.sphereBlock(sensor.getBlock(), world, pos, 3);
         boolean bl2 = Sphere.sphereBlock(shrieker.getBlock(), world, pos, 3);
         return bl1 || bl2;

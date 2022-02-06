@@ -2,7 +2,9 @@ package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.SculkBlock;
+import frozenblock.wild.mod.blocks.SculkCatalystBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
+import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -16,7 +18,6 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,29 +32,27 @@ public class SculkGrower {
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
 
     /** MAIN CODE */
-    public static void sculk(BlockPos blockPos, World world, @Nullable Entity entity, BlockPos catalystPos) { //Choose Amount Of Sculk + Initial Radius
+    public static void sculk(BlockPos blockPos, World world, @Nullable Entity entity, int catalysts) { //Choose Amount Of Sculk + Initial Radius
         if (entity!=null) {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             BlockPos down = blockPos.down();
             if (SculkTags.THREE.contains(entity.getType())) {
-                sculkOptim(3, 4, down, world, catalystPos);
+                sculkOptim(3*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.FIVE.contains(entity.getType())) {
-                sculkOptim(5, 5, down, world, catalystPos);
+                sculkOptim(5*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.TEN.contains(entity.getType())) {
-                sculkOptim(10, 10, down, world, catalystPos);
+                sculkOptim(10*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.TWENTY.contains(entity.getType())) {
-                sculkOptim(20, 20, down, world, catalystPos);
+                sculkOptim(20*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.FIFTY.contains(entity.getType())) {
-                sculkOptim(50, 50, down, world, catalystPos);
+                sculkOptim(50*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
-                sculkOptim(1000, 33, down, world, catalystPos);
-            } else if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
-                sculkOptim((UniformIntProvider.create(1, 7).get(world.getRandom())), (UniformIntProvider.create(1, 7).get(world.getRandom())), down, world, catalystPos);
+                sculkOptim(500*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             }
         }
     }
 
-    public static void sculkOptim(float loop, int rVal, BlockPos down, World world, BlockPos catalystPos) { //Call For Sculk Placement & Increase Radius If Stuck
+    public static void sculkOptim(float loop, int rVal, BlockPos down, World world) { //Call For Sculk Placement & Increase Radius If Stuck
         int rVal2 = MathHelper.clamp(rVal*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 64);
         int timesFailed=0;
         int groupsFailed=1;
@@ -67,15 +66,12 @@ public class SculkGrower {
             if (timesFailed>=10) {
                 timesFailed=0;
                 groupsFailed=groupsFailed+2;
-                BlockEntity catalyst = world.getBlockEntity(catalystPos);
-                if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-                    sculkCatalystBlockEntity.lastSculkRange=rVal2+(groupsFailed-1);
-                }
             }
-            if (rVal2>64) {
+            if (sqrt(rVal2+(groupsFailed-1))>50) {
                 break;
             }
         }
+        setCatalysts(world, down.up(),rVal2+(groupsFailed-1));
     }
 
     public static boolean placeSculk(BlockPos blockPos, World world) { //Call For Sculk & Call For Veins
@@ -181,6 +177,29 @@ public class SculkGrower {
     }
 
     /** CAlCULATIONS & CHECKS */
+    public static int firstRadius(World world, int i) {
+        return MathHelper.clamp(i*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 33);
+    }
+    public static void setCatalysts(World world, BlockPos pos, int i) {
+        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
+            if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+                if (sculkCatalystBlockEntity.lastSculkRange!=i) {
+                    sculkCatalystBlockEntity.lastSculkRange=i;
+                }
+            }
+        }
+    }
+    public static int getHighestRadius(World world, BlockPos pos) {
+        int first = 3;
+        int current = 0;
+        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
+            if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+                current=Math.max(first, sculkCatalystBlockEntity.lastSculkRange);
+                first=current;
+            }
+        }
+        return current;
+    }
     public static BlockPos sculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
         if (checkPt1(blockPos, world)!=null) {
             return checkPt1(blockPos, world);

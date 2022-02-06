@@ -237,19 +237,17 @@ class SculkThread extends Thread {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             BlockPos down = blockPos.down();
             if (SculkTags.THREE.contains(entity.getType())) {
-                sculkOptim(3*l, 4, down, world);
+                sculkOptim(3*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.FIVE.contains(entity.getType())) {
-                sculkOptim(5*l, 5, down, world);
+                sculkOptim(5*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.TEN.contains(entity.getType())) {
-                sculkOptim(10*l, 10, down, world);
+                sculkOptim(10*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.TWENTY.contains(entity.getType())) {
-                sculkOptim(20*l, 20, down, world);
+                sculkOptim(20*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.FIFTY.contains(entity.getType())) {
-                sculkOptim(50*l, 50, down, world);
+                sculkOptim(50*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
-                sculkOptim(1000*l, 33, down, world);
-            } else if (world.getGameRules().getBoolean(WildMod.CATALYST_DETECTS_ALL)) {
-                sculkOptim((UniformIntProvider.create(1, 7).get(world.getRandom())), (UniformIntProvider.create(1, 7).get(world.getRandom())), down, world);
+                sculkOptim(500*l, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
             }
         }
     }
@@ -268,7 +266,7 @@ class SculkThread extends Thread {
                 timesFailed=0;
                 groupsFailed=groupsFailed+2;
             }
-            if (rVal2>64) {
+            if (sqrt(rVal2+(groupsFailed-1))>50) {
                 break;
             }
         }
@@ -367,6 +365,20 @@ class SculkThread extends Thread {
     }
 
     /** CALCULATIONS & CHECKS */
+    public static int firstRadius(World world, int i) {
+        return MathHelper.clamp(i*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 33);
+    }
+    public static int getHighestRadius(World world, BlockPos pos) {
+        int first = 3;
+        int current = 0;
+        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
+            if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+                current=Math.max(first, sculkCatalystBlockEntity.lastSculkRange);
+                first=current;
+            }
+        }
+        return current;
+    }
     public static BlockPos sculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
         if (checkPt1(blockPos, world)!=null) {
             return checkPt1(blockPos, world);
@@ -445,10 +457,11 @@ class SculkThread extends Thread {
     }
     /** MULTITHREADING-SPECIFIC */
     public static void setCatalysts(World world, BlockPos pos, int i) {
-        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
-            BlockEntity catalyst = world.getBlockEntity(blockPos);
-            if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-                sculkCatalystBlockEntity.lastSculkRange=i;
+        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
+            if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
+                if (sculkCatalystBlockEntity.lastSculkRange!=i) {
+                    sculkCatalystBlockEntity.lastSculkRange=i;
+                }
             }
         }
     }
