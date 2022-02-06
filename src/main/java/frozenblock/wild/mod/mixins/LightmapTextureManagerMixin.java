@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.liukrastapi.MathAddon;
+import frozenblock.wild.mod.registry.RegisterSounds;
 import frozenblock.wild.mod.registry.RegisterStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -9,7 +10,8 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -18,6 +20,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Objects;
+
+import static java.lang.Math.*;
 
 @Mixin(LightmapTextureManager.class)
 public class LightmapTextureManagerMixin {
@@ -35,14 +41,56 @@ public class LightmapTextureManagerMixin {
     @Shadow @Final private GameRenderer renderer;
 
     public double time;
+    public double soundTime;
+    public boolean shouldPlay=true;
+    public int lastDark;
 
     @Inject(at = @At("HEAD"), method = "tick")
     public void tick(CallbackInfo ci) {
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
             time = time + 0.075/2;
+            ++soundTime;
             MathAddon.time = time;
+            int angerLevel = Objects.requireNonNull(this.client.player.getStatusEffect(RegisterStatusEffects.DARKNESS)).getAmplifier();
+            if (angerLevel!=lastDark) {
+                lastDark=angerLevel;
+                shouldPlay=true;
+            }
+            double soundTimer = Math.cos((soundTime*PI)/80);
+            if (soundTimer==-1 && shouldPlay) {
+                if (angerLevel == 1) {
+                    shouldPlay=false;
+                    double a = random() * 2 * PI;
+                    double r = sqrt(16) * sqrt(random());
+                    int x = (int) (r * cos(a));
+                    int z = (int) (r * sin(a));
+                    BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
+                    assert this.client.world != null;
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.NEUTRAL, 0.2F, 1F);
+                } else if (angerLevel == 2) {
+                    shouldPlay=false;
+                    double a = random() * 2 * PI;
+                    double r = sqrt(12) * sqrt(random());
+                    int x = (int) (r * cos(a));
+                    int z = (int) (r * sin(a));
+                    BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
+                    assert this.client.world != null;
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.NEUTRAL, 0.3F, 1F);
+                } else if (angerLevel == 3) {
+                    shouldPlay=false;
+                    double a = random() * 2 * PI;
+                    double r = sqrt(8) * sqrt(random());
+                    int x = (int) (r * cos(a));
+                    int z = (int) (r * sin(a));
+                    BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
+                    assert this.client.world != null;
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.NEUTRAL, 0.4F, 1F);
+                }
+            }
         } else {
             time = 0;
+            soundTime=0;
+            shouldPlay=true;
         }
     }
 
