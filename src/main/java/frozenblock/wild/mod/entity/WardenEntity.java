@@ -72,7 +72,11 @@ public class WardenEntity extends HostileEntity {
                 --this.roarTicksLeft1;
                 this.getNavigation().stop();
             }
-            if (this.roarTicksLeft1==0 && this.roarOtherCooldown > 0) {
+            if (this.roarTicksLeft1==0) {
+                this.roarTicksLeft1=-1;
+                this.world.sendEntityStatus(this, (byte)14);
+            }
+            if (this.roarTicksLeft1<=0 && this.roarOtherCooldown > 0) {
                 LivingEntity lastEvent = this.getTrackingEntityForRoarNavigation();
                 if (lastEvent!=null) {
                     BlockPos roarPos = lastEvent.getBlockPos();
@@ -148,14 +152,19 @@ public class WardenEntity extends HostileEntity {
             this.canDigAnim=true;
         } else if (!this.isAiDisabled() && status == 12) { //Stop Emerge Animation
             this.stopEmergeAnim=true;
+            this.canEmergeAnim=false;
         } else if (!this.isAiDisabled() && status == 13) { //Stop Dig Animation
             this.stopDigAnim=true;
+            this.canDigAnim=false;
         } else if (!this.isAiDisabled() && status == 14) { //Stop Roar Animation
             this.stopRoarAnim=true;
+            this.canRoarAnim=false;
         } else if (!this.isAiDisabled() && status == 15) { //Stop Sniff Animation
             this.stopSniffAnim=true;
+            this.canSniffAnim=false;
         } else if (!this.isAiDisabled() && status == 16) { //Stop Attack Animation
             this.stopAttackAnim=true;
+            this.canAttackAnim=false;
         } else { super.handleStatus(status); }
     }
 
@@ -505,6 +514,7 @@ public class WardenEntity extends HostileEntity {
         }
         if (this.emergeTicksLeft == 0 && !this.hasEmerged) { //Stop Emerging
             this.setInvulnerable(false);
+            this.world.sendEntityStatus(this, (byte)12);
             this.hasEmerged = true;
             this.emergeTicksLeft = -1;
         }
@@ -542,6 +552,7 @@ public class WardenEntity extends HostileEntity {
         if (this.sniffCooldown > 0) { --this.sniffCooldown; }
         if (this.sniffTicksLeft == 0) {
             this.sniffTicksLeft = -1;
+            this.world.sendEntityStatus(this, (byte)15);
             if (this.getSniffEntity() != null) {
                 LivingEntity sniffEntity = this.getSniffEntity();
                 this.addSuspicion(sniffEntity, 7);
