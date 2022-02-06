@@ -69,25 +69,26 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         float t = 2; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
 
-        /** STARTING ANIMATIONS */
+        /* STARTING ANIMATIONS */
         if (entity.canEatAnim) {
             entity.eatAnimStartTime = time;
             entity.canEatAnim=false;
         }
 
-        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 150 /*EDIT THIS*/) / 10;
+        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 10) / 10;
 
         boolean canEat = eatTime != 0;
 
-
-
-        if(entity.getTongue() == 10) {
-            this.togueBegin = 100;
-        } else if(this.togueBegin > 0) {
-            this.togueBegin = this.togueBegin - 0.6f;
+        if(canEat) {
+            this.head.pitch = (AnimationAPI.linear(t * 0f, t * 0.0833f, -60f / j, eatTime) +
+                    AnimationAPI.linear(t * 0.0833f, t * 0.04167f, 0f / j, eatTime) +
+                    AnimationAPI.linear(t * 0.04167f, t * 0.05f, 60f / j, eatTime)
+            );
+            this.tongue.pitch = (AnimationAPI.linear(t * 0f, t * 0.0833f, 0f / j, eatTime) +
+                    AnimationAPI.linear(t * 0.0833f, t * 0.04167f, -18f / j, eatTime) +
+                    AnimationAPI.linear(t * 0.04167f, t * 0.05f, 18f / j, eatTime)
+            );
         }
-        this.tongue.pivotZ = -this.togueBegin/15;
-        this.head.pitch = -this.togueBegin/100;
 
         c = entity;
         this.Animationtime = time;
@@ -96,7 +97,6 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
 
         if(!entity.isSubmergedInWater()) { //Walk Animation
             if(entity.isOnGround()) {
-
                 float rightanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, false) * defaultmultiplier,-7.5f,7.5f);
                 float leftanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, true) * defaultmultiplier,-7.5f,7.5f);
 
