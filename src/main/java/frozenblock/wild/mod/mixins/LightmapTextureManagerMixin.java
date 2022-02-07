@@ -12,7 +12,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -63,8 +62,8 @@ public class LightmapTextureManagerMixin {
             if (lastDarkTime<darkTime || angerLevel==3) {
                 shouldPlay=true;
             }
-            double soundTimer = Math.cos((soundTime*PI)/80); //Can Someone Please Find A Way To Get This To Sync With The Fog Pulsing?
-            if (soundTimer<=-0.1 && soundTimer >= -0.125 && shouldPlay) {
+            double soundTimer = -Math.tan((time*PI + 128)/160); //Can Someone Please Find A Way To Get This To Sync With The Fog Pulsing?
+            if (soundTimer == 0 && shouldPlay) {
                 if (angerLevel == 0) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
