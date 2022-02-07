@@ -49,6 +49,7 @@ public class LightmapTextureManagerMixin {
 
     @Inject(at = @At("HEAD"), method = "tick")
     public void tick(CallbackInfo ci) {
+        assert this.client.player != null;
         if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
             time = time + 0.075/2;
             ++soundTime;
@@ -63,7 +64,7 @@ public class LightmapTextureManagerMixin {
                 shouldPlay=true;
             }
             double soundTimer = Math.cos((soundTime*PI)/80); //Can Someone Please Find A Way To Get This To Sync With The Fog Pulsing?
-            if (soundTimer==-1 && shouldPlay) {
+            if (soundTimer<=-0.1 && soundTimer >= -0.125 && shouldPlay) {
                 if (angerLevel == 0) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
