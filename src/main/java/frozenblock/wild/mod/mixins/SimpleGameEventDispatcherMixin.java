@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.entity.WardenEntity;
-import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.registry.*;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
@@ -100,11 +99,11 @@ public class SimpleGameEventDispatcherMixin{
                         eventpos.getX() -18, eventpos.getY() -18, eventpos.getZ() -18,
                         eventpos.getX() +18, eventpos.getY() +18, eventpos.getZ() +18)
                 );
-                Iterator var11 = wardens.iterator();
+                Iterator<WardenEntity> var11 = wardens.iterator();
 
                 WardenEntity wardie;
                 while(var11.hasNext()) {
-                    wardie = (WardenEntity)var11.next();
+                    wardie = var11.next();
                     //System.out.println(Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos, false))));
                     if(
                             wardie.getEntityWorld() == eventworld &&
