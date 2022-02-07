@@ -62,8 +62,8 @@ public class LightmapTextureManagerMixin {
             if (lastDarkTime<darkTime || angerLevel==3) {
                 shouldPlay=true;
             }
-            double soundTimer = -Math.tan((time*PI + 128)/160); //Can Someone Please Find A Way To Get This To Sync With The Fog Pulsing?
-            if (soundTimer == 0 && shouldPlay) {
+            double soundTimer = Math.cos(((soundTime+40)*PI)/80);
+            if (soundTimer == -1 && shouldPlay) {
                 if (angerLevel == 0) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
@@ -72,7 +72,7 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.AMBIENT, 0.4F, 1F);
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.AMBIENT, 5F, 1F);
                 } else if (angerLevel == 1) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
@@ -81,7 +81,7 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 0.6F, 1F);
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 3F, 1F);
                 } else if (angerLevel == 2) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
@@ -90,7 +90,7 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.AMBIENT, 0.8F, 1F);
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.AMBIENT, 1F, 1F);
                 } else if (angerLevel == 3) { //WARDEN DARKNESS
                     shouldPlay=false;
                     double a = random() * 2 * PI;
