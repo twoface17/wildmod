@@ -66,7 +66,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     public void setAngles(@NotNull FrogEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
         //this.main.pivotY = - 2 + AnimationAPI.easeInOutSine(100, 160, 10, time) + AnimationAPI.easeInOutSine(160, 220, 10, time);
 
-        float t = 4f; //Multiplier for animation length
+        float t = 2f; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
 
         /* STARTING ANIMATIONS */
@@ -88,7 +88,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
                     AnimationAPI.linear(t * 0.0833f, t * 0.04167f, -18f / j, eatTime) +
                     AnimationAPI.linear(t * 0.04167f, t * 0.05f, 18f / j, eatTime)
             );
-        }
+        } else {
 
         c = entity;
         this.Animationtime = time;
@@ -186,6 +186,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
 
         }
     }
+}
     @Override
     public void render(MatrixStack matrixStack, VertexConsumer	buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
         root.render(matrixStack, buffer, packedLight, packedOverlay);
