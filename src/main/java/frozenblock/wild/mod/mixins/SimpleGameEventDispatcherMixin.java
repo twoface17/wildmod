@@ -97,17 +97,18 @@ public class SimpleGameEventDispatcherMixin{
             boolean bl1 = evententity != null || event==GameEvent.EAT || event==GameEvent.HIT_GROUND;
             if(eventpos != null && eventworld != null && bl1) {
                 List<WardenEntity> wardens = this.world.getNonSpectatingEntities(WardenEntity.class, new Box(
-                        eventpos.getX() -16, eventpos.getY() -16, eventpos.getZ() -16,
-                        eventpos.getX() +16, eventpos.getY() +16, eventpos.getZ() +16)
+                        eventpos.getX() -18, eventpos.getY() -18, eventpos.getZ() -18,
+                        eventpos.getX() +18, eventpos.getY() +18, eventpos.getZ() +18)
                 );
                 Iterator var11 = wardens.iterator();
 
                 WardenEntity wardie;
                 while(var11.hasNext()) {
                     wardie = (WardenEntity)var11.next();
+                    //System.out.println(Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos, false))));
                     if(
                             wardie.getEntityWorld() == eventworld &&
-                            MathAddon.distance(eventpos.getX(), eventpos.getY(), eventpos.getZ(), wardie.getX(), wardie.getY(), wardie.getZ()) <= 15
+                                    Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos, false))) <= 16
                     ) {
                         boolean bl2 = event==GameEvent.HIT_GROUND && evententity==null;
                         if (event!=GameEvent.PROJECTILE_LAND && event!=GameEvent.EAT && !bl2) {
