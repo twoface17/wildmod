@@ -192,7 +192,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 3.88f, t * 4.12f, +1f, emergeTime) +
                     AnimationAPI.easeInSine(t * 4.12f, t * 4.68f, -5f, emergeTime) +
                     AnimationAPI.easeInSine(t * 4.68f, t * 4.92f, +1f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.92f, t * 5.28f, -7f, emergeTime)
+                    AnimationAPI.easeInOutSine(t * 4.92f, t * 5.28f, -7f + MathHelper.cos(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4, 0, 4f / j) + MathHelper.cos(animationProgress / 20) / 20, emergeTime)
             );
             //Head
             this.head.pitch = 95 / j + (AnimationAPI.easeInOutSine(t * 0f, t * 0.48f, 0f / j, emergeTime) +
