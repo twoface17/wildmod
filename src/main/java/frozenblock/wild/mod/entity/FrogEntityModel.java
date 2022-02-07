@@ -75,7 +75,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             entity.canEatAnim=false;
         }
 
-        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 10) / 10;
+        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 100) / 10;
 
         boolean canEat = eatTime != 0;
 
@@ -89,7 +89,8 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
                     AnimationAPI.easeInOutSine(t * 0.04167f, t * 0.05f, 18f / j, eatTime)
             );
         } else {
-
+this.head.pitch = 0;
+this.tongue.pitch = 0;
         c = entity;
         this.Animationtime = time;
         float animationspeed = 2F;
