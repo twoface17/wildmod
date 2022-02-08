@@ -59,7 +59,7 @@ public class LivingEntityMixin {
 
 	public int getHighestRadius(World world, BlockPos pos) {
 		int current = 3;
-		for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
+		for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world)) {
 			BlockEntity catalyst = world.getBlockEntity(blockPos);
 			if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
 				current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);
