@@ -41,7 +41,7 @@ public class LivingEntityMixin {
 			BlockPos pos = entity.getBlockPos();
 			World world = entity.world;
 			if (SculkTags.DROPSXP.contains(entity.getType()) && world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
-				int numCatalysts=Sphere.blocksInSphere(pos, 8, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world);
+				int numCatalysts=Sphere.blocksInSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world);
 				if (numCatalysts>0) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 					if (world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {

@@ -57,7 +57,7 @@ public class CatalystThreader {
 
     public static int getHighestRadius(World world, BlockPos pos) {
         int current = 0;
-        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 8, false)) {
+        for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world)) {
             BlockEntity catalyst = world.getBlockEntity(blockPos);
             if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
                 current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);
@@ -394,7 +394,7 @@ class SculkThread extends Thread {
     public static int getHighestRadius(World world, BlockPos pos) {
         int first = 3;
         int current = 0;
-        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
+        for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world)) {
             if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
                 current= (int) Math.max(first, (sculkCatalystBlockEntity.lastSculkRange)/(2*Math.cos((sculkCatalystBlockEntity.lastSculkRange*Math.PI)/175)));
                 first=current;
@@ -467,7 +467,7 @@ class SculkThread extends Thread {
 
     /** MULTITHREADING-SPECIFIC */
     public static void setCatalysts(World world, BlockPos pos, int i) {
-        for (BlockPos blockPos : Sphere.checkSpherePos(SculkCatalystBlock.SCULK_CATALYST_BLOCK.getDefaultState(), world, pos, 9, false)) {
+        for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world)) {
             if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
                 if (sculkCatalystBlockEntity.lastSculkRange!=i) {
                     sculkCatalystBlockEntity.lastSculkRange=i;

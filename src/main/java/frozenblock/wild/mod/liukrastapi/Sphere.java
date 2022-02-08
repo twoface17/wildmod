@@ -171,14 +171,36 @@ public abstract class Sphere {
                         BlockPos l = new BlockPos(x, y, z);
                         if (world.getBlockState(l).getBlock() == block) {
                             ++blocks;
-                            System.out.println(blocks);
                         }
                     }
 
                 }
             }
         }
+        return blocks;
+    }
 
+    public static ArrayList<BlockPos> blockPosSphere(BlockPos pos, int radius, Block block, World world) {
+        ArrayList<BlockPos> blocks = new ArrayList<>();
+
+        int bx = pos.getX();
+        int by = pos.getY();
+        int bz = pos.getZ();
+
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
+                        BlockPos l = new BlockPos(x, y, z);
+                        if (world.getBlockState(l).getBlock() == block) {
+                            blocks.add(l);
+                        }
+                    }
+
+                }
+            }
+        }
         return blocks;
     }
 
