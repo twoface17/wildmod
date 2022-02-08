@@ -575,9 +575,7 @@ public class WardenEntity extends HostileEntity {
         }
     }
     public boolean collides() {
-        if (this.hasCustomName() && this.emergeTicksLeft==-5) {
-            return false;
-        } else return true;
+        return this.emergeTicksLeft!=-5;
     }
     public void sendDarkness(int dist, BlockPos blockPos, World world) {
         if (world instanceof ServerWorld) {
