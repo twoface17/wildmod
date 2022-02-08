@@ -154,29 +154,24 @@ public abstract class Sphere {
         return exit;
     }
 
-    public static int generateSphere(BlockPos centerBlock, int radius, boolean hollow, World world) {
-        if (centerBlock == null) {
-            return 1;
-        }
+    public static int blocksInSphere(BlockPos pos, int radius, Block block, World world) {
+        if (pos == null) { return 0; }
 
-        int circleBlocks = 0;
+        int blocks = 0;
 
-        int bx = centerBlock.getX();
-        int by = centerBlock.getY();
-        int bz = centerBlock.getZ();
+        int bx = pos.getX();
+        int by = pos.getY();
+        int bz = pos.getZ();
 
         for(int x = bx - radius; x <= bx + radius; x++) {
             for(int y = by - radius; y <= by + radius; y++) {
                 for(int z = bz - radius; z <= bz + radius; z++) {
-
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
-
-                    if(distance < radius * radius && !(hollow && distance < ((radius - 1) * (radius - 1)))) {
-
+                    if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (world.getBlockState(l).getBlock()== RegisterBlocks.SCULK_CATALYST) {
-
-                            circleBlocks = circleBlocks+1;
+                        if (world.getBlockState(l).getBlock() == block) {
+                            ++blocks;
+                            System.out.println(blocks);
                         }
                     }
 
@@ -184,7 +179,7 @@ public abstract class Sphere {
             }
         }
 
-        return circleBlocks;
+        return blocks;
     }
 
 }

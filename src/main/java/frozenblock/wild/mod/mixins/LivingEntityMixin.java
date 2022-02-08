@@ -39,19 +39,18 @@ public class LivingEntityMixin {
 		++entity.deathTime;
 		if (entity.deathTime == 19 && !entity.world.isClient()) {
 			BlockPos pos = entity.getBlockPos();
-			if (SculkTags.DROPSXP.contains(entity.getType()) && entity.world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
-				if (Sphere.sphereBlock(SculkCatalystBlock.SCULK_CATALYST_BLOCK, entity.world, pos, 9)) {
+			World world = entity.world;
+			if (SculkTags.DROPSXP.contains(entity.getType()) && world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
+				int numCatalysts=Sphere.blocksInSphere(pos, 8, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world);
+				if (numCatalysts>0) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
-					int numCatalysts=Sphere.generateSphere(pos, 9, false, entity.world);
-					if (numCatalysts>0) {
-					if (entity.world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
-						CatalystThreader.main(entity.world, entity, pos, numCatalysts);
-					} else if (!(entity.world.getGameRules().getBoolean(WildMod.SCULK_THREADING))) {
-						SculkGrower.sculk(pos, entity.world, entity, numCatalysts);
-						int rVal2 = getHighestRadius(entity.world, pos);
+					if (world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
+						CatalystThreader.main(world, entity, pos, numCatalysts);
+					} else {
+						SculkGrower.sculk(pos, world, entity, numCatalysts);
+						int rVal2 = getHighestRadius(world, pos);
 						int activatorLoop = (int) ((48) * Math.sin((rVal2 / 40.75)));
-						ActivatorGrower.placeActiveOmptim(activatorLoop, rVal2, pos, entity.world);
-					}
+						ActivatorGrower.placeActiveOmptim(activatorLoop, rVal2, pos, world);
 					}
 				}
 			}
