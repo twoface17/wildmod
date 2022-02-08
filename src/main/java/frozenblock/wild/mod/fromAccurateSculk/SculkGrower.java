@@ -199,12 +199,10 @@ public class SculkGrower {
         }
     }
     public static int getHighestRadius(World world, BlockPos pos) {
-        int first = 3;
-        int current = 0;
+        int current = 3;
         for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world)) {
             if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-                current= (int) Math.max(first, (sculkCatalystBlockEntity.lastSculkRange)/(2*Math.cos((sculkCatalystBlockEntity.lastSculkRange*Math.PI)/175)));
-                first=current;
+                current=(int) Math.max(current, (sculkCatalystBlockEntity.lastSculkRange)/(2*Math.cos((sculkCatalystBlockEntity.lastSculkRange*Math.PI)/175)));
             }
         }
         return current;

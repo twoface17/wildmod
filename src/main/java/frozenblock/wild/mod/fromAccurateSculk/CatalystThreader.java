@@ -56,7 +56,7 @@ public class CatalystThreader {
         }
 
     public static int getHighestRadius(World world, BlockPos pos) {
-        int current = 0;
+        int current = 3;
         for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world)) {
             BlockEntity catalyst = world.getBlockEntity(blockPos);
             if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
@@ -389,12 +389,10 @@ class SculkThread extends Thread {
         return MathHelper.clamp(i*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 33);
     }
     public static int getHighestRadius(World world, BlockPos pos) {
-        int first = 3;
-        int current = 0;
+        int current = 3;
         for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world)) {
             if (world.getBlockEntity(blockPos) instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-                current= (int) Math.max(first, (sculkCatalystBlockEntity.lastSculkRange)/(2*Math.cos((sculkCatalystBlockEntity.lastSculkRange*Math.PI)/175)));
-                first=current;
+                current=(int) Math.max(current, (sculkCatalystBlockEntity.lastSculkRange)/(2*Math.cos((sculkCatalystBlockEntity.lastSculkRange*Math.PI)/175)));
             }
         }
         return current;
