@@ -99,7 +99,7 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 0.5F, 1F);
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 0.1F, 1F);
                 }
             }
             lastDarkTime=darkTime;
