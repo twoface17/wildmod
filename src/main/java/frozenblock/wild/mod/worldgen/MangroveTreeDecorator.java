@@ -11,6 +11,7 @@ import net.minecraft.block.VineBlock;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.treedecorator.TreeDecorator;
@@ -157,13 +158,13 @@ public class MangroveTreeDecorator extends TreeDecorator {
             Random rand = new Random();
             int dir = rand.nextInt(4);
             if (dir == 0) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, 1);
+                currentPosition = currentPosition.offset(Direction.Axis.X, MathHelper.clamp(Math.random() * 10), 1, 3);
             } else if (dir == 1) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, -1);
+                currentPosition = currentPosition.offset(Direction.Axis.X, MathHelper.clamp(Math.random() * -10), -1, -3);
             } else if (dir == 2) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, 1);
+                currentPosition = currentPosition.offset(Direction.Axis.Z, MathHelper.clamp(Math.random() * 10), 1, 3);
             } else if (dir == 3) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, -1);
+                currentPosition = currentPosition.offset(Direction.Axis.Z,   MathHelper.clamp(Math.random() * -10), -1, -3);
             }
             if (!currentPosition.isWithinDistance(targetPosition, 3)) {
                 currentPosition = targetPosition;
