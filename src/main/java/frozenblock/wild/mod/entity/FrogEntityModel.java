@@ -75,19 +75,19 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             entity.canEatAnim=false;
         }
 
-        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 100) / 10;
+        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 1) / 10;
 
         boolean canEat = eatTime != 0;
 
         if(canEat) { //Eat animation
-            this.head.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, -60f / j, eatTime) +
+            /*this.head.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, -60f / j, eatTime) +
                     AnimationAPI.linear(t * 0.0833f, t * 0.04167f, 0f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.04167f, t * 0.05f, 60f / j, eatTime)
             );
             this.tongue.pitch = (AnimationAPI.linear(t * 0f, t * 0.0833f, 0f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.04167f, -18f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.04167f, t * 0.05f, 18f / j, eatTime)
-            );
+            );*/
         } else {
 this.head.pitch = 0;
 this.tongue.pitch = 0;
