@@ -21,4 +21,9 @@ public class SculkTags {
     public static final Tag.Identified<Block> ALWAYS_WATER = TagFactory.BLOCK.create(new Identifier("twm", "always_water_sculk"));
     public static final Tag.Identified<Block> WARDEN_UNSPAWNABLE = TagFactory.BLOCK.create(new Identifier("twm", "warden_unspawnable"));
     public static final Tag.Identified<Block> WARDEN_NON_COLLIDE = TagFactory.BLOCK.create(new Identifier("twm", "warden_non_collide"));
+    //ACTIVATORS
+    public static final Tag<Block> ACTIVATORS = TagFactory.BLOCK.create(new Identifier("twm", "sculk_activators"));
+    public static final Tag<Block> COMMON_ACTIVATORS = TagFactory.BLOCK.create(new Identifier("twm", "common_activators"));
+    public static final Tag<Block> RARE_ACTIVATORS = TagFactory.BLOCK.create(new Identifier("twm", "rare_activators"));
+    public static final Tag<Block> GROUND_ACTIVATORS = TagFactory.BLOCK.create(new Identifier("twm", "ground_activators"));
 }

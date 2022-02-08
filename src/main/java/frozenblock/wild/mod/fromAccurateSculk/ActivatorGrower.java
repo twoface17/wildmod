@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterBlocks;
@@ -15,17 +14,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 import static java.lang.Math.*;
 
 
 public class ActivatorGrower {
     public static final BlockState sculk = RegisterBlocks.SCULK.getDefaultState();
-    public static final BlockState sensor = Blocks.SCULK_SENSOR.getDefaultState();
-    public static final BlockState shrieker = SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState();
     public static final BlockState vein = SculkVeinBlock.SCULK_VEIN.getDefaultState();
     public static final BlockState water = Blocks.WATER.getDefaultState();
     public static final Block waterBlock = Blocks.WATER;
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
+    public static Random random = new Random();
 
     public static void placeActiveOmptim(int loop, int rVal, BlockPos pos, World world) { //Call For Placement
             for (int l = 0; l < loop; ++l) {
@@ -37,43 +37,43 @@ public class ActivatorGrower {
             }
         }
 
-    public static void placeActivator(BlockPos blockPos, World world, int chance) { //Place Activators
-        int chanceCheck = (chance + 4);
+    public static void placeActivator(BlockPos blockPos, World world, int chance) { //Get Activator To Place
         int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
-        if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > chanceCheck)) {
+        if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > (chance+4))) {
             BlockPos NewSculk = solidsculkCheck(blockPos, world);
-            if (NewSculk != null  && !checkForOthers(NewSculk, world)) {
-                BlockState stateUp = world.getBlockState(NewSculk.up());
+            if (NewSculk != null && !checkForOthers(NewSculk, world)) {
+                BlockState activator = null;
                 if (uniInt <= 3) {
-                    if (stateUp == water) {
-                        world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
-                    } else if (stateUp.getBlock() !=waterBlock) {
-                        if (stateUp == vein.with(waterLogged, true)) {
-                            world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
-                        } else {
-                            world.removeBlock(NewSculk.up(), true);
-                            world.setBlockState(NewSculk.up(), shrieker);
-                        }
-                    }
+                    activator = SculkTags.RARE_ACTIVATORS.getRandom(random).getDefaultState();
                 } else if (uniInt <= 16) {
-                    if (stateUp == water) {
-                        world.setBlockState(NewSculk.up(), sensor.with(waterLogged, true));
-                    } else if (stateUp.getBlock() != waterBlock) {
-                        if (stateUp == vein.with(waterLogged, true)) {
-                            world.setBlockState(NewSculk.up(), sensor.with(waterLogged, true));
-                        } else {
-                            world.removeBlock(NewSculk.up(), true);
-                            world.setBlockState(NewSculk.up(), sensor);
-                            }
-                        }
-                    }
+                    activator = SculkTags.COMMON_ACTIVATORS.getRandom(random).getDefaultState();
+                }
+                if (activator!=null) {
+                    finalPlaceActivator(NewSculk, world, activator);
                 }
             }
         }
+    }
+
+    public static void finalPlaceActivator(BlockPos pos, World world, BlockState state) { //Place The Activator
+        if (SculkTags.GROUND_ACTIVATORS.contains(state.getBlock())) {
+            world.setBlockState(pos, state);
+        } else {
+            BlockState stateUp = world.getBlockState(pos.up());
+            if (stateUp == water && state.contains(waterLogged)) {
+                world.setBlockState(pos.up(), state.with(waterLogged, true));
+            } else if (stateUp.getBlock() != waterBlock) {
+                if (stateUp == vein.with(waterLogged, true) && state.contains(waterLogged)) {
+                    world.setBlockState(pos.up(), state.with(waterLogged, true));
+                } else {
+                    world.setBlockState(pos.up(), state);
+                }
+            }
+        }
+    }
+
     public static boolean checkForOthers(BlockPos pos, World world) {
-        boolean bl1 = Sphere.sphereBlock(sensor.getBlock(), world, pos, 3);
-        boolean bl2 = Sphere.sphereBlock(shrieker.getBlock(), world, pos, 3);
-        return bl1 || bl2;
+        return Sphere.blockTagInSphere(pos, 3, SculkTags.ACTIVATORS, world);
     }
 
     /** CAlCULATIONS & CHECKS */
@@ -112,7 +112,6 @@ public class ActivatorGrower {
     }
 
     public static boolean solrepsculk(World world, BlockPos blockPos) {
-        Block block = world.getBlockState(blockPos).getBlock();
-        return (block==sculk.getBlock() && SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock()));
+        return (world.getBlockState(blockPos).getBlock()==sculk.getBlock() && SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock()));
     }
 }

@@ -1,14 +1,10 @@
 package frozenblock.wild.mod.liukrastapi;
 
-import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 
@@ -202,6 +198,28 @@ public abstract class Sphere {
             }
         }
         return blocks;
+    }
+
+    public static boolean blockTagInSphere(BlockPos pos, int radius, Tag<Block> tag, World world) {
+        int bx = pos.getX();
+        int by = pos.getY();
+        int bz = pos.getZ();
+
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
+                        BlockPos l = new BlockPos(x, y, z);
+                        if (tag.contains(world.getBlockState(l).getBlock())) {
+                            return true;
+                        }
+                    }
+
+                }
+            }
+        }
+        return false;
     }
 
 }
