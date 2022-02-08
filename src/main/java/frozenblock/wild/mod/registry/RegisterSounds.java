@@ -58,6 +58,10 @@ public class RegisterSounds { //Register sound definitions
         public static SoundEvent BLOCK_SCULK_VEIN_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.break"));
 
     /** ENTITIES **/
+    //Chest Boat
+        public static SoundEvent ENTITY_CHEST_BOAT_PADDLE_WATER = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.chest_boat.paddle_water"));
+        public static SoundEvent ENTITY_CHEST_BOAT_PADDLE_LAND = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.chest_boat.paddle_land"));
+    
     //Firefly
         public static SoundEvent ENTITY_FIREFLY_LOOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.firefly.loop"));
         public static SoundEvent ENTITY_FIREFLY_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.firefly.hurt"));
@@ -155,6 +159,10 @@ public class RegisterSounds { //Register sound definitions
         BLOCK_MANGROVE_ROOTS_FALL = register(BLOCK_MANGROVE_ROOTS_FALL.getId());
 
     /** ENTITIES **/
+        //Chest Boat
+        ENTITY_CHEST_BOAT_PADDLE_WATER = register(ENTITY_CHEST_BOAT_PADDLE_WATER.getId());
+        ENTITY_CHEST_BOAT_PADDLE_LAND = register(ENTITY_CHEST_BOAT_PADDLE_LAND.getId());
+        
         //Firefly
         ENTITY_FIREFLY_LOOP = register(ENTITY_FIREFLY_LOOP.getId());
         ENTITY_FIREFLY_HURT = register(ENTITY_FIREFLY_HURT.getId());
