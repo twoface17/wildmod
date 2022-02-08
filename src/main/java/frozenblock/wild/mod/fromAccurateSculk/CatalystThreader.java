@@ -257,7 +257,7 @@ class SculkThread extends Thread {
         }
     }
     public static void sculkOptim(float loop, int rVal, BlockPos down, World world) { //Call For Sculk Placement & Increase Radius If Stuck
-        int rVal2 = MathHelper.clamp(rVal*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 64);
+        int rVal2 = MathHelper.clamp(rVal*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 33);
         int timesFailed=0;
         int groupsFailed=1;
         float fLoop = loop * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
