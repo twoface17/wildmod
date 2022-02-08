@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.fromAccurateSculk.WardenPositionSource;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.SniffGoal;
@@ -364,6 +365,7 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("queuedSuspicion", this.queuedSuspicion);
         nbt.putInt("attackNearCooldown", this.attackNearCooldown);
         nbt.putInt("roarOtherCooldown", this.roarOtherCooldown);
+        nbt.putBoolean("ableToDig", this.ableToDig);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -391,9 +393,9 @@ public class WardenEntity extends HostileEntity {
         this.queuedSuspicion = nbt.getInt("queuedSuspicion");
         this.attackNearCooldown = nbt.getInt("attackNearCooldown");
         this.roarOtherCooldown = nbt.getInt("roarOtherCooldown");
+        this.ableToDig = nbt.getBoolean("ableToDig");
     }
 
-    public int getAttackTicksLeft1() {return this.attackTicksLeft1;}
     public int getRoarTicksLeft1() {return this.roarTicksLeft1;}
 
     @Deprecated
@@ -518,6 +520,14 @@ public class WardenEntity extends HostileEntity {
             this.hasEmerged = true;
             this.emergeTicksLeft = -1;
         }
+        if (world.getTime()==this.leaveTime) { this.ableToDig=true; }
+        if (this.digAttemptCooldown>0) { --this.digAttemptCooldown; }
+        if (this.ableToDig && this.digAttemptCooldown == 0 && this.emergeTicksLeft == -1) { //Start Digging
+            if (!SculkTags.WARDEN_UNSPAWNABLE.contains(world.getBlockState(this.getBlockPos().down()).getBlock()) && !world.getBlockState(this.getBlockPos().down()).isAir()) {
+                this.world.sendEntityStatus(this, (byte) 11);
+                this.handleStatus((byte) 6);
+            } else this.digAttemptCooldown = 240;
+        }
         if (this.emergeTicksLeft > 0 && this.hasEmerged) { //Tick Down While Digging
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
@@ -525,11 +535,6 @@ public class WardenEntity extends HostileEntity {
             --this.emergeTicksLeft;
         }
         if (this.emergeTicksLeft == 0 && this.hasEmerged) { this.remove(RemovalReason.DISCARDED); } //Remove Once Done Digging
-        if (world.getTime() == this.leaveTime) { //Start Digging
-            this.world.sendEntityStatus(this, (byte)11);
-            this.handleStatus((byte) 6);
-
-        }
     }
     public void sendDarkness(int dist, BlockPos blockPos, World world) {
         if (world instanceof ServerWorld) {
@@ -667,6 +672,8 @@ public class WardenEntity extends HostileEntity {
     public boolean hasEmerged;
     public boolean hasSentStatusStart;
     public int emergeTicksLeft;
+    public int digAttemptCooldown;
+    public boolean ableToDig;
     //Timers
     public long leaveTime;
     public long vibrationTimer;
