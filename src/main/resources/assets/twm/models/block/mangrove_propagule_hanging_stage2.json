@@ -9,6 +9,7 @@
 			"name": "bud",
 			"from": [7, 9, 7],
 			"to": [9, 13, 9],
+			"shade": false,
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 11, 8]},
 			"faces": {
 				"north": {"uv": [2, 0, 4, 4], "texture": "#0"},
@@ -23,6 +24,7 @@
 			"name": "hypocotyl_ne-sw",
 			"from": [7, 2, 8],
 			"to": [9, 16, 8],
+			"shade": false,
 			"rotation": {"angle": 45, "axis": "y", "origin": [8, 11, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 2, 14], "texture": "#0"},
@@ -33,6 +35,7 @@
 			"name": "hypocotyl_nw_se",
 			"from": [7, 2, 8],
 			"to": [9, 16, 8],
+			"shade": false,
 			"rotation": {"angle": -45, "axis": "y", "origin": [8, 11, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 2, 14], "texture": "#0"},
@@ -43,6 +46,7 @@
 			"name": "leaf_n",
 			"from": [7, 12, 5],
 			"to": [9, 12, 7],
+			"shade": false,
 			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 12, 7], "rescale": true},
 			"faces": {
 				"up": {"uv": [2, 4, 4, 6], "rotation": 180, "texture": "#0"},
@@ -53,6 +57,7 @@
 			"name": "leaf_e",
 			"from": [9, 12, 7],
 			"to": [11, 12, 9],
+			"shade": false,
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [9, 12, 8], "rescale": true},
 			"faces": {
 				"up": {"uv": [2, 4, 4, 6], "rotation": 270, "texture": "#0"},
@@ -63,6 +68,7 @@
 			"name": "leaf_s",
 			"from": [7, 12, 9],
 			"to": [9, 12, 11],
+			"shade": false,
 			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 12, 9], "rescale": true},
 			"faces": {
 				"up": {"uv": [2, 4, 4, 6], "texture": "#0"},
@@ -73,6 +79,7 @@
 			"name": "leaf_w",
 			"from": [5, 12, 7],
 			"to": [7, 12, 9],
+			"shade": false,
 			"rotation": {"angle": 22.5, "axis": "z", "origin": [7, 12, 8], "rescale": true},
 			"faces": {
 				"up": {"uv": [2, 4, 4, 6], "rotation": 90, "texture": "#0"},
