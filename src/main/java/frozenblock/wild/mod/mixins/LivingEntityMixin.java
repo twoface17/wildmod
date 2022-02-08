@@ -44,14 +44,10 @@ public class LivingEntityMixin {
 				int numCatalysts=Sphere.blocksInSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world);
 				if (numCatalysts>0) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
-					if (world.getGameRules().getBoolean(WildMod.SCULK_THREADING)) {
-						CatalystThreader.main(world, entity, pos, numCatalysts);
-					} else {
-						SculkGrower.sculk(pos, world, entity, numCatalysts);
-						int rVal2 = getHighestRadius(world, pos);
-						int activatorLoop = (int) ((48) * Math.sin((rVal2 / 40.75)));
-						ActivatorGrower.placeActiveOmptim(activatorLoop, rVal2, pos, world);
-					}
+					SculkGrower.sculk(pos, world, entity, numCatalysts);
+					int rVal2 = getHighestRadius(world, pos);
+					int activatorLoop = (int) ((48) * Math.sin((rVal2 / 40.75)));
+					ActivatorGrower.startGrowing(activatorLoop, rVal2, pos, world);
 				}
 			}
 		}

@@ -27,17 +27,17 @@ public class ActivatorGrower {
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
     public static Random random = new Random();
 
-    public static void placeActiveOmptim(int loop, int rVal, BlockPos pos, World world) { //Call For Placement
-            for (int l = 0; l < loop; ++l) {
-                double a = random() * 2 * PI;
-                double r = sqrt(rVal) * sqrt(random());
-                int x = (int) (r * cos(a));
-                int y = (int) (r * sin(a));
-                placeActivator(pos.add(x, 0, y), world, loop/3);
-            }
+    public static void startGrowing(int loop, int rVal, BlockPos pos, World world) { //Call For Placement
+        for (int l = 0; l < loop; ++l) {
+            double a = random() * 2 * PI;
+            double r = sqrt(rVal) * sqrt(random());
+            int x = (int) (r * cos(a));
+            int y = (int) (r * sin(a));
+            selectActivator(pos.add(x, 0, y), world, loop/3);
         }
+    }
 
-    public static void placeActivator(BlockPos blockPos, World world, int chance) { //Get Activator To Place
+    public static void selectActivator(BlockPos blockPos, World world, int chance) { //Get Activator To Place
         int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
         if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > (chance+4))) {
             BlockPos NewSculk = solidsculkCheck(blockPos, world);
@@ -49,13 +49,13 @@ public class ActivatorGrower {
                     activator = SculkTags.COMMON_ACTIVATORS.getRandom(random).getDefaultState();
                 }
                 if (activator!=null) {
-                    finalPlaceActivator(NewSculk, world, activator);
+                    placeActivator(NewSculk, world, activator);
                 }
             }
         }
     }
 
-    public static void finalPlaceActivator(BlockPos pos, World world, BlockState state) { //Place The Activator
+    public static void placeActivator(BlockPos pos, World world, BlockState state) { //Place The Activator
         if (SculkTags.GROUND_ACTIVATORS.contains(state.getBlock())) {
             world.setBlockState(pos, state);
         } else {
