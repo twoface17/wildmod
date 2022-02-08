@@ -55,15 +55,16 @@ public class ActivatorGrower {
                             world.setBlockState(NewSculk.up(), sensor);
                         }
                     }
-                } else {
-                    if (stateUp == water) {
-                        world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
-                    } else if (stateUp.getBlock() != waterBlock) {
-                        if (stateUp == vein.with(waterLogged, true)) {
+                } else { if uniInt <= 3 {
+                        if (stateUp == water) {
                             world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
-                        } else {
-                            world.removeBlock(NewSculk.up(), true);
-                            world.setBlockState(NewSculk.up(), shrieker);
+                        } else if (stateUp.getBlock() != waterBlock) {
+                            if (stateUp == vein.with(waterLogged, true)) {
+                                world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
+                            } else {
+                                world.removeBlock(NewSculk.up(), true);
+                                world.setBlockState(NewSculk.up(), shrieker);
+                            }
                         }
                     }
                 }
