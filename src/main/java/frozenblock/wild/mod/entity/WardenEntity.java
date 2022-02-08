@@ -758,7 +758,7 @@ public class WardenEntity extends HostileEntity {
     public int lightTransitionTicks;
     public int lastLightLevel;
     public boolean isLightHigher;
-    public boolean shouldRender; //Status 17 (False) Status 18 (True)
+    public boolean shouldRender=true; //Status 17 (False) Status 18 (True)
 
     //ANIMATION
     public boolean canEmergeAnim; //Status 9

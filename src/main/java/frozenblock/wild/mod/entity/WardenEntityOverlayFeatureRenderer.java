@@ -28,6 +28,7 @@ public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<Ward
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {;
+        if (entity.shouldRender) {
         String string = Formatting.strip(entity.getName().getString());
         if ("Osmiooo".equals(string)) {
             OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_overlay.png"));
@@ -37,10 +38,7 @@ public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<Ward
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.OVERLAY);
         int a = calculateLight(getBlockLight(entity, entity.getBlockPos()));
         float b = colors(getBlockLight(entity, entity.getBlockPos()));
-        if (entity.shouldRender) {
-            this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b, b, b, 1.0f);
-        } else {
-            this.getContextModel().render(matrices, vertexConsumer, 0, OverlayTexture.DEFAULT_UV, 0, 0, 0, 0.0f);
+        this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b, b, b, 1.0f);
         }
     }
     private float getBlockLight(WardenEntity wardenEntity, BlockPos blockPos) {
