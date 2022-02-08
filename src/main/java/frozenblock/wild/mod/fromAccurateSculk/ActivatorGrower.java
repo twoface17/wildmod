@@ -70,7 +70,6 @@ public class ActivatorGrower {
                 }
             }
         }
-    }
     public static boolean checkForOthers(BlockPos pos, World world) {
         boolean bl1 = Sphere.sphereBlock(sensor.getBlock(), world, pos, 3);
         boolean bl2 = Sphere.sphereBlock(shrieker.getBlock(), world, pos, 3);
