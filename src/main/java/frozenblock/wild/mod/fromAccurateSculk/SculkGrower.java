@@ -92,7 +92,7 @@ public class SculkGrower {
                 if (SculkTags.BLOCK_REPLACEABLE.contains(block)) {
                     placeSculkOptim(NewSculk, world);
                     return true;
-                } else if (solid(world, NewSculk)) {
+                } else if (airveins(world, NewSculk)) {
                     if (SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(NewSculk.up()).getBlock()) && !SculkTags.SCULK.contains(world.getBlockState(NewSculk.up()).getBlock())) {
                         veins(NewSculk, world);
                         return true;
@@ -140,37 +140,35 @@ public class SculkGrower {
     public static void veins(BlockPos blockPos, World world) { //Calculate Vein Placement
         for (Direction direction : Direction.values()) {
             BlockPos pos = blockPos.offset(direction);
-            if (solid(world, pos)) {
+            if (airveins(world, pos)) {
                 veinPlaceOptim(pos, world);
             } else { BlockPos check = sculkCheck(pos, world);
-                if (solid(world, check)) {
+                if (airveins(world, check)) {
                     veinPlaceOptim(check, world);
                 }
             }
         }
-        if (solid(world, blockPos)) {
+        if (airveins(world, blockPos)) {
             veinPlaceOptim(blockPos, world);
         } else { BlockPos check = sculkCheck(blockPos, world);
-            if (solid(world, check)) {
+            if (airveins(world, check)) {
                 veinPlaceOptim(check, world);
             }
         }
     }
 
     public static void veinPlaceOptim(BlockPos blockPos, World world) { //Place Veins
-        if (airveins(world, blockPos)) {
-            for (Direction direction : Direction.values()) {
-                BlockPos pos = blockPos.offset(direction);
-                BlockState state = world.getBlockState(pos);
-                Block block = state.getBlock();
-                if (SculkTags.ALWAYS_WATER.contains(block) || state == Blocks.WATER.getDefaultState()) {
-                    world.setBlockState(pos, vein.with(waterLogged, true).with(getOpposite(direction), true));
-                } else if (block != waterBlock) {
-                    if (block == veinBlock) {
-                        world.setBlockState(pos, state.with(getOpposite(direction), true));
-                    } else if (SculkTags.SCULK_REPLACEABLE.contains(block) || state.isAir()) {
-                        world.setBlockState(pos, vein.with(getOpposite(direction), true));
-                    }
+        for (Direction direction : Direction.values()) {
+            BlockPos pos = blockPos.offset(direction);
+            BlockState state = world.getBlockState(pos);
+            Block block = state.getBlock();
+            if (SculkTags.ALWAYS_WATER.contains(block) || state == Blocks.WATER.getDefaultState()) {
+                world.setBlockState(pos, vein.with(waterLogged, true).with(getOpposite(direction), true));
+            } else if (block != waterBlock) {
+                if (block == veinBlock) {
+                    world.setBlockState(pos, state.with(getOpposite(direction), true));
+                } else if (SculkTags.SCULK_REPLACEABLE.contains(block) || state.isAir()) {
+                    world.setBlockState(pos, vein.with(getOpposite(direction), true));
                 }
             }
         }
@@ -246,19 +244,11 @@ public class SculkGrower {
     }
 
     public static boolean airveins(World world, BlockPos blockPos) { //Check If Veins Are Above Invalid Block
+        if (blockPos==null) { return false; }
         BlockState state = world.getBlockState(blockPos);
         Block block = state.getBlock();
         Fluid fluid = world.getFluidState(blockPos).getFluid();
         return !SculkTags.SCULK.contains(block) && !SculkTags.SCULK_UNTOUCHABLE.contains(block) && !SculkTags.SCULK_REPLACEABLE.contains(block) && !state.isAir() && !FluidTags.WATER.contains(fluid) && !FluidTags.LAVA.contains(fluid);
-    }
-
-    public static boolean solid(World world, BlockPos blockPos) {
-        return (blockPos!=null && !world.getBlockState(blockPos).isAir() && !SculkTags.SCULK_UNTOUCHABLE.contains(world.getBlockState(blockPos).getBlock()));
-    }
-
-    public static boolean solidrep(World world, BlockPos blockPos) {
-        Block block = world.getBlockState(blockPos).getBlock();
-        return (!world.getBlockState(blockPos).isAir() && !SculkTags.SCULK_UNTOUCHABLE.contains(block) && SculkTags.SCULK_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(world.getBlockState(blockPos.down()).getBlock()));
     }
 
     public static boolean solrepsculk(World world, BlockPos blockPos) {

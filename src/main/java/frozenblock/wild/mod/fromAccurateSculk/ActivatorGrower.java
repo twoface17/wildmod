@@ -77,7 +77,7 @@ public class ActivatorGrower {
     }
 
     /** CAlCULATIONS & CHECKS */
-    public static BlockPos sculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
+    public static BlockPos solidsculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
         BlockPos check = checkPt2(blockPos, world);
         if (check!=null) { return check; }
         return checkPt1(blockPos, world);
