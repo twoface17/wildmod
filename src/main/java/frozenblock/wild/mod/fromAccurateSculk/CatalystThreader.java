@@ -152,11 +152,9 @@ class ActivatorThread extends Thread {
 
     /** CAlCULATIONS & CHECKS */
     public BlockPos solidsculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
-        if (checkPt2(blockPos, world)!=null) {
-            return checkPt2(blockPos, world);
-        } else if (checkPt1(blockPos, world)!=null) {
-            return checkPt1(blockPos, world);
-        } else { return null; }
+        BlockPos check = checkPt2(blockPos, world);
+        if (check!=null) { return check; }
+        return checkPt1(blockPos, world);
     }
     public BlockPos checkPt1(BlockPos blockPos, World world) { //Check For Valid Placement Above
         int upward = world.getGameRules().getInt(WildMod.UPWARD_SPREAD);
@@ -165,8 +163,9 @@ class ActivatorThread extends Thread {
             upward = (MAX - blockPos.getY())-1;
         }
         for (int h = 0; h < upward; h++) {
-            if (solrepsculk(world, blockPos.up(h))) {
-                return blockPos.up(h);
+            BlockPos pos =  blockPos.up(h);
+            if (solrepsculk(world, pos)) {
+                return pos;
             }
         }
         return null;
@@ -178,8 +177,9 @@ class ActivatorThread extends Thread {
             downward = (blockPos.getY()-MIN)-1;
         }
         for (int h = 0; h < downward; h++) {
-            if (solrepsculk(world, blockPos.down(h))) {
-                return blockPos.down(h);
+            BlockPos pos =  blockPos.down(h);
+            if (solrepsculk(world, pos)) {
+                return pos;
             }
         }
         return null;
@@ -413,8 +413,9 @@ class SculkThread extends Thread {
             upward = (MAX - blockPos.getY())-1;
         }
         for (int h = 0; h < upward; h++) {
-            if (solrepsculk(world, blockPos.up(h))) {
-                return blockPos.up(h);
+            BlockPos pos =  blockPos.up(h);
+            if (solrepsculk(world, pos)) {
+                return pos;
             }
         }
         return null;
@@ -426,8 +427,9 @@ class SculkThread extends Thread {
             downward = (blockPos.getY()-MIN)-1;
         }
         for (int h = 0; h < downward; h++) {
-            if (solrepsculk(world, blockPos.down(h))) {
-                return blockPos.down(h);
+            BlockPos pos =  blockPos.down(h);
+            if (solrepsculk(world, pos)) {
+                return pos;
             }
         }
         return null;
