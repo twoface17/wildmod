@@ -66,7 +66,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     public void setAngles(@NotNull FrogEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
         //this.main.pivotY = - 2 + AnimationAPI.easeInOutSine(100, 160, 10, time) + AnimationAPI.easeInOutSine(160, 220, 10, time);
 
-        float t = 20f; //Multiplier for animation length
+        float t = 2f; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
 
         /* STARTING ANIMATIONS */
@@ -75,19 +75,19 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             entity.canEatAnim=false;
         }
 
-        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 1) / 10;
+        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 10) / 10;
 
         boolean canEat = eatTime != 0;
 
         if(canEat) { //Eat animation
-            /*this.head.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, -60f / j, eatTime) +
-                    AnimationAPI.linear(t * 0.0833f, t * 0.04167f, 0f / j, eatTime) +
-                    AnimationAPI.easeInOutSine(t * 0.04167f, t * 0.05f, 60f / j, eatTime)
+            this.head.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, -60f / j, eatTime) +
+                    AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, 0f / j, eatTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4167f, t * 0.5f, 60f / j, eatTime)
             );
-            this.tongue.pitch = (AnimationAPI.linear(t * 0f, t * 0.0833f, 0f / j, eatTime) +
-                    AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.04167f, -18f / j, eatTime) +
-                    AnimationAPI.easeInOutSine(t * 0.04167f, t * 0.05f, 18f / j, eatTime)
-            );*/
+            this.tongue.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, 0f / j, eatTime) +
+                    AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, -18f / j, eatTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4167f, t * 0.5f, 18f / j, eatTime)
+            );
         } else {
 this.head.pitch = 0;
 this.tongue.pitch = 0;
