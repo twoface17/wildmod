@@ -187,7 +187,7 @@ class ActivatorThread extends Thread {
 
     public boolean solrepsculk(World world, BlockPos blockPos) {
         Block block = world.getBlockState(blockPos).getBlock();
-        return (block==sculk.getBlock() && SculkTags.SCULK_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock()));
+        return (block==sculk.getBlock() && SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock()));
     }
 
     public void callPlace(World world, BlockPos pos, BlockState blockState) {
