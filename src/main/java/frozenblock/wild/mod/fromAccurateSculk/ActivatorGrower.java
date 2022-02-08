@@ -64,9 +64,9 @@ public class ActivatorGrower {
                         } else {
                             world.removeBlock(NewSculk.up(), true);
                             world.setBlockState(NewSculk.up(), sensor);
+                            }
                         }
                     }
-                }
                 }
             }
         }
