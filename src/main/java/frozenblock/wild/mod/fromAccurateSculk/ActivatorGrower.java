@@ -44,10 +44,21 @@ public class ActivatorGrower {
             BlockPos NewSculk = solidsculkCheck(blockPos, world);
             if (NewSculk != null  && !checkForOthers(NewSculk, world)) {
                 BlockState stateUp = world.getBlockState(NewSculk.up());
-                if (uniInt <= 16) {
+                if (uniInt <= 3) {
+                    if (stateUp == water) {
+                        world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
+                    } else if (stateUp.getBlock() !=waterBlock) {
+                        if (stateUp == vein.with(waterLogged, true)) {
+                            world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
+                        } else {
+                            world.removeBlock(NewSculk.up(), true);
+                            world.setBlockState(NewSculk.up(), shrieker);
+                        }
+                    }
+                } else if (uniInt <= 16) {
                     if (stateUp == water) {
                         world.setBlockState(NewSculk.up(), sensor.with(waterLogged, true));
-                    } else if (stateUp.getBlock() !=waterBlock) {
+                    } else if (stateUp.getBlock() != waterBlock) {
                         if (stateUp == vein.with(waterLogged, true)) {
                             world.setBlockState(NewSculk.up(), sensor.with(waterLogged, true));
                         } else {
@@ -55,18 +66,7 @@ public class ActivatorGrower {
                             world.setBlockState(NewSculk.up(), sensor);
                         }
                     }
-                } 
-                if uniInt <= 3 {
-                        if (stateUp == water) {
-                            world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
-                        } else if (stateUp.getBlock() != waterBlock) {
-                            if (stateUp == vein.with(waterLogged, true)) {
-                                world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
-                            } else {
-                                world.removeBlock(NewSculk.up(), true);
-                                world.setBlockState(NewSculk.up(), shrieker);
-                            }
-                    }
+                }
                 }
             }
         }
