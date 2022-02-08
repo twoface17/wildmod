@@ -577,6 +577,7 @@ public class WardenEntity extends HostileEntity {
     public boolean collides() {
         return this.emergeTicksLeft!=-5;
     }
+    public boolean isPushable() { return this.emergeTicksLeft!=-5; }
     public void sendDarkness(int dist, BlockPos blockPos, World world) {
         if (world instanceof ServerWorld) {
             if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
@@ -654,7 +655,7 @@ public class WardenEntity extends HostileEntity {
         this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
         this.ableToDig=false;
         this.hasDug=false;
-        if (this.emergeTicksLeft!=-5 && !this.hasDug) {
+        if (this.emergeTicksLeft != -5) {
             LivingEntity eventEntity = this.getVibrationEntity();
             this.lasteventpos = new BlockPos(this.vibX, this.vibY, this.vibZ);
             int suspicion = this.queuedSuspicion;
