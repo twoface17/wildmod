@@ -359,7 +359,6 @@ class SculkThread extends Thread {
     }
 
     public static void veinPlaceOptim(BlockPos blockPos, World world) { //Place Veins
-        if (airveins(world, blockPos)) {
             for (Direction direction : Direction.values()) {
                 BlockPos pos = blockPos.offset(direction);
                 BlockState state = world.getBlockState(pos);
@@ -375,7 +374,6 @@ class SculkThread extends Thread {
                 }
             }
         }
-    }
 
     /** CALCULATIONS & CHECKS */
     public static BooleanProperty getOpposite(Direction direction) {
