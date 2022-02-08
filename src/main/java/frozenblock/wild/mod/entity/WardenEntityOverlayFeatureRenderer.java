@@ -37,7 +37,11 @@ public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<Ward
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.OVERLAY);
         int a = calculateLight(getBlockLight(entity, entity.getBlockPos()));
         float b = colors(getBlockLight(entity, entity.getBlockPos()));
-        this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b,b,b, 1.0f);
+        if (entity.shouldRender) {
+            this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b, b, b, 1.0f);
+        } else {
+            this.getContextModel().render(matrices, vertexConsumer, 0, OverlayTexture.DEFAULT_UV, 0, 0, 0, 0.0f);
+        }
     }
     private float getBlockLight(WardenEntity wardenEntity, BlockPos blockPos) {
         int i = (int)MathHelper.clampedLerp(0.0F, 15.0F, 1.0F - wardenEntity.lightTransitionTicks / 10.0F);
