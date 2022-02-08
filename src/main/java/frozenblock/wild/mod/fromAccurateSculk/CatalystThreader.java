@@ -257,14 +257,13 @@ class SculkThread extends Thread {
         }
     }
     public static void sculkOptim(float loop, int rVal, BlockPos down, World world) { //Call For Sculk Placement & Increase Radius If Stuck
-        int rVal2 = MathHelper.clamp(rVal*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 33);
         int timesFailed=0;
         int groupsFailed=1;
         float fLoop = loop * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
 
         for (int l = 0; l < fLoop;) {
             double a = random() * 2 * PI;
-            double r = sqrt(rVal2+(groupsFailed-1)) * sqrt(random());
+            double r = sqrt(rVal +(groupsFailed-1)) * sqrt(random());
             boolean succeed = placeSculk(down.add((int) (r * sin(a)), 0, (int) (r * cos(a))), world);
             if (!succeed) { ++timesFailed; } else {
                 ++l;
@@ -274,11 +273,11 @@ class SculkThread extends Thread {
                 timesFailed=0;
                 groupsFailed=groupsFailed+2;
             }
-            if (sqrt(rVal2+(groupsFailed-1))>50) {
+            if (sqrt(rVal +(groupsFailed-1))>50) {
                 break;
             }
         }
-        setCatalystRVal(world, down, rVal2+(groupsFailed-1));
+        setCatalystRVal(world, down, rVal +(groupsFailed-1));
     }
 
     public static boolean placeSculk(BlockPos blockPos, World world) { //Call For Sculk & Call For Veins
