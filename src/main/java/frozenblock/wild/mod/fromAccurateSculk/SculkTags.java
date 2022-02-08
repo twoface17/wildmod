@@ -12,7 +12,6 @@ public class SculkTags {
     public static final Tag<Block> SCULK_UNTOUCHABLE = TagFactory.BLOCK.create(new Identifier("twm", "sculk_untouchable"));
     public static final Tag<Block> SCULK = TagFactory.BLOCK.create(new Identifier("twm", "sculk"));
     public static final Tag<Block> VEIN_CONNECTABLE = TagFactory.BLOCK.create(new Identifier("twm", "vein_connectable"));
-    public static final Tag<Block> SCULK_VEIN_UNBENDABLE = TagFactory.BLOCK.create(new Identifier("twm", "sculk_unbendable"));
     public static final Tag.Identified<EntityType<?>> THREE = TagFactory.ENTITY_TYPE.create(new Identifier("twm", "3xp"));
     public static final Tag.Identified<EntityType<?>> FIVE = TagFactory.ENTITY_TYPE.create(new Identifier("twm", "5xp"));
     public static final Tag.Identified<EntityType<?>> TEN = TagFactory.ENTITY_TYPE.create(new Identifier("twm", "10xp"));
