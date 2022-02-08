@@ -55,7 +55,8 @@ public class ActivatorGrower {
                             world.setBlockState(NewSculk.up(), sensor);
                         }
                     }
-                } else { if uniInt <= 3 {
+                } 
+                if uniInt <= 3 {
                         if (stateUp == water) {
                             world.setBlockState(NewSculk.up(), shrieker.with(waterLogged, true));
                         } else if (stateUp.getBlock() != waterBlock) {
@@ -65,7 +66,6 @@ public class ActivatorGrower {
                                 world.removeBlock(NewSculk.up(), true);
                                 world.setBlockState(NewSculk.up(), shrieker);
                             }
-                        }
                     }
                 }
             }
