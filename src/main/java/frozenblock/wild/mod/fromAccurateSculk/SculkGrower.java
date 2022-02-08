@@ -223,8 +223,9 @@ public class SculkGrower {
             upward = (MAX - blockPos.getY())-1;
         }
         for (int h = 0; h < upward; h++) {
-            if (solrepsculk(world, blockPos.up(h))) {
-                return blockPos.up(h);
+            BlockPos pos =  blockPos.up(h);
+            if (solrepsculk(world, pos)) {
+                return pos;
             }
         }
         return null;
@@ -236,8 +237,9 @@ public class SculkGrower {
             downward = (blockPos.getY()-MIN)-1;
         }
         for (int h = 0; h < downward; h++) {
-            if (solrepsculk(world, blockPos.down(h))) {
-                return blockPos.down(h);
+            BlockPos pos =  blockPos.down(h);
+            if (solrepsculk(world, pos)) {
+                return pos;
             }
         }
         return null;
