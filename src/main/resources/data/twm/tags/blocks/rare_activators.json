@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "twm:sculk_shrieker",
-    "minecraft:cobblestone"
+    "twm:sculk_shrieker"
   ]
 }
