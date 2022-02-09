@@ -108,8 +108,8 @@ public class RegisterWorldgen {
         MANGROVE = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "mangrove"), Feature.TREE
                 .configure(new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
-                        new ForkingTrunkPlacer(5, 1, 2), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
-                        new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 75),
+                        new StraightTrunkPlacer(8, 3, 0), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
+                        new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 100),
                         new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
                         .decorators(ImmutableList.of(MangroveTreeDecorator.INSTANCE))
                         .build()));
