@@ -82,13 +82,13 @@ public class MangroveTreeDecorator extends TreeDecorator {
                 }
                 BlockPos posZNeg = currentPosition;
                 if (posXPos.getY() <= posXNeg.getY() && posXPos.getY() <= posZPos.getY() && posXPos.getY() <= posZNeg.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.X, -1);
+                    targetPosition = posXPos.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
                 } else if (posXNeg.getY() <= posXPos.getY() && posXNeg.getY() <= posZPos.getY() && posXNeg.getY() <= posZNeg.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.X, 1);
+                    targetPosition = posXPos.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
                 } else if (posZPos.getY() <= posXPos.getY() && posZPos.getY() <= posXNeg.getY() && posZPos.getY() <= posZNeg.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.Z, -1);
+                    targetPosition = posXPos.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
                 } else if (posZNeg.getY() <= posXPos.getY() && posZNeg.getY() <= posXNeg.getY() && posZNeg.getY() <= posZPos.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.Z,  1);
+                    targetPosition = posXPos.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
                 }
                 targetPosition = targetPosition.up();
                 placeRootBottom(targetPosition, world, replacer);
@@ -158,13 +158,13 @@ public class MangroveTreeDecorator extends TreeDecorator {
             placeRootBlock(currentPosition, world, replacer);
             int dir = (int) MathHelper.clamp(Math.random() * 10f, 0, 3);
             if (dir == 0) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, 1);
+                currentPosition = currentPosition.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
             } else if (dir == 1) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, -1);
+                currentPosition = currentPosition.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * -10, -1, -3));
             } else if (dir == 2) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, 1);
+                currentPosition = currentPosition.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * 10, 1, 3));
             } else if (dir == 3) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, -1);
+                currentPosition = currentPosition.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * -10, -1, -3));
             }
             if (!currentPosition.isWithinDistance(targetPosition, 3)) {
                 currentPosition = targetPosition;
@@ -173,7 +173,6 @@ public class MangroveTreeDecorator extends TreeDecorator {
         }
     }
 }
-
 
 
 
