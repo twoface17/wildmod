@@ -89,8 +89,8 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
                     AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, 0f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.4167f, t * 0.5f, 60f / j, eatTime)
             );
-            this.tongue_eat.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, 0f / j, eatTime) +
-                    AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, -18f / j, eatTime) +
+            this.tongue_eat.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, -18f / j, eatTime) +
+                    AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, 0f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.4167f, t * 0.5f, 18f / j, eatTime)
             ); //EDIT THIS
         } else {
