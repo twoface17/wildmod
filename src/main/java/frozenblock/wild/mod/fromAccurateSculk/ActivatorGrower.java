@@ -1,9 +1,9 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.blocks.SculkBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
 import frozenblock.wild.mod.liukrastapi.Sphere;
-import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -20,10 +20,11 @@ import static java.lang.Math.*;
 
 
 public class ActivatorGrower {
-    public static final BlockState sculk = RegisterBlocks.SCULK.getDefaultState();
+    public static final BlockState sculk = SculkBlock.SCULK_BLOCK.getDefaultState();
     public static final BlockState vein = SculkVeinBlock.SCULK_VEIN.getDefaultState();
     public static final BlockState water = Blocks.WATER.getDefaultState();
     public static final Block waterBlock = Blocks.WATER;
+    //public static final Block sculkBlock = SculkBlock.SCULK_BLOCK;
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
     public static Random random = new Random();
 
@@ -41,7 +42,7 @@ public class ActivatorGrower {
         int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
         if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > (chance+4))) {
             BlockPos NewSculk = solidsculkCheck(blockPos, world);
-            if (NewSculk != null && !checkForOthers(NewSculk, world)) {
+            if (NewSculk != null && !Sphere.blockTagInSphere(NewSculk, 3, SculkTags.ACTIVATORS, world)) {
                 BlockState activator = null;
                 if (uniInt <= 3) {
                     activator = SculkTags.RARE_ACTIVATORS.getRandom(random).getDefaultState();
@@ -72,15 +73,13 @@ public class ActivatorGrower {
         }
     }
 
-    public static boolean checkForOthers(BlockPos pos, World world) {
-        return Sphere.blockTagInSphere(pos, 3, SculkTags.ACTIVATORS, world);
-    }
-
     /** CAlCULATIONS & CHECKS */
     public static BlockPos solidsculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
         BlockPos check = checkPt2(blockPos, world);
         if (check!=null) { return check; }
-        return checkPt1(blockPos, world);
+        if (!world.isSkyVisible(blockPos)) {
+            return checkPt1(blockPos, world);
+        } return null;
     }
     public static BlockPos checkPt1(BlockPos blockPos, World world) { //Check For Valid Placement Above
         int upward = world.getGameRules().getInt(WildMod.UPWARD_SPREAD);
@@ -90,7 +89,7 @@ public class ActivatorGrower {
         }
         for (int h = 0; h < upward; h++) {
             BlockPos pos =  blockPos.up(h);
-            if (solrepsculk(world, pos)) {
+            if (world.getBlockState(pos)==sculk && SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(pos.up()).getBlock())) {
                 return pos;
             }
         }
@@ -104,14 +103,10 @@ public class ActivatorGrower {
         }
         for (int h = 0; h < downward; h++) {
             BlockPos pos =  blockPos.down(h);
-            if (solrepsculk(world, pos)) {
+            if (world.getBlockState(pos)==sculk && SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(pos.up()).getBlock())) {
                 return pos;
             }
         }
         return null;
-    }
-
-    public static boolean solrepsculk(World world, BlockPos blockPos) {
-        return (world.getBlockState(blockPos).getBlock()==sculk.getBlock() && SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockPos.up()).getBlock()));
     }
 }

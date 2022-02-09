@@ -18,6 +18,7 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,6 +28,7 @@ public class SculkGrower {
     /** DEFAULT VARIABLES */
     public static final BlockState vein = SculkVeinBlock.SCULK_VEIN.getDefaultState();
     public static final BlockState brokenVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false);
+    public static final BlockState sculkBlock = SculkBlock.SCULK_BLOCK.getDefaultState();
     public static final BlockState water = Blocks.WATER.getDefaultState();
     public static final BlockState air = Blocks.AIR.getDefaultState();
     public static final Block waterBlock = Blocks.WATER;
@@ -58,9 +60,8 @@ public class SculkGrower {
     public static void sculkOptim(float loop, int rVal, BlockPos down, World world) { //Call For Sculk Placement & Increase Radius If Stuck
         int timesFailed=0;
         int groupsFailed=1;
-        float fLoop = loop * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
 
-        for (int l = 0; l < fLoop;) {
+        for (int l = 0; l < loop;) {
             double a = random() * 2 * PI;
             double r = sqrt(rVal +(groupsFailed-1)) * sqrt(random());
             boolean succeed = placeSculk(down.add((int) (r * sin(a)), 0, (int) (r * cos(a))), world);
@@ -80,20 +81,20 @@ public class SculkGrower {
     }
 
     public static boolean placeSculk(BlockPos blockPos, World world) { //Call For Sculk & Call For Veins
-        BlockPos NewSculk;
-        if (SculkTags.BLOCK_REPLACEABLE.contains(world.getBlockState(blockPos).getBlock()) && solrepsculk(world, blockPos)) {
-            NewSculk = blockPos;
-            placeSculkOptim(NewSculk, world);
+        Block block = world.getBlockState(blockPos).getBlock();
+        if (SculkTags.BLOCK_REPLACEABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, blockPos)) {
+            placeSculkOptim(blockPos, world);
             return true;
         } else {
-            NewSculk = sculkCheck(blockPos, world);
+            BlockPos NewSculk = sculkCheck(blockPos, world);
             if (NewSculk != null) {
-                Block block = world.getBlockState(NewSculk).getBlock();
+                block = world.getBlockState(NewSculk).getBlock();
                 if (SculkTags.BLOCK_REPLACEABLE.contains(block)) {
                     placeSculkOptim(NewSculk, world);
                     return true;
                 } else if (airveins(world, NewSculk)) {
-                    if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(NewSculk.up()).getBlock()) && !SculkTags.SCULK.contains(world.getBlockState(NewSculk.up()).getBlock())) {
+                    Block blockUp = world.getBlockState(NewSculk.up()).getBlock();
+                    if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(blockUp) && blockUp!=veinBlock) {
                         veins(NewSculk, world);
                         return true;
                     }
@@ -104,7 +105,7 @@ public class SculkGrower {
     }
 
     public static void placeSculkOptim(BlockPos NewSculk, World world) { //Place Sculk & Call For Veins
-        world.setBlockState(NewSculk, SculkBlock.SCULK_BLOCK.getDefaultState());
+        world.setBlockState(NewSculk, sculkBlock);
         for (Direction direction : Direction.values()) {
             BlockPos pos = NewSculk.offset(direction);
             BlockState state = world.getBlockState(pos);
@@ -116,7 +117,7 @@ public class SculkGrower {
                     } else {
                         world.setBlockState(pos, state.with(getOpposite(direction), false));
                     }
-                    } else { // If Vein Isn't Waterlogged
+                } else { // If Vein Isn't Waterlogged
                     if (state.with(getOpposite(direction), false)==brokenVein) {
                         world.setBlockState(pos, air);
                     } else {
@@ -187,7 +188,7 @@ public class SculkGrower {
 
     /** CALCULATIONS & CHECKS */
     public static int firstRadius(World world, int i) {
-        return MathHelper.clamp(i*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 33);
+        return MathHelper.clamp(i*world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER),1, 48);
     }
     public static void setCatalysts(World world, BlockPos pos, int i) {
         for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world)) {
@@ -210,7 +211,9 @@ public class SculkGrower {
     public static BlockPos sculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
         BlockPos check = checkPt2(blockPos, world);
         if (check!=null) { return check; }
-        return checkPt1(blockPos, world);
+        if (!world.isSkyVisible(blockPos)) {
+            return checkPt1(blockPos, world);
+        } return null;
     }
     public static BlockPos checkPt1(BlockPos blockPos, World world) { //Check For Valid Placement Above
         int upward = world.getGameRules().getInt(WildMod.UPWARD_SPREAD);
@@ -220,7 +223,8 @@ public class SculkGrower {
         }
         for (int h = 0; h < upward; h++) {
             BlockPos pos =  blockPos.up(h);
-            if (solrepsculk(world, pos)) {
+            Block block = world.getBlockState(pos).getBlock();
+            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
                 return pos;
             }
         }
@@ -233,8 +237,9 @@ public class SculkGrower {
             downward = (blockPos.getY()-MIN)-1;
         }
         for (int h = 0; h < downward; h++) {
-            BlockPos pos =  blockPos.down(h);
-            if (solrepsculk(world, pos)) {
+            BlockPos pos = blockPos.down(h);
+            Block block = world.getBlockState(pos).getBlock();
+            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
                 return pos;
             }
         }
@@ -249,15 +254,10 @@ public class SculkGrower {
         return !SculkTags.SCULK.contains(block) && !SculkTags.SCULK_UNTOUCHABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !state.isAir() && !FluidTags.WATER.contains(fluid) && !FluidTags.LAVA.contains(fluid);
     }
 
-    public static boolean solrepsculk(World world, BlockPos blockPos) {
-        Block block = world.getBlockState(blockPos).getBlock();
-        return (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && airOrReplaceableUp(world, blockPos) && !SculkTags.SCULK.contains(block));
-    }
-
     public static boolean airOrReplaceableUp(World world, BlockPos blockPos) {
         for (Direction direction : Direction.values()) {
             BlockState state = world.getBlockState(blockPos.offset(direction));
-            if (state.hasSidedTransparency() || SculkTags.SCULK_VEIN_REPLACEABLE.contains(state.getBlock()) || state.isAir()) {
+            if (!state.isFullCube(world, blockPos)) {
                 return true;
             }
         }
