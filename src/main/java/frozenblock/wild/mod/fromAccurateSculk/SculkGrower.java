@@ -60,8 +60,9 @@ public class SculkGrower {
     public static void sculkOptim(float loop, int rVal, BlockPos down, World world) { //Call For Sculk Placement & Increase Radius If Stuck
         int timesFailed=0;
         int groupsFailed=1;
+        float fLoop = loop * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
 
-        for (int l = 0; l < loop;) {
+        for (int l = 0; l < fLoop;) {
             double a = random() * 2 * PI;
             double r = sqrt(rVal +(groupsFailed-1)) * sqrt(random());
             boolean succeed = placeSculk(down.add((int) (r * sin(a)), 0, (int) (r * cos(a))), world);
