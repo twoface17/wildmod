@@ -627,7 +627,7 @@ public class WardenEntity extends HostileEntity {
         }
     }
     public void tickBurn() {
-    if (this.isAlive()) {
+    if (this.isAlive() && !this.hasDug) {
         if (world.getGameRules().getBoolean(WildMod.WARDEN_BURNS)) {
             boolean bl = this.burnsInDaylight() && this.isAffectedByDaylight();
             if (bl) { ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
