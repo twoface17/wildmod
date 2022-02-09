@@ -158,13 +158,13 @@ public class MangroveTreeDecorator extends TreeDecorator {
             placeRootBlock(currentPosition, world, replacer);
             int dir = (int) MathHelper.clamp(Math.random() * 10f, 0, 3);
             if (dir == 0) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
+                currentPosition = currentPosition.offset(Direction.Axis.X, 1);
             } else if (dir == 1) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * -10, -1, -3));
+                currentPosition = currentPosition.offset(Direction.Axis.X, -1);
             } else if (dir == 2) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * 10, 1, 3));
+                currentPosition = currentPosition.offset(Direction.Axis.Z, 1);
             } else if (dir == 3) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * -10, -1, -3));
+                currentPosition = currentPosition.offset(Direction.Axis.Z, -1);
             }
             if (!currentPosition.isWithinDistance(targetPosition, 3)) {
                 currentPosition = targetPosition;
