@@ -53,7 +53,14 @@ public abstract class RegisterBlocks {
             .of(Material.PLANT)
             .strength(0.1f, 1f)
             .requiresTool()
-            .luminance(15);
+            .luminance(15)
+            .sounds(new BlockSoundGroup(1.0f, 1.0f,
+                    SoundEvents.BLOCK_CORAL_BLOCK_BREAK,
+                    SoundEvents.BLOCK_CORAL_BLOCK_STEP,
+                    SoundEvents.BLOCK_CORAL_BLOCK_PLACE,
+                    SoundEvents.BLOCK_CORAL_BLOCK_HIT,
+                    SoundEvents.BLOCK_CORAL_BLOCK_STEP
+            ));
 
     public static final Block DEEPSLATE_FRAME = new PillarBlock(DEEPSLATE_FRAME_SETTINGS);
 
