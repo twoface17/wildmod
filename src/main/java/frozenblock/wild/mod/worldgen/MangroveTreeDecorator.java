@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.VineBlock;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -141,7 +142,7 @@ public class MangroveTreeDecorator extends TreeDecorator {
     }
 
     private void placeRootBlock(BlockPos currentPosition, TestableWorld world, BiConsumer<BlockPos, BlockState> replacer) {
-        if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.POPPY.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.DANDELION.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.GRASS.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.TALL_GRASS.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.FERN.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.BLUE_ORCHID.getDefaultState()))) {
+        if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.DANDELION.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.GRASS.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.TALL_GRASS.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.FERN.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.BLUE_ORCHID.getDefaultState()))) {
             replacer.accept(currentPosition, MangroveWoods.MANGROVE_ROOTS.getDefaultState());
         } else if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState()))) {
             replacer.accept(currentPosition, MangroveWoods.MANGROVE_ROOTS.getDefaultState().with(MangroveRoots.WATERLOGGED, true));

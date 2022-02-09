@@ -57,7 +57,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         modelPartData5.addChild("left_eye", ModelPartBuilder.create().uv(0,5).cuboid(-1.5F, -1.0F, -1.5F, 3.0F, 2.0F, 3.0F), ModelTransform.pivot(2.5F,-3.0F,-6.5F));
         modelPartData3.addChild("croaking_body", ModelPartBuilder.create().uv(26, 5).cuboid(3.5f, 1.1f, 3.9f,7, 2, 3, new Dilation(-0.1f)), ModelTransform.pivot(-10F,-3F,-8F));
         modelPartData3.addChild("tongue", ModelPartBuilder.create().uv(17,13).cuboid(-2.0F, 0.0F, -7.1F, 4.0F, 0.0F, 7.0F), ModelTransform.pivot(-3.0F,-1.1F,1.0F));
-        modelPartData3.addChild("tongue_eat", ModelPartBuilder.create().uv(17,13).cuboid(-2.0F, 0.0F, -7.1F, 2.0F, 0.0F, 35.0F), ModelTransform.pivot(-3.0F,-1.1F,1.0F)); //EDIT THIS
+        modelPartData3.addChild("tongue_eat", ModelPartBuilder.create().uv(17,13).cuboid(-2.0F, 0.0F, -7.1F, 2.0F, 0.0F, -35.0F), ModelTransform.pivot(-3.0F,-1.1F,1.0F)); //EDIT THIS
         modelPartData3.addChild("left_arm", ModelPartBuilder.create().uv(0,32).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 3.0F).uv(18,40).cuboid(-4.0F, 3.01F, -5.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(1.0F,-1.0F,-6.5F));
         modelPartData3.addChild("right_arm", ModelPartBuilder.create().uv(0,38).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 3.0F).uv(2,40).cuboid(-4.0F, 3.01F, -5.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(-7.0F,-1.0F,-6.5F));
         modelPartData1.addChild("left_leg", ModelPartBuilder.create().uv(14,25).cuboid(-1.0F, 0.0F, -2.0F, 3.0F, 3.0F, 4.0F).uv(2,32).cuboid(-2.0F, 3.01F, -4.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(3.5F,-3.0F,4.0F));

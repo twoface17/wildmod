@@ -75,6 +75,7 @@ public class RegisterSounds { //Register sound definitions
         public static SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
     //Warden
         public static SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
+        public static SoundEvent ENTITY_WARDEN_AMBIENT_UNDERGROUND = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient_underground"));
         public static SoundEvent ENTITY_WARDEN_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.angry"));
         public static SoundEvent ENTITY_WARDEN_ATTACK = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.attack"));
         public static SoundEvent ENTITY_WARDEN_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.close"));
@@ -178,6 +179,7 @@ public class RegisterSounds { //Register sound definitions
 
         //Warden
         ENTITY_WARDEN_AMBIENT = register(ENTITY_WARDEN_AMBIENT.getId());
+        ENTITY_WARDEN_AMBIENT_UNDERGROUND = register(ENTITY_WARDEN_AMBIENT_UNDERGROUND.getId());
         ENTITY_WARDEN_ANGRY = register(ENTITY_WARDEN_ANGRY.getId());
         ENTITY_WARDEN_ATTACK = register(ENTITY_WARDEN_ATTACK.getId());
         ENTITY_WARDEN_CLOSE = register(ENTITY_WARDEN_CLOSE.getId());

@@ -742,6 +742,20 @@
 		],
 		"subtitle": "subtitles.entity.warden.ambient"
 	},
+	"entity.warden.ambient_underground": {
+		"sounds": [
+			{
+				"name": "twm:entity/warden/underground1"
+			},
+			{
+				"name": "twm:entity/warden/underground2"
+			},
+			{
+				"name": "twm:entity/warden/underground3"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.slightly_angry"
+	},
 	"entity.warden.ambient_angry": {
 		"sounds": [
 			"twm:entity/warden/ambient_angry1",
