@@ -505,6 +505,8 @@ public class WardenEntity extends HostileEntity {
         }
     }
 
+    public boolean isPushedByFluids() { return false; }
+
     /** VISUALS */
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
