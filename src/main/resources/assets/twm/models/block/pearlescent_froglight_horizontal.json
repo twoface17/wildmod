@@ -2,7 +2,7 @@
   "credit": "Made by FrozenBlockStudios",
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "twm:block/pearlescent_froglight",
-    "side": "twm:block/pearlescent_froglight"
+    "end": "twm:block/pearlescent_froglight_top",
+    "side": "twm:block/pearlescent_froglight_side"
   }
 }

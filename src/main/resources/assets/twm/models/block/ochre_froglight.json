@@ -2,7 +2,7 @@
   "credit": "Made by FrozenBlockStudios",
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "twm:block/ochre_froglight",
-    "side": "twm:block/ochre_froglight"
+    "end": "twm:block/ochre_froglight_top",
+    "side": "twm:block/ochre_froglight_side"
   }
 }
