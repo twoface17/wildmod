@@ -171,8 +171,10 @@ public class WardenEntity extends HostileEntity {
             this.canAttackAnim=false;
         } else if (status == 17) { //Don't Render
             this.shouldRender=false;
+            this.hasDug=true;
         } else if (status == 18) { //Render
             this.shouldRender=true;
+            this.hasDug=false;
         } else { super.handleStatus(status); }
     }
 
@@ -379,7 +381,7 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("attackNearCooldown", this.attackNearCooldown);
         nbt.putInt("roarOtherCooldown", this.roarOtherCooldown);
         nbt.putBoolean("ableToDig", this.ableToDig);
-        this.hasDug = nbt.getBoolean("hasDug");
+        nbt.putBoolean("hasDug", this.hasDug);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -481,7 +483,7 @@ public class WardenEntity extends HostileEntity {
 
     private float getAttackDamage() { return (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE); }
     public static DefaultAttributeContainer.Builder createWardenAttributes() {return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 31.0D);}
-    protected boolean burnsInDaylight() { return true; }
+    protected boolean burnsInDaylight() { return !this.hasDug || this.emergeTicksLeft==-5; }
     @Override
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
@@ -627,7 +629,7 @@ public class WardenEntity extends HostileEntity {
         }
     }
     public void tickBurn() {
-    if (this.isAlive() && !this.hasDug) {
+    if (this.isAlive() && !this.hasDug && this.emergeTicksLeft!=-5) {
         if (world.getGameRules().getBoolean(WildMod.WARDEN_BURNS)) {
             boolean bl = this.burnsInDaylight() && this.isAffectedByDaylight();
             if (bl) { ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);

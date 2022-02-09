@@ -37,7 +37,7 @@ public class WardenGoal extends Goal {
         if (this.mob.roarTicksLeft1 > 0) {
             return false;
         }
-        if (this.mob.hasDug) { return false; }
+        if (this.mob.hasDug || this.mob.emergeTicksLeft==-5) { return false; }
 
         boolean attacker = false;
         if (this.mob.getAttacker() != null && !(this.mob.getAttacker() instanceof WardenEntity)) {

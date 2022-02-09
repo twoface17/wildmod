@@ -41,7 +41,7 @@ public class WardenWanderGoal
         if (this.mob.roarTicksLeft1 > 0) {
             return false;
         }
-        if (this.mob.hasDug) { return false; }
+        if (this.mob.hasDug || this.mob.emergeTicksLeft==-5) { return false; }
         if (this.mob.getNavigation().isIdle() && this.mob.getWorld().getTime()-this.mob.vibrationTimer>400 && this.mob.world.getTime()-this.mob.clientSniffStart>400) {
             if (this.mob.hasPassengers()) {
                 return false;

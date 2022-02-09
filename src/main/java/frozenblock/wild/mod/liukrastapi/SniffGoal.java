@@ -29,7 +29,7 @@ public class SniffGoal extends Goal {
         if (this.mob.roarTicksLeft1 > 0) {
             return false;
         }
-        if (this.mob.hasDug) { return false; }
+        if (this.mob.hasDug || this.mob.emergeTicksLeft==-5) { return false; }
         boolean exit = false;
         LivingEntity sniffEntity = null;
         if (this.mob.mostSuspiciousAround()!=null) {
