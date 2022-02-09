@@ -37,6 +37,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.*;
+import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -196,10 +197,9 @@ public class WardenEntity extends HostileEntity {
                 this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos, false))) * this.vibrationDelayAnger());}
         } else if (!this.isAiDisabled() && shouldListen && this.roarOtherCooldown<=0 && this.emergeTicksLeft==-5  && this.world.getTime() - this.vibrationTimer >= 20 && this.vibrationTicks==-1 && this.hasDug) {
             this.leaveTime = this.world.getTime() + 1200;
-            this.queuedSuspicion=suspicion;
-            if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);
+            if (vibrationPos != null) { CreateFloorVibration(this.world, this, vibrationPos);
                 this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos, false))) * 2);}
-            else { CreateVibration(this.world, this, eventPos);
+            else { CreateFloorVibration(this.world, this, eventPos);
                 this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos, false))) * 2);}
         }
     }
@@ -508,6 +508,11 @@ public class WardenEntity extends HostileEntity {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
         this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * this.vibrationDelayAnger());
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
+    }
+    public void CreateFloorVibration(World world, WardenEntity warden, BlockPos blockPos2) {
+        BlockPositionSource blockSource = new BlockPositionSource(this.getBlockPos().down());
+        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * 2);
+        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, blockSource, this.delay));
     }
     public void digParticles(World world, BlockPos pos, int ticks) {
         if (world instanceof ServerWorld) {
