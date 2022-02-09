@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.fromAccurateSculk.WardenPositionSource;
 import frozenblock.wild.mod.liukrastapi.MathAddon;
 import frozenblock.wild.mod.liukrastapi.SniffGoal;
@@ -35,7 +36,9 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.*;
+import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -99,7 +102,9 @@ public class WardenEntity extends HostileEntity {
         //Heartbeat & Anger
         this.heartbeatTime = (int) (40 - ((MathHelper.clamp(this.trueOverallAnger(),0,50)*0.6)));
         if (this.world.getTime()>=this.nextHeartBeat && !isAiDisabled()) {
-            this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, SoundCategory.HOSTILE, 1F, (float) (0.85F + (MathHelper.clamp(this.trueOverallAnger(),0,45)*0.0066)));
+            if (!this.hasDug && this.emergeTicksLeft!=-5) {
+                this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, SoundCategory.HOSTILE, 1F, (float) (0.85F + (MathHelper.clamp(this.trueOverallAnger(), 0, 45) * 0.0066)));
+            }
             this.nextHeartBeat=this.world.getTime()+heartbeatTime;
             this.lastHeartBeat=this.world.getTime();
             this.world.sendEntityStatus(this, (byte)8);
@@ -165,13 +170,19 @@ public class WardenEntity extends HostileEntity {
         } else if (!this.isAiDisabled() && status == 16) { //Stop Attack Animation
             this.stopAttackAnim=true;
             this.canAttackAnim=false;
+        } else if (status == 17) { //Don't Render
+            this.shouldRender=false;
+            this.hasDug=true;
+        } else if (status == 18) { //Render
+            this.shouldRender=true;
+            this.hasDug=false;
         } else { super.handleStatus(status); }
     }
 
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion, BlockPos vibrationPos) {
         boolean shouldListen = true;
         if (eventEntity instanceof PlayerEntity) { shouldListen = !((PlayerEntity)eventEntity).getAbilities().creativeMode; }
-        if (!this.isAiDisabled() && shouldListen && this.roarOtherCooldown<=0 && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 20 && this.vibrationTicks==-1) {
+        if (!this.isAiDisabled() && shouldListen && this.roarOtherCooldown<=0 && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 20 && this.vibrationTicks==-1 && this.emergeTicksLeft!=-5) {
             this.sniffTicksLeft=-1;
             this.vibX = eventPos.getX();
             this.vibY = eventPos.getY();
@@ -187,6 +198,12 @@ public class WardenEntity extends HostileEntity {
                 this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos, false))) * this.vibrationDelayAnger());}
             else { CreateVibration(this.world, this, eventPos);
                 this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos, false))) * this.vibrationDelayAnger());}
+        } else if (!this.isAiDisabled() && shouldListen && this.roarOtherCooldown<=0 && this.emergeTicksLeft==-5  && this.world.getTime() - this.vibrationTimer >= 20 && this.vibrationTicks==-1 && this.emergeTicksLeft==-5) {
+            this.leaveTime = this.world.getTime() + 1200;
+            if (vibrationPos != null) { CreateFloorVibration(this.world, this, vibrationPos);
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos, false))) * 2);}
+            else { CreateFloorVibration(this.world, this, eventPos);
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos, false))) * 2);}
         }
     }
 
@@ -364,6 +381,8 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("queuedSuspicion", this.queuedSuspicion);
         nbt.putInt("attackNearCooldown", this.attackNearCooldown);
         nbt.putInt("roarOtherCooldown", this.roarOtherCooldown);
+        nbt.putBoolean("ableToDig", this.ableToDig);
+        nbt.putBoolean("hasDug", this.hasDug);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -391,9 +410,10 @@ public class WardenEntity extends HostileEntity {
         this.queuedSuspicion = nbt.getInt("queuedSuspicion");
         this.attackNearCooldown = nbt.getInt("attackNearCooldown");
         this.roarOtherCooldown = nbt.getInt("roarOtherCooldown");
+        this.ableToDig = nbt.getBoolean("ableToDig");
+        this.hasDug = nbt.getBoolean("hasDug");
     }
 
-    public int getAttackTicksLeft1() {return this.attackTicksLeft1;}
     public int getRoarTicksLeft1() {return this.roarTicksLeft1;}
 
     @Deprecated
@@ -433,7 +453,11 @@ public class WardenEntity extends HostileEntity {
         return EntityGroup.UNDEAD;
     }
     protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(this.getStepSound(), 1.0F, 1.0F); }
-    protected SoundEvent getAmbientSound(){return RegisterSounds.ENTITY_WARDEN_AMBIENT;}
+    protected SoundEvent getAmbientSound(){
+        if (this.emergeTicksLeft!=-5) {
+            return RegisterSounds.ENTITY_WARDEN_AMBIENT;
+        } else return null;
+    }
     protected SoundEvent getDeathSound() { return RegisterSounds.ENTITY_WARDEN_DEATH; }
     protected boolean isDisallowedInPeaceful() { return false; }
     @Override
@@ -460,7 +484,7 @@ public class WardenEntity extends HostileEntity {
 
     private float getAttackDamage() { return (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE); }
     public static DefaultAttributeContainer.Builder createWardenAttributes() {return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 31.0D);}
-    protected boolean burnsInDaylight() { return true; }
+    protected boolean burnsInDaylight() { return !this.hasDug || this.emergeTicksLeft==-5; }
     @Override
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
@@ -482,11 +506,18 @@ public class WardenEntity extends HostileEntity {
         }
     }
 
+    public boolean isPushedByFluids() { return false; }
+
     /** VISUALS */
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
         this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * this.vibrationDelayAnger());
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
+    }
+    public void CreateFloorVibration(World world, WardenEntity warden, BlockPos blockPos2) {
+        BlockPositionSource blockSource = new BlockPositionSource(this.getBlockPos().down());
+        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * 2);
+        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, blockSource, this.delay));
     }
     public void digParticles(World world, BlockPos pos, int ticks) {
         if (world instanceof ServerWorld) {
@@ -509,14 +540,25 @@ public class WardenEntity extends HostileEntity {
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
-            this.sniffCooldown=110;
             this.emergeTicksLeft--;
         }
         if (this.emergeTicksLeft == 0 && !this.hasEmerged) { //Stop Emerging
             this.setInvulnerable(false);
             this.world.sendEntityStatus(this, (byte)12);
             this.hasEmerged = true;
+            this.sniffCooldown = UniformIntProvider.create(5,110).get(random);
             this.emergeTicksLeft = -1;
+        }
+        if (world.getTime()==this.leaveTime) { this.ableToDig=true; }
+        if (this.digAttemptCooldown>0) { --this.digAttemptCooldown; }
+        if (this.ableToDig && this.digAttemptCooldown == 0 && this.emergeTicksLeft == -1) { //Start Digging
+            if (!SculkTags.WARDEN_UNSPAWNABLE.contains(world.getBlockState(this.getBlockPos().down()).getBlock()) && !world.getBlockState(this.getBlockPos().down()).isAir()) {
+                this.world.sendEntityStatus(this, (byte) 11);
+                this.handleStatus((byte) 6);
+                this.hasDug=true;
+                this.susList.clear();
+                this.entityList.clear();
+            } else this.digAttemptCooldown = 240;
         }
         if (this.emergeTicksLeft > 0 && this.hasEmerged) { //Tick Down While Digging
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
@@ -524,13 +566,28 @@ public class WardenEntity extends HostileEntity {
             this.setVelocity(0, 0, 0);
             --this.emergeTicksLeft;
         }
-        if (this.emergeTicksLeft == 0 && this.hasEmerged) { this.remove(RemovalReason.DISCARDED); } //Remove Once Done Digging
-        if (world.getTime() == this.leaveTime) { //Start Digging
-            this.world.sendEntityStatus(this, (byte)11);
-            this.handleStatus((byte) 6);
-
+        if (this.emergeTicksLeft == 0 && this.hasEmerged && this.ableToDig) { //Handle Finish Digging
+            if (!this.hasCustomName()) {
+                this.remove(RemovalReason.DISCARDED);
+            } else {
+                this.setInvisible(true);
+                this.emergeTicksLeft=-5;
+                this.world.sendEntityStatus(this, (byte)17);
+            }
+        }
+        if (this.sendRenderBooleanCooldown>0) { --this.sendRenderBooleanCooldown; }
+        if (this.sendRenderBooleanCooldown == 0 && this.hasEmerged && this.ableToDig) { //Sync shouldRender With Clients
+            if (this.hasCustomName() && this.emergeTicksLeft==-5) {
+                this.world.sendEntityStatus(this, (byte)17);
+                this.setInvisible(true);
+                this.sendRenderBooleanCooldown=120;
+            }
         }
     }
+    public boolean collides() {
+        return this.emergeTicksLeft!=-5 && !this.isRemoved();
+    }
+    public boolean isPushable() { return this.emergeTicksLeft!=-5 && this.isAlive() && !this.isSpectator() && !this.isClimbing(); }
     public void sendDarkness(int dist, BlockPos blockPos, World world) {
         if (world instanceof ServerWorld) {
             if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
@@ -541,7 +598,7 @@ public class WardenEntity extends HostileEntity {
                 while (var11.hasNext()) {
                     playerEntity = var11.next();
                     if (!playerEntity.getAbilities().creativeMode && playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
-                        playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 0, true, false, false));
+                        playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 3, true, false, false));
                     }
                 }
             }
@@ -575,7 +632,7 @@ public class WardenEntity extends HostileEntity {
         }
     }
     public void tickBurn() {
-    if (this.isAlive()) {
+    if (this.isAlive() && !this.hasDug && this.emergeTicksLeft!=-5) {
         if (world.getGameRules().getBoolean(WildMod.WARDEN_BURNS)) {
             boolean bl = this.burnsInDaylight() && this.isAffectedByDaylight();
             if (bl) { ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
@@ -606,33 +663,46 @@ public class WardenEntity extends HostileEntity {
         this.world.sendEntityStatus(this, (byte)15);
         this.vibrationTimer=this.world.getTime();
         this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_VIBRATION, SoundCategory.HOSTILE, 0.5F, world.random.nextFloat() * 0.2F + 0.8F);
-        LivingEntity eventEntity = this.getVibrationEntity();
-        this.lasteventpos= new BlockPos(this.vibX, this.vibY, this.vibZ);
-        int suspicion = this.queuedSuspicion;
-        if (eventEntity != null) {
-            this.lastevententity=eventEntity;
-            addSuspicion(eventEntity, suspicion);
-            if (this.world.getTime()-reactionSoundTimer>40) { this.reactionSoundTimer=this.world.getTime();
-                if (getSuspicion(eventEntity)<13) {
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                } else if (getSuspicion(eventEntity)<25) {
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                } else if (this.trueOverallAnger()<40) {
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                } else if (this.trueOverallAnger()>=41) {
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+        this.ableToDig=false;
+        this.hasDug=false;
+        if (this.emergeTicksLeft != -5) {
+            LivingEntity eventEntity = this.getVibrationEntity();
+            this.lasteventpos = new BlockPos(this.vibX, this.vibY, this.vibZ);
+            int suspicion = this.queuedSuspicion;
+            if (eventEntity != null) {
+                this.lastevententity = eventEntity;
+                addSuspicion(eventEntity, suspicion);
+                if (this.world.getTime() - reactionSoundTimer > 40) {
+                    this.reactionSoundTimer = this.world.getTime();
+                    if (getSuspicion(eventEntity) < 13) {
+                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                    } else if (getSuspicion(eventEntity) < 25) {
+                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                    } else if (this.trueOverallAnger() < 40) {
+                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                    } else if (this.trueOverallAnger() >= 41) {
+                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                    }
+                }
+            } else {
+                this.timeSinceNonEntity = this.world.getTime();
+                this.nonEntityAnger = this.nonEntityAnger + 3;
+                if (this.world.getTime() - reactionSoundTimer > 40) {
+                    this.reactionSoundTimer = this.world.getTime();
+                    if (this.trueOverallAnger() < 25) {
+                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                    } else {
+                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                    }
                 }
             }
-        } else { this.timeSinceNonEntity = this.world.getTime();
-            this.nonEntityAnger=this.nonEntityAnger+3;
-            if (this.world.getTime()-reactionSoundTimer>40) {
-                this.reactionSoundTimer = this.world.getTime();
-                if (this.trueOverallAnger()<25) {
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                } else {
-                    this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                }
-            }
+        } else {
+            this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+            this.reactionSoundTimer = this.world.getTime();
+            this.world.sendEntityStatus(this, (byte)9);
+            this.world.sendEntityStatus(this, (byte)18);
+            this.handleStatus((byte)5);
+            this.setInvisible(false);
         }
     }
 
@@ -667,6 +737,10 @@ public class WardenEntity extends HostileEntity {
     public boolean hasEmerged;
     public boolean hasSentStatusStart;
     public int emergeTicksLeft;
+    public int digAttemptCooldown;
+    public boolean ableToDig;
+    public boolean hasDug;
+    public int sendRenderBooleanCooldown;
     //Timers
     public long leaveTime;
     public long vibrationTimer;
@@ -678,7 +752,6 @@ public class WardenEntity extends HostileEntity {
     public int ticksToDarkness;
     public int attackNearCooldown;
     public int roarOtherCooldown;
-    public int timeToNextSuspicionCheck=200;
     public int vibrationTicks=-1;
     //Stopwatches
     public long timeSinceNonEntity;
@@ -694,6 +767,7 @@ public class WardenEntity extends HostileEntity {
     public int lightTransitionTicks;
     public int lastLightLevel;
     public boolean isLightHigher;
+    public boolean shouldRender=true; //Status 17 (False) Status 18 (True)
 
     //ANIMATION
     public boolean canEmergeAnim; //Status 9

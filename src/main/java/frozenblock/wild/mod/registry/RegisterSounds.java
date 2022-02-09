@@ -58,6 +58,10 @@ public class RegisterSounds { //Register sound definitions
         public static SoundEvent BLOCK_SCULK_VEIN_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.break"));
 
     /** ENTITIES **/
+    //Chest Boat
+        public static SoundEvent ENTITY_CHEST_BOAT_PADDLE_WATER = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.chest_boat.paddle_water"));
+        public static SoundEvent ENTITY_CHEST_BOAT_PADDLE_LAND = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.chest_boat.paddle_land"));
+    
     //Firefly
         public static SoundEvent ENTITY_FIREFLY_LOOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.firefly.loop"));
         public static SoundEvent ENTITY_FIREFLY_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.firefly.hurt"));
@@ -71,6 +75,7 @@ public class RegisterSounds { //Register sound definitions
         public static SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
     //Warden
         public static SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
+        public static SoundEvent ENTITY_WARDEN_AMBIENT_UNDERGROUND = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient_underground"));
         public static SoundEvent ENTITY_WARDEN_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.angry"));
         public static SoundEvent ENTITY_WARDEN_ATTACK = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.attack"));
         public static SoundEvent ENTITY_WARDEN_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.close"));
@@ -155,6 +160,10 @@ public class RegisterSounds { //Register sound definitions
         BLOCK_MANGROVE_ROOTS_FALL = register(BLOCK_MANGROVE_ROOTS_FALL.getId());
 
     /** ENTITIES **/
+        //Chest Boat
+        ENTITY_CHEST_BOAT_PADDLE_WATER = register(ENTITY_CHEST_BOAT_PADDLE_WATER.getId());
+        ENTITY_CHEST_BOAT_PADDLE_LAND = register(ENTITY_CHEST_BOAT_PADDLE_LAND.getId());
+        
         //Firefly
         ENTITY_FIREFLY_LOOP = register(ENTITY_FIREFLY_LOOP.getId());
         ENTITY_FIREFLY_HURT = register(ENTITY_FIREFLY_HURT.getId());
@@ -170,6 +179,7 @@ public class RegisterSounds { //Register sound definitions
 
         //Warden
         ENTITY_WARDEN_AMBIENT = register(ENTITY_WARDEN_AMBIENT.getId());
+        ENTITY_WARDEN_AMBIENT_UNDERGROUND = register(ENTITY_WARDEN_AMBIENT_UNDERGROUND.getId());
         ENTITY_WARDEN_ANGRY = register(ENTITY_WARDEN_ANGRY.getId());
         ENTITY_WARDEN_ATTACK = register(ENTITY_WARDEN_ATTACK.getId());
         ENTITY_WARDEN_CLOSE = register(ENTITY_WARDEN_CLOSE.getId());

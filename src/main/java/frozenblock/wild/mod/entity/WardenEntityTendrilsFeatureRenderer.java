@@ -24,14 +24,16 @@ public class WardenEntityTendrilsFeatureRenderer extends EyesFeatureRenderer<War
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.TENDRILS);
-        String string = Formatting.strip(entity.getName().getString());
-        if ("Osmiooo".equals(string)) {
-            TENDRILS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_tendrils.png"));
-        } else {
-            TENDRILS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_tendrils.png"));
+        if (entity.shouldRender) {
+            VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.TENDRILS);
+            String string = Formatting.strip(entity.getName().getString());
+            if ("Osmiooo".equals(string)) {
+                TENDRILS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_tendrils.png"));
+            } else {
+                TENDRILS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_tendrils.png"));
+            }
+            this.getContextModel().render(matrices, vertexConsumer, (int) calculateLight(entity), OverlayTexture.DEFAULT_UV, calculateColors(entity), calculateColors(entity), calculateColors(entity), 1.0f);
         }
-        this.getContextModel().render(matrices, vertexConsumer, (int) calculateLight(entity), OverlayTexture.DEFAULT_UV, calculateColors(entity), calculateColors(entity), calculateColors(entity), 1.0f);
     }
 
     private static float calculateLight(WardenEntity warden) {

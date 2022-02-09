@@ -42,8 +42,6 @@ public class WildMod implements ModInitializer {
             GameRuleRegistry.register("upwardSpread", GameRules.Category.MISC, GameRuleFactory.createIntRule(12, 1, 100));
     public static final GameRules.Key<GameRules.IntRule> DOWNWARD_SPREAD =
             GameRuleRegistry.register("downwardSpread", GameRules.Category.MISC, GameRuleFactory.createIntRule(12, 1, 100));
-    public static final GameRules.Key<GameRules.BooleanRule> SCULK_THREADING =
-            GameRuleRegistry.register("sculkThreading", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
 
     //TESTING GAMERULES. TODO: DELETE THESE AT 1.0. DO NOT WRITE TOO MUCH CODE THAT DEPENDS ON THESE.
     public static final GameRules.Key<GameRules.BooleanRule> NO_WARDEN_COOLDOWN =

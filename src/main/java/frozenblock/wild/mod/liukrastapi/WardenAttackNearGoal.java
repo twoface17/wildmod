@@ -29,6 +29,7 @@ public class WardenAttackNearGoal extends Goal {
         if (this.mob.attackNearCooldown > 0) {
             return false;
         }
+        if (this.mob.hasDug || this.mob.emergeTicksLeft==-5) { return false; }
         return this.mob.getClosestEntity() != null && this.mob.getSuspicion(this.mob.getClosestEntity())>=7;
     }
 

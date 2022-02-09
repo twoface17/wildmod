@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.entity.chestboat;
 
+import frozenblock.wild.mod.registry.RegisterSounds;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
 import frozenblock.wild.mod.registry.MangroveWoods;
@@ -361,9 +362,9 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
             case IN_WATER:
             case UNDER_WATER:
             case UNDER_FLOWING_WATER:
-                return SoundEvents.ENTITY_BOAT_PADDLE_WATER;
+                return RegisterSounds.ENTITY_CHEST_BOAT_PADDLE_WATER;
             case ON_LAND:
-                return SoundEvents.ENTITY_BOAT_PADDLE_LAND;
+                return RegisterSounds.ENTITY_CHEST_BOAT_PADDLE_LAND;
             case IN_AIR:
             default:
                 return null;

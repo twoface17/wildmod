@@ -9,8 +9,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.VineBlock;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.treedecorator.TreeDecorator;
@@ -51,28 +53,28 @@ public class MangroveTreeDecorator extends TreeDecorator {
             // Offset the log position by the resulting side
 
             if (!world.testBlockState(logPosition.down(4), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState())) && !world.testBlockState(logPosition.down(4), Predicate.isEqual(Blocks.AIR.getDefaultState())) && world.testBlockState(logPosition.down(3), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState())) && world.testBlockState(logPosition.down(2), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState())) && world.testBlockState(logPosition.down(), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState()))) {
-                BlockPos targetPosition = logPosition.down().offset(Direction.Axis.X, 1);
+                BlockPos targetPosition = logPosition.down().offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
                 BlockPos currentPosition = targetPosition;
                 while (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                     placeRootBlock(currentPosition, world, replacer);
                     currentPosition = currentPosition.down();
                 }
                 BlockPos posXPos = currentPosition;
-                targetPosition = logPosition.down().offset(Direction.Axis.X, -1);
+                targetPosition = logPosition.down().offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
                 currentPosition = targetPosition;
                 while (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                     placeRootBlock(currentPosition, world, replacer);
                     currentPosition = currentPosition.down();
                 }
                 BlockPos posXNeg = currentPosition;
-                targetPosition = logPosition.down().offset(Direction.Axis.Z, 1);
+                targetPosition = logPosition.down().offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
                 currentPosition = targetPosition;
                 while (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                     placeRootBlock(currentPosition, world, replacer);
                     currentPosition = currentPosition.down();
                 }
                 BlockPos posZPos = currentPosition;
-                targetPosition = logPosition.down().offset(Direction.Axis.Z, -1);
+                targetPosition = logPosition.down().offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
                 currentPosition = targetPosition;
                 while (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                     placeRootBlock(currentPosition, world, replacer);
@@ -80,13 +82,13 @@ public class MangroveTreeDecorator extends TreeDecorator {
                 }
                 BlockPos posZNeg = currentPosition;
                 if (posXPos.getY() <= posXNeg.getY() && posXPos.getY() <= posZPos.getY() && posXPos.getY() <= posZNeg.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.X, -1);
+                    targetPosition = posXPos.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
                 } else if (posXNeg.getY() <= posXPos.getY() && posXNeg.getY() <= posZPos.getY() && posXNeg.getY() <= posZNeg.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.X, 1);
+                    targetPosition = posXPos.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
                 } else if (posZPos.getY() <= posXPos.getY() && posZPos.getY() <= posXNeg.getY() && posZPos.getY() <= posZNeg.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.Z, -1);
+                    targetPosition = posXPos.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
                 } else if (posZNeg.getY() <= posXPos.getY() && posZNeg.getY() <= posXNeg.getY() && posZNeg.getY() <= posZPos.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.Z, 1);
+                    targetPosition = posXPos.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
                 }
                 targetPosition = targetPosition.up();
                 placeRootBottom(targetPosition, world, replacer);
@@ -140,7 +142,7 @@ public class MangroveTreeDecorator extends TreeDecorator {
     }
 
     private void placeRootBlock(BlockPos currentPosition, TestableWorld world, BiConsumer<BlockPos, BlockState> replacer) {
-        if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
+        if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.DANDELION.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.GRASS.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.TALL_GRASS.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.FERN.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.BLUE_ORCHID.getDefaultState()))) {
             replacer.accept(currentPosition, MangroveWoods.MANGROVE_ROOTS.getDefaultState());
         } else if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState()))) {
             replacer.accept(currentPosition, MangroveWoods.MANGROVE_ROOTS.getDefaultState().with(MangroveRoots.WATERLOGGED, true));
@@ -154,16 +156,15 @@ public class MangroveTreeDecorator extends TreeDecorator {
         BlockPos currentPosition = targetPosition;
         for (int i = 0; i < 6; i++) {
             placeRootBlock(currentPosition, world, replacer);
-            Random rand = new Random();
-            int dir = rand.nextInt(4);
+            int dir = (int) MathHelper.clamp(Math.random() * 10f, 0, 3);
             if (dir == 0) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, 1);
+                currentPosition = currentPosition.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
             } else if (dir == 1) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, -1);
+                currentPosition = currentPosition.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * -10, -1, -3));
             } else if (dir == 2) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, 1);
+                currentPosition = currentPosition.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * 10, 1, 3));
             } else if (dir == 3) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, -1);
+                currentPosition = currentPosition.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * -10, -1, -3));
             }
             if (!currentPosition.isWithinDistance(targetPosition, 3)) {
                 currentPosition = targetPosition;
@@ -172,7 +173,6 @@ public class MangroveTreeDecorator extends TreeDecorator {
         }
     }
 }
-
 
 
 

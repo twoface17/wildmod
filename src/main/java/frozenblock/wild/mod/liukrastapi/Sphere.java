@@ -1,14 +1,10 @@
 package frozenblock.wild.mod.liukrastapi;
 
-import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 
@@ -154,37 +150,76 @@ public abstract class Sphere {
         return exit;
     }
 
-    public static int generateSphere(BlockPos centerBlock, int radius, boolean hollow, World world) {
-        if (centerBlock == null) {
-            return 1;
-        }
+    public static int blocksInSphere(BlockPos pos, int radius, Block block, World world) {
+        if (pos == null) { return 0; }
 
-        int circleBlocks = 0;
+        int blocks = 0;
 
-        int bx = centerBlock.getX();
-        int by = centerBlock.getY();
-        int bz = centerBlock.getZ();
+        int bx = pos.getX();
+        int by = pos.getY();
+        int bz = pos.getZ();
 
         for(int x = bx - radius; x <= bx + radius; x++) {
             for(int y = by - radius; y <= by + radius; y++) {
                 for(int z = bz - radius; z <= bz + radius; z++) {
-
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
-
-                    if(distance < radius * radius && !(hollow && distance < ((radius - 1) * (radius - 1)))) {
-
+                    if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (world.getBlockState(l).getBlock()== RegisterBlocks.SCULK_CATALYST) {
-
-                            circleBlocks = circleBlocks+1;
+                        if (world.getBlockState(l).getBlock() == block) {
+                            ++blocks;
                         }
                     }
 
                 }
             }
         }
+        return blocks;
+    }
 
-        return circleBlocks;
+    public static ArrayList<BlockPos> blockPosSphere(BlockPos pos, int radius, Block block, World world) {
+        ArrayList<BlockPos> blocks = new ArrayList<>();
+
+        int bx = pos.getX();
+        int by = pos.getY();
+        int bz = pos.getZ();
+
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
+                        BlockPos l = new BlockPos(x, y, z);
+                        if (world.getBlockState(l).getBlock() == block) {
+                            blocks.add(l);
+                        }
+                    }
+
+                }
+            }
+        }
+        return blocks;
+    }
+
+    public static boolean blockTagInSphere(BlockPos pos, int radius, Tag<Block> tag, World world) {
+        int bx = pos.getX();
+        int by = pos.getY();
+        int bz = pos.getZ();
+
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
+                        BlockPos l = new BlockPos(x, y, z);
+                        if (tag.contains(world.getBlockState(l).getBlock())) {
+                            return true;
+                        }
+                    }
+
+                }
+            }
+        }
+        return false;
     }
 
 }
