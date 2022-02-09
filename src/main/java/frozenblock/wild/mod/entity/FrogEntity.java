@@ -356,7 +356,7 @@ public class FrogEntity extends AnimalEntity {
                     this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.08F));
                 }
             } else if (this.frog.isOnGround()) {
-                this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.04F));
+                this.frog.setMovementSpeed(Math.max(this.frog.getMovementSpeed() / 2.0F, 0.08F));
             }
 
         }
