@@ -18,6 +18,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     private final ModelPart head;
     private final ModelPart croaking_body;
     private final ModelPart tongue;
+    private final ModelPart tongue_eat;
     private final ModelPart left_arm;
     private final ModelPart right_arm;
     private final ModelPart left_leg;
@@ -38,6 +39,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         this.right_arm = this.body.getChild("right_arm");
         this.left_arm = this.body.getChild("left_arm");
         this.tongue = this.body.getChild("tongue");
+        this.tongue_eat = this.body.getChild("tongue_eat");
         this.croaking_body = this.body.getChild("croaking_body");
         this.head = this.body.getChild("head");
     }
@@ -55,6 +57,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         modelPartData5.addChild("left_eye", ModelPartBuilder.create().uv(0,5).cuboid(-1.5F, -1.0F, -1.5F, 3.0F, 2.0F, 3.0F), ModelTransform.pivot(2.5F,-3.0F,-6.5F));
         modelPartData3.addChild("croaking_body", ModelPartBuilder.create().uv(26, 5).cuboid(3.5f, 1.1f, 3.9f,7, 2, 3, new Dilation(-0.1f)), ModelTransform.pivot(-10F,-3F,-8F));
         modelPartData3.addChild("tongue", ModelPartBuilder.create().uv(17,13).cuboid(-2.0F, 0.0F, -7.1F, 4.0F, 0.0F, 7.0F), ModelTransform.pivot(-3.0F,-1.1F,1.0F));
+        modelPartData3.addChild("tongue_eat", ModelPartBuilder.create().uv(17,13).cuboid(-2.0F, 0.0F, -7.1F, 4.0F, 0.0F, 10.0F), ModelTransform.pivot(-3.0F,-1.1F,1.0F)); //EDIT THIS
         modelPartData3.addChild("left_arm", ModelPartBuilder.create().uv(0,32).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 3.0F).uv(18,40).cuboid(-4.0F, 3.01F, -5.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(1.0F,-1.0F,-6.5F));
         modelPartData3.addChild("right_arm", ModelPartBuilder.create().uv(0,38).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 3.0F).uv(2,40).cuboid(-4.0F, 3.01F, -5.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(-7.0F,-1.0F,-6.5F));
         modelPartData1.addChild("left_leg", ModelPartBuilder.create().uv(14,25).cuboid(-1.0F, 0.0F, -2.0F, 3.0F, 3.0F, 4.0F).uv(2,32).cuboid(-2.0F, 3.01F, -4.0F, 8.0F, 0.0F, 8.0F), ModelTransform.pivot(3.5F,-3.0F,4.0F));
@@ -80,17 +83,21 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         boolean canEat = eatTime != 0;
 
         if(canEat) { //Eat animation
+            this.tongue.visible=false;
+            this.tongue_eat.visible=true;
             this.head.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, -60f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, 0f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.4167f, t * 0.5f, 60f / j, eatTime)
             );
-            this.tongue.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, 0f / j, eatTime) +
+            this.tongue_eat.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, 0f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, -18f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.4167f, t * 0.5f, 18f / j, eatTime)
-            );
+            ); //EDIT THIS
         } else {
-this.head.pitch = 0;
-this.tongue.pitch = 0;
+        this.head.pitch = 0;
+        this.tongue.pitch = 0;
+        this.tongue.visible=true;
+        this.tongue_eat.visible=false;
         c = entity;
         this.Animationtime = time;
         float animationspeed = 2F;
