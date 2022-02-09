@@ -575,9 +575,9 @@ public class WardenEntity extends HostileEntity {
         }
     }
     public boolean collides() {
-        return this.emergeTicksLeft!=-5;
+        return this.emergeTicksLeft!=-5 && !this.isRemoved();
     }
-    public boolean isPushable() { return this.emergeTicksLeft!=-5; }
+    public boolean isPushable() { return this.emergeTicksLeft!=-5 && this.isAlive() && !this.isSpectator() && !this.isClimbing(); }
     public void sendDarkness(int dist, BlockPos blockPos, World world) {
         if (world instanceof ServerWorld) {
             if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
