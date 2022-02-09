@@ -3,6 +3,7 @@ package frozenblock.wild.mod.mixins;
 import com.google.common.collect.ImmutableList;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterWorldgen;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.VerticalSurfaceType;
 import net.minecraft.world.biome.BiomeKeys;
@@ -13,6 +14,7 @@ import net.minecraft.world.gen.surfacebuilder.VanillaSurfaceRules;
 import org.lwjgl.system.CallbackI;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,7 +23,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(net.minecraft.world.gen.surfacebuilder.VanillaSurfaceRules.class)
 public class VanillaSurfaceRulesInjector {
-    @Shadow @Final private static MaterialRules.MaterialRule DIRT;
+    @Mutable
+    @Final private static MaterialRules.MaterialRule MUD;
+    static {MUD = block(RegisterBlocks.MUD_BLOCK);}
+
+    private static MaterialRules.MaterialRule block(Block block) {
+        return MaterialRules.block(block.getDefaultState());
+    }
 
     @ModifyVariable(method = "createDefaultRule", at = @At("STORE"), ordinal = 8)
     private static MaterialRules.MaterialRule injected(MaterialRules.MaterialRule x) {
@@ -44,7 +52,7 @@ public class VanillaSurfaceRulesInjector {
                                                         MaterialRules.aboveY(YOffset.fixed(63), 0)),
                                                 MaterialRules.condition(
                                                         MaterialRules.noiseThreshold(
-                                                                NoiseParametersKeys.SURFACE_SWAMP, 0.1),
+                                                                NoiseParametersKeys.SURFACE_SWAMP, 0.0D),
                                                         VanillaSurfaceRulesBlockInvoker.invokeBlock(Blocks.WATER))))))),
                 x);
     }
