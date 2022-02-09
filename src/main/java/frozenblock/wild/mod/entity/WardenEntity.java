@@ -36,6 +36,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.*;
 import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.GameEvent;
@@ -539,13 +540,13 @@ public class WardenEntity extends HostileEntity {
             digParticles(this.world, this.getBlockPos(), this.emergeTicksLeft);
             this.setInvulnerable(true);
             this.setVelocity(0, 0, 0);
-            this.sniffCooldown=110;
             this.emergeTicksLeft--;
         }
         if (this.emergeTicksLeft == 0 && !this.hasEmerged) { //Stop Emerging
             this.setInvulnerable(false);
             this.world.sendEntityStatus(this, (byte)12);
             this.hasEmerged = true;
+            this.sniffCooldown = UniformIntProvider.create(5,110).get(random);
             this.emergeTicksLeft = -1;
         }
         if (world.getTime()==this.leaveTime) { this.ableToDig=true; }

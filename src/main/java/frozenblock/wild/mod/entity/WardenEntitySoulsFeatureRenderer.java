@@ -41,7 +41,7 @@ public class WardenEntitySoulsFeatureRenderer extends EyesFeatureRenderer<Warden
         long b = warden.world.getTime();
 
         float toNow = (a-b)*-1;
-        if (toNow>(5*Math.PI) || toNow<0) { return 0.0f; }
+        if (toNow>(10) || toNow<0) { return 0.0f; }
         float d = (float) ((float) Math.cos((toNow*Math.PI)/(20)));
         return MathHelper.clamp(d,0,1);
     }

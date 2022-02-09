@@ -26,7 +26,7 @@ public class SniffGoal extends Goal {
 
 
     public boolean canStart() {
-        if (this.mob.roarTicksLeft1 > 0) {
+        if (this.mob.roarTicksLeft1 > 0  || !this.mob.hasEmerged) {
             return false;
         }
         if (this.mob.hasDug || this.mob.emergeTicksLeft==-5) { return false; }
