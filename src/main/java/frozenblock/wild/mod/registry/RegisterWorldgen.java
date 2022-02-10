@@ -36,8 +36,12 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraft.world.gen.trunk.ForkingTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
+import org.jetbrains.annotations.Nullable;
 
 public class RegisterWorldgen {
+
+    @Nullable
+    private static final MusicSound DEFAULT_MUSIC = null;
 
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
     public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
@@ -73,6 +77,7 @@ public class RegisterWorldgen {
                         .skyColor(getSkyColor(0.8F))
                         .foliageColor(FoliageColors.getDefaultColor())
                         .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
+                        .music(musicSound)
                         .moodSound(BiomeMoodSound.CAVE).build())
                 .spawnSettings(builder.build())
                 .generationSettings(builder2.build()).build();
