@@ -6,9 +6,11 @@ import frozenblock.wild.mod.mixins.TreeDecoratorTypeInvoker;
 import frozenblock.wild.mod.worldgen.MangroveTreeDecorator;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.client.sound.MusicType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.sound.BiomeMoodSound;
+import net.minecraft.sound.MusicSound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -51,13 +53,14 @@ public class RegisterWorldgen {
     }
 
     public static Biome createDeepDark() {
-        SpawnSettings.Builder builder = new SpawnSettings.Builder();
-        DefaultBiomeFeatures.addFarmAnimals(builder);
-        DefaultBiomeFeatures.addBatsAndMonsters(builder);
+        SpawnSettings.Builder builder = new SpawnSettings.Builder();;
         net.minecraft.world.biome.GenerationSettings.Builder builder2 = new net.minecraft.world.biome.GenerationSettings.Builder();
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeatures(builder2);
+        DefaultBiomeFeatures.addPlainsTallGrass(builder2);
+        DefaultBiomeFeatures.addDefaultVegetation(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
+        MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_DEEP_DARK);
         return (
                 new net.minecraft.world.biome.Biome.Builder())
                 .precipitation(Biome.Precipitation.NONE)
