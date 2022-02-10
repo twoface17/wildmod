@@ -5,6 +5,7 @@ import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.mixins.TreeDecoratorTypeInvoker;
 import frozenblock.wild.mod.worldgen.MangroveTreeDecorator;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.sound.BiomeMoodSound;
@@ -37,6 +38,7 @@ import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 public class RegisterWorldgen {
 
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
+    public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
 
     public static PlacedFeature TREES_MANGROVE;
     public static ConfiguredFeature<TreeFeatureConfig, ?> MANGROVE;
@@ -46,6 +48,32 @@ public class RegisterWorldgen {
 
     private static RegistryKey<Biome> register(String name) {
         return RegistryKey.of(Registry.BIOME_KEY, new Identifier(WildMod.MOD_ID, name));
+    }
+
+    public static Biome createDeepDark() {
+        SpawnSettings.Builder builder = new SpawnSettings.Builder();
+        DefaultBiomeFeatures.addFarmAnimals(builder);
+        DefaultBiomeFeatures.addBatsAndMonsters(builder);
+        net.minecraft.world.biome.GenerationSettings.Builder builder2 = new net.minecraft.world.biome.GenerationSettings.Builder();
+        DefaultBiomeFeatures.addFossils(builder2);
+        addBasicFeatures(builder2);
+        DefaultBiomeFeatures.addDefaultOres(builder2);
+        return (
+                new net.minecraft.world.biome.Biome.Builder())
+                .precipitation(Biome.Precipitation.NONE)
+                .category(Biome.Category.UNDERGROUND)
+                .temperature(0.8F).downfall(0.9F)
+                .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
+                        .waterColor(4159204)
+                        .waterFogColor(329011)
+                        .fogColor(12638463)
+                        .skyColor(getSkyColor(0.8F))
+                        .foliageColor(FoliageColors.getDefaultColor())
+                        .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
+                        .moodSound(BiomeMoodSound.CAVE).build())
+                .spawnSettings(builder.build())
+                .generationSettings(builder2.build()).build();
+
     }
 
     public static Biome createMangroveSwamp() {
@@ -123,5 +151,6 @@ public class RegisterWorldgen {
 
         TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), MANGROVE.withPlacement(PlacedFeatures.createCountExtraModifier(2, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(2), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
         BuiltinRegistries.add(BuiltinRegistries.BIOME, MANGROVE_SWAMP, createMangroveSwamp());
+        BuiltinRegistries.add(BuiltinRegistries.BIOME, DEEP_DARK, createDeepDark());
     }
 }
