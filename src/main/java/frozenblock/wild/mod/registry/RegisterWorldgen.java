@@ -97,7 +97,7 @@ public class RegisterWorldgen {
                 .temperature(0.8F).downfall(0.9F)
                 .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
                         .waterColor(0x397d71)
-                        .waterFogColor(2302743)
+                        .waterFogColor(0x397d71)
                         .fogColor(12638463)
                         .skyColor(getSkyColor(0.8F))
                         .foliageColor(6975545)
@@ -110,7 +110,6 @@ public class RegisterWorldgen {
 
     public static void addMangroveSwampFeatures(GenerationSettings.Builder builder) {
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, TREES_MANGROVE);
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.FLOWER_SWAMP);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);

@@ -67,7 +67,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
     }
     @Override
     public void setAngles(@NotNull FrogEntity entity, float limbAngle, float limbDistance, float time, float netHeadYaw, float headPitch){
-        //this.main.pivotY = - 2 + AnimationAPI.easeInOutSine(100, 160, 10, time) + AnimationAPI.easeInOutSine(160, 220, 10, time);
+        //this.main.pivotY = - 2 + AnimationAPI.easeOutElastic(100, 160, 10, time) + AnimationAPI.easeOutElastic(160, 220, 10, time);
 
         float t = 2f; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians

@@ -46,8 +46,7 @@ public class LivingEntityMixin {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 					SculkGrower.sculk(pos, world, entity, numCatalysts);
 					int rVal2 = getHighestRadius(world, pos);
-					int activatorLoop = (int) ((48) * Math.sin((rVal2 / 40.75)));
-					ActivatorGrower.startGrowing(activatorLoop, rVal2, pos, world);
+					ActivatorGrower.startGrowing(rVal2, rVal2, pos, world);
 				}
 			}
 		}
