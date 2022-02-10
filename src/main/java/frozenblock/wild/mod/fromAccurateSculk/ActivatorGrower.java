@@ -34,7 +34,7 @@ public class ActivatorGrower {
             double r = sqrt(rVal) * sqrt(random());
             int x = (int) (r * cos(a));
             int y = (int) (r * sin(a));
-            selectActivator(pos.add(x, 0, y), world, loop/3);
+            selectActivator(pos.add(x, 0, y), world, loop/5);
         }
     }
 
@@ -42,7 +42,7 @@ public class ActivatorGrower {
         int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
         if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > (chance+4))) {
             BlockPos NewSculk = solidsculkCheck(blockPos, world);
-            if (NewSculk != null && !Sphere.blockTagInSphere(NewSculk, 3, SculkTags.ACTIVATORS, world)) {
+            if (NewSculk != null && !Sphere.blockTagInSphere(NewSculk, 4, SculkTags.ACTIVATORS, world)) {
                 BlockState activator = null;
                 if (uniInt <= 3) {
                     activator = SculkTags.RARE_ACTIVATORS.getRandom(random).getDefaultState();

@@ -11,6 +11,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -18,8 +19,9 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.LightType;
+import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.random.Xoroshiro128PlusPlusRandom;
 import org.jetbrains.annotations.Nullable;
 
 import static java.lang.Math.*;
@@ -29,43 +31,70 @@ public class SculkGrower {
     public static final BlockState vein = SculkVeinBlock.SCULK_VEIN.getDefaultState();
     public static final BlockState brokenVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false);
     public static final BlockState sculkBlock = SculkBlock.SCULK_BLOCK.getDefaultState();
+    public static final Block sculkBlockBlock = SculkBlock.SCULK_BLOCK;
     public static final BlockState water = Blocks.WATER.getDefaultState();
     public static final BlockState air = Blocks.AIR.getDefaultState();
     public static final Block waterBlock = Blocks.WATER;
     public static final Block veinBlock = SculkVeinBlock.SCULK_VEIN;
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
     public static final BlockState brokenWaterVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false).with(waterLogged, true);
+    /** NOISE VARIABLES */
+    public static final double multiplier = 0.15; //Keep this low. Lowering it makes the noise bigger, raising it makes it smaller (more like static)
+    public static final double minThreshold = -0.1; //The value that outer Sculk's noise must be ABOVE in order to grow
+    public static final double maxThreshold = 0.9; //The value that outer Sculk's noise must be BELOW in order to grow
+    public static long seed = 1;
+    public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new Xoroshiro128PlusPlusRandom(seed));
 
     /** MAIN CODE */
     public static void sculk(BlockPos blockPos, World world, @Nullable Entity entity, int catalysts) { //Choose Amount Of Sculk + Initial Radius
-        if (entity!=null) {
+        if (entity!=null && world instanceof ServerWorld serverWorld) {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1F, 1F);
             BlockPos down = blockPos.down();
+            long seed1 = serverWorld.getSeed();
+            if (seed!=seed1) {
+                seed=seed1;
+                sample = new PerlinNoiseSampler(new Xoroshiro128PlusPlusRandom(seed));
+            }
             if (SculkTags.THREE.contains(entity.getType())) {
-                sculkOptim(3*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
+                sculkOptim(3*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
             } else if (SculkTags.FIVE.contains(entity.getType())) {
-                sculkOptim(5*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
+                sculkOptim(5*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
             } else if (SculkTags.TEN.contains(entity.getType())) {
-                sculkOptim(10*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
+                sculkOptim(10*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
             } else if (SculkTags.TWENTY.contains(entity.getType())) {
-                sculkOptim(20*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
+                sculkOptim(20*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
             } else if (SculkTags.FIFTY.contains(entity.getType())) {
-                sculkOptim(50*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
+                sculkOptim(50*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
             } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
-                sculkOptim(500*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, world);
+                sculkOptim(500*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
             }
         }
     }
 
-    public static void sculkOptim(float loop, int rVal, BlockPos down, World world) { //Call For Sculk Placement & Increase Radius If Stuck
+    public static void sculkOptim(float loop, int rVal, BlockPos down, ServerWorld world) { //Call For Sculk Placement & Increase Radius If Stuck
         int timesFailed=0;
         int groupsFailed=1;
         float fLoop = loop * world.getGameRules().getInt(WildMod.SCULK_MULTIPLIER);
 
         for (int l = 0; l < fLoop;) {
-            double a = random() * 2 * PI;
-            double r = sqrt(rVal +(groupsFailed-1)) * sqrt(random());
-            boolean succeed = placeSculk(down.add((int) (r * sin(a)), 0, (int) (r * cos(a))), world);
+            boolean succeed=false;
+            if (sqrt(rVal +(groupsFailed-1))<24) { //Generate Sculk In Radius
+                double a = random() * 2 * PI;
+                double r = sqrt(rVal + (groupsFailed - 1)) * sqrt(random());
+                succeed = placeSculk(down.add((int) (r * sin(a)), 0, (int) (r * cos(a))), world);
+            } else { //Use Noise For Outer Sculk "Veins"
+                double a = random() * 2 * PI;
+                double r = sqrt(rVal + (groupsFailed - 1)) * sqrt(random());
+                BlockPos posNew = down.add((int) (r * sin(a)), 0, (int) (r * cos(a)));
+                int x = posNew.getX();
+                int y = posNew.getY();
+                int z = posNew.getZ();
+                double sampled = sample.sample(x*multiplier,y*multiplier,z*multiplier);
+                if (sampled>minThreshold && sampled<maxThreshold) {
+                    succeed = placeSculk(posNew, world);
+                }
+            }
+            //Determine If Sculk Placement Was Successful And If Radius Should Be Increased
             if (!succeed) { ++timesFailed; } else {
                 ++l;
                 if (timesFailed>0) {--timesFailed; }
@@ -210,13 +239,13 @@ public class SculkGrower {
         return current;
     }
     public static BlockPos sculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
-        BlockPos check = checkPt2(blockPos, world);
+        BlockPos check = checkPt2(blockPos, world, world.getGameRules().getBoolean(WildMod.SCULK_STOPS_SCULKCHECK));
         if (check!=null) { return check; }
         if (!world.isSkyVisible(blockPos)) {
-            return checkPt1(blockPos, world);
+            return checkPt1(blockPos, world, world.getGameRules().getBoolean(WildMod.SCULK_STOPS_SCULKCHECK));
         } return null;
     }
-    public static BlockPos checkPt1(BlockPos blockPos, World world) { //Check For Valid Placement Above
+    public static BlockPos checkPt1(BlockPos blockPos, World world, boolean sculkStops) { //Check For Valid Placement Above
         int upward = world.getGameRules().getInt(WildMod.UPWARD_SPREAD);
         int MAX = world.getHeight();
         if (blockPos.getY() + upward >= MAX) {
@@ -227,11 +256,11 @@ public class SculkGrower {
             Block block = world.getBlockState(pos).getBlock();
             if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
                 return pos;
-            }
+            } else if (sculkStops && block==sculkBlockBlock) {return null;}
         }
         return null;
     }
-    public static BlockPos checkPt2(BlockPos blockPos, World world) { //Check For Valid Placement Below
+    public static BlockPos checkPt2(BlockPos blockPos, World world, boolean sculkStops) { //Check For Valid Placement Below
         int downward = world.getGameRules().getInt(WildMod.DOWNWARD_SPREAD);
         int MIN = world.getBottomY();
         if (blockPos.getY() - downward <= MIN) {
@@ -242,7 +271,7 @@ public class SculkGrower {
             Block block = world.getBlockState(pos).getBlock();
             if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
                 return pos;
-            }
+            } else if (sculkStops && block==sculkBlockBlock) {return null;}
         }
         return null;
     }
@@ -265,4 +294,11 @@ public class SculkGrower {
         return false;
     }
 
+    //double sinA = Math.sin(x/PI);
+    //double cosB = Math.cos(x*z);
+    //double cosA = Math.cos(x*y);
+    //double sinB = Math.sin(x*z);
+    //double fakeNoise = 50*((sinA*sinA) + (cosB*seed));
+    //double fakeNoise2 = 50*((cosA*seed) + (sinB*sinB));
+    //I'm keeping the fakeNoise stuff in case we can use it later, it DOES look really strange
 }
