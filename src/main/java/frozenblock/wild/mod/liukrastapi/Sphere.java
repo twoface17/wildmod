@@ -222,4 +222,26 @@ public abstract class Sphere {
         return false;
     }
 
+    public static ArrayList<BlockPos> stinkyThiefWorldGenerator(BlockPos pos, int radius, World world) {
+        ArrayList<BlockPos> blocks = new ArrayList<>();
+        int bx = pos.getX();
+        int by = pos.getY();
+        int bz = pos.getZ();
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
+                        BlockPos l = new BlockPos(x, y, z);
+                        if (world.isChunkLoaded(l) && world.getBlockState(l).isAir()) {
+                            blocks.add(l);
+                        }
+                    }
+
+                }
+            }
+        }
+        return blocks;
+    }
+
 }

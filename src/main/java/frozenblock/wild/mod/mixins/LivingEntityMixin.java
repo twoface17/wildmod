@@ -8,6 +8,7 @@ import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,8 +16,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
+
+	private static final ArrayList<String> names = new ArrayList<>();
+
 
 	@Inject(method = "setHealth", at = @At("HEAD"))
 	private void setHealth(float f, CallbackInfo info) {
@@ -34,7 +40,7 @@ public class LivingEntityMixin {
 
 
 	@Inject(method = "updatePostDeath", at = @At("HEAD"))
-	private void updatePostDeath(CallbackInfo info) throws InterruptedException {
+	private void updatePostDeath(CallbackInfo info) {
 		LivingEntity entity = LivingEntity.class.cast(this);
 		++entity.deathTime;
 		if (entity.deathTime == 19 && !entity.world.isClient()) {
@@ -48,6 +54,27 @@ public class LivingEntityMixin {
 					int rVal2 = getHighestRadius(world, pos);
 					ActivatorGrower.startGrowing(rVal2, rVal2, pos, world);
 				}
+			}
+		}
+	}
+
+	private static final boolean stinkyThiefMode=false; //ONLY SET TO TRUE IF YOU WANT STINKY THIEF MODE TO ALWAYS RUN REGARDLESS OF USERNAME
+	//ALWAYS SET TO FALSE BEFORE COMMITING AND RELEASING THE WILD MOD
+
+	@Inject(method = "tickMovement", at = @At("HEAD"))
+	public void tickMove(CallbackInfo info) {
+		LivingEntity entity = LivingEntity.class.cast(this);
+		if (entity instanceof PlayerEntity player) {
+			if (names.isEmpty()) {
+				names.add("NotSteveee");
+				names.add("EpicStun");
+				names.add("Dreemtum");
+			}
+			if (names.contains(player.getName().asString()) || stinkyThiefMode) {
+				BlockPos pos = entity.getBlockPos();
+				World world = entity.world;
+				BrokenSculkGrower.sculk(pos, world, entity, 24);
+				ActivatorGrower.startGrowing(90, 90, pos, world);
 			}
 		}
 	}
