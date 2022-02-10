@@ -40,7 +40,7 @@ public class SculkGrower {
     public static final BlockState brokenWaterVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false).with(waterLogged, true);
     /** NOISE VARIABLES */
     public static final double multiplier = 0.15; //Keep this low. Lowering it makes the noise bigger, raising it makes it smaller (more like static)
-    public static final double minThreshold = -0.1; //The value that outer Sculk's noise must be ABOVE in order to grow
+    public static final double minThreshold = 0.3; //The value that outer Sculk's noise must be ABOVE in order to grow
     public static final double maxThreshold = 0.9; //The value that outer Sculk's noise must be BELOW in order to grow
     public static long seed = 1;
     public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new Xoroshiro128PlusPlusRandom(seed));
