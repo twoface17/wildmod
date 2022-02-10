@@ -3,11 +3,7 @@ package frozenblock.wild.mod.entity;
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.fromAccurateSculk.WardenPositionSource;
-import frozenblock.wild.mod.liukrastapi.MathAddon;
-import frozenblock.wild.mod.liukrastapi.SniffGoal;
-import frozenblock.wild.mod.liukrastapi.WardenGoal;
-import frozenblock.wild.mod.liukrastapi.WardenWanderGoal;
-import frozenblock.wild.mod.liukrastapi.WardenAttackNearGoal;
+import frozenblock.wild.mod.liukrastapi.*;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import frozenblock.wild.mod.registry.RegisterStatusEffects;
@@ -18,7 +14,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -26,6 +21,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -60,7 +56,7 @@ public class WardenEntity extends HostileEntity {
      * */
 
     protected void initGoals() {
-        this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(1, new WardenSwimGoal(this));
         this.goalSelector.add(3, new WardenGoal(this, speed));
         this.goalSelector.add(2, new SniffGoal(this, speed));
         this.goalSelector.add(1, new WardenAttackNearGoal(this));
@@ -351,7 +347,7 @@ public class WardenEntity extends HostileEntity {
                     chosen=target;
                 }
             }
-        }return chosen;
+        } return chosen;
     }
 
     /** NBT, VALUES & BOOLEANS */
@@ -453,10 +449,12 @@ public class WardenEntity extends HostileEntity {
         return EntityGroup.UNDEAD;
     }
     protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(this.getStepSound(), 1.0F, 1.0F); }
-    protected SoundEvent getAmbientSound(){
-        if (this.emergeTicksLeft!=-5) {
+    protected SoundEvent getAmbientSound() {
+        if (this.emergeTicksLeft != -5) {
             return RegisterSounds.ENTITY_WARDEN_AMBIENT;
-        } else return null;
+        } else if (UniformIntProvider.create(0, 3).get(random) == 3) {
+            return RegisterSounds.ENTITY_WARDEN_AMBIENT_UNDERGROUND;
+        } return null;
     }
     protected SoundEvent getDeathSound() { return RegisterSounds.ENTITY_WARDEN_DEATH; }
     protected boolean isDisallowedInPeaceful() { return false; }
@@ -469,6 +467,12 @@ public class WardenEntity extends HostileEntity {
     @Override
     public void emitGameEvent(GameEvent event) {}
 
+    public boolean collides() {
+        if (this.isRemoved()) {return false;}
+        return this.emergeTicksLeft!=-5;
+    }
+    public boolean isPushable() { return this.emergeTicksLeft!=-5 || (this.isAlive() && !this.isSpectator() && !this.isClimbing()); }
+
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
         this.setPathfindingPenalty(PathNodeType.LAVA, 16.0F);
@@ -479,6 +483,7 @@ public class WardenEntity extends HostileEntity {
         this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, -1.0F);
         this.stepHeight = 1.0F;
     }
+
     @Override
     public int getSafeFallDistance() { return 16; }
 
@@ -528,6 +533,11 @@ public class WardenEntity extends HostileEntity {
                 ServerPlayNetworking.send(player, RegisterAccurateSculk.WARDEN_DIG_PARTICLES, buf);
             }
         }
+    }
+
+    @Override
+    public boolean isTouchingWater() {
+        return this.submergedInWater;
     }
 
     /** TICKMOVEMENT METHODS */
@@ -584,10 +594,6 @@ public class WardenEntity extends HostileEntity {
             }
         }
     }
-    public boolean collides() {
-        return this.emergeTicksLeft!=-5 && !this.isRemoved();
-    }
-    public boolean isPushable() { return this.emergeTicksLeft!=-5 && this.isAlive() && !this.isSpectator() && !this.isClimbing(); }
     public void sendDarkness(int dist, BlockPos blockPos, World world) {
         if (world instanceof ServerWorld) {
             if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
