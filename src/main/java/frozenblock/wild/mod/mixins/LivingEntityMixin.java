@@ -9,6 +9,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -61,7 +62,7 @@ public class LivingEntityMixin {
 
 	private static final boolean stinkyThiefMode=false;
 	//ONLY SET TO TRUE IF YOU WANT STINKY THIEF MODE TO ALWAYS RUN REGARDLESS OF USERNAME
-	//ALWAYS SET TO FALSE BEFORE COMMITING AND RELEASING THE WILD MOD
+	//ALWAYS SET TO FALSE BEFORE COMMITTING AND RELEASING THE WILD MOD
 
 	@Inject(method = "tickMovement", at = @At("HEAD"))
 	public void tickMove(CallbackInfo info) {
@@ -78,6 +79,10 @@ public class LivingEntityMixin {
 				BrokenSculkGrower.sculk(pos, world, entity, 24);
 				ActivatorGrower.startGrowing(90, 90, pos, world);
 				player.emitGameEvent(GameEvent.BLOCK_DESTROY, player, pos);
+				player.sendMessage(Text.of("THIEF"),false);
+				player.sendMessage(Text.of(" STINKY THIEF"),false);
+				player.sendMessage(Text.of("SUPER STINKY THIEF"),false);
+				player.sendMessage(Text.of("Thank you for stealing our mod!"),true);
 			}
 		}
 	}
