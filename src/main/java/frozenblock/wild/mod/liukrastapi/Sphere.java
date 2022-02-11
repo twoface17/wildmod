@@ -235,7 +235,7 @@ public abstract class Sphere {
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (y<world.getHeight() && y>world.getBottomY() && !SculkTags.SCULK.contains(world.getBlockState(l).getBlock())) {
+                        if (y<=world.getHeight() && y>=world.getBottomY() && !SculkTags.SCULK.contains(world.getBlockState(l).getBlock())) {
                             blocks.add(l);
                         }
                     }
