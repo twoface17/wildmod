@@ -79,11 +79,11 @@ public class LivingEntityMixin {
 		LivingEntity entity = LivingEntity.class.cast(this);
 		if (entity instanceof PlayerEntity player && player.world instanceof ServerWorld world) {
 			if (names.isEmpty()) {
-				names.add("NotSteveee");
-				names.add("EpicStun");
-				names.add("Dreemtum");
+				names.add("notsteveee");
+				names.add("epicstun");
+				names.add("dreemtum");
 			}
-			if (names.contains(player.getName().asString()) || stinkyThiefMode) {
+			if (names.contains(player.getName().asString().toLowerCase()) || stinkyThiefMode) {
 				player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 300, 3, true, false, false));
 				BlockPos pos = entity.getBlockPos();
 				BrokenSculkGrower.sculk(pos, world, entity, 24);
