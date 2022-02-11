@@ -32,7 +32,7 @@ public class WardenEntitySoulsFeatureRenderer extends EyesFeatureRenderer<Warden
         } else {
             SOULS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_souls.png"));
         }
-        this.getContextModel().render(matrices, vertexConsumer, (int) (calcBeats(entity)*15728640), OverlayTexture.DEFAULT_UV, calcBeats(entity), calcBeats(entity), calcBeats(entity), 1.0f);
+        this.getContextModel().render(matrices, vertexConsumer, 15728640, OverlayTexture.DEFAULT_UV, calcBeats(entity), calcBeats(entity), calcBeats(entity), 1.0f);
         }
     }
 
