@@ -1,5 +1,7 @@
 package frozenblock.wild.mod.liukrastapi;
 
+import frozenblock.wild.mod.blocks.SculkBlock;
+import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.tag.Tag;
@@ -233,7 +235,7 @@ public abstract class Sphere {
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (world.isChunkLoaded(l) && world.getBlockState(l).isAir()) {
+                        if (y<world.getHeight() && y>world.getBottomY() && !SculkTags.SCULK.contains(world.getBlockState(l).getBlock())) {
                             blocks.add(l);
                         }
                     }

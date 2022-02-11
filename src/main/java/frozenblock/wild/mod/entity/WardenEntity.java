@@ -21,7 +21,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -531,6 +530,20 @@ public class WardenEntity extends HostileEntity {
             buf.writeInt(ticks);
             for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, pos, 32)) {
                 ServerPlayNetworking.send(player, RegisterAccurateSculk.WARDEN_DIG_PARTICLES, buf);
+            }
+        }
+    }
+
+    @Override
+    protected void applyDamage(DamageSource source, float amount) {
+        super.applyDamage(source, amount);
+        if (source.getAttacker() instanceof LivingEntity entity) {
+            if (entity instanceof PlayerEntity player) {
+                if (!player.getAbilities().creativeMode) {
+                    this.addSuspicion(player, 23);
+                }
+            } else {
+                this.addSuspicion(entity, 23);
             }
         }
     }

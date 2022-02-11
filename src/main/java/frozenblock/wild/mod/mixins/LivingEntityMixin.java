@@ -9,8 +9,10 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -35,8 +37,8 @@ public class LivingEntityMixin {
 			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(7));
 			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(14));
 			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(20));
-			}
 		}
+	}
 
 
 	@Inject(method = "updatePostDeath", at = @At("HEAD"))
@@ -58,8 +60,9 @@ public class LivingEntityMixin {
 		}
 	}
 
-	private static final boolean stinkyThiefMode=false; //ONLY SET TO TRUE IF YOU WANT STINKY THIEF MODE TO ALWAYS RUN REGARDLESS OF USERNAME
-	//ALWAYS SET TO FALSE BEFORE COMMITING AND RELEASING THE WILD MOD
+	private static final boolean stinkyThiefMode=false;
+	//ONLY SET TO TRUE IF YOU WANT STINKY THIEF MODE TO ALWAYS RUN REGARDLESS OF USERNAME
+	//ALWAYS SET TO FALSE BEFORE COMMITTING AND RELEASING THE WILD MOD
 
 	@Inject(method = "tickMovement", at = @At("HEAD"))
 	public void tickMove(CallbackInfo info) {
@@ -75,6 +78,17 @@ public class LivingEntityMixin {
 				World world = entity.world;
 				BrokenSculkGrower.sculk(pos, world, entity, 24);
 				ActivatorGrower.startGrowing(90, 90, pos, world);
+				player.emitGameEvent(GameEvent.BLOCK_DESTROY, player, pos);
+				player.sendMessage(Text.of("THIEF"),false);
+				player.sendMessage(Text.of(" STINKY THIEF"),false);
+				player.sendMessage(Text.of("SUPER STINKY THIEF"),false);
+				player.sendMessage(Text.of("CLICKBAIT"),false);
+				player.sendMessage(Text.of("YOU FELL OFF"),false);
+				player.sendMessage(Text.of("U R A STEALER"),false);
+				player.sendMessage(Text.of("Unsubscribe to " + player.getName().getString()), false);
+				player.sendMessage(Text.of("EXTREMELY PUTRID THIEF STEALER PERSON!!!!"),false);
+				player.sendMessage(Text.of("Thank you for stealing our mod for views!"),true);
+				player.sendMessage(Text.of("Try out this new product called Decency!"), false);
 			}
 		}
 	}

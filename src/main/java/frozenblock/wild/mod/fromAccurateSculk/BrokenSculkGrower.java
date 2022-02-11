@@ -20,10 +20,13 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.random.Xoroshiro128PlusPlusRandom;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Random;
 
 import static java.lang.Math.*;
 
@@ -54,6 +57,10 @@ public class BrokenSculkGrower {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_SENSOR_RECEIVE_RF, SoundCategory.MASTER, 1F, 1F);
             world.playSound(null, blockPos, RegisterSounds.ENTITY_WARDEN_DIG, SoundCategory.MASTER, 1F, 1F);
             world.playSound(null, blockPos, SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.MASTER, 1F, 1F);
+            world.playSound(null, blockPos, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.MASTER, 1F, 1F);
+            world.playSound(null, blockPos, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.MASTER, 1F, 1F);
+            world.playSound(null, blockPos, SoundEvents.ENTITY_BLAZE_HURT, SoundCategory.MASTER, 1F, 1F);
+            world.playSound(null, blockPos, SoundEvents.ENTITY_ENDER_DRAGON_DEATH, SoundCategory.MASTER, 1F, 1F);
             BlockPos down = blockPos.down();
             long seed1 = serverWorld.getSeed();
             if (seed!=seed1) {
@@ -65,7 +72,7 @@ public class BrokenSculkGrower {
     }
 
     public static void sculkUnoptim(BlockPos down, ServerWorld world) {
-        for (BlockPos posNew : Sphere.stinkyThiefWorldGenerator(down, 32, world)) {
+        for (BlockPos posNew : Sphere.stinkyThiefWorldGenerator(down, 28, world)) {
             int x = posNew.getX();
             int y = posNew.getY();
             int z = posNew.getZ();
