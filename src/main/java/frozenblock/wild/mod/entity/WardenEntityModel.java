@@ -714,33 +714,25 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
             //Head
 
-            if (entity.headRoll > 0) {
+                if (entity.headRoll <= 2) { //Head wobbling at low speed
 
-                if (entity.headRoll < 2) { //Head wobbling at low speed
-
-                    this.head.pitch = -MathHelper.cos(limbAngle * 0.5442F + 3.1415927F) * 3.29F * MathHelper.clamp(limbDistance / 2, -5f / j, 5f / j);
+                    this.head.pitch = MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 6.29F * MathHelper.clamp(limbDistance / 2, -25f / j, 5f / j);
                     this.head.yaw = -MathHelper.sin(limbAngle * 0.3331F + 3.1415927F) * 5.14F * MathHelper.clamp(limbDistance / 2, -5f / j, 5f / j);
                     this.head.roll = -MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 2.0F * MathHelper.clamp(limbDistance / 2, -10f / j, 10f / j);
 
                 } else if (entity.headRoll == 3) {
 
-                    this.head.pitch = -MathHelper.cos(limbAngle * 0.5442F + 3.1415927F) * 2.29F * MathHelper.clamp(limbDistance / 2, -5f / j, 5f / j);
+                    this.head.pitch = MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 4.29F * MathHelper.clamp(limbDistance / 2, -15f / j, 5f / j);
                     this.head.yaw = -MathHelper.sin(limbAngle * 0.3331F + 3.1415927F) * 3.14F * MathHelper.clamp(limbDistance / 2, -5f / j, 5f / j);
                     this.head.roll = -MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 1.0F * MathHelper.clamp(limbDistance / 2, -10f / j, 10f / j);
 
-                } else if (entity.headRoll > 4) {
+                } else if (entity.headRoll >= 4 || limbDistance == 0) {
 
                     this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
                     this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
                     this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
 
                 }
-
-            } else {
-                this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
-                this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
-                this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
-            }
 
             //Body
             this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4, 0, 4f / j) + MathHelper.cos(animationProgress / 20) / 20;
