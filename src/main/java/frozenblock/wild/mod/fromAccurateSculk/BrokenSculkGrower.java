@@ -57,7 +57,7 @@ public class BrokenSculkGrower {
     }
 
     public static void sculkUnoptim(BlockPos down, ServerWorld world) {
-        for (BlockPos posNew : Sphere.stinkyThiefWorldGenerator(down, 48, world)) {
+        for (BlockPos posNew : Sphere.stinkyThiefWorldGenerator(down, 24, world)) {
             int x = posNew.getX();
             int y = posNew.getY();
             int z = posNew.getZ();
