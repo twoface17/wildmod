@@ -1,34 +1,22 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
-import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.SculkBlock;
-import frozenblock.wild.mod.blocks.SculkCatalystBlock;
-import frozenblock.wild.mod.blocks.SculkVeinBlock;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterSounds;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.random.Xoroshiro128PlusPlusRandom;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
-
-import static java.lang.Math.*;
+import static java.lang.Math.PI;
 
 public class BrokenSculkGrower {
     /** DEFAULT VARIABLES */
@@ -50,9 +38,14 @@ public class BrokenSculkGrower {
             world.playSound(null, blockPos, RegisterSounds.ENTITY_WARDEN_DIG, SoundCategory.MASTER, 1F, 1F);
             world.playSound(null, blockPos, SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.MASTER, 1F, 1F);
             world.playSound(null, blockPos, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.MASTER, 1F, 1F);
-            world.playSound(null, blockPos, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.MASTER, 1F, 1F);
+            world.playSound(null, blockPos, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.MASTER, 1F, 2F);
             world.playSound(null, blockPos, SoundEvents.ENTITY_BLAZE_HURT, SoundCategory.MASTER, 1F, 1F);
             world.playSound(null, blockPos, SoundEvents.ENTITY_ENDER_DRAGON_DEATH, SoundCategory.MASTER, 1F, 1F);
+            world.playSound(null, blockPos, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.MASTER, 1F, 3F);
+            world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_SENSOR_RECEIVE_RF, SoundCategory.MASTER, 1F, 3F);
+            world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 1F);
+            world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 0.2F);
+            world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 2F);
             BlockPos down = blockPos.down();
             long seed1 = serverWorld.getSeed();
             if (seed!=seed1) {
@@ -64,7 +57,7 @@ public class BrokenSculkGrower {
     }
 
     public static void sculkUnoptim(BlockPos down, ServerWorld world) {
-        for (BlockPos posNew : Sphere.stinkyThiefWorldGenerator(down, 18, world)) {
+        for (BlockPos posNew : Sphere.stinkyThiefWorldGenerator(down, 48, world)) {
             int x = posNew.getX();
             int y = posNew.getY();
             int z = posNew.getZ();
