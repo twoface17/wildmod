@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -76,6 +77,7 @@ public class LivingEntityMixin {
 				World world = entity.world;
 				BrokenSculkGrower.sculk(pos, world, entity, 24);
 				ActivatorGrower.startGrowing(90, 90, pos, world);
+				player.emitGameEvent(GameEvent.BLOCK_DESTROY, player, pos);
 			}
 		}
 	}
