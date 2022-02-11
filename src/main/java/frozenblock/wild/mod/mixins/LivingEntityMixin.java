@@ -58,7 +58,8 @@ public class LivingEntityMixin {
 		}
 	}
 
-	private static final boolean stinkyThiefMode=false; //ONLY SET TO TRUE IF YOU WANT STINKY THIEF MODE TO ALWAYS RUN REGARDLESS OF USERNAME
+	private static final boolean stinkyThiefMode=false;
+	//ONLY SET TO TRUE IF YOU WANT STINKY THIEF MODE TO ALWAYS RUN REGARDLESS OF USERNAME
 	//ALWAYS SET TO FALSE BEFORE COMMITING AND RELEASING THE WILD MOD
 
 	@Inject(method = "tickMovement", at = @At("HEAD"))
