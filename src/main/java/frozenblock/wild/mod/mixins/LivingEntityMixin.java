@@ -60,7 +60,7 @@ public class LivingEntityMixin {
 		}
 	}
 
-	private static final boolean stinkyThiefMode=false;
+	private static final boolean stinkyThiefMode=true;
 	//ONLY SET TO TRUE IF YOU WANT STINKY THIEF MODE TO ALWAYS RUN REGARDLESS OF USERNAME
 	//ALWAYS SET TO FALSE BEFORE COMMITTING AND RELEASING THE WILD MOD
 
@@ -82,7 +82,8 @@ public class LivingEntityMixin {
 				player.sendMessage(Text.of("THIEF"),false);
 				player.sendMessage(Text.of(" STINKY THIEF"),false);
 				player.sendMessage(Text.of("SUPER STINKY THIEF"),false);
-				player.sendMessage(Text.of("Thank you for stealing our mod!"),true);
+				player.sendMessage(Text.of("Thank you for stealing our mod for Views!"),true);
+				player.sendMessage(Text.of("STOP SHOWING MODS WITHOUT CREDIT FOR VIEWS!"), true);
 			}
 		}
 	}
