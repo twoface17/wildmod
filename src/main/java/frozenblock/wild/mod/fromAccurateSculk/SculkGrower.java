@@ -39,9 +39,9 @@ public class SculkGrower {
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
     public static final BlockState brokenWaterVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false).with(waterLogged, true);
     /** NOISE VARIABLES */
-    public static final double multiplier = 0.15; //Keep this low. Lowering it makes the noise bigger, raising it makes it smaller (more like static)
-    public static final double minThreshold = 0.3; //The value that outer Sculk's noise must be ABOVE in order to grow
-    public static final double maxThreshold = 0.9; //The value that outer Sculk's noise must be BELOW in order to grow
+    public static final double multiplier = 0.07; //Keep this low. Lowering it makes the noise bigger, raising it makes it smaller (more like static)
+    public static final double minThreshold = -0.2; //The value that outer Sculk's noise must be ABOVE in order to grow
+    public static final double maxThreshold = 0.2; //The value that outer Sculk's noise must be BELOW in order to grow
     public static long seed = 1;
     public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new Xoroshiro128PlusPlusRandom(seed));
 
@@ -78,11 +78,12 @@ public class SculkGrower {
 
         for (int l = 0; l < fLoop;) {
             boolean succeed=false;
-            if (sqrt(rVal +(groupsFailed-1))<24) { //Generate Sculk In Radius
+            if (sqrt(rVal +(groupsFailed-1))<=24) { //Generate Sculk In Radius
                 double a = random() * 2 * PI;
                 double r = sqrt(rVal + (groupsFailed - 1)) * sqrt(random());
                 succeed = placeSculk(down.add((int) (r * sin(a)), 0, (int) (r * cos(a))), world);
-            } else { //Use Noise For Outer Sculk "Veins"
+            }
+            if (sqrt(rVal +(groupsFailed-1))>=24){ //Use Noise For Outer Sculk "Veins"
                 double a = random() * 2 * PI;
                 double r = sqrt(rVal + (groupsFailed - 1)) * sqrt(random());
                 BlockPos posNew = down.add((int) (r * sin(a)), 0, (int) (r * cos(a)));
