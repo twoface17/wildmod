@@ -71,6 +71,7 @@ public class BrokenSculkGrower {
             double sampled = sample.sample(x * multiplier, y * multiplier, z * multiplier-0.3);
             double min = MathHelper.clamp(minThreshold + 0.7*(Math.sin((x*PI)/100)),-1,0);
             double max = MathHelper.clamp(maxThreshold + 0.7*(Math.sin((x*PI)/100)),0,1);
+            world.removeBlock(posNew,false);
             if (sampled > min && sampled < max) {
                 placeSculk(posNew, world);
             }
