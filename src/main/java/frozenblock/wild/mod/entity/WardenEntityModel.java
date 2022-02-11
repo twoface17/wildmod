@@ -701,7 +701,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
         /* WALK, IDLE, & ATTACK ANIMATION */
         if (!canEmerge && !canSniff && !canRoar && !canDig) {
-            //Attack Animation Handler
             /* Stop Syncing Animations */
             this.head.pivotY = headY;
             this.head.pivotZ = 0;
@@ -717,7 +716,15 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.right_leg.pivotY = legY;
 
             //Head
-            this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
+            if (entity.trueOverallAnger() > 25 || limbDistance == 0) {
+                this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
+                this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
+
+            } else if (entity.trueOverallAnger() < 25 && limbDistance != 0) { //Head wobbling at low anger
+
+                this.head.pitch = -MathHelper.sin(limbAngle * 0.5242F + 3.1415927F) * 3.29F *limbDistance / 2;
+                this.head.yaw = -MathHelper.sin(limbAngle * 0.3331F + 3.1415927F) * 5.14F * limbDistance / 2;
+            }
             this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
 
             //Body
@@ -730,8 +737,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * MathHelper.clamp(limbDistance, 0, 25f / j);
 
             if (!canAttack) { /*ATTACK ANIMATION */
-                //Head
-                this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
 
                 //Body
                 this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 15f / j) + MathHelper.cos(animationProgress / 20) / 20;
@@ -755,13 +760,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                         AnimationAPI.easeInOutSine(t * 0.08f, t * 0.32f, -27.5f / j, attackTime) +
                         AnimationAPI.easeInOutSine(t * 0.32f, t * 0.56f, 20f / j, attackTime) +
                         AnimationAPI.easeInOutSine(t * 0.56f, t * 0.68f, -2.5f / j, attackTime)
-                );
-
-                //Head
-                this.head.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.12f, -10f / j, attackTime) +
-                        AnimationAPI.easeInOutSine(t * 0.12f, t * 0.36f, 27.5f / j, attackTime) +
-                        AnimationAPI.easeInOutSine(t * 0.36f, t * 0.6f, -20f / j, attackTime) +
-                        AnimationAPI.easeInOutSine(t * 0.6f, t * 0.72f, 2.5f / j, attackTime)
                 );
 
                 //Left Arm
