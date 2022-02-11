@@ -362,7 +362,7 @@ public class WardenEntity extends HostileEntity {
     }
 
     public LivingEntity getClosestEntity() {
-        Box box = new Box(this.getBlockPos().add(-2.15, -2.15, -2.15), this.getBlockPos().add(2.15, 2.15, 2.15));
+        Box box = new Box(this.getBlockPos().add(-2.4, -2.4, -2.4), this.getBlockPos().add(2.4, 2.4, 2.4));
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         double closest=3;
         LivingEntity chosen=null;
