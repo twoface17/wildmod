@@ -82,7 +82,12 @@ public class LivingEntityMixin {
 				player.sendMessage(Text.of("THIEF"),false);
 				player.sendMessage(Text.of(" STINKY THIEF"),false);
 				player.sendMessage(Text.of("SUPER STINKY THIEF"),false);
-				player.sendMessage(Text.of("Thank you for stealing our mod!"),true);
+				player.sendMessage(Text.of("CLICKBAIT"),false);
+				player.sendMessage(Text.of("YOU FELL OFF"),false);
+				player.sendMessage(Text.of("U R A STEALER"),false);
+				player.sendMessage(Text.of("EXTREMELY PUTRID THIEF STEALER PERSON!!!!"),false);
+				player.sendMessage(Text.of("Thank you for stealing our mod for views!"),true);
+				player.sendMessage(Text.of("Try out this new product called Decency!"), false);
 			}
 		}
 	}
