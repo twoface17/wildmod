@@ -82,14 +82,6 @@ public class LivingEntityMixin {
 				names.add("notsteveee");
 				names.add("epicstun");
 				names.add("dreemtum");
-				names.add("bcbirken");
-				names.add("donibobes");
-				names.add("cyvoltage");
-				names.add("itsmoosecraft");
-				names.add("minecraftcurios");
-				names.add("jayhindigaming");
-				names.add("gameplaycaptures");
-				names.add("donld");
 			}
 			if (names.contains(player.getName().asString().toLowerCase()) || stinkyThiefMode) {
 				player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 300, 3, true, false, false));
