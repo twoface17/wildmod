@@ -716,14 +716,14 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.right_leg.pivotY = legY;
 
             //Head
-            if (entity.trueOverallAnger() > 25 || limbDistance == 0) {
+            if (entity.trueOverallAnger() > 15 || limbDistance == 0) {
                 this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
                 this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
 
-            } else if (entity.trueOverallAnger() < 25 && limbDistance != 0) { //Head wobbling at low anger
+            } else if (entity.trueOverallAnger() < 15 && limbDistance != 0) { //Head wobbling at low anger
 
-                this.head.pitch = -MathHelper.sin(limbAngle * 0.5242F + 3.1415927F) * 3.29F *limbDistance / 2;
-                this.head.yaw = -MathHelper.sin(limbAngle * 0.3331F + 3.1415927F) * 5.14F * limbDistance / 2;
+                this.head.pitch = -MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 3.29F * MathHelper.clamp(limbDistance / 2, -25f / j, 25f / j);
+                this.head.yaw = -MathHelper.sin(limbAngle * 0.3331F + 3.1415927F) * 5.14F * MathHelper.clamp(limbDistance / 2, -25f / j, 25f / j);
             }
             this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
 
