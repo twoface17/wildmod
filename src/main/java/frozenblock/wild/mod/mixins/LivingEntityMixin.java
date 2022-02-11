@@ -37,8 +37,8 @@ public class LivingEntityMixin {
 			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(7));
 			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(14));
 			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(20));
-			}
 		}
+	}
 
 
 	@Inject(method = "updatePostDeath", at = @At("HEAD"))
