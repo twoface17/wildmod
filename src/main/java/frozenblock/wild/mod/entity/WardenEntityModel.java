@@ -756,6 +756,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.left_arm.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 10f / j) + MathHelper.cos(animationProgress / 20) / 20;
             this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * MathHelper.clamp(limbDistance / 4, 0, 15f / j) + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F;
             } else if (canAttack) {
+            //Head
+            this.head.roll = 0;
+            this.head.pitch = 0;
+            this.head.yaw = 0;
+
             //Body
             this.body.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.08f, 10f / j, attackTime) +
                     AnimationAPI.easeInOutSine(t * 0.08f, t * 0.32f, -27.5f / j, attackTime) +
