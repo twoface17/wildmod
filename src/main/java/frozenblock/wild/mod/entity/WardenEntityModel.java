@@ -227,8 +227,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, 17.5f / j, emergeTime) +
                     AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, 7.5f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 3.76f, t * 5.24f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.24f, t * 5.92f, 20f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.92f, t * 6.4f, 85f / j, emergeTime)
+                    AnimationAPI.easeInOutSine(t * 4.84f, t * 5.84f, 0f / j, emergeTime) +
+                    AnimationAPI.easeInOutSine(t * 5.84f, t * 6.4f, 62.5f / j, emergeTime)
             );
             this.left_arm.yaw = (AnimationAPI.easeOutSine(t * 0f, t * 0.8f, 2f / j, emergeTime) +
                     AnimationAPI.easeOutSine(t * 0.8f, t * 1.12f, -2f / j, emergeTime) +
