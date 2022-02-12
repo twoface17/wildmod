@@ -729,7 +729,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * MathHelper.clamp(limbDistance / 4, -5, 0f / j));
 
                     //Right Arm
-                    this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
+                    this.right_arm.pitch = MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
                     this.right_arm.roll = (-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4, 0, 5f / j));
 
                 } else if (entity.headRoll == 3) { //Slightly angry walk animation
@@ -747,7 +747,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * MathHelper.clamp(limbDistance / 4, -5, 0f / j));
 
                     //Right Arm
-                    this.right_arm.pitch = -MathHelper.cos((limbAngle * 0.6662F) - 0.5F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
+                    this.right_arm.pitch = MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
                     this.right_arm.roll = (-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4, 0, 5f / j));
 
                 } else if (entity.headRoll >= 4) { //Angry walk animation
