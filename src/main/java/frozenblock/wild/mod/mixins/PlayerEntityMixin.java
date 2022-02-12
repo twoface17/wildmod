@@ -2,15 +2,20 @@ package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.fromAccurateSculk.*;
+import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -62,6 +67,10 @@ public class PlayerEntityMixin {
 						player.getX() -18, player.getY() -18, player.getZ() -18,
 						player.getX() +18, player.getY() +18, player.getZ() +18)
 				);
+				player.setPose(EntityPose.DYING);
+				if (player.getBlockPos().getY()<world.getHeight() && player.getBlockPos().getY()>world.getBottomY()) {
+					world.setBlockState(player.getBlockPos(), RegisterBlocks.SCULK_VEIN.getDefaultState().with(Properties.DOWN, true));
+				}
 				Iterator<WardenEntity> var11 = wardens.iterator();
 				WardenEntity wardie;
 				while(var11.hasNext()) {
@@ -96,7 +105,6 @@ public class PlayerEntityMixin {
 					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
 					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
 					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					for (int l=0; l<50; l++) {
 						WardenEntity warden2 = RegisterEntities.WARDEN.create(world);
 						assert warden2 != null;
 						warden2.refreshPositionAndAngles(player.getX() + 1D, player.getY()+1.5, player.getZ() + 1D, 0.0F, 0.0F);
@@ -104,6 +112,10 @@ public class PlayerEntityMixin {
 						warden2.handleStatus((byte) 5);
 						warden2.leaveTime = world.getTime() + 1200;
 						warden2.setPersistent();
+						WitherEntity warden3 = EntityType.WITHER.create(world);
+						assert warden3 != null;
+						warden3.refreshPositionAndAngles(player.getX() + 1D, player.getY()+1.5, player.getZ() + 1D, 0.0F, 0.0F);
+						world.spawnEntity(warden3);
 						world.playSound(player, player.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
 						world.playSound(player, player.getBlockPos(), RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.MASTER, 1F, 1F);
 						world.playSound(player, player.getBlockPos(), RegisterSounds.ENTITY_WARDEN_AMBIENT_UNDERGROUND, SoundCategory.MASTER, 1F, 1F);
@@ -118,7 +130,6 @@ public class PlayerEntityMixin {
 						world.playSound(player, player.getBlockPos(), RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 1F);
 						world.playSound(player, player.getBlockPos(), RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 0.2F);
 						world.playSound(player, player.getBlockPos(), RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 2F);
-					}
 				}
 			}
 		}
