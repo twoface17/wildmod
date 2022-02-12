@@ -39,9 +39,9 @@ public class FireflyWanderGoal extends Goal {
     private BlockPos getRandomLocation() {
         BlockPos pos;
         if (!mob.getBlockPos().isWithinDistance(mob.getSpawnPos(), 6)) {
-            pos = mob.getSpawnPos().add(getRandom(3, mob), getYRandom(3, mob), getRandom(3, mob));
+            pos = mob.getSpawnPos().add(getRandom(3, mob), getYRandom(4, mob), getRandom(3, mob));
         } else {
-            pos = mob.getBlockPos().add(getRandom(1, mob), getYRandom(1, mob), getRandom(1, mob));
+            pos = mob.getBlockPos().add(getRandom(1, mob), getYRandom(2, mob), getRandom(1, mob));
         }
         return pos;
     }
@@ -49,6 +49,6 @@ public class FireflyWanderGoal extends Goal {
         return UniformIntProvider.create(-max, max).get(entity.getWorld().getRandom());
     }
     private int getYRandom(int max, Entity entity) {
-        return UniformIntProvider.create(0, max).get(entity.getWorld().getRandom());
+        return UniformIntProvider.create(1, max).get(entity.getWorld().getRandom());
     }
 }
