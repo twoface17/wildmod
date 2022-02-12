@@ -58,8 +58,15 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         return null;
     }
 
-    public float getPathfindingFavor(BlockPos pos, WorldView world) {
-        return world.getBlockState(pos).isAir() ? 10.0F : 0.0F;
+    @Override
+    public void tickMovement() {
+        super.tickMovement();
+        if (!this.spawnSet) {
+            this.spawnX=this.getBlockX();
+            this.spawnY=this.getBlockY();
+            this.spawnZ=this.getBlockZ();
+            this.spawnSet=true;
+        }
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
