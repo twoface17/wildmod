@@ -188,15 +188,16 @@ public class FrogGoal extends Goal {
         String string = Formatting.strip(this.mob.getName().getString());
         if ("Osmiooo".equals(string)) {
             if (goatlist.size() > 0) {
-                if (world.getTime() - this.mob.eatTimer >= 50 && this.mob.getBlockPos().getSquaredDistance(list.get(0).getBlockPos()) <= 6) {
-                    GoatEntity target = goatlist.get(0);
-                    world.sendEntityStatus(this.mob, (byte) 4);
-                    target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
-                    target.setInvulnerable(true);
-                    this.mob.playSound(RegisterSounds.ENTITY_FROG_TONGUE, 1.0F, 1.0F);
-                    this.mob.targetRemoveTimer = 10;
-                    this.mob.targetID = target.getId();
-                    this.mob.eatTimer = world.getTime();
+                for (GoatEntity target : goatlist) {
+                    if (world.getTime() - this.mob.eatTimer >= 50 && this.mob.getBlockPos().getSquaredDistance(list.get(0).getBlockPos()) <= 6) {
+                        world.sendEntityStatus(this.mob, (byte) 4);
+                        target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
+                        target.setInvulnerable(true);
+                        this.mob.playSound(RegisterSounds.ENTITY_FROG_TONGUE, 1.0F, 1.0F);
+                        this.mob.targetRemoveTimer = 10;
+                        this.mob.targetID = target.getId();
+                        this.mob.eatTimer = world.getTime();
+                    }
                 }
             }
         }
