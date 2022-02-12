@@ -46,6 +46,6 @@ public class FireflyWanderGoal extends Goal {
         return pos;
     }
     private int getRandom(int max, Entity entity) {
-        return UniformIntProvider.create(-max, max).get(entity.getWorld().getRandom());
+        return UniformIntProvider.create(0, max).get(entity.getWorld().getRandom());
     }
 }
