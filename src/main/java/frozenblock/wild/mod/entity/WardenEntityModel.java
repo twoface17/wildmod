@@ -226,7 +226,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, 4f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 1.68f, t * 2.72f, 0f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, 17.5f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, 22.5f / j, emergeTime) +
+                    AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, 7.5f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 3.76f, t * 3.84f, 0f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 3.84f, t * 4.64f, -12.5f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 4.64f, t * 4.84f, 0f / j, emergeTime) +
@@ -293,12 +293,9 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInSine(t * 1.44f, t * 1.72f, 112.5f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 1.72f, t * 1.88f, 137.5f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 1.88f, t * 2.72f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, 17.5f / j, emergeTime) +
+                    AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, 7.5f / j, emergeTime) +
                     AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, 22.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.76f, t * 3.84f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.84f, t * 4.64f, -12.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.64f, t * 4.84f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.84f, t * 5.24f, 0f / j, emergeTime) +
+                    AnimationAPI.easeInOutSine(t * 3.76f, t * 5.24f, 0f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 5.24f, t * 5.92f, -20f / j, emergeTime) +
                     AnimationAPI.easeInOutSine(t * 5.92f, t * 6.4f, 85f / j, emergeTime)
             );
