@@ -478,7 +478,7 @@ public class WardenEntity extends HostileEntity {
     protected SoundEvent getAmbientSound() {
         if (this.emergeTicksLeft != -5) {
             return RegisterSounds.ENTITY_WARDEN_AMBIENT;
-        } else if (UniformIntProvider.create(0, 3).get(random) == 3) {
+        } else if (UniformIntProvider.create(0, 3).get(random) >=2) {
             return RegisterSounds.ENTITY_WARDEN_AMBIENT_UNDERGROUND;
         } return null;
     }
