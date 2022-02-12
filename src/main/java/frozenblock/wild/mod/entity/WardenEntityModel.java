@@ -704,31 +704,31 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
             //Head
 
-                if (entity.headRoll <= 2) { //Head wobbling
+            if (entity.headRoll <= 2) { //Head wobbling
 
-                    this.head.pitch = MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 6.29F * MathHelper.clamp(limbDistance / 2, -25f / j, 5f / j);
-                    this.head.yaw = -MathHelper.sin(limbAngle * 0.3331F + 3.1415927F) * 5.14F * MathHelper.clamp(limbDistance / 2, -5f / j, 5f / j);
-                    this.head.roll = -MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 2.0F * MathHelper.clamp(limbDistance / 2, -10f / j, 10f / j);
+                this.head.pitch = MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 6.29F * MathHelper.clamp(limbDistance / 2, -25f / j, 5f / j);
+                this.head.yaw = -MathHelper.sin(limbAngle * 0.3331F + 3.1415927F) * 5.14F * MathHelper.clamp(limbDistance / 2, -5f / j, 5f / j);
+                this.head.roll = -MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 2.0F * MathHelper.clamp(limbDistance / 2, -10f / j, 10f / j);
 
-                    this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance, -10f, 25f / j) + MathHelper.cos(animationProgress / 20) / 20;
+                this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance, -10f, 25f / j) + MathHelper.cos(animationProgress / 20) / 20;
 
-                } else if (entity.headRoll == 3) {
+            } else if (entity.headRoll == 3) {
 
-                    this.head.pitch = MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 4.29F * MathHelper.clamp(limbDistance / 2, -15f / j, 5f / j);
-                    this.head.yaw = -MathHelper.sin(limbAngle * 0.3331F + 3.1415927F) * 3.14F * MathHelper.clamp(limbDistance / 2, -5f / j, 5f / j);
-                    this.head.roll = -MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 1.0F * MathHelper.clamp(limbDistance / 2, -10f / j, 10f / j);
+                this.head.pitch = MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 4.29F * MathHelper.clamp(limbDistance / 2, -15f / j, 5f / j);
+                this.head.yaw = -MathHelper.sin(limbAngle * 0.3331F + 3.1415927F) * 3.14F * MathHelper.clamp(limbDistance / 2, -5f / j, 5f / j);
+                this.head.roll = -MathHelper.sin(limbAngle * 0.5442F + 3.1415927F) * 1.0F * MathHelper.clamp(limbDistance / 2, -10f / j, 10f / j);
 
-                    this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2, -10f, 20f / j) + MathHelper.cos(animationProgress / 20) / 20;
+                this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2, -10f, 20f / j) + MathHelper.cos(animationProgress / 20) / 20;
 
-                } else if (entity.headRoll >= 4 || limbDistance == 0) {
+            } else if (entity.headRoll >= 4 || limbDistance == 0) {
 
-                    this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
-                    this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
-                    this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
+                this.head.pitch = headPitch * 0.017453292F - (float) MathAddon.cutSin(limbAngle * 0.6662F, 0, false) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
+                this.head.yaw = headYaw * 0.017453292F - (-MathHelper.sin(limbAngle * 0.6662F + 3.1415927F)) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
+                this.head.roll = -MathHelper.sin(limbAngle * 0.6662F + 3.1415927F) * 0.7F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
 
-                    this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 15f / j) + MathHelper.cos(animationProgress / 20) / 20;
+                this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 15f / j) + MathHelper.cos(animationProgress / 20) / 20;
 
-                }
+            }
 
             //Body
             this.body.roll = MathHelper.cos(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4, 0, 4f / j) + MathHelper.cos(animationProgress / 20) / 20;
@@ -750,60 +750,66 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.left_arm.pivotY = armY;
             this.left_arm.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 10f / j) + MathHelper.cos(animationProgress / 20) / 20;
             this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * MathHelper.clamp(limbDistance / 4, 0, 5f / j) + (-MathHelper.sin(animationProgress / 20) / 20)) - 0.05F;
-            }
-        else if (canAttack) {
-                    //Head
-
-                    this.head.roll = 0;
-                    this.head.yaw = 0;
-
-                    //Head
-                    this.head.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.12f, -10f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.12f, t * 0.36f, 27.5f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.36f, t * 0.6f, -20f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.6f, t * 0.72f, 2.5f / j, attackTime)
-                    );
-
-                    //Body
-                    this.body.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.08f, 10f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.08f, t * 0.32f, -27.5f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.32f, t * 0.56f, 20f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.56f, t * 0.68f, -2.5f / j, attackTime)
-                    );
-
-                    //Left Arm
-                    this.left_arm.pivotY = armY + (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 1f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.04f, t * 0.32f, -4f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.32f, t * 0.44f, 3f, attackTime)
-                    );
-                    this.left_arm.pivotZ = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 2f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.04f, t * 0.32f, -6f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.32f, t * 0.44f, 0f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.44f, t * 0.64f, 4f, attackTime)
-                    );
-                    this.left_arm.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.08f, 15f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.08f, t * 0.28f, -135f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.28f, t * 0.52f, 135f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.52f, t * 0.64f, -15f / j, attackTime)
-                    );
-
-                    //Right Arm
-                    this.right_arm.pivotY = armY + (AnimationAPI.easeInOutSine(t * 0f, t * 0.12f, 1f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.12f, t * 0.36f, -4f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.32f, t * 0.44f, 3f, attackTime)
-                    );
-                    this.right_arm.pivotZ = (AnimationAPI.easeInOutSine(t * 0f, t * 0.12f, 2f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.12f, t * 0.36f, -6f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.36f, t * 0.44f, 0f, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.44f, t * 0.64f, 4f, attackTime)
-                    );
-                    this.right_arm.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.16f, 5f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.16f, t * 0.32f, -125f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.32f, t * 0.56f, 125f / j, attackTime) +
-                            AnimationAPI.easeInOutSine(t * 0.56f, t * 0.64f, -5f / j, attackTime)
-                    );
-          }
         }
+        else if (canAttack) {
+            //Head
+
+            this.head.roll = 0;
+            this.head.yaw = 0;
+
+            //Head
+            this.head.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.12f, -10f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.12f, t * 0.36f, 27.5f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.36f, t * 0.6f, -20f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.6f, t * 0.72f, 2.5f / j, attackTime)
+            );
+
+            //Body
+            this.body.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.08f, 10f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.08f, t * 0.32f, -27.5f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.32f, t * 0.56f, 20f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.56f, t * 0.68f, -2.5f / j, attackTime)
+            );
+
+            //Left Arm
+            this.left_arm.pivotY = armY + (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 1f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.32f, -4f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.32f, t * 0.44f, 3f, attackTime)
+            );
+            this.left_arm.pivotZ = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 2f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.32f, -6f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.32f, t * 0.44f, 0f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.44f, t * 0.64f, 4f, attackTime)
+            );
+            this.left_arm.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.08f, 15f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.08f, t * 0.28f, -135f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.28f, t * 0.52f, 135f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.52f, t * 0.64f, -15f / j, attackTime)
+            );
+
+            //Right Arm
+            this.right_arm.pivotY = armY + (AnimationAPI.easeInOutSine(t * 0f, t * 0.12f, 1f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.12f, t * 0.36f, -4f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.32f, t * 0.44f, 3f, attackTime)
+            );
+            this.right_arm.pivotZ = (AnimationAPI.easeInOutSine(t * 0f, t * 0.12f, 2f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.12f, t * 0.36f, -6f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.36f, t * 0.44f, 0f, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.44f, t * 0.64f, 4f, attackTime)
+            );
+            this.right_arm.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.16f, 5f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.16f, t * 0.32f, -125f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.32f, t * 0.56f, 125f / j, attackTime) +
+                    AnimationAPI.easeInOutSine(t * 0.56f, t * 0.64f, -5f / j, attackTime)
+            );
+
+            //Right Leg
+            this.right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance, 0, 35f / j);
+
+            //Left Leg
+            this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * MathHelper.clamp(limbDistance, 0, 25f / j);
+        }
+    }
 
 
     @Override
