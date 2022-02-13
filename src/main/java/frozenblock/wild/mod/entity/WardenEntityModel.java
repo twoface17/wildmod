@@ -856,6 +856,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             //Left Leg
             this.left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * MathHelper.clamp(limbDistance, 0, 25f / j);
         }
+        if (entity.age<=1) {
+            this.body.pivotY=-100;
+            this.right_leg.pivotY=-100;
+            this.left_leg.pivotY=-100;
+        }
     }
 
 
