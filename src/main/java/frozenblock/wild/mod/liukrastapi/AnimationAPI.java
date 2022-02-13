@@ -232,7 +232,7 @@ public class AnimationAPI {
         float x = time - fromTime;
         int b = (2* amount)-1;
         if( x >= 0 && x <= w) {
-            exit = (float)(Math.abs(-Math.cos(2*Math.PI*b*(x/w))*(1-(x/w)))+1);
+            exit = (float)(-Math.abs(Math.cos(2*Math.PI*b*(x/w))*(1-(x/w)))+1);
         }
         if (x > w) {
             return size;
