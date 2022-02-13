@@ -39,9 +39,9 @@ public class SculkGrower {
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
     public static final BlockState brokenWaterVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false).with(waterLogged, true);
     /** NOISE VARIABLES */
-    public static final double multiplier = 0.15; //Keep this low. Lowering it makes the noise bigger, raising it makes it smaller (more like static)
-    public static final double minThreshold = -0.1; //The value that outer Sculk's noise must be ABOVE in order to grow
-    public static final double maxThreshold = 0.9; //The value that outer Sculk's noise must be BELOW in order to grow
+    public static final double multiplier = 0.08; //Keep this low. Lowering it makes the noise bigger, raising it makes it smaller (more like static)
+    public static final double minThreshold = -0.27; //The value that outer Sculk's noise must be ABOVE in order to grow
+    public static final double maxThreshold = 0.12; //The value that outer Sculk's noise must be BELOW in order to grow
     public static long seed = 1;
     public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new Xoroshiro128PlusPlusRandom(seed));
 
@@ -78,19 +78,32 @@ public class SculkGrower {
 
         for (int l = 0; l < fLoop;) {
             boolean succeed=false;
-            if (sqrt(rVal +(groupsFailed-1))<24) { //Generate Sculk In Radius
+            if (sqrt(rVal +(groupsFailed-1))<=24) { //Generate Sculk In Radius
                 double a = random() * 2 * PI;
                 double r = sqrt(rVal + (groupsFailed - 1)) * sqrt(random());
                 succeed = placeSculk(down.add((int) (r * sin(a)), 0, (int) (r * cos(a))), world);
-            } else { //Use Noise For Outer Sculk "Veins"
+            }
+            if (sqrt(rVal +(groupsFailed-1))>=24){ //Use Noise For Outer Sculk "Veins"
+                double radius = sqrt(rVal +(groupsFailed-1));
                 double a = random() * 2 * PI;
-                double r = sqrt(rVal + (groupsFailed - 1)) * sqrt(random());
-                BlockPos posNew = down.add((int) (r * sin(a)), 0, (int) (r * cos(a)));
+                double r = radius * sqrt(random());
+                int disctanceX = (int) (r * sin(a));
+                int disctanceZ = (int) (r * cos(a));
+                BlockPos posNew = down.add(disctanceX, 0, disctanceZ);
                 int x = posNew.getX();
                 int y = posNew.getY();
                 int z = posNew.getZ();
+                double max = maxThreshold;
+                double min = minThreshold;
+                if (radius-disctanceX>=3 || radius-disctanceZ>=3) {
+                    double higher = Math.max(radius-disctanceX,radius-disctanceZ);
+                    higher = radius-higher;
+                    double equation = 0.15*(Math.sin((higher*PI)/6));
+                    max=max-equation;
+                    min=min+equation;
+                }
                 double sampled = sample.sample(x*multiplier,y*multiplier,z*multiplier);
-                if (sampled>minThreshold && sampled<maxThreshold) {
+                if (sampled>min && sampled<max) {
                     succeed = placeSculk(posNew, world);
                 }
             }

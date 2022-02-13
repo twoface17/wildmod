@@ -21,7 +21,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -43,6 +42,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class WardenEntity extends HostileEntity {
+    public int velocity = (int) getMovementSpeed();
+
     /** WELCOME TO THE WARDEN MUSEUM
      * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
      * SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}
@@ -172,6 +173,16 @@ public class WardenEntity extends HostileEntity {
         } else if (status == 18) { //Render
             this.shouldRender=true;
             this.hasDug=false;
+        } else if (status == 24) { //Headroll 0
+            this.headRoll=0;
+        }  else if (status == 25) { //Headroll 1
+            this.headRoll=1;
+        } else if (status == 26) { //Headroll 2
+            this.headRoll=2;
+        } else if (status == 27) { //Headroll 3
+            this.headRoll=3;
+        } else if (status == 28) { //Headroll 4
+            this.headRoll=4;
         } else { super.handleStatus(status); }
     }
 
@@ -249,7 +260,24 @@ public class WardenEntity extends HostileEntity {
             }
             anger = anger + nonEntityAnger;
             anger = MathHelper.clamp(anger, 0, 50);
+            if (this.headRoll!=headRollFromAnger(anger)) {
+                this.world.sendEntityStatus(this, this.statusForHeadroll(headRollFromAnger(anger)));
+            }
         } return anger;
+    }
+    public int headRollFromAnger(int i) {
+        if (i<10) {return 0;}
+        if (i<20) {return 1;}
+        if (i<30) {return 2;}
+        if (i<40) {return 3;}
+        return 4;
+    }
+    public byte statusForHeadroll(int i) {
+        if (i==0) {return (byte)24;}
+        if (i==1) {return (byte)25;}
+        if (i==2) {return (byte)26;}
+        if (i==3) {return (byte)27;}
+        return 28;
     }
     public double vibrationDelayAnger() {
         int a = this.trueOverallAnger();
@@ -452,7 +480,7 @@ public class WardenEntity extends HostileEntity {
     protected SoundEvent getAmbientSound() {
         if (this.emergeTicksLeft != -5) {
             return RegisterSounds.ENTITY_WARDEN_AMBIENT;
-        } else if (UniformIntProvider.create(0, 3).get(random) == 3) {
+        } else if (UniformIntProvider.create(0, 3).get(random) >=2) {
             return RegisterSounds.ENTITY_WARDEN_AMBIENT_UNDERGROUND;
         } return null;
     }
@@ -531,6 +559,20 @@ public class WardenEntity extends HostileEntity {
             buf.writeInt(ticks);
             for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, pos, 32)) {
                 ServerPlayNetworking.send(player, RegisterAccurateSculk.WARDEN_DIG_PARTICLES, buf);
+            }
+        }
+    }
+
+    @Override
+    protected void applyDamage(DamageSource source, float amount) {
+        super.applyDamage(source, amount);
+        if (source.getAttacker() instanceof LivingEntity entity) {
+            if (entity instanceof PlayerEntity player) {
+                if (!player.getAbilities().creativeMode) {
+                    this.addSuspicion(player, 23);
+                }
+            } else {
+                this.addSuspicion(entity, 23);
             }
         }
     }
@@ -680,13 +722,13 @@ public class WardenEntity extends HostileEntity {
                 addSuspicion(eventEntity, suspicion);
                 if (this.world.getTime() - reactionSoundTimer > 40) {
                     this.reactionSoundTimer = this.world.getTime();
-                    if (getSuspicion(eventEntity) < 13) {
+                    if (getSuspicion(eventEntity) < 12) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     } else if (getSuspicion(eventEntity) < 25) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else if (this.trueOverallAnger() < 40) {
-                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else if (this.trueOverallAnger() >= 41) {
+                    } else if (this.trueOverallAnger() < 45) {
+                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                    } else if (this.trueOverallAnger() >= 45) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     }
                 }
@@ -798,4 +840,6 @@ public class WardenEntity extends HostileEntity {
 
     public boolean canTendrilAnim; //Status 7
     public float tendrilAnimStartTime=-200;
+
+    public int headRoll=0; //HAS VALUES OF 0,1,2,3 AND 4 - DERIVATIVE OF OVERALL ANGER
 }

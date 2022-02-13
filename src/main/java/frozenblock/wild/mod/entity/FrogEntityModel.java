@@ -92,7 +92,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             this.tongue_eat.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, -18f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, 0f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.4167f, t * 0.5f, 18f / j, eatTime)
-            ); //EDIT THIS
+            );
         } else {
         this.head.pitch = 0;
         this.tongue.pitch = 0;
@@ -105,8 +105,8 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
 
         if(!entity.isSubmergedInWater()) { //Walk Animation
             if(entity.isOnGround()) {
-                float rightanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, false) * defaultmultiplier,-7.5f,7.5f);
-                float leftanimation = (float) MathHelper.clamp(MathAddon.cutCos(limbAngle * animationspeed, 0, true) * defaultmultiplier,-7.5f,7.5f);
+                float rightanimation = (float) MathHelper.clamp(MathAddon.cutCos(Math.max(limbAngle * animationspeed, 0.3), 0, false) * defaultmultiplier,-7.5f,7.5f);
+                float leftanimation = (float) MathHelper.clamp(MathAddon.cutCos(Math.max(limbAngle * animationspeed, 0.3), 0, true) * defaultmultiplier,-7.5f,7.5f);
 
                 this.main.roll = MathHelper.clamp(-2 * rightanimation,-7.5f/j,7.5f/j);
                 this.main.pitch = MathHelper.clamp(-rightanimation,-7.5f/j,0);

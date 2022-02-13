@@ -6,9 +6,11 @@ import frozenblock.wild.mod.mixins.TreeDecoratorTypeInvoker;
 import frozenblock.wild.mod.worldgen.MangroveTreeDecorator;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.client.sound.MusicType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.sound.BiomeMoodSound;
+import net.minecraft.sound.MusicSound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -34,8 +36,12 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraft.world.gen.trunk.ForkingTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
+import org.jetbrains.annotations.Nullable;
 
 public class RegisterWorldgen {
+
+    @Nullable
+    private static final MusicSound DEFAULT_MUSIC = null;
 
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
     public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
@@ -51,13 +57,14 @@ public class RegisterWorldgen {
     }
 
     public static Biome createDeepDark() {
-        SpawnSettings.Builder builder = new SpawnSettings.Builder();
-        DefaultBiomeFeatures.addFarmAnimals(builder);
-        DefaultBiomeFeatures.addBatsAndMonsters(builder);
+        SpawnSettings.Builder builder = new SpawnSettings.Builder();;
         net.minecraft.world.biome.GenerationSettings.Builder builder2 = new net.minecraft.world.biome.GenerationSettings.Builder();
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeatures(builder2);
+        DefaultBiomeFeatures.addPlainsTallGrass(builder2);
+        DefaultBiomeFeatures.addDefaultVegetation(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
+        MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_DEEP_DARK);
         return (
                 new net.minecraft.world.biome.Biome.Builder())
                 .precipitation(Biome.Precipitation.NONE)
@@ -70,6 +77,7 @@ public class RegisterWorldgen {
                         .skyColor(getSkyColor(0.8F))
                         .foliageColor(FoliageColors.getDefaultColor())
                         .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
+                        .music(musicSound)
                         .moodSound(BiomeMoodSound.CAVE).build())
                 .spawnSettings(builder.build())
                 .generationSettings(builder2.build()).build();

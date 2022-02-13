@@ -29,12 +29,12 @@ public class LivingEntityMixin {
 			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(7));
 			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(14));
 			entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, entity.getBlockPos().up(20));
-			}
 		}
+	}
 
 
 	@Inject(method = "updatePostDeath", at = @At("HEAD"))
-	private void updatePostDeath(CallbackInfo info) throws InterruptedException {
+	private void updatePostDeath(CallbackInfo info) {
 		LivingEntity entity = LivingEntity.class.cast(this);
 		++entity.deathTime;
 		if (entity.deathTime == 19 && !entity.world.isClient()) {

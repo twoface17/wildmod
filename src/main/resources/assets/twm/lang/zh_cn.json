@@ -23,6 +23,7 @@
   "block.twm.mangrove_roots": "红树根",
 
   "biome.twm.mangrove_swamp": "红树沼泽",
+  "biome.twm.deep_dark": "黑暗深渊",
 
   "block.twm.sculk": "潜声方块",
   "block.twm.sculk_vein": "潜声藤蔓",
@@ -66,7 +67,7 @@
   "subtitles.entity.warden.dig":"潜声守卫挖掘",
   "subtitles.entity.warden.ambient":"潜声守卫哀鸣",
   "subtitles.entity.warden.ambient_angry":"潜声守卫咆哮",
-  "subtitles.entity.warden.slightly_angry":"潜声守卫生气",
+  "subtitles.entity.warden.slightly_angry":"潜声守卫愤怒",
   "subtitles.entity.warden.angry":"潜声守卫咆哮",
   "subtitles.entity.warden.hurt":"潜声守卫受伤了",
   "subtitles.entity.warden.death":"潜声守卫死了",
@@ -82,5 +83,5 @@
   "subtitles.twm.nearby_closer":"??",
   "subtitles.twm.nearby_closest":"???",
   "subtitles.entity.warden.heartbeat":"心跳",
-  "block.twm.frog_spawn": "青蛙刷怪笼"
+  "block.twm.frog_spawn": "蝌蚪卵"
 }
