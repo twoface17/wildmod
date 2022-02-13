@@ -42,6 +42,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class WardenEntity extends HostileEntity {
+    public int velocity = (int) getMovementSpeed();
+
     /** WELCOME TO THE WARDEN MUSEUM
      * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
      * SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}

@@ -693,7 +693,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         }
 
         /* WALK ANIMATION */
-        if (!canEmerge && !canSniff && !canRoar && !canDig && !canAttack && limbAngle != 0) {
+        if (!canEmerge && !canSniff && !canRoar && !canDig && !canAttack && entity.velocity != 0) {
             /* Stop Syncing Animations */
             this.head.pivotY = headY;
             this.head.pivotZ = 0;
@@ -776,7 +776,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             } else
 
         /* IDLE ANIMATION */
-            if (limbAngle == 0) {
+            if (entity.velocity==0) {
                 this.head.pivotY = headY;
                 this.head.pivotZ = 0;
 
