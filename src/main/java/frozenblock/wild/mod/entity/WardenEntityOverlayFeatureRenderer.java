@@ -20,22 +20,20 @@ import net.minecraft.world.LightType;
 public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel<WardenEntity>> {
 
     private RenderLayer OVERLAY;
+    private RenderLayer SECRET_OVERLAY;
 
     public WardenEntityOverlayFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
         OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_overlay.png"));
+        SECRET_OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_overlay.png"));
     }
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {;
         if (entity.shouldRender) {
         String string = Formatting.strip(entity.getName().getString());
-        if ("Osmiooo".equals(string)) {
-            OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_overlay.png"));
-        } else {
-            OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_overlay.png"));
-        }
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.OVERLAY);
+        if ("Osmiooo".equals(string)) {vertexConsumer = vertexConsumers.getBuffer(this.SECRET_OVERLAY);}
         int a = calculateLight(getBlockLight(entity, entity.getBlockPos()));
         float b = colors(getBlockLight(entity, entity.getBlockPos()));
         this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b, b, b, 1.0f);

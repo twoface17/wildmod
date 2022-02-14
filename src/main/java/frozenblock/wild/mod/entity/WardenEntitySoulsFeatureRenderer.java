@@ -16,22 +16,20 @@ import net.minecraft.util.math.MathHelper;
 public class WardenEntitySoulsFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel<WardenEntity>> {
 
     public RenderLayer SOULS;
+    public RenderLayer SECRET_SOULS;
 
     public WardenEntitySoulsFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
         SOULS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_souls.png"));
+        SECRET_SOULS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_souls.png"));
     }
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         if (entity.shouldRender) {
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.SOULS);
         String string = Formatting.strip(entity.getName().getString());
-        if ("Osmiooo".equals(string)) {
-            SOULS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_souls.png"));
-        } else {
-            SOULS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_souls.png"));
-        }
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.SOULS);
+        if ("Osmiooo".equals(string)) {vertexConsumer = vertexConsumers.getBuffer(this.SECRET_SOULS);}
         this.getContextModel().render(matrices, vertexConsumer, 15728640, OverlayTexture.DEFAULT_UV, calcBeats(entity), calcBeats(entity), calcBeats(entity), 1.0f);
         }
     }
