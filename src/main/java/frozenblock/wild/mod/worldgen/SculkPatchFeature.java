@@ -63,7 +63,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         }
         //Places the catalyst
         context.getWorld().setBlockState(context.getOrigin().up(), RegisterBlocks.SCULK_CATALYST.getDefaultState(), 0);
-        placePatch(context, context.getOrigin(), random.nextInt(8,64));
+        placePatch(context, context.getOrigin(), random.nextInt(8,32));
         //This code randomly places a few sculk patches around. it repeats a random place selection forever, with a 40% chance of stopping every time and if it reaches 6, it automatically stops it after the 6th patch.
 
         //NOTE FROM LUNADE/A VIEW FROM THE TOP: I don't think the stuff below here works (and idk why,) but using noise and a random radius should eliminate the need for it anyway.
@@ -207,7 +207,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static final Block waterBlock = Blocks.WATER;
     public static final Block veinBlock = SculkVeinBlock.SCULK_VEIN;
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
-    public static final int maxSculk = 56;
+    public static final int maxSculk = 64;
 
     public static ArrayList<BlockPos> blockTagsInSphere(BlockPos pos, int radius, Tag<Block> tag, StructureWorldAccess world) {
         int bx = pos.getX();
