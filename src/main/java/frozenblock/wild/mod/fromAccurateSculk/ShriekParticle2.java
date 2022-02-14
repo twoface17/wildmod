@@ -24,6 +24,7 @@ public class ShriekParticle2 extends AbstractSlowingParticle {
 
     ShriekParticle2(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, SpriteProvider spriteProvider) {
         super(clientWorld, d, e, f, g, h, i);
+        this.collidesWithWorld=false;
         this.spriteProvider = spriteProvider;
         this.scale(1.5f);
         this.setSpriteForAge(spriteProvider);
