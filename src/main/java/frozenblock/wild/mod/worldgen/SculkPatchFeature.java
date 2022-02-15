@@ -167,7 +167,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public static void placeSculkOptim(BlockPos blockPos, StructureWorldAccess world) { //Place Sculk & Remove Veins
-        if world.isChunkLoaded(blockPos) {
+        if (world.isChunkLoaded(blockPos)) {
             world.setBlockState(blockPos, RegisterBlocks.SCULK.getDefaultState(), 0);
             for (Direction direction : Direction.values()) {
                 BlockPos pos = blockPos.offset(direction);
