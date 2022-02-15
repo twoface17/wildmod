@@ -59,11 +59,13 @@ public class RegisterWorldgen {
     }
 
     public static Biome createDeepDark() {
-        SpawnSettings.Builder builder = new SpawnSettings.Builder();;
+        SpawnSettings.Builder builder = new SpawnSettings.Builder();
         net.minecraft.world.biome.GenerationSettings.Builder builder2 = new net.minecraft.world.biome.GenerationSettings.Builder();
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeatures(builder2);
         DefaultBiomeFeatures.addPlainsTallGrass(builder2);
+        DefaultBiomeFeatures.addDefaultGrass(builder2);
+        DefaultBiomeFeatures.addPlainsFeatures(builder2);
         DefaultBiomeFeatures.addDefaultVegetation(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_PATCH_PLACED_FEATURE);
@@ -76,7 +78,7 @@ public class RegisterWorldgen {
                 .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
                         .waterColor(4159204)
                         .waterFogColor(329011)
-                        .fogColor(12638463)
+                        .fogColor(000000)
                         .skyColor(getSkyColor(0.8F))
                         .foliageColor(FoliageColors.getDefaultColor())
                         .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
@@ -158,7 +160,7 @@ public class RegisterWorldgen {
                         .build()));
 
         SCULK = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), SCULK_PATCH.configure(new DefaultFeatureConfig()));
-        TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), MANGROVE.withPlacement(PlacedFeatures.createCountExtraModifier(6, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(6), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
+        TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), MANGROVE.withPlacement(PlacedFeatures.createCountExtraModifier(8, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(6), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
         SCULK_PATCH_PLACED_FEATURE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), SCULK.withPlacement(PlacedFeatures.createCountExtraModifier(15, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         BuiltinRegistries.add(BuiltinRegistries.BIOME, MANGROVE_SWAMP, createMangroveSwamp());
         BuiltinRegistries.add(BuiltinRegistries.BIOME, DEEP_DARK, createDeepDark());
