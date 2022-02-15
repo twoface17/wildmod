@@ -55,13 +55,13 @@ public abstract class VanillaBiomeParametersMixin {
 
     @Shadow
     private void writeCaveBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, float offset, RegistryKey<Biome> biome) {
-        parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(temperature, humidity, continentalness, erosion, MultiNoiseUtil.ParameterRange.of(1.85F, 2.0F), weirdness, offset), biome));
+        parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(temperature, humidity, continentalness, erosion, MultiNoiseUtil.ParameterRange.of(1.2F, 2.0F), weirdness, offset), biome));
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void injectBiomes(CallbackInfo ci) {
         UNCOMMON_BIOMES[1][0] = RegisterWorldgen.MANGROVE_SWAMP;
-        UNCOMMON_BIOMES[2][0] = RegisterWorldgen.DEEP_DARK;
+//        UNCOMMON_BIOMES[2][0] = RegisterWorldgen.DEEP_DARK;
     }
 
     @Inject(method = "writeBiomesNearRivers", at = @At("TAIL"))
@@ -81,6 +81,7 @@ public abstract class VanillaBiomeParametersMixin {
 
     @Inject(method = "writeCaveBiomes", at = @At("RETURN"))
     private void injectDeepDark(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, CallbackInfo ci) {
-        this.writeCaveBiomeParameters(parameters, this.DEFAULT_PARAMETER, this.DEFAULT_PARAMETER, MultiNoiseUtil.ParameterRange.of(0.8f, 1.0f), this.DEFAULT_PARAMETER, this.DEFAULT_PARAMETER, 0.0f, RegisterWorldgen.DEEP_DARK);
+        parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(this.DEFAULT_PARAMETER, MultiNoiseUtil.ParameterRange.of(0.4F, 1.0F), MultiNoiseUtil.ParameterRange.of(0.4F, 0.45F), this.DEFAULT_PARAMETER, MultiNoiseUtil.ParameterRange.of(1.6F, 2.0F), this.DEFAULT_PARAMETER, 0.0F), RegisterWorldgen.DEEP_DARK));
+//        this.writeCaveBiomeParameters(parameters, this.DEFAULT_PARAMETER, this.DEFAULT_PARAMETER, MultiNoiseUtil.ParameterRange.of(0.8f, 1.0F), MultiNoiseUtil.ParameterRange.of(0.0F, 1.0F), MultiNoiseUtil.ParameterRange.of(0.0F, 1.0F), 0.0f, RegisterWorldgen.DEEP_DARK);
     }
 }
