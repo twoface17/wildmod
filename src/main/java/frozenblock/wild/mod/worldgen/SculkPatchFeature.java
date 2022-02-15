@@ -58,7 +58,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         //Place Sculk
         for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.BLOCK_REPLACEABLE, world)) {
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            if (sampled>minThreshold && sampled<maxThreshold && blockpos.getY()<maxSculk) {
+            if (sampled>minThreshold && sampled<maxThreshold) {
                 placeSculkOptim(blockpos, world);
             }
         }
@@ -66,13 +66,13 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         //Place Veins
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            if (sampled<minThreshold && sampled>minThreshold-0.16 && blockpos.getY()<maxSculk+2) {
+            if (sampled<minThreshold && sampled>minThreshold-0.16) {
                 veins(blockpos, world);
             }
         }
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            if (sampled>maxThreshold && sampled<maxThreshold+0.16 && blockpos.getY()<maxSculk+2) {
+            if (sampled>maxThreshold && sampled<maxThreshold+0.16) {
                 veins(blockpos, world);
             }
         }
@@ -85,10 +85,10 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
             double sampled = sample.sample(blockpos.getX()*1.5, blockpos.getY()*1.5,blockpos.getZ()*1.5);
             if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockpos.up()).getBlock())) {
                 Block activator = null;
-                if (sampled<0.55 && sampled>0.41 && blockpos.getY()<maxSculk) {
+                if (sampled<0.55 && sampled>0.41) {
                     activator=SculkTags.COMMON_ACTIVATORS.getRandom(random);
                 }
-                if (sampled<1 && sampled>0.6 && blockpos.getY()<maxSculk) {
+                if (sampled<1 && sampled>0.6) {
                     activator=SculkTags.RARE_ACTIVATORS.getRandom(random);
                 }
                 if (activator!=null) {
@@ -174,7 +174,6 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static final Block veinBlock = SculkVeinBlock.SCULK_VEIN;
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
     public static final BlockState brokenWaterVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false).with(waterLogged, true);
-    public static final int maxSculk = 56;
 
     public static ArrayList<BlockPos> blockTagsInSphere(BlockPos pos, int radius, Tag<Block> tag, StructureWorldAccess world) {
         int bx = pos.getX();

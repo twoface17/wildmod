@@ -47,60 +47,71 @@ public class MangroveTreeDecorator extends TreeDecorator {
     public void generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, List<BlockPos> logPositions, List<BlockPos> leavesPositions) {
         // Iterate through block positions
         for (BlockPos logPosition : logPositions) {
-
-            // Pick a value from 0 (inclusive) to 4 (exclusive) and if it's 0, continue
-            // This is the chance for spawning the gold block
-            // Offset the log position by the resulting side
-
             if (!world.testBlockState(logPosition.down(4), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState())) && !world.testBlockState(logPosition.down(4), Predicate.isEqual(Blocks.AIR.getDefaultState())) && world.testBlockState(logPosition.down(3), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState())) && world.testBlockState(logPosition.down(2), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState())) && world.testBlockState(logPosition.down(), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState()))) {
-                BlockPos targetPosition = logPosition.down().offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
+                //Positive X
+                int PosXLength = random.nextInt(3) + 1;
+                BlockPos targetPosition = logPosition.down().offset(Direction.Axis.X, PosXLength);
                 BlockPos currentPosition = targetPosition;
                 while (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                     placeRootBlock(currentPosition, world, replacer);
                     currentPosition = currentPosition.down();
                 }
-                BlockPos posXPos = currentPosition;
-                targetPosition = logPosition.down().offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
+                currentPosition.up();
+                placeRootBottom(currentPosition, world, replacer);
+                for (int i=1; i<=PosXLength-1; i++) {
+                    placeRootBlock(logPosition.offset(Direction.Axis.X, i), world, replacer);
+                }
+                //Negative X
+                int NegXLength = random.nextInt(4);
+                targetPosition = logPosition.down().offset(Direction.Axis.X, -NegXLength);
                 currentPosition = targetPosition;
                 while (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                     placeRootBlock(currentPosition, world, replacer);
                     currentPosition = currentPosition.down();
                 }
-                BlockPos posXNeg = currentPosition;
-                targetPosition = logPosition.down().offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
+                currentPosition.up();
+                placeRootBottom(currentPosition, world, replacer);
+                for (int i=1; i<=NegXLength-1; i++) {
+                    placeRootBlock(logPosition.offset(Direction.Axis.X, -i), world, replacer);
+                }
+                //Positive Z
+                int PosZLength = random.nextInt(4);
+                targetPosition = logPosition.down().offset(Direction.Axis.Z, PosZLength);
                 currentPosition = targetPosition;
                 while (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                     placeRootBlock(currentPosition, world, replacer);
                     currentPosition = currentPosition.down();
                 }
-                BlockPos posZPos = currentPosition;
-                targetPosition = logPosition.down().offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
+                currentPosition.up();
+                placeRootBottom(currentPosition, world, replacer);
+                for (int i=1; i<=PosZLength-1; i++) {
+                    placeRootBlock(logPosition.offset(Direction.Axis.Z, i), world, replacer);
+                }
+                //Negative Z
+                int NegZLength = random.nextInt(4);
+                targetPosition = logPosition.down().offset(Direction.Axis.Z, -NegZLength);
                 currentPosition = targetPosition;
                 while (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                     placeRootBlock(currentPosition, world, replacer);
                     currentPosition = currentPosition.down();
                 }
-                BlockPos posZNeg = currentPosition;
-                if (posXPos.getY() <= posXNeg.getY() && posXPos.getY() <= posZPos.getY() && posXPos.getY() <= posZNeg.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
-                } else if (posXNeg.getY() <= posXPos.getY() && posXNeg.getY() <= posZPos.getY() && posXNeg.getY() <= posZNeg.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
-                } else if (posZPos.getY() <= posXPos.getY() && posZPos.getY() <= posXNeg.getY() && posZPos.getY() <= posZNeg.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * -10f, -1, -3));
-                } else if (posZNeg.getY() <= posXPos.getY() && posZNeg.getY() <= posXNeg.getY() && posZNeg.getY() <= posZPos.getY()) {
-                    targetPosition = posXPos.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
+                currentPosition.up();
+                placeRootBottom(currentPosition, world, replacer);
+                for (int i=1; i<=NegZLength-1; i++) {
+                    placeRootBlock(logPosition.offset(Direction.Axis.Z, -i), world, replacer);
                 }
-                targetPosition = targetPosition.up();
-                placeRootBottom(targetPosition, world, replacer);
+                if (world.testBlockState(logPosition.down(), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState()))) {
+                    replacer.accept(logPosition.down(), Blocks.AIR.getDefaultState());
+                }
+                if (world.testBlockState(logPosition.down(2), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState()))) {
+                    replacer.accept(logPosition.down(2), Blocks.AIR.getDefaultState());
+                }
+                if (world.testBlockState(logPosition.down(3), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState()))) {
+                    replacer.accept(logPosition.down(3), Blocks.AIR.getDefaultState());
+                }
             }
         }
         for (BlockPos leavesPosition : leavesPositions) {
-
-            // Pick a value from 0 (inclusive) to 4 (exclusive) and if it's 0, continue
-            // This is the chance for spawning the gold block
-
-            // Offset the log position by the resulting side
-
             if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                 if (Math.random() > 0.85) {
                     if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
@@ -156,17 +167,21 @@ public class MangroveTreeDecorator extends TreeDecorator {
         BlockPos currentPosition = targetPosition;
         for (int i = 0; i < 6; i++) {
             placeRootBlock(currentPosition, world, replacer);
-            int dir = (int) MathHelper.clamp(Math.random() * 10f, 0, 3);
+            int dir = (int) MathHelper.clamp(Math.random() * 10f, 0, 5);
             if (dir == 0) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * 10f, 1, 3));
+                currentPosition = currentPosition.offset(Direction.Axis.X, 1);
             } else if (dir == 1) {
-                currentPosition = currentPosition.offset(Direction.Axis.X, (int) MathHelper.clamp(Math.random() * -10, -1, -3));
+                currentPosition = currentPosition.offset(Direction.Axis.X, 1);
             } else if (dir == 2) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * 10, 1, 3));
+                currentPosition = currentPosition.offset(Direction.Axis.Z, 1);
             } else if (dir == 3) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, (int) MathHelper.clamp(Math.random() * -10, -1, -3));
+                currentPosition = currentPosition.offset(Direction.Axis.Z,1);
+            } else if (dir == 4) {
+                currentPosition = currentPosition.down();
+            } else if (dir == 5) {
+                currentPosition = currentPosition.up();
             }
-            if (!currentPosition.isWithinDistance(targetPosition, 3)) {
+            if (!currentPosition.isWithinDistance(targetPosition, 2)) {
                 currentPosition = targetPosition;
                 i--;
             }
