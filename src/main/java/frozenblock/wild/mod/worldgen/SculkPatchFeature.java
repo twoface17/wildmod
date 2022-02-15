@@ -41,7 +41,9 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         if (context.getWorld().getBlockEntity(context.getOrigin())==null) {
             context.getWorld().setBlockState(context.getOrigin(), RegisterBlocks.SCULK.getDefaultState(), 0);
         }
-        placePatch(context, context.getOrigin(), random.nextInt(8,24));
+        double average = (context.getOrigin().getX() + context.getOrigin().getZ())*0.5;
+        int radius = (int) (8*Math.cos((average*Math.PI)/24) + 16);
+        placePatch(context, context.getOrigin(), radius);
         return true;
     }
     /** NOISE VARIABLES */
