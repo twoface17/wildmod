@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.worldgen;
 
 import com.mojang.serialization.Codec;
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.registry.RegisterBlocks;
@@ -24,12 +23,19 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
+
     Random random = new Random();
+    /** NOISE VARIABLES */
+    public static final double multiplier = 0.20; //Lowering this makes the noise bigger, raising it makes it smaller (more like static)
+    public static final double minThreshold = -0.3; //The value that outer Sculk's noise must be ABOVE in order to grow
+    public static final double maxThreshold = 0.3; //The value that outer Sculk's noise must be BELOW in order to grow
+    public static long seed = 1; //This gets set to the current world's seed in generate()
+    public static final int thresholdTransition=40; //When this is lower, the min&max thersholds for Sculk placement will quickly fluctuate based on location. When higher, the min&max thresholds will have a longer, but smoother transition.
+    public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new SimpleRandom(seed));
+
     public SculkPatchFeature(Codec<DefaultFeatureConfig> configCodec) {
         super(configCodec);
     }
-
-    //alex im sorry that i made your code a mess but it's the only way i know how to do this
 
     @Override
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
@@ -43,22 +49,19 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         }
         double average = (context.getOrigin().getX() + context.getOrigin().getZ())*0.5;
         int radius = (int) (8*Math.cos(((average)*Math.PI)/24) + 16);
-        placePatch(context, context.getOrigin(), radius);
+        double minThresh = 0.1 * Math.cos(((average)*Math.PI)/thresholdTransition);
+        double maxThresh = 0.15 * Math.sin(((average)*Math.PI)/thresholdTransition);
+        placePatch(context, context.getOrigin(), radius, minThreshold+minThresh, maxThreshold+maxThresh);
         return true;
     }
-    /** NOISE VARIABLES */
-    public static final double multiplier = 0.20; //Lowering this makes the noise bigger, raising it makes it smaller (more like static)
-    public static final double minThreshold = -0.3; //The value that outer Sculk's noise must be ABOVE in order to grow
-    public static final double maxThreshold = 0.3; //The value that outer Sculk's noise must be BELOW in order to grow
-    public static long seed = 1; //This gets set to the current world's seed in generate()
-    public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new SimpleRandom(seed));
 
-    public void placePatch(FeatureContext<DefaultFeatureConfig> context, BlockPos pos, int r) {
+
+    public void placePatch(FeatureContext<DefaultFeatureConfig> context, BlockPos pos, int r, double min, double max) {
         StructureWorldAccess world = context.getWorld();
         //Place Sculk
         for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.BLOCK_REPLACEABLE, world)) {
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            if (sampled>minThreshold && sampled<maxThreshold) {
+            if (sampled>min && sampled<max) {
                 placeSculkOptim(blockpos, world);
             }
         }
@@ -66,13 +69,13 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         //Place Veins
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            if (sampled<minThreshold && sampled>minThreshold-0.16) {
+            if (sampled<min && sampled>min-0.16) {
                 veins(blockpos, world);
             }
         }
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            if (sampled>maxThreshold && sampled<maxThreshold+0.16) {
+            if (sampled>max && sampled<max+0.16) {
                 veins(blockpos, world);
             }
         }
