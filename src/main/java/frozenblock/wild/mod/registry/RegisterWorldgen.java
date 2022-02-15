@@ -76,7 +76,7 @@ public class RegisterWorldgen {
                 .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
                         .waterColor(4159204)
                         .waterFogColor(329011)
-                        .fogColor(12638463)
+                        .fogColor(000000)
                         .skyColor(getSkyColor(0.8F))
                         .foliageColor(FoliageColors.getDefaultColor())
                         .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
