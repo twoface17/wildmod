@@ -50,7 +50,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static final double multiplier = 0.20; //Lowering this makes the noise bigger, raising it makes it smaller (more like static)
     public static final double minThreshold = -0.3; //The value that outer Sculk's noise must be ABOVE in order to grow
     public static final double maxThreshold = 0.3; //The value that outer Sculk's noise must be BELOW in order to grow
-    public static long seed = 1;
+    public static long seed = 1; //This gets set to the current world's seed in generate()
     public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new SimpleRandom(seed));
 
     public void placePatch(FeatureContext<DefaultFeatureConfig> context, BlockPos pos, int r) {
@@ -93,7 +93,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
                     }
                 }
                 //SHRIEKER
-                if (sampled<1 && sampled>0.57 && blockpos.getY()<maxSculk) {
+                if (sampled<1 && sampled>0.58 && blockpos.getY()<maxSculk) {
                     if ((world.getBlockState(blockpos.up()).contains(waterLogged) && world.getBlockState(blockpos.up()).get(waterLogged)) || world.getBlockState(blockpos.up())==water) {
                         world.setBlockState(blockpos.up(), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(waterLogged, true), 0);
                 } else {
