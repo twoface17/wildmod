@@ -30,7 +30,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static final double minThreshold = -0.3; //The value that outer Sculk's noise must be ABOVE in order to grow
     public static final double maxThreshold = 0.3; //The value that outer Sculk's noise must be BELOW in order to grow
     public static long seed = 1; //This gets set to the current world's seed in generate()
-    public static final int thresholdTransition=40; //When this is lower, the min&max thersholds for Sculk placement will quickly fluctuate based on location. When higher, the min&max thresholds will have a longer, but smoother transition.
+    public static final int thresholdTransition=40; //When this is lower, the min&max thresholds for Sculk placement will quickly fluctuate based on location. When higher, the min&max thresholds will have a longer, but smoother transition.
     public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new SimpleRandom(seed));
 
     public SculkPatchFeature(Codec<DefaultFeatureConfig> configCodec) {
