@@ -84,20 +84,23 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         for (BlockPos blockpos : blocksInSphere(pos, r, RegisterBlocks.SCULK, world)) {
             double sampled = sample.sample(blockpos.getX()*1.5, blockpos.getY()*1.5,blockpos.getZ()*1.5);
             if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockpos.up()).getBlock())) {
-                //SENSOR
+                Block activator = null;
                 if (sampled<0.55 && sampled>0.41 && blockpos.getY()<maxSculk) {
-                    if ((world.getBlockState(blockpos.up()).contains(waterLogged) && world.getBlockState(blockpos.up()).get(waterLogged)) || world.getBlockState(blockpos.up()) == water) {
-                        world.setBlockState(blockpos.up(), Blocks.SCULK_SENSOR.getDefaultState().with(waterLogged, true), 0);
-                    } else {
-                        world.setBlockState(blockpos.up(), Blocks.SCULK_SENSOR.getDefaultState(), 0);
-                    }
+                    activator=SculkTags.RARE_ACTIVATORS.getRandom(random);
                 }
-                //SHRIEKER
-                if (sampled<1 && sampled>0.58 && blockpos.getY()<maxSculk) {
-                    if ((world.getBlockState(blockpos.up()).contains(waterLogged) && world.getBlockState(blockpos.up()).get(waterLogged)) || world.getBlockState(blockpos.up())==water) {
-                        world.setBlockState(blockpos.up(), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(waterLogged, true), 0);
-                } else {
-                        world.setBlockState(blockpos.up(), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState(), 0); }
+                if (sampled<1 && sampled>0.6 && blockpos.getY()<maxSculk) {
+                    activator=SculkTags.COMMON_ACTIVATORS.getRandom(random);
+                }
+                if (activator!=null) {
+                    if (SculkTags.GROUND_ACTIVATORS.contains(activator)) {
+                        world.setBlockState(blockpos.up(), activator.getDefaultState(), 0);
+                    } else {
+                        if ((world.getBlockState(blockpos.up()).contains(waterLogged) && world.getBlockState(blockpos.up()).get(waterLogged)) || world.getBlockState(blockpos.up()) == water) {
+                            world.setBlockState(blockpos.up(), activator.getDefaultState().with(waterLogged, true), 0);
+                        } else {
+                            world.setBlockState(blockpos.up(), activator.getDefaultState(), 0);
+                        }
+                    }
                 }
             }
         }
