@@ -64,6 +64,8 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeatures(builder2);
         DefaultBiomeFeatures.addPlainsTallGrass(builder2);
+        DefaultBiomeFeatures.addDefaultGrass(builder2);
+        DefaultBiomeFeatures.addPlainsFeatures(builder2);
         DefaultBiomeFeatures.addDefaultVegetation(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_PATCH_PLACED_FEATURE);
@@ -76,7 +78,7 @@ public class RegisterWorldgen {
                 .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
                         .waterColor(4159204)
                         .waterFogColor(329011)
-                        .fogColor(12638463)
+                        .fogColor(000000)
                         .skyColor(getSkyColor(0.8F))
                         .foliageColor(FoliageColors.getDefaultColor())
                         .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
