@@ -7,8 +7,10 @@ import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -21,6 +23,9 @@ import net.minecraft.world.gen.random.SimpleRandom;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import static java.lang.Math.*;
+import static java.lang.Math.sqrt;
 
 public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
@@ -58,6 +63,28 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
     public void placePatch(FeatureContext<DefaultFeatureConfig> context, BlockPos pos, int r, double min, double max) {
         StructureWorldAccess world = context.getWorld();
+
+        //Place Sculk Around Catalyst
+        int timesFailed=0;
+        int groupsFailed=1;
+        for (int l = 0; l < random.nextInt(12,36);) {
+            double a = random() * 2 * PI;
+            double rad = sqrt(2 + (groupsFailed - 1)) * sqrt(random());
+            boolean succeed = placeSculk(pos.add((int) (rad * sin(a)), 0, (int) (rad * cos(a))), world);
+            //Determine If Sculk Placement Was Successful And If Radius Should Be Increased
+            if (!succeed) { ++timesFailed; } else {
+                ++l;
+                if (timesFailed>0) {--timesFailed; }
+            }
+            if (timesFailed>=10) {
+                timesFailed=0;
+                groupsFailed=groupsFailed+1;
+            }
+            if (sqrt(2 +(groupsFailed-1))>10) {
+                break;
+            }
+        }
+
         //Place Sculk
         for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.BLOCK_REPLACEABLE, world)) {
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
@@ -109,6 +136,29 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
+    public static boolean placeSculk(BlockPos blockPos, StructureWorldAccess world) { //Call For Sculk & Call For Veins
+        Block block = world.getBlockState(blockPos).getBlock();
+        if (SculkTags.BLOCK_REPLACEABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, blockPos)) {
+            placeSculkOptim(blockPos, world);
+            return true;
+        } else {
+            BlockPos NewSculk = sculkCheck(blockPos, world);
+            if (NewSculk != null) {
+                block = world.getBlockState(NewSculk).getBlock();
+                if (SculkTags.BLOCK_REPLACEABLE.contains(block)) {
+                    placeSculkOptim(NewSculk, world);
+                    return true;
+                } else if (airveins(world, NewSculk)) {
+                    Block blockUp = world.getBlockState(NewSculk.up()).getBlock();
+                    if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(blockUp) && blockUp!=veinBlock) {
+                        veins(NewSculk, world);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     public static void placeSculkOptim(BlockPos blockPos, StructureWorldAccess world) { //Place Sculk & Remove Veins
         world.setBlockState(blockPos, RegisterBlocks.SCULK.getDefaultState(), 0);
@@ -158,6 +208,62 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
                 }
             }
         }
+    }
+
+    public static BlockPos sculkCheck(BlockPos blockPos, StructureWorldAccess world) { //Call For Up&Down Checks
+        BlockPos check = checkPt2(blockPos, world);
+        if (check!=null) { return check; }
+        if (!world.isSkyVisible(blockPos)) {
+            return checkPt1(blockPos, world);
+        } return null;
+    }
+    public static BlockPos checkPt1(BlockPos blockPos, StructureWorldAccess world) { //Check For Valid Placement Above
+        int upward = 12;
+        int MAX = world.getHeight();
+        if (blockPos.getY() + upward >= MAX) {
+            upward = (MAX - blockPos.getY())-1;
+        }
+        for (int h = 0; h < upward; h++) {
+            BlockPos pos =  blockPos.up(h);
+            Block block = world.getBlockState(pos).getBlock();
+            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
+                return pos;
+            }
+        }
+        return null;
+    }
+    public static BlockPos checkPt2(BlockPos blockPos, StructureWorldAccess world) { //Check For Valid Placement Below
+        int downward = 12;
+        int MIN = world.getBottomY();
+        if (blockPos.getY() - downward <= MIN) {
+            downward = (blockPos.getY()-MIN)-1;
+        }
+        for (int h = 0; h < downward; h++) {
+            BlockPos pos = blockPos.down(h);
+            Block block = world.getBlockState(pos).getBlock();
+            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
+                return pos;
+            }
+        }
+        return null;
+    }
+
+    public static boolean airveins(StructureWorldAccess world, BlockPos blockPos) { //Check If Veins Are Above Invalid Block
+        if (blockPos==null) { return false; }
+        BlockState state = world.getBlockState(blockPos);
+        Block block = state.getBlock();
+        Fluid fluid = world.getFluidState(blockPos).getFluid();
+        return !SculkTags.SCULK.contains(block) && !SculkTags.SCULK_UNTOUCHABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !state.isAir() && !FluidTags.WATER.contains(fluid) && !FluidTags.LAVA.contains(fluid);
+    }
+
+    public static boolean airOrReplaceableUp(StructureWorldAccess world, BlockPos blockPos) {
+        for (Direction direction : Direction.values()) {
+            BlockState state = world.getBlockState(blockPos.offset(direction));
+            if (!state.isFullCube(world, blockPos)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static BooleanProperty getOpposite(Direction direction) {
