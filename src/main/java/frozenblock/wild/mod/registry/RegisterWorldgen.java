@@ -59,7 +59,7 @@ public class RegisterWorldgen {
     }
 
     public static Biome createDeepDark() {
-        SpawnSettings.Builder builder = new SpawnSettings.Builder();;
+        SpawnSettings.Builder builder = new SpawnSettings.Builder();
         net.minecraft.world.biome.GenerationSettings.Builder builder2 = new net.minecraft.world.biome.GenerationSettings.Builder();
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeatures(builder2);
