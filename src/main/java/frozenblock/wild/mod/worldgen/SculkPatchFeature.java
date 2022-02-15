@@ -82,7 +82,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
         //Place Activators
         for (BlockPos blockpos : blocksInSphere(pos, r, RegisterBlocks.SCULK, world)) {
-            double sampled = sample.sample(blockpos.getX()*2, blockpos.getY()*2,blockpos.getZ()*2);
+            double sampled = sample.sample(blockpos.getX()*1.5, blockpos.getY()*1.5,blockpos.getZ()*1.5);
             if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockpos.up()).getBlock())) {
                 //SENSOR
                 if (sampled<0.55 && sampled>0.41 && blockpos.getY()<maxSculk) {
@@ -104,7 +104,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     }
 
 
-    public static void placeSculkOptim(BlockPos blockPos, StructureWorldAccess world) { //Place Sculk & Call For Veins
+    public static void placeSculkOptim(BlockPos blockPos, StructureWorldAccess world) { //Place Sculk & Remove Veins
         world.setBlockState(blockPos, RegisterBlocks.SCULK.getDefaultState(), 0);
         for (Direction direction : Direction.values()) {
             BlockPos pos = blockPos.offset(direction);
