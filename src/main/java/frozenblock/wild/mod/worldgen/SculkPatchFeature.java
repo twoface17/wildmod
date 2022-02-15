@@ -59,7 +59,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.BLOCK_REPLACEABLE, world)) {
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
             if (sampled>minThreshold && sampled<maxThreshold && blockpos.getY()<maxSculk) {
-                world.setBlockState(blockpos, RegisterBlocks.SCULK.getDefaultState(), 0);
+                placeSculkOptim(blockpos, world);
             }
         }
 
@@ -82,7 +82,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
         //Place Activators
         for (BlockPos blockpos : blocksInSphere(pos, r, RegisterBlocks.SCULK, world)) {
-            double sampled = sample.sample(blockpos.getX(), blockpos.getY(),blockpos.getZ());
+            double sampled = sample.sample(blockpos.getX()*2, blockpos.getY()*2,blockpos.getZ()*2);
             if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockpos.up()).getBlock())) {
                 //SENSOR
                 if (sampled<0.55 && sampled>0.41 && blockpos.getY()<maxSculk) {
@@ -93,7 +93,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
                     }
                 }
                 //SHRIEKER
-                if (sampled<1 && sampled>0.55 && blockpos.getY()<maxSculk) {
+                if (sampled<1 && sampled>0.57 && blockpos.getY()<maxSculk) {
                     if ((world.getBlockState(blockpos.up()).contains(waterLogged) && world.getBlockState(blockpos.up()).get(waterLogged)) || world.getBlockState(blockpos.up())==water) {
                         world.setBlockState(blockpos.up(), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(waterLogged, true), 0);
                 } else {
@@ -104,6 +104,38 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     }
 
 
+    public static void placeSculkOptim(BlockPos blockPos, StructureWorldAccess world) { //Place Sculk & Call For Veins
+        world.setBlockState(blockPos, RegisterBlocks.SCULK.getDefaultState(), 0);
+        for (Direction direction : Direction.values()) {
+            BlockPos pos = blockPos.offset(direction);
+            BlockState state = world.getBlockState(pos);
+            Block block = state.getBlock();
+            if (block==veinBlock) {
+                if (state.get(waterLogged)) { //If Vein Is Waterlogged
+                    if (state.with(getOpposite(direction), false)==brokenWaterVein) {
+                        world.setBlockState(pos, Blocks.WATER.getDefaultState(),0);
+                    } else {
+                        world.setBlockState(pos, state.with(getOpposite(direction), false),0);
+                    }
+                } else { // If Vein Isn't Waterlogged
+                    if (state.with(getOpposite(direction), false)==brokenVein) {
+                        world.setBlockState(pos, Blocks.AIR.getDefaultState(),0);
+                    } else {
+                        world.setBlockState(pos, state.with(getOpposite(direction), false),0);
+                    }
+                }
+            }
+            if (direction==Direction.UP) {
+                if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && block!=waterBlock && !state.isAir()) {
+                    if (SculkTags.ALWAYS_WATER.contains(block) || (state.contains(waterLogged) && state.get(waterLogged))) {
+                        world.setBlockState(pos, Blocks.WATER.getDefaultState(),0);
+                    } else {
+                        world.setBlockState(pos, Blocks.AIR.getDefaultState(),0);
+                    }
+                }
+            }
+        }
+    }
 
     public static void veins(BlockPos blockpos, StructureWorldAccess world) {
         for (Direction direction : Direction.values()) {
@@ -131,10 +163,14 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         if (direction==Direction.WEST) { return Properties.EAST; }
         return Properties.DOWN;
     }
+
+    public static final BlockState brokenVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false);
     public static final BlockState water = Blocks.WATER.getDefaultState();
+    public static final BlockState air = Blocks.AIR.getDefaultState();
     public static final Block waterBlock = Blocks.WATER;
     public static final Block veinBlock = SculkVeinBlock.SCULK_VEIN;
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
+    public static final BlockState brokenWaterVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false).with(waterLogged, true);
     public static final int maxSculk = 56;
 
     public static ArrayList<BlockPos> blockTagsInSphere(BlockPos pos, int radius, Tag<Block> tag, StructureWorldAccess world) {
