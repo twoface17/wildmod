@@ -48,16 +48,18 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
             seed=context.getWorld().getSeed();
             sample = new PerlinNoiseSampler(new SimpleRandom(seed));
         }
-        context.getWorld().setBlockState(context.getOrigin().up(), RegisterBlocks.SCULK_CATALYST.getDefaultState(), 0);
-        if (context.getWorld().getBlockEntity(context.getOrigin())==null) {
-            context.getWorld().setBlockState(context.getOrigin(), RegisterBlocks.SCULK.getDefaultState(), 0);
-        }
-        double average = (context.getOrigin().getX() + context.getOrigin().getZ())*0.5;
-        int radius = (int) (8*Math.cos(((average)*Math.PI)/24) + 16);
-        double minThresh = 0.1 * Math.cos(((average)*Math.PI)/thresholdTransition);
-        double maxThresh = 0.15 * Math.sin(((average)*Math.PI)/thresholdTransition);
-        placePatch(context, context.getOrigin(), radius, minThreshold+minThresh, maxThreshold+maxThresh, average);
-        return true;
+        if (context.getWorld().isChunkLoaded(context.getOrigin())) {
+            context.getWorld().setBlockState(context.getOrigin().up(), RegisterBlocks.SCULK_CATALYST.getDefaultState(), 0);
+            if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {
+                context.getWorld().setBlockState(context.getOrigin(), RegisterBlocks.SCULK.getDefaultState(), 0);
+            }
+            double average = (context.getOrigin().getX() + context.getOrigin().getZ()) * 0.5;
+            int radius = (int) (8 * Math.cos(((average) * Math.PI) / 24) + 16);
+            double minThresh = 0.1 * Math.cos(((average) * Math.PI) / thresholdTransition);
+            double maxThresh = 0.15 * Math.sin(((average) * Math.PI) / thresholdTransition);
+            placePatch(context, context.getOrigin(), radius, minThreshold + minThresh, maxThreshold + maxThresh, average);
+            return true;
+        } return false;
     }
 
 
@@ -171,29 +173,31 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
             world.setBlockState(blockPos, RegisterBlocks.SCULK.getDefaultState(), 0);
             for (Direction direction : Direction.values()) {
                 BlockPos pos = blockPos.offset(direction);
-                BlockState state = world.getBlockState(pos);
-                Block block = state.getBlock();
-                if (block == veinBlock) {
-                    if (state.get(waterLogged)) { //If Vein Is Waterlogged
-                        if (state.with(getOpposite(direction), false) == brokenWaterVein) {
-                            world.setBlockState(pos, Blocks.WATER.getDefaultState(), 0);
-                        } else {
-                            world.setBlockState(pos, state.with(getOpposite(direction), false), 0);
-                        }
-                    } else { // If Vein Isn't Waterlogged
-                        if (state.with(getOpposite(direction), false) == brokenVein) {
-                            world.setBlockState(pos, Blocks.AIR.getDefaultState(), 0);
-                        } else {
-                            world.setBlockState(pos, state.with(getOpposite(direction), false), 0);
+                if (world.isChunkLoaded(pos)) {
+                    BlockState state = world.getBlockState(pos);
+                    Block block = state.getBlock();
+                    if (block == veinBlock) {
+                        if (state.get(waterLogged)) { //If Vein Is Waterlogged
+                            if (state.with(getOpposite(direction), false) == brokenWaterVein) {
+                                world.setBlockState(pos, Blocks.WATER.getDefaultState(), 0);
+                            } else {
+                                world.setBlockState(pos, state.with(getOpposite(direction), false), 0);
+                            }
+                        } else { // If Vein Isn't Waterlogged
+                            if (state.with(getOpposite(direction), false) == brokenVein) {
+                                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 0);
+                            } else {
+                                world.setBlockState(pos, state.with(getOpposite(direction), false), 0);
+                            }
                         }
                     }
-                }
-                if (direction == Direction.UP) {
-                    if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && block != waterBlock && !state.isAir()) {
-                        if (SculkTags.ALWAYS_WATER.contains(block) || (state.contains(waterLogged) && state.get(waterLogged))) {
-                            world.setBlockState(pos, Blocks.WATER.getDefaultState(), 0);
-                        } else {
-                            world.setBlockState(pos, Blocks.AIR.getDefaultState(), 0);
+                    if (direction == Direction.UP) {
+                        if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && block != waterBlock && !state.isAir()) {
+                            if (SculkTags.ALWAYS_WATER.contains(block) || (state.contains(waterLogged) && state.get(waterLogged))) {
+                                world.setBlockState(pos, Blocks.WATER.getDefaultState(), 0);
+                            } else {
+                                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 0);
+                            }
                         }
                     }
                 }
@@ -213,15 +217,17 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         if (world.isChunkLoaded(blockpos)) {
             for (Direction direction : Direction.values()) {
                 BlockPos pos1 = blockpos.offset(direction);
-                BlockState state = world.getBlockState(pos1);
-                Block block = state.getBlock();
-                if (SculkTags.ALWAYS_WATER.contains(block) || state == Blocks.WATER.getDefaultState()) {
-                    world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(waterLogged, true).with(getOpposite(direction), true), 0);
-                } else if (block != waterBlock) {
-                    if (block == veinBlock) {
-                        world.setBlockState(pos1, state.with(getOpposite(direction), true), 0);
-                    } else if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) || state.isAir()) {
-                        world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(getOpposite(direction), true), 0);
+                if (world.isChunkLoaded(pos1)) {
+                    BlockState state = world.getBlockState(pos1);
+                    Block block = state.getBlock();
+                    if (SculkTags.ALWAYS_WATER.contains(block) || state == Blocks.WATER.getDefaultState()) {
+                        world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(waterLogged, true).with(getOpposite(direction), true), 0);
+                    } else if (block != waterBlock) {
+                        if (block == veinBlock) {
+                            world.setBlockState(pos1, state.with(getOpposite(direction), true), 0);
+                        } else if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) || state.isAir()) {
+                            world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(getOpposite(direction), true), 0);
+                        }
                     }
                 }
             }
