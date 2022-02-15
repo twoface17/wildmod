@@ -56,18 +56,19 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         int radius = (int) (8*Math.cos(((average)*Math.PI)/24) + 16);
         double minThresh = 0.1 * Math.cos(((average)*Math.PI)/thresholdTransition);
         double maxThresh = 0.15 * Math.sin(((average)*Math.PI)/thresholdTransition);
-        placePatch(context, context.getOrigin(), radius, minThreshold+minThresh, maxThreshold+maxThresh);
+        placePatch(context, context.getOrigin(), radius, minThreshold+minThresh, maxThreshold+maxThresh, average);
         return true;
     }
 
 
-    public void placePatch(FeatureContext<DefaultFeatureConfig> context, BlockPos pos, int r, double min, double max) {
+    public void placePatch(FeatureContext<DefaultFeatureConfig> context, BlockPos pos, int r, double min, double max, double average) {
         StructureWorldAccess world = context.getWorld();
 
         //Place Sculk Around Catalyst
         int timesFailed=0;
         int groupsFailed=1;
-        for (int l = 0; l < random.nextInt(12,36);) {
+        int loop = (int) (8*Math.cos(((average)*Math.PI)/24) + 24);
+        for (int l = 0; l < loop;) {
             double a = random() * 2 * PI;
             double rad = sqrt(2 + (groupsFailed - 1)) * sqrt(random());
             boolean succeed = placeSculk(pos.add((int) (rad * sin(a)), 0, (int) (rad * cos(a))), world);
@@ -140,6 +141,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         Block block = world.getBlockState(blockPos).getBlock();
         if (SculkTags.BLOCK_REPLACEABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, blockPos)) {
             placeSculkOptim(blockPos, world);
+            fourDirVeins(blockPos, world);
             return true;
         } else {
             BlockPos NewSculk = sculkCheck(blockPos, world);
@@ -147,11 +149,13 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
                 block = world.getBlockState(NewSculk).getBlock();
                 if (SculkTags.BLOCK_REPLACEABLE.contains(block)) {
                     placeSculkOptim(NewSculk, world);
+                    fourDirVeins(NewSculk, world);
                     return true;
                 } else if (airveins(world, NewSculk)) {
                     Block blockUp = world.getBlockState(NewSculk.up()).getBlock();
                     if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(blockUp) && blockUp!=veinBlock) {
                         veins(NewSculk, world);
+                        fourDirVeins(NewSculk, world);
                         return true;
                     }
                 }
@@ -192,7 +196,13 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
             }
         }
     }
-
+    public static void fourDirVeins(BlockPos blockpos, StructureWorldAccess world) {
+        for (Direction direction : Direction.values()) {
+            if (airveins(world, blockpos.offset(direction))) {
+                veins(blockpos.offset(direction), world);
+            }
+        }
+    }
     public static void veins(BlockPos blockpos, StructureWorldAccess world) {
         for (Direction direction : Direction.values()) {
             BlockPos pos1 = blockpos.offset(direction);
@@ -218,7 +228,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         } return null;
     }
     public static BlockPos checkPt1(BlockPos blockPos, StructureWorldAccess world) { //Check For Valid Placement Above
-        int upward = 12;
+        int upward = 8;
         int MAX = world.getHeight();
         if (blockPos.getY() + upward >= MAX) {
             upward = (MAX - blockPos.getY())-1;
@@ -233,7 +243,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         return null;
     }
     public static BlockPos checkPt2(BlockPos blockPos, StructureWorldAccess world) { //Check For Valid Placement Below
-        int downward = 12;
+        int downward = 4;
         int MIN = world.getBottomY();
         if (blockPos.getY() - downward <= MIN) {
             downward = (blockPos.getY()-MIN)-1;
