@@ -93,7 +93,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
                     }
                 }
                 //SHRIEKER
-                if (sampled<1 && sampled>0.63 && blockpos.getY()<maxSculk) {
+                if (sampled<1 && sampled>0.60 && blockpos.getY()<maxSculk) {
                     if ((world.getBlockState(blockpos.up()).contains(waterLogged) && world.getBlockState(blockpos.up()).get(waterLogged)) || world.getBlockState(blockpos.up())==water) {
                         world.setBlockState(blockpos.up(), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(waterLogged, true), 0);
                 } else {
@@ -200,7 +200,6 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public static ArrayList<BlockPos> hollowedSphere(BlockPos pos, int radius, StructureWorldAccess world) {
-        boolean hollow = true;
         ArrayList<BlockPos> blocks = new ArrayList<>();
         int bx = pos.getX();
         int by = pos.getY();
