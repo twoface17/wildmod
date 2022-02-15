@@ -64,6 +64,8 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeatures(builder2);
         DefaultBiomeFeatures.addPlainsTallGrass(builder2);
+        DefaultBiomeFeatures.addDefaultGrass(builder2);
+        DefaultBiomeFeatures.addPlainsFeatures(builder2);
         DefaultBiomeFeatures.addDefaultVegetation(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_PATCH_PLACED_FEATURE);
