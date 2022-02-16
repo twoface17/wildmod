@@ -36,7 +36,7 @@ public class RareActivatorFeature extends Feature<DefaultFeatureConfig> {
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
         StructureWorldAccess world = context.getWorld();
         BlockPos pos = context.getOrigin();
-        if (blockTagsInSphere(context.getOrigin(), 2, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty() && world.getBlockState(context.getOrigin()).getBlock()==sculk.getBlock()) {
+        if (blockTagsInSphere(context.getOrigin(), 6, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty() && world.getBlockState(context.getOrigin()).getBlock()==sculk.getBlock()) {
             if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {;
                 BlockState activator = SculkTags.RARE_ACTIVATORS.getRandom(new Random(context.getWorld().getSeed())).getDefaultState();
                 if (SculkTags.GROUND_ACTIVATORS.contains(activator.getBlock())) {
