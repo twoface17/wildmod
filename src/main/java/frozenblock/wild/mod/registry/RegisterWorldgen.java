@@ -42,7 +42,7 @@ public class RegisterWorldgen {
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
     public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
 
-    private static final Feature<DefaultFeatureConfig> LARGE_SCULK_PATCH_FEATURE = new LargeSculkPatchFeature(DefaultFeatureConfig.CODEC);
+    private static final Feature<DefaultFeatureConfig> SCULK_CATASTROPHE_FEATURE = new LargeSculkPatchFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> SCULK_PATCH_FEATURE = new SculkPatchFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> RANDOM_SCULK_FEATURE = new RandomSculkFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig>CRAWLING_VEINS_FEATURE = new CrawlingVeinsFeature(DefaultFeatureConfig.CODEC);
@@ -51,7 +51,7 @@ public class RegisterWorldgen {
     private static final Feature<DefaultFeatureConfig> RARE_ACTIVATOR_FEATURE = new RareActivatorFeature(DefaultFeatureConfig.CODEC);
 
     public static PlacedFeature TREES_MANGROVE;
-    public static PlacedFeature LARGE_SCULK_PATCH_PLACED;
+    public static PlacedFeature SCULK_CATASTROPHE_PLACED;
     public static PlacedFeature SCULK_PATCH_PLACED;
     public static PlacedFeature RANDOM_SCULK_PLACED;
     public static PlacedFeature CRAWLING_VEINS_PLACED;
@@ -61,8 +61,8 @@ public class RegisterWorldgen {
 
     public static ConfiguredFeature<TreeFeatureConfig, ?> MANGROVE;
     public static ConfiguredFeature<TreeFeatureConfig, ?> BIRCH_NEW;
-    public static ConfiguredFeature<DefaultFeatureConfig, ?> LARGE_SCULK_CONFIGURED;
-    public static ConfiguredFeature<DefaultFeatureConfig, ?> AVERAGE_SCULK_CONFIGURED;
+    public static ConfiguredFeature<DefaultFeatureConfig, ?> SCULK_CATASTROPHE_CONFIGURED;
+    public static ConfiguredFeature<DefaultFeatureConfig, ?> SCULK_PATCH_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> RANDOM_SCULK_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> CRAWLING_VEINS_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> RANDOM_VEINS_CONFIGURED;
@@ -86,7 +86,7 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addDefaultVegetation(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_PATCH_PLACED);
-        builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, LARGE_SCULK_PATCH_PLACED);
+        builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_CATASTROPHE_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, RANDOM_SCULK_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, CRAWLING_VEINS_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, RANDOM_VEINS_PLACED);
@@ -172,7 +172,7 @@ public class RegisterWorldgen {
     }
 
     public static void RegisterWorldgen() {
-        Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "large_sculk_patch_feature"), LARGE_SCULK_PATCH_FEATURE);
+        Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe_feature"), SCULK_CATASTROPHE_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch_feature"), SCULK_PATCH_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_feature"), RANDOM_SCULK_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins_feature"), CRAWLING_VEINS_FEATURE);
@@ -196,8 +196,8 @@ public class RegisterWorldgen {
                         new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
                         .build()));
 
-        LARGE_SCULK_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "large_sculk_patch"), LARGE_SCULK_PATCH_FEATURE.configure(new DefaultFeatureConfig()));
-        AVERAGE_SCULK_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "average_sculk_patch"), SCULK_PATCH_FEATURE.configure(new DefaultFeatureConfig()));
+        SCULK_CATASTROPHE_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe"), SCULK_CATASTROPHE_FEATURE.configure(new DefaultFeatureConfig()));
+        SCULK_PATCH_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), SCULK_PATCH_FEATURE.configure(new DefaultFeatureConfig()));
         RANDOM_SCULK_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_patch"), RANDOM_SCULK_FEATURE.configure(new DefaultFeatureConfig()));
         CRAWLING_VEINS_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins"), CRAWLING_VEINS_FEATURE.configure(new DefaultFeatureConfig()));
         RANDOM_VEINS_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_patch"), RANDOM_VEINS_FEATURE.configure(new DefaultFeatureConfig()));
@@ -206,8 +206,8 @@ public class RegisterWorldgen {
 
 
         TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), MANGROVE.withPlacement(PlacedFeatures.createCountExtraModifier(8, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(6), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
-        LARGE_SCULK_PATCH_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "large_sculk_patch"), LARGE_SCULK_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(1, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
-        SCULK_PATCH_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "average_sculk_patch"), AVERAGE_SCULK_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(20, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
+        SCULK_CATASTROPHE_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe"), SCULK_CATASTROPHE_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(1, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
+        SCULK_PATCH_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), SCULK_PATCH_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(20, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         RANDOM_SCULK_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_patch"), RANDOM_SCULK_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(20, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         CRAWLING_VEINS_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins"), CRAWLING_VEINS_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(1, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         RANDOM_VEINS_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_patch"), RANDOM_VEINS_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(10, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
