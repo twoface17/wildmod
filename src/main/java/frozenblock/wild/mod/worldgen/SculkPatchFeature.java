@@ -48,7 +48,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
             seed=context.getWorld().getSeed();
             sample = new PerlinNoiseSampler(new SimpleRandom(seed));
         }
-        if (context.getWorld().isChunkLoaded(context.getOrigin())) {
+        if (!blockInSphere(context.getOrigin(), 8, RegisterBlocks.SCULK_CATALYST, context.getWorld())) {
             context.getWorld().setBlockState(context.getOrigin().up(), RegisterBlocks.SCULK_CATALYST.getDefaultState(), 0);
             if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {
                 context.getWorld().setBlockState(context.getOrigin(), RegisterBlocks.SCULK.getDefaultState(), 0);
@@ -116,7 +116,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         //Place Activators
         for (BlockPos blockpos : blocksInSphere(pos, r, RegisterBlocks.SCULK, world)) {
             double sampled = sample.sample(blockpos.getX()*1.5, blockpos.getY()*1.5,blockpos.getZ()*1.5);
-            if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockpos.up()).getBlock())) {
+            if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockpos.up()).getBlock()) && blockTagsInSphere(context.getOrigin(), 1, SculkTags.ACTIVATORS, context.getWorld()).isEmpty()) {
                 Block activator = null;
                 if (sampled<0.55 && sampled>0.41) {
                     activator=SculkTags.COMMON_ACTIVATORS.getRandom(random);
@@ -389,5 +389,27 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
             }
         }
         return blocks;
+    }
+
+    public static boolean blockInSphere(BlockPos pos, int radius, Block block, StructureWorldAccess world) {
+        int bx = pos.getX();
+        int by = pos.getY();
+        int bz = pos.getZ();
+
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
+                        BlockPos l = new BlockPos(x, y, z);
+                        if (world.getBlockState(l).getBlock()==block) {
+                            return true;
+                        }
+                    }
+
+                }
+            }
+        }
+        return false;
     }
 }
