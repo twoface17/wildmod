@@ -563,8 +563,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     AnimationAPI.easeInOutSine(t * 1.8f, t * 2.16f, 30f / j, digTime) +
                     AnimationAPI.easeInOutSine(t * 2.16f, t * 2.52f, -30f / j, digTime)
             );
-            this.body.pivotY = bodyY + (AnimationAPI.easeInSine(0, t * 0.8f, 0f, digTime) +
-                    AnimationAPI.easeInSine(t * 0.8f, t * 3.88f, +35f, digTime)
+            this.body.pivotY = bodyY + (AnimationAPI.easeInOutSine(0, t * 0.8f, 0f, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.8f, t * 3.88f, +35f, digTime)
             );
 
             //Head
@@ -671,13 +671,13 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             );
 
             //Left Leg
-            this.left_leg.pivotY = legY + (AnimationAPI.easeInSine(0, t * 0.8f, 0f, digTime) +
-                    AnimationAPI.easeInSine(t * 0.8f, t * 3.88f, +35f, digTime)
+            this.left_leg.pivotY = legY + (AnimationAPI.easeInOutSine(0, t * 0.8f, 0f, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.8f, t * 3.88f, +35f, digTime)
             );
 
             //Right Leg
-            this.right_leg.pivotY = legY + (AnimationAPI.easeInSine(0, t * 0.8f, 0f, digTime) +
-                    AnimationAPI.easeInSine(t * 0.8f, t * 3.88f, +35f, digTime)
+            this.right_leg.pivotY = legY + (AnimationAPI.easeInOutSine(0, t * 0.8f, 0f, digTime) +
+                    AnimationAPI.easeInOutSine(t * 0.8f, t * 3.88f, +35f, digTime)
             );
 
         }
