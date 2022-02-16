@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static java.lang.Math.*;
-import static java.lang.Math.sqrt;
 
 public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
@@ -90,22 +89,73 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
         //Place Sculk
         for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.BLOCK_REPLACEABLE, world)) {
+            double distance = pos.getSquaredDistance(blockpos,false);
+            double maxA=max;
+            double minA=min;
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            if (sampled>min && sampled<max) {
+            if (r-3<=distance) { //Semi-Fade On Edges
+                double equation = 0.15*(Math.sin((r-distance*PI)/6));
+                maxA=maxA-equation;
+                minA=minA+equation;
+            }
+            double dist = Math.max(r,distance*1.8);
+            if (isWall(world, blockpos)) {
+                double maxEq = (maxA)*(Math.sin((dist*PI)/r*2));
+                double minEq = (minA)*(Math.sin((dist*PI)/r*2));
+                maxA=maxA-maxEq;
+                minA=minA+minEq;
+            }
+            if (isCeiling(world, blockpos)) {
+                double maxEq = (maxA)*(Math.sin((dist*PI)/r*2));
+                double minEq = (minA)*(Math.sin((dist*PI)/r*2));
+                maxA=maxA-maxEq;
+                minA=minA+minEq;
+            }
+            if (sampled>minA && sampled<maxA) {
                 placeSculkOptim(blockpos, world);
             }
         }
 
         //Place Veins
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
+            double minA=min;
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            if (sampled<min && sampled>min-0.16) {
+            double distance = pos.getSquaredDistance(blockpos,false);
+            if (r-3<=distance) { //Semi-Fade On Edges
+                double equation = 0.15*(Math.sin((distance*PI)/6));
+                minA=minA+equation;
+            }
+            double dist = Math.max(r,distance*1.8);
+            if (isWall(world, blockpos)) {
+                double minEq = (minA)*(Math.sin((dist*PI)/r*2));
+                minA=minA+minEq;
+            }
+            if (isCeiling(world, blockpos)) {
+                double minEq = (minA)*(Math.sin((dist*PI)/r*2));
+                minA=minA+minEq;
+            }
+            if (sampled<minA && sampled>minA-0.16) {
                 veins(blockpos, world);
             }
         }
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
+            double distance = pos.getSquaredDistance(blockpos,false);
+            double maxA=max;
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            if (sampled>max && sampled<max+0.16) {
+            if (r-3<=distance) { //Semi-Fade On Edges
+                double equation = 0.15*(Math.sin((distance*PI)/6));
+                maxA=maxA-equation;
+            }
+            double dist = Math.max(r,distance*1.8);
+            if (isWall(world, blockpos)) {
+                double maxEq = (maxA)*(Math.sin((dist*PI)/r*2));
+                maxA=maxA-maxEq;
+            }
+            if (isCeiling(world, blockpos)) {
+                double maxEq = (maxA)*(Math.sin((dist*PI)/r*2));
+                maxA=maxA-maxEq;
+            }
+            if (sampled>maxA && sampled<maxA+0.16) {
                 veins(blockpos, world);
             }
         }
@@ -288,6 +338,17 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
             }
         }
         return false;
+    }
+
+    public static boolean isWall(StructureWorldAccess world, BlockPos pos) {
+        if (world.getBlockState(pos.down()).isFullCube(world, pos.down()) && airOrReplaceableUp(world, pos.down())) {
+            return true;
+        }
+        return world.getBlockState(pos.up()).isFullCube(world, pos.up()) && airOrReplaceableUp(world, pos.up());
+    }
+
+    public static boolean isCeiling(StructureWorldAccess world, BlockPos pos) {
+        return world.getBlockState(pos.up()).isFullCube(world, pos.up()) && !world.getBlockState(pos.down()).isFullCube(world, pos.down());
     }
 
     public static BooleanProperty getOpposite(Direction direction) {
