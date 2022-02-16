@@ -65,7 +65,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         //Place Sculk Blobs
         int timesFailed=0;
         int groupsFailed=1;
-        int loop = random.nextInt(16,40);
+        int loop = random.nextInt(18,50);
         for (int l = 0; l < loop;) {
             double a = random() * 2 * PI;
             double rad = sqrt(2 + (groupsFailed - 1)) * sqrt(random());

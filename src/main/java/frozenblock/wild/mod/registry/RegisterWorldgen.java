@@ -47,6 +47,7 @@ public class RegisterWorldgen {
     private static final Feature<DefaultFeatureConfig> RANDOM_SCULK_FEATURE = new RandomSculkFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig>CRAWLING_VEINS_FEATURE = new CrawlingVeinsFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> RANDOM_VEINS_FEATURE = new RandomVeinsFeature(DefaultFeatureConfig.CODEC);
+    private static final Feature<DefaultFeatureConfig> COMMON_ACTIVATOR_FEATURE = new CommonActivatorFeature(DefaultFeatureConfig.CODEC);
 
     public static PlacedFeature TREES_MANGROVE;
     public static PlacedFeature LARGE_SCULK_PATCH_PLACED;
@@ -54,6 +55,7 @@ public class RegisterWorldgen {
     public static PlacedFeature RANDOM_SCULK_PLACED;
     public static PlacedFeature CRAWLING_VEINS_PLACED;
     public static PlacedFeature RANDOM_VEINS_PLACED;
+    public static PlacedFeature COMMON_ACTIVATOR_PLACED;
 
     public static ConfiguredFeature<TreeFeatureConfig, ?> MANGROVE;
     public static ConfiguredFeature<TreeFeatureConfig, ?> BIRCH_NEW;
@@ -62,6 +64,7 @@ public class RegisterWorldgen {
     public static ConfiguredFeature<DefaultFeatureConfig, ?> RANDOM_SCULK_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> CRAWLING_VEINS_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> RANDOM_VEINS_CONFIGURED;
+    public static ConfiguredFeature<DefaultFeatureConfig, ?> COMMON_ACTIVATOR_CONFIGURED;
 
     public static final TreeDecoratorType<MangroveTreeDecorator> MANGROVE_TREE_DECORATOR = TreeDecoratorTypeInvoker.callRegister("rich_tree_decorator", MangroveTreeDecorator.CODEC);
 
@@ -84,6 +87,7 @@ public class RegisterWorldgen {
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, RANDOM_SCULK_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, CRAWLING_VEINS_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, RANDOM_VEINS_PLACED);
+        builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, COMMON_ACTIVATOR_PLACED);
         MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_DEEP_DARK);
         return (
                 new net.minecraft.world.biome.Biome.Builder())
@@ -169,6 +173,7 @@ public class RegisterWorldgen {
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_feature"), RANDOM_SCULK_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins_feature"), CRAWLING_VEINS_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_feature"), RANDOM_VEINS_FEATURE);
+        Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "common_activator_feature"), COMMON_ACTIVATOR_FEATURE);
 
         MANGROVE = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "mangrove"), Feature.TREE
                 .configure(new TreeFeatureConfig.Builder(
@@ -191,6 +196,7 @@ public class RegisterWorldgen {
         RANDOM_SCULK_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_patch"), RANDOM_SCULK_FEATURE.configure(new DefaultFeatureConfig()));
         CRAWLING_VEINS_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins"), CRAWLING_VEINS_FEATURE.configure(new DefaultFeatureConfig()));
         RANDOM_VEINS_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_patch"), RANDOM_VEINS_FEATURE.configure(new DefaultFeatureConfig()));
+        COMMON_ACTIVATOR_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "common_activators"), COMMON_ACTIVATOR_FEATURE.configure(new DefaultFeatureConfig()));
 
 
         TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), MANGROVE.withPlacement(PlacedFeatures.createCountExtraModifier(8, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(6), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
@@ -199,6 +205,7 @@ public class RegisterWorldgen {
         RANDOM_SCULK_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_patch"), RANDOM_SCULK_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(20, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         CRAWLING_VEINS_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins"), CRAWLING_VEINS_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(1, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         RANDOM_VEINS_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_patch"), RANDOM_VEINS_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(10, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
+        COMMON_ACTIVATOR_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "common_activators"), COMMON_ACTIVATOR_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(70, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
 
         BuiltinRegistries.add(BuiltinRegistries.BIOME, MANGROVE_SWAMP, createMangroveSwamp());
         BuiltinRegistries.add(BuiltinRegistries.BIOME, DEEP_DARK, createDeepDark());

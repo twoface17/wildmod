@@ -43,7 +43,7 @@ public class CrawlingVeinsFeature extends Feature<DefaultFeatureConfig> {
             sample = new PerlinNoiseSampler(new SimpleRandom(seed));
         }
         double average = (context.getOrigin().getX() + context.getOrigin().getZ()) * 0.5;
-        int radius = (int) (8 * Math.sin(((average) * Math.PI) / 18) + 12);
+        int radius = (int) (2 * Math.sin(((average) * Math.PI) / 18) + 6);
         double minThresh = 0.1 * Math.sin(((average) * Math.PI) / thresholdTransition);
         double maxThresh = 0.15 * Math.cos(((average) * Math.PI) / thresholdTransition);
         placeVeins(context, context.getOrigin(), radius, minThreshold + minThresh, maxThreshold + maxThresh, average);
