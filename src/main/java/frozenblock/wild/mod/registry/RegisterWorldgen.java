@@ -42,7 +42,7 @@ public class RegisterWorldgen {
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
     public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
 
-    private static final Feature<DefaultFeatureConfig> LARGE_SCULK_PATCH_FEATURE = new LargeSculkPatchFeature(DefaultFeatureConfig.CODEC);
+    private static final Feature<DefaultFeatureConfig> SCULK_CATASTROPHE_FEATURE = new LargeSculkPatchFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> SCULK_PATCH_FEATURE = new SculkPatchFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> RANDOM_SCULK_FEATURE = new RandomSculkFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig>CRAWLING_VEINS_FEATURE = new CrawlingVeinsFeature(DefaultFeatureConfig.CODEC);
@@ -172,7 +172,7 @@ public class RegisterWorldgen {
     }
 
     public static void RegisterWorldgen() {
-        Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe_feature"), LARGE_SCULK_PATCH_FEATURE);
+        Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe_feature"), SCULK_CATASTROPHE_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch_feature"), SCULK_PATCH_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_feature"), RANDOM_SCULK_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins_feature"), CRAWLING_VEINS_FEATURE);
@@ -196,7 +196,7 @@ public class RegisterWorldgen {
                         new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
                         .build()));
 
-        SCULK_CATASTROPHE_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe"), LARGE_SCULK_PATCH_FEATURE.configure(new DefaultFeatureConfig()));
+        SCULK_CATASTROPHE_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe"), SCULK_CATASTROPHE_FEATURE.configure(new DefaultFeatureConfig()));
         SCULK_PATCH_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), SCULK_PATCH_FEATURE.configure(new DefaultFeatureConfig()));
         RANDOM_SCULK_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_patch"), RANDOM_SCULK_FEATURE.configure(new DefaultFeatureConfig()));
         CRAWLING_VEINS_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins"), CRAWLING_VEINS_FEATURE.configure(new DefaultFeatureConfig()));
