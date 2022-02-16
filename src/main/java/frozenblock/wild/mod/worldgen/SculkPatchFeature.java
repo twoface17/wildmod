@@ -118,10 +118,10 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
             double sampled = sample.sample(blockpos.getX()*1.5, blockpos.getY()*1.5,blockpos.getZ()*1.5);
             if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockpos.up()).getBlock())) {
                 Block activator = null;
-                if (sampled<0.55 && sampled>0.41 && blockTagsInSphere(context.getOrigin(), 2, SculkTags.ACTIVATORS, context.getWorld()).isEmpty()) {
+                if (sampled<0.55 && sampled>0.41 && blockTagsInSphere(context.getOrigin(), 3, SculkTags.COMMON_ACTIVATORS, context.getWorld()).isEmpty()) {
                     activator=SculkTags.COMMON_ACTIVATORS.getRandom(random);
                 }
-                if (sampled<1 && sampled>0.6 && blockTagsInSphere(context.getOrigin(), 6, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty()) {
+                if (sampled<1 && sampled>0.57 && blockTagsInSphere(context.getOrigin(), 6, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty()) {
                     activator=SculkTags.RARE_ACTIVATORS.getRandom(random);
                 }
                 if (activator!=null) {
