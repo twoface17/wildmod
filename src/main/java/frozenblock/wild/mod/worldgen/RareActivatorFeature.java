@@ -20,9 +20,9 @@ import net.minecraft.world.gen.feature.util.FeatureContext;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CommonActivatorFeature extends Feature<DefaultFeatureConfig> {
+public class RareActivatorFeature extends Feature<DefaultFeatureConfig> {
 
-    public CommonActivatorFeature(Codec<DefaultFeatureConfig> configCodec) {
+    public RareActivatorFeature(Codec<DefaultFeatureConfig> configCodec) {
         super(configCodec);
     }
 
@@ -36,9 +36,9 @@ public class CommonActivatorFeature extends Feature<DefaultFeatureConfig> {
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
         StructureWorldAccess world = context.getWorld();
         BlockPos pos = context.getOrigin();
-        if (blockTagsInSphere(context.getOrigin(), 2, SculkTags.COMMON_ACTIVATORS, context.getWorld()).isEmpty() && world.getBlockState(context.getOrigin()).getBlock()==sculk.getBlock()) {
+        if (blockTagsInSphere(context.getOrigin(), 2, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty() && world.getBlockState(context.getOrigin()).getBlock()==sculk.getBlock()) {
             if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {;
-                BlockState activator = SculkTags.COMMON_ACTIVATORS.getRandom(new Random(context.getWorld().getSeed())).getDefaultState();
+                BlockState activator = SculkTags.RARE_ACTIVATORS.getRandom(new Random(context.getWorld().getSeed())).getDefaultState();
                 if (SculkTags.GROUND_ACTIVATORS.contains(activator.getBlock())) {
                     world.setBlockState(pos, activator,0);
                 } else {
