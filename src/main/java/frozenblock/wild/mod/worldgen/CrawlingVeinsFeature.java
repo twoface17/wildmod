@@ -29,7 +29,7 @@ public class CrawlingVeinsFeature extends Feature<DefaultFeatureConfig> {
     public static final double minThreshold = -0.1; //The value that Vein's noise must be ABOVE in order to grow
     public static final double maxThreshold = 0.2; //The value that Vein's noise must be BELOW in order to grow
     public static long seed = 1; //This gets set to the current world's seed in generate()
-    public static final int thresholdTransition=27; //When this is lower, the min&max thresholds for Sculk placement will quickly fluctuate based on location. When higher, the min&max thresholds will have a longer, but smoother transition.
+    public static final int thresholdTransition=27; //When this is lower, the min&max thresholds for Vein placement will quickly fluctuate based on location. When higher, the min&max thresholds will have a longer, but smoother transition.
     public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new SimpleRandom(seed));
 
     public CrawlingVeinsFeature(Codec<DefaultFeatureConfig> configCodec) {
