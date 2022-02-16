@@ -43,7 +43,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         modelPartData.addChild("right_leg", ModelPartBuilder.create().uv(58,36).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(-6.0F,11.0F,0.0F));
         return TexturedModelData.of(modelData,128,64);
     }
-
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         int r = entity.getRoarTicksLeft1();
@@ -115,6 +114,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float legY = 11;
         float armY = -17;
         float headY = -21; //Default pivots
+
+//Animations by Merp. DO NOT STEAL. (though it's not like you could even if you tried)
 
         /* TENDRIL CLICK */
         if (canTendril) {
