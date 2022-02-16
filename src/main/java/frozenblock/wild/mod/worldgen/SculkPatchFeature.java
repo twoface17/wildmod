@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
@@ -64,7 +65,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         //Place Sculk Blobs
         int timesFailed=0;
         int groupsFailed=1;
-        int loop = random.nextInt(12,40);
+        int loop = random.nextInt(16,40);
         for (int l = 0; l < loop;) {
             double a = random() * 2 * PI;
             double rad = sqrt(2 + (groupsFailed - 1)) * sqrt(random());
@@ -215,10 +216,15 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         for (Direction direction : Direction.values()) {
             if (airveins(world, blockpos.offset(direction))) {
                 veins(blockpos.offset(direction), world);
+            } else { BlockPos check = sculkCheck(blockpos, world);
+                if (airveins(world, check)) {
+                    veins(check, world);
+                }
             }
         }
     }
     }
+
     public static void veins(BlockPos blockpos, StructureWorldAccess world) {
         if (world.isChunkLoaded(blockpos)) {
             for (Direction direction : Direction.values()) {
@@ -243,9 +249,7 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static BlockPos sculkCheck(BlockPos blockPos, StructureWorldAccess world) { //Call For Up&Down Checks
         BlockPos check = checkPt2(blockPos, world);
         if (check!=null) { return check; }
-        if (!world.isSkyVisible(blockPos)) {
-            return checkPt1(blockPos, world);
-        } return null;
+        return checkPt1(blockPos, world);
     }
     public static BlockPos checkPt1(BlockPos blockPos, StructureWorldAccess world) { //Check For Valid Placement Above
         int upward = 8;
@@ -326,27 +330,6 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
                         if (tag.contains(world.getBlockState(l).getBlock())) {
-                            blocks.add(l);
-                        }
-                    }
-                }
-            }
-        }
-        return blocks;
-    }
-
-    public static ArrayList<BlockPos> blocksInSphere(BlockPos pos, int radius, Block block, StructureWorldAccess world) {
-        ArrayList<BlockPos> blocks = new ArrayList<>();
-        int bx = pos.getX();
-        int by = pos.getY();
-        int bz = pos.getZ();
-        for(int x = bx - radius; x <= bx + radius; x++) {
-            for(int y = by - radius; y <= by + radius; y++) {
-                for(int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
-                    if(distance < radius * radius) {
-                        BlockPos l = new BlockPos(x, y, z);
-                        if (world.getBlockState(l).getBlock() == block && world.isChunkLoaded(l)) {
                             blocks.add(l);
                         }
                     }
