@@ -599,7 +599,7 @@ public class WardenEntity extends HostileEntity {
             this.setInvulnerable(false);
             this.world.sendEntityStatus(this, (byte)12);
             this.hasEmerged = true;
-            this.sniffCooldown = UniformIntProvider.create(5,110).get(random);
+            this.sniffCooldown = random.nextInt(5,110);
             this.emergeTicksLeft = -1;
         }
         if (world.getTime()==this.leaveTime) { this.ableToDig=true; }
