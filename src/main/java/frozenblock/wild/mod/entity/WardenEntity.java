@@ -100,7 +100,8 @@ public class WardenEntity extends HostileEntity {
         if (this.ticksToWander>0) {--this.ticksToWander;}
         if (this.wanderTicksLeft>0) {--this.wanderTicksLeft;}
         if (this.getNavigation().isIdle()) {this.movementPriority=0;}
-        if (this.movementPriority<=1 && this.wanderTicksLeft==0) {
+        if (this.movementPriority==1 && this.wanderTicksLeft==0) {
+            this.sniffCooldown=10;
             this.getNavigation().stop();
             this.movementPriority=0;
             this.ticksToWander=random.nextInt(50,80);

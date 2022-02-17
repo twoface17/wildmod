@@ -52,7 +52,7 @@ public class SniffGoal extends Goal {
                 }
             }
         }
-        if (sniffEntity!=null && this.mob.roarOtherCooldown<=0 && this.mob.movementPriority<=1 && this.mob.wanderTicksLeft<=0) {
+        if (sniffEntity!=null && this.mob.roarOtherCooldown<=0 && this.mob.movementPriority==0 && this.mob.wanderTicksLeft<=0) {
             exit = true;
         }
 
