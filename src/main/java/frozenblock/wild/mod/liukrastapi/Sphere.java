@@ -1,6 +1,5 @@
 package frozenblock.wild.mod.liukrastapi;
 
-import frozenblock.wild.mod.blocks.SculkBlock;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

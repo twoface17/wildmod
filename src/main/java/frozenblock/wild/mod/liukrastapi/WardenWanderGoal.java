@@ -1,12 +1,12 @@
 package frozenblock.wild.mod.liukrastapi;
 
-import java.util.Random;
-
 import frozenblock.wild.mod.entity.WardenEntity;
 import net.minecraft.entity.ai.NoPenaltyTargeting;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Random;
 
 public class WardenWanderGoal
         extends Goal {

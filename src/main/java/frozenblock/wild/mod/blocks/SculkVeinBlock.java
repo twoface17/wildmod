@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.blocks;
 
 import frozenblock.wild.mod.registry.RegisterSounds;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;

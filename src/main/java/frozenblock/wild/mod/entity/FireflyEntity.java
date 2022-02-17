@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.liukrastapi.FireflyWanderGoal;
-import frozenblock.wild.mod.registry.RegisterParticles;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Flutterer;
@@ -23,7 +22,6 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 public class FireflyEntity extends AnimalEntity implements Flutterer {
