@@ -45,7 +45,6 @@ public class RegisterWorldgen {
     private static final Feature<DefaultFeatureConfig> SCULK_CATASTROPHE_FEATURE = new LargeSculkPatchFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> SCULK_PATCH_FEATURE = new SculkPatchFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> RANDOM_SCULK_FEATURE = new RandomSculkFeature(DefaultFeatureConfig.CODEC);
-    private static final Feature<DefaultFeatureConfig>CRAWLING_VEINS_FEATURE = new CrawlingVeinsFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> RANDOM_VEINS_FEATURE = new RandomVeinsFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> COMMON_ACTIVATOR_FEATURE = new CommonActivatorFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> RARE_ACTIVATOR_FEATURE = new RareActivatorFeature(DefaultFeatureConfig.CODEC);
@@ -54,7 +53,6 @@ public class RegisterWorldgen {
     public static PlacedFeature SCULK_CATASTROPHE_PLACED;
     public static PlacedFeature SCULK_PATCH_PLACED;
     public static PlacedFeature RANDOM_SCULK_PLACED;
-    public static PlacedFeature CRAWLING_VEINS_PLACED;
     public static PlacedFeature RANDOM_VEINS_PLACED;
     public static PlacedFeature COMMON_ACTIVATOR_PLACED;
     public static PlacedFeature RARE_ACTIVATOR_PLACED;
@@ -64,7 +62,6 @@ public class RegisterWorldgen {
     public static ConfiguredFeature<DefaultFeatureConfig, ?> SCULK_CATASTROPHE_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> SCULK_PATCH_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> RANDOM_SCULK_CONFIGURED;
-    public static ConfiguredFeature<DefaultFeatureConfig, ?> CRAWLING_VEINS_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> RANDOM_VEINS_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> COMMON_ACTIVATOR_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> RARE_ACTIVATOR_CONFIGURED;
@@ -88,7 +85,6 @@ public class RegisterWorldgen {
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_PATCH_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_CATASTROPHE_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, RANDOM_SCULK_PLACED);
-        builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, CRAWLING_VEINS_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, RANDOM_VEINS_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, COMMON_ACTIVATOR_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, RARE_ACTIVATOR_PLACED);
@@ -175,7 +171,6 @@ public class RegisterWorldgen {
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe_feature"), SCULK_CATASTROPHE_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch_feature"), SCULK_PATCH_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_feature"), RANDOM_SCULK_FEATURE);
-        Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins_feature"), CRAWLING_VEINS_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_feature"), RANDOM_VEINS_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "common_activator_feature"), COMMON_ACTIVATOR_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "rare_activator_feature"), RARE_ACTIVATOR_FEATURE);
@@ -199,7 +194,6 @@ public class RegisterWorldgen {
         SCULK_CATASTROPHE_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe"), SCULK_CATASTROPHE_FEATURE.configure(new DefaultFeatureConfig()));
         SCULK_PATCH_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), SCULK_PATCH_FEATURE.configure(new DefaultFeatureConfig()));
         RANDOM_SCULK_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_patch"), RANDOM_SCULK_FEATURE.configure(new DefaultFeatureConfig()));
-        CRAWLING_VEINS_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins"), CRAWLING_VEINS_FEATURE.configure(new DefaultFeatureConfig()));
         RANDOM_VEINS_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_patch"), RANDOM_VEINS_FEATURE.configure(new DefaultFeatureConfig()));
         COMMON_ACTIVATOR_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "common_activators"), COMMON_ACTIVATOR_FEATURE.configure(new DefaultFeatureConfig()));
         RARE_ACTIVATOR_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "rare_activators"), RARE_ACTIVATOR_FEATURE.configure(new DefaultFeatureConfig()));
@@ -209,7 +203,6 @@ public class RegisterWorldgen {
         SCULK_CATASTROPHE_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe"), SCULK_CATASTROPHE_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(1, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         SCULK_PATCH_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), SCULK_PATCH_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(20, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         RANDOM_SCULK_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_patch"), RANDOM_SCULK_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(20, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
-        CRAWLING_VEINS_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "crawling_veins"), CRAWLING_VEINS_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(1, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         RANDOM_VEINS_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_patch"), RANDOM_VEINS_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(10, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         COMMON_ACTIVATOR_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "common_activators"), COMMON_ACTIVATOR_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(70, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
         RARE_ACTIVATOR_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "rare_activators"), RARE_ACTIVATOR_CONFIGURED.withPlacement(PlacedFeatures.createCountExtraModifier(28, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of()));
