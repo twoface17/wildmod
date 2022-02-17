@@ -921,11 +921,11 @@
 		"sounds": [
 			{
 			"attenuation_distance": 32,
-			"name": "twm:entity/warden/sniff1",
+			"name": "twm:entity/warden/sniff1"
 			},
 			{
 			"attenuation_distance": 32,
-			"name": "twm:entity/warden/sniff2",
+			"name": "twm:entity/warden/sniff2"
 			},
 			{
 			"attenuation_distance": 32,
