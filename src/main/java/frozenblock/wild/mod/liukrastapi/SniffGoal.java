@@ -9,7 +9,6 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.List;
 
@@ -30,6 +29,12 @@ public class SniffGoal extends Goal {
             return false;
         }
         if (this.mob.hasDug || this.mob.emergeTicksLeft==-5) { return false; }
+        if (this.mob.emergeTicksLeft>0) {return false;}
+        int r = this.mob.getRoarTicksLeft1();
+        if (r > 0) {return false;}
+        if (this.mob.emergeTicksLeft > 0) {return false;}
+        if (this.mob.sniffCooldown > 0) {return false;}
+        if (this.mob.world.getDifficulty().getId()==0) { return false; }
         boolean exit = false;
         LivingEntity sniffEntity = null;
         if (this.mob.mostSuspiciousAround()!=null) {
@@ -47,18 +52,10 @@ public class SniffGoal extends Goal {
                 }
             }
         }
-        if (this.mob.emergeTicksLeft>0) {
-            return false;
-        }
-        if (this.mob.world.getTime()-this.mob.vibrationTimer>160 && sniffEntity!=null && this.mob.sniffCooldown<=0 && this.mob.roarOtherCooldown<=0) {
+        if (sniffEntity!=null && this.mob.roarOtherCooldown<=0 && this.mob.movementPriority<=1 && this.mob.wanderTicksLeft<=0) {
             exit = true;
         }
 
-        int r = this.mob.getRoarTicksLeft1();
-        if (r > 0) {
-            exit = false;
-        }
-        if (this.mob.world.getDifficulty().getId()==0) { return false; }
         if (exit && sniffEntity instanceof PlayerEntity) {
             exit = !((PlayerEntity)sniffEntity).getAbilities().creativeMode;
         }
@@ -93,6 +90,9 @@ public class SniffGoal extends Goal {
                 this.mob.world.sendEntityStatus(this.mob, (byte)10);
                 this.mob.sniffTicksLeft = 53;
                 this.mob.sniffCooldown = 163;
+                this.mob.ticksToWander = 100;
+                this.mob.wanderTicksLeft = 0;
+                this.mob.movementPriority = 2;
                 this.mob.sniffX = sniffEntity.getX();
                 this.mob.sniffY = sniffEntity.getY();
                 this.mob.sniffZ = sniffEntity.getZ();
