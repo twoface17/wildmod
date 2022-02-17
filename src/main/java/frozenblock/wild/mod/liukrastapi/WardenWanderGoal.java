@@ -51,9 +51,10 @@ public class WardenWanderGoal
 
     @Override
     public void start() {
-        this.mob.wanderTicksLeft=random.nextInt(70,120);
+        this.mob.wanderTicksLeft=random.nextInt(50,80);
         this.mob.getNavigation().startMovingTo(this.targetX, this.targetY, this.targetZ, this.speed);
         this.mob.movementPriority=1;
+        this.mob.canSniff=true;
     }
 
     @Override

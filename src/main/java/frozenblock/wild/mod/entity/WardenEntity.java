@@ -420,6 +420,7 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("movementPriority", this.movementPriority);
         nbt.putInt("ticksToWander", this.ticksToWander);
         nbt.putInt("wanderTicksLeft", this.wanderTicksLeft);
+        nbt.putBoolean("canSniff", this.canSniff);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -452,6 +453,7 @@ public class WardenEntity extends HostileEntity {
         this.movementPriority = nbt.getInt("movementPriority");
         this.wanderTicksLeft = nbt.getInt("wanderTicksLeft");
         this.ticksToWander = nbt.getInt("ticksToWander");
+        this.canSniff = nbt.getBoolean("canSniff");
     }
 
     public int getRoarTicksLeft1() {return this.roarTicksLeft1;}
@@ -788,6 +790,7 @@ public class WardenEntity extends HostileEntity {
     public int movementPriority;
     public int ticksToWander;
     public int wanderTicksLeft;
+    public boolean canSniff;
     //Lists & Entity Tracking
     public IntArrayList entityList = new IntArrayList();
     public IntArrayList susList = new IntArrayList();
