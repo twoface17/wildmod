@@ -47,8 +47,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-import static java.lang.Math.*;
-
 //SCULK SHRIEKER REWRITE FROM LUNADE'S MOD ACCURATE SCULK
 
 public class SculkShriekerBlock

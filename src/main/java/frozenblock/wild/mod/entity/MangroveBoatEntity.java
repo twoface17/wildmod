@@ -2,7 +2,6 @@ package frozenblock.wild.mod.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
-import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterItems;
 import net.minecraft.block.BlockState;

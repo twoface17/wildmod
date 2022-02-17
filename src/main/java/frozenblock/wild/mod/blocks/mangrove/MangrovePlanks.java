@@ -1,6 +1,5 @@
 package frozenblock.wild.mod.blocks.mangrove;
 
-import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;

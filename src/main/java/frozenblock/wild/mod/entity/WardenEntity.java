@@ -80,7 +80,8 @@ public class WardenEntity extends HostileEntity {
                 if (lastEvent!=null) {
                     BlockPos roarPos = lastEvent.getBlockPos();
                     this.getNavigation().startMovingTo(roarPos.getX(), roarPos.getY(), roarPos.getZ(), (speed + (45 * 0.01) + (45 * 0.002)));
-                }
+                    this.movementPriority=2;
+                } else {this.movementPriority=0;}
             }
             if (this.roarOtherCooldown > 0) { --this.roarOtherCooldown; }
             if (this.attackCooldown > 0) { --this.attackCooldown; }
@@ -94,6 +95,16 @@ public class WardenEntity extends HostileEntity {
                 this.ticksToDarkness=100;
             }
             if (this.attackNearCooldown>0) { --this.attackNearCooldown; }
+        }
+        //Movement
+        if (this.ticksToWander>0) {--this.ticksToWander;}
+        if (this.wanderTicksLeft>0) {--this.wanderTicksLeft;}
+        if (this.getNavigation().isIdle()) {this.movementPriority=0;}
+        if (this.movementPriority==1 && this.wanderTicksLeft==0) {
+            this.sniffCooldown=10;
+            this.getNavigation().stop();
+            this.movementPriority=0;
+            this.ticksToWander=random.nextInt(50,80);
         }
         //Heartbeat & Anger
         this.heartbeatTime = (int) (40 - ((MathHelper.clamp(this.trueOverallAnger(),0,50)*0.6)));
@@ -406,6 +417,10 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("roarOtherCooldown", this.roarOtherCooldown);
         nbt.putBoolean("ableToDig", this.ableToDig);
         nbt.putBoolean("hasDug", this.hasDug);
+        nbt.putInt("movementPriority", this.movementPriority);
+        nbt.putInt("ticksToWander", this.ticksToWander);
+        nbt.putInt("wanderTicksLeft", this.wanderTicksLeft);
+        nbt.putBoolean("canSniff", this.canSniff);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -435,6 +450,10 @@ public class WardenEntity extends HostileEntity {
         this.roarOtherCooldown = nbt.getInt("roarOtherCooldown");
         this.ableToDig = nbt.getBoolean("ableToDig");
         this.hasDug = nbt.getBoolean("hasDug");
+        this.movementPriority = nbt.getInt("movementPriority");
+        this.wanderTicksLeft = nbt.getInt("wanderTicksLeft");
+        this.ticksToWander = nbt.getInt("ticksToWander");
+        this.canSniff = nbt.getBoolean("canSniff");
     }
 
     public int getRoarTicksLeft1() {return this.roarTicksLeft1;}
@@ -675,9 +694,8 @@ public class WardenEntity extends HostileEntity {
             this.timeStuck = 0;
             this.stuckPos = this.getBlockPos();
         }
-        if (this.timeStuck >= 90 && this.hasEmerged && this.world.getTime() - this.vibrationTimer < 120 && this.world.getTime() - this.timeSinceLastRecalculation > 49 && !(this.sniffTicksLeft > 0)) {
-            this.getNavigation().recalculatePath();
-            this.timeSinceLastRecalculation = this.world.getTime();
+        if (this.timeStuck >= 90 && this.hasEmerged && this.leaveTime-this.world.getTime()<1000 && this.world.getTime()-this.timeSinceLastRecalculation> 49 && this.sniffCooldown<=0 && this.roarOtherCooldown>0) {
+            this.movementPriority=0;
         }
     }
     public void tickBurn() {
@@ -769,6 +787,10 @@ public class WardenEntity extends HostileEntity {
     public int vibX;
     public int vibY;
     public int vibZ;
+    public int movementPriority;
+    public int ticksToWander;
+    public int wanderTicksLeft;
+    public boolean canSniff;
     //Lists & Entity Tracking
     public IntArrayList entityList = new IntArrayList();
     public IntArrayList susList = new IntArrayList();

@@ -1,7 +1,7 @@
 package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.entity.WardenEntity;
-import frozenblock.wild.mod.registry.*;
+import frozenblock.wild.mod.registry.RegisterEntities;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
