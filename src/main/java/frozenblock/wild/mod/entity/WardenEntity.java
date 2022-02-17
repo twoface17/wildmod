@@ -103,6 +103,7 @@ public class WardenEntity extends HostileEntity {
         if (this.movementPriority<=1 && this.wanderTicksLeft==0) {
             this.getNavigation().stop();
             this.movementPriority=0;
+            this.ticksToWander=random.nextInt(50,80);
         }
         //Heartbeat & Anger
         this.heartbeatTime = (int) (40 - ((MathHelper.clamp(this.trueOverallAnger(),0,50)*0.6)));
