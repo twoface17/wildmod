@@ -31,7 +31,6 @@ public class WardenEntityDotFeatureRenderer extends EyesFeatureRenderer<WardenEn
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.OVERLAY);
         int a = calculateLight(getBlockLight(entity, entity.getBlockPos()));
         float b = colors(entity.getWorld().getTime());
-        System.out.println(entity.getWorld().getTime());
         this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b, b, b, 1.0f);
         }
     }
