@@ -83,7 +83,7 @@ public class WardenEntity extends HostileEntity {
                     this.movementPriority=3;
                 } else {this.movementPriority=0;}
             }
-            if (this.vibrationTimer<=0 && this.roarOtherCooldown <= 0 && this.movementPriority<=2) {
+            if (this.world.getTime() - this.vibrationTimer <= 19 && this.roarOtherCooldown <= 0 && this.movementPriority<=2) {
                 LivingEntity lastEvent = this.getVibrationEntity();
                 if (lastEvent!=null) {
                     if (this.getSuspicion(lastEvent)>30) {
