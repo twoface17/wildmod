@@ -80,7 +80,18 @@ public class WardenEntity extends HostileEntity {
                 if (lastEvent!=null) {
                     BlockPos roarPos = lastEvent.getBlockPos();
                     this.getNavigation().startMovingTo(roarPos.getX(), roarPos.getY(), roarPos.getZ(), (speed + (45 * 0.01) + (45 * 0.002)));
-                    this.movementPriority=2;
+                    this.movementPriority=3;
+                } else {this.movementPriority=0;}
+            }
+            if (this.world.getTime() - this.vibrationTimer <= 19 && this.roarOtherCooldown <= 0 && this.movementPriority<=2) {
+                LivingEntity lastEvent = this.getVibrationEntity();
+                if (lastEvent!=null) {
+                    if (this.getSuspicion(lastEvent)>30) {
+                        this.getNavigation().stop();
+                        BlockPos entityPos = lastEvent.getBlockPos();
+                        this.getNavigation().startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(lastEvent), 0, 50) * 0.01) + (this.trueOverallAnger() * 0.0045)));
+                        this.movementPriority = 2;
+                    }
                 } else {this.movementPriority=0;}
             }
             if (this.roarOtherCooldown > 0) { --this.roarOtherCooldown; }
@@ -681,7 +692,7 @@ public class WardenEntity extends HostileEntity {
             if (this.getSniffEntity() != null) {
                 LivingEntity sniffEntity = this.getSniffEntity();
                 this.addSuspicion(sniffEntity, 7);
-                this.lasteventpos= new BlockPos(this.sniffX, this.sniffY, this.sniffZ);
+                this.lasteventpos=sniffEntity.getBlockPos();
                 this.lasteventworld=this.getWorld();
                 this.lastevententity=sniffEntity;
             }

@@ -20,7 +20,7 @@ public class WardenEntityTendrilsFeatureRenderer extends EyesFeatureRenderer<War
 
     public WardenEntityTendrilsFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
-        TENDRILS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_tendrils.png"));
+        TENDRILS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_ears.png"));
         SECRET_TENDRILS = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_tendrils.png"));
     }
 

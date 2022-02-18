@@ -22,7 +22,7 @@ public class WardenEntityDotFeatureRenderer extends EyesFeatureRenderer<WardenEn
 
     public WardenEntityDotFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
-        OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_sculkdots.png"));
+        OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_pulsating_spots_1.png"));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class WardenEntityDotFeatureRenderer extends EyesFeatureRenderer<WardenEn
         return ret;
     }
     private float colors(long time) {
-        float d = (float) ((float) 0.5*Math.cos((time*Math.PI)/60) + 0.5);
+        float d = (float) ((float) 0.2*Math.cos((time*Math.PI)/60) + 0.3);
         float a = MathHelper.clamp(d,0,1);
         return a;
     }
