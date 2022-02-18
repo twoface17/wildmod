@@ -1,7 +1,8 @@
 package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.entity.WardenEntity;
-import frozenblock.wild.mod.fromAccurateSculk.*;
+import frozenblock.wild.mod.fromAccurateSculk.ActivatorGrower;
+import frozenblock.wild.mod.fromAccurateSculk.BrokenSculkGrower;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;

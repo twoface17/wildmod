@@ -96,6 +96,10 @@ public class WardenGoal extends Goal {
     public void start() {
         BlockPos lasteventpos = this.mob.lasteventpos;
         LivingEntity lastevententity = this.mob.lastevententity;
+        if (this.mob.movementPriority==1) {this.mob.getNavigation().stop();}
+        this.mob.movementPriority=2;
+        this.mob.ticksToWander=120;
+        this.mob.wanderTicksLeft=0;
         boolean attacker = false;
         if (this.mob.getAttacker() != null && !(this.mob.getAttacker() instanceof WardenEntity)) {
             attacker = true;
@@ -117,17 +121,18 @@ public class WardenGoal extends Goal {
                 this.mob.lasteventpos = null;
                 this.mob.lasteventworld = null;
             } else if (lastevententity != null) {
-                    double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
-                    double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
-                    this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed + (MathHelper.clamp(this.mob.getSuspicion(lastevententity), 0, 50) * 0.01) + (this.mob.trueOverallAnger() * 0.0045)));
-                    if (!(e > d)) {
-                        this.mob.tryAttack(lastevententity);
-                    }
-                    this.mob.lastevententity = null;
-                    this.mob.lasteventpos = null;
-                    this.mob.lasteventworld = null;
+            double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
+            double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
+            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed + (MathHelper.clamp(this.mob.getSuspicion(lastevententity), 0, 50) * 0.01) + (this.mob.trueOverallAnger() * 0.0045)));
+            if (!(e > d)) {this.mob.tryAttack(lastevententity);}
+            this.mob.lastevententity = null;
+            this.mob.lasteventpos = null;
+            this.mob.lasteventworld = null;
             } else {
-                this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed + (this.mob.trueOverallAnger() * 0.0045));
+            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed + (this.mob.trueOverallAnger() * 0.0045));
+            this.mob.lastevententity = null;
+            this.mob.lasteventpos = null;
+            this.mob.lasteventworld = null;
             }
         }
 

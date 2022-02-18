@@ -5,12 +5,7 @@ import frozenblock.wild.mod.WildModClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.MediumPufferfishEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.PufferfishEntity;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 

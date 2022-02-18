@@ -2,21 +2,17 @@ package frozenblock.wild.mod.liukrastapi;
 
 import frozenblock.wild.mod.entity.FireflyEntity;
 import frozenblock.wild.mod.entity.FrogEntity;
-import frozenblock.wild.mod.registry.RegisterBlocks;
-import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.BigDripleafBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MagmaCubeEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.GoatEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -98,7 +94,7 @@ public class FrogGoal extends Goal {
             if(this.mob.getTongue() < 1) {
                 double d = 3;
                 List<SlimeEntity> slimes = this.mob.getWorld().getNonSpectatingEntities(SlimeEntity.class, box2);
-                List<FireflyEntity> fireflies = this.mob.getWorld().getNonSpectatingEntities(FireflyEntity.class, box2);
+                //List<FireflyEntity> fireflies = this.mob.getWorld().getNonSpectatingEntities(FireflyEntity.class, box2);
                 List<GoatEntity> goats = this.mob.getWorld().getNonSpectatingEntities(GoatEntity.class, box2);
                 ArrayList<LivingEntity> allEntities = new ArrayList<>();
                 if (slimes.size() > 0) {
@@ -108,7 +104,7 @@ public class FrogGoal extends Goal {
                         }
                     }
                 }
-                allEntities.addAll(fireflies);
+                //allEntities.addAll(fireflies);
                 LivingEntity chosen = this.mob.getWorld().getClosestEntity(allEntities, TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
                 if (chosen!=null) {
                     this.mob.getNavigation().startMovingTo(chosen, 1.8);
@@ -171,7 +167,7 @@ public class FrogGoal extends Goal {
 
                 }
             }
-        List<FireflyEntity> list = world.getNonSpectatingEntities(FireflyEntity.class, box2);
+        /*List<FireflyEntity> list = world.getNonSpectatingEntities(FireflyEntity.class, box2);
         if (list.size() > 0) {
             if (world.getTime()-this.mob.eatTimer>=50 && this.mob.getBlockPos().getSquaredDistance(list.get(0).getBlockPos())<=6) {
                 FireflyEntity target = list.get(0);
@@ -183,13 +179,13 @@ public class FrogGoal extends Goal {
                 this.mob.targetID=target.getId();
                 this.mob.eatTimer = world.getTime();
             }
-        }
+        }*/
         List<GoatEntity> goatlist = world.getNonSpectatingEntities(GoatEntity.class, box2);
         String string = Formatting.strip(this.mob.getName().getString());
         if ("Osmiooo".equals(string)) {
             if (goatlist.size() > 0) {
                 for (GoatEntity target : goatlist) {
-                    if (world.getTime() - this.mob.eatTimer >= 50 && this.mob.getBlockPos().getSquaredDistance(list.get(0).getBlockPos()) <= 6) {
+                    if (world.getTime() - this.mob.eatTimer >= 50 && this.mob.getBlockPos().getSquaredDistance(target.getBlockPos()) <= 6) {
                         world.sendEntityStatus(this.mob, (byte) 4);
                         target.teleport(this.mob.getX(), this.mob.getY(), this.mob.getZ());
                         target.setInvulnerable(true);

@@ -2,7 +2,10 @@ package frozenblock.wild.mod.mixins;
 
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.SculkCatalystBlock;
-import frozenblock.wild.mod.fromAccurateSculk.*;
+import frozenblock.wild.mod.fromAccurateSculk.ActivatorGrower;
+import frozenblock.wild.mod.fromAccurateSculk.SculkCatalystBlockEntity;
+import frozenblock.wild.mod.fromAccurateSculk.SculkGrower;
+import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import net.minecraft.block.entity.BlockEntity;

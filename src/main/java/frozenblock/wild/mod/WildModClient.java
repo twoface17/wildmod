@@ -11,7 +11,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -46,13 +45,6 @@ public class WildModClient implements ClientModInitializer {
 
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((spriteAtlasTexture, registry) -> {
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriek"));
-            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriek2"));
-            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriekz"));
-            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriekz2"));
-            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shrieknx"));
-            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shrieknx2"));
-            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriekx"));
-            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriekx2"));
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_soul"));
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_rf_0"));
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_rf_1"));

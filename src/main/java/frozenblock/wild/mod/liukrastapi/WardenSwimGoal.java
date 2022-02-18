@@ -5,10 +5,10 @@
 
 package frozenblock.wild.mod.liukrastapi;
 
-import java.util.EnumSet;
-
 import frozenblock.wild.mod.entity.WardenEntity;
 import net.minecraft.entity.ai.goal.Goal;
+
+import java.util.EnumSet;
 
 public class WardenSwimGoal extends Goal {
     private final WardenEntity mob;

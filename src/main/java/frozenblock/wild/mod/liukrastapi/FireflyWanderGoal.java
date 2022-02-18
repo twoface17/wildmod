@@ -2,11 +2,8 @@ package frozenblock.wild.mod.liukrastapi;
 
 import frozenblock.wild.mod.entity.FireflyEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.AboveGroundTargeting;
-import net.minecraft.entity.ai.NoPenaltySolidTargeting;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import org.jetbrains.annotations.Nullable;
 
