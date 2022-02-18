@@ -33,15 +33,15 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-        ModelPartData modelPartData1 = modelPartData.addChild("body", ModelPartBuilder.create().uv(0,26).cuboid(-9.0F, -21.0F, -5.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(0.0F,11.0F,0.0F));
-        ModelPartData modelPartData2 = modelPartData1.addChild("head", ModelPartBuilder.create().uv(0,0).cuboid(-8.0F, -16.0F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(0.0F,-21.0F,0.0F));
-        modelPartData2.addChild("right_tendril", ModelPartBuilder.create().uv(107,38).cuboid(-10.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.002F), ModelTransform.pivot(-8.0F,-12.5F,0.0F));
-        modelPartData2.addChild("left_tendril", ModelPartBuilder.create().uv(107,50).cuboid(0.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.002F), ModelTransform.pivot(8.0F,-12.5F,0.0F));
-        modelPartData1.addChild("right_arm", ModelPartBuilder.create().uv(52,0).cuboid(-6.0F, -4.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(-11.0F,-17.0F,0.0F));
-        modelPartData1.addChild("left_arm", ModelPartBuilder.create().uv(84,0).cuboid(-2.0F, -4.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(11.0F,-17.0F,0.0F));
-        modelPartData.addChild("left_leg", ModelPartBuilder.create().uv(82,36).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(6.0F,11.0F,0.0F));
-        modelPartData.addChild("right_leg", ModelPartBuilder.create().uv(58,36).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(-6.0F,11.0F,0.0F));
-        return TexturedModelData.of(modelData,128,64);
+        ModelPartData modelPartData1 = modelPartData.addChild("body", ModelPartBuilder.create().uv(0,0).cuboid(-9.0F, -21.0F, -5.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(0.0F,11.0F,0.0F));
+        ModelPartData modelPartData2 = modelPartData1.addChild("head", ModelPartBuilder.create().uv(0,32).cuboid(-8.0F, -16.0F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(0.0F,-21.0F,0.0F));
+        modelPartData2.addChild("right_tendril", ModelPartBuilder.create().uv(58,6).cuboid(-10.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.002F), ModelTransform.pivot(-8.0F,-12.5F,0.0F));
+        modelPartData2.addChild("left_tendril", ModelPartBuilder.create().uv(58,38).cuboid(0.0F, -6.5F, 0.0F, 10.0F, 10.0F, 0.002F), ModelTransform.pivot(8.0F,-12.5F,0.0F));
+        modelPartData1.addChild("right_arm", ModelPartBuilder.create().uv(44,50).cuboid(-6.0F, -4.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(-11.0F,-17.0F,0.0F));
+        modelPartData1.addChild("left_arm", ModelPartBuilder.create().uv(0,58).cuboid(-2.0F, -4.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(11.0F,-17.0F,0.0F));
+        modelPartData.addChild("left_leg", ModelPartBuilder.create().uv(76,76).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(6.0F,11.0F,0.0F));
+        modelPartData.addChild("right_leg", ModelPartBuilder.create().uv(76,48).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(-6.0F,11.0F,0.0F));
+        return TexturedModelData.of(modelData,128,128);
     }
     @Override
     public void setAngles(WardenEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
