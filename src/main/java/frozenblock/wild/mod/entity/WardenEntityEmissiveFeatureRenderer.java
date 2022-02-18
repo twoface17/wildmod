@@ -17,12 +17,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LightType;
 
 @Environment(EnvType.CLIENT)
-public class WardenEntityOverlayFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel<WardenEntity>> {
+public class WardenEntityEmissiveFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel<WardenEntity>> {
 
     private RenderLayer OVERLAY;
     private RenderLayer SECRET_OVERLAY;
 
-    public WardenEntityOverlayFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
+    public WardenEntityEmissiveFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
         OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_bioluminescent_layer.png"));
         SECRET_OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/secret_warden_overlay.png"));
