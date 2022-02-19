@@ -756,9 +756,9 @@ public class WardenEntity extends HostileEntity {
                 addSuspicion(eventEntity, suspicion);
                 if (this.world.getTime() - reactionSoundTimer > 40) {
                     this.reactionSoundTimer = this.world.getTime();
-                    if (getSuspicion(eventEntity) < 35) {
+                    if (getSuspicion(eventEntity) < 25) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else if (this.trueOverallAnger() > 35) {
+                    } else if (getSuspicion(eventEntity) > 25) {
                         this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING_ANGRY, SoundCategory.HOSTILE, 1.0F, world.random.nextFloat() * 0.2F + 0.8F);
                     }
                 }
