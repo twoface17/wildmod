@@ -15,16 +15,16 @@ import net.minecraft.util.registry.Registry;
 
 public abstract class RegisterBlocks {
 
-    public static final AbstractBlock.Settings DEEPSLATE_FRAME_SETTINGS = FabricBlockSettings
+    public static final AbstractBlock.Settings REINFORCED_DEEPSLATE_SETTINGS = FabricBlockSettings
             .of(Material.STONE, MapColor.DEEPSLATE_GRAY)
             .requiresTool()
             .strength(3.0F, 6.0F)
             .sounds(new BlockSoundGroup(1.0f, 1.0f,
-                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_BREAK,
-                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_STEP,
-                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_PLACE,
-                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_HIT,
-                    RegisterSounds.BLOCK_DEEPSLATE_FRAME_STEP
+                    RegisterSounds.BLOCK_REINFORCED_DEEPSLATE_BREAK,
+                    RegisterSounds.BLOCK_REINFORCED_DEEPSLATE_STEP,
+                    RegisterSounds.BLOCK_REINFORCED_DEEPSLATE_PLACE,
+                    RegisterSounds.BLOCK_REINFORCED_DEEPSLATE_HIT,
+                    RegisterSounds.BLOCK_REINFORCED_DEEPSLATE_STEP
             ));
 
     public static final AbstractBlock.Settings FROG_SPAWN_PROPERTIES = FabricBlockSettings
@@ -62,7 +62,7 @@ public abstract class RegisterBlocks {
                     SoundEvents.BLOCK_CORAL_BLOCK_STEP
             ));
 
-    public static final Block DEEPSLATE_FRAME = new PillarBlock(DEEPSLATE_FRAME_SETTINGS);
+    public static final Block REINFORCED_DEEPSLATE = new PillarBlock(REINFORCED_DEEPSLATE_SETTINGS);
 
     public static final Block MUD_BLOCK = new MudBlock();
 
@@ -115,8 +115,8 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem( SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "deepslate_frame"), DEEPSLATE_FRAME);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "deepslate_frame"), new BlockItem(DEEPSLATE_FRAME, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "reinforced_deepslate"), REINFORCED_DEEPSLATE);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "reinforced_deepslate"), new BlockItem(REINFORCED_DEEPSLATE, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_spawn"), FROG_SPAWN);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_spawn"), new FrogSpawnItem(FROG_SPAWN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));

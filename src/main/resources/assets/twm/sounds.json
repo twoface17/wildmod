@@ -1,43 +1,43 @@
 {
-	"block.deepslate_frame.break": {
+	"block.reinforced_deepslate.break": {
 		"sounds": [
-				"twm:block/deepslate_frame/break1",
-				"twm:block/deepslate_frame/break2",
-				"twm:block/deepslate_frame/break3",
-				"twm:block/deepslate_frame/break4"
+				"twm:block/reinforced_deepslate/break1",
+				"twm:block/reinforced_deepslate/break2",
+				"twm:block/reinforced_deepslate/break3",
+				"twm:block/reinforced_deepslate/break4"
 		],
 		"subtitle": "subtitles.block.generic.break"
 	},
-	"block.deepslate_frame.hit": {
+	"block.reinforced_deepslate.hit": {
 		"sounds": [
-				"twm:block/deepslate_frame/step1",
-				"twm:block/deepslate_frame/step2",
-				"twm:block/deepslate_frame/step3",
-				"twm:block/deepslate_frame/step4",
-				"twm:block/deepslate_frame/step5",
-				"twm:block/deepslate_frame/step6"
+				"twm:block/reinforced_deepslate/step1",
+				"twm:block/reinforced_deepslate/step2",
+				"twm:block/reinforced_deepslate/step3",
+				"twm:block/reinforced_deepslate/step4",
+				"twm:block/reinforced_deepslate/step5",
+				"twm:block/reinforced_deepslate/step6"
 		],
 		"subtitle": "subtitles.block.generic.hit"
 	},
-	"block.deepslate_frame.place": {
+	"block.reinforced_deepslate.place": {
 		"sounds": [
-				"twm:block/deepslate_frame/place1",
-				"twm:block/deepslate_frame/place2",
-				"twm:block/deepslate_frame/place3",
-				"twm:block/deepslate_frame/place4",
-				"twm:block/deepslate_frame/place5",
-				"twm:block/deepslate_frame/place6"
+				"twm:block/reinforced_deepslate/place1",
+				"twm:block/reinforced_deepslate/place2",
+				"twm:block/reinforced_deepslate/place3",
+				"twm:block/reinforced_deepslate/place4",
+				"twm:block/reinforced_deepslate/place5",
+				"twm:block/reinforced_deepslate/place6"
 		],
 		"subtitle": "subtitles.block.generic.place"
 	},
-	"block.deepslate_frame.step": {
+	"block.reinforced_deepslate.step": {
 		"sounds": [
-				"twm:block/deepslate_frame/step1",
-				"twm:block/deepslate_frame/step2",
-				"twm:block/deepslate_frame/step3",
-				"twm:block/deepslate_frame/step4",
-				"twm:block/deepslate_frame/step5",
-				"twm:block/deepslate_frame/step6"
+				"twm:block/reinforced_deepslate/step1",
+				"twm:block/reinforced_deepslate/step2",
+				"twm:block/reinforced_deepslate/step3",
+				"twm:block/reinforced_deepslate/step4",
+				"twm:block/reinforced_deepslate/step5",
+				"twm:block/reinforced_deepslate/step6"
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
@@ -779,31 +779,8 @@
 		"subtitle": "subtitles.entity.warden.ambient"
 	},
 	"entity.warden.ambient_underground": {
-		"sounds": [
-			{
-				"name": "twm:entity/warden/underground1"
-			},
-			{
-				"name": "twm:entity/warden/underground2"
-			},
-			{
-				"name": "twm:entity/warden/underground3"
-			}
-		],
-		"subtitle": "subtitles.entity.warden.slightly_angry"
-	},
-	"entity.warden.ambient_angry": {
-		"sounds": [
-			{
-				"attenuation_distance": 32,
-				"name": "twm:entity/warden/ambient_angry1"
-			},
-			{
-				"attenuation_distance": 32,
-				"name": "twm:entity/warden/ambient_angry2"
-			}
-		],
-		"subtitle": "subtitles.entity.warden.ambient_angry"
+		"sounds": 
+		[]
 	},
 	"entity.warden.listening": {
 		"sounds": [
@@ -826,10 +803,6 @@
 			{
 				"attenuation_distance": 32,
 				"name": "twm:entity/warden/listening_5"
-			},
-			{
-				"attenuation_distance": 32,
-				"name": "twm:entity/warden/listening_6"
 			}
 		],
 		"subtitle": "subtitles.entity.warden.listening"
@@ -855,10 +828,6 @@
 			{
 				"attenuation_distance": 32,
 				"name": "twm:entity/warden/listening_angry_5"
-			},
-			{
-				"attenuation_distance": 32,
-				"name": "twm:entity/warden/listening_angry_6"
 			}
 		],
 		"subtitle": "subtitles.entity.warden.listening_angry"
@@ -896,27 +865,27 @@
 		"sounds": [
 			{
 				"attenuation_distance": 32,
-				"name": "twm:entity/warden/angry1"
+				"name": "twm:entity/warden/angry_1"
 			},
 			{
 				"attenuation_distance": 32,
-				"name": "twm:entity/warden/angry2"
+				"name": "twm:entity/warden/angry_2"
 			},
 			{
 				"attenuation_distance": 32,
-				"name": "twm:entity/warden/angry3"
+				"name": "twm:entity/warden/angry_3"
 			},
 			{
 				"attenuation_distance": 32,
-				"name": "twm:entity/warden/angry4"
+				"name": "twm:entity/warden/angry_4"
 			},
 			{
 				"attenuation_distance": 32,
-				"name": "twm:entity/warden/angry5"
+				"name": "twm:entity/warden/angry_5"
 			},
 			{
 				"attenuation_distance": 32,
-				"name": "twm:entity/warden/angry6"
+				"name": "twm:entity/warden/angry_6"
 			}
 		],
 		"subtitle": "subtitles.entity.warden.angry"
@@ -976,7 +945,7 @@
 			},
 			{
 				"attenuation_distance": 48,
-				"name": "twm:entity/warden/heartbeat3",
+				"name": "twm:entity/warden/heartbeat_3",
 				"volume": 1
 			},
 			{
@@ -1052,7 +1021,8 @@
 	},
 	"entity.warden.attack": {
 		"sounds": [
-			"twm:entity/warden/attack"
+			"twm:entity/warden/attack_impact_1",
+			"twm:entity/warden/attack_impact_2"
 		],
 		"subtitle": "subtitles.entity.warden.attack"
 	},
@@ -1079,10 +1049,10 @@
 	},
 	"entity.warden.step": {
 		"sounds": [
-			"twm:entity/warden/step1",
-			"twm:entity/warden/step2",
-			"twm:entity/warden/step3",
-			"twm:entity/warden/step4"
+			"twm:entity/warden/step_1",
+			"twm:entity/warden/step_2",
+			"twm:entity/warden/step_3",
+			"twm:entity/warden/step_4"
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
@@ -1090,27 +1060,27 @@
 		"sounds": [
 			{
 			"attenuation_distance": 32,
-			"name":"twm:entity/warden/detect_vibration1"
+			"name":"minecraft:block/sculk_sensor/sculk_clicking1"
 			},
 			{
 			"attenuation_distance": 32,
-			"name":"twm:entity/warden/detect_vibration2"
+			"name":"minecraft:block/sculk_sensor/sculk_clicking2"
 			},
 			{
 			"attenuation_distance": 32,
-			"name":"twm:entity/warden/detect_vibration3"
+			"name":"minecraft:block/sculk_sensor/sculk_clicking3"
 			},
 			{
 			"attenuation_distance": 32,
-			"name":"twm:entity/warden/detect_vibration4"
+			"name":"minecraft:block/sculk_sensor/sculk_clicking4"
 			},
 			{
 			"attenuation_distance": 32,
-			"name":"twm:entity/warden/detect_vibration5"
+			"name":"minecraft:block/sculk_sensor/sculk_clicking5"
 			},
 			{
 			"attenuation_distance": 32,
-			"name":"twm:entity/warden/detect_vibration6"
+			"name":"minecraft:block/sculk_sensor/sculk_clicking6"
 			}
 		],
 		"subtitle": "subtitles.entity.warden.vibration"

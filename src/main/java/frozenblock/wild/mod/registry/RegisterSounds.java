@@ -9,10 +9,10 @@ public class RegisterSounds { //Register sound definitions
 
     /** BLOCKS **/
     //Deepslate Frame
-        public static SoundEvent BLOCK_DEEPSLATE_FRAME_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.step"));
-        public static SoundEvent BLOCK_DEEPSLATE_FRAME_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.break"));
-        public static SoundEvent BLOCK_DEEPSLATE_FRAME_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.place"));
-        public static SoundEvent BLOCK_DEEPSLATE_FRAME_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.hit"));
+        public static SoundEvent BLOCK_REINFORCED_DEEPSLATE_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.step"));
+        public static SoundEvent BLOCK_REINFORCED_DEEPSLATE_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.break"));
+        public static SoundEvent BLOCK_REINFORCED_DEEPSLATE_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.place"));
+        public static SoundEvent BLOCK_REINFORCED_DEEPSLATE_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.hit"));
     //Mud
         public static SoundEvent BLOCK_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.step"));
         public static SoundEvent BLOCK_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.break"));
@@ -104,10 +104,10 @@ public class RegisterSounds { //Register sound definitions
     /** BLOCKS **/
 
         //Deepslate Frame
-        BLOCK_DEEPSLATE_FRAME_STEP = register(BLOCK_DEEPSLATE_FRAME_STEP.getId());
-        BLOCK_DEEPSLATE_FRAME_HIT = register(BLOCK_DEEPSLATE_FRAME_HIT.getId());
-        BLOCK_DEEPSLATE_FRAME_BREAK = register(BLOCK_DEEPSLATE_FRAME_BREAK.getId());
-        BLOCK_DEEPSLATE_FRAME_PLACE = register(BLOCK_DEEPSLATE_FRAME_PLACE.getId());
+        BLOCK_REINFORCED_DEEPSLATE_STEP = register(BLOCK_REINFORCED_DEEPSLATE_STEP.getId());
+        BLOCK_REINFORCED_DEEPSLATE_HIT = register(BLOCK_REINFORCED_DEEPSLATE_HIT.getId());
+        BLOCK_REINFORCED_DEEPSLATE_BREAK = register(BLOCK_REINFORCED_DEEPSLATE_BREAK.getId());
+        BLOCK_REINFORCED_DEEPSLATE_PLACE = register(BLOCK_REINFORCED_DEEPSLATE_PLACE.getId());
 
         //Mud
         BLOCK_MUD_STEP = register(BLOCK_MUD_STEP.getId());
