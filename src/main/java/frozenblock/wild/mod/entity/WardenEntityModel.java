@@ -34,7 +34,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData1 = modelPartData.addChild("body", ModelPartBuilder.create().uv(0,0).cuboid(-9.0F, -21.0F, -5.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(0.0F,11.0F,0.0F));
-        ModelPartData modelPartData2 = modelPartData1.addChild("head", ModelPartBuilder.create().uv(0,32).cuboid(-8.0F, -16.0F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(0.0F,-21.0F,0.0F));
+        ModelPartData modelPartData2 = modelPartData1.addChild("head", ModelPartBuilder.create().uv(0,32).cuboid(-8.0F, -16.0F, -6.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(0.0F,-21.0F,0.0F));
         modelPartData2.addChild("left_tendril", ModelPartBuilder.create().uv(58,0).cuboid(0.0F, -12.5F, 0.0F, 16.0F, 16.0F, 0.002F), ModelTransform.pivot(8.0F,-12.5F,0.0F));
         modelPartData2.addChild("right_tendril", ModelPartBuilder.create().uv(52,32).cuboid(-16.0F, -12.5F, 0.0F, 16.0F, 16.0F, 0.002F), ModelTransform.pivot(-8.0F,-12.5F,0.0F));
         modelPartData1.addChild("left_arm", ModelPartBuilder.create().uv(0,58).cuboid(-2.0F, -4.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(11.0F,-17.0F,0.0F));
@@ -716,12 +716,14 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                     this.body.pitch = -MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance, -10f, 15f / j);
 
                     //Left Arm
-                    this.left_arm.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance, -10f, 25f / j);
+                    this.left_arm.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * MathHelper.clamp(limbDistance, -10f, 15f / j);
                     this.left_arm.roll = (-MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 0.7F * MathHelper.clamp(limbDistance / 4, -5, 0f / j));
+                    this.left_arm.pivotZ = -MathHelper.cos(limbAngle * 0.6662F) * 0.15F * MathHelper.clamp(limbDistance, -15f, 15f / j);
 
                     //Right Arm
                     this.right_arm.pitch = MathHelper.sin((limbAngle * 0.6662F) - 0.5F) * 1.4F * MathHelper.clamp(limbDistance / 2, 0, 15f / j);
                     this.right_arm.roll = (-MathHelper.sin(limbAngle * 0.6662F) * 0.7F * MathHelper.clamp(limbDistance / 4, 0, 5f / j));
+                    this.right_arm.pivotZ = -MathHelper.sin(limbAngle * 0.6662F) * 0.15F * MathHelper.clamp(limbDistance, -15f, 15f / j);
 
                 } else if (entity.headRoll >= 4) { //Angry walk animation
 
