@@ -524,7 +524,7 @@ public class SculkShriekerBlock
                                 shrieks = 0;
                                 WardenEntity warden = RegisterEntities.WARDEN.create(world);
                                 assert warden != null;
-                                warden.refreshPositionAndAngles((double) currentCheck.getX() + 1D, currentCheck.up(1).getY(), (double) currentCheck.getZ() + 1D, 0.0F, 0.0F);
+                                warden.refreshPositionAndAngles(currentCheck.getX(), currentCheck.up(1).getY(), (double) currentCheck.getZ(), 0.0F, 0.0F);
                                 world.spawnEntity(warden);
                                 warden.handleStatus((byte) 5);
                                 warden.leaveTime = world.getTime() + 1200;
@@ -545,8 +545,8 @@ public class SculkShriekerBlock
         double x1 = pos.getX();
         double y1 = pos.getY();
         double z1 = pos.getZ();
-        BlockPos side1 = new BlockPos(x1-50, y1-50, z1-50);
-        BlockPos side2 = new BlockPos(x1+50, y1+50, z1+50);
+        BlockPos side1 = new BlockPos(x1-26, y1-26, z1-26);
+        BlockPos side2 = new BlockPos(x1+26, y1+26, z1+26);
         Box box = (new Box(side1, side2));
         List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
         if (!list.isEmpty()) {
@@ -554,7 +554,7 @@ public class SculkShriekerBlock
             WardenEntity warden;
             while (var11.hasNext()) {
                 warden = var11.next();
-                if (warden.getBlockPos().isWithinDistance(pos, (48))) {
+                if (warden.getBlockPos().isWithinDistance(pos, (24))) {
                     return true;
                 }
             }
@@ -599,8 +599,8 @@ public class SculkShriekerBlock
     }
 
     public static boolean verifyWardenSpawn(BlockPos p, World world) {
-        if (canSpawn(world, p) && canSpawn(world, p.add(1,0,0)) && canSpawn(world, p.add(1,0,1)) && canSpawn(world, p.add(0,0,1))) {
-            return wardenNonCollide(p, world) && wardenNonCollide(p.add(1, 0, 0), world) && wardenNonCollide(p.add(1, 0, 1), world) && wardenNonCollide(p.add(0, 0, 1), world);
+        if (canSpawn(world, p)) {
+            return wardenNonCollide(p, world);
         }
         return false;
     }
@@ -608,7 +608,7 @@ public class SculkShriekerBlock
         return !SculkTags.WARDEN_UNSPAWNABLE.contains(world.getBlockState(p).getBlock()) && !world.getBlockState(p).isAir() && world.getBlockState(p).getBlock()!=Blocks.WATER &&  world.getBlockState(p).getBlock()!=Blocks.LAVA;
     }
     public static boolean wardenNonCollide(BlockPos p, World world) {
-        return SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up()).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(2)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(3)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(4)).getBlock());
+        return SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up()).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(2)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(3)).getBlock()));
     }
 
 }
