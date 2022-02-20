@@ -491,6 +491,21 @@ public class SculkShriekerBlock
     public static int shrieks;
     private static long timer;
 
+    public static BlockPos getRandomSpawnable(ArrayList<BlockPos> poses, World world, Random random) {
+        ArrayList<BlockPos> finals = new ArrayList<>();
+        Iterator<BlockPos> var11 = poses.iterator();
+        BlockPos currentCheck;
+        while(var11.hasNext()) {
+            currentCheck = var11.next();
+            if (!world.isSkyVisible(currentCheck) || world.isNight()) {
+                finals.add(currentCheck);
+            }
+        }
+        if (!finals.isEmpty()) {
+            return finals.get((int) (Math.random() * finals.size()));
+        } return null;
+    }
+
     public static void addShriek(BlockPos pos, World world, int i) {
         if (world instanceof ServerWorld) {
             if (world.getTime() - timer < -90) {
@@ -504,24 +519,26 @@ public class SculkShriekerBlock
                         ArrayList<BlockPos> candidates = findBlock(pos, 9, false, world);
                         if (!candidates.isEmpty()) {
                             timer = world.getTime() + 30;
-                            Iterator<BlockPos> var11 = candidates.iterator();
-                            BlockPos currentCheck;
-                            while(var11.hasNext()) {
-                                currentCheck = var11.next();
                                 if (shrieks >= 3) {
+                                    Iterator<BlockPos> var11 = candidates.iterator();
+                                    BlockPos currentCheck;
+                                    while(var11.hasNext()) {
+                                        currentCheck = var11.next();
                                     if (world.isSkyVisible(currentCheck.up()) && !world.isNight()) {
-                                        world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 0.15F, 0.8F);
+                                        world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 0.4F, 0.8F);
                                     } else {
-                                        currentCheck=candidates.get(new Random().nextInt(0, candidates.))
-                                        shrieks = 0;
-                                        WardenEntity warden = RegisterEntities.WARDEN.create(world);
-                                        assert warden != null;
-                                        warden.refreshPositionAndAngles(currentCheck.getX()+0.5D, currentCheck.up(1).getY(), currentCheck.getZ()+0.5D, 0.0F, 0.0F);
-                                        world.spawnEntity(warden);
-                                        warden.handleStatus((byte) 5);
-                                        warden.leaveTime = world.getTime() + 1200;
-                                        warden.setPersistent();
-                                        world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
+                                        currentCheck=getRandomSpawnable(candidates,world,new Random());
+                                        if (currentCheck!=null) {
+                                            shrieks = 0;
+                                            WardenEntity warden = RegisterEntities.WARDEN.create(world);
+                                            assert warden != null;
+                                            warden.refreshPositionAndAngles(currentCheck.getX() + 0.5D, currentCheck.up(1).getY(), currentCheck.getZ() + 0.5D, 0.0F, 0.0F);
+                                            world.spawnEntity(warden);
+                                            warden.handleStatus((byte) 5);
+                                            warden.leaveTime = world.getTime() + 1200;
+                                            warden.setPersistent();
+                                            world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
+                                        }
                                         break;
                                     }
                                 }
