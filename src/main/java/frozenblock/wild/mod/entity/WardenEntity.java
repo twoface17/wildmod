@@ -64,7 +64,6 @@ public class WardenEntity extends HostileEntity {
     }
 
     public void tickMovement() {
-        this.tickBurn();
         if (!this.isAiDisabled()) {
             if (this.attackTicksLeft1 > 0) { --this.attackTicksLeft1; }
             if (this.roarTicksLeft1 > 0) {
@@ -717,24 +716,6 @@ public class WardenEntity extends HostileEntity {
         if (this.timeStuck >= 90 && this.hasEmerged && this.leaveTime-this.world.getTime()<1000 && this.world.getTime()-this.timeSinceLastRecalculation> 49 && this.sniffCooldown<=0 && this.roarOtherCooldown>0) {
             this.movementPriority=0;
         }
-    }
-    public void tickBurn() {
-    if (this.isAlive() && !this.hasDug && this.emergeTicksLeft!=-5) {
-        if (world.getGameRules().getBoolean(WildMod.WARDEN_BURNS)) {
-            boolean bl = this.burnsInDaylight() && this.isAffectedByDaylight();
-            if (bl) { ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
-                if (!itemStack.isEmpty()) {
-                    if (itemStack.isDamageable()) {itemStack.setDamage(itemStack.getDamage() + this.random.nextInt(2));
-                        if (itemStack.getDamage() >= itemStack.getMaxDamage()) {
-                            this.sendEquipmentBreakStatus(EquipmentSlot.HEAD);
-                            this.equipStack(EquipmentSlot.HEAD, ItemStack.EMPTY);
-                        }
-                    } bl = false;
-                }
-                if (bl) { this.setOnFireFor(8); }
-            }
-        }
-    }
     }
     public void tickVibration() {
         if (this.vibrationTicks>0) {
