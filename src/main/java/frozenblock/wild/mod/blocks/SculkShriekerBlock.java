@@ -529,20 +529,20 @@ public class SculkShriekerBlock
                                         currentCheck = var11.next();
                                     if (world.isSkyVisible(currentCheck.up()) && !world.isNight()) {
                                         world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 0.4F, 0.8F);
-                                    } else {
-                                        currentCheck=getRandomSpawnable(candidates,world,new Random());
-                                        if (currentCheck!=null) {
-                                            shrieks = 0;
-                                            WardenEntity warden = RegisterEntities.WARDEN.create(world);
-                                            assert warden != null;
-                                            warden.refreshPositionAndAngles(currentCheck.getX() + 0.5D, currentCheck.up(1).getY(), currentCheck.getZ() + 0.5D, 0.0F, 0.0F);
-                                            world.spawnEntity(warden);
-                                            warden.handleStatus((byte) 5);
-                                            warden.leaveTime = world.getTime() + 1200;
-                                            warden.setPersistent();
-                                            world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
-                                        }
+                                    }
+                                    currentCheck=getRandomSpawnable(candidates,world,new Random());
+                                    if (currentCheck!=null) {
+                                        shrieks = 0;
+                                        WardenEntity warden = RegisterEntities.WARDEN.create(world);
+                                        assert warden != null;
+                                        warden.refreshPositionAndAngles(currentCheck.getX() + 0.5D, currentCheck.up(1).getY(), currentCheck.getZ() + 0.5D, 0.0F, 0.0F);
+                                        world.spawnEntity(warden);
+                                        warden.handleStatus((byte) 5);
+                                        warden.leaveTime = world.getTime() + 1200;
+                                        warden.setPersistent();
+                                        world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
                                         break;
+                                    }
                                     }
                                 }
                             }
