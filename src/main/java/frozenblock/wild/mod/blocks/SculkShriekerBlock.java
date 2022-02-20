@@ -497,7 +497,10 @@ public class SculkShriekerBlock
         BlockPos currentCheck;
         while(var11.hasNext()) {
             currentCheck = var11.next();
-            if (!world.isSkyVisible(currentCheck) || world.isNight()) {
+            if (!world.isSkyVisible(currentCheck)) {
+                finals.add(currentCheck);
+            }
+            if (!finals.contains(currentCheck) && !world.isSkyVisible(currentCheck)) {
                 finals.add(currentCheck);
             }
         }
