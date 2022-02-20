@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.liukrastapi.MathAddon;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
@@ -41,13 +42,11 @@ public class WardenEntityDotFeatureRenderer extends EyesFeatureRenderer<WardenEn
 
     private int calculateLight(float light) {
         float d = (float) ((float) Math.cos((light*Math.PI)/30));
-        int ret = (int) ((MathHelper.clamp(d,0,1)) * 15728640);
-        return ret;
+        return (int) ((MathHelper.clamp(d,0,1)) * 15728640);
     }
     private float colors(long time) {
-        float d = (float) ((float) 0.5*Math.cos((time*Math.PI)/40));
-        float a = MathHelper.clamp(d,0,1);
-        return a;
+        float d = (float) (0.5 * MathAddon.cutCos((time*Math.PI)/40,0,false));
+        return MathHelper.clamp(d,0,1);
     }
 
         public RenderLayer getEyesTexture() {
