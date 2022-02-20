@@ -45,7 +45,7 @@ public class WardenEntityDotFeatureRendererAlt extends EyesFeatureRenderer<Warde
         return (int) ((MathHelper.clamp(d,0,1)) * 15728640);
     }
     private float colors(long time) {
-        float d = (float) (-0.5 * MathAddon.cutCos((time*Math.PI)/40,0,true));
+        float d = (float) (0.5 * -Math.cos((time*Math.PI)/40));
         return MathHelper.clamp(d,0,1);
     }
 
