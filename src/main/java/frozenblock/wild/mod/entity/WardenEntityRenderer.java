@@ -18,6 +18,7 @@ public class WardenEntityRenderer extends MobEntityRenderer<WardenEntity, Warden
         this.addFeature(new WardenEntityTendrilsFeatureRenderer(this));
         this.addFeature(new WardenEntityEmissiveFeatureRenderer(this));
         this.addFeature(new WardenEntityDotFeatureRenderer(this));
+        this.addFeature(new WardenEntityDotFeatureRendererAlt(this));
     }
 
     @Override
