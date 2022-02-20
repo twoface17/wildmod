@@ -45,7 +45,7 @@ public class WardenEntityDotFeatureRenderer extends EyesFeatureRenderer<WardenEn
         return ret;
     }
     private float colors(long time) {
-        float d = (float) ((float) 0.5*Math.cos((time*Math.PI)/60));
+        float d = (float) ((float) 0.5*Math.cos((time*Math.PI)/40));
         float a = MathHelper.clamp(d,0,1);
         return a;
     }
