@@ -9,10 +9,10 @@ public class RegisterSounds { //Register sound definitions
 
     /** BLOCKS **/
     //Deepslate Frame
-        public static SoundEvent BLOCK_DEEPSLATE_FRAME_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.step"));
-        public static SoundEvent BLOCK_DEEPSLATE_FRAME_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.break"));
-        public static SoundEvent BLOCK_DEEPSLATE_FRAME_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.place"));
-        public static SoundEvent BLOCK_DEEPSLATE_FRAME_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.deepslate_frame.hit"));
+        public static SoundEvent BLOCK_REINFORCED_DEEPSLATE_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.step"));
+        public static SoundEvent BLOCK_REINFORCED_DEEPSLATE_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.break"));
+        public static SoundEvent BLOCK_REINFORCED_DEEPSLATE_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.place"));
+        public static SoundEvent BLOCK_REINFORCED_DEEPSLATE_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.hit"));
     //Mud
         public static SoundEvent BLOCK_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.step"));
         public static SoundEvent BLOCK_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.break"));
@@ -86,6 +86,8 @@ public class RegisterSounds { //Register sound definitions
         public static SoundEvent ENTITY_WARDEN_EMERGE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.emerge"));
         public static SoundEvent ENTITY_WARDEN_HEARTBEAT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.heartbeat"));
         public static SoundEvent ENTITY_WARDEN_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.hurt"));
+        public static SoundEvent ENTITY_WARDEN_LISTENING = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.listening"));
+        public static SoundEvent ENTITY_WARDEN_LISTENING_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.listening_angry"));
         public static SoundEvent ENTITY_WARDEN_ROAR = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.roar"));
         public static SoundEvent ENTITY_WARDEN_SLIGHTLY_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.slightly_angry"));
         public static SoundEvent ENTITY_WARDEN_SNIFF = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.sniff"));
@@ -102,10 +104,10 @@ public class RegisterSounds { //Register sound definitions
     /** BLOCKS **/
 
         //Deepslate Frame
-        BLOCK_DEEPSLATE_FRAME_STEP = register(BLOCK_DEEPSLATE_FRAME_STEP.getId());
-        BLOCK_DEEPSLATE_FRAME_HIT = register(BLOCK_DEEPSLATE_FRAME_HIT.getId());
-        BLOCK_DEEPSLATE_FRAME_BREAK = register(BLOCK_DEEPSLATE_FRAME_BREAK.getId());
-        BLOCK_DEEPSLATE_FRAME_PLACE = register(BLOCK_DEEPSLATE_FRAME_PLACE.getId());
+        BLOCK_REINFORCED_DEEPSLATE_STEP = register(BLOCK_REINFORCED_DEEPSLATE_STEP.getId());
+        BLOCK_REINFORCED_DEEPSLATE_HIT = register(BLOCK_REINFORCED_DEEPSLATE_HIT.getId());
+        BLOCK_REINFORCED_DEEPSLATE_BREAK = register(BLOCK_REINFORCED_DEEPSLATE_BREAK.getId());
+        BLOCK_REINFORCED_DEEPSLATE_PLACE = register(BLOCK_REINFORCED_DEEPSLATE_PLACE.getId());
 
         //Mud
         BLOCK_MUD_STEP = register(BLOCK_MUD_STEP.getId());
@@ -190,6 +192,8 @@ public class RegisterSounds { //Register sound definitions
         ENTITY_WARDEN_EMERGE = register(ENTITY_WARDEN_EMERGE.getId());
         ENTITY_WARDEN_HEARTBEAT = register(ENTITY_WARDEN_HEARTBEAT.getId());
         ENTITY_WARDEN_HURT = register(ENTITY_WARDEN_HURT.getId());
+        ENTITY_WARDEN_LISTENING = register(ENTITY_WARDEN_LISTENING.getId());
+        ENTITY_WARDEN_LISTENING_ANGRY = register(ENTITY_WARDEN_LISTENING_ANGRY.getId());
         ENTITY_WARDEN_ROAR = register(ENTITY_WARDEN_ROAR.getId());
         ENTITY_WARDEN_SLIGHTLY_ANGRY = register(ENTITY_WARDEN_SLIGHTLY_ANGRY.getId());
         ENTITY_WARDEN_SNIFF = register(ENTITY_WARDEN_SNIFF.getId());

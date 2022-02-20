@@ -1,11 +1,11 @@
 {
 	"parent": "block/block",
 	"textures": {
-		"bottom": "block/sculk_shrieker_bottom",
-		"side": "block/sculk_shrieker_side",
-		"top": "block/sculk_shrieker_top",
-		"inner_top": "block/sculk_shrieker_inner_top",
-		"particle": "block/sculk_shrieker_bottom"
+		"bottom": "twm:block/sculk_shrieker_bottom",
+		"side": "twm:block/sculk_shrieker_side",
+		"top": "twm:block/sculk_shrieker_top",
+		"inner_top": "twm:block/sculk_shrieker_inner_top",
+		"particle": "twm:block/sculk_shrieker_bottom"
 	},
 	"elements": [
 		{

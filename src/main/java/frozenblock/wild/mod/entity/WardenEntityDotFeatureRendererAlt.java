@@ -17,13 +17,13 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LightType;
 
 @Environment(EnvType.CLIENT)
-public class WardenEntityDotFeatureRenderer extends EyesFeatureRenderer<WardenEntity, WardenEntityModel<WardenEntity>> {
+public class WardenEntityDotFeatureRendererAlt extends EyesFeatureRenderer<WardenEntity, WardenEntityModel<WardenEntity>> {
 
     private final RenderLayer OVERLAY;
 
-    public WardenEntityDotFeatureRenderer(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
+    public WardenEntityDotFeatureRendererAlt(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
-        OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_pulsating_spots_1.png"));
+        OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_pulsating_spots_2.png"));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class WardenEntityDotFeatureRenderer extends EyesFeatureRenderer<WardenEn
         return (int) ((MathHelper.clamp(d,0,1)) * 15728640);
     }
     private float colors(long time) {
-        float d = (float) (0.5 * Math.cos((time*Math.PI)/40));
+        float d = (float) (0.5 * -Math.cos((time*Math.PI)/40));
         return MathHelper.clamp(d,0,1);
     }
 
