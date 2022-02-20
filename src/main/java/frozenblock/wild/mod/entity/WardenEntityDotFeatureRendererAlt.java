@@ -22,7 +22,7 @@ public class WardenEntityDotFeatureRendererAlt extends EyesFeatureRenderer<Warde
 
     public WardenEntityDotFeatureRendererAlt(FeatureRendererContext<WardenEntity, WardenEntityModel<WardenEntity>> featureRendererContext) {
         super(featureRendererContext);
-        OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_pulsating_spots_1.png"));
+        OVERLAY = RenderLayer.getEyes(new Identifier(WildMod.MOD_ID, "textures/entity/warden/warden_pulsating_spots_2.png"));
     }
 
     @Override
