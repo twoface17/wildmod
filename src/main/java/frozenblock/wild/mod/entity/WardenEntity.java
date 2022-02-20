@@ -519,6 +519,11 @@ public class WardenEntity extends HostileEntity {
             return RegisterSounds.ENTITY_WARDEN_AMBIENT_UNDERGROUND;
         } return null;
     }
+
+    protected float getSoundVolume() {
+        return 4.0F;
+    }
+
     protected SoundEvent getDeathSound() { return RegisterSounds.ENTITY_WARDEN_DEATH; }
     protected boolean isDisallowedInPeaceful() { return false; }
     @Override
@@ -876,4 +881,5 @@ public class WardenEntity extends HostileEntity {
     public float tendrilAnimStartTime=-200;
 
     public int headRoll=0; //HAS VALUES OF 0,1,2,3 AND 4 - DERIVATIVE OF OVERALL ANGER
+
 }
