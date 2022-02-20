@@ -552,7 +552,6 @@ public class SculkShriekerBlock
                 }
             }
         }
-    }
 
     public static boolean findWarden(World world, BlockPos pos) {
         double x1 = pos.getX();
