@@ -1,5 +1,5 @@
 {
-	"biome.twm.deep_dark": "The Deep Dark",
+	"biome.twm.deep_dark": "Deep Dark",
 	"biome.twm.mangrove_swamp": "Mangrove Swamp",
 	"block.twm.reinforced_deepslate": "Reinforced Deepslate",
 	"block.twm.frog_spawn": "Frog Spawn",
@@ -17,6 +17,7 @@
 	"block.twm.mangrove_stairs": "Mangrove Stairs",
 	"block.twm.mangrove_trapdoor": "Mangrove Trapdoor",
 	"block.twm.mangrove_wood": "Mangrove Wood",
+	"block.twm.roots": "Roots",
 	"block.twm.mud_block": "Mud",
 	"block.twm.mud_brick_slab": "Mud Brick Slab",
 	"block.twm.mud_brick_stairs": "Mud Brick Stairs",

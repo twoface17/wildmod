@@ -2,6 +2,7 @@ package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.*;
+import frozenblock.wild.mod.blocks.mangrove.RootsBlock;
 import frozenblock.wild.mod.items.FrogSpawnItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -83,6 +84,7 @@ public abstract class RegisterBlocks {
     // ALL BLOCKS HERE HAVE NO COLLISION
     public static final Block FROG_SPAWN = new FrogSpawnBlock(FROG_SPAWN_PROPERTIES.nonOpaque().noCollision());
     public static final Block SCULK_VEIN = SculkVeinBlock.SCULK_VEIN;
+    public static final Block ROOTS = RootsBlock.ROOTS;
 
     public static void RegisterBlocks() {
 
@@ -131,5 +133,9 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "ochre_froglight"), new BlockItem(OCHRE_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         MangroveWoods.RegisterMangrove();
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "roots"), ROOTS);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "roots"), new BlockItem(ROOTS, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+
     }
 }

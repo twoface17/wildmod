@@ -1,0 +1,150 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "up": "true"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "x": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "x": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "twm:block/roots"
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "twm:block/roots"
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "down": "true"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "x": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "twm:block/roots",
+        "x": 90,
+        "uvlock": true
+      }
+    }
+  ]
+}
