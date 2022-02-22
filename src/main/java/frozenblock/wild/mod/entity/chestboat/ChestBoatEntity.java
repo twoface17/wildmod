@@ -98,7 +98,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     public ChestBoatEntity(EntityType<? extends ChestBoatEntity> type, World world) {
         super(type, world);
         this.paddlePhases = new float[2];
-        this.inanimate = true;
+        this.intersectionChecked = true;
         this.inventory = DefaultedList.ofSize(36, ItemStack.EMPTY);
     }
 

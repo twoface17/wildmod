@@ -84,7 +84,7 @@ public class MangroveBoatEntity extends Entity {
     public MangroveBoatEntity(EntityType<? extends MangroveBoatEntity> type, World world) {
         super(type, world);
         this.paddlePhases = new float[2];
-        this.inanimate = true;
+        this.intersectionChecked = true;
     }
 
     public MangroveBoatEntity(World world, double x, double y, double z) {

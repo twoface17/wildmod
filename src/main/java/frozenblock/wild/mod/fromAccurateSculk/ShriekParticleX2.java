@@ -49,7 +49,7 @@ public class ShriekParticleX2 extends AbstractSlowingParticle {
             vec3f.rotate(quaternion);
             vec3f.scale((float) (((this.age)/(9.8))/7));
             vec3f.add(g, h, i);
-            this.setColorAlpha((float)(this.age-this.maxAge)*6);
+            this.setAlpha((float)(this.age-this.maxAge)*6);
         }
 
         float l = this.getMinU();
@@ -57,10 +57,10 @@ public class ShriekParticleX2 extends AbstractSlowingParticle {
         float m = this.getMinV();
         float n = this.getMaxV();
         int o = this.getBrightness(f);
-        vertexConsumer.vertex((double)vec3fs[0].getX(), (double)vec3fs[0].getY(), (double)vec3fs[0].getZ()).texture(vec3f, n).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(o).next();
-        vertexConsumer.vertex((double)vec3fs[1].getX(), (double)vec3fs[1].getY(), (double)vec3fs[1].getZ()).texture(vec3f, m).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(o).next();
-        vertexConsumer.vertex((double)vec3fs[2].getX(), (double)vec3fs[2].getY(), (double)vec3fs[2].getZ()).texture(l, m).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(o).next();
-        vertexConsumer.vertex((double)vec3fs[3].getX(), (double)vec3fs[3].getY(), (double)vec3fs[3].getZ()).texture(l, n).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(o).next();
+        vertexConsumer.vertex((double)vec3fs[0].getX(), (double)vec3fs[0].getY(), (double)vec3fs[0].getZ()).texture(vec3f, n).color(this.red, this.green, this.blue, this.alpha).light(o).next();
+        vertexConsumer.vertex((double)vec3fs[1].getX(), (double)vec3fs[1].getY(), (double)vec3fs[1].getZ()).texture(vec3f, m).color(this.red, this.green, this.blue, this.alpha).light(o).next();
+        vertexConsumer.vertex((double)vec3fs[2].getX(), (double)vec3fs[2].getY(), (double)vec3fs[2].getZ()).texture(l, m).color(this.red, this.green, this.blue, this.alpha).light(o).next();
+        vertexConsumer.vertex((double)vec3fs[3].getX(), (double)vec3fs[3].getY(), (double)vec3fs[3].getZ()).texture(l, n).color(this.red, this.green, this.blue, this.alpha).light(o).next();
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ShriekParticleX2 extends AbstractSlowingParticle {
         @Override
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
             ShriekParticleX2 shriekParticle2 = new ShriekParticleX2(clientWorld, d, e, f, g, h, i, this.spriteProvider);
-            shriekParticle2.setColorAlpha(1.0f);
+            shriekParticle2.setAlpha(1.0f);
             return shriekParticle2;
         }
     }
