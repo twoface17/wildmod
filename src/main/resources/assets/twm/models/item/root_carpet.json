@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "twm:block/roots"
+    "layer0": "twm:block/root_carpet"
   }
 }

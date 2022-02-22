@@ -17,10 +17,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.ToIntFunction;
 
-public class RootsBlock extends GlowLichenBlock implements Waterloggable {
+public class RootCarpetBlock extends GlowLichenBlock implements Waterloggable {
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
-    public RootsBlock(Settings settings) {
+    public RootCarpetBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(WATERLOGGED, false).with(Properties.DOWN, true).with(Properties.UP, false));
     }
@@ -51,7 +51,7 @@ public class RootsBlock extends GlowLichenBlock implements Waterloggable {
 
     @Override
     public boolean canReplace(BlockState blockState, ItemPlacementContext itemPlacementContext) {
-        return !itemPlacementContext.getStack().isOf(ROOTS.asItem()) || super.canReplace(blockState, itemPlacementContext);
+        return !itemPlacementContext.getStack().isOf(ROOT_CARPET.asItem()) || super.canReplace(blockState, itemPlacementContext);
     }
 
 
@@ -68,7 +68,7 @@ public class RootsBlock extends GlowLichenBlock implements Waterloggable {
         return blockState.getFluidState().isEmpty();
     }
 
-    public static final GlowLichenBlock ROOTS = new GlowLichenBlock(Settings.of(Material.REPLACEABLE_PLANT, MapColor.CYAN).ticksRandomly().nonOpaque().noCollision().strength(0.2f).sounds(new BlockSoundGroup(0.8f, 1.0f,
+    public static final GlowLichenBlock ROOT_CARPET = new GlowLichenBlock(Settings.of(Material.REPLACEABLE_PLANT, MapColor.CYAN).ticksRandomly().nonOpaque().noCollision().strength(0.2f).sounds(new BlockSoundGroup(0.8f, 1.0f,
             RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
             RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
             RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
