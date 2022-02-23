@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "twm:mangrove_roots"
+    },
+    {
+      "item": "twm:mud_block"
+    }
+  ],
+  "result": {
+    "item": "twm:rooted_mud",
+    "count": 1
+  }
+}
