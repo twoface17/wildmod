@@ -44,7 +44,7 @@ public class SculkSoul extends AbstractSlowingParticle {
 @Override
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
             SculkSoul sculkSoul = new SculkSoul(clientWorld, d, e, f, g, h, i, this.spriteProvider);
-            sculkSoul.setColorAlpha(1.0F);
+            sculkSoul.setAlpha(1.0F);
             return sculkSoul;
         }
     }
