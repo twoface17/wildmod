@@ -2,7 +2,7 @@ package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
-import frozenblock.wild.mod.blocks.mangrove.RootCarpetBlock;
+import frozenblock.wild.mod.blocks.RootedMudBlock;
 import frozenblock.wild.mod.entity.*;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityModel;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityRenderer;
@@ -68,8 +68,6 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_PROPAGULE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(SculkVeinBlock.SCULK_VEIN, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.FROG_SPAWN, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(RootCarpetBlock.ROOT_CARPET, RenderLayer.getCutout());
-
 
         EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_WARDEN_LAYER, WardenEntityModel::getTexturedModelData);
