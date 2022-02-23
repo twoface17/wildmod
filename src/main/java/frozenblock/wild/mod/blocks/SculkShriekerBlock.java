@@ -527,8 +527,9 @@ public class SculkShriekerBlock
                                     BlockPos currentCheck;
                                     while(var11.hasNext()) {
                                         currentCheck = var11.next();
-                                    if (world.isSkyVisible(currentCheck.up()) && !world.isNight()) {
-                                        world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 0.4F, 0.8F);
+                                        if (world.isSkyVisible(currentCheck.up()) && !world.isNight()) {
+                                            world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 0.4F, 0.8F);
+                                        }
                                     }
                                     currentCheck=getRandomSpawnable(candidates,world,new Random());
                                     if (currentCheck!=null) {
@@ -541,8 +542,6 @@ public class SculkShriekerBlock
                                         warden.leaveTime = world.getTime() + 1200;
                                         warden.setPersistent();
                                         world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
-                                        break;
-                                    }
                                     }
                                 }
                             }
