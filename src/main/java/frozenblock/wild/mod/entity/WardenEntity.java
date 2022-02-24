@@ -28,6 +28,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -507,6 +508,7 @@ public class WardenEntity extends HostileEntity {
             this.leaveTime=this.world.getTime()+1200;
         }
     }
+    protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(RegisterSounds.ENTITY_WARDEN_STEP, 10.0F, 1.0F); }
     protected SoundEvent getHurtSound(DamageSource source) {return RegisterSounds.ENTITY_WARDEN_HURT;}
     protected SoundEvent getStepSound() {return RegisterSounds.ENTITY_WARDEN_STEP;}
     public EntityGroup getGroup() {
