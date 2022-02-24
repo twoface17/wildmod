@@ -499,6 +499,9 @@ public class WardenEntity extends HostileEntity {
     }
 
     /** OVERRIDES & NON-WARDEN-SPECIFIC */
+    protected float calculateNextStepSoundDistance() {
+        return this.distanceTraveled + 0.55F;
+    }
     protected SoundEvent getHurtSound(DamageSource source) {return RegisterSounds.ENTITY_WARDEN_HURT;}
     protected SoundEvent getStepSound() {return RegisterSounds.ENTITY_WARDEN_STEP;}
     public EntityGroup getGroup() {
