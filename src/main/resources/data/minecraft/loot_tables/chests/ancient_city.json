@@ -14,19 +14,6 @@
           "weight": 2,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly",
-              "enchantments": [
-                "twm:swift_sneak"
-              ]
-            }
-          ],
-          "name": "minecraft:book"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "functions": [
-            {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
