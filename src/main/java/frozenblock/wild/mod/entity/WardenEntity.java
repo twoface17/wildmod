@@ -70,6 +70,13 @@ public class WardenEntity extends HostileEntity {
             if (this.roarTicksLeft1 > 0) {
                 --this.roarTicksLeft1;
                 this.getNavigation().stop();
+                LivingEntity lastEvent = this.getTrackingEntityForRoarNavigation();
+                if (lastEvent!=null) {
+                    this.lookX = lastEvent.getX();
+                    this.lookY = lastEvent.getY();
+                    this.lookZ = lastEvent.getZ();
+                }
+                this.leaveTime=this.world.getTime()+1200;
             }
             if (this.roarTicksLeft1==0) {
                 this.roarTicksLeft1=-1;
@@ -128,6 +135,11 @@ public class WardenEntity extends HostileEntity {
             this.world.sendEntityStatus(this, (byte)8);
         }
         if (this.world.getTime()-this.timeSinceNonEntity>300 && this.nonEntityAnger>0) { --this.nonEntityAnger; }
+        //Looking
+        if (this.leaveTime-this.world.getTime() >= 1040) {
+            this.getLookControl().lookAt(this.lookX, this.lookY, this.lookZ);
+        }
+        //Client-Side Things
         if (world.isClient) {
             if (world.getLightLevel(LightType.BLOCK, this.getBlockPos())!=this.lastLightLevel) {
                 int light = world.getLightLevel(LightType.BLOCK, this.getBlockPos());
@@ -432,6 +444,9 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("ticksToWander", this.ticksToWander);
         nbt.putInt("wanderTicksLeft", this.wanderTicksLeft);
         nbt.putBoolean("canSniff", this.canSniff);
+        nbt.putDouble("lookX", this.lookX);
+        nbt.putDouble("lookY", this.lookY);
+        nbt.putDouble("lookZ", this.lookZ);
     }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -465,6 +480,9 @@ public class WardenEntity extends HostileEntity {
         this.wanderTicksLeft = nbt.getInt("wanderTicksLeft");
         this.ticksToWander = nbt.getInt("ticksToWander");
         this.canSniff = nbt.getBoolean("canSniff");
+        this.lookX = nbt.getDouble("lookX");
+        this.lookY = nbt.getDouble("lookY");
+        this.lookZ = nbt.getDouble("lookZ");
     }
 
     public int getRoarTicksLeft1() {return this.roarTicksLeft1;}
@@ -506,14 +524,15 @@ public class WardenEntity extends HostileEntity {
     public void onPlayerCollision(PlayerEntity player) {
         if (this.age % 20 == 0) { this.addSuspicion(player,10);
             this.leaveTime=this.world.getTime()+1200;
+            this.lookX=player.getX();
+            this.lookY=player.getY();
+            this.lookZ=player.getZ();
         }
     }
     protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(RegisterSounds.ENTITY_WARDEN_STEP, 10.0F, 1.0F); }
     protected SoundEvent getHurtSound(DamageSource source) {return RegisterSounds.ENTITY_WARDEN_HURT;}
     protected SoundEvent getStepSound() {return RegisterSounds.ENTITY_WARDEN_STEP;}
-    public EntityGroup getGroup() {
-        return EntityGroup.UNDEAD;
-    }
+    public EntityGroup getGroup() { return EntityGroup.UNDEAD; }
     protected SoundEvent getAmbientSound() {
         if (this.emergeTicksLeft != -5) {
             if (this.trueOverallAnger() < 15) {
@@ -528,9 +547,7 @@ public class WardenEntity extends HostileEntity {
         } return null;
     }
 
-    protected float getSoundVolume() {
-        return 4.0F;
-    }
+    protected float getSoundVolume() { return 4.0F; }
 
     protected SoundEvent getDeathSound() { return RegisterSounds.ENTITY_WARDEN_DEATH; }
     protected boolean isDisallowedInPeaceful() { return false; }
@@ -712,6 +729,9 @@ public class WardenEntity extends HostileEntity {
                 this.lasteventpos=sniffEntity.getBlockPos();
                 this.lasteventworld=this.getWorld();
                 this.lastevententity=sniffEntity;
+                this.lookX=this.lastevententity.getX();
+                this.lookY=this.lastevententity.getY();
+                this.lookZ=this.lastevententity.getZ();
             }
         }
     }
@@ -745,6 +765,9 @@ public class WardenEntity extends HostileEntity {
         if (this.emergeTicksLeft != -5) {
             LivingEntity eventEntity = this.getVibrationEntity();
             this.lasteventpos = new BlockPos(this.vibX, this.vibY, this.vibZ);
+            this.lookX=this.vibX;
+            this.lookY=this.vibY;
+            this.lookZ=this.vibZ;
             int suspicion = this.queuedSuspicion;
             if (eventEntity != null) {
                 this.lastevententity = eventEntity;
@@ -797,6 +820,9 @@ public class WardenEntity extends HostileEntity {
     public int ticksToWander;
     public int wanderTicksLeft;
     public boolean canSniff;
+    public double lookX;
+    public double lookY;
+    public double lookZ;
     //Lists & Entity Tracking
     public IntArrayList entityList = new IntArrayList();
     public IntArrayList susList = new IntArrayList();
