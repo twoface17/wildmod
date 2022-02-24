@@ -514,7 +514,6 @@ public class WardenEntity extends HostileEntity {
     public EntityGroup getGroup() {
         return EntityGroup.UNDEAD;
     }
-    protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(this.getStepSound(), 1.0F, 1.0F); }
     protected SoundEvent getAmbientSound() {
         if (this.emergeTicksLeft != -5) {
             if (this.trueOverallAnger() < 15) {
