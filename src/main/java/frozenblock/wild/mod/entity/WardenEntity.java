@@ -502,6 +502,11 @@ public class WardenEntity extends HostileEntity {
     protected float calculateNextStepSoundDistance() {
         return this.distanceTraveled + 0.55F;
     }
+    public void onPlayerCollision(PlayerEntity player) {
+        if (this.age % 20 == 0) { this.addSuspicion(player,10);
+            this.leaveTime=this.world.getTime()+1200;
+        }
+    }
     protected SoundEvent getHurtSound(DamageSource source) {return RegisterSounds.ENTITY_WARDEN_HURT;}
     protected SoundEvent getStepSound() {return RegisterSounds.ENTITY_WARDEN_STEP;}
     public EntityGroup getGroup() {
