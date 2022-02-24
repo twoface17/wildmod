@@ -522,8 +522,9 @@ public class WardenEntity extends HostileEntity {
         return this.distanceTraveled + 0.55F;
     }
     public void onPlayerCollision(PlayerEntity player) {
-        if (this.age % 20 == 0) { this.addSuspicion(player,10);
-            this.leaveTime=this.world.getTime()+1200;
+        if (this.age % 20 == 0) {
+            if (!player.getAbilities().creativeMode) {this.addSuspicion(player,10);
+            this.leaveTime=this.world.getTime()+1200; }
             this.lookX=player.getX();
             this.lookY=player.getY();
             this.lookZ=player.getZ();
