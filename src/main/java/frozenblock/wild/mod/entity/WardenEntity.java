@@ -28,6 +28,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -101,7 +102,7 @@ public class WardenEntity extends HostileEntity {
             this.tickVibration();
             if (this.ticksToDarkness > 0) { --this.ticksToDarkness; }
             if (this.ticksToDarkness==0) {
-                this.sendDarkness(48, this.getBlockPos(), this.world);
+                this.sendDarkness(20, this.getBlockPos(), this.world);
                 this.ticksToDarkness=100;
             }
             if (this.attackNearCooldown>0) { --this.attackNearCooldown; }
@@ -499,12 +500,20 @@ public class WardenEntity extends HostileEntity {
     }
 
     /** OVERRIDES & NON-WARDEN-SPECIFIC */
+    protected float calculateNextStepSoundDistance() {
+        return this.distanceTraveled + 0.55F;
+    }
+    public void onPlayerCollision(PlayerEntity player) {
+        if (this.age % 20 == 0) { this.addSuspicion(player,10);
+            this.leaveTime=this.world.getTime()+1200;
+        }
+    }
+    protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(RegisterSounds.ENTITY_WARDEN_STEP, 10.0F, 1.0F); }
     protected SoundEvent getHurtSound(DamageSource source) {return RegisterSounds.ENTITY_WARDEN_HURT;}
     protected SoundEvent getStepSound() {return RegisterSounds.ENTITY_WARDEN_STEP;}
     public EntityGroup getGroup() {
         return EntityGroup.UNDEAD;
     }
-    protected void playStepSound(BlockPos pos, BlockState state) { this.playSound(this.getStepSound(), 1.0F, 1.0F); }
     protected SoundEvent getAmbientSound() {
         if (this.emergeTicksLeft != -5) {
             if (this.trueOverallAnger() < 15) {
@@ -678,14 +687,14 @@ public class WardenEntity extends HostileEntity {
     public void sendDarkness(int dist, BlockPos blockPos, World world) {
         if (world instanceof ServerWorld) {
             if (world.getGameRules().getBoolean(WildMod.DARKNESS_ENABLED)) {
-                Box box = (new Box(blockPos.add(-50, -50, -50), blockPos.add(50, 50, 50)));
+                Box box = (new Box(blockPos.add(-22, -22, -22), blockPos.add(22, 22, 22)));
                 List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
                 Iterator<PlayerEntity> var11 = list.iterator();
                 PlayerEntity playerEntity;
                 while (var11.hasNext()) {
                     playerEntity = var11.next();
                     if (!playerEntity.getAbilities().creativeMode && playerEntity.getBlockPos().isWithinDistance(blockPos, (dist + 1))) {
-                        playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 300, 3, true, false, false));
+                        playerEntity.addStatusEffect(new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 640, 3, true, false, false));
                     }
                 }
             }
