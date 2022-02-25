@@ -122,8 +122,8 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float t = 2; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
 
-        float bodyY = -21;
-        float legY = -13;
+        float bodyY = 3;
+        float legY = 11;
         float armY = -13;
         float headY = -13; //Default pivots
 
