@@ -75,6 +75,9 @@ public class WardenEntity extends HostileEntity {
                 if (lastEvent!=null) {this.getLookControl().lookAt(lastEvent);}
                 this.leaveTime=this.world.getTime()+1200;
             }
+            if (this.roarTicksLeft1==26) {
+                this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_ROAR, SoundCategory.HOSTILE, 1F, 1F);
+            }
             if (this.roarTicksLeft1==0) {
                 this.roarTicksLeft1=-1;
                 this.world.sendEntityStatus(this, (byte)14);
@@ -258,7 +261,6 @@ public class WardenEntity extends HostileEntity {
                     this.susList.set(slot, this.susList.getInt(slot) + suspicion);
                     if (this.susList.getInt(slot) >= 45 && this.getTrackingEntity() == null) {
                         this.trackingEntity = entity.getUuidAsString();
-                        this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_ROAR, SoundCategory.HOSTILE, 1F, 1F);
                         this.roar();
                     }
                 } else { this.entityList.add(entity.getUuid().hashCode());
