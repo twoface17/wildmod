@@ -88,10 +88,17 @@ public class WardenEntity extends HostileEntity {
                     this.movementPriority=3;
                 } else {this.movementPriority=0;}
             }
-            if (this.world.getTime() - this.vibrationTimer <= 19 && this.roarOtherCooldown <= 0 && this.movementPriority<=2) {
+            if (this.world.getTime() - this.vibrationTimer <= 100 && this.roarOtherCooldown <= 0 && this.movementPriority<=2) {
                 LivingEntity lastEvent = this.getVibrationEntity();
                 if (lastEvent!=null) {
-                    if (this.getSuspicion(lastEvent)>30) {
+                    if (this.getSuspicion(lastEvent)>30 && this.world.getTime() - this.vibrationTimer <= 19) {
+                        this.getNavigation().stop();
+                        BlockPos entityPos = lastEvent.getBlockPos();
+                        this.getNavigation().startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(lastEvent), 0, 50) * 0.01) + (this.trueOverallAnger() * 0.0045)));
+                        this.getLookControl().lookAt(lastEvent);
+                        this.movementPriority = 2;
+                    }
+                    if (this.getSuspicion(lastEvent)>44) {
                         this.getNavigation().stop();
                         BlockPos entityPos = lastEvent.getBlockPos();
                         this.getNavigation().startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(lastEvent), 0, 50) * 0.01) + (this.trueOverallAnger() * 0.0045)));
