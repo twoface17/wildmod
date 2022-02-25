@@ -173,6 +173,12 @@ public class WardenEntity extends HostileEntity {
         } else if(!this.isAiDisabled() && status == 5) { //Emerging
             this.emergeTicksLeft=150;
             this.hasEmerged=false;
+            PlayerEntity player = this.world.getClosestPlayer(this, 48);
+            if (player!=null) {
+                this.lookX=player.getX();
+                this.lookZ=player.getZ();
+                this.lookY=this.getEyeY();
+            }
             world.playSound(null, this.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
         } else if(!this.isAiDisabled() && status == 6) { //Digging Back
             this.emergeTicksLeft=60;
