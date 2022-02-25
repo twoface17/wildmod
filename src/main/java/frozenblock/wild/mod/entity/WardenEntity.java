@@ -66,16 +66,13 @@ public class WardenEntity extends HostileEntity {
 
     public void tickMovement() {
         if (!this.isAiDisabled()) {
+            if (this.leaveTime-this.world.getTime() >= 1040) {this.getLookControl().lookAt(this.lookX, this.lookY, this.lookZ);}
             if (this.attackTicksLeft1 > 0) { --this.attackTicksLeft1; }
             if (this.roarTicksLeft1 > 0) {
                 --this.roarTicksLeft1;
                 this.getNavigation().stop();
                 LivingEntity lastEvent = this.getTrackingEntityForRoarNavigation();
-                if (lastEvent!=null) {
-                    this.lookX = lastEvent.getX();
-                    this.lookY = lastEvent.getY();
-                    this.lookZ = lastEvent.getZ();
-                }
+                if (lastEvent!=null) {this.getLookControl().lookAt(lastEvent);}
                 this.leaveTime=this.world.getTime()+1200;
             }
             if (this.roarTicksLeft1==0) {
@@ -87,6 +84,7 @@ public class WardenEntity extends HostileEntity {
                 if (lastEvent!=null) {
                     BlockPos roarPos = lastEvent.getBlockPos();
                     this.getNavigation().startMovingTo(roarPos.getX(), roarPos.getY(), roarPos.getZ(), (speed + (45 * 0.01) + (45 * 0.002)));
+                    this.getLookControl().lookAt(lastEvent);
                     this.movementPriority=3;
                 } else {this.movementPriority=0;}
             }
@@ -97,6 +95,7 @@ public class WardenEntity extends HostileEntity {
                         this.getNavigation().stop();
                         BlockPos entityPos = lastEvent.getBlockPos();
                         this.getNavigation().startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(lastEvent), 0, 50) * 0.01) + (this.trueOverallAnger() * 0.0045)));
+                        this.getLookControl().lookAt(lastEvent);
                         this.movementPriority = 2;
                     }
                 } else {this.movementPriority=0;}
@@ -135,10 +134,6 @@ public class WardenEntity extends HostileEntity {
             this.world.sendEntityStatus(this, (byte)8);
         }
         if (this.world.getTime()-this.timeSinceNonEntity>300 && this.nonEntityAnger>0) { --this.nonEntityAnger; }
-        //Looking
-        if (this.leaveTime-this.world.getTime() >= 1040) {
-            this.getLookControl().lookAt(this.lookX, this.lookY, this.lookZ);
-        }
         //Client-Side Things
         if (world.isClient) {
             if (world.getLightLevel(LightType.BLOCK, this.getBlockPos())!=this.lastLightLevel) {
@@ -523,8 +518,8 @@ public class WardenEntity extends HostileEntity {
     }
     public void onPlayerCollision(PlayerEntity player) {
         if (this.age % 20 == 0) {
-            if (!player.getAbilities().creativeMode) {this.addSuspicion(player,10);
-            this.leaveTime=this.world.getTime()+1200; }
+            if (!player.getAbilities().creativeMode) {this.addSuspicion(player,10);}
+            this.leaveTime=this.world.getTime()+1200;
             this.lookX=player.getX();
             this.lookY=player.getY();
             this.lookZ=player.getZ();
