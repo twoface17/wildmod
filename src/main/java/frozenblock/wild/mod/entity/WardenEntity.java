@@ -75,7 +75,7 @@ public class WardenEntity extends HostileEntity {
                 if (lastEvent!=null) {this.getLookControl().lookAt(lastEvent);}
                 this.leaveTime=this.world.getTime()+1200;
             }
-            if (this.roarTicksLeft1==26) {
+            if (this.roarTicksLeft1==18) {
                 this.world.playSound(null, this.getBlockPos().up(), RegisterSounds.ENTITY_WARDEN_ROAR, SoundCategory.HOSTILE, 1F, 1F);
             }
             if (this.roarTicksLeft1==0) {
