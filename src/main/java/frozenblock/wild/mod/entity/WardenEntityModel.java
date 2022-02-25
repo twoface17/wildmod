@@ -718,10 +718,10 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             if (!canAttack) {
                 //Head
                 this.head.pitch = headPitch * 0.017453292F;
-                this.head.yaw = headYaw * 0.017453292F;
                 this.head.pitch += 0.06F * r;
                 this.head.pitch += 1.2F * Math.cos(n + 1.5707964F) * s;
-                this.head.roll += 0.06F * q;
+                this.head.yaw = headYaw * 0.017453292F;
+                this.head.roll = 0.06F * q;
                 this.head.roll += 0.3F * p * l;
 
                 //Body
