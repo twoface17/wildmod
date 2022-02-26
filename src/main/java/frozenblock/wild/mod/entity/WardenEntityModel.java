@@ -121,6 +121,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float s = Math.min(0.35F, l);
         float t = 2; //Multiplier for animation length
         float j = (float) (180 / PI); //Converts degrees to radians
+        float u = -((entity.vibrationTimer - entity.world.getTime()) / j) * (float)(Math.cos(Math.cos((double)animationProgress * 2.25D) * 3.141592653589793D * 0.10000000149011612D));
 
         float bodyY = 3;
         float legY = 11;
@@ -128,45 +129,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float headY = -13; //Default pivots
 
 //Animations by Merp. DO NOT STEAL. (though it's not like you could even if you tried)
-
-        /* TENDRIL CLICK */
-        if (canTendril) {
-            //Left Tendril
-            this.left_tendril.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 35 / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.13f, -65.24f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.13f, t * 0.22f, 49.2f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.22f, t * 0.31f, -26.64f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.31f, t * 0.4f, 9.07f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.4f, t * 0.49f, -1.39f / j, tendrilTime)
-            );
-            this.left_tendril.yaw = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 35 / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.13f, -65.24f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.13f, t * 0.22f, 49.2f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.22f, t * 0.31f, -26.64f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.31f, t * 0.4f, 9.07f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.4f, t * 0.49f, -1.39f / j, tendrilTime)
-            );
-            //Right Tendril
-            this.right_tendril.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 35 / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.13f, -65.24f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.13f, t * 0.22f, 49.2f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.22f, t * 0.31f, -26.64f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.31f, t * 0.4f, 9.07f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.4f, t * 0.49f, -1.39f / j, tendrilTime)
-            );
-            this.right_tendril.yaw = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, -35 / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.13f, 65.24f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.13f, t * 0.22f, -49.2f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.22f, t * 0.31f, 26.64f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.31f, t * 0.4f, -9.07f / j, tendrilTime) +
-                    AnimationAPI.easeInOutSine(t * 0.4f, t * 0.49f, 1.39f / j, tendrilTime)
-            );
-        } else {
-            this.right_tendril.pitch = 0;
-            this.right_tendril.yaw = 0;
-            this.left_tendril.pitch = 0;
-            this.left_tendril.yaw = 0;
-        }
 
         /* EMERGE */
         if (canEmerge) {
@@ -724,8 +686,11 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                 this.head.roll = 0.06F * q;
                 this.head.roll += 0.3F * p * l;
 
-                //Body
+                //Tendrils
+                this.left_tendril.pitch = u;
+                this.right_tendril.pitch= -u;
 
+                //Body
                 this.body.pitch = 1.0F * o * s;
                 this.body.pitch += 0.025F * q;
                 this.body.roll = 0.1F * p * l;
@@ -744,7 +709,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
 
                 //Left Leg
                 this.left_leg.pitch = 1.0F * o * l;
-
             }
         } else if (canAttack) {
             //Head
