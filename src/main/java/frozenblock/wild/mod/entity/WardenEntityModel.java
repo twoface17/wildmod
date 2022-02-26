@@ -128,7 +128,44 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         float armY = -13;
         float headY = -13; //Default pivots
 
-//Animations by Merp. DO NOT STEAL. (though it's not like you could even if you tried)
+        /* TENDRIL CLICK */
+        if (canTendril) {
+            //Left Tendril
+            this.left_tendril.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 35 / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.13f, -65.24f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.13f, t * 0.22f, 49.2f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.22f, t * 0.31f, -26.64f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.31f, t * 0.4f, 9.07f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 0.49f, -1.39f / j, tendrilTime)
+            );
+            this.left_tendril.yaw = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 35 / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.13f, -65.24f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.13f, t * 0.22f, 49.2f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.22f, t * 0.31f, -26.64f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.31f, t * 0.4f, 9.07f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 0.49f, -1.39f / j, tendrilTime)
+            );
+            //Right Tendril
+            this.right_tendril.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, 35 / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.13f, -65.24f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.13f, t * 0.22f, 49.2f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.22f, t * 0.31f, -26.64f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.31f, t * 0.4f, 9.07f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 0.49f, -1.39f / j, tendrilTime)
+            );
+            this.right_tendril.yaw = (AnimationAPI.easeInOutSine(t * 0f, t * 0.04f, -35 / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.04f, t * 0.13f, 65.24f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.13f, t * 0.22f, -49.2f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.22f, t * 0.31f, 26.64f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.31f, t * 0.4f, -9.07f / j, tendrilTime) +
+                    AnimationAPI.easeInOutSine(t * 0.4f, t * 0.49f, 1.39f / j, tendrilTime)
+            );
+        } else {
+            this.right_tendril.pitch = 0;
+            this.right_tendril.yaw = 0;
+            this.left_tendril.pitch = 0;
+            this.left_tendril.yaw = 0;
+        }
 
         /* EMERGE */
         if (canEmerge) {
@@ -149,192 +186,208 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
             this.right_leg.pitch = 0;
 
             //Body
-            this.body.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 2.8f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.8f, t * 3.88f, 55f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.88f, t * 4.68f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.68f, t * 5.76f, 12.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.76f, t * 6.52f, -67.5f / j, emergeTime)
+            this.body.pitch = (AnimationAPI.linear(t * 0f, t * 2.88f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.88f, t * 3.76f, 25f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.76f, t * 3.92f, 10f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.92f, t * 4.08f, -10f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.08f, t * 4.44f, 22.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.44f, t * 4.68f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.68f, t * 5f, 22.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5f, t * 5.8f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.8f, t * 6.64f, -70f / j, emergeTime)
             );
-            this.body.roll = -10 / j + (AnimationAPI.easeInOutSine(t * 0f, t * 0.48f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.48f, t * 0.96f, -7.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.96f, t * 1.36f, 7f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, 10.5f / j, emergeTime)
+            this.body.roll = (AnimationAPI.linear(t * 0f, t * 0.52f, -22.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 0.52f, t * 1.2f, 15f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.2f, t * 1.68f, 17.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.68f, t * 2.88f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.88f, t * 3.76f, -17.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.76f, t * 4.08f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.08f, t * 4.44f, 7.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.44f, t * 4.68f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.68f, t * 5f, 2.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5f, t * 5.8f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.8f, t * 6.64f, -2.5f / j, emergeTime)
             );
-            this.body.pivotY = bodyY + 73 + (AnimationAPI.easeInOutSine(t * 0f, t * 0.64f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.64f, t * 1.08f, -42f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.08f, t * 2.76f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.76f, t * 3.88f, -21f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.88f, t * 4.12f, +1f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 4.12f, t * 4.68f, -5f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 4.68f, t * 4.92f, +1f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.92f, t * 5.28f, -7f, emergeTime)
+            this.body.pivotY = bodyY + 63 + (AnimationAPI.linear(t * 0f, t * 0.52f, -7f, emergeTime) +
+                    AnimationAPI.linear(t * 0.52f, t * 1.2f, -24f, emergeTime) +
+                    AnimationAPI.linear(t * 1.2f, t * 2.88f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 2.88f, t * 3.16f, -9f, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.76f, -10f, emergeTime) +
+                    AnimationAPI.linear(t * 3.76f, t * 3.92f, -3f, emergeTime) +
+                    AnimationAPI.linear(t * 3.92f, t * 4.08f, 3f, emergeTime) +
+                    AnimationAPI.linear(t * 4.08f, t * 4.44f, -8f, emergeTime) +
+                    AnimationAPI.linear(t * 4.44f, t * 4.56f, -2f, emergeTime) +
+                    AnimationAPI.linear(t * 4.56f, t * 4.68f, 2f, emergeTime) +
+                    AnimationAPI.linear(t * 4.68f, t * 5f, -3f, emergeTime) +
+                    AnimationAPI.linear(t * 5f, t * 5.8f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 5.8f, t * 6.64f, -3f, emergeTime)
             );
             //Head
-            this.head.pitch = 95 / j + (AnimationAPI.easeInOutSine(t * 0f, t * 0.48f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.48f, t * 0.96f, -45f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.96f, t * 1.28f, -108f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.28f, t * 1.56f, 33f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.56f, t * 1.8f, -10f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.8f, t * 1.92f, 18.3f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.92f, t * 2.08f, -13.3f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.08f, t * 2.24f, 7.15f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.24f, t * 2.48f, -2.15f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.48f, t * 3.04f, 92.5f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 3.04f, t * 3.88f, -15f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.88f, t * 4.8f, -16f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.8f, t * 5.76f, 5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.76f, t * 6.76f, -41.5f / j, emergeTime)
+            this.head.pitch = 95 / j + (AnimationAPI.linear(t * 0f, t * 0.48f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 0.48f, t * 0.96f, -45f / j, emergeTime) +
+                    AnimationAPI.linear(t * 0.96f, t * 1.28f, -108f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.28f, t * 1.56f, 33f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.56f, t * 1.8f, -10f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.8f, t * 1.92f, 18.3f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.92f, t * 2.08f, -13.3f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.08f, t * 2.24f, 7.15f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.24f, t * 2.48f, -2.15f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.48f, t * 3.04f, 92.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.04f, t * 3.88f, -15f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.88f, t * 4.8f, -16f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.8f, t * 5.76f, 5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.76f, t * 6.76f, -41.5f / j, emergeTime)
             );
-            this.head.roll = (AnimationAPI.easeInOutSine(t * 0f, t * 0.48f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.48f, t * 0.96f, -20f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.96f, t * 1.24f, 28.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.24f, t * 1.56f, -8.5f / j, emergeTime)
+            this.head.roll = (AnimationAPI.linear(t * 0f, t * 0.48f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 0.48f, t * 0.96f, -20f / j, emergeTime) +
+                    AnimationAPI.linear(t * 0.96f, t * 1.24f, 28.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.24f, t * 1.56f, -8.5f / j, emergeTime)
             );
 
             //Left Arm
-            this.left_arm.pitch = (AnimationAPI.easeOutSine(t * 0f, t * 0.8f, -167.5f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 0.8f, t * 1.12f, -22.5f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 1.12f, t * 1.2f, 62.4f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 1.2f, t * 1.28f, 33.6f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.28f, t * 1.36f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, 4f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.68f, t * 2.72f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, 17.5f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, 7.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.76f, t * 5.24f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.24f, t * 5.92f, -20f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.92f, t * 6.4f, 85f / j, emergeTime)
+            this.left_arm.pitch = (AnimationAPI.linear(t * 0f, t * 0.8f, -167.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 0.8f, t * 1.12f, -22.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.12f, t * 1.2f, 62.4f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.2f, t * 1.28f, 33.6f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.28f, t * 1.36f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.36f, t * 1.68f, 4f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.68f, t * 2.72f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.72f, t * 3.16f, 17.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.76f, 7.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.76f, t * 5.24f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.24f, t * 5.92f, -20f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.92f, t * 6.4f, 85f / j, emergeTime)
             );
-            this.left_arm.yaw = (AnimationAPI.easeOutSine(t * 0f, t * 0.8f, 2f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 0.8f, t * 1.12f, -2f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 1.12f, t * 1.2f, -25f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 1.2f, t * 1.28f, 5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.28f, t * 1.36f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, 10f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.68f, t * 2.72f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, -2.5f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, 30f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.76f, t * 3.84f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.84f, t * 4.64f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.64f, t * 4.84f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.84f, t * 5.92f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.92f, t * 6.4f, -17.5f / j, emergeTime)
+            this.left_arm.yaw = (AnimationAPI.linear(t * 0f, t * 0.8f, 2f / j, emergeTime) +
+                    AnimationAPI.linear(t * 0.8f, t * 1.12f, -2f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.12f, t * 1.2f, -25f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.2f, t * 1.28f, 5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.28f, t * 1.36f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.36f, t * 1.68f, 10f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.68f, t * 2.72f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.72f, t * 3.16f, -2.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.76f, 30f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.76f, t * 3.84f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.84f, t * 4.64f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.64f, t * 4.84f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.84f, t * 5.92f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.92f, t * 6.4f, -17.5f / j, emergeTime)
             );
-            this.left_arm.roll = (AnimationAPI.easeOutSine(t * 0f, t * 0.8f, 0f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 0.8f, t * 1.12f, 22.5f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 1.12f, t * 1.2f, -22.5f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 1.2f, t * 1.28f, 12.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.28f, t * 1.36f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, -12.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.68f, t * 2.72f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, -55f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.76f, t * 3.84f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.84f, t * 4.64f, 10f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 4.64f, t * 4.84f, -10f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.84f, t * 5.92f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.92f, t * 6.4f, 55f / j, emergeTime)
+            this.left_arm.roll = (AnimationAPI.linear(t * 0f, t * 0.8f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 0.8f, t * 1.12f, 22.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.12f, t * 1.2f, -22.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.2f, t * 1.28f, 12.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.28f, t * 1.36f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.36f, t * 1.68f, -12.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.68f, t * 2.72f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.72f, t * 3.16f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.76f, -55f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.76f, t * 3.84f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.84f, t * 4.64f, 10f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.64f, t * 4.84f, -10f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.84f, t * 5.92f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.92f, t * 6.4f, 55f / j, emergeTime)
             );
-            this.left_arm.pivotY = armY + (AnimationAPI.easeInSine(t * 0f, t * 1.12f, -6f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.12f, t * 1.36f, 2f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.36f, t * 1.68f, -1f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.68f, t * 2.56f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.56f, t * 3.16f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.16f, t * 3.6f, -4f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.6f, t * 3.72f, -3f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.72f, t * 4.08f, 6f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.08f, t * 5f, -2.25f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5f, t * 5.28f, 4.35f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.28f, t * 5.52f, -2.35f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.52f, t * 6.52f, 6.25f, emergeTime)
+            this.left_arm.pivotY = armY + (AnimationAPI.linear(t * 0f, t * 1.12f, -6f, emergeTime) +
+                    AnimationAPI.linear(t * 1.12f, t * 1.36f, 2f, emergeTime) +
+                    AnimationAPI.linear(t * 1.36f, t * 1.68f, -1f, emergeTime) +
+                    AnimationAPI.linear(t * 1.68f, t * 2.56f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 2.56f, t * 3.16f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.6f, -4f, emergeTime) +
+                    AnimationAPI.linear(t * 3.6f, t * 3.72f, -3f, emergeTime) +
+                    AnimationAPI.linear(t * 3.72f, t * 4.08f, 6f, emergeTime) +
+                    AnimationAPI.linear(t * 4.08f, t * 5f, -2.25f, emergeTime) +
+                    AnimationAPI.linear(t * 5f, t * 5.28f, 4.35f, emergeTime) +
+                    AnimationAPI.linear(t * 5.28f, t * 5.52f, -2.35f, emergeTime) +
+                    AnimationAPI.linear(t * 5.52f, t * 6.52f, 6.25f, emergeTime)
             );
-            this.left_arm.pivotZ = (AnimationAPI.easeInSine(t * 0f, t * 2.56f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.56f, t * 3.16f, 1f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.16f, t * 3.6f, 3f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.6f, t * 3.72f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.72f, t * 4.08f, 2f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.08f, t * 5f, -2f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5f, t * 5.28f, -4f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.28f, t * 5.52f, 1.9f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.52f, t * 6.52f, -1.9f, emergeTime)
+            this.left_arm.pivotZ = (AnimationAPI.linear(t * 0f, t * 2.56f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 2.56f, t * 3.16f, 1f, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.6f, 3f, emergeTime) +
+                    AnimationAPI.linear(t * 3.6f, t * 3.72f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 3.72f, t * 4.08f, 2f, emergeTime) +
+                    AnimationAPI.linear(t * 4.08f, t * 5f, -2f, emergeTime) +
+                    AnimationAPI.linear(t * 5f, t * 5.28f, -4f, emergeTime) +
+                    AnimationAPI.linear(t * 5.28f, t * 5.52f, 1.9f, emergeTime) +
+                    AnimationAPI.linear(t * 5.52f, t * 6.52f, -1.9f, emergeTime)
             );
             //Right Arm
-            this.right_arm.pitch = -360 / j + (AnimationAPI.easeOutSine(t * 0f, t * 1.36f, 0f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 1.36f, t * 1.44f, 20f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 1.44f, t * 1.72f, 112.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.72f, t * 1.88f, 137.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.88f, t * 2.72f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, 7.5f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, 22.5f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.76f, t * 5.24f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.24f, t * 5.92f, -20f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.92f, t * 6.4f, 85f / j, emergeTime)
+            this.right_arm.pitch = -360 / j + (AnimationAPI.linear(t * 0f, t * 1.36f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.36f, t * 1.44f, 20f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.44f, t * 1.72f, 112.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.72f, t * 1.88f, 137.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.88f, t * 2.72f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.72f, t * 3.16f, 7.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.76f, 22.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.76f, t * 5.24f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.24f, t * 5.92f, -20f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.92f, t * 6.4f, 85f / j, emergeTime)
             );
-            this.right_arm.yaw = (AnimationAPI.easeOutSine(t * 0f, t * 1.36f, 0f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 1.36f, t * 1.44f, 40f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 1.44f, t * 1.72f, -60f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.72f, t * 1.88f, 30f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.88f, t * 2.72f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, 2.5f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, -30f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.76f, t * 5.92f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.92f, t * 6.4f, 17.5f / j, emergeTime)
+            this.right_arm.yaw = (AnimationAPI.linear(t * 0f, t * 1.36f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.36f, t * 1.44f, 40f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.44f, t * 1.72f, -60f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.72f, t * 1.88f, 30f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.88f, t * 2.72f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.72f, t * 3.16f, 2.5f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.76f, -30f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.76f, t * 5.92f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.92f, t * 6.4f, 17.5f / j, emergeTime)
             );
-            this.right_arm.roll = (AnimationAPI.easeOutSine(t * 0f, t * 1.36f, 0f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 1.36f, t * 1.44f, 40f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 1.44f, t * 1.72f, -55f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.72f, t * 1.88f, 15f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.88f, t * 2.72f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.72f, t * 3.16f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.16f, t * 3.76f, 55f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.76f, t * 3.84f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.84f, t * 4.64f, -10f / j, emergeTime) +
-                    AnimationAPI.easeOutSine(t * 4.64f, t * 4.84f, 10f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.84f, t * 5.92f, 0f / j, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.92f, t * 6.4f, -55f / j, emergeTime)
+            this.right_arm.roll = (AnimationAPI.linear(t * 0f, t * 1.36f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.36f, t * 1.44f, 40f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.44f, t * 1.72f, -55f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.72f, t * 1.88f, 15f / j, emergeTime) +
+                    AnimationAPI.linear(t * 1.88f, t * 2.72f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 2.72f, t * 3.16f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.76f, 55f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.76f, t * 3.84f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 3.84f, t * 4.64f, -10f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.64f, t * 4.84f, 10f / j, emergeTime) +
+                    AnimationAPI.linear(t * 4.84f, t * 5.92f, 0f / j, emergeTime) +
+                    AnimationAPI.linear(t * 5.92f, t * 6.4f, -55f / j, emergeTime)
             );
-            this.right_arm.pivotY = armY + (AnimationAPI.easeInSine(t * 0f, t * 1.36f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.36f, t * 1.72f, -2f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.72f, t * 1.88f, -3f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.88f, t * 2.56f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.56f, t * 3.16f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.16f, t * 3.6f, -4f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.6f, t * 3.72f, -3f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.72f, t * 4.08f, 6f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.08f, t * 5f, -2.25f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5f, t * 5.28f, 4.35f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.28f, t * 5.52f, -2.35f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.52f, t * 6.52f, 6.25f, emergeTime)
+            this.right_arm.pivotY = armY + (AnimationAPI.linear(t * 0f, t * 1.36f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 1.36f, t * 1.72f, -2f, emergeTime) +
+                    AnimationAPI.linear(t * 1.72f, t * 1.88f, -3f, emergeTime) +
+                    AnimationAPI.linear(t * 1.88f, t * 2.56f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 2.56f, t * 3.16f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.6f, -4f, emergeTime) +
+                    AnimationAPI.linear(t * 3.6f, t * 3.72f, -3f, emergeTime) +
+                    AnimationAPI.linear(t * 3.72f, t * 4.08f, 6f, emergeTime) +
+                    AnimationAPI.linear(t * 4.08f, t * 5f, -2.25f, emergeTime) +
+                    AnimationAPI.linear(t * 5f, t * 5.28f, 4.35f, emergeTime) +
+                    AnimationAPI.linear(t * 5.28f, t * 5.52f, -2.35f, emergeTime) +
+                    AnimationAPI.linear(t * 5.52f, t * 6.52f, 6.25f, emergeTime)
             );
-            this.right_arm.pivotZ = (AnimationAPI.easeInSine(t * 0f, t * 2.56f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 2.56f, t * 3.16f, 1f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.16f, t * 3.6f, 3f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.6f, t * 3.72f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 3.72f, t * 4.08f, 2f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.08f, t * 5f, -2f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5f, t * 5.28f, -4f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.28f, t * 5.52f, 1.9f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 5.52f, t * 6.52f, -1.9f, emergeTime)
+            this.right_arm.pivotZ = (AnimationAPI.linear(t * 0f, t * 2.56f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 2.56f, t * 3.16f, 1f, emergeTime) +
+                    AnimationAPI.linear(t * 3.16f, t * 3.6f, 3f, emergeTime) +
+                    AnimationAPI.linear(t * 3.6f, t * 3.72f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 3.72f, t * 4.08f, 2f, emergeTime) +
+                    AnimationAPI.linear(t * 4.08f, t * 5f, -2f, emergeTime) +
+                    AnimationAPI.linear(t * 5f, t * 5.28f, -4f, emergeTime) +
+                    AnimationAPI.linear(t * 5.28f, t * 5.52f, 1.9f, emergeTime) +
+                    AnimationAPI.linear(t * 5.52f, t * 6.52f, -1.9f, emergeTime)
             );
             //Left Leg
-            this.left_leg.pivotY = legY + 73 + (AnimationAPI.easeInOutSine(t * 0f, t * 0.64f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.64f, t * 1.08f, -42f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.08f, t * 2.76f, 0f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 2.76f, t * 3.88f, -21f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.88f, t * 4.12f, +1f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 4.12f, t * 4.68f, -5f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 4.68f, t * 4.92f, +1f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.92f, t * 5.28f, -7f, emergeTime)
+            this.left_leg.pivotY = legY + 73 + (AnimationAPI.linear(t * 0f, t * 0.64f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 0.64f, t * 1.08f, -42f, emergeTime) +
+                    AnimationAPI.linear(t * 1.08f, t * 2.76f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 2.76f, t * 3.88f, -21f, emergeTime) +
+                    AnimationAPI.linear(t * 3.88f, t * 4.12f, +1f, emergeTime) +
+                    AnimationAPI.linear(t * 4.12f, t * 4.68f, -5f, emergeTime) +
+                    AnimationAPI.linear(t * 4.68f, t * 4.92f, +1f, emergeTime) +
+                    AnimationAPI.linear(t * 4.92f, t * 5.28f, -7f, emergeTime)
             );
             //Right Leg
-            this.right_leg.pivotY = legY + 73 + (AnimationAPI.easeInOutSine(t * 0f, t * 0.64f, 0f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 0.64f, t * 1.08f, -42f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 1.08f, t * 2.76f, 0f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 2.76f, t * 3.88f, -21f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 3.88f, t * 4.12f, +1f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 4.12f, t * 4.68f, -5f, emergeTime) +
-                    AnimationAPI.easeInSine(t * 4.68f, t * 4.92f, +1f, emergeTime) +
-                    AnimationAPI.easeInOutSine(t * 4.92f, t * 5.28f, -7f, emergeTime)
+            this.right_leg.pivotY = legY + 73 + (AnimationAPI.linear(t * 0f, t * 0.64f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 0.64f, t * 1.08f, -42f, emergeTime) +
+                    AnimationAPI.linear(t * 1.08f, t * 2.76f, 0f, emergeTime) +
+                    AnimationAPI.linear(t * 2.76f, t * 3.88f, -21f, emergeTime) +
+                    AnimationAPI.linear(t * 3.88f, t * 4.12f, +1f, emergeTime) +
+                    AnimationAPI.linear(t * 4.12f, t * 4.68f, -5f, emergeTime) +
+                    AnimationAPI.linear(t * 4.68f, t * 4.92f, +1f, emergeTime) +
+                    AnimationAPI.linear(t * 4.92f, t * 5.28f, -7f, emergeTime)
             );
         }
         /* SNIFFING */
@@ -685,10 +738,6 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
                 this.head.yaw = headYaw * 0.017453292F;
                 this.head.roll = 0.06F * q;
                 this.head.roll += 0.3F * p * l;
-
-                //Tendrils
-                this.left_tendril.pitch = u;
-                this.right_tendril.pitch= -u;
 
                 //Body
                 this.body.pitch = 1.0F * o * s;
