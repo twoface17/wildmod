@@ -170,7 +170,7 @@ public class WardenEntityModel<T extends WardenEntity> extends EntityModel<Warde
         /* EMERGE */
         if (canEmerge) {
 
-            /* Stop Syncing Animations */
+            //Stop Syncing Anims
             this.head.yaw = 0;
             this.head.pivotY = headY;
             this.head.pivotZ = 0;
