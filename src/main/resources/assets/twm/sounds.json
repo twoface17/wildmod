@@ -1,43 +1,163 @@
 {
+	"ambient.deep_dark.additions": {
+		"sounds": [
+			{
+				"name": "twm:ambient/cave/deep_dark/additions1",
+				"volume": 0.7
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/additions2",
+				"volume": 0.5
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/additions3",
+				"volume": 0.4
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/clicking1",
+				"volume": 0.9,
+				"weight": 4
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/clicking2",
+				"volume": 0.9,
+				"weight": 4
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/clicking3",
+				"volume": 0.9,
+				"weight": 4
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/mood1",
+				"volume": 0.5,
+				"weight": 10
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/mood2",
+				"volume": 0.3,
+				"weight": 10
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/mood1",
+				"volume": 0.4,
+				"weight": 10
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/sculk1",
+				"volume": 0.6,
+				"weight": 7
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/sculk2",
+				"volume": 0.6,
+				"weight": 7
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/sculk3",
+				"volume": 0.6,
+				"weight": 7
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/sculk4",
+				"volume": 0.6,
+				"weight": 7
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices1",
+				"volume": 0.7,
+				"weight": 3
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices2",
+				"volume": 0.7,
+				"weight": 3
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices1",
+				"volume": 0.7,
+				"weight": 3
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices4",
+				"volume": 0.4,
+				"weight": 3
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices5",
+				"volume": 0.5,
+				"weight": 3
+			},
+			{
+				"name": "minecraft:ambient/nether/soulsand_valley/wind1",
+				"volume": 0.3,
+				"weight": 25
+			},
+			{
+				"name": "minecraft:ambient/nether/soulsand_valley/wind2",
+				"volume": 0.25,
+				"weight": 25
+			},
+			{
+				"name": "minecraft:ambient/nether/soulsand_valley/wind3",
+				"volume": 0.25,
+				"weight": 25
+			},
+			{
+				"name": "minecraft:ambient/nether/soulsand_valley/wind4",
+				"volume": 0.3,
+				"weight": 25
+			}
+		]
+	},
+	"ambient.deep_dark.loop": {
+		"sounds": [
+			{
+				"name": "ambient/cave/deep_dark/ambience",
+				"stream": true,
+				"volume": 0.7
+			}
+		]
+	},
 	"block.reinforced_deepslate.break": {
 		"sounds": [
-				"twm:block/reinforced_deepslate/break1",
-				"twm:block/reinforced_deepslate/break2",
-				"twm:block/reinforced_deepslate/break3",
-				"twm:block/reinforced_deepslate/break4"
+			"twm:block/reinforced_deepslate/break1",
+			"twm:block/reinforced_deepslate/break2",
+			"twm:block/reinforced_deepslate/break3",
+			"twm:block/reinforced_deepslate/break4"
 		],
 		"subtitle": "subtitles.block.generic.break"
 	},
 	"block.reinforced_deepslate.hit": {
 		"sounds": [
-				"twm:block/reinforced_deepslate/step1",
-				"twm:block/reinforced_deepslate/step2",
-				"twm:block/reinforced_deepslate/step3",
-				"twm:block/reinforced_deepslate/step4",
-				"twm:block/reinforced_deepslate/step5",
-				"twm:block/reinforced_deepslate/step6"
+			"twm:block/reinforced_deepslate/step1",
+			"twm:block/reinforced_deepslate/step2",
+			"twm:block/reinforced_deepslate/step3",
+			"twm:block/reinforced_deepslate/step4",
+			"twm:block/reinforced_deepslate/step5",
+			"twm:block/reinforced_deepslate/step6"
 		],
 		"subtitle": "subtitles.block.generic.hit"
 	},
 	"block.reinforced_deepslate.place": {
 		"sounds": [
-				"twm:block/reinforced_deepslate/place1",
-				"twm:block/reinforced_deepslate/place2",
-				"twm:block/reinforced_deepslate/place3",
-				"twm:block/reinforced_deepslate/place4",
-				"twm:block/reinforced_deepslate/place5",
-				"twm:block/reinforced_deepslate/place6"
+			"twm:block/reinforced_deepslate/place1",
+			"twm:block/reinforced_deepslate/place2",
+			"twm:block/reinforced_deepslate/place3",
+			"twm:block/reinforced_deepslate/place4",
+			"twm:block/reinforced_deepslate/place5",
+			"twm:block/reinforced_deepslate/place6"
 		],
 		"subtitle": "subtitles.block.generic.place"
 	},
 	"block.reinforced_deepslate.step": {
 		"sounds": [
-				"twm:block/reinforced_deepslate/step1",
-				"twm:block/reinforced_deepslate/step2",
-				"twm:block/reinforced_deepslate/step3",
-				"twm:block/reinforced_deepslate/step4",
-				"twm:block/reinforced_deepslate/step5",
-				"twm:block/reinforced_deepslate/step6"
+			"twm:block/reinforced_deepslate/step1",
+			"twm:block/reinforced_deepslate/step2",
+			"twm:block/reinforced_deepslate/step3",
+			"twm:block/reinforced_deepslate/step4",
+			"twm:block/reinforced_deepslate/step5",
+			"twm:block/reinforced_deepslate/step6"
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
@@ -279,30 +399,30 @@
 	},
 	"block.sculk.hit": {
 		"sounds": [
-		{
-			"name": "minecraft:block/sculk/step1",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step2",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step3",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step4",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step5",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step6",
-			"pitch": 0.8
-		}
+			{
+				"name": "minecraft:block/sculk/step1",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step2",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step3",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step4",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step5",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step6",
+				"pitch": 0.8
+			}
 		],
 		"subtitle": "subtitles.block.generic.hit"
 	},
@@ -318,30 +438,30 @@
 	},
 	"block.sculk.step": {
 		"sounds": [
-		{
-			"name": "minecraft:block/sculk/step1",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step2",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step3",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step4",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step5",
-			"pitch": 0.8
-		},
-		{
-			"name": "minecraft:block/sculk/step6",
-			"pitch": 0.8
-		}
+			{
+				"name": "minecraft:block/sculk/step1",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step2",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step3",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step4",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step5",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step6",
+				"pitch": 0.8
+			}
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
@@ -538,54 +658,54 @@
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
-	  "entity.chest_boat.paddle_water": {
-	    "sounds": [
-	      {
-		"name": "entity/boat/paddle_water1",
-		"volume": 0.8
-	      },
-	      {
-		"name": "entity/boat/paddle_water2",
-		"volume": 0.8
-	      },
-	      {
-		"name": "entity/boat/paddle_water3",
-		"volume": 0.8
-	      },
-	      {
-		"name": "entity/boat/paddle_water4",
-		"volume": 0.8
-	      },
-	      {
-		"name": "entity/boat/paddle_water5",
-		"volume": 0.8
-	      },
-	      {
-		"name": "entity/boat/paddle_water6",
-		"volume": 0.8
-	      },
-	      {
-		"name": "entity/boat/paddle_water7",
-		"volume": 0.8
-	      },
-	      {
-		"name": "entity/boat/paddle_water8",
-		"volume": 0.8
-	      }
-	    ],
-	    "subtitle": "subtitles.entity.boat.paddle_water"
-	  },
-	  "entity.chest_boat.paddle_land": {
-	    "sounds": [
-	      "entity/boat/paddle_land1",
-	      "entity/boat/paddle_land2",
-	      "entity/boat/paddle_land3",
-	      "entity/boat/paddle_land4",
-	      "entity/boat/paddle_land5",
-	      "entity/boat/paddle_land6"
-	    ],
-	    "subtitle": "subtitles.entity.boat.paddle_land"
-	  },
+	"entity.chest_boat.paddle_water": {
+		"sounds": [
+			{
+				"name": "entity/boat/paddle_water1",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water2",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water3",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water4",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water5",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water6",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water7",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water8",
+				"volume": 0.8
+			}
+		],
+		"subtitle": "subtitles.entity.boat.paddle_water"
+	},
+	"entity.chest_boat.paddle_land": {
+		"sounds": [
+			"entity/boat/paddle_land1",
+			"entity/boat/paddle_land2",
+			"entity/boat/paddle_land3",
+			"entity/boat/paddle_land4",
+			"entity/boat/paddle_land5",
+			"entity/boat/paddle_land6"
+		],
+		"subtitle": "subtitles.entity.boat.paddle_land"
+	},
 	"entity.firefly.loop": {
 		"sounds": [
 			"twm:entity/firefly/loop1",
@@ -779,8 +899,7 @@
 		"subtitle": "subtitles.entity.warden.ambient"
 	},
 	"entity.warden.ambient_underground": {
-		"sounds": 
-		[]
+		"sounds": []
 	},
 	"entity.warden.listening": {
 		"sounds": [
@@ -984,12 +1103,12 @@
 	"entity.warden.death": {
 		"sounds": [
 			{
-			"attenuation_distance": 32,
-			"name": "twm:entity/warden/death_1"
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/death_1"
 			},
 			{
-			"attenuation_distance": 32,
-			"name": "twm:entity/warden/death_2"
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/death_2"
 			}
 		],
 		"subtitle": "subtitles.entity.warden.death"
@@ -997,24 +1116,24 @@
 	"entity.warden.roar": {
 		"sounds": [
 			{
-			"attenuation_distance": 64,
-			"name": "twm:entity/warden/roar_1"
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_1"
 			},
 			{
-			"attenuation_distance": 64,
-			"name": "twm:entity/warden/roar_2"
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_2"
 			},
 			{
-			"attenuation_distance": 64,
-			"name": "twm:entity/warden/roar_3"
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_3"
 			},
 			{
-			"attenuation_distance": 64,
-			"name": "twm:entity/warden/roar_4"
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_4"
 			},
 			{
-			"attenuation_distance": 64,
-			"name": "twm:entity/warden/roar_5"
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_5"
 			}
 		],
 		"subtitle": "subtitles.entity.warden.roar"
@@ -1029,20 +1148,20 @@
 	"entity.warden.sniff": {
 		"sounds": [
 			{
-			"attenuation_distance": 32,
-			"name": "twm:entity/warden/sniff1"
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/sniff1"
 			},
 			{
-			"attenuation_distance": 32,
-			"name": "twm:entity/warden/sniff2"
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/sniff2"
 			},
 			{
-			"attenuation_distance": 32,
-			"name": "twm:entity/warden/sniff3"
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/sniff3"
 			},
 			{
-			"attenuation_distance": 32,
-			"name": "twm:entity/warden/sniff4"
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/sniff4"
 			}
 		],
 		"subtitle": "subtitles.entity.warden.sniff"
@@ -1059,28 +1178,28 @@
 	"entity.warden.vibration": {
 		"sounds": [
 			{
-			"attenuation_distance": 32,
-			"name":"minecraft:block/sculk_sensor/sculk_clicking1"
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking1"
 			},
 			{
-			"attenuation_distance": 32,
-			"name":"minecraft:block/sculk_sensor/sculk_clicking2"
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking2"
 			},
 			{
-			"attenuation_distance": 32,
-			"name":"minecraft:block/sculk_sensor/sculk_clicking3"
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking3"
 			},
 			{
-			"attenuation_distance": 32,
-			"name":"minecraft:block/sculk_sensor/sculk_clicking4"
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking4"
 			},
 			{
-			"attenuation_distance": 32,
-			"name":"minecraft:block/sculk_sensor/sculk_clicking5"
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking5"
 			},
 			{
-			"attenuation_distance": 32,
-			"name":"minecraft:block/sculk_sensor/sculk_clicking6"
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking6"
 			}
 		],
 		"subtitle": "subtitles.entity.warden.vibration"
