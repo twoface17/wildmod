@@ -71,7 +71,7 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent ENTITY_FROG_EAT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.eat"));
         public static final SoundEvent ENTITY_FROG_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.hurt"));
         public static final SoundEvent ENTITY_FROG_LONG_JUMP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.long_jump"));
-    public static final SoundEvent ENTITY_FROG_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.step"));
+        public static final SoundEvent ENTITY_FROG_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.step"));
         public static final SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
     //Warden
         public static final SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
@@ -96,6 +96,10 @@ public class RegisterSounds { //Register sound definitions
 
     /** MUSIC **/
         public static final SoundEvent MUSIC_OVERWORLD_DEEP_DARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deep_dark"));
+
+    /** AMBIENT **/
+        public static final SoundEvent AMBIENT_DEEP_DARK_ADDITIONS = new SoundEvent(new Identifier(WildMod.MOD_ID, "ambient.deep_dark.additions"));
+        public static final SoundEvent AMBIENT_DEEP_DARK_LOOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "ambient.deep_dark.loop"));
 
 
     private static SoundEvent register(String id) {

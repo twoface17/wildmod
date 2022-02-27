@@ -7,8 +7,10 @@ import frozenblock.wild.mod.worldgen.*;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.sound.MusicType;
+import net.minecraft.sound.BiomeAdditionsSound;
 import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.sound.MusicSound;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -88,6 +90,7 @@ public class RegisterWorldgen {
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, RANDOM_VEINS_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, COMMON_ACTIVATOR_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, RARE_ACTIVATOR_PLACED);
+
         MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_DEEP_DARK);
         return (
                 new net.minecraft.world.biome.Biome.Builder())
@@ -102,6 +105,8 @@ public class RegisterWorldgen {
                         .foliageColor(FoliageColors.getDefaultColor())
                         .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
                         .music(musicSound)
+                        .loopSound(RegisterSounds.AMBIENT_DEEP_DARK_LOOP)
+                        .additionsSound(new BiomeAdditionsSound(RegisterSounds.AMBIENT_DEEP_DARK_ADDITIONS, 0.0111D))
                         .moodSound(BiomeMoodSound.CAVE).build())
                 .spawnSettings(builder.build())
                 .generationSettings(builder2.build()).build();
