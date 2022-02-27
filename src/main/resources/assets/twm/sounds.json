@@ -116,8 +116,8 @@
 	"ambient.deep_dark.loop": {
 		"sounds": [
 			{
-				"name": "ambient/cave/deep_dark/ambience",
-				"volume": 1.0,
+				"name": "twm:ambient/cave/deep_dark/ambience",
+				"volume": 0.7,
 				"stream": true
 			}
 		]
