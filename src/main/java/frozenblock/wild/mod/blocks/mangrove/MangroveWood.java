@@ -1,7 +1,7 @@
 package frozenblock.wild.mod.blocks.mangrove;
 
 import frozenblock.wild.mod.registry.MangroveWoods;
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
+import frozenblock.wild.mod.tags.ItemTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.entity.LivingEntity;
@@ -27,7 +27,7 @@ public class MangroveWood extends PillarBlock {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack itemStack = player.getStackInHand(hand);
-        if (itemStack.isIn(FabricToolTags.AXES)) {
+        if (itemStack.isIn(ItemTags.AXES)) {
             itemStack.damage(1, (LivingEntity) player, p -> p.sendToolBreakStatus(hand));
             BlockState blockState = MangroveWoods.STRIPPED_MANGROVE_WOOD.getDefaultState();
             world.setBlockState(pos, (BlockState) blockState.with(AXIS, state.get(AXIS)));

@@ -20,6 +20,7 @@ import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.listener.GameEventListener;
 import net.minecraft.world.event.listener.SculkSensorListener;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.util.registry.Registry;
 
 import java.util.Optional;
 
@@ -76,7 +77,7 @@ public class SculkCatalystListener implements GameEventListener {
     }
 
     private boolean shouldActivate(GameEvent gameEvent, @Nullable Entity entity, World world) {
-        return entity != null && gameEvent == RegisterAccurateSculk.DEATH && SculkTags.DROPSXP.contains(entity.getType());
+        return entity != null && gameEvent == RegisterAccurateSculk.DEATH && Registry.ENTITY_TYPE.contains(entity.getType());
     }
 
     public void pseudoSculk(World world, @Nullable Entity entity) {
