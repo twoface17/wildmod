@@ -78,6 +78,7 @@ public class SculkCatalystListener implements GameEventListener {
 
     private boolean shouldActivate(GameEvent gameEvent, @Nullable Entity entity, World world) {
         return entity != null && gameEvent == RegisterAccurateSculk.DEATH && Registry.ENTITY_TYPE.contains(entity.getType());
+        // net.minecraft.entity.EntityType.isIn(TagKey<EntityType<?>>) may help convert to 1.18.2
     }
 
     public void pseudoSculk(World world, @Nullable Entity entity) {
