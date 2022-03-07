@@ -604,10 +604,10 @@ public class SculkShriekerBlock
         return false;
     }
     public static boolean canSpawn(World world, BlockPos p) {
-        return !SculkTags.WARDEN_UNSPAWNABLE.contains(world.getBlockState(p).getBlock()) && !world.getBlockState(p).isAir() && world.getBlockState(p).getBlock()!=Blocks.WATER &&  world.getBlockState(p).getBlock()!=Blocks.LAVA;
+        return !world.getBlockState(p).getBlock().equals(SculkTags.WARDEN_UNSPAWNABLE) && !world.getBlockState(p).isAir() && world.getBlockState(p).getBlock()!=Blocks.WATER &&  world.getBlockState(p).getBlock()!=Blocks.LAVA;
     }
     public static boolean wardenNonCollide(BlockPos p, World world) {
-        return SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up()).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(2)).getBlock()) && SculkTags.WARDEN_NON_COLLIDE.contains(world.getBlockState(p.up(3)).getBlock());
+        return world.getBlockState(p.up()).getBlock().equals(SculkTags.WARDEN_NON_COLLIDE) && world.getBlockState(p.up(2)).getBlock().equals(SculkTags.WARDEN_NON_COLLIDE) && world.getBlockState(p.up(3)).getBlock().equals(SculkTags.WARDEN_NON_COLLIDE);
     }
 
 }
