@@ -77,8 +77,7 @@ public class SculkCatalystListener implements GameEventListener {
     }
 
     private boolean shouldActivate(GameEvent gameEvent, @Nullable Entity entity, World world) {
-        return entity != null && gameEvent == RegisterAccurateSculk.DEATH && Registry.ENTITY_TYPE.contains(entity.getType());
-        // net.minecraft.entity.EntityType.isIn(TagKey<EntityType<?>>) may help convert to 1.18.2
+        return entity != null && gameEvent == RegisterAccurateSculk.DEATH && Registry.ENTITY_TYPE.getKey(entity.getType()).isPresent();
     }
 
     public void pseudoSculk(World world, @Nullable Entity entity) {
@@ -86,17 +85,17 @@ public class SculkCatalystListener implements GameEventListener {
         if (optional.isPresent()) {
             if (entity != null) {
                 BlockPos thisPos = optional.get();
-                if (SculkTags.THREE.contains(entity.getType())) {
+                if (SculkTags.THREE.isOf(Registry.ENTITY_TYPE_KEY)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos.add(0, 0.5, 0)), UniformIntProvider.create(1, 3).get(world.getRandom()));
-                } else if (SculkTags.FIVE.contains(entity.getType())) {
+                } else if (SculkTags.FIVE.isOf(Registry.ENTITY_TYPE_KEY)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), UniformIntProvider.create(3, 5).get(world.getRandom()));
-                } else if (SculkTags.TEN.contains(entity.getType())) {
+                } else if (SculkTags.TEN.isOf(Registry.ENTITY_TYPE_KEY)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), UniformIntProvider.create(7, 10).get(world.getRandom()));
-                } else if (SculkTags.TWENTY.contains(entity.getType())) {
+                } else if (SculkTags.TWENTY.isOf(Registry.ENTITY_TYPE_KEY)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), UniformIntProvider.create(15, 20).get(world.getRandom()));
-                } else if (SculkTags.FIFTY.contains(entity.getType())) {
+                } else if (SculkTags.FIFTY.isOf(Registry.ENTITY_TYPE_KEY)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), UniformIntProvider.create(30, 50).get(world.getRandom()));
-                } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
+                } else if (SculkTags.ONEHUNDRED.isOf(Registry.ENTITY_TYPE_KEY)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), 200);
                 }
             }
