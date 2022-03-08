@@ -20,6 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.random.Xoroshiro128PlusPlusRandom;
 import org.jetbrains.annotations.Nullable;
@@ -55,17 +56,17 @@ public class SculkGrower {
                 seed=seed1;
                 sample = new PerlinNoiseSampler(new Xoroshiro128PlusPlusRandom(seed));
             }
-            if (SculkTags.THREE.contains(entity.getType())) {
+            if (SculkTags.THREE.isOf(Registry.ENTITY_TYPE_KEY)) {
                 sculkOptim(3*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.FIVE.contains(entity.getType())) {
+            } else if (SculkTags.FIVE.isOf(Registry.ENTITY_TYPE_KEY)) {
                 sculkOptim(5*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.TEN.contains(entity.getType())) {
+            } else if (SculkTags.TEN.isOf(Registry.ENTITY_TYPE_KEY)) {
                 sculkOptim(10*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.TWENTY.contains(entity.getType())) {
+            } else if (SculkTags.TWENTY.isOf(Registry.ENTITY_TYPE_KEY)) {
                 sculkOptim(20*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.FIFTY.contains(entity.getType())) {
+            } else if (SculkTags.FIFTY.isOf(Registry.ENTITY_TYPE_KEY)) {
                 sculkOptim(50*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.ONEHUNDRED.contains(entity.getType())) {
+            } else if (SculkTags.ONEHUNDRED.isOf(Registry.ENTITY_TYPE_KEY)) {
                 sculkOptim(500*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
             }
         }

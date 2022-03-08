@@ -38,6 +38,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -46,6 +47,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Optional;
 
 
 public class FrogEntity extends AnimalEntity {
@@ -91,11 +93,17 @@ public class FrogEntity extends AnimalEntity {
     }
 
     public static boolean canColdSpawn(World world, BlockPos pos) {
-        return world.getBiome(pos).isCold(pos) || world.getBiome(pos).getCategory().equals(Biome.Category.ICY) || world.getBiome(pos).getCategory().equals(Biome.Category.THEEND);
+        RegistryEntry<Biome> reBiome = world.getBiome(pos);
+        Biome.Category category = Biome.getCategory(reBiome);
+        Optional<Biome> biomeOpt = world.getBiome(pos).getKeyOrValue().right();
+        if (biomeOpt.isPresent()) {
+            Biome biome = biomeOpt.get();
+            return biome.isCold(pos) || category.equals(Biome.Category.ICY) || category.equals(Biome.Category.THEEND);
+        }
+        return false;
     }
-
     public static boolean canTemperateSpawn(World world, BlockPos pos) {
-        return world.getBiome(pos).getCategory().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getCategory().equals(Biome.Category.DESERT) || world.getBiome(pos).getCategory().equals(Biome.Category.NETHER);
+        return world.getBiome(pos).getKeyOrValue().right().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getKeyOrValue().right().equals(Biome.Category.DESERT) || world.getBiome(pos).getKeyOrValue().right().equals(Biome.Category.NETHER);
     }
 
     void setTravelPos(BlockPos pos) {
