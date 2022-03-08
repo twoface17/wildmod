@@ -192,7 +192,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static boolean placeSculk(BlockPos blockPos, StructureWorldAccess world) { //Call For Sculk & Call For Veins
         if (world.isChunkLoaded(blockPos)) {
             Block block = world.getBlockState(blockPos).getBlock();
-            if (SculkTags.BLOCK_REPLACEABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, blockPos)) {
+            if (world.getBlockState(blockPos).getBlock().equals(SculkTags.BLOCK_REPLACEABLE) && (world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK) && airOrReplaceableUp(world, blockPos))) {
                 placeSculkOptim(blockPos, world);
                 fourDirVeins(blockPos, world);
                 return true;
@@ -200,13 +200,13 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                 BlockPos NewSculk = sculkCheck(blockPos, world);
                 if (NewSculk != null) {
                     block = world.getBlockState(NewSculk).getBlock();
-                    if (SculkTags.BLOCK_REPLACEABLE.contains(block)) {
+                    if (world.getBlockState(blockPos).getBlock().equals(SculkTags.BLOCK_REPLACEABLE)) {
                         placeSculkOptim(NewSculk, world);
                         fourDirVeins(NewSculk, world);
                         return true;
                     } else if (airveins(world, NewSculk)) {
                         Block blockUp = world.getBlockState(NewSculk.up()).getBlock();
-                        if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(blockUp) && blockUp != veinBlock) {
+                        if (world.getBlockState(NewSculk.up()).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && blockUp != veinBlock) {
                             veins(NewSculk, world);
                             fourDirVeins(NewSculk, world);
                             return true;

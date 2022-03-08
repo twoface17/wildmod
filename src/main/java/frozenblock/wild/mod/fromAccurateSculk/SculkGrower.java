@@ -26,6 +26,8 @@ import net.minecraft.world.gen.random.Xoroshiro128PlusPlusRandom;
 import org.jetbrains.annotations.Nullable;
 
 import static java.lang.Math.*;
+import static net.minecraft.fluid.Fluids.LAVA;
+import static net.minecraft.fluid.Fluids.WATER;
 
 public class SculkGrower {
     /** DEFAULT VARIABLES */
@@ -126,19 +128,19 @@ public class SculkGrower {
 
     public static boolean placeSculk(BlockPos blockPos, World world) { //Call For Sculk & Call For Veins
         Block block = world.getBlockState(blockPos).getBlock();
-        if (SculkTags.BLOCK_REPLACEABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, blockPos)) {
+        if (world.getBlockState(blockPos).getBlock().equals(SculkTags.BLOCK_REPLACEABLE) && world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK) && airOrReplaceableUp(world, blockPos)) {
             placeSculkOptim(blockPos, world);
             return true;
         } else {
             BlockPos NewSculk = sculkCheck(blockPos, world);
             if (NewSculk != null) {
                 block = world.getBlockState(NewSculk).getBlock();
-                if (SculkTags.BLOCK_REPLACEABLE.contains(block)) {
+                if (world.getBlockState(blockPos).getBlock().equals(SculkTags.BLOCK_REPLACEABLE)) {
                     placeSculkOptim(NewSculk, world);
                     return true;
                 } else if (airveins(world, NewSculk)) {
                     Block blockUp = world.getBlockState(NewSculk.up()).getBlock();
-                    if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(blockUp) && blockUp!=veinBlock) {
+                    if (world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && blockUp!=veinBlock) {
                         veins(NewSculk, world);
                         return true;
                     }
@@ -170,8 +172,8 @@ public class SculkGrower {
                 }
             }
             if (direction==Direction.UP) {
-                if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && block!=waterBlock && !state.isAir()) {
-                    if (SculkTags.ALWAYS_WATER.contains(block) || (state.contains(waterLogged) && state.get(waterLogged))) {
+                if (world.getBlockState(pos.up()).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && block!=waterBlock && !state.isAir()) {
+                    if (world.getBlockState(pos.up()).getBlock().equals(SculkTags.ALWAYS_WATER) || (state.contains(waterLogged) && state.get(waterLogged))) {
                         world.setBlockState(pos, water);
                     } else {
                         world.setBlockState(pos, air);
@@ -207,12 +209,12 @@ public class SculkGrower {
             BlockPos pos = blockPos.offset(direction);
             BlockState state = world.getBlockState(pos);
             Block block = state.getBlock();
-            if (SculkTags.ALWAYS_WATER.contains(block) || state == Blocks.WATER.getDefaultState()) {
+            if (world.getBlockState(blockPos).getBlock().equals(SculkTags.ALWAYS_WATER) || state == Blocks.WATER.getDefaultState()) {
                 world.setBlockState(pos, vein.with(waterLogged, true).with(getOpposite(direction), true));
             } else if (block != waterBlock) {
                 if (block == veinBlock) {
                     world.setBlockState(pos, state.with(getOpposite(direction), true));
-                } else if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) || state.isAir()) {
+                } else if (world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) || state.isAir()) {
                     world.setBlockState(pos, vein.with(getOpposite(direction), true));
                 }
             }
@@ -268,7 +270,7 @@ public class SculkGrower {
         for (int h = 0; h < upward; h++) {
             BlockPos pos =  blockPos.up(h);
             Block block = world.getBlockState(pos).getBlock();
-            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
+            if (world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK) && airOrReplaceableUp(world, pos)) {
                 return pos;
             } else if (sculkStops && block==sculkBlockBlock) {return null;}
         }
@@ -283,7 +285,7 @@ public class SculkGrower {
         for (int h = 0; h < downward; h++) {
             BlockPos pos = blockPos.down(h);
             Block block = world.getBlockState(pos).getBlock();
-            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
+            if (world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK) && airOrReplaceableUp(world, pos)) {
                 return pos;
             } else if (sculkStops && block==sculkBlockBlock) {return null;}
         }
@@ -295,7 +297,7 @@ public class SculkGrower {
         BlockState state = world.getBlockState(blockPos);
         Block block = state.getBlock();
         Fluid fluid = world.getFluidState(blockPos).getFluid();
-        return !SculkTags.SCULK.contains(block) && !SculkTags.SCULK_UNTOUCHABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !state.isAir() && !FluidTags.WATER.contains(fluid) && !FluidTags.LAVA.contains(fluid);
+        return world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK) && world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK_UNTOUCHABLE) && world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && !state.isAir() && world.getFluidState(blockPos).getFluid().equals(WATER) && world.getFluidState(blockPos).getFluid().equals(LAVA);
     }
 
     public static boolean airOrReplaceableUp(World world, BlockPos blockPos) {
