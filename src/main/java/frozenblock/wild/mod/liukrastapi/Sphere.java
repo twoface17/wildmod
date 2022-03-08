@@ -3,7 +3,7 @@ package frozenblock.wild.mod.liukrastapi;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -201,7 +201,7 @@ public abstract class Sphere {
         return blocks;
     }
 
-    public static boolean blockTagInSphere(BlockPos pos, int radius, Tag<Block> tag, World world) {
+    public static boolean blockTagInSphere(BlockPos pos, int radius, TagKey<Block> tag, World world) {
         int bx = pos.getX();
         int by = pos.getY();
         int bz = pos.getZ();
@@ -212,7 +212,7 @@ public abstract class Sphere {
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (tag.equals(world.getBlockState(l).getBlock())) {
+                        if (SculkTags.blockTagContains(world.getBlockState(l).getBlock(), tag)) {
                             return true;
                         }
                     }
@@ -234,7 +234,7 @@ public abstract class Sphere {
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (y<=world.getHeight() && y>=world.getBottomY() && !world.getBlockState(l).getBlock().equals(SculkTags.SCULK)) {
+                        if (y<=world.getHeight() && y>=world.getBottomY() && !SculkTags.blockTagContains(world.getBlockState(l).getBlock(), SculkTags.SCULK)) {
                             blocks.add(l);
                         }
                     }
