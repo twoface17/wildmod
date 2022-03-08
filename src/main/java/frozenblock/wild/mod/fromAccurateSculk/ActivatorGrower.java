@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 
+import java.util.Objects;
 import java.util.Random;
 
 import static java.lang.Math.*;
@@ -44,9 +45,9 @@ public class ActivatorGrower {
             if (NewSculk != null && !Sphere.blockTagInSphere(NewSculk, 4, SculkTags.ACTIVATORS, world)) {
                 BlockState activator = null;
                 if (uniInt <= 3) {
-                    activator = SculkTags.RARE_ACTIVATORS.getRandom(random).getDefaultState();
+                    activator = Objects.requireNonNull(SculkTags.getRandomBlock(SculkTags.RARE_ACTIVATORS)).getDefaultState();
                 } else if (uniInt <= 16) {
-                    activator = SculkTags.COMMON_ACTIVATORS.getRandom(random).getDefaultState();
+                    activator = Objects.requireNonNull(SculkTags.getRandomBlock(SculkTags.COMMON_ACTIVATORS)).getDefaultState();
                 }
                 if (activator!=null) {
                     placeActivator(NewSculk, world, activator);
@@ -56,7 +57,7 @@ public class ActivatorGrower {
     }
 
     public static void placeActivator(BlockPos pos, World world, BlockState state) { //Place The Activator
-        if (SculkTags.GROUND_ACTIVATORS.contains(state.getBlock())) {
+        if (SculkTags.blockTagContains(state.getBlock(), SculkTags.GROUND_ACTIVATORS)) {
             world.setBlockState(pos, state);
         } else {
             BlockState stateUp = world.getBlockState(pos.up());
@@ -88,7 +89,7 @@ public class ActivatorGrower {
         }
         for (int h = 0; h < upward; h++) {
             BlockPos pos =  blockPos.up(h);
-            if (world.getBlockState(pos)==sculk && SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(pos.up()).getBlock())) {
+            if (world.getBlockState(pos)==sculk && SculkTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE)) {
                 return pos;
             }
         }
@@ -102,7 +103,7 @@ public class ActivatorGrower {
         }
         for (int h = 0; h < downward; h++) {
             BlockPos pos =  blockPos.down(h);
-            if (world.getBlockState(pos)==sculk && SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(pos.up()).getBlock())) {
+            if (world.getBlockState(pos)==sculk && SculkTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE)) {
                 return pos;
             }
         }
