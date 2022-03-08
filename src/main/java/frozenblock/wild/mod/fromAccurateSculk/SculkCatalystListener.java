@@ -20,7 +20,6 @@ import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.listener.GameEventListener;
 import net.minecraft.world.event.listener.SculkSensorListener;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Optional;
 
@@ -77,7 +76,7 @@ public class SculkCatalystListener implements GameEventListener {
     }
 
     private boolean shouldActivate(GameEvent gameEvent, @Nullable Entity entity, World world) {
-        return entity != null && gameEvent == RegisterAccurateSculk.DEATH && Registry.ENTITY_TYPE.getKey(entity.getType()).isPresent();
+        return entity != null && gameEvent == RegisterAccurateSculk.DEATH && SculkTags.entityTagContains(entity.getType(), SculkTags.DROPSXP);
     }
 
     public void pseudoSculk(World world, @Nullable Entity entity) {
@@ -85,17 +84,17 @@ public class SculkCatalystListener implements GameEventListener {
         if (optional.isPresent()) {
             if (entity != null) {
                 BlockPos thisPos = optional.get();
-                if (SculkTags.THREE.isOf(Registry.ENTITY_TYPE_KEY)) {
+                if (SculkTags.entityTagContains(entity.getType(), SculkTags.THREE)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos.add(0, 0.5, 0)), UniformIntProvider.create(1, 3).get(world.getRandom()));
-                } else if (SculkTags.FIVE.isOf(Registry.ENTITY_TYPE_KEY)) {
+                } else if (SculkTags.entityTagContains(entity.getType(), SculkTags.FIVE)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), UniformIntProvider.create(3, 5).get(world.getRandom()));
-                } else if (SculkTags.TEN.isOf(Registry.ENTITY_TYPE_KEY)) {
+                } else if (SculkTags.entityTagContains(entity.getType(), SculkTags.TEN)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), UniformIntProvider.create(7, 10).get(world.getRandom()));
-                } else if (SculkTags.TWENTY.isOf(Registry.ENTITY_TYPE_KEY)) {
+                } else if (SculkTags.entityTagContains(entity.getType(), SculkTags.TWENTY)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), UniformIntProvider.create(15, 20).get(world.getRandom()));
-                } else if (SculkTags.FIFTY.isOf(Registry.ENTITY_TYPE_KEY)) {
+                } else if (SculkTags.entityTagContains(entity.getType(), SculkTags.FIFTY)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), UniformIntProvider.create(30, 50).get(world.getRandom()));
-                } else if (SculkTags.ONEHUNDRED.isOf(Registry.ENTITY_TYPE_KEY)) {
+                } else if (SculkTags.entityTagContains(entity.getType(), SculkTags.ONEHUNDRED)) {
                     ExperienceOrbEntity.spawn((ServerWorld) world, Vec3d.ofCenter(thisPos).add(0, 0.5, 0), 200);
                 }
             }
