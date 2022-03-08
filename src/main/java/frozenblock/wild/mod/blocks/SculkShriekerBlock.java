@@ -7,7 +7,6 @@ import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.fromAccurateSculk.*;
 import frozenblock.wild.mod.registry.*;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -17,7 +16,6 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -36,7 +34,10 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -604,10 +605,10 @@ public class SculkShriekerBlock
         return false;
     }
     public static boolean canSpawn(World world, BlockPos p) {
-        return !world.getBlockState(p).getBlock().equals(SculkTags.WARDEN_UNSPAWNABLE) && !world.getBlockState(p).isAir() && world.getBlockState(p).getBlock()!=Blocks.WATER &&  world.getBlockState(p).getBlock()!=Blocks.LAVA;
+        return !SculkTags.blockTagContains(world.getBlockState(p).getBlock(), SculkTags.WARDEN_UNSPAWNABLE) && !world.getBlockState(p).isAir() && world.getBlockState(p).getBlock()!=Blocks.WATER &&  world.getBlockState(p).getBlock()!=Blocks.LAVA;
     }
     public static boolean wardenNonCollide(BlockPos p, World world) {
-        return world.getBlockState(p.up()).getBlock().equals(SculkTags.WARDEN_NON_COLLIDE) && world.getBlockState(p.up(2)).getBlock().equals(SculkTags.WARDEN_NON_COLLIDE) && world.getBlockState(p.up(3)).getBlock().equals(SculkTags.WARDEN_NON_COLLIDE);
+        return SculkTags.blockTagContains(world.getBlockState(p.up()).getBlock(), SculkTags.WARDEN_NON_COLLIDE) && SculkTags.blockTagContains(world.getBlockState(p.up(2)).getBlock(), SculkTags.WARDEN_NON_COLLIDE) && SculkTags.blockTagContains(world.getBlockState(p.up(3)).getBlock(), SculkTags.WARDEN_NON_COLLIDE);
     }
 
 }
