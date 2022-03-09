@@ -9,7 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
@@ -38,7 +38,7 @@ public class RareActivatorFeature extends Feature<DefaultFeatureConfig> {
         if (blockTagsInSphere(context.getOrigin(), 6, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty() && world.getBlockState(context.getOrigin()).getBlock()==sculk.getBlock()) {
             if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {;
                 BlockState activator = SculkTags.RARE_ACTIVATORS.getRandom(new Random(context.getWorld().getSeed())).getDefaultState();
-                if (SculkTags.GROUND_ACTIVATORS.contains(activator.getBlock())) {
+                if (SculkTags.blockTagContains(activator.getBlock(), SculkTags.GROUND_ACTIVATORS)) {
                     world.setBlockState(pos, activator,0);
                 } else {
                     BlockState stateUp = world.getBlockState(pos.up());
@@ -57,7 +57,7 @@ public class RareActivatorFeature extends Feature<DefaultFeatureConfig> {
         } return false;
     }
 
-    public static ArrayList<BlockPos> blockTagsInSphere(BlockPos pos, int radius, Tag<Block> tag, StructureWorldAccess world) {
+    public static ArrayList<BlockPos> blockTagsInSphere(BlockPos pos, int radius, TagKey<Block> tag, StructureWorldAccess world) {
         int bx = pos.getX();
         int by = pos.getY();
         int bz = pos.getZ();
@@ -68,7 +68,7 @@ public class RareActivatorFeature extends Feature<DefaultFeatureConfig> {
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (tag.contains(world.getBlockState(l).getBlock())) {
+                        if (SculkTags.blockTagContains(world.getBlockState(l).getBlock(), tag)) {
                             blocks.add(l);
                         }
                     }
