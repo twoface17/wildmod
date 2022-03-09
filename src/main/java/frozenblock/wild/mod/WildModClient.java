@@ -30,6 +30,7 @@ import net.minecraft.util.math.BlockPos;
 public class WildModClient implements ClientModInitializer {
 
     public static final EntityModelLayer MODEL_WARDEN_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "warden"), "main");
+    public static final EntityModelLayer MODEL_ALLAY_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "allay"), "main");
     public static final EntityModelLayer MODEL_FROG_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "frog"), "main");
     public static final EntityModelLayer MODEL_TADPOLE_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "tadpole"), "main");
     public static final EntityModelLayer MODEL_MANGROVE_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "mangrove_boat"), "main");
@@ -71,6 +72,9 @@ public class WildModClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_WARDEN_LAYER, WardenEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(RegisterEntities.ALLAY, AllayEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_ALLAY_LAYER, AllayEntityModel::getTexturedModelData);
 
         EntityRendererRegistry.register(RegisterEntities.FROG, FrogEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_FROG_LAYER, FrogEntityModel::getTexturedModelData);
