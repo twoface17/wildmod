@@ -11,6 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,8 +37,9 @@ public class BackgroundRendererMixin {
             if (entity instanceof ClientPlayerEntity) {
                 ClientPlayerEntity clientPlayerEntity = (ClientPlayerEntity)entity;
                 y *= Math.max(0.25F, clientPlayerEntity.getUnderwaterVisibility());
-                Biome biome = clientPlayerEntity.world.getBiome(clientPlayerEntity.getBlockPos());
-                if (biome.getCategory() == Biome.Category.SWAMP) {
+                RegistryEntry<Biome> biome = clientPlayerEntity.world.getBiome(clientPlayerEntity.getBlockPos());
+                Biome.Category category = Biome.getCategory(biome);
+                if (biome.getKeyOrValue().right().equals(Biome.Category.SWAMP)) {
                     y *= 0.85F;
                 }
             }

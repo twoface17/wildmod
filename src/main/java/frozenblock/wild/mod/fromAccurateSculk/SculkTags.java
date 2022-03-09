@@ -2,6 +2,7 @@ package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.WildMod;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -12,6 +13,7 @@ import net.minecraft.util.registry.RegistryEntry;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 public class SculkTags {
     public static final TagKey<Block> SCULK_VEIN_REPLACEABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_vein_replaceable"));
@@ -41,7 +43,7 @@ public class SculkTags {
             if (block.getKey().equals(Registry.BLOCK.getKey(block1))) {return true;}
         } return false;
     }
-    public static Block getRandomBlock(TagKey<Block> tag) {
+    public static Block getRandomBlock(Random random, TagKey<Block> tag) {
         ArrayList<Block> blocks = new ArrayList<>();
         for (RegistryEntry<Block> block : Registry.BLOCK.iterateEntries(tag)) {
             if (block.getKey().isPresent()) {

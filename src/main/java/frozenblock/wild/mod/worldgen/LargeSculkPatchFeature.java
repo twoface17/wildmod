@@ -11,7 +11,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
@@ -89,7 +89,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
         //Place Sculk
         for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.BLOCK_REPLACEABLE, world)) {
-            double distance = pos.getSquaredDistance(blockpos,false);
+            double distance = pos.getSquaredDistance(blockpos);
             double maxA=max;
             double minA=min;
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
@@ -120,7 +120,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
             double minA=min;
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
-            double distance = pos.getSquaredDistance(blockpos,false);
+            double distance = pos.getSquaredDistance(blockpos);
             if (r-3<=distance) { //Semi-Fade On Edges
                 double equation = 0.15*(Math.sin((distance*PI)/6));
                 minA=minA+equation;
@@ -139,7 +139,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
             }
         }
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
-            double distance = pos.getSquaredDistance(blockpos,false);
+            double distance = pos.getSquaredDistance(blockpos);
             double maxA=max;
             double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
             if (r-3<=distance) { //Semi-Fade On Edges
@@ -166,16 +166,16 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         //Place Activators
         for (BlockPos blockpos : blocksInSphere(pos, r, RegisterBlocks.SCULK, world)) {
             double sampled = sample.sample(blockpos.getX()*1.5, blockpos.getY()*1.5,blockpos.getZ()*1.5);
-            if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(world.getBlockState(blockpos.up()).getBlock())) {
+            if (SculkTags.blockTagContains(world.getBlockState(blockpos.up()).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE)) {
                 Block activator = null;
                 if (sampled<0.55 && sampled>0.41 && blockTagsInSphere(context.getOrigin(), 3, SculkTags.COMMON_ACTIVATORS, context.getWorld()).isEmpty()) {
-                    activator=SculkTags.COMMON_ACTIVATORS.getRandom(random);
+                    activator=SculkTags.getRandomBlock(random, SculkTags.COMMON_ACTIVATORS);
                 }
                 if (sampled<1 && sampled>0.57 && blockTagsInSphere(context.getOrigin(), 6, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty()) {
-                    activator=SculkTags.RARE_ACTIVATORS.getRandom(random);
+                    activator=SculkTags.getRandomBlock(random, SculkTags.RARE_ACTIVATORS);
                 }
                 if (activator!=null) {
-                    if (SculkTags.GROUND_ACTIVATORS.contains(activator)) {
+                    if (SculkTags.blockTagContains(activator, SculkTags.GROUND_ACTIVATORS)) {
                         world.setBlockState(blockpos.up(), activator.getDefaultState(), 0);
                     } else {
                         if ((world.getBlockState(blockpos.up()).contains(waterLogged) && world.getBlockState(blockpos.up()).get(waterLogged)) || world.getBlockState(blockpos.up()) == water) {
@@ -242,8 +242,8 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                         }
                     }
                     if (direction == Direction.UP) {
-                        if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && block != waterBlock && !state.isAir()) {
-                            if (SculkTags.ALWAYS_WATER.contains(block) || (state.contains(waterLogged) && state.get(waterLogged))) {
+                        if (SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && block != waterBlock && !state.isAir()) {
+                            if (SculkTags.blockTagContains(block, SculkTags.ALWAYS_WATER) || (state.contains(waterLogged) && state.get(waterLogged))) {
                                 world.setBlockState(pos, Blocks.WATER.getDefaultState(), 0);
                             } else {
                                 world.setBlockState(pos, Blocks.AIR.getDefaultState(), 0);
@@ -270,12 +270,12 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                 if (world.isChunkLoaded(pos1)) {
                     BlockState state = world.getBlockState(pos1);
                     Block block = state.getBlock();
-                    if (SculkTags.ALWAYS_WATER.contains(block) || state == Blocks.WATER.getDefaultState()) {
+                    if (SculkTags.blockTagContains(block, SculkTags.ALWAYS_WATER) || state == Blocks.WATER.getDefaultState()) {
                         world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(waterLogged, true).with(getOpposite(direction), true), 0);
                     } else if (block != waterBlock) {
                         if (block == veinBlock) {
                             world.setBlockState(pos1, state.with(getOpposite(direction), true), 0);
-                        } else if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) || state.isAir()) {
+                        } else if (SculkTags.blockTagContains(world.getBlockState(blockpos).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE) || state.isAir()) {
                             world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(getOpposite(direction), true), 0);
                         }
                     }
@@ -300,7 +300,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         for (int h = 0; h < upward; h++) {
             BlockPos pos =  blockPos.up(h);
             Block block = world.getBlockState(pos).getBlock();
-            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
+            if (!SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, pos)) {
                 return pos;
             }
         }
@@ -315,7 +315,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         for (int h = 0; h < downward; h++) {
             BlockPos pos = blockPos.down(h);
             Block block = world.getBlockState(pos).getBlock();
-            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
+            if (!SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, pos)) {
                 return pos;
             }
         }
@@ -327,7 +327,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         BlockState state = world.getBlockState(blockPos);
         Block block = state.getBlock();
         Fluid fluid = world.getFluidState(blockPos).getFluid();
-        return world.isChunkLoaded(blockPos) && !SculkTags.SCULK.contains(block) && !SculkTags.SCULK_UNTOUCHABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !state.isAir() && !FluidTags.WATER.contains(fluid) && !FluidTags.LAVA.contains(fluid);
+        return world.isChunkLoaded(blockPos) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && !SculkTags.blockTagContains(block, SculkTags.SCULK_UNTOUCHABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !state.isAir() && !SculkTags.fluidTagContains(fluid, FluidTags.WATER) && !SculkTags.fluidTagContains(fluid, FluidTags.LAVA);
     }
 
     public static boolean airOrReplaceableUp(StructureWorldAccess world, BlockPos blockPos) {
@@ -369,7 +369,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
     public static final BlockState brokenWaterVein = SculkVeinBlock.SCULK_VEIN.getDefaultState().with(Properties.DOWN, false).with(waterLogged, true);
 
-    public static ArrayList<BlockPos> blockTagsInSphere(BlockPos pos, int radius, Tag<Block> tag, StructureWorldAccess world) {
+    public static ArrayList<BlockPos> blockTagsInSphere(BlockPos pos, int radius, TagKey<Block> tag, StructureWorldAccess world) {
         int bx = pos.getX();
         int by = pos.getY();
         int bz = pos.getZ();
@@ -380,7 +380,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (tag.contains(world.getBlockState(l).getBlock())) {
+                        if (SculkTags.blockTagContains(world.getBlockState(l).getBlock(), tag)) {
                             blocks.add(l);
                         }
                     }
@@ -401,7 +401,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (world.getBlockState(l).isFullCube(world, l) && !SculkTags.SCULK.contains(world.getBlockState(l).getBlock()) && world.isChunkLoaded(l)) {
+                        if (world.getBlockState(l).isFullCube(world, l) && !SculkTags.blockTagContains(world.getBlockState(l).getBlock(), SculkTags.SCULK) && world.isChunkLoaded(l)) {
                             blocks.add(l);
                         }
                     }
@@ -442,7 +442,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                     double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
                     if (distance < radius * radius && !(distance < (radius - 1) * (radius - 1))) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (world.getBlockState(l).isFullCube(world, l) && !SculkTags.SCULK.contains(world.getBlockState(l).getBlock()) && world.isChunkLoaded(l)) {
+                        if (world.getBlockState(l).isFullCube(world, l) && !SculkTags.blockTagContains(world.getBlockState(l).getBlock(), SculkTags.SCULK) && world.isChunkLoaded(l)) {
                             blocks.add(l);
                         }
                     }

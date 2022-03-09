@@ -45,9 +45,9 @@ public class ActivatorGrower {
             if (NewSculk != null && !Sphere.blockTagInSphere(NewSculk, 4, SculkTags.ACTIVATORS, world)) {
                 BlockState activator = null;
                 if (uniInt <= 3) {
-                    activator = Objects.requireNonNull(SculkTags.getRandomBlock(SculkTags.RARE_ACTIVATORS)).getDefaultState();
+                    activator = Objects.requireNonNull(SculkTags.getRandomBlock(random, SculkTags.RARE_ACTIVATORS)).getDefaultState();
                 } else if (uniInt <= 16) {
-                    activator = Objects.requireNonNull(SculkTags.getRandomBlock(SculkTags.COMMON_ACTIVATORS)).getDefaultState();
+                    activator = Objects.requireNonNull(SculkTags.getRandomBlock(random, SculkTags.COMMON_ACTIVATORS)).getDefaultState();
                 }
                 if (activator!=null) {
                     placeActivator(NewSculk, world, activator);

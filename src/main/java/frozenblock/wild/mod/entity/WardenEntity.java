@@ -21,14 +21,12 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -246,15 +244,15 @@ public class WardenEntity extends HostileEntity {
             this.leaveTime = this.world.getTime() + 1200;
             this.queuedSuspicion=suspicion;
             if (vibrationPos != null) { CreateVibration(this.world, this, vibrationPos);
-                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos, false))) * this.vibrationDelayAnger());}
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos.getX(), vibrationPos.getY(), vibrationPos.getZ()))) * this.vibrationDelayAnger());}
             else { CreateVibration(this.world, this, eventPos);
-                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos, false))) * this.vibrationDelayAnger());}
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos.getX(), eventPos.getY(), eventPos.getZ()))) * this.vibrationDelayAnger());}
         } else if (!this.isAiDisabled() && shouldListen && this.roarOtherCooldown<=0 && this.emergeTicksLeft==-5  && this.world.getTime() - this.vibrationTimer >= 20 && this.vibrationTicks==-1 && this.emergeTicksLeft==-5) {
             this.leaveTime = this.world.getTime() + 1200;
             if (vibrationPos != null) { CreateFloorVibration(this.world, this, vibrationPos);
-                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos, false))) * 2);}
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos.getX(), vibrationPos.getY(), vibrationPos.getZ()))) * 2);}
             else { CreateFloorVibration(this.world, this, eventPos);
-                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos, false))) * 2);}
+                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos.getX(), eventPos.getY(), eventPos.getZ()))) * 2);}
         }
     }
 
@@ -620,12 +618,12 @@ public class WardenEntity extends HostileEntity {
     /** VISUALS */
     public void CreateVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
-        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * this.vibrationDelayAnger());
+        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ()))) * this.vibrationDelayAnger());
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
     public void CreateFloorVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         BlockPositionSource blockSource = new BlockPositionSource(this.getBlockPos().down());
-        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2, false))) * 2);
+        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ()))) * 2);
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, blockSource, this.delay));
     }
     public void digParticles(World world, BlockPos pos, int ticks) {
@@ -680,7 +678,7 @@ public class WardenEntity extends HostileEntity {
         if (world.getTime()==this.leaveTime) { this.ableToDig=true; }
         if (this.digAttemptCooldown>0) { --this.digAttemptCooldown; }
         if (this.ableToDig && this.digAttemptCooldown == 0 && this.emergeTicksLeft == -1) { //Start Digging
-            if (!SculkTags.WARDEN_UNSPAWNABLE.contains(world.getBlockState(this.getBlockPos().down()).getBlock()) && !world.getBlockState(this.getBlockPos().down()).isAir()) {
+            if (!SculkTags.blockTagContains(world.getBlockState(this.getBlockPos().down()).getBlock(), SculkTags.WARDEN_UNSPAWNABLE) && !world.getBlockState(this.getBlockPos().down()).isAir()) {
                 this.world.sendEntityStatus(this, (byte) 11);
                 this.handleStatus((byte) 6);
                 this.hasDug=true;
