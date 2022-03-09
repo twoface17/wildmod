@@ -67,12 +67,12 @@ public class RandomVeinsFeature extends Feature<DefaultFeatureConfig> {
                 if (world.isChunkLoaded(pos1)) {
                     BlockState state = world.getBlockState(pos1);
                     Block block = state.getBlock();
-                    if (SculkTags.ALWAYS_WATER.contains(block) || state == Blocks.WATER.getDefaultState()) {
+                    if (SculkTags.blockTagContains(block, SculkTags.ALWAYS_WATER) || state == Blocks.WATER.getDefaultState()) {
                         world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(waterLogged, true).with(getOpposite(direction), true), 0);
                     } else if (block != waterBlock) {
                         if (block == veinBlock) {
                             world.setBlockState(pos1, state.with(getOpposite(direction), true), 0);
-                        } else if (SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) || state.isAir()) {
+                        } else if (SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) || state.isAir()) {
                             world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(getOpposite(direction), true), 0);
                         }
                     }
@@ -95,7 +95,7 @@ public class RandomVeinsFeature extends Feature<DefaultFeatureConfig> {
         for (int h = 0; h < upward; h++) {
             BlockPos pos =  blockPos.up(h);
             Block block = world.getBlockState(pos).getBlock();
-            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
+            if (!SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, pos)) {
                 return pos;
             }
         }
@@ -110,7 +110,7 @@ public class RandomVeinsFeature extends Feature<DefaultFeatureConfig> {
         for (int h = 0; h < downward; h++) {
             BlockPos pos = blockPos.down(h);
             Block block = world.getBlockState(pos).getBlock();
-            if (!SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, pos)) {
+            if (!SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, pos)) {
                 return pos;
             }
         }
@@ -122,7 +122,7 @@ public class RandomVeinsFeature extends Feature<DefaultFeatureConfig> {
         BlockState state = world.getBlockState(blockPos);
         Block block = state.getBlock();
         Fluid fluid = world.getFluidState(blockPos).getFluid();
-        return world.isChunkLoaded(blockPos) && !SculkTags.SCULK.contains(block) && !SculkTags.SCULK_UNTOUCHABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !state.isAir() && !FluidTags.WATER.contains(fluid) && !FluidTags.LAVA.contains(fluid);
+        return world.isChunkLoaded(blockPos) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && !SculkTags.blockTagContains(block, SculkTags.SCULK_UNTOUCHABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !state.isAir() && !SculkTags.fluidTagContains(fluid, FluidTags.WATER) && !SculkTags.fluidTagContains(fluid, FluidTags.LAVA);
     }
 
     public static boolean airOrReplaceableUp(StructureWorldAccess world, BlockPos blockPos) {

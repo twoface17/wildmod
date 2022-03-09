@@ -107,7 +107,7 @@ public class SimpleGameEventDispatcherMixin{
                     //System.out.println(Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos, false))));
                     if(
                             wardie.getEntityWorld() == eventworld &&
-                                    Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos, false))) <= 16
+                                    Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos))) <= 16
                     ) {
                         boolean bl2 = event==GameEvent.HIT_GROUND && evententity==null;
                         if (event!=GameEvent.PROJECTILE_LAND && event!=GameEvent.EAT && !bl2) {
