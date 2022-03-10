@@ -28,9 +28,7 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     public ChestBoatEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
         this.shadowRadius = 0.8F;
-        this.texturesAndModels = (Map)Stream.of(ChestBoatEntity.Type.values()).collect(ImmutableMap.toImmutableMap((type) -> {
-            return type;
-        }, (type) -> {
+        this.texturesAndModels = Stream.of(ChestBoatEntity.Type.values()).collect(ImmutableMap.toImmutableMap((type) -> type, (type) -> {
             return Pair.of(new Identifier(WildMod.MOD_ID, "textures/entity/chest_boat/" + type.getName() + ".png"), new ChestBoatEntityModel(context.getPart(WildModClient.MODEL_CHEST_BOAT_LAYER)));
         }));
     }
@@ -54,7 +52,7 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
             matrixStack.multiply(new Quaternion(new Vec3f(1.0F, 0.0F, 1.0F), boatEntity.interpolateBubbleWobble(g), true));
         }
 
-        Pair<Identifier, ChestBoatEntityModel> pair = (Pair)this.texturesAndModels.get(boatEntity.getBoatType());
+        var pair = (Pair)this.texturesAndModels.get(boatEntity.getBoatType());
         Identifier identifier = (Identifier)pair.getFirst();
         ChestBoatEntityModel boatEntityModel = (ChestBoatEntityModel)pair.getSecond();
         matrixStack.scale(-1.0F, -1.0F, 1.0F);
@@ -72,6 +70,6 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     }
 
     public Identifier getTexture(ChestBoatEntity boatEntity) {
-        return (Identifier)((Pair)this.texturesAndModels.get(boatEntity.getBoatType())).getFirst();
+        return (Identifier)((Pair<?, ?>)this.texturesAndModels.get(boatEntity.getBoatType())).getFirst();
     }
 }
