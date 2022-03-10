@@ -2,7 +2,6 @@ package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.WildMod;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
