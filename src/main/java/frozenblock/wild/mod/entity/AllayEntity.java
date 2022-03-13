@@ -63,6 +63,7 @@ public class AllayEntity extends FlyingEntity {
     protected void initGoals() {
         this.goalSelector.add(1, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(3, new FlyRandomlyGoal(this));
+
         this.setCanPickUpLoot(true);
         List<ItemEntity> list = AllayEntity.this.world.getEntitiesByClass(ItemEntity.class, AllayEntity.this.getBoundingBox().expand(8.0D, 8.0D, 8.0D), AllayEntity.CAN_TAKE);
 
