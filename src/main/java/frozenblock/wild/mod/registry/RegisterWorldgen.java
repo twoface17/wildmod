@@ -60,6 +60,13 @@ public class RegisterWorldgen {
     public static PlacedFeature RANDOM_VEINS_PLACED;
     public static PlacedFeature COMMON_ACTIVATOR_PLACED;
     public static PlacedFeature RARE_ACTIVATOR_PLACED;
+    public static RegistryEntry<PlacedFeature> mangrove;
+    public static RegistryEntry<PlacedFeature> sculk_catastrophe_configured;
+    public static RegistryEntry<PlacedFeature> sculk_patch_configured;
+    public static RegistryEntry<PlacedFeature> random_sculk_configured;
+    public static RegistryEntry<PlacedFeature> random_veins_configured;
+    public static RegistryEntry<PlacedFeature> common_activator_configured;
+    public static RegistryEntry<PlacedFeature> rare_activator_configured;
 
     public static ConfiguredFeature<TreeFeatureConfig, ?> MANGROVE;
     public static ConfiguredFeature<TreeFeatureConfig, ?> BIRCH_NEW;
@@ -79,12 +86,12 @@ public class RegisterWorldgen {
     public static Biome createDeepDark() {
         SpawnSettings.Builder builder = new SpawnSettings.Builder();
         GenerationSettings.Builder builder2 = new GenerationSettings.Builder()
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_PATCH_PLACED)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_CATASTROPHE_PLACED)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RANDOM_SCULK_PLACED)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RANDOM_VEINS_PLACED)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, COMMON_ACTIVATOR_PLACED)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RARE_ACTIVATOR_PLACED);
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.sculk_patch_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.sculk_catastrophe_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.random_sculk_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.random_veins_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.common_activator_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.rare_activator_configured);
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeaturesNoSprings(builder2);
         DefaultBiomeFeatures.addPlainsTallGrass(builder2);
@@ -146,7 +153,7 @@ public class RegisterWorldgen {
 
     public static void addMangroveSwampFeatures(GenerationSettings.Builder builder2) {
         GenerationSettings.Builder builder = new GenerationSettings.Builder()
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, TREES_MANGROVE)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.mangrove)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
