@@ -146,10 +146,10 @@ public class RegisterWorldgen {
 
     public static void addMangroveSwampFeatures(GenerationSettings.Builder builder2) {
         GenerationSettings.Builder builder = new GenerationSettings.Builder()
-        .feature(GenerationStep.Feature.VEGETAL_DECORATION, TREES_MANGROVE)
-        .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY)
-        .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP)
-        .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, TREES_MANGROVE)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
     }
 
     private static void addBasicFeatures(net.minecraft.world.biome.GenerationSettings.Builder generationSettings) {
