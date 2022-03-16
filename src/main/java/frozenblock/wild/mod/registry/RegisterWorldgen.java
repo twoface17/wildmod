@@ -78,7 +78,7 @@ public class RegisterWorldgen {
 
     public static Biome createDeepDark() {
         SpawnSettings.Builder builder = new SpawnSettings.Builder();
-        net.minecraft.world.biome.GenerationSettings.Builder builder2 = new net.minecraft.world.biome.GenerationSettings.Builder();
+        GenerationSettings.Builder builder2 = new GenerationSettings.Builder();
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeaturesNoSprings(builder2);
         DefaultBiomeFeatures.addPlainsTallGrass(builder2);
@@ -207,7 +207,6 @@ public class RegisterWorldgen {
         RARE_ACTIVATOR_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "rare_activators"), new ConfiguredFeature<>(RARE_ACTIVATOR_FEATURE, new DefaultFeatureConfig()));
 
         RegistryEntry<ConfiguredFeature<?, ?>> mangrove = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(MANGROVE).orElseThrow());
-        RegistryEntry<ConfiguredFeature<?, ?>> birch_new = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(BIRCH_NEW).orElseThrow());
         RegistryEntry<ConfiguredFeature<?, ?>> sculk_catastrophe_configured = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(SCULK_CATASTROPHE_CONFIGURED).orElseThrow());
         RegistryEntry<ConfiguredFeature<?, ?>> sculk_patch_configured = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(SCULK_PATCH_CONFIGURED).orElseThrow());
         RegistryEntry<ConfiguredFeature<?, ?>> random_sculk_configured = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(RANDOM_SCULK_CONFIGURED).orElseThrow());
