@@ -1,9 +1,9 @@
 {
 	"ambientocclusion": false,
 	"textures": {
-		"1": "twm:block/mangrove_roots",
+		"1": "twm:block/mangrove_roots_side",
 		"2": "twm:block/mangrove_roots_top",
-		"particle": "twm:block/mangrove_roots"
+		"particle": "twm:block/mangrove_roots_side"
 	},
 	"elements": [
 		{

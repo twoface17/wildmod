@@ -66,7 +66,7 @@ public abstract class RegisterBlocks {
     public static final Block REINFORCED_DEEPSLATE = new PillarBlock(REINFORCED_DEEPSLATE_SETTINGS);
 
     public static final Block MUD_BLOCK = new MudBlock();
-    public static final Block ROOTED_MUD = new RootedMudBlock();
+    public static final Block MUDDY_MANGROVE_ROOTS = new RootedMudBlock();
 
     public static final Block MUD_BRICKS = new MudBricks(MUD_BRICKS_SETTINGS);
     public static final WallBlock MUD_BRICKS_WALL = new MudBricksWall(MUD_BRICKS_SETTINGS);
@@ -134,8 +134,8 @@ public abstract class RegisterBlocks {
 
         MangroveWoods.RegisterMangrove();
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "rooted_mud"), ROOTED_MUD);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "rooted_mud"), new BlockItem(ROOTED_MUD, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "muddy_mangrove_roots"), MUDDY_MANGROVE_ROOTS);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "muddy_mangrove_roots"), new BlockItem(MUDDY_MANGROVE_ROOTS, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
     }
 }
