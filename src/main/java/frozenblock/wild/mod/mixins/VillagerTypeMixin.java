@@ -3,6 +3,7 @@ package frozenblock.wild.mod.mixins;
 import com.google.common.collect.Maps;
 import frozenblock.wild.mod.registry.RegisterWorldgen;
 import net.minecraft.util.Util;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.biome.Biome;
@@ -51,8 +52,8 @@ public class VillagerTypeMixin {
     });
 
     @Inject(at = @At("RETURN"), method = "forBiome", cancellable = true)
-    private static void forBiome(Optional<RegistryKey<Biome>> biomeKey2, CallbackInfoReturnable<VillagerType> cir) {
-        cir.setReturnValue(biomeKey2.flatMap(biomeKey -> Optional.ofNullable(BIOME_TO_TYPE_CUSTOM.get(biomeKey))).orElse(VillagerType.PLAINS));
+    private static void forBiome(RegistryEntry<Biome> biomeEntry, CallbackInfoReturnable<VillagerType> cir) {
+        cir.setReturnValue(biomeEntry.getKey().flatMap(biomeKey -> Optional.ofNullable(BIOME_TO_TYPE_CUSTOM.get(biomeKey))).orElse(VillagerType.PLAINS));
     }
 
 }

@@ -355,7 +355,7 @@ public class FrogEntity extends AnimalEntity {
         }
     }
 
-    class FrogMoveControl extends MoveControl {
+     static class FrogMoveControl extends MoveControl {
         private final FrogEntity frog;
 
         FrogMoveControl(FrogEntity frog) {

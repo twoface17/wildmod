@@ -47,8 +47,6 @@ public class WildMod implements ModInitializer {
     //TESTING GAMERULES. TODO: DELETE THESE AT 1.0. DO NOT WRITE TOO MUCH CODE THAT DEPENDS ON THESE.
     public static final GameRules.Key<GameRules.BooleanRule> NO_WARDEN_COOLDOWN =
             GameRuleRegistry.register("noWardenCooldown", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
-    public static final GameRules.Key<GameRules.BooleanRule> WARDEN_BURNS =
-            GameRuleRegistry.register("wardenBurns", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
     public static final GameRules.Key<GameRules.BooleanRule> WARDEN_SPAWNING =
             GameRuleRegistry.register("wardenSpawns", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
 }

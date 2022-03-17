@@ -26,7 +26,7 @@ public class ActivatorGrower {
     public static final Block waterBlock = Blocks.WATER;
     //public static final Block sculkBlock = SculkBlock.SCULK_BLOCK;
     public static final BooleanProperty waterLogged = Properties.WATERLOGGED;
-    public static Random random = new Random();
+    public static final Random random = new Random();
 
     public static void startGrowing(int loop, int rVal, BlockPos pos, World world) { //Call For Placement
         for (int l = 0; l < loop; ++l) {
