@@ -8,6 +8,7 @@ import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 import net.minecraft.world.biome.source.util.VanillaBiomeParameters;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,33 +19,41 @@ import java.util.function.Consumer;
 @Mixin(VanillaBiomeParameters.class)
 public abstract class VanillaBiomeParametersMixin {
 
-    @Shadow
+    @Mutable
     @Final
-    private RegistryKey<Biome>[][] UNCOMMON_BIOMES;
+    private final RegistryKey<Biome>[][] UNCOMMON_BIOMES;
 
-    @Shadow
+    @Mutable
     @Final
-    private MultiNoiseUtil.ParameterRange NEAR_INLAND_CONTINENTALNESS;
+    private final MultiNoiseUtil.ParameterRange NEAR_INLAND_CONTINENTALNESS;
 
-    @Shadow
+    @Mutable
     @Final
-    private MultiNoiseUtil.ParameterRange FAR_INLAND_CONTINENTALNESS;
+    private final MultiNoiseUtil.ParameterRange FAR_INLAND_CONTINENTALNESS;
 
-    @Shadow
+    @Mutable
     @Final
-    private MultiNoiseUtil.ParameterRange[] EROSION_PARAMETERS = new MultiNoiseUtil.ParameterRange[]{MultiNoiseUtil.ParameterRange.of(-1.0F, -0.78F), MultiNoiseUtil.ParameterRange.of(-0.78F, -0.375F), MultiNoiseUtil.ParameterRange.of(-0.375F, -0.2225F), MultiNoiseUtil.ParameterRange.of(-0.2225F, 0.05F), MultiNoiseUtil.ParameterRange.of(0.05F, 0.45F), MultiNoiseUtil.ParameterRange.of(0.45F, 0.55F), MultiNoiseUtil.ParameterRange.of(0.55F, 1.0F)};
+    private final MultiNoiseUtil.ParameterRange[] EROSION_PARAMETERS = new MultiNoiseUtil.ParameterRange[]{MultiNoiseUtil.ParameterRange.of(-1.0F, -0.78F), MultiNoiseUtil.ParameterRange.of(-0.78F, -0.375F), MultiNoiseUtil.ParameterRange.of(-0.375F, -0.2225F), MultiNoiseUtil.ParameterRange.of(-0.2225F, 0.05F), MultiNoiseUtil.ParameterRange.of(0.05F, 0.45F), MultiNoiseUtil.ParameterRange.of(0.45F, 0.55F), MultiNoiseUtil.ParameterRange.of(0.55F, 1.0F)};
 
-    @Shadow
+    @Mutable
     @Final
-    private MultiNoiseUtil.ParameterRange DEFAULT_PARAMETER = MultiNoiseUtil.ParameterRange.of(-1.0F, 1.0F);
+    private final MultiNoiseUtil.ParameterRange DEFAULT_PARAMETER = MultiNoiseUtil.ParameterRange.of(-1.0F, 1.0F);
 
-    @Shadow
+    @Mutable
     @Final
-    private MultiNoiseUtil.ParameterRange NON_FROZEN_TEMPERATURE_PARAMETERS;
+    private final MultiNoiseUtil.ParameterRange NON_FROZEN_TEMPERATURE_PARAMETERS;
 
-    @Shadow
+    @Mutable
     @Final
-    private MultiNoiseUtil.ParameterRange RIVER_CONTINENTALNESS;
+    private final MultiNoiseUtil.ParameterRange RIVER_CONTINENTALNESS;
+
+    protected VanillaBiomeParametersMixin(RegistryKey<Biome>[][] uncommon_biomes, MultiNoiseUtil.ParameterRange near_inland_continentalness, MultiNoiseUtil.ParameterRange far_inland_continentalness, MultiNoiseUtil.ParameterRange non_frozen_temperature_parameters, MultiNoiseUtil.ParameterRange river_continentalness) {
+        UNCOMMON_BIOMES = uncommon_biomes;
+        NEAR_INLAND_CONTINENTALNESS = near_inland_continentalness;
+        FAR_INLAND_CONTINENTALNESS = far_inland_continentalness;
+        NON_FROZEN_TEMPERATURE_PARAMETERS = non_frozen_temperature_parameters;
+        RIVER_CONTINENTALNESS = river_continentalness;
+    }
 
     @Shadow
     private void writeBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, float offset, RegistryKey<Biome> biome) {
