@@ -2,13 +2,16 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "twm:mud_block"
+      "item": "twm:packed_mud"
     },
     {
-      "item": "minecraft:sand"
+      "item": "twm:packed_mud"
     },
     {
-      "item": "minecraft:wheat"
+      "item": "twm:packed_mud"
+    },
+    {
+      "item": "twm:packed_mud"
     }
   ],
   "result": {

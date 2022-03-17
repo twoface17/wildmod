@@ -5,11 +5,11 @@
       "item": "twm:mangrove_roots"
     },
     {
-      "item": "twm:mud_block"
+      "item": "twm:mud"
     }
   ],
   "result": {
-    "item": "twm:rooted_mud",
+    "item": "twm:muddy_mangrove_roots",
     "count": 1
   }
 }

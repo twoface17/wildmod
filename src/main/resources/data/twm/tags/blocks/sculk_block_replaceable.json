@@ -13,7 +13,7 @@
     "#minecraft:dirt",
     "minecraft:end_stone",
     "minecraft:gravel",
-    "twm:mud_block",
+    "twm:mud",
     "#minecraft:base_stone_nether"
   ]
 }

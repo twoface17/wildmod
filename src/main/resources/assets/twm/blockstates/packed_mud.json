@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "twm:block/rooted_mud"
+      "model": "twm:block/packed_mud"
     }
   }
 }
