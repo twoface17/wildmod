@@ -1,9 +1,9 @@
 {
   "credit": "Made by Frozenblock studios",
   "textures": {
-    "0": "twm:block/rooted_mud",
-    "1": "twm:block/rooted_mud_top",
-    "particle": "twm:block/rooted_mud"
+    "0": "twm:block/muddy_mangrove_roots_side",
+    "1": "twm:block/muddy_mangrove_roots_top",
+    "particle": "twm:block/muddy_mangrove_roots_side"
   },
   "elements": [
     {
