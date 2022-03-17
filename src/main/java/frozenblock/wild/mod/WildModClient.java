@@ -2,6 +2,7 @@ package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
+import frozenblock.wild.mod.blocks.RootedMudBlock;
 import frozenblock.wild.mod.entity.*;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityModel;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityRenderer;

@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.blocks.mangrove;
+package frozenblock.wild.mod.blocks;
 
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -13,8 +13,8 @@ import net.minecraft.sound.BlockSoundGroup;
 import java.util.Collections;
 import java.util.List;
 
-public class MuddyMangroveRoots extends Block {
-    public MuddyMangroveRoots() {
+public class RootedMudBlock extends Block {
+    public RootedMudBlock() {
         super(FabricBlockSettings
                 .of(Material.SOIL, MapColor.GRAY)
                 .sounds(new BlockSoundGroup(1.0f, 1.0f,
