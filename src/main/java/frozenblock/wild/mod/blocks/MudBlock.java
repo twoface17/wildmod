@@ -13,6 +13,9 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +25,8 @@ import static net.minecraft.block.PointedDripstoneBlock.THICKNESS;
 import static net.minecraft.block.PointedDripstoneBlock.VERTICAL_DIRECTION;
 
 public class MudBlock extends Block {
+    protected static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D);
+
     public MudBlock() {
         super(FabricBlockSettings
                 .of(Material.SOIL, MapColor.GRAY)
@@ -118,6 +123,21 @@ public class MudBlock extends Block {
                 }
             }
         }
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return COLLISION_SHAPE;
+    }
+
+    @Override
+    public VoxelShape getSidesShape(BlockState state, BlockView world, BlockPos pos) {
+        return VoxelShapes.fullCube();
+    }
+
+    @Override
+    public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return VoxelShapes.fullCube();
     }
 
     @Override
