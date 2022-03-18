@@ -33,12 +33,12 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     public void tickRiding(CallbackInfo ci) {
         this.riding = false;
         if (this.getVehicle() instanceof MangroveBoatEntity) {
-            MangroveBoatEntity boatEntity = (MangroveBoatEntity)this.getVehicle();
+            MangroveBoatEntity boatEntity = (MangroveBoatEntity) this.getVehicle();
             boatEntity.setInputs(this.input.pressingLeft, this.input.pressingRight, this.input.pressingForward, this.input.pressingBack);
             this.riding |= this.input.pressingLeft || this.input.pressingRight || this.input.pressingForward || this.input.pressingBack;
         }
         if (this.getVehicle() instanceof ChestBoatEntity) {
-            ChestBoatEntity boatEntity = (ChestBoatEntity)this.getVehicle();
+            ChestBoatEntity boatEntity = (ChestBoatEntity) this.getVehicle();
             boatEntity.setInputs(this.input.pressingLeft, this.input.pressingRight, this.input.pressingForward, this.input.pressingBack);
             this.riding |= this.input.pressingLeft || this.input.pressingRight || this.input.pressingForward || this.input.pressingBack;
         }

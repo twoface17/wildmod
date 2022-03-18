@@ -38,18 +38,18 @@ public class FrogSpawnBlock
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-            return VoxelShapes.empty();
+        return VoxelShapes.empty();
     }
 
     @Override
     public void scheduledTick(BlockState blockState, ServerWorld serverWorld, BlockPos pos, Random random) {
-            int tadpoles = UniformIntProvider.create(1, 6).get(serverWorld.getRandom());
-            for (int t = 0; t < tadpoles; t++) {
-                TadpoleEntity tadpoleEntity = (TadpoleEntity) RegisterEntities.TADPOLE.create(serverWorld);
-                tadpoleEntity.refreshPositionAndAngles((double) pos.getX() + 0.3D + 0.2D, (double) pos.getY(), (double) pos.getZ() + 0.3D, 0.0F, 0.0F);
-                serverWorld.spawnEntity(tadpoleEntity);
-            }
-            serverWorld.breakBlock(pos, false);
+        int tadpoles = UniformIntProvider.create(1, 6).get(serverWorld.getRandom());
+        for (int t = 0; t < tadpoles; t++) {
+            TadpoleEntity tadpoleEntity = (TadpoleEntity) RegisterEntities.TADPOLE.create(serverWorld);
+            tadpoleEntity.refreshPositionAndAngles((double) pos.getX() + 0.3D + 0.2D, (double) pos.getY(), (double) pos.getZ() + 0.3D, 0.0F, 0.0F);
+            serverWorld.spawnEntity(tadpoleEntity);
+        }
+        serverWorld.breakBlock(pos, false);
     }
 
     @Override
@@ -60,6 +60,6 @@ public class FrogSpawnBlock
     }
 
     public static boolean isWater(BlockView world, BlockPos pos) {
-        return world.getBlockState(pos)==Blocks.WATER.getDefaultState();
+        return world.getBlockState(pos) == Blocks.WATER.getDefaultState();
     }
 }

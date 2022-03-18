@@ -20,7 +20,9 @@ public class WardenSwimGoal extends Goal {
     }
 
     public boolean canStart() {
-        if (this.mob.emergeTicksLeft>0 || this.mob.emergeTicksLeft==-5) {return false;}
+        if (this.mob.emergeTicksLeft > 0 || this.mob.emergeTicksLeft == -5) {
+            return false;
+        }
         return this.mob.isTouchingWater() && this.mob.isSubmergedInWater() || this.mob.isInLava();
     }
 

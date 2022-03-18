@@ -24,16 +24,16 @@ public class WardenGetAttackedGoal extends Goal {
     }
 
     public boolean canStart() {
-        if(this.mob.getAttacker() == null) {
+        if (this.mob.getAttacker() == null) {
             return false;
         } else {
             BlockPos blockPos = this.mob.getAttacker().getBlockPos();
-            if(blockPos != null) {
+            if (blockPos != null) {
                 this.VX = this.mob.getAttacker().getX();
                 this.VY = this.mob.getAttacker().getY();
                 this.VZ = this.mob.getAttacker().getZ();
             }
-            if(this.mob.getAttacker().isSneaking()) {
+            if (this.mob.getAttacker().isSneaking()) {
                 return false;
             } else {
                 return true;
@@ -59,10 +59,10 @@ public class WardenGetAttackedGoal extends Goal {
         World world = this.mob.getEntityWorld();
         BlockPos pos = this.mob.getBlockPos();
         double distance = this.mob.squaredDistanceTo(VX, VY, VZ);
-        if(distance <= 10) {
+        if (distance <= 10) {
             this.mob.tryAttack(target);
         }
-        if(!target.isAlive()) {
+        if (!target.isAlive()) {
             this.mob.playSound(RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY, 1f, 1f);
         }
     }

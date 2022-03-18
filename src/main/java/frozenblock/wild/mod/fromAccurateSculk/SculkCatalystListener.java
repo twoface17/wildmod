@@ -116,7 +116,7 @@ public class SculkCatalystListener implements GameEventListener {
                     ServerPlayNetworking.send(player, RegisterAccurateSculk.CATALYST_PARTICLE_PACKET, buf);
                 }
                 if (world.getGameRules().getBoolean(WildMod.DO_CATALYST_VIBRATIONS)) {
-                    ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
+                    ((ServerWorld) world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
                 }
             } else if (!world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
                 PacketByteBuf buf = PacketByteBufs.create();
@@ -126,7 +126,7 @@ public class SculkCatalystListener implements GameEventListener {
                 }
                 pseudoSculk(world, entity);
                 if (world.getGameRules().getBoolean(WildMod.DO_CATALYST_VIBRATIONS)) {
-                    ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
+                    ((ServerWorld) world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
                 }
             }
         }

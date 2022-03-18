@@ -16,13 +16,14 @@ public class DarknessStatusEffect extends StatusEffect {
                 0x000000
         );
     }
+
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         float pulse;
         pulse = (float) MathAddon.cutCos(MathAddon.time, 0, false);
-        if(pulse < 0.5f && pulse > 0.4f) {
+        if (pulse < 0.5f && pulse > 0.4f) {
             World world = entity.getEntityWorld();
             BlockPos pos = entity.getBlockPos();
-            if(!world.isClient) {
+            if (!world.isClient) {
                 world.playSound(
                         null,
                         pos,

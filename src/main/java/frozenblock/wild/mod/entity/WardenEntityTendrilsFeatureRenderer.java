@@ -29,7 +29,9 @@ public class WardenEntityTendrilsFeatureRenderer extends EyesFeatureRenderer<War
         if (entity.shouldRender) {
             String string = Formatting.strip(entity.getName().getString());
             VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.TENDRILS);
-            if ("Osmiooo".equals(string)) {vertexConsumer = vertexConsumers.getBuffer(this.SECRET_TENDRILS);}
+            if ("Osmiooo".equals(string)) {
+                vertexConsumer = vertexConsumers.getBuffer(this.SECRET_TENDRILS);
+            }
             this.getContextModel().render(matrices, vertexConsumer, (int) calculateLight(entity), OverlayTexture.DEFAULT_UV, calculateColors(entity), calculateColors(entity), calculateColors(entity), 1.0f);
         }
     }
@@ -38,20 +40,24 @@ public class WardenEntityTendrilsFeatureRenderer extends EyesFeatureRenderer<War
         float a = warden.vibrationTimer;
         float b = warden.world.getTime();
 
-        float toNow = (a-b) * -1;
-        float d = (float) ((float) Math.cos((toNow)/12));
-        if (toNow>23) { return 0.0f; }
-        return MathHelper.clamp(d,0,1) * 15728640;
+        float toNow = (a - b) * -1;
+        float d = (float) ((float) Math.cos((toNow) / 12));
+        if (toNow > 23) {
+            return 0.0f;
+        }
+        return MathHelper.clamp(d, 0, 1) * 15728640;
     }
 
     private static float calculateColors(WardenEntity warden) {
         float a = warden.vibrationTimer;
         float b = warden.world.getTime();
 
-        float toNow = (a-b) * -1;
-        float d = (float) ((float) Math.cos((toNow)/12));
-        if (toNow>24) { return 0.0f; }
-        return MathHelper.clamp(d,0,1);
+        float toNow = (a - b) * -1;
+        float d = (float) ((float) Math.cos((toNow) / 12));
+        if (toNow > 24) {
+            return 0.0f;
+        }
+        return MathHelper.clamp(d, 0, 1);
     }
 
     public RenderLayer getEyesTexture() {

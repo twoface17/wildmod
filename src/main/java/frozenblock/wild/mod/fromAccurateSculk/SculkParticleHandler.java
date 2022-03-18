@@ -16,20 +16,20 @@ public class SculkParticleHandler {
         double f = (double) blockPos.getZ() + 0.5;
         int random = UniformIntProvider.create(1, 3).get(world.getRandom());
         if (random == 1) {
-            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f,0.02,0.05), 0.0);
+            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f, 0.02, 0.05), 0.0);
         } else if (random == 2) {
-            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f,0.02,0.05), 0.0);
-            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f,0.02,0.05), 0.0);
+            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f, 0.02, 0.05), 0.0);
+            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f, 0.02, 0.05), 0.0);
         } else if (random == 3) {
-            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f,0.02,0.05), 0.0);
-            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f,0.02,0.05), 0.0);
-            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2,-0.125,0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f,0.02,0.05), 0.0);
+            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f, 0.02, 0.05), 0.0);
+            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f, 0.02, 0.05), 0.0);
+            world.addImportantParticle(RegisterParticles.SCULK_SOUL, d + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), e, f + MathHelper.clamp((Math.random() - 0.5) * 2, -0.125, 0.125), 0.0, MathHelper.clamp(Math.random() * 0.1f, 0.02, 0.05), 0.0);
         }
     }
 
     public static void wardenDig(World world, BlockPos p, int ticks) {
         int random = UniformIntProvider.create(1, 9).get(world.getRandom());
-        if (ticks<50 || (ticks>60 && ticks<95) ) {
+        if (ticks < 50 || (ticks > 60 && ticks < 95)) {
             if (random == 1) {
                 world.addBlockBreakParticles(p.add(0.5, -0.4, -0.5), world.getBlockState(p.add(-0.5, -1, -0.5)));
             } else if (random == 2) {
@@ -54,16 +54,16 @@ public class SculkParticleHandler {
         double d = (double) blockPos.getX() + 0.5;
         double e = (double) blockPos.getY() + 0;
         double f = (double) blockPos.getZ() + 0.5;
-        if (direction==1) {
+        if (direction == 1) {
             world.addImportantParticle(RegisterAccurateSculk.SCULK_SHRIEK, d, e, f, 0.0, 0.105, 0.0);
             world.addImportantParticle(RegisterAccurateSculk.SCULK_SHRIEK2, d, e, f, 0.0, 0.105, 0.0);
-        } else if (direction==2) {
+        } else if (direction == 2) {
             world.addImportantParticle(RegisterAccurateSculk.SCULK_SHRIEKZ, d, e, f, 0.0, 0.105, 0.0);
             world.addImportantParticle(RegisterAccurateSculk.SCULK_SHRIEKZ2, d, e, f, 0.0, 0.105, 0.0);
-        } else if (direction==3) {
+        } else if (direction == 3) {
             world.addImportantParticle(RegisterAccurateSculk.SCULK_SHRIEKNX, d, e, f, 0.0, 0.105, 0.0);
             world.addImportantParticle(RegisterAccurateSculk.SCULK_SHRIEKNX2, d, e, f, 0.0, 0.105, 0.0);
-        } else if (direction==4) {
+        } else if (direction == 4) {
             world.addImportantParticle(RegisterAccurateSculk.SCULK_SHRIEKX, d, e, f, 0.0, 0.105, 0.0);
             world.addImportantParticle(RegisterAccurateSculk.SCULK_SHRIEKX2, d, e, f, 0.0, 0.105, 0.0);
         }
@@ -85,6 +85,7 @@ public class SculkParticleHandler {
         world.addParticle(ParticleTypes.SPLASH, d2, e1, f1, 0, 0.1, 0);
         world.addParticle(ParticleTypes.SPLASH, d1, e1, f1, 0, 0.1, 0);
     }
+
     public static void shriekerGargle2(World world, BlockPos blockPos) {
         double ran1 = UniformIntProvider.create(-3, 3).get(world.getRandom());
         double ran2 = UniformIntProvider.create(-3, 3).get(world.getRandom());

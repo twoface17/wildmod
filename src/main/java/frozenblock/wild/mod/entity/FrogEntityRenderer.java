@@ -26,9 +26,9 @@ public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntity
         if (string != null && "Xfrtrex".equals(string)) {
             return SUS_TEXTURE;
         }
-        if(entity.getVariant() == FrogEntity.Variant.WARM) {
+        if (entity.getVariant() == FrogEntity.Variant.WARM) {
             return WARM_TEXTURE;
-        } else if(entity.getVariant() == FrogEntity.Variant.COLD) {
+        } else if (entity.getVariant() == FrogEntity.Variant.COLD) {
             return COLD_TEXTURE;
         } else {
             return TEMPERATE_TEXTURE;
@@ -38,7 +38,6 @@ public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntity
     public void render(FrogEntity frogEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         super.render(frogEntity, f, g, matrixStack, vertexConsumerProvider, i);
     }
-
 
 
 }

@@ -26,14 +26,24 @@ public class WardenWanderGoal
     @Override
     public boolean canStart() {
         Vec3d vec3d;
-        if (this.mob.roarTicksLeft1 > 0) {return false;}
-        if (this.mob.hasDug || this.mob.emergeTicksLeft==-5) { return false; }
-        if (this.mob.emergeTicksLeft>0) {return false;}
-        if (this.mob.movementPriority<=1 && this.mob.ticksToWander<=0) {
+        if (this.mob.roarTicksLeft1 > 0) {
+            return false;
+        }
+        if (this.mob.hasDug || this.mob.emergeTicksLeft == -5) {
+            return false;
+        }
+        if (this.mob.emergeTicksLeft > 0) {
+            return false;
+        }
+        if (this.mob.movementPriority <= 1 && this.mob.ticksToWander <= 0) {
 
-            if (this.mob.hasPassengers()) { return false; }
+            if (this.mob.hasPassengers()) {
+                return false;
+            }
 
-            if ((vec3d = this.getWanderTarget()) == null) {return false;}
+            if ((vec3d = this.getWanderTarget()) == null) {
+                return false;
+            }
 
             this.targetX = vec3d.x;
             this.targetY = vec3d.y;
@@ -51,15 +61,15 @@ public class WardenWanderGoal
 
     @Override
     public void start() {
-        this.mob.wanderTicksLeft=random.nextInt(50,80);
+        this.mob.wanderTicksLeft = random.nextInt(50, 80);
         this.mob.getNavigation().startMovingTo(this.targetX, this.targetY, this.targetZ, this.speed);
-        this.mob.movementPriority=1;
-        this.mob.canSniff=true;
+        this.mob.movementPriority = 1;
+        this.mob.canSniff = true;
     }
 
     @Override
     public boolean shouldContinue() {
-        return this.mob.wanderTicksLeft>0;
+        return this.mob.wanderTicksLeft > 0;
     }
 
 }

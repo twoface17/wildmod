@@ -28,6 +28,7 @@ public class SculkVeinBlock extends GlowLichenBlock implements Waterloggable {
     public static ToIntFunction<BlockState> getLuminanceSupplier(int i) {
         return blockState -> AbstractLichenBlock.hasAnyDirection(blockState) ? i : 0;
     }
+
     @Nullable
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
         BlockPos blockPos = itemPlacementContext.getBlockPos();

@@ -30,24 +30,31 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     public int getTicks() {
         return ticks;
     }
+
     public int getShrieks() {
         return shrieks;
     }
+
     public int getPrevTick() {
         return prevTick;
     }
+
     public int getDirection() {
         return direction;
     }
+
     public void setTicks(int i) {
         ticks = i;
     }
+
     public void setShrieks(int i) {
         shrieks = i;
     }
+
     public void setPrevTick(int i) {
         prevTick = i;
     }
+
     public void setDirection(int i) {
         direction = i;
         this.markDirty();
@@ -56,13 +63,14 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     public boolean getStepped() {
         return stepped;
     }
+
     public void setStepped(boolean bl) {
         stepped = bl;
     }
 
     public SculkShriekerBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(NewBlockEntityType.SCULK_SHRIEKER, blockPos, blockState);
-        this.listener = new SculkShriekerListener(new BlockPositionSource(this.pos), ((SculkShriekerBlock)blockState.getBlock()).getRange(), this);
+        this.listener = new SculkShriekerListener(new BlockPositionSource(this.pos), ((SculkShriekerBlock) blockState.getBlock()).getRange(), this);
     }
 
     @Override
@@ -94,7 +102,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     }
 
     public void setLastVibrationFrequency(int i) {
-        this.lastVibrationFrequency=i;
+        this.lastVibrationFrequency = i;
     }
 
     @Override
@@ -179,13 +187,13 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     @Override
     public void accept(World world, GameEventListener gameEventListener, GameEvent gameEvent, int i) {
         BlockState blockState = this.getCachedState();
-        if (!world.isClient() && SculkShriekerBlock.isInactive(blockState) && gameEvent== RegisterAccurateSculk.CLICK) {
+        if (!world.isClient() && SculkShriekerBlock.isInactive(blockState) && gameEvent == RegisterAccurateSculk.CLICK) {
             SculkShriekerBlock.setActive(world, this.pos, blockState);
         }
     }
 
     public static int getPower(int i, int j) {
-        double d = (double)i / (double)j;
+        double d = (double) i / (double) j;
         return Math.max(1, 15 - MathHelper.floor(d * 15.0));
     }
 

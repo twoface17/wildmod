@@ -60,10 +60,10 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
     public void tickMovement() {
         super.tickMovement();
         if (!this.spawnSet) {
-            this.spawnX=this.getBlockX();
-            this.spawnY=this.getBlockY();
-            this.spawnZ=this.getBlockZ();
-            this.spawnSet=true;
+            this.spawnX = this.getBlockX();
+            this.spawnY = this.getBlockY();
+            this.spawnZ = this.getBlockZ();
+            this.spawnSet = true;
         }
     }
 
@@ -74,6 +74,7 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         nbt.putInt("spawnY", this.spawnY);
         nbt.putInt("spawnZ", this.spawnZ);
     }
+
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.spawnSet = nbt.getBoolean("spawnSet");
@@ -86,7 +87,7 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         Vec3d vec3d = Vec3d.ofBottomCenter(pos);
         int i = 0;
         BlockPos blockPos = this.getBlockPos();
-        int j = (int)vec3d.y - blockPos.getY();
+        int j = (int) vec3d.y - blockPos.getY();
         if (j > 2) {
             i = 4;
         } else if (j < -2) {
@@ -123,6 +124,7 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         birdNavigation.setCanEnterOpenDoors(true);
         return birdNavigation;
     }
+
     protected SoundEvent getAmbientSound() {
         return null;
     }

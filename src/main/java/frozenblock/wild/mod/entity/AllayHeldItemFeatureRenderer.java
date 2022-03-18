@@ -25,12 +25,12 @@ public class AllayHeldItemFeatureRenderer extends FeatureRenderer<AllayEntity, A
         float x = 0.0F;
         float m = -0.25F;
         float n = 0.3F;
-        x -= MathHelper.sin(animationProgress * 1 *multiplier) * 0.1F;
+        x -= MathHelper.sin(animationProgress * 1 * multiplier) * 0.1F;
         n -= MathHelper.sin(animationProgress * 2 * multiplier) * -0.2F + 0.1F;
 
 
         matrices.push();
-        matrices.translate((double)x, (double)n, (double)m);
+        matrices.translate((double) x, (double) n, (double) m);
         MinecraftClient.getInstance().getHeldItemRenderer().renderItem(entity, itemStack, ModelTransformation.Mode.GROUND, false, matrices, vertexConsumers, light);
         matrices.pop();
     }

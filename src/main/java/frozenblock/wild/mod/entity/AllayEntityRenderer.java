@@ -18,7 +18,9 @@ public class AllayEntityRenderer extends MobEntityRenderer<AllayEntity, AllayEnt
         this.addFeature(new AllayHeldItemFeatureRenderer(this));
     }
 
-    protected int getBlockLight(AllayEntity entity, BlockPos blockPos) {return 15;}
+    protected int getBlockLight(AllayEntity entity, BlockPos blockPos) {
+        return 15;
+    }
 
     @Override
     public Identifier getTexture(AllayEntity entity) {

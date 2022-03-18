@@ -12,6 +12,7 @@ public class MangrovePlanks extends Block {
     public MangrovePlanks(Settings settings) {
         super(settings);
     }
+
     @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
         List<ItemStack> dropsOriginal = super.getDroppedStacks(state, builder);

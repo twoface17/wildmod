@@ -37,7 +37,9 @@ public class WardenGoal extends Goal {
         if (this.mob.roarTicksLeft1 > 0) {
             return false;
         }
-        if (this.mob.hasDug || this.mob.emergeTicksLeft==-5) { return false; }
+        if (this.mob.hasDug || this.mob.emergeTicksLeft == -5) {
+            return false;
+        }
 
         boolean attacker = false;
         if (this.mob.getAttacker() != null && !(this.mob.getAttacker() instanceof WardenEntity)) {
@@ -96,45 +98,51 @@ public class WardenGoal extends Goal {
     public void start() {
         BlockPos lasteventpos = this.mob.lasteventpos;
         LivingEntity lastevententity = this.mob.lastevententity;
-        if (this.mob.movementPriority==1) {this.mob.getNavigation().stop();}
-        this.mob.movementPriority=2;
-        this.mob.ticksToWander=120;
-        this.mob.wanderTicksLeft=0;
+        if (this.mob.movementPriority == 1) {
+            this.mob.getNavigation().stop();
+        }
+        this.mob.movementPriority = 2;
+        this.mob.ticksToWander = 120;
+        this.mob.wanderTicksLeft = 0;
         boolean attacker = false;
         if (this.mob.getAttacker() != null && !(this.mob.getAttacker() instanceof WardenEntity)) {
             attacker = true;
-            if (this.mob.getAttacker() instanceof PlayerEntity) { attacker = !((PlayerEntity) this.mob.getAttacker()).getAbilities().creativeMode; }
+            if (this.mob.getAttacker() instanceof PlayerEntity) {
+                attacker = !((PlayerEntity) this.mob.getAttacker()).getAbilities().creativeMode;
+            }
         }
-        if (attacker && this.mob.world.getDifficulty().getId()!=0) {
-                LivingEntity target = this.mob.getAttacker();
-                this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed + (5 * 0.15) + (this.mob.trueOverallAnger() * 0.002));
-                double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
-                double e = this.mob.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
-                this.cooldown = Math.max(this.cooldown - 1, 0);
-                if (!(e > d)) {
-                    if (this.cooldown <= 0) {
-                        this.cooldown = 20;
-                        this.mob.tryAttack(target);
-                    }
-                }
-                this.mob.lastevententity = null;
-                this.mob.lasteventpos = null;
-                this.mob.lasteventworld = null;
-            } else if (lastevententity != null) {
+        if (attacker && this.mob.world.getDifficulty().getId() != 0) {
+            LivingEntity target = this.mob.getAttacker();
+            this.mob.getNavigation().startMovingTo(this.VX, this.VY, this.VZ, speed + (5 * 0.15) + (this.mob.trueOverallAnger() * 0.002));
             double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
-            double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
-            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed + (MathHelper.clamp(this.mob.getSuspicion(lastevententity), 0, 50) * 0.01) + (this.mob.trueOverallAnger() * 0.0045)));
-            if (!(e > d)) {this.mob.tryAttack(lastevententity);}
+            double e = this.mob.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
+            this.cooldown = Math.max(this.cooldown - 1, 0);
+            if (!(e > d)) {
+                if (this.cooldown <= 0) {
+                    this.cooldown = 20;
+                    this.mob.tryAttack(target);
+                }
+            }
             this.mob.lastevententity = null;
             this.mob.lasteventpos = null;
             this.mob.lasteventworld = null;
-            } else {
+        } else if (lastevententity != null) {
+            double d = (this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F);
+            double e = this.mob.squaredDistanceTo(lastevententity.getX(), lastevententity.getY(), lastevententity.getZ());
+            this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), (speed + (MathHelper.clamp(this.mob.getSuspicion(lastevententity), 0, 50) * 0.01) + (this.mob.trueOverallAnger() * 0.0045)));
+            if (!(e > d)) {
+                this.mob.tryAttack(lastevententity);
+            }
+            this.mob.lastevententity = null;
+            this.mob.lasteventpos = null;
+            this.mob.lasteventworld = null;
+        } else {
             this.mob.getNavigation().startMovingTo(lasteventpos.getX(), lasteventpos.getY(), lasteventpos.getZ(), speed + (this.mob.trueOverallAnger() * 0.0045));
             this.mob.lastevententity = null;
             this.mob.lasteventpos = null;
             this.mob.lasteventworld = null;
-            }
         }
+    }
 
     public void stop() {
     }

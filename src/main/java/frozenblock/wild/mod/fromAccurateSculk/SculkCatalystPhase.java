@@ -2,8 +2,7 @@ package frozenblock.wild.mod.fromAccurateSculk;
 
 import net.minecraft.util.StringIdentifiable;
 
-public enum SculkCatalystPhase implements StringIdentifiable
-{
+public enum SculkCatalystPhase implements StringIdentifiable {
     INACTIVE("inactive"),
     ACTIVE("active"),
     COOLDOWN("cooldown");

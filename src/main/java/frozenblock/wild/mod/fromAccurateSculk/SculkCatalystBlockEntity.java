@@ -23,7 +23,7 @@ public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensor
 
     public SculkCatalystBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(NewBlockEntityType.SCULK_CATALYST, blockPos, blockState);
-        this.listener = new SculkCatalystListener(new BlockPositionSource(this.pos), ((SculkCatalystBlock)blockState.getBlock()).getRange(), this);
+        this.listener = new SculkCatalystListener(new BlockPositionSource(this.pos), ((SculkCatalystBlock) blockState.getBlock()).getRange(), this);
     }
 
     @Override
@@ -57,16 +57,16 @@ public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensor
         BlockState blockState = this.getCachedState();
         if (!world.isClient() && SculkCatalystBlock.isInactive(blockState)) {
             SculkCatalystBlock.setActive(world, this.pos, blockState);
-            double d = (double)this.pos.getX() + 0.5;
-            double e = (double)this.pos.getY() +1;
-            double f = (double)this.pos.getZ() + 0.5;
+            double d = (double) this.pos.getX() + 0.5;
+            double e = (double) this.pos.getY() + 1;
+            double f = (double) this.pos.getZ() + 0.5;
             Random random = new Random();
             BlockPos target = this.getPos();
         }
     }
 
     public static int getPower(int i, int j) {
-        double d = (double)i / (double)j;
+        double d = (double) i / (double) j;
         return Math.max(1, 15 - MathHelper.floor(d * 15.0));
     }
 }

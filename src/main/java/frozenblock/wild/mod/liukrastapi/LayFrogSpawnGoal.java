@@ -30,6 +30,7 @@ public class LayFrogSpawnGoal extends MoveToTargetPosGoal {
     protected boolean isTargetPos(WorldView world, BlockPos pos) {
         return world.isAir(pos.up()) && FrogSpawnBlock.isWater(world, pos);
     }
+
     protected boolean canPlace(World world, BlockPos pos) {
         return world.isAir(pos.up()) && FrogSpawnBlock.isWater(world, pos);
     }

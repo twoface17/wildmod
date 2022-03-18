@@ -11,15 +11,15 @@
     "LightmapTextureManagerMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
-    "SculkSensorListenerMixin",
     "SculkSensorBlockMixin",
+    "SculkSensorListenerMixin",
     "SimpleGameEventDispatcherMixin",
     "TreeDecoratorTypeInvoker",
+    "UndergroundPlacedFeaturesMixin",
     "VanillaBiomeParametersMixin",
     "VanillaSurfaceRulesBlockInvoker",
     "VanillaSurfaceRulesInjector",
-    "VillagerTypeMixin",
-    "UndergroundPlacedFeaturesMixin"
+    "VillagerTypeMixin"
   ],
   "client": [
   ],

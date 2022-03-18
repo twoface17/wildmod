@@ -7,102 +7,105 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.FlyingEntity;
 
 public class AllayEntityModel<A extends FlyingEntity> extends EntityModel<AllayEntity> {
-	private final ModelPart root;
-	private final ModelPart head;
-	private final ModelPart body;
-	private final ModelPart right_arm;
-	private final ModelPart left_arm;
-	private final ModelPart left_wing;
-	private final ModelPart right_wing;
+    private final ModelPart root;
+    private final ModelPart head;
+    private final ModelPart body;
+    private final ModelPart right_arm;
+    private final ModelPart left_arm;
+    private final ModelPart left_wing;
+    private final ModelPart right_wing;
 
-	public AllayEntityModel(ModelPart root) {
-		this.root = root.getChild("root");
-		this.body = this.root.getChild("body");
-		this.right_wing = this.body.getChild("right_wing");
-		this.left_wing = this.body.getChild("left_wing");
-		this.left_arm = this.body.getChild("left_arm");
-		this.right_arm = this.body.getChild("right_arm");
-		this.head = this.root.getChild("head");
-	}
-	public static TexturedModelData getTexturedModelData() {
-		ModelData modelData = new ModelData();
-		ModelPartData modelPartData = modelData.getRoot();
+    public AllayEntityModel(ModelPart root) {
+        this.root = root.getChild("root");
+        this.body = this.root.getChild("body");
+        this.right_wing = this.body.getChild("right_wing");
+        this.left_wing = this.body.getChild("left_wing");
+        this.left_arm = this.body.getChild("left_arm");
+        this.right_arm = this.body.getChild("right_arm");
+        this.head = this.root.getChild("head");
+    }
 
-		ModelPartData modelPartData1 = modelPartData.addChild("root", ModelPartBuilder.create(), ModelTransform.pivot(0.0F,24.0F,0.0F));
-		modelPartData1.addChild("head", ModelPartBuilder.create().uv(0,0).cuboid(-2.5F, -5.0F, -2.5F, 5.0F, 5.0F, 5.0F), ModelTransform.pivot(0.0F,-4.0F,0.0F));
-		ModelPartData modelPartData2 = modelPartData1.addChild("body", ModelPartBuilder.create().uv(0,10).cuboid(-1.5F, 0.0F, -1.0F, 3.0F, 4.0F, 2.0F).uv(0,16).cuboid(-1.5F, 0.0F, -1.0F, 3.0F, 5.0F, 2.0F, new Dilation(-0.2F)), ModelTransform.pivot(0.0F,-4.0F,0.0F));
-		modelPartData2.addChild("right_arm", ModelPartBuilder.create().uv(23,0).cuboid(-0.75F, -0.5F, -1.0F, 1.0F, 4.0F, 2.0F), ModelTransform.pivot(-1.75F,0.5F,0.0F));
-		modelPartData2.addChild("left_arm", ModelPartBuilder.create().uv(23,6).cuboid(-0.25F, -0.5F, -1.0F, 1.0F, 4.0F, 2.0F), ModelTransform.pivot(1.75F,0.5F,0.0F));
-		modelPartData2.addChild("left_wing", ModelPartBuilder.create().uv(16,14).cuboid(0.0F, 0.0F, 0.0F, 0.0F, 5.0F, 8.0F), ModelTransform.pivot(0.5F,1.0F,1.0F));
-		modelPartData2.addChild("right_wing", ModelPartBuilder.create().uv(16,14).cuboid(0.0F, 0.0F, 0.0F, 0.0F, 5.0F, 8.0F), ModelTransform.pivot(-0.5F,1.0F,1.0F));
-		return TexturedModelData.of(modelData,32,32);
+    public static TexturedModelData getTexturedModelData() {
+        ModelData modelData = new ModelData();
+        ModelPartData modelPartData = modelData.getRoot();
 
-	}
-	@Override
-	public void setAngles(AllayEntity entity, float limbSwing, float limbSwingAmount, float time, float netHeadYaw, float headPitch) {
+        ModelPartData modelPartData1 = modelPartData.addChild("root", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+        modelPartData1.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-2.5F, -5.0F, -2.5F, 5.0F, 5.0F, 5.0F), ModelTransform.pivot(0.0F, -4.0F, 0.0F));
+        ModelPartData modelPartData2 = modelPartData1.addChild("body", ModelPartBuilder.create().uv(0, 10).cuboid(-1.5F, 0.0F, -1.0F, 3.0F, 4.0F, 2.0F).uv(0, 16).cuboid(-1.5F, 0.0F, -1.0F, 3.0F, 5.0F, 2.0F, new Dilation(-0.2F)), ModelTransform.pivot(0.0F, -4.0F, 0.0F));
+        modelPartData2.addChild("right_arm", ModelPartBuilder.create().uv(23, 0).cuboid(-0.75F, -0.5F, -1.0F, 1.0F, 4.0F, 2.0F), ModelTransform.pivot(-1.75F, 0.5F, 0.0F));
+        modelPartData2.addChild("left_arm", ModelPartBuilder.create().uv(23, 6).cuboid(-0.25F, -0.5F, -1.0F, 1.0F, 4.0F, 2.0F), ModelTransform.pivot(1.75F, 0.5F, 0.0F));
+        modelPartData2.addChild("left_wing", ModelPartBuilder.create().uv(16, 14).cuboid(0.0F, 0.0F, 0.0F, 0.0F, 5.0F, 8.0F), ModelTransform.pivot(0.5F, 1.0F, 1.0F));
+        modelPartData2.addChild("right_wing", ModelPartBuilder.create().uv(16, 14).cuboid(0.0F, 0.0F, 0.0F, 0.0F, 5.0F, 8.0F), ModelTransform.pivot(-0.5F, 1.0F, 1.0F));
+        return TexturedModelData.of(modelData, 32, 32);
 
-		float multiplier = 0.18f;
+    }
 
-		this.root.yaw = netHeadYaw * 0.07453292F;
+    @Override
+    public void setAngles(AllayEntity entity, float limbSwing, float limbSwingAmount, float time, float netHeadYaw, float headPitch) {
 
-		if (entity.hasItem) { //Item Holding
+        float multiplier = 0.18f;
 
-			this.left_arm.pitch = (float) Math.toRadians(-67.5);
+        this.root.yaw = netHeadYaw * 0.07453292F;
 
-			this.right_arm.pitch = (float) Math.toRadians(-67.5);
+        if (entity.hasItem) { //Item Holding
 
-		}
+            this.left_arm.pitch = (float) Math.toRadians(-67.5);
 
-		if (entity.speed == 0) {//Idle Animation
+            this.right_arm.pitch = (float) Math.toRadians(-67.5);
 
-			this.head.pivotY = -(float) (Math.cos(time * multiplier) * 0.25 - 0.25) - 4F;
+        }
 
-			this.body.pitch = (float) Math.toRadians(Math.sin(time * multiplier) * 2.5 + 5);
-			this.body.pivotY = -(float) (Math.cos(time * multiplier) * 0.25 - 0.25) - 4F;
-			this.body.pivotZ = 0;
+        if (entity.speed == 0) {//Idle Animation
 
-			this.left_wing.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 15.4806 + 22.5);
-			this.left_wing.yaw = (float) Math.toRadians(Math.cos(time * multiplier * 2) * -30.4586 + 33.75);
-			this.left_wing.roll = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 22.0241);
+            this.head.pivotY = -(float) (Math.cos(time * multiplier) * 0.25 - 0.25) - 4F;
 
-			this.right_wing.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 15.4806 + 22.5);
-			this.right_wing.yaw = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 30.4586 - 33.75);
-			this.right_wing.roll = (float) Math.toRadians(Math.cos(time * multiplier * 2) * -22.0241);
+            this.body.pitch = (float) Math.toRadians(Math.sin(time * multiplier) * 2.5 + 5);
+            this.body.pivotY = -(float) (Math.cos(time * multiplier) * 0.25 - 0.25) - 4F;
+            this.body.pivotZ = 0;
 
-			this.left_arm.yaw = (float) Math.toRadians(-15);
-			this.left_arm.roll = (float) Math.toRadians(Math.sin(time * multiplier) * -15 - 30);
+            this.left_wing.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 15.4806 + 22.5);
+            this.left_wing.yaw = (float) Math.toRadians(Math.cos(time * multiplier * 2) * -30.4586 + 33.75);
+            this.left_wing.roll = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 22.0241);
 
-			this.right_arm.yaw = (float) Math.toRadians(15);
-			this.right_arm.roll = (float) Math.toRadians(Math.sin(time * multiplier) * 15 + 30);
+            this.right_wing.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 15.4806 + 22.5);
+            this.right_wing.yaw = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 30.4586 - 33.75);
+            this.right_wing.roll = (float) Math.toRadians(Math.cos(time * multiplier * 2) * -22.0241);
 
-		} else { //"Fly" Animation
+            this.left_arm.yaw = (float) Math.toRadians(-15);
+            this.left_arm.roll = (float) Math.toRadians(Math.sin(time * multiplier) * -15 - 30);
 
-			this.head.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 2.5);
-			this.head.pivotY = -4;
+            this.right_arm.yaw = (float) Math.toRadians(15);
+            this.right_arm.roll = (float) Math.toRadians(Math.sin(time * multiplier) * 15 + 30);
 
-			this.body.pivotY = -4;
-			this.body.pivotZ = 1;
-			this.body.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 2) * -5 + 45);
+        } else { //"Fly" Animation
 
-			this.left_arm.yaw = (float) Math.toRadians(-22.5);
-			this.left_arm.roll = (float) Math.toRadians(Math.cos(time * multiplier * 2) * -5 - 15);
+            this.head.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 2.5);
+            this.head.pivotY = -4;
 
-			this.right_arm.yaw = (float) Math.toRadians(22.5);
-			this.right_arm.roll = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 5 + 15);
+            this.body.pivotY = -4;
+            this.body.pivotZ = 1;
+            this.body.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 2) * -5 + 45);
 
-			this.right_wing.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 4) * 15.4806);
-			this.right_wing.yaw =  (float) Math.toRadians(Math.cos(time * multiplier * 4) * 32.9972 - 45.5);
-			this.right_wing.roll = (float) Math.toRadians(Math.cos(time * multiplier * 4) * -22.0241);
+            this.left_arm.yaw = (float) Math.toRadians(-22.5);
+            this.left_arm.roll = (float) Math.toRadians(Math.cos(time * multiplier * 2) * -5 - 15);
 
-			this.left_wing.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 4) * 15.4806);
-			this.left_wing.yaw =  (float) Math.toRadians(Math.cos(time * multiplier * 4) * -32.9972 + 45.5);
-			this.left_wing.roll = (float) Math.toRadians(Math.cos(time * multiplier * 4) * 22.0241);
+            this.right_arm.yaw = (float) Math.toRadians(22.5);
+            this.right_arm.roll = (float) Math.toRadians(Math.cos(time * multiplier * 2) * 5 + 15);
 
-		}
-	}
-	@Override
-	public void render(MatrixStack matrixStack, VertexConsumer	buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+            this.right_wing.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 4) * 15.4806);
+            this.right_wing.yaw = (float) Math.toRadians(Math.cos(time * multiplier * 4) * 32.9972 - 45.5);
+            this.right_wing.roll = (float) Math.toRadians(Math.cos(time * multiplier * 4) * -22.0241);
 
-		root.render(matrixStack, buffer, packedLight, packedOverlay);
-	}
+            this.left_wing.pitch = (float) Math.toRadians(Math.cos(time * multiplier * 4) * 15.4806);
+            this.left_wing.yaw = (float) Math.toRadians(Math.cos(time * multiplier * 4) * -32.9972 + 45.5);
+            this.left_wing.roll = (float) Math.toRadians(Math.cos(time * multiplier * 4) * 22.0241);
+
+        }
+    }
+
+    @Override
+    public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+
+        root.render(matrixStack, buffer, packedLight, packedOverlay);
+    }
 }

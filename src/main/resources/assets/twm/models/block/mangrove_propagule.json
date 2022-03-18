@@ -1,48 +1,180 @@
 {
-	"parent": "minecraft:block/cross",
-	"textures": {
-		"cross": "twm:block/mangrove_propagule"
-	},
-	"elements": [
-		{
-			"from": [0, 0, 8],
-			"to": [16, 9, 8],
-			"shade": false,
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 4.5, 8], "rescale": true},
-			"faces": {
-				"north": {"uv": [0, 7, 16, 16], "texture": "#cross"},
-				"south": {"uv": [0, 7, 16, 16], "texture": "#cross"}
-			}
-		},
-		{
-			"from": [8, 0, 1],
-			"to": [8, 9, 15],
-			"shade": false,
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 4.5, 8], "rescale": true},
-			"faces": {
-				"east": {"uv": [0, 7, 16, 16], "texture": "#cross"},
-				"west": {"uv": [0, 7, 16, 16], "texture": "#cross"}
-			}
-		},
-		{
-			"from": [8, 9, 2.5],
-			"to": [8, 16, 13.5],
-			"shade": false,
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 12.5, 8], "rescale": true},
-			"faces": {
-				"east": {"uv": [13, 0, 2, 7], "texture": "#cross"},
-				"west": {"uv": [2, 0, 13, 7], "texture": "#cross"}
-			}
-		},
-		{
-			"from": [2.5, 9, 8],
-			"to": [13.5, 16, 8],
-			"shade": false,
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 12.5, 8], "rescale": true},
-			"faces": {
-				"north": {"uv": [13, 0, 2, 7], "texture": "#cross"},
-				"south": {"uv": [2, 0, 13, 7], "texture": "#cross"}
-			}
-		}
-	]
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "twm:block/mangrove_propagule"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        8
+      ],
+      "to": [
+        16,
+        9,
+        8
+      ],
+      "shade": false,
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          8,
+          4.5,
+          8
+        ],
+        "rescale": true
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            7,
+            16,
+            16
+          ],
+          "texture": "#cross"
+        },
+        "south": {
+          "uv": [
+            0,
+            7,
+            16,
+            16
+          ],
+          "texture": "#cross"
+        }
+      }
+    },
+    {
+      "from": [
+        8,
+        0,
+        1
+      ],
+      "to": [
+        8,
+        9,
+        15
+      ],
+      "shade": false,
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          8,
+          4.5,
+          8
+        ],
+        "rescale": true
+      },
+      "faces": {
+        "east": {
+          "uv": [
+            0,
+            7,
+            16,
+            16
+          ],
+          "texture": "#cross"
+        },
+        "west": {
+          "uv": [
+            0,
+            7,
+            16,
+            16
+          ],
+          "texture": "#cross"
+        }
+      }
+    },
+    {
+      "from": [
+        8,
+        9,
+        2.5
+      ],
+      "to": [
+        8,
+        16,
+        13.5
+      ],
+      "shade": false,
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          8,
+          12.5,
+          8
+        ],
+        "rescale": true
+      },
+      "faces": {
+        "east": {
+          "uv": [
+            13,
+            0,
+            2,
+            7
+          ],
+          "texture": "#cross"
+        },
+        "west": {
+          "uv": [
+            2,
+            0,
+            13,
+            7
+          ],
+          "texture": "#cross"
+        }
+      }
+    },
+    {
+      "from": [
+        2.5,
+        9,
+        8
+      ],
+      "to": [
+        13.5,
+        16,
+        8
+      ],
+      "shade": false,
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          8,
+          12.5,
+          8
+        ],
+        "rescale": true
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            13,
+            0,
+            2,
+            7
+          ],
+          "texture": "#cross"
+        },
+        "south": {
+          "uv": [
+            2,
+            0,
+            13,
+            7
+          ],
+          "texture": "#cross"
+        }
+      }
+    }
+  ]
 }

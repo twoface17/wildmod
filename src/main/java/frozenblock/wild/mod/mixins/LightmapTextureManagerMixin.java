@@ -28,44 +28,54 @@ import static java.lang.Math.*;
 @Mixin(LightmapTextureManager.class)
 public class LightmapTextureManagerMixin {
 
-    @Shadow @Final private NativeImage image;
+    @Shadow
+    @Final
+    private NativeImage image;
 
-    @Shadow @Final private NativeImageBackedTexture texture;
-    
-    @Shadow private boolean dirty;
-    
-    @Shadow @Final private MinecraftClient client;
-    
-    @Shadow private float flickerIntensity;
-    
-    @Shadow @Final private GameRenderer renderer;
+    @Shadow
+    @Final
+    private NativeImageBackedTexture texture;
+
+    @Shadow
+    private boolean dirty;
+
+    @Shadow
+    @Final
+    private MinecraftClient client;
+
+    @Shadow
+    private float flickerIntensity;
+
+    @Shadow
+    @Final
+    private GameRenderer renderer;
 
     public double time;
     public double soundTime;
-    public boolean shouldPlay=true;
+    public boolean shouldPlay = true;
     public int lastDark;
     public int lastDarkTime;
 
     @Inject(at = @At("HEAD"), method = "tick")
     public void tick(CallbackInfo ci) {
         assert this.client.player != null;
-        if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            time = time + 0.075/2;
+        if (this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
+            time = time + 0.075 / 2;
             ++soundTime;
             MathAddon.time = time;
             int darkTime = Objects.requireNonNull(this.client.player.getStatusEffect(RegisterStatusEffects.DARKNESS)).getDuration();
             int angerLevel = Objects.requireNonNull(this.client.player.getStatusEffect(RegisterStatusEffects.DARKNESS)).getAmplifier();
-            if (angerLevel!=lastDark) {
-                lastDark=angerLevel;
-                shouldPlay=true;
+            if (angerLevel != lastDark) {
+                lastDark = angerLevel;
+                shouldPlay = true;
             }
-            if (lastDarkTime<darkTime || angerLevel==3) {
-                shouldPlay=true;
+            if (lastDarkTime < darkTime || angerLevel == 3) {
+                shouldPlay = true;
             }
-            double soundTimer = Math.cos(((soundTime+40)*PI)/80);
+            double soundTimer = Math.cos(((soundTime + 40) * PI) / 80);
             if (soundTimer == -1 && shouldPlay) {
                 if (angerLevel == 0) {
-                    shouldPlay=false;
+                    shouldPlay = false;
                     double a = random() * 2 * PI;
                     double r = sqrt(16) * sqrt(random());
                     int x = (int) (r * cos(a));
@@ -74,7 +84,7 @@ public class LightmapTextureManagerMixin {
                     assert this.client.world != null;
                     this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.AMBIENT, 0.2F, 1F);
                 } else if (angerLevel == 1) {
-                    shouldPlay=false;
+                    shouldPlay = false;
                     double a = random() * 2 * PI;
                     double r = sqrt(12) * sqrt(random());
                     int x = (int) (r * cos(a));
@@ -83,7 +93,7 @@ public class LightmapTextureManagerMixin {
                     assert this.client.world != null;
                     this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 0.4F, 1F);
                 } else if (angerLevel == 2) {
-                    shouldPlay=false;
+                    shouldPlay = false;
                     double a = random() * 2 * PI;
                     double r = sqrt(8) * sqrt(random());
                     int x = (int) (r * cos(a));
@@ -92,7 +102,7 @@ public class LightmapTextureManagerMixin {
                     assert this.client.world != null;
                     this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.AMBIENT, 0.6F, 1F);
                 } else if (angerLevel == 3) { //WARDEN DARKNESS
-                    shouldPlay=false;
+                    shouldPlay = false;
                     /*double a = random() * 2 * PI;
                     double r = sqrt(16) * sqrt(random());
                     int x = (int) (r * cos(a));
@@ -102,18 +112,18 @@ public class LightmapTextureManagerMixin {
                     this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 0.1F, 1F);*/
                 }
             }
-            lastDarkTime=darkTime;
+            lastDarkTime = darkTime;
         } else {
             time = 0;
-            soundTime=0;
-            shouldPlay=true;
+            soundTime = 0;
+            shouldPlay = true;
         }
     }
 
     @Inject(at = @At("HEAD"), method = "update")
     public void update(float delta, CallbackInfo ci) {
         assert this.client.player != null;
-        if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
+        if (this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
 
             int lightvalue;
 
