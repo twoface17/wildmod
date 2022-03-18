@@ -3,6 +3,7 @@ package frozenblock.wild.mod.blocks.mangrove;
 
 import frozenblock.wild.mod.liukrastapi.MangroveSaplingGenerator;
 import frozenblock.wild.mod.registry.MangroveWoods;
+import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.ai.pathing.NavigationType;
@@ -12,6 +13,8 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -26,19 +29,22 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class MangrovePropagule extends PlantBlock implements Waterloggable, Fertilizable {
+public class MangrovePropagule extends SaplingBlock implements Waterloggable, Fertilizable {
+    public static final IntProperty AGE;
+    public static final int MAX_AGE = 4;
+    private static final VoxelShape[] SHAPE_PER_AGE;
     public static final BooleanProperty HANGING = BooleanProperty.of("hanging");
     public static final BooleanProperty WATERLOGGED = BooleanProperty.of("waterlogged");
-    private final MangroveSaplingGenerator generator;
 
 
     public MangrovePropagule(Settings settings) {
-        super(settings);
+        super(new MangroveSaplingGenerator(), settings);
         setDefaultState(getStateManager().getDefaultState()
                 .with(WATERLOGGED, false)
                 .with(HANGING, false)
+                .with(AGE, 0)
+                .with(STAGE, 0)
         );
-        this.generator = new MangroveSaplingGenerator();
     }
 
     protected static Direction attachedDirection(BlockState state) {
@@ -48,37 +54,17 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     @Nullable
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-        Direction[] var3 = ctx.getPlacementDirections();
-        int var4 = var3.length;
-
-        for (int var5 = 0; var5 < var4; ++var5) {
-            Direction direction = var3[var5];
-            if (direction.getAxis() == Direction.Axis.Y) {
-                BlockState blockState = (BlockState) this.getDefaultState().with(HANGING, direction == Direction.UP);
-                if (blockState.canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
-                    return (BlockState) blockState.with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
-                }
-            }
-        }
-
-        return null;
+        boolean bl = fluidState.getFluid() == Fluids.WATER;
+        return (BlockState)((BlockState)super.getPlacementState(ctx).with(WATERLOGGED, bl)).with(AGE, 4);
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(HANGING, WATERLOGGED);
+        builder.add(STAGE, HANGING, WATERLOGGED, AGE);
     }
 
+    @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        if (state.getBlock()==MangroveWoods.MANGROVE_PROPAGULE) {
-            Direction direction = attachedDirection(state).getOpposite();
-            if (direction == Direction.UP) {
-                return world.getBlockState(new BlockPos(pos.up())).getMaterial() == Material.LEAVES;
-            } else {
-                BlockPos blockPos = pos.down();
-                return world.getBlockState(new BlockPos(blockPos)).isIn(BlockTags.DIRT);
-            }
-        }
-        return false;
+        return state.isIn(BlockTags.DIRT) || state.isOf(Blocks.FARMLAND) || state.isOf(Blocks.CLAY) || state.isOf(RegisterBlocks.MUD);
     }
 
     public PistonBehavior getPistonBehavior(BlockState state) {
@@ -97,6 +83,18 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
         return (Boolean) state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
+    private static boolean isHanging(BlockState state) {
+        return (Boolean)state.get(HANGING);
+    }
+
+    private static boolean isFullyGrown(BlockState state) {
+        return (Integer)state.get(AGE) == 4;
+    }
+
+    public static BlockState createNewHangingPropagule() {
+        return (BlockState)((BlockState)MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(HANGING, true)).with(AGE, 0);
+    }
+
     public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
         return false;
     }
@@ -105,11 +103,18 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         Vec3d offset = state.getModelOffset(world, pos);
+        VoxelShape voxelShape;
         if (!state.get(HANGING)) {
-            return VoxelShapes.union(createCuboidShape(4, 0, 4, 12, 8, 12)).offset(offset.x, offset.y, offset.z);
+            voxelShape = SHAPE_PER_AGE[4];
         } else {
-            return VoxelShapes.union(createCuboidShape(4, 8, 4, 12, 16, 12)).offset(offset.x, offset.y, offset.z);
+            voxelShape = SHAPE_PER_AGE[(Integer)state.get(AGE)];
         }
+
+        return voxelShape.offset(offset.x, offset.y, offset.z);
+    }
+
+    public OffsetType getOffsetType() {
+        return OffsetType.XZ;
     }
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
@@ -119,25 +124,31 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
 
     }
 
+    @Override
     public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
-        return true;
+        return !isHanging(state) || !isFullyGrown(state);
     }
 
+    @Override
     public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
-        return (double)world.random.nextFloat() < 0.45D;
+        return isHanging(state) ? !isFullyGrown(state) : super.canGrow(world, random, pos, state);
     }
 
+    @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
         this.generate(world, pos, state, random);
     }
 
     public void generate(ServerWorld world, BlockPos pos, BlockState state, Random random) {
-        if(!state.get(HANGING)) {
-            world.setBlockState(pos, Blocks.AIR.getDefaultState());
-            int x = pos.getX();
-            int y = pos.getY();
-            int z = pos.getZ();
-            this.generator.generate(world, world.getChunkManager().getChunkGenerator(), new BlockPos(x, y, z), state, random);
+        if (isHanging(state) && !isFullyGrown(state)) {
+            world.setBlockState(pos, (BlockState)state.cycle(AGE), 2);
+        } else {
+            super.generate(world, pos, state, random);
         }
+    }
+
+    static {
+        AGE = IntProperty.of("age", 0, 4);
+        SHAPE_PER_AGE = new VoxelShape[]{Block.createCuboidShape(7.0D, 13.0D, 7.0D, 9.0D, 16.0D, 9.0D), Block.createCuboidShape(7.0D, 10.0D, 7.0D, 9.0D, 16.0D, 9.0D), Block.createCuboidShape(7.0D, 7.0D, 7.0D, 9.0D, 16.0D, 9.0D), Block.createCuboidShape(7.0D, 3.0D, 7.0D, 9.0D, 16.0D, 9.0D), Block.createCuboidShape(7.0D, 0.0D, 7.0D, 9.0D, 16.0D, 9.0D)};
     }
 }

@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public class VanillaSurfaceRulesInjector {
     @Mutable
     @Final private static MaterialRules.MaterialRule MUD;
-    static {MUD = block(RegisterBlocks.MUD_BLOCK);}
+    static {MUD = block(RegisterBlocks.MUD);}
 
     private static MaterialRules.MaterialRule block(Block block) {
         return MaterialRules.block(block.getDefaultState());
@@ -31,7 +31,7 @@ public class VanillaSurfaceRulesInjector {
                                 MaterialRules.biome(
                                         RegisterWorldgen.MANGROVE_SWAMP),
                                 VanillaSurfaceRulesBlockInvoker.invokeBlock(
-                                        RegisterBlocks.MUD_BLOCK
+                                        RegisterBlocks.MUD
                                 )
                         ),
                         MaterialRules.condition(

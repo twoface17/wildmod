@@ -2,6 +2,7 @@ package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.blocks.*;
+import frozenblock.wild.mod.blocks.mangrove.MuddyMangroveRootsBlock;
 import frozenblock.wild.mod.items.FrogSpawnItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -64,9 +65,9 @@ public abstract class RegisterBlocks {
 
     public static final Block REINFORCED_DEEPSLATE = new PillarBlock(REINFORCED_DEEPSLATE_SETTINGS);
 
-    public static final Block MUD_BLOCK = new MudBlock();
-    public static final Block MUDDY_MANGROVE_ROOTS = new RootedMudBlock();
-
+    public static final Block MUD = new MudBlock();
+    public static final Block PACKED_MUD = new PackedMudBlock(MUD_BRICKS_SETTINGS);
+    public static final Block MUDDY_MANGROVE_ROOTS = new MuddyMangroveRootsBlock();
     public static final Block MUD_BRICKS = new MudBricks(MUD_BRICKS_SETTINGS);
     public static final WallBlock MUD_BRICKS_WALL = new MudBricksWall(MUD_BRICKS_SETTINGS);
     public static final SlabBlock MUD_BRICKS_SLAB = new MudBricksSlab(MUD_BRICKS_SETTINGS);
@@ -87,8 +88,11 @@ public abstract class RegisterBlocks {
 
     public static void RegisterBlocks() {
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud_block"), MUD_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mud_block"), new BlockItem(MUD_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud"), MUD);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mud"), new BlockItem(MUD, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "packed_mud"), PACKED_MUD);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "packed_mud"), new BlockItem(PACKED_MUD, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mud_bricks"), MUD_BRICKS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mud_bricks"), new BlockItem(MUD_BRICKS, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
