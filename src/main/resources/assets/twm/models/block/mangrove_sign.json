@@ -1,6 +1,5 @@
 {
-  "credit": "Made by FrozenBlockStudios",
   "textures": {
-    "particle": "twm:block/mangrove_planks"
+    "particle": "minecraft:block/mangrove_planks"
   }
 }

@@ -1,11 +1,11 @@
 {
 	"parent": "block/block",
 	"textures": {
+		"particle": "twm:block/sculk_shrieker_bottom",
 		"bottom": "twm:block/sculk_shrieker_bottom",
 		"side": "twm:block/sculk_shrieker_side",
 		"top": "twm:block/sculk_shrieker_top",
-		"inner_top": "twm:block/sculk_shrieker_inner_top",
-		"particle": "twm:block/sculk_shrieker_bottom"
+		"inner_top": "twm:block/sculk_shrieker_inner_top"
 	},
 	"elements": [
 		{
@@ -24,7 +24,7 @@
 		{
 			"name": "top_slab",
 			"from": [1, 8, 1],
-			"to": [15, 15, 15],
+			"to": [15, 16, 15],
 			"faces": {
 				"north": {"uv": [1, 0, 15, 8], "texture": "#side"},
 				"east": {"uv": [1, 0, 15, 8], "texture": "#side"},
