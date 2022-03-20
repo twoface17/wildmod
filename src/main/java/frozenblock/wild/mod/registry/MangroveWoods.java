@@ -40,7 +40,7 @@ public abstract class MangroveWoods {
              RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
              RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
     )));
-    public static final MangrovePropagule MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(new BlockSoundGroup(1.0f, 1.0f,
+    public static final Block MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(new BlockSoundGroup(1.0f, 1.0f,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_BREAK,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_STEP,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_PLACE,

@@ -25,6 +25,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.gen.decorator.BlockFilterPlacementModifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -95,11 +96,6 @@ public class MangrovePropagule extends SaplingBlock implements Waterloggable, Fe
         return (BlockState)((BlockState)MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(HANGING, true)).with(AGE, 0);
     }
 
-    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
-        return false;
-    }
-
-
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         Vec3d offset = state.getModelOffset(world, pos);
@@ -118,10 +114,17 @@ public class MangrovePropagule extends SaplingBlock implements Waterloggable, Fe
     }
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (world.getLightLevel(pos.up()) >= 9 && random.nextInt(7) == 0) {
-            this.generate(world, pos, state, random);
-        }
+        if (!isHanging(state)) {
+            if (random.nextInt(7) == 0) {
+                this.generate(world, pos, state, random);
+            }
 
+        } else {
+            if (!isFullyGrown(state)) {
+                world.setBlockState(pos, (BlockState)state.cycle(AGE), 2);
+            }
+
+        }
     }
 
     @Override
