@@ -48,6 +48,11 @@ public class MangrovePropagule extends SaplingBlock implements Waterloggable, Fe
         );
     }
 
+    @Override
+    protected boolean canPlantOnTop(BlockState state, BlockView world, BlockPos pos) {
+        return state.isIn(BlockTags.DIRT) || state.isOf(Blocks.FARMLAND) || state.isOf(Blocks.CLAY) || state.isOf(RegisterBlocks.MUD);
+    }
+
     protected static Direction attachedDirection(BlockState state) {
         return state.get(HANGING) ? Direction.DOWN : Direction.UP;
     }
@@ -65,7 +70,7 @@ public class MangrovePropagule extends SaplingBlock implements Waterloggable, Fe
 
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return state.isIn(BlockTags.DIRT) || state.isOf(Blocks.FARMLAND) || state.isOf(Blocks.CLAY) || state.isOf(RegisterBlocks.MUD);
+        return isHanging(state) ? world.getBlockState(pos.up()).isOf(MangroveWoods.MANGROVE_LEAVES) : super.canPlaceAt(state, world, pos);
     }
 
     public PistonBehavior getPistonBehavior(BlockState state) {
