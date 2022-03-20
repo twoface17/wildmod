@@ -1,8 +1,8 @@
 {
   "parent": "block/block",
   "textures": {
-    "sapling": "block/mangrove_propagule",
-    "particle": "block/mangrove_propagule"
+    "sapling": "twm:block/mangrove_propagule",
+    "particle": "twm:block/mangrove_propagule"
   },
   "elements": [
     {
