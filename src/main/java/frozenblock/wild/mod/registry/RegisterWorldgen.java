@@ -7,6 +7,8 @@ import frozenblock.wild.mod.worldgen.*;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.sound.MusicType;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.sound.BiomeAdditionsSound;
 import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.sound.MusicSound;
@@ -115,6 +117,8 @@ public class RegisterWorldgen {
 
     public static Biome createMangroveSwamp() {
         SpawnSettings.Builder builder = new SpawnSettings.Builder();
+        DefaultBiomeFeatures.addFarmAnimals(builder);
+        builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.SLIME, 1, 1, 1));
         net.minecraft.world.biome.GenerationSettings.Builder builder2 = new net.minecraft.world.biome.GenerationSettings.Builder();
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeatures(builder2);
