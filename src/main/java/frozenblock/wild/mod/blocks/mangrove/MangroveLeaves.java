@@ -54,7 +54,6 @@ public class MangroveLeaves extends LeavesBlock implements Fertilizable {
         return true;
     }
 
-
     @Override
     public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
         return world.getBlockState(pos.down()).isAir();
