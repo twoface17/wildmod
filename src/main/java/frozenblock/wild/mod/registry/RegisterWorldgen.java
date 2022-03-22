@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -35,6 +36,7 @@ import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
+import net.minecraft.world.gen.trunk.BendingTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import org.jetbrains.annotations.Nullable;
 
@@ -187,7 +189,7 @@ public class RegisterWorldgen {
         MANGROVE = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "mangrove"), Feature.TREE
                 .configure(new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
-                        new StraightTrunkPlacer(8, 3, 0), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
+                        new BendingTrunkPlacer(8, 2, 0, 8, UniformIntProvider.create(1, 2)), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
                         new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 100),
                         new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
                         .decorators(ImmutableList.of(MangroveTreeDecorator.INSTANCE))
