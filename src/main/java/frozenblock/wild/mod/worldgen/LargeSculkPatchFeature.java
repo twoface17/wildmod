@@ -88,7 +88,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         }
 
         //Place Sculk
-        for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.BLOCK_REPLACEABLE, world)) {
+        for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.SCULK_REPLACEABLE, world)) {
             double distance = pos.getSquaredDistance(blockpos,false);
             double maxA=max;
             double minA=min;
@@ -192,7 +192,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static boolean placeSculk(BlockPos blockPos, StructureWorldAccess world) { //Call For Sculk & Call For Veins
         if (world.isChunkLoaded(blockPos)) {
             Block block = world.getBlockState(blockPos).getBlock();
-            if (SculkTags.BLOCK_REPLACEABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, blockPos)) {
+            if (SculkTags.SCULK_REPLACEABLE.contains(block) && !SculkTags.SCULK_VEIN_REPLACEABLE.contains(block) && !SculkTags.SCULK.contains(block) && airOrReplaceableUp(world, blockPos)) {
                 placeSculkOptim(blockPos, world);
                 fourDirVeins(blockPos, world);
                 return true;
@@ -200,7 +200,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                 BlockPos NewSculk = sculkCheck(blockPos, world);
                 if (NewSculk != null) {
                     block = world.getBlockState(NewSculk).getBlock();
-                    if (SculkTags.BLOCK_REPLACEABLE.contains(block)) {
+                    if (SculkTags.SCULK_REPLACEABLE.contains(block)) {
                         placeSculkOptim(NewSculk, world);
                         fourDirVeins(NewSculk, world);
                         return true;

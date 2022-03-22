@@ -5,6 +5,7 @@ import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.fromAccurateSculk.SensorLastEntity;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
+import frozenblock.wild.mod.registry.RegisterTags;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -59,7 +60,7 @@ public class AbstractBlockMixin {
 
     @Inject(at = @At("HEAD"), method = "onUse")
     private void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
-        if (world.getBlockState(hit.getBlockPos()).getBlock() == Blocks.DIRT) {
+        if (world.getBlockState(hit.getBlockPos()).isIn(RegisterTags.CONVERTABLE_TO_MUD)) {
             ItemStack itemStack = player.getStackInHand(hand);
 
             if (itemStack.isItemEqual(Items.POTION.getDefaultStack())) {

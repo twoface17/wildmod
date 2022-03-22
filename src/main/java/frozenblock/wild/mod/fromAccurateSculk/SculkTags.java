@@ -8,7 +8,8 @@ import net.minecraft.util.Identifier;
 
 public class SculkTags {
     public static final Tag<Block> SCULK_VEIN_REPLACEABLE = TagFactory.BLOCK.create(new Identifier("twm", "sculk_vein_replaceable"));
-    public static final Tag<Block> BLOCK_REPLACEABLE = TagFactory.BLOCK.create(new Identifier("twm", "sculk_block_replaceable"));
+    public static final Tag<Block> SCULK_REPLACEABLE = TagFactory.BLOCK.create(new Identifier("twm", "sculk_replaceable"));
+    public static final Tag<Block> SCULK_REPLACEABLE_WORLD_GEN = TagFactory.BLOCK.create(new Identifier("twm", "sculk_replaceable_world_gen"));
     public static final Tag<Block> SCULK_UNTOUCHABLE = TagFactory.BLOCK.create(new Identifier("twm", "sculk_untouchable"));
     public static final Tag<Block> SCULK = TagFactory.BLOCK.create(new Identifier("twm", "sculk"));
     public static final Tag.Identified<EntityType<?>> THREE = TagFactory.ENTITY_TYPE.create(new Identifier("twm", "3xp"));

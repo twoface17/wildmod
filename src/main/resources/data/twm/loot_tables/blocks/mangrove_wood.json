@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "twm:mangrove_roots"
+          "name": "twm:mangrove_wood"
         }
       ],
       "conditions": [

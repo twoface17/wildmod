@@ -1,21 +1,16 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "twm:packed_mud"
-    },
-    {
-      "item": "twm:packed_mud"
-    },
-    {
-      "item": "twm:packed_mud"
-    },
-    {
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
       "item": "twm:packed_mud"
     }
-  ],
+  },
   "result": {
     "item": "twm:mud_bricks",
-    "count": 1
+    "count": 4
   }
 }
