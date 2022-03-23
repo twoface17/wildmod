@@ -1,6 +1,5 @@
 package frozenblock.wild.mod.liukrastapi;
 
-import frozenblock.wild.mod.entity.FireflyEntity;
 import frozenblock.wild.mod.entity.FrogEntity;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.BigDripleafBlock;

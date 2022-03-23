@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.liukrastapi.MathAddon;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
