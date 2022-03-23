@@ -113,10 +113,14 @@ public class MangroveTreeDecorator extends TreeDecorator {
         for (BlockPos leavesPosition : leavesPositions) {
             if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.WATER.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
                 if (Math.random() > 0.85) {
+                    Random r = new Random();
+                    int low = 0;
+                    int high = 4;
+                    int result = r.nextInt(high-low) + low;
                     if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
-                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(MangrovePropagule.HANGING, true));
+                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(MangrovePropagule.HANGING, true).with(MangrovePropagule.AGE, result));
                     } else if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.WATER.getDefaultState()))) {
-                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(MangrovePropagule.HANGING, true).with(MangrovePropagule.WATERLOGGED, true));
+                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(MangrovePropagule.HANGING, true).with(MangrovePropagule.AGE, result).with(MangrovePropagule.WATERLOGGED, true));
                     }
                 }
             }

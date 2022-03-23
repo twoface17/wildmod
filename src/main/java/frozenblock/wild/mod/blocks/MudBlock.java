@@ -25,7 +25,7 @@ import static net.minecraft.block.PointedDripstoneBlock.THICKNESS;
 import static net.minecraft.block.PointedDripstoneBlock.VERTICAL_DIRECTION;
 
 public class MudBlock extends Block {
-    protected static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D);
+    protected static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D);
 
     public MudBlock() {
         super(FabricBlockSettings

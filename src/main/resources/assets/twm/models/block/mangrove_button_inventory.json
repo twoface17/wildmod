@@ -1,5 +1,4 @@
 {
-  "credit": "Made by FrozenBlockStudios",
   "parent": "minecraft:block/button_inventory",
   "textures": {
     "texture": "twm:block/mangrove_planks"

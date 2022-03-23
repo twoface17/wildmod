@@ -1,5 +1,4 @@
 {
-  "credit": "Made by FrozenBlockStudios",
   "parent": "minecraft:block/pressure_plate_down",
   "textures": {
     "texture": "twm:block/mangrove_planks"

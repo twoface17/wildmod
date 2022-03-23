@@ -19,10 +19,6 @@ public class SculkTags {
     public static final TagKey<Block> BLOCK_REPLACEABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_block_replaceable"));
     public static final TagKey<Block> SCULK_UNTOUCHABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_untouchable"));
     public static final TagKey<Block> SCULK = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk"));
-    public static final TagKey<Block> ALWAYS_WATER = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "always_water_sculk"));
-    public static final TagKey<Block> WARDEN_UNSPAWNABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "warden_unspawnable"));
-    public static final TagKey<Block> WARDEN_NON_COLLIDE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "warden_non_collide"));
-
     public static final TagKey<EntityType<?>> THREE = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, "3xp"));
     public static final TagKey<EntityType<?>> FIVE = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, "5xp"));
     public static final TagKey<EntityType<?>> TEN = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, "10xp"));
@@ -30,7 +26,10 @@ public class SculkTags {
     public static final TagKey<EntityType<?>> FIFTY = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, "50xp"));
     public static final TagKey<EntityType<?>> ONEHUNDRED = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, "100xp"));
     public static final TagKey<EntityType<?>> DROPSXP = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, "dropsxp"));
-
+    public static final TagKey<Block> ALWAYS_WATER = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "always_water_sculk"));
+    public static final TagKey<Block> WARDEN_UNSPAWNABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "warden_unspawnable"));
+    public static final TagKey<Block> WARDEN_NON_COLLIDE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "warden_non_collide"));
+  
     //ACTIVATORS
     public static final TagKey<Block> ACTIVATORS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_activators"));
     public static final TagKey<Block> COMMON_ACTIVATORS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "common_activators"));

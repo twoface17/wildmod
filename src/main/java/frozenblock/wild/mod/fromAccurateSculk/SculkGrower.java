@@ -127,14 +127,14 @@ public class SculkGrower {
 
     public static boolean placeSculk(BlockPos blockPos, World world) { //Call For Sculk & Call For Veins
         Block block = world.getBlockState(blockPos).getBlock();
-        if (SculkTags.blockTagContains(block, SculkTags.BLOCK_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, blockPos)) {
+        if (SculkTags.blockTagContains(block, SculkTags.SCULK_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, blockPos)) {
             placeSculkOptim(blockPos, world);
             return true;
         } else {
             BlockPos NewSculk = sculkCheck(blockPos, world);
             if (NewSculk != null) {
                 block = world.getBlockState(NewSculk).getBlock();
-                if (SculkTags.blockTagContains(block, SculkTags.BLOCK_REPLACEABLE)) {
+                if (SculkTags.blockTagContains(block, SculkTags.SCULK_REPLACEABLE)) {
                     placeSculkOptim(NewSculk, world);
                     return true;
                 } else if (airveins(world, NewSculk)) {

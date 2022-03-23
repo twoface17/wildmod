@@ -88,7 +88,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         }
 
         //Place Sculk
-        for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.BLOCK_REPLACEABLE, world)) {
+        for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.SCULK_REPLACEABLE, world)) {
             double distance = pos.getSquaredDistance(blockpos);
             double maxA=max;
             double minA=min;
@@ -192,7 +192,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static boolean placeSculk(BlockPos blockPos, StructureWorldAccess world) { //Call For Sculk & Call For Veins
         if (world.isChunkLoaded(blockPos)) {
             Block block = world.getBlockState(blockPos).getBlock();
-            if (world.getBlockState(blockPos).getBlock().equals(SculkTags.BLOCK_REPLACEABLE) && (world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && world.getBlockState(blockPos).getBlock().equals(SculkTags.SCULK) && airOrReplaceableUp(world, blockPos))) {
+            if (SculkTags.blockTagContains(block, SculkTags.SCULK_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, blockPos))) {
                 placeSculkOptim(blockPos, world);
                 fourDirVeins(blockPos, world);
                 return true;
@@ -200,7 +200,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                 BlockPos NewSculk = sculkCheck(blockPos, world);
                 if (NewSculk != null) {
                     block = world.getBlockState(NewSculk).getBlock();
-                    if (world.getBlockState(blockPos).getBlock().equals(SculkTags.BLOCK_REPLACEABLE)) {
+                    if (SculkTags.blockTagContains(block, SculkTags.SCULK_REPLACEABLE) {
                         placeSculkOptim(NewSculk, world);
                         fourDirVeins(NewSculk, world);
                         return true;

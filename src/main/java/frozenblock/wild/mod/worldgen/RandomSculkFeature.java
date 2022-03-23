@@ -66,7 +66,7 @@ public class RandomSculkFeature extends Feature<DefaultFeatureConfig> {
         }
 
         if (otherSculkChance>=0) {
-            ArrayList<BlockPos> poses = (blockTagsInSphere(pos, 14, SculkTags.BLOCK_REPLACEABLE, world));
+            ArrayList<BlockPos> poses = (blockTagsInSphere(pos, 14, SculkTags.SCULK_REPLACEABLE, world));
             if (poses.size()>2) {
                 BlockPos pos1 = poses.get(random.nextInt(1, poses.size()));
                 timesFailed = 0;
@@ -96,7 +96,7 @@ public class RandomSculkFeature extends Feature<DefaultFeatureConfig> {
             }
         }
         if (otherSculkChance>=0.4) {
-            ArrayList<BlockPos> poses = (blockTagsInSphere(pos, 12, SculkTags.BLOCK_REPLACEABLE, world));
+            ArrayList<BlockPos> poses = (blockTagsInSphere(pos, 12, SculkTags.SCULK_REPLACEABLE, world));
             if (poses.size()>2) {
                 BlockPos pos1 = poses.get(random.nextInt(1, poses.size()));
                 timesFailed = 0;
@@ -130,7 +130,7 @@ public class RandomSculkFeature extends Feature<DefaultFeatureConfig> {
     public static boolean placeSculk(BlockPos blockPos, StructureWorldAccess world) { //Call For Sculk & Call For Veins
         if (world.isChunkLoaded(blockPos)) {
             Block block = world.getBlockState(blockPos).getBlock();
-            if (SculkTags.blockTagContains(block, SculkTags.BLOCK_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, blockPos)) {
+            if (SculkTags.blockTagContains(block, SculkTags.SCULK_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, blockPos)) {
                 placeSculkOptim(blockPos, world);
                 fourDirVeins(blockPos, world);
                 return true;
@@ -138,7 +138,7 @@ public class RandomSculkFeature extends Feature<DefaultFeatureConfig> {
                 BlockPos NewSculk = sculkCheck(blockPos, world);
                 if (NewSculk != null) {
                     block = world.getBlockState(NewSculk).getBlock();
-                    if (SculkTags.blockTagContains(block, SculkTags.BLOCK_REPLACEABLE)) {
+                    if (SculkTags.blockTagContains(block, SculkTags.SCULK_REPLACEABLE)) {
                         placeSculkOptim(NewSculk, world);
                         fourDirVeins(NewSculk, world);
                         return true;
