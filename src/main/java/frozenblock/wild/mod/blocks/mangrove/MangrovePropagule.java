@@ -23,7 +23,6 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.gen.decorator.BlockFilterPlacementModifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
