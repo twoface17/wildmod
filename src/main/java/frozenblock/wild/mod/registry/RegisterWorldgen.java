@@ -85,28 +85,24 @@ public class RegisterWorldgen {
 
     public static Biome createDeepDark() {
         SpawnSettings.Builder builder = new SpawnSettings.Builder();
-        GenerationSettings.Builder builder2 = new GenerationSettings.Builder()
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.sculk_patch_configured)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.sculk_catastrophe_configured)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.random_sculk_configured)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.random_veins_configured)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.common_activator_configured)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.rare_activator_configured);
+        GenerationSettings.Builder builder2 = new GenerationSettings.Builder();
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeaturesNoSprings(builder2);
+        DefaultBiomeFeatures.addDefaultOres(builder2);
+        DefaultBiomeFeatures.addClayDisk(builder2);
         DefaultBiomeFeatures.addPlainsTallGrass(builder2);
         DefaultBiomeFeatures.addDefaultGrass(builder2);
         DefaultBiomeFeatures.addPlainsFeatures(builder2);
         DefaultBiomeFeatures.addDefaultVegetation(builder2);
-        DefaultBiomeFeatures.addDefaultOres(builder2);
+        addDeepDarkFeatures(builder2);
 
         MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_DEEP_DARK);
         return (
-                new net.minecraft.world.biome.Biome.Builder())
+                new Biome.Builder())
                 .precipitation(Biome.Precipitation.NONE)
                 .category(Biome.Category.UNDERGROUND)
                 .temperature(0.8F).downfall(0.9F)
-                .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
+                .effects((new BiomeEffects.Builder())
                         .waterColor(4159204)
                         .waterFogColor(329011)
                         .fogColor(0)
@@ -134,11 +130,11 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addSwampVegetation(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, OceanPlacedFeatures.SEAGRASS_SWAMP);
         return (
-                new net.minecraft.world.biome.Biome.Builder())
+                new Biome.Builder())
                 .precipitation(Biome.Precipitation.RAIN)
                 .category(Biome.Category.SWAMP)
                 .temperature(0.8F).downfall(0.9F)
-                .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
+                .effects((new BiomeEffects.Builder())
                         .waterColor(0x397d71)
                         .waterFogColor(0x397d71)
                         .fogColor(12638463)
@@ -159,7 +155,16 @@ public class RegisterWorldgen {
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
     }
 
-    private static void addBasicFeatures(net.minecraft.world.biome.GenerationSettings.Builder generationSettings) {
+    public static void addDeepDarkFeatures(GenerationSettings.Builder builder2) {
+        GenerationSettings.Builder builder = new GenerationSettings.Builder()
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.sculk_patch_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.sculk_catastrophe_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.random_sculk_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.random_veins_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.common_activator_configured)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.rare_activator_configured);
+    }
+    private static void addBasicFeatures(GenerationSettings.Builder generationSettings) {
         DefaultBiomeFeatures.addLandCarvers(generationSettings);
         DefaultBiomeFeatures.addAmethystGeodes(generationSettings);
         DefaultBiomeFeatures.addDungeons(generationSettings);
@@ -168,7 +173,7 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
     }
 
-    private static void addBasicFeaturesNoSprings(net.minecraft.world.biome.GenerationSettings.Builder generationSettings) {
+    private static void addBasicFeaturesNoSprings(GenerationSettings.Builder generationSettings) {
         DefaultBiomeFeatures.addLandCarvers(generationSettings);
         DefaultBiomeFeatures.addAmethystGeodes(generationSettings);
         DefaultBiomeFeatures.addDungeons(generationSettings);
