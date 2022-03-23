@@ -12,12 +12,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Objects;
 
 @Mixin(BackgroundRenderer.class)
 public class BackgroundRendererMixin {
@@ -34,8 +35,7 @@ public class BackgroundRendererMixin {
         float y;
         if (cameraSubmersionType == CameraSubmersionType.WATER) {
             y = 192.0F;
-            if (entity instanceof ClientPlayerEntity) {
-                ClientPlayerEntity clientPlayerEntity = (ClientPlayerEntity)entity;
+            if (entity instanceof ClientPlayerEntity clientPlayerEntity) {
                 y *= Math.max(0.25F, clientPlayerEntity.getUnderwaterVisibility());
                 RegistryEntry<Biome> biome = clientPlayerEntity.world.getBiome(clientPlayerEntity.getBlockPos());
                 Biome.Category category = Biome.getCategory(biome);
@@ -60,7 +60,7 @@ public class BackgroundRendererMixin {
                     ab = 1.0F;
                 }
             } else if (entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(StatusEffects.BLINDNESS)) {
-                int m = ((LivingEntity)entity).getStatusEffect(StatusEffects.BLINDNESS).getDuration();
+                int m = Objects.requireNonNull(((LivingEntity) entity).getStatusEffect(StatusEffects.BLINDNESS)).getDuration();
                 float n = MathHelper.lerp(Math.min(1.0F, (float)m / 20.0F), viewDistance, 5.0F);
                 if (fogType == BackgroundRenderer.FogType.FOG_SKY) {
                     y = 0.0F;
