@@ -15,14 +15,14 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        if (x >= 0 && x <= w) {
-            float eq = (time / w) - 1 - (fromTime / w);
-            exit = eq * eq;
+        if( x >= 0 && x <= w) {
+            float eq = (time/w) - 1 - (fromTime/w);
+            exit = eq*eq;
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return (-exit * size) + size;
         } else {
             return 0;
@@ -33,14 +33,14 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        if (x >= 0 && x <= w) {
-            float eq = (time / w) - (fromTime / w);
-            exit = eq * eq;
+        if( x >= 0 && x <= w) {
+            float eq = (time/w) - (fromTime/w);
+            exit = eq*eq;
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -51,13 +51,13 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        if (x >= 0 && x <= w) {
-            exit = (-(float) Math.cos((x / w) * Math.PI) / 2) + 0.5f;
+        if( x >= 0 && x <= w) {
+            exit = (-(float)Math.cos((x/w)*Math.PI)/2)+0.5f;
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -69,13 +69,13 @@ public class AnimationAPI {
         float w = toTime - fromTime;
         float x = time - fromTime;
         float c3 = multiplier + 1;
-        if (x >= 0 && x <= w) {
-            exit = c3 * (x / w) * (x / w) * (x / w) - multiplier * (x / w) * (x / w);
+        if( x >= 0 && x <= w) {
+            exit = c3*(x/w)*(x/w)*(x/w)- multiplier *(x/w)*(x/w);
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -91,13 +91,13 @@ public class AnimationAPI {
         float w = toTime - fromTime;
         float x = time - fromTime;
         float c3 = multiplier + 1;
-        if (x >= 0 && x <= w) {
-            exit = 1 + c3 * (float) Math.pow(x / w - 1, 3) + multiplier * (float) Math.pow(x / w - 1, 2);
+        if( x >= 0 && x <= w) {
+            exit = 1+c3*(float)Math.pow(x/w - 1, 3)+ multiplier *(float)Math.pow(x/w - 1, 2);
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -113,17 +113,17 @@ public class AnimationAPI {
         float w = toTime - fromTime;
         float x = time - fromTime;
         float c2 = multiplier * 1.525f;
-        if (x >= 0 && x <= w) {
-            if (x < 0.5 * w) {
-                exit = ((float) Math.pow(2 * x / w, 2) * ((c2 + 1) * 2 * x / w - c2)) / 2;
+        if( x >= 0 && x <= w) {
+            if(x < 0.5*w) {
+                exit = ((float)Math.pow(2*x/w, 2) * ((c2+1)*2*x/w - c2) )/2;
             } else {
-                exit = ((float) Math.pow(2 * (x / w) - 2, 2) * ((c2 + 1) * ((x / w) * 2 - 2) + c2) + 2) / 2;
+                exit = ((float)Math.pow(2 * (x/w) - 2, 2) * ((c2 + 1) * ((x/w) * 2 - 2) + c2) + 2) / 2;
             }
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -138,14 +138,14 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        int b = (2 * amount) - 1;
-        if (x >= 0 && x <= w) {
-            exit = (float) Math.cos(2 * Math.PI * b * (x / w)) * (x / w);
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)Math.cos(2*Math.PI*b*(x/w))*(x/w);
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -153,7 +153,7 @@ public class AnimationAPI {
     }
 
     public static float easeInElastic(float fromTime, float toTime, float size, float time) {
-        int w = (int) (toTime - fromTime) / 10;
+        int w = (int)(toTime - fromTime)/10;
         return easeInElastic(fromTime, toTime, size, time, w);
     }
 
@@ -161,14 +161,14 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        int b = (2 * amount) - 1;
-        if (x >= 0 && x <= w) {
-            exit = (float) (-Math.cos(2 * Math.PI * b * (x / w)) * (1 - (x / w)) + 1);
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)(-Math.cos(2*Math.PI*b*(x/w))*(1-(x/w))+1);
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -176,7 +176,7 @@ public class AnimationAPI {
     }
 
     public static float easeOutElastic(float fromTime, float toTime, float size, float time) {
-        int w = (int) (toTime - fromTime) / 10;
+        int w = (int)(toTime - fromTime)/10;
         return easeOutElastic(fromTime, toTime, size, time, w);
     }
 
@@ -184,14 +184,14 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        int b = (2 * amount) - 1;
-        if (x >= 0 && x <= w) {
-            exit = (float) (Math.sin(2 * Math.PI * b * (x / w)) * Math.sin(Math.PI * (x / w))) + (x / w);
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)(Math.sin(2*Math.PI*b*(x/w))*Math.sin(Math.PI*(x/w)))+(x/w);
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -199,7 +199,7 @@ public class AnimationAPI {
     }
 
     public static float easeInOutElastic(float fromTime, float toTime, float size, float time) {
-        int w = (int) (toTime - fromTime) / 10;
+        int w = (int)(toTime - fromTime)/10;
         return easeInOutElastic(fromTime, toTime, size, time, w);
     }
 
@@ -207,14 +207,14 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        int b = (2 * amount) - 1;
-        if (x >= 0 && x <= w) {
-            exit = (float) Math.abs(Math.cos(2 * Math.PI * b * (x / w)) * (x / w));
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)Math.abs(Math.cos(2*Math.PI*b*(x/w))*(x/w));
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -222,7 +222,7 @@ public class AnimationAPI {
     }
 
     public static float easeInBounce(float fromTime, float toTime, float size, float time) {
-        int w = (int) (toTime - fromTime) / 10;
+        int w = (int)(toTime - fromTime)/10;
         return easeInBounce(fromTime, toTime, size, time, w);
     }
 
@@ -230,14 +230,14 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        int b = (2 * amount) - 1;
-        if (x >= 0 && x <= w) {
-            exit = (float) (-Math.abs(Math.cos(2 * Math.PI * b * (x / w)) * (1 - (x / w))) + 1);
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)(-Math.abs(Math.cos(2*Math.PI*b*(x/w))*(1-(x/w)))+1);
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -245,7 +245,7 @@ public class AnimationAPI {
     }
 
     public static float easeOutBounce(float fromTime, float toTime, float size, float time) {
-        int w = (int) (toTime - fromTime) / 10;
+        int w = (int)(toTime - fromTime)/10;
         return easeOutBounce(fromTime, toTime, size, time, w);
     }
 
@@ -253,14 +253,14 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        int b = (2 * amount) - 1;
-        if (x >= 0 && x <= w) {
-            exit = (float) Math.abs(Math.sin(2 * Math.PI * b * (x / w)) * Math.sin(Math.PI * (x / w))) + (x / w);
+        int b = (2* amount)-1;
+        if( x >= 0 && x <= w) {
+            exit = (float)Math.abs(Math.sin(2*Math.PI*b*(x/w))*Math.sin(Math.PI*(x/w)))+(x/w);
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return exit * size;
         } else {
             return 0;
@@ -271,13 +271,13 @@ public class AnimationAPI {
         float exit = 0;
         float w = toTime - fromTime;
         float x = time - fromTime;
-        if (x >= 0 && x <= w) {
-            exit = x / w;
+        if( x >= 0 && x <= w) {
+            exit = x/w;
         }
         if (x > w) {
             return size;
         }
-        if (x >= 0) {
+        if( x >= 0) {
             return (-exit * size);
         } else {
             return 0;
@@ -285,13 +285,13 @@ public class AnimationAPI {
     }
 
     public static float loopTime(float time, float size) {
-        return time - (size * (float) Math.floor(time / size));
+        return time-(size * (float)Math.floor(time/size));
     }
 
     public static float boomerangTime(float time, float size) {
-        float eq1 = time - (2 * size * (float) Math.floor(time / (size * 2)));
-        float eq2 = -time + (2 * size * (float) Math.floor(time / (size * 2))) + (2 * size);
-        if (eq1 >= 0 && eq1 <= size) {
+        float eq1 = time-(2*size * (float)Math.floor(time/(size*2)));
+        float eq2 = -time+(2*size * (float)Math.floor(time/(size*2)))+(2*size);
+        if(eq1>=0&&eq1<=size) {
             return eq1;
         } else {
             return eq2;
@@ -302,7 +302,7 @@ public class AnimationAPI {
         float x = time - from;
         float w = to - from;
 
-        if (x >= 0 && x <= w) {
+        if(x>=0&&x<=w) {
             return x;
         } else {
             return 0;

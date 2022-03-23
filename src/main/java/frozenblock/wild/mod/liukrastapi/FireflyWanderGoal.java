@@ -8,7 +8,6 @@ import net.minecraft.util.math.intprovider.UniformIntProvider;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
-
 public class FireflyWanderGoal extends Goal {
     protected final FireflyEntity mob;
 
@@ -43,11 +42,9 @@ public class FireflyWanderGoal extends Goal {
         }
         return pos;
     }
-
     private int getRandom(int max, Entity entity) {
         return UniformIntProvider.create(-max, max).get(entity.getWorld().getRandom());
     }
-
     private int getYRandom(int max, Entity entity) {
         return UniformIntProvider.create(1, max).get(entity.getWorld().getRandom());
     }

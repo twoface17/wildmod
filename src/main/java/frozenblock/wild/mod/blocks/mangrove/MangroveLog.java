@@ -27,7 +27,7 @@ public class MangroveLog extends PillarBlock {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack itemStack = player.getStackInHand(hand);
-        if (!itemStack.isIn(ItemTags.AXES)) {
+        if(!itemStack.isIn(ItemTags.AXES)) {
             itemStack.damage(1, (LivingEntity) player, p -> p.sendToolBreakStatus(hand));
             BlockState blockState = MangroveWoods.STRIPPED_MANGROVE_LOG.getDefaultState();
             world.setBlockState(pos, (BlockState) blockState.with(AXIS, state.get(AXIS)));

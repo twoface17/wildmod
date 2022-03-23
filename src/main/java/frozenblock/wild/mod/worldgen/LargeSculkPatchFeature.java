@@ -29,14 +29,12 @@ import static java.lang.Math.*;
 public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
     Random random = new Random();
-    /**
-     * NOISE VARIABLES
-     */
+    /** NOISE VARIABLES */
     public static final double multiplier = 0.20; //Lowering this makes the noise bigger, raising it makes it smaller (more like static)
     public static final double minThreshold = -0.3; //The value that outer Sculk's noise must be ABOVE in order to grow
     public static final double maxThreshold = 0.3; //The value that outer Sculk's noise must be BELOW in order to grow
     public static long seed = 1; //This gets set to the current world's seed in generate()
-    public static final int thresholdTransition = 40; //When this is lower, the min&max thresholds for Sculk placement will quickly fluctuate based on location. When higher, the min&max thresholds will have a longer, but smoother transition.
+    public static final int thresholdTransition=40; //When this is lower, the min&max thresholds for Sculk placement will quickly fluctuate based on location. When higher, the min&max thresholds will have a longer, but smoother transition.
     public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new SimpleRandom(seed));
 
     public LargeSculkPatchFeature(Codec<DefaultFeatureConfig> configCodec) {
@@ -45,8 +43,8 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
-        if (seed != context.getWorld().getSeed()) {
-            seed = context.getWorld().getSeed();
+        if (seed!=context.getWorld().getSeed()) {
+            seed=context.getWorld().getSeed();
             sample = new PerlinNoiseSampler(new SimpleRandom(seed));
         }
         if (!blockInSphere(context.getOrigin(), 8, RegisterBlocks.SCULK_CATALYST, context.getWorld())) {
@@ -60,8 +58,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
             double maxThresh = 0.15 * Math.sin(((average) * Math.PI) / thresholdTransition);
             placePatch(context, context.getOrigin(), radius, minThreshold + minThresh, maxThreshold + maxThresh, average);
             return true;
-        }
-        return false;
+        } return false;
     }
 
 
@@ -69,27 +66,23 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         StructureWorldAccess world = context.getWorld();
 
         //Place Sculk Around Catalyst
-        int timesFailed = 0;
-        int groupsFailed = 1;
-        int loop = (int) (8 * Math.cos(((average) * Math.PI) / 24) + 24);
-        for (int l = 0; l < loop; ) {
+        int timesFailed=0;
+        int groupsFailed=1;
+        int loop = (int) (8*Math.cos(((average)*Math.PI)/24) + 24);
+        for (int l = 0; l < loop;) {
             double a = random() * 2 * PI;
             double rad = sqrt(2 + (groupsFailed - 1)) * sqrt(random());
             boolean succeed = placeSculk(pos.add((int) (rad * sin(a)), 0, (int) (rad * cos(a))), world);
             //Determine If Sculk Placement Was Successful And If Radius Should Be Increased
-            if (!succeed) {
-                ++timesFailed;
-            } else {
+            if (!succeed) { ++timesFailed; } else {
                 ++l;
-                if (timesFailed > 0) {
-                    --timesFailed;
-                }
+                if (timesFailed>0) {--timesFailed; }
             }
-            if (timesFailed >= 10) {
-                timesFailed = 0;
-                groupsFailed = groupsFailed + 1;
+            if (timesFailed>=10) {
+                timesFailed=0;
+                groupsFailed=groupsFailed+1;
             }
-            if (sqrt(2 + (groupsFailed - 1)) > 10) {
+            if (sqrt(2 +(groupsFailed-1))>10) {
                 break;
             }
         }
@@ -97,91 +90,91 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         //Place Sculk
         for (BlockPos blockpos : blockTagsInSphere(pos, r, SculkTags.BLOCK_REPLACEABLE, world)) {
             double distance = pos.getSquaredDistance(blockpos);
-            double maxA = max;
-            double minA = min;
-            double sampled = sample.sample(blockpos.getX() * multiplier, blockpos.getY() * multiplier, blockpos.getZ() * multiplier);
-            if (r - 3 <= distance) { //Semi-Fade On Edges
-                double equation = 0.15 * (Math.sin((r - distance * PI) / 6));
-                maxA = maxA - equation;
-                minA = minA + equation;
+            double maxA=max;
+            double minA=min;
+            double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
+            if (r-3<=distance) { //Semi-Fade On Edges
+                double equation = 0.15*(Math.sin((r-distance*PI)/6));
+                maxA=maxA-equation;
+                minA=minA+equation;
             }
-            double dist = Math.max(r, distance * 1.8);
+            double dist = Math.max(r,distance*1.8);
             if (isWall(world, blockpos)) {
-                double maxEq = (maxA) * (Math.sin((dist * PI) / r * 2));
-                double minEq = (minA) * (Math.sin((dist * PI) / r * 2));
-                maxA = maxA - maxEq;
-                minA = minA + minEq;
+                double maxEq = (maxA)*(Math.sin((dist*PI)/r*2));
+                double minEq = (minA)*(Math.sin((dist*PI)/r*2));
+                maxA=maxA-maxEq;
+                minA=minA+minEq;
             }
             if (isCeiling(world, blockpos)) {
-                double maxEq = (maxA) * (Math.sin((dist * PI) / r * 2));
-                double minEq = (minA) * (Math.sin((dist * PI) / r * 2));
-                maxA = maxA - maxEq;
-                minA = minA + minEq;
+                double maxEq = (maxA)*(Math.sin((dist*PI)/r*2));
+                double minEq = (minA)*(Math.sin((dist*PI)/r*2));
+                maxA=maxA-maxEq;
+                minA=minA+minEq;
             }
-            if (sampled > minA && sampled < maxA) {
+            if (sampled>minA && sampled<maxA) {
                 placeSculkOptim(blockpos, world);
             }
         }
 
         //Place Veins
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
-            double minA = min;
-            double sampled = sample.sample(blockpos.getX() * multiplier, blockpos.getY() * multiplier, blockpos.getZ() * multiplier);
+            double minA=min;
+            double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
             double distance = pos.getSquaredDistance(blockpos);
-            if (r - 3 <= distance) { //Semi-Fade On Edges
-                double equation = 0.15 * (Math.sin((distance * PI) / 6));
-                minA = minA + equation;
+            if (r-3<=distance) { //Semi-Fade On Edges
+                double equation = 0.15*(Math.sin((distance*PI)/6));
+                minA=minA+equation;
             }
-            double dist = Math.max(r, distance * 1.8);
+            double dist = Math.max(r,distance*1.8);
             if (isWall(world, blockpos)) {
-                double minEq = (minA) * (Math.sin((dist * PI) / r * 2));
-                minA = minA + minEq;
+                double minEq = (minA)*(Math.sin((dist*PI)/r*2));
+                minA=minA+minEq;
             }
             if (isCeiling(world, blockpos)) {
-                double minEq = (minA) * (Math.sin((dist * PI) / r * 2));
-                minA = minA + minEq;
+                double minEq = (minA)*(Math.sin((dist*PI)/r*2));
+                minA=minA+minEq;
             }
-            if (sampled < minA && sampled > minA - 0.16) {
+            if (sampled<minA && sampled>minA-0.16) {
                 veins(blockpos, world);
             }
         }
         for (BlockPos blockpos : solidInSphere(pos, r, world)) {
             double distance = pos.getSquaredDistance(blockpos);
-            double maxA = max;
-            double sampled = sample.sample(blockpos.getX() * multiplier, blockpos.getY() * multiplier, blockpos.getZ() * multiplier);
-            if (r - 3 <= distance) { //Semi-Fade On Edges
-                double equation = 0.15 * (Math.sin((distance * PI) / 6));
-                maxA = maxA - equation;
+            double maxA=max;
+            double sampled = sample.sample(blockpos.getX()*multiplier, blockpos.getY()*multiplier,blockpos.getZ()*multiplier);
+            if (r-3<=distance) { //Semi-Fade On Edges
+                double equation = 0.15*(Math.sin((distance*PI)/6));
+                maxA=maxA-equation;
             }
-            double dist = Math.max(r, distance * 1.8);
+            double dist = Math.max(r,distance*1.8);
             if (isWall(world, blockpos)) {
-                double maxEq = (maxA) * (Math.sin((dist * PI) / r * 2));
-                maxA = maxA - maxEq;
+                double maxEq = (maxA)*(Math.sin((dist*PI)/r*2));
+                maxA=maxA-maxEq;
             }
             if (isCeiling(world, blockpos)) {
-                double maxEq = (maxA) * (Math.sin((dist * PI) / r * 2));
-                maxA = maxA - maxEq;
+                double maxEq = (maxA)*(Math.sin((dist*PI)/r*2));
+                maxA=maxA-maxEq;
             }
-            if (sampled > maxA && sampled < maxA + 0.16) {
+            if (sampled>maxA && sampled<maxA+0.16) {
                 veins(blockpos, world);
             }
         }
-        for (BlockPos blockpos : hollowedSphere(pos, r + 1, world)) {
+        for (BlockPos blockpos : hollowedSphere(pos, r+1, world)) {
             veins(blockpos, world);
         }
 
         //Place Activators
         for (BlockPos blockpos : blocksInSphere(pos, r, RegisterBlocks.SCULK, world)) {
-            double sampled = sample.sample(blockpos.getX() * 1.5, blockpos.getY() * 1.5, blockpos.getZ() * 1.5);
+            double sampled = sample.sample(blockpos.getX()*1.5, blockpos.getY()*1.5,blockpos.getZ()*1.5);
             if (SculkTags.blockTagContains(world.getBlockState(blockpos.up()).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE)) {
                 Block activator = null;
-                if (sampled < 0.55 && sampled > 0.41 && blockTagsInSphere(context.getOrigin(), 3, SculkTags.COMMON_ACTIVATORS, context.getWorld()).isEmpty()) {
-                    activator = SculkTags.getRandomBlock(random, SculkTags.COMMON_ACTIVATORS);
+                if (sampled<0.55 && sampled>0.41 && blockTagsInSphere(context.getOrigin(), 3, SculkTags.COMMON_ACTIVATORS, context.getWorld()).isEmpty()) {
+                    activator=SculkTags.getRandomBlock(random, SculkTags.COMMON_ACTIVATORS);
                 }
-                if (sampled < 1 && sampled > 0.57 && blockTagsInSphere(context.getOrigin(), 6, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty()) {
-                    activator = SculkTags.getRandomBlock(random, SculkTags.RARE_ACTIVATORS);
+                if (sampled<1 && sampled>0.57 && blockTagsInSphere(context.getOrigin(), 6, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty()) {
+                    activator=SculkTags.getRandomBlock(random, SculkTags.RARE_ACTIVATORS);
                 }
-                if (activator != null) {
+                if (activator!=null) {
                     if (SculkTags.blockTagContains(activator, SculkTags.GROUND_ACTIVATORS)) {
                         world.setBlockState(blockpos.up(), activator.getDefaultState(), 0);
                     } else {
@@ -261,17 +254,15 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
             }
         }
     }
-
     public static void fourDirVeins(BlockPos blockpos, StructureWorldAccess world) {
         if (world.isChunkLoaded(blockpos)) {
-            for (Direction direction : Direction.values()) {
-                if (airveins(world, blockpos.offset(direction))) {
-                    veins(blockpos.offset(direction), world);
-                }
+        for (Direction direction : Direction.values()) {
+            if (airveins(world, blockpos.offset(direction))) {
+                veins(blockpos.offset(direction), world);
             }
         }
     }
-
+    }
     public static void veins(BlockPos blockpos, StructureWorldAccess world) {
         if (world.isChunkLoaded(blockpos)) {
             for (Direction direction : Direction.values()) {
@@ -295,23 +286,19 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
 
     public static BlockPos sculkCheck(BlockPos blockPos, StructureWorldAccess world) { //Call For Up&Down Checks
         BlockPos check = checkPt2(blockPos, world);
-        if (check != null) {
-            return check;
-        }
+        if (check!=null) { return check; }
         if (!world.isSkyVisible(blockPos)) {
             return checkPt1(blockPos, world);
-        }
-        return null;
+        } return null;
     }
-
     public static BlockPos checkPt1(BlockPos blockPos, StructureWorldAccess world) { //Check For Valid Placement Above
         int upward = 8;
         int MAX = world.getHeight();
         if (blockPos.getY() + upward >= MAX) {
-            upward = (MAX - blockPos.getY()) - 1;
+            upward = (MAX - blockPos.getY())-1;
         }
         for (int h = 0; h < upward; h++) {
-            BlockPos pos = blockPos.up(h);
+            BlockPos pos =  blockPos.up(h);
             Block block = world.getBlockState(pos).getBlock();
             if (!SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, pos)) {
                 return pos;
@@ -319,12 +306,11 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         }
         return null;
     }
-
     public static BlockPos checkPt2(BlockPos blockPos, StructureWorldAccess world) { //Check For Valid Placement Below
         int downward = 4;
         int MIN = world.getBottomY();
         if (blockPos.getY() - downward <= MIN) {
-            downward = (blockPos.getY() - MIN) - 1;
+            downward = (blockPos.getY()-MIN)-1;
         }
         for (int h = 0; h < downward; h++) {
             BlockPos pos = blockPos.down(h);
@@ -337,9 +323,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public static boolean airveins(StructureWorldAccess world, BlockPos blockPos) { //Check If Veins Are Above Invalid Block
-        if (blockPos == null) {
-            return false;
-        }
+        if (blockPos==null) { return false; }
         BlockState state = world.getBlockState(blockPos);
         Block block = state.getBlock();
         Fluid fluid = world.getFluidState(blockPos).getFluid();
@@ -368,24 +352,12 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public static BooleanProperty getOpposite(Direction direction) {
-        if (direction == Direction.UP) {
-            return Properties.DOWN;
-        }
-        if (direction == Direction.DOWN) {
-            return Properties.UP;
-        }
-        if (direction == Direction.NORTH) {
-            return Properties.SOUTH;
-        }
-        if (direction == Direction.SOUTH) {
-            return Properties.NORTH;
-        }
-        if (direction == Direction.EAST) {
-            return Properties.WEST;
-        }
-        if (direction == Direction.WEST) {
-            return Properties.EAST;
-        }
+        if (direction==Direction.UP) { return Properties.DOWN; }
+        if (direction==Direction.DOWN) { return Properties.UP; }
+        if (direction==Direction.NORTH) { return Properties.SOUTH; }
+        if (direction==Direction.SOUTH) { return Properties.NORTH; }
+        if (direction==Direction.EAST) { return Properties.WEST; }
+        if (direction==Direction.WEST) { return Properties.EAST; }
         return Properties.DOWN;
     }
 
@@ -402,11 +374,11 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         int by = pos.getY();
         int bz = pos.getZ();
         ArrayList<BlockPos> blocks = new ArrayList<>();
-        for (int x = bx - radius; x <= bx + radius; x++) {
-            for (int y = by - radius; y <= by + radius; y++) {
-                for (int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
-                    if (distance < radius * radius) {
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
                         if (SculkTags.blockTagContains(world.getBlockState(l).getBlock(), tag)) {
                             blocks.add(l);
@@ -423,11 +395,11 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         int by = pos.getY();
         int bz = pos.getZ();
         ArrayList<BlockPos> blocks = new ArrayList<>();
-        for (int x = bx - radius; x <= bx + radius; x++) {
-            for (int y = by - radius; y <= by + radius; y++) {
-                for (int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
-                    if (distance < radius * radius) {
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
                         if (world.getBlockState(l).isFullCube(world, l) && !SculkTags.blockTagContains(world.getBlockState(l).getBlock(), SculkTags.SCULK) && world.isChunkLoaded(l)) {
                             blocks.add(l);
@@ -438,17 +410,16 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         }
         return blocks;
     }
-
     public static ArrayList<BlockPos> blocksInSphere(BlockPos pos, int radius, Block block, StructureWorldAccess world) {
         ArrayList<BlockPos> blocks = new ArrayList<>();
         int bx = pos.getX();
         int by = pos.getY();
         int bz = pos.getZ();
-        for (int x = bx - radius; x <= bx + radius; x++) {
-            for (int y = by - radius; y <= by + radius; y++) {
-                for (int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
-                    if (distance < radius * radius) {
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
                         if (world.getBlockState(l).getBlock() == block && world.isChunkLoaded(l)) {
                             blocks.add(l);
@@ -486,13 +457,13 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
         int by = pos.getY();
         int bz = pos.getZ();
 
-        for (int x = bx - radius; x <= bx + radius; x++) {
-            for (int y = by - radius; y <= by + radius; y++) {
-                for (int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
-                    if (distance < radius * radius) {
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (world.getBlockState(l).getBlock() == block) {
+                        if (world.getBlockState(l).getBlock()==block) {
                             return true;
                         }
                     }

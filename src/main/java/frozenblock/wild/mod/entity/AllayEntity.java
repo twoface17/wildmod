@@ -40,7 +40,7 @@ public class AllayEntity extends FlyingEntity {
 
     protected ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
-        if ((!itemStack.isEmpty() && !hasItem)) {
+        if ((!itemStack.isEmpty() && !hasItem )) {
             this.hasItem = true;
             if (!this.world.isClient) {
                 this.world.playSound(null, this.getBlockPos(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.NEUTRAL, 1F, 1F);
@@ -88,7 +88,6 @@ public class AllayEntity extends FlyingEntity {
         super.writeCustomDataToNbt(nbt);
         nbt.putBoolean("hasItem", this.hasItem);
     }
-
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.hasItem = nbt.getBoolean("hasItem");
@@ -136,7 +135,6 @@ public class AllayEntity extends FlyingEntity {
             }
 
             return true;
-        }
-    }
+        }}
 
 }

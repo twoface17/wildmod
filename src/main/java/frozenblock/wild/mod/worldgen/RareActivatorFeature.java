@@ -35,29 +35,27 @@ public class RareActivatorFeature extends Feature<DefaultFeatureConfig> {
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
         StructureWorldAccess world = context.getWorld();
         BlockPos pos = context.getOrigin();
-        if (blockTagsInSphere(context.getOrigin(), 6, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty() && world.getBlockState(context.getOrigin()).getBlock() == sculk.getBlock()) {
+        if (blockTagsInSphere(context.getOrigin(), 6, SculkTags.RARE_ACTIVATORS, context.getWorld()).isEmpty() && world.getBlockState(context.getOrigin()).getBlock()==sculk.getBlock()) {
             BlockState activator = null;
-            if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {
-                ;
+            if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {;
                 activator = SculkTags.getRandomBlock(new Random(context.getWorld().getSeed()), SculkTags.RARE_ACTIVATORS).getDefaultState();
                 if (SculkTags.blockTagContains(activator.getBlock(), SculkTags.GROUND_ACTIVATORS)) {
-                    world.setBlockState(pos, activator, 0);
+                    world.setBlockState(pos, activator,0);
                 } else {
                     BlockState stateUp = world.getBlockState(pos.up());
                     if (stateUp == water && activator.contains(waterLogged)) {
-                        world.setBlockState(pos.up(), activator.with(waterLogged, true), 0);
+                        world.setBlockState(pos.up(), activator.with(waterLogged, true),0);
                     } else if (stateUp.getBlock() != waterBlock) {
                         if (stateUp == vein.with(waterLogged, true) && activator.contains(waterLogged)) {
-                            world.setBlockState(pos.up(), activator.with(waterLogged, true), 0);
+                            world.setBlockState(pos.up(), activator.with(waterLogged, true),0);
                         } else {
-                            world.setBlockState(pos.up(), activator, 0);
+                            world.setBlockState(pos.up(), activator,0);
                         }
                     }
                 }
             }
             return true;
-        }
-        return false;
+        } return false;
     }
 
     public static ArrayList<BlockPos> blockTagsInSphere(BlockPos pos, int radius, TagKey<Block> tag, StructureWorldAccess world) {
@@ -65,11 +63,11 @@ public class RareActivatorFeature extends Feature<DefaultFeatureConfig> {
         int by = pos.getY();
         int bz = pos.getZ();
         ArrayList<BlockPos> blocks = new ArrayList<>();
-        for (int x = bx - radius; x <= bx + radius; x++) {
-            for (int y = by - radius; y <= by + radius; y++) {
-                for (int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
-                    if (distance < radius * radius) {
+        for(int x = bx - radius; x <= bx + radius; x++) {
+            for(int y = by - radius; y <= by + radius; y++) {
+                for(int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
+                    if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
                         if (SculkTags.blockTagContains(world.getBlockState(l).getBlock(), tag)) {
                             blocks.add(l);

@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public abstract class RegisterParticles {
-
+    
     public static final DefaultParticleType SCULK_SOUL = FabricParticleTypes.simple();
 
     public static void RegisterParticles() {

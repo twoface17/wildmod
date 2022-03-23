@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class SculkShriekerListener
-        implements GameEventListener {
+implements GameEventListener {
     protected final SculkSensorListener.Callback callback;
     protected final PositionSource positionSource;
     protected final int range;
@@ -37,7 +37,7 @@ public class SculkShriekerListener
     public SculkShriekerListener(PositionSource positionSource, int i, SculkSensorListener.Callback callback) {
         this.positionSource = positionSource;
         this.range = i;
-        this.callback = callback;
+        this.callback =  callback;
     }
 
     public void tick(World world) {
@@ -85,21 +85,19 @@ public class SculkShriekerListener
     }
 
     private boolean shouldActivate(GameEvent gameEvent) {
-        if (gameEvent.equals(RegisterAccurateSculk.CLICK)) {
-            return true;
-        }
+        if (gameEvent.equals(RegisterAccurateSculk.CLICK)) { return true; }
         return false;
     }
 
     private void listen(World world, GameEvent gameEvent, BlockPos blockPos, BlockPos blockPos2) {
         this.event = Optional.of(gameEvent);
         if (world instanceof ServerWorld) {
-            if (gameEvent == RegisterAccurateSculk.CLICK) {
+            if (gameEvent==RegisterAccurateSculk.CLICK) {
                 this.delay = this.distance = MathHelper.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ()))) * 2;
                 ((ServerWorld) world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
                 BlockEntity sensor = world.getBlockEntity(blockPos);
                 if (sensor instanceof SculkSensorBlockEntity) {
-                    SculkSensorBlockEntity sculkSensorBlockEntity = (SculkSensorBlockEntity) sensor;
+                    SculkSensorBlockEntity sculkSensorBlockEntity = (SculkSensorBlockEntity)sensor;
                     writeValue(sculkSensorBlockEntity.getLastVibrationFrequency(), blockPos2, world);
                 }
             }

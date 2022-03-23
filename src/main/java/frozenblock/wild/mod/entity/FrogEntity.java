@@ -73,7 +73,7 @@ public class FrogEntity extends AnimalEntity {
 
     //ANIMATION
     public boolean canEatAnim; //Status 4
-    public float eatAnimStartTime = -200;
+    public float eatAnimStartTime=-200;
 
     public FrogEntity(EntityType<? extends FrogEntity> entityType, World world) {
         super(entityType, world);
@@ -102,7 +102,6 @@ public class FrogEntity extends AnimalEntity {
         }
         return false;
     }
-
     public static boolean canTemperateSpawn(World world, BlockPos pos) {
         return world.getBiome(pos).getKeyOrValue().right().equals(Biome.Category.JUNGLE) || world.getBiome(pos).getKeyOrValue().right().equals(Biome.Category.DESERT) || world.getBiome(pos).getKeyOrValue().right().equals(Biome.Category.NETHER);
     }
@@ -115,9 +114,7 @@ public class FrogEntity extends AnimalEntity {
         return (BlockPos) this.dataTracker.get(TRAVEL_POS);
     }
 
-    public boolean pregnant() {
-        return (Boolean) this.dataTracker.get(PREGNANT);
-    }
+    public boolean pregnant() {return (Boolean) this.dataTracker.get(PREGNANT);}
 
     public void becomePregnant(boolean pregnant) {
         this.dataTracker.set(PREGNANT, pregnant);
@@ -168,7 +165,7 @@ public class FrogEntity extends AnimalEntity {
 
     @Nullable
     public LivingEntity getTarget() {
-        if (world.getEntityById(this.targetID) != null) {
+        if (world.getEntityById(this.targetID)!=null) {
             if (world.getEntityById(this.targetID) instanceof LivingEntity) {
                 return (LivingEntity) world.getEntityById(this.targetID);
             }
@@ -323,7 +320,7 @@ public class FrogEntity extends AnimalEntity {
 
     public void handleStatus(byte status) {
         if (status == 4) {
-            this.canEatAnim = true;
+            this.canEatAnim=true;
             this.tongue = 10;
         } else if (status == 18) {
             for (int i = 0; i < 7; ++i) {
@@ -358,7 +355,7 @@ public class FrogEntity extends AnimalEntity {
         }
     }
 
-    static class FrogMoveControl extends MoveControl {
+     static class FrogMoveControl extends MoveControl {
         private final FrogEntity frog;
 
         FrogMoveControl(FrogEntity frog) {

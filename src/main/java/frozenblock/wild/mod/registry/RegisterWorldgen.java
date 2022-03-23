@@ -46,6 +46,13 @@ public class RegisterWorldgen {
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
     public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
 
+    private static final Feature<DefaultFeatureConfig> SCULK_CATASTROPHE_FEATURE = new LargeSculkPatchFeature(DefaultFeatureConfig.CODEC);
+    private static final Feature<DefaultFeatureConfig> SCULK_PATCH_FEATURE = new SculkPatchFeature(DefaultFeatureConfig.CODEC);
+    private static final Feature<DefaultFeatureConfig> RANDOM_SCULK_FEATURE = new RandomSculkFeature(DefaultFeatureConfig.CODEC);
+    private static final Feature<DefaultFeatureConfig> RANDOM_VEINS_FEATURE = new RandomVeinsFeature(DefaultFeatureConfig.CODEC);
+    private static final Feature<DefaultFeatureConfig> COMMON_ACTIVATOR_FEATURE = new CommonActivatorFeature(DefaultFeatureConfig.CODEC);
+    private static final Feature<DefaultFeatureConfig> RARE_ACTIVATOR_FEATURE = new RareActivatorFeature(DefaultFeatureConfig.CODEC);
+
     public static PlacedFeature TREES_MANGROVE;
     public static PlacedFeature SCULK_CATASTROPHE_PLACED;
     public static PlacedFeature SCULK_PATCH_PLACED;
@@ -95,7 +102,24 @@ public class RegisterWorldgen {
 
         MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_DEEP_DARK);
         return (
-                new Biome.Builder()).precipitation(Biome.Precipitation.NONE).category(Biome.Category.UNDERGROUND).temperature(0.8F).downfall(0.9F).effects((new BiomeEffects.Builder()).waterColor(4159204).waterFogColor(329011).fogColor(0).skyColor(getSkyColor(0.8F)).foliageColor(FoliageColors.getDefaultColor()).grassColorModifier(BiomeEffects.GrassColorModifier.NONE).music(musicSound).loopSound(RegisterSounds.AMBIENT_DEEP_DARK_LOOP).additionsSound(new BiomeAdditionsSound(RegisterSounds.AMBIENT_DEEP_DARK_ADDITIONS, 0.0072D)).moodSound(BiomeMoodSound.CAVE).build()).spawnSettings(builder.build()).generationSettings(builder2.build()).build();
+                new net.minecraft.world.biome.Biome.Builder())
+                .precipitation(Biome.Precipitation.NONE)
+                .category(Biome.Category.UNDERGROUND)
+                .temperature(0.8F).downfall(0.9F)
+                .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
+                        .waterColor(4159204)
+                        .waterFogColor(329011)
+                        .fogColor(0)
+                        .skyColor(getSkyColor(0.8F))
+                        .foliageColor(FoliageColors.getDefaultColor())
+                        .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
+                        .music(musicSound)
+                        .loopSound(RegisterSounds.AMBIENT_DEEP_DARK_LOOP)
+                        .additionsSound(new BiomeAdditionsSound(RegisterSounds.AMBIENT_DEEP_DARK_ADDITIONS, 0.0072D))
+                        .moodSound(BiomeMoodSound.CAVE).build())
+                .spawnSettings(builder.build())
+                .generationSettings(builder2.build()).build();
+
     }
 
     public static Biome createMangroveSwamp() {
@@ -110,15 +134,32 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addSwampVegetation(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, OceanPlacedFeatures.SEAGRASS_SWAMP);
         return (
-                new net.minecraft.world.biome.Biome.Builder()).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.SWAMP).temperature(0.8F).downfall(0.9F).effects((new net.minecraft.world.biome.BiomeEffects.Builder()).waterColor(0x397d71).waterFogColor(0x397d71).fogColor(12638463).skyColor(getSkyColor(0.8F)).foliageColor(6975545).grassColorModifier(BiomeEffects.GrassColorModifier.SWAMP).moodSound(BiomeMoodSound.CAVE).build()).spawnSettings(builder.build()).generationSettings(builder2.build()).build();
+                new net.minecraft.world.biome.Biome.Builder())
+                .precipitation(Biome.Precipitation.RAIN)
+                .category(Biome.Category.SWAMP)
+                .temperature(0.8F).downfall(0.9F)
+                .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
+                        .waterColor(0x397d71)
+                        .waterFogColor(0x397d71)
+                        .fogColor(12638463)
+                        .skyColor(getSkyColor(0.8F))
+                        .foliageColor(6975545)
+                        .grassColorModifier(BiomeEffects.GrassColorModifier.SWAMP)
+                        .moodSound(BiomeMoodSound.CAVE).build())
+                .spawnSettings(builder.build())
+                .generationSettings(builder2.build()).build();
 
     }
 
     public static void addMangroveSwampFeatures(GenerationSettings.Builder builder2) {
-        GenerationSettings.Builder builder = new GenerationSettings.Builder().feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.mangrove).feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY).feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP).feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
+        GenerationSettings.Builder builder = new GenerationSettings.Builder()
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.mangrove)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
     }
 
-    private static void addBasicFeatures(GenerationSettings.Builder generationSettings) {
+    private static void addBasicFeatures(net.minecraft.world.biome.GenerationSettings.Builder generationSettings) {
         DefaultBiomeFeatures.addLandCarvers(generationSettings);
         DefaultBiomeFeatures.addAmethystGeodes(generationSettings);
         DefaultBiomeFeatures.addDungeons(generationSettings);
@@ -127,7 +168,7 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
     }
 
-    private static void addBasicFeaturesNoSprings(GenerationSettings.Builder generationSettings) {
+    private static void addBasicFeaturesNoSprings(net.minecraft.world.biome.GenerationSettings.Builder generationSettings) {
         DefaultBiomeFeatures.addLandCarvers(generationSettings);
         DefaultBiomeFeatures.addAmethystGeodes(generationSettings);
         DefaultBiomeFeatures.addDungeons(generationSettings);
@@ -142,13 +183,6 @@ public class RegisterWorldgen {
     }
 
     public static void RegisterWorldgen() {
-        final Feature<DefaultFeatureConfig> SCULK_CATASTROPHE_FEATURE = new LargeSculkPatchFeature(DefaultFeatureConfig.CODEC);
-        final Feature<DefaultFeatureConfig> SCULK_PATCH_FEATURE = new SculkPatchFeature(DefaultFeatureConfig.CODEC);
-        final Feature<DefaultFeatureConfig> RANDOM_SCULK_FEATURE = new RandomSculkFeature(DefaultFeatureConfig.CODEC);
-        final Feature<DefaultFeatureConfig> RANDOM_VEINS_FEATURE = new RandomVeinsFeature(DefaultFeatureConfig.CODEC);
-        final Feature<DefaultFeatureConfig> COMMON_ACTIVATOR_FEATURE = new CommonActivatorFeature(DefaultFeatureConfig.CODEC);
-        final Feature<DefaultFeatureConfig> RARE_ACTIVATOR_FEATURE = new RareActivatorFeature(DefaultFeatureConfig.CODEC);
-
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe_feature"), SCULK_CATASTROPHE_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch_feature"), SCULK_PATCH_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_feature"), RANDOM_SCULK_FEATURE);
@@ -157,20 +191,21 @@ public class RegisterWorldgen {
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "rare_activator_feature"), RARE_ACTIVATOR_FEATURE);
 
 
+
         MANGROVE = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "mangrove"), new ConfiguredFeature<>(Feature.TREE, new TreeFeatureConfig.Builder(
-                BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
-                new StraightTrunkPlacer(8, 3, 0), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
-                new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 100),
-                new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
-                .decorators(ImmutableList.of(MangroveTreeDecorator.INSTANCE))
-                .build()));
+                        BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
+                        new StraightTrunkPlacer(8, 3, 0), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
+                        new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 100),
+                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
+                        .decorators(ImmutableList.of(MangroveTreeDecorator.INSTANCE))
+                        .build()));
 
         BIRCH_NEW = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "birch"), new ConfiguredFeature<>(Feature.TREE, new TreeFeatureConfig.Builder(
-                BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
-                new StraightTrunkPlacer(7, 3, 9), BlockStateProvider.of(Blocks.BIRCH_LEAVES),
-                new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), 10),
-                new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
-                .build()));
+                        BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
+                        new StraightTrunkPlacer(7, 3, 9), BlockStateProvider.of(Blocks.BIRCH_LEAVES),
+                        new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), 10),
+                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
+                        .build()));
 
         SCULK_CATASTROPHE_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe"), new ConfiguredFeature<>(SCULK_CATASTROPHE_FEATURE, new DefaultFeatureConfig()));
         SCULK_PATCH_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), new ConfiguredFeature<>(SCULK_PATCH_FEATURE, new DefaultFeatureConfig()));

@@ -27,6 +27,6 @@ public class WardenEntityRenderer extends MobEntityRenderer<WardenEntity, Warden
         if ("Osmiooo".equals(string)) {
             return SECRET_WARDEN_TEXTURE;
         }
-        return WARDEN_TEXTURE;
+            return WARDEN_TEXTURE;
     }
 }

@@ -12,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,6 +21,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BackgroundRenderer.class)
 public class BackgroundRendererMixin {
+
+
+
 
 
     @Inject(at = @At("TAIL"), method = "applyFog")
@@ -31,7 +35,7 @@ public class BackgroundRendererMixin {
         if (cameraSubmersionType == CameraSubmersionType.WATER) {
             y = 192.0F;
             if (entity instanceof ClientPlayerEntity) {
-                ClientPlayerEntity clientPlayerEntity = (ClientPlayerEntity) entity;
+                ClientPlayerEntity clientPlayerEntity = (ClientPlayerEntity)entity;
                 y *= Math.max(0.25F, clientPlayerEntity.getUnderwaterVisibility());
                 RegistryEntry<Biome> biome = clientPlayerEntity.world.getBiome(clientPlayerEntity.getBlockPos());
                 Biome.Category category = Biome.getCategory(biome);
@@ -48,16 +52,16 @@ public class BackgroundRendererMixin {
                 if (entity.isSpectator()) {
                     y = -8.0F;
                     ab = viewDistance * 0.5F;
-                } else if (entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
+                } else if (entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
                     y = 0.0F;
                     ab = 3.0F;
                 } else {
                     y = 0.25F;
                     ab = 1.0F;
                 }
-            } else if (entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(StatusEffects.BLINDNESS)) {
-                int m = ((LivingEntity) entity).getStatusEffect(StatusEffects.BLINDNESS).getDuration();
-                float n = MathHelper.lerp(Math.min(1.0F, (float) m / 20.0F), viewDistance, 5.0F);
+            } else if (entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(StatusEffects.BLINDNESS)) {
+                int m = ((LivingEntity)entity).getStatusEffect(StatusEffects.BLINDNESS).getDuration();
+                float n = MathHelper.lerp(Math.min(1.0F, (float)m / 20.0F), viewDistance, 5.0F);
                 if (fogType == BackgroundRenderer.FogType.FOG_SKY) {
                     y = 0.0F;
                     ab = n * 0.8F;
@@ -85,9 +89,9 @@ public class BackgroundRendererMixin {
             }
             float math;
 
-            if (entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
+            if(entity instanceof LivingEntity && ((LivingEntity)entity).hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
                 float offset = 0.5f;
-                float multiplier = viewDistance * 1.4f;
+                float multiplier = viewDistance*1.4f;
                 float equation = (float) MathAddon.cutCos(MathAddon.time, offset, true);
                 math = (equation * multiplier) - offset * (multiplier);
             } else {

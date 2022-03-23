@@ -14,11 +14,13 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -53,7 +55,7 @@ public class MangrovePropagule extends SaplingBlock implements Waterloggable, Fe
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
         boolean bl = fluidState.getFluid() == Fluids.WATER;
-        return (BlockState) ((BlockState) super.getPlacementState(ctx).with(WATERLOGGED, bl)).with(AGE, 4);
+        return (BlockState)((BlockState)super.getPlacementState(ctx).with(WATERLOGGED, bl)).with(AGE, 4);
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -82,15 +84,15 @@ public class MangrovePropagule extends SaplingBlock implements Waterloggable, Fe
     }
 
     private static boolean isHanging(BlockState state) {
-        return (Boolean) state.get(HANGING);
+        return (Boolean)state.get(HANGING);
     }
 
     private static boolean isFullyGrown(BlockState state) {
-        return (Integer) state.get(AGE) == 4;
+        return (Integer)state.get(AGE) == 4;
     }
 
     public static BlockState createNewHangingPropagule() {
-        return (BlockState) ((BlockState) MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(HANGING, true)).with(AGE, 0);
+        return (BlockState)((BlockState)MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(HANGING, true)).with(AGE, 0);
     }
 
     public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
@@ -105,7 +107,7 @@ public class MangrovePropagule extends SaplingBlock implements Waterloggable, Fe
         if (!state.get(HANGING)) {
             voxelShape = SHAPE_PER_AGE[4];
         } else {
-            voxelShape = SHAPE_PER_AGE[(Integer) state.get(AGE)];
+            voxelShape = SHAPE_PER_AGE[(Integer)state.get(AGE)];
         }
 
         return voxelShape.offset(offset.x, offset.y, offset.z);
@@ -139,7 +141,7 @@ public class MangrovePropagule extends SaplingBlock implements Waterloggable, Fe
 
     public void generate(ServerWorld world, BlockPos pos, BlockState state, Random random) {
         if (isHanging(state) && !isFullyGrown(state)) {
-            world.setBlockState(pos, (BlockState) state.cycle(AGE), 2);
+            world.setBlockState(pos, (BlockState)state.cycle(AGE), 2);
         } else {
             super.generate(world, pos, state, random);
         }

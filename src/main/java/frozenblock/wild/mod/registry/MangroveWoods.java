@@ -12,6 +12,8 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import java.util.Properties;
+
 public abstract class MangroveWoods {
 
     // THIS VARIABLE DEFINES ALL PROPERTIES FOR WOOD
@@ -32,11 +34,11 @@ public abstract class MangroveWoods {
     public static final Block MANGROVE_TRAPDOOR = new MangroveTrapdoor(WOOD_PROPERTIES.nonOpaque());
     public static final Block MANGROVE_LEAVES = new MangroveLeaves();
     public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES.nonOpaque().strength(0.5f, 0.5f).sounds(new BlockSoundGroup(1.0f, 1.0f,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
-            RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
+             RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
     )));
     public static final MangrovePropagule MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(new BlockSoundGroup(1.0f, 1.0f,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_BREAK,
@@ -54,7 +56,7 @@ public abstract class MangroveWoods {
     )));
 
     public static void RegisterMangrove() {
-
+            
 
         // REGISTERING BLOCKS
 

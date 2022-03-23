@@ -57,7 +57,7 @@ public class MangroveTreeDecorator extends TreeDecorator {
                 }
                 currentPosition.up();
                 placeRootBottom(currentPosition, world, replacer);
-                for (int i = 1; i <= PosXLength - 1; i++) {
+                for (int i=1; i<=PosXLength-1; i++) {
                     placeRootBlock(logPosition.offset(Direction.Axis.X, i), world, replacer);
                 }
                 //Negative X
@@ -70,7 +70,7 @@ public class MangroveTreeDecorator extends TreeDecorator {
                 }
                 currentPosition.up();
                 placeRootBottom(currentPosition, world, replacer);
-                for (int i = 1; i <= NegXLength - 1; i++) {
+                for (int i=1; i<=NegXLength-1; i++) {
                     placeRootBlock(logPosition.offset(Direction.Axis.X, -i), world, replacer);
                 }
                 //Positive Z
@@ -83,7 +83,7 @@ public class MangroveTreeDecorator extends TreeDecorator {
                 }
                 currentPosition.up();
                 placeRootBottom(currentPosition, world, replacer);
-                for (int i = 1; i <= PosZLength - 1; i++) {
+                for (int i=1; i<=PosZLength-1; i++) {
                     placeRootBlock(logPosition.offset(Direction.Axis.Z, i), world, replacer);
                 }
                 //Negative Z
@@ -96,7 +96,7 @@ public class MangroveTreeDecorator extends TreeDecorator {
                 }
                 currentPosition.up();
                 placeRootBottom(currentPosition, world, replacer);
-                for (int i = 1; i <= NegZLength - 1; i++) {
+                for (int i=1; i<=NegZLength-1; i++) {
                     placeRootBlock(logPosition.offset(Direction.Axis.Z, -i), world, replacer);
                 }
                 if (world.testBlockState(logPosition.down(), Predicate.isEqual(MangroveWoods.MANGROVE_LOG.getDefaultState()))) {
@@ -174,7 +174,7 @@ public class MangroveTreeDecorator extends TreeDecorator {
             } else if (dir == 2) {
                 currentPosition = currentPosition.offset(Direction.Axis.Z, 1);
             } else if (dir == 3) {
-                currentPosition = currentPosition.offset(Direction.Axis.Z, 1);
+                currentPosition = currentPosition.offset(Direction.Axis.Z,1);
             } else if (dir == 4) {
                 currentPosition = currentPosition.down();
             } else if (dir == 5) {

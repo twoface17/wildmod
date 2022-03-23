@@ -16,12 +16,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(net.minecraft.world.gen.surfacebuilder.VanillaSurfaceRules.class)
 public class VanillaSurfaceRulesInjector {
     @Mutable
-    @Final
-    private static MaterialRules.MaterialRule MUD;
-
-    static {
-        MUD = block(RegisterBlocks.MUD);
-    }
+    @Final private static MaterialRules.MaterialRule MUD;
+    static {MUD = block(RegisterBlocks.MUD);}
 
     private static MaterialRules.MaterialRule block(Block block) {
         return MaterialRules.block(block.getDefaultState());
@@ -30,26 +26,26 @@ public class VanillaSurfaceRulesInjector {
     @ModifyVariable(method = "createDefaultRule", at = @At("STORE"), ordinal = 8)
     private static MaterialRules.MaterialRule injected(MaterialRules.MaterialRule x) {
         return MaterialRules.sequence(MaterialRules.condition(
-                        MaterialRules.STONE_DEPTH_FLOOR, MaterialRules.sequence(
+                MaterialRules.STONE_DEPTH_FLOOR, MaterialRules.sequence(
+                        MaterialRules.condition(
+                                MaterialRules.biome(
+                                        RegisterWorldgen.MANGROVE_SWAMP),
+                                VanillaSurfaceRulesBlockInvoker.invokeBlock(
+                                        RegisterBlocks.MUD
+                                )
+                        ),
+                        MaterialRules.condition(
+                                MaterialRules.biome(
+                                        RegisterWorldgen.MANGROVE_SWAMP),
                                 MaterialRules.condition(
-                                        MaterialRules.biome(
-                                                RegisterWorldgen.MANGROVE_SWAMP),
-                                        VanillaSurfaceRulesBlockInvoker.invokeBlock(
-                                                RegisterBlocks.MUD
-                                        )
-                                ),
-                                MaterialRules.condition(
-                                        MaterialRules.biome(
-                                                RegisterWorldgen.MANGROVE_SWAMP),
+                                        MaterialRules.aboveY(YOffset.fixed(62), 0),
                                         MaterialRules.condition(
-                                                MaterialRules.aboveY(YOffset.fixed(62), 0),
+                                                MaterialRules.not(
+                                                        MaterialRules.aboveY(YOffset.fixed(63), 0)),
                                                 MaterialRules.condition(
-                                                        MaterialRules.not(
-                                                                MaterialRules.aboveY(YOffset.fixed(63), 0)),
-                                                        MaterialRules.condition(
-                                                                MaterialRules.noiseThreshold(
-                                                                        NoiseParametersKeys.SURFACE_SWAMP, 0.1D),
-                                                                VanillaSurfaceRulesBlockInvoker.invokeBlock(Blocks.WATER))))))),
+                                                        MaterialRules.noiseThreshold(
+                                                                NoiseParametersKeys.SURFACE_SWAMP, 0.1D),
+                                                        VanillaSurfaceRulesBlockInvoker.invokeBlock(Blocks.WATER))))))),
                 x);
     }
 }

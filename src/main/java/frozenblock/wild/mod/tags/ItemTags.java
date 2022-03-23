@@ -1,5 +1,4 @@
 package frozenblock.wild.mod.tags;
-
 import net.minecraft.item.Item;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;

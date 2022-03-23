@@ -20,7 +20,6 @@ public class SculkBlock extends Block {
         int i = 1;
         this.dropExperience(world, pos, i);
     }
-
     public static final Block SCULK_BLOCK = new OreBlock(FabricBlockSettings.of(Material.SCULK).strength(1f).mapColor(MapColor.CYAN).sounds(new BlockSoundGroup(1.0f, 1.2f,
             RegisterSounds.BLOCK_SCULK_BREAK,
             RegisterSounds.BLOCK_SCULK_STEP,

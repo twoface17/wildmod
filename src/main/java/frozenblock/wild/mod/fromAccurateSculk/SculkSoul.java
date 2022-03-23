@@ -24,12 +24,10 @@ public class SculkSoul extends AbstractSlowingParticle {
         this.scale(1.5F);
         this.setSpriteForAge(spriteProvider);
     }
-
     @Override
     public ParticleTextureSheet getType() {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
-
     @Override
     public void tick() {
         super.tick();
@@ -43,8 +41,7 @@ public class SculkSoul extends AbstractSlowingParticle {
         public Factory(SpriteProvider spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
-
-        @Override
+@Override
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
             SculkSoul sculkSoul = new SculkSoul(clientWorld, d, e, f, g, h, i, this.spriteProvider);
             sculkSoul.setAlpha(1.0F);

@@ -31,14 +31,14 @@ public class MangroveBoatEntityRenderer extends EntityRenderer<MangroveBoatEntit
         matrixStack.push();
         matrixStack.translate(0.0D, 0.375D, 0.0D);
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - f));
-        float h = (float) boatEntity.getDamageWobbleTicks() - g;
+        float h = (float)boatEntity.getDamageWobbleTicks() - g;
         float j = boatEntity.getDamageWobbleStrength() - g;
         if (j < 0.0F) {
             j = 0.0F;
         }
 
         if (h > 0.0F) {
-            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0F * (float) boatEntity.getDamageWobbleSide()));
+            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0F * (float)boatEntity.getDamageWobbleSide()));
         }
 
         float k = boatEntity.interpolateBubbleWobble(g);

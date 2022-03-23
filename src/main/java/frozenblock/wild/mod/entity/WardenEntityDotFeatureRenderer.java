@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.liukrastapi.MathAddon;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
@@ -28,30 +29,28 @@ public class WardenEntityDotFeatureRenderer extends EyesFeatureRenderer<WardenEn
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         if (entity.shouldRender) {
-            VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.OVERLAY);
-            int a = calculateLight(getBlockLight(entity, entity.getBlockPos()));
-            float b = colors(entity.getWorld().getTime());
-            this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b, b, b, 1.0f);
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.OVERLAY);
+        int a = calculateLight(getBlockLight(entity, entity.getBlockPos()));
+        float b = colors(entity.getWorld().getTime());
+        this.getContextModel().render(matrices, vertexConsumer, a, OverlayTexture.DEFAULT_UV, b, b, b, 1.0f);
         }
     }
-
     private float getBlockLight(WardenEntity wardenEntity, BlockPos blockPos) {
-        int i = (int) MathHelper.clampedLerp(0.0F, 15.0F, 1.0F - wardenEntity.lightTransitionTicks / 10.0F);
+        int i = (int)MathHelper.clampedLerp(0.0F, 15.0F, 1.0F - wardenEntity.lightTransitionTicks / 10.0F);
         return i == 15 ? 15 : Math.max(i, wardenEntity.world.getLightLevel(LightType.BLOCK, blockPos));
     }
 
     private int calculateLight(float light) {
-        float d = (float) ((float) Math.cos((light * Math.PI) / 30));
-        return (int) ((MathHelper.clamp(d, 0, 1)) * 15728640);
+        float d = (float) ((float) Math.cos((light*Math.PI)/30));
+        return (int) ((MathHelper.clamp(d,0,1)) * 15728640);
     }
-
     private float colors(long time) {
-        float d = (float) (0.5 * Math.cos((time * Math.PI) / 40));
-        return MathHelper.clamp(d, 0, 1);
+        float d = (float) (0.5 * Math.cos((time*Math.PI)/40));
+        return MathHelper.clamp(d,0,1);
     }
 
-    public RenderLayer getEyesTexture() {
-        return OVERLAY;
-    }
+        public RenderLayer getEyesTexture() {
+            return OVERLAY;
+        }
 
 }

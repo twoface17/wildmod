@@ -1,1218 +1,1218 @@
 {
-  "ambient.deep_dark.additions": {
-    "sounds": [
-      {
-        "name": "twm:ambient/cave/deep_dark/additions1",
-        "volume": 0.5,
-        "weight": 4
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/additions2",
-        "volume": 0.3,
-        "weight": 4
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/additions3",
-        "volume": 0.6,
-        "weight": 4
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/clicking1",
-        "volume": 0.5,
-        "weight": 5
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/clicking2",
-        "volume": 0.5,
-        "weight": 5
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/clicking3",
-        "volume": 0.5,
-        "weight": 5
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/mood1",
-        "volume": 0.4,
-        "weight": 2
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/mood2",
-        "volume": 0.5,
-        "weight": 2
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/mood3",
-        "volume": 0.4,
-        "weight": 2
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/sculk1",
-        "volume": 0.3,
-        "weight": 3
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/sculk2",
-        "volume": 0.3,
-        "weight": 3
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/sculk3",
-        "volume": 0.3,
-        "weight": 3
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/sculk4",
-        "volume": 0.3,
-        "weight": 3
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/voices1",
-        "volume": 0.4,
-        "weight": 1
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/voices2",
-        "volume": 0.4,
-        "weight": 1
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/voices1",
-        "volume": 0.4,
-        "weight": 1
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/voices4",
-        "volume": 0.4,
-        "weight": 1
-      },
-      {
-        "name": "twm:ambient/cave/deep_dark/voices5",
-        "volume": 0.5,
-        "weight": 1
-      },
-      {
-        "name": "minecraft:ambient/nether/soulsand_valley/wind1",
-        "volume": 0.3,
-        "weight": 25
-      },
-      {
-        "name": "minecraft:ambient/nether/soulsand_valley/wind2",
-        "volume": 0.25,
-        "weight": 25
-      },
-      {
-        "name": "minecraft:ambient/nether/soulsand_valley/wind3",
-        "volume": 0.25,
-        "weight": 25
-      },
-      {
-        "name": "minecraft:ambient/nether/soulsand_valley/wind4",
-        "volume": 0.3,
-        "weight": 25
-      }
-    ]
-  },
-  "ambient.deep_dark.loop": {
-    "sounds": [
-      {
-        "name": "twm:ambient/cave/deep_dark/ambience",
-        "volume": 1.0,
-        "stream": true
-      }
-    ]
-  },
-  "block.reinforced_deepslate.break": {
-    "sounds": [
-      "twm:block/reinforced_deepslate/break1",
-      "twm:block/reinforced_deepslate/break2",
-      "twm:block/reinforced_deepslate/break3",
-      "twm:block/reinforced_deepslate/break4"
-    ],
-    "subtitle": "subtitles.block.generic.break"
-  },
-  "block.reinforced_deepslate.hit": {
-    "sounds": [
-      "twm:block/reinforced_deepslate/step1",
-      "twm:block/reinforced_deepslate/step2",
-      "twm:block/reinforced_deepslate/step3",
-      "twm:block/reinforced_deepslate/step4",
-      "twm:block/reinforced_deepslate/step5",
-      "twm:block/reinforced_deepslate/step6"
-    ],
-    "subtitle": "subtitles.block.generic.hit"
-  },
-  "block.reinforced_deepslate.place": {
-    "sounds": [
-      "twm:block/reinforced_deepslate/place1",
-      "twm:block/reinforced_deepslate/place2",
-      "twm:block/reinforced_deepslate/place3",
-      "twm:block/reinforced_deepslate/place4",
-      "twm:block/reinforced_deepslate/place5",
-      "twm:block/reinforced_deepslate/place6"
-    ],
-    "subtitle": "subtitles.block.generic.place"
-  },
-  "block.reinforced_deepslate.step": {
-    "sounds": [
-      "twm:block/reinforced_deepslate/step1",
-      "twm:block/reinforced_deepslate/step2",
-      "twm:block/reinforced_deepslate/step3",
-      "twm:block/reinforced_deepslate/step4",
-      "twm:block/reinforced_deepslate/step5",
-      "twm:block/reinforced_deepslate/step6"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "block.mangrove_roots.break": {
-    "sounds": [
-      "twm:block/mangrove_roots/break1",
-      "twm:block/mangrove_roots/break2",
-      "twm:block/mangrove_roots/break3",
-      "twm:block/mangrove_roots/break4"
-    ],
-    "subtitle": "subtitles.block.generic.break"
-  },
-  "block.mangrove_roots.fall": {
-    "sounds": [
-      "twm:block/mangrove_roots/step1",
-      "twm:block/mangrove_roots/step2",
-      "twm:block/mangrove_roots/step3",
-      "twm:block/mangrove_roots/step4",
-      "twm:block/mangrove_roots/step5",
-      "twm:block/mangrove_roots/step6"
-    ],
-    "subtitle": "subtitles.block.generic.fall"
-  },
-  "block.mangrove_roots.hit": {
-    "sounds": [
-      "twm:block/mangrove_roots/step1",
-      "twm:block/mangrove_roots/step2",
-      "twm:block/mangrove_roots/step3",
-      "twm:block/mangrove_roots/step4",
-      "twm:block/mangrove_roots/step5",
-      "twm:block/mangrove_roots/step6"
-    ],
-    "subtitle": "subtitles.block.generic.hit"
-  },
-  "block.mangrove_roots.place": {
-    "sounds": [
-      "twm:block/mangrove_roots/break1",
-      "twm:block/mangrove_roots/break2",
-      "twm:block/mangrove_roots/break3",
-      "twm:block/mangrove_roots/break4"
-    ],
-    "subtitle": "subtitles.block.generic.place"
-  },
-  "block.mangrove_roots.step": {
-    "sounds": [
-      "twm:block/mangrove_roots/step1",
-      "twm:block/mangrove_roots/step2",
-      "twm:block/mangrove_roots/step3",
-      "twm:block/mangrove_roots/step4",
-      "twm:block/mangrove_roots/step5",
-      "twm:block/mangrove_roots/step6"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "block.mud.break": {
-    "sounds": [
-      "twm:block/mud/break1",
-      "twm:block/mud/break2",
-      "twm:block/mud/break3",
-      "twm:block/mud/break4"
-    ],
-    "subtitle": "subtitles.block.generic.break"
-  },
-  "block.mud.hit": {
-    "sounds": [
-      "twm:block/mud/step1",
-      "twm:block/mud/step2",
-      "twm:block/mud/step3",
-      "twm:block/mud/step4"
-    ],
-    "subtitle": "subtitles.block.generic.hit"
-  },
-  "block.mud.place": {
-    "sounds": [
-      "twm:block/mud/break1",
-      "twm:block/mud/break2",
-      "twm:block/mud/break3",
-      "twm:block/mud/break4"
-    ],
-    "subtitle": "subtitles.block.generic.place"
-  },
-  "block.mud.step": {
-    "sounds": [
-      "twm:block/mud/step1",
-      "twm:block/mud/step2",
-      "twm:block/mud/step3",
-      "twm:block/mud/step4"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "block.mud_bricks.break": {
-    "sounds": [
-      "twm:block/mud_bricks/break1",
-      "twm:block/mud_bricks/break2",
-      "twm:block/mud_bricks/break3",
-      "twm:block/mud_bricks/break4"
-    ],
-    "subtitle": "subtitles.block.generic.break"
-  },
-  "block.mud_bricks.hit": {
-    "sounds": [
-      "twm:block/mud_bricks/step1",
-      "twm:block/mud_bricks/step2",
-      "twm:block/mud_bricks/step3",
-      "twm:block/mud_bricks/step4",
-      "twm:block/mud_bricks/step5"
-    ],
-    "subtitle": "subtitles.block.generic.hit"
-  },
-  "block.mud_bricks.place": {
-    "sounds": [
-      "twm:block/mud_bricks/break1",
-      "twm:block/mud_bricks/break2",
-      "twm:block/mud_bricks/break3",
-      "twm:block/mud_bricks/break4"
-    ],
-    "subtitle": "subtitles.block.generic.place"
-  },
-  "block.mud_bricks.step": {
-    "sounds": [
-      "twm:block/mud_bricks/step1",
-      "twm:block/mud_bricks/step2",
-      "twm:block/mud_bricks/step3",
-      "twm:block/mud_bricks/step4",
-      "twm:block/mud_bricks/step5"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "block.mud_bricks.fall": {
-    "sounds": [
-      "twm:block/mud_bricks/step1",
-      "twm:block/mud_bricks/step2",
-      "twm:block/mud_bricks/step3",
-      "twm:block/mud_bricks/step4",
-      "twm:block/mud_bricks/step5"
-    ],
-    "subtitle": "subtitles.block.generic.fall"
-  },
-  "block.propagule.break": {
-    "sounds": [
-      "twm:block/propagule/break1",
-      "twm:block/propagule/break2",
-      "twm:block/propagule/break3",
-      "twm:block/propagule/break4",
-      "twm:block/propagule/break5"
-    ],
-    "subtitle": "subtitles.block.generic.break"
-  },
-  "block.propagule.fall": {
-    "sounds": [
-      "twm:block/propagule/step1",
-      "twm:block/propagule/step2",
-      "twm:block/propagule/step3",
-      "twm:block/propagule/step4",
-      "twm:block/propagule/step5",
-      "twm:block/propagule/step6"
-    ],
-    "subtitle": "subtitles.block.generic.fall"
-  },
-  "block.propagule.hit": {
-    "sounds": [
-      "twm:block/propagule/step1",
-      "twm:block/propagule/step2",
-      "twm:block/propagule/step3",
-      "twm:block/propagule/step4",
-      "twm:block/propagule/step5",
-      "twm:block/propagule/step6"
-    ],
-    "subtitle": "subtitles.block.generic.hit"
-  },
-  "block.propagule.place": {
-    "sounds": [
-      "twm:block/propagule/break1",
-      "twm:block/propagule/break2",
-      "twm:block/propagule/break3",
-      "twm:block/propagule/break4",
-      "twm:block/propagule/break5"
-    ],
-    "subtitle": "subtitles.block.generic.place"
-  },
-  "block.propagule.step": {
-    "sounds": [
-      "twm:block/propagule/step1",
-      "twm:block/propagule/step2",
-      "twm:block/propagule/step3",
-      "twm:block/propagule/step4",
-      "twm:block/propagule/step5",
-      "twm:block/propagule/step6"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "block.sculk.break": {
-    "sounds": [
-      "twm:block/sculk/break1",
-      "twm:block/sculk/break2",
-      "twm:block/sculk/break3",
-      "twm:block/sculk/break4",
-      "twm:block/sculk/break5",
-      "twm:block/sculk/break6",
-      "twm:block/sculk/break7",
-      "twm:block/sculk/break8",
-      "twm:block/sculk/break9",
-      "twm:block/sculk/break10",
-      "twm:block/sculk/break11",
-      "twm:block/sculk/break12",
-      "twm:block/sculk/break13",
-      "twm:block/sculk/break14"
-    ],
-    "subtitle": "subtitles.block.generic.break"
-  },
-  "block.sculk.fall": {
-    "sounds": [
-      {
-        "name": "minecraft:block/sculk/step1",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step2",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step3",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step4",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step5",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step6",
-        "pitch": 0.8
-      }
-    ],
-    "subtitle": "subtitles.block.generic.fall"
-  },
-  "block.sculk.hit": {
-    "sounds": [
-      {
-        "name": "minecraft:block/sculk/step1",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step2",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step3",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step4",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step5",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step6",
-        "pitch": 0.8
-      }
-    ],
-    "subtitle": "subtitles.block.generic.hit"
-  },
-  "block.sculk.place": {
-    "sounds": [
-      "twm:block/sculk/place1",
-      "twm:block/sculk/place2",
-      "twm:block/sculk/place3",
-      "twm:block/sculk/place4",
-      "twm:block/sculk/place5"
-    ],
-    "subtitle": "subtitles.block.generic.place"
-  },
-  "block.sculk.step": {
-    "sounds": [
-      {
-        "name": "minecraft:block/sculk/step1",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step2",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step3",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step4",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step5",
-        "pitch": 0.8
-      },
-      {
-        "name": "minecraft:block/sculk/step6",
-        "pitch": 0.8
-      }
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "block.sculk_sensor.receive_rf": {
-    "sounds": [
-      "twm:block/sculk_sensor/receive_rf1",
-      "twm:block/sculk_sensor/receive_rf2",
-      "twm:block/sculk_sensor/receive_rf3",
-      "twm:block/sculk_sensor/receive_rf4",
-      "twm:block/sculk_sensor/receive_rf5",
-      "twm:block/sculk_sensor/receive_rf6"
-    ],
-    "subtitle": "subtitles.block.twm.sculk_sensor.rf"
-  },
-  "block.sculk_vein.break": {
-    "sounds": [
-      "twm:block/sculk_vein/break1",
-      "twm:block/sculk_vein/break2",
-      "twm:block/sculk_vein/break3",
-      "twm:block/sculk_vein/break4",
-      "twm:block/sculk_vein/break5"
-    ],
-    "subtitle": "subtitles.block.generic.break"
-  },
-  "block.sculk_vein.fall": {
-    "sounds": [
-      "minecraft:block/sculk/step1",
-      "minecraft:block/sculk/step2",
-      "minecraft:block/sculk/step3",
-      "minecraft:block/sculk/step4",
-      "minecraft:block/sculk/step5",
-      "minecraft:block/sculk/step6"
-    ],
-    "subtitle": "subtitles.block.generic.fall"
-  },
-  "block.sculk_vein.hit": {
-    "sounds": [
-      "minecraft:block/sculk/step1",
-      "minecraft:block/sculk/step2",
-      "minecraft:block/sculk/step3",
-      "minecraft:block/sculk/step4",
-      "minecraft:block/sculk/step5",
-      "minecraft:block/sculk/step6"
-    ],
-    "subtitle": "subtitles.block.generic.hit"
-  },
-  "block.sculk_vein.place": {
-    "sounds": [
-      "twm:block/sculk_vein/break1",
-      "twm:block/sculk_vein/break2",
-      "twm:block/sculk_vein/break3",
-      "twm:block/sculk_vein/break4",
-      "twm:block/sculk_vein/break5"
-    ],
-    "subtitle": "subtitles.block.generic.place"
-  },
-  "block.sculk_vein.step": {
-    "sounds": [
-      "minecraft:block/sculk/step1",
-      "minecraft:block/sculk/step2",
-      "minecraft:block/sculk/step3",
-      "minecraft:block/sculk/step4",
-      "minecraft:block/sculk/step5",
-      "minecraft:block/sculk/step6"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "block.sculk_catalyst.break": {
-    "sounds": [
-      "twm:block/sculk_catalyst/break1",
-      "twm:block/sculk_catalyst/break2",
-      "twm:block/sculk_catalyst/break3",
-      "twm:block/sculk_catalyst/break4",
-      "twm:block/sculk_catalyst/break5",
-      "twm:block/sculk_catalyst/break6",
-      "twm:block/sculk_catalyst/break7",
-      "twm:block/sculk_catalyst/break8",
-      "twm:block/sculk_catalyst/break9",
-      "twm:block/sculk_catalyst/break10"
-    ],
-    "subtitle": "subtitles.block.generic.break"
-  },
-  "block.sculk_catalyst.place": {
-    "sounds": [
-      "twm:block/sculk_catalyst/place1",
-      "twm:block/sculk_catalyst/place2",
-      "twm:block/sculk_catalyst/place3",
-      "twm:block/sculk_catalyst/place4",
-      "twm:block/sculk_catalyst/place5"
-    ],
-    "subtitle": "subtitles.block.generic.place"
-  },
-  "block.sculk_catalyst.bloom": {
-    "sounds": [
-      "twm:block/sculk_catalyst/spread1",
-      "twm:block/sculk_catalyst/spread2",
-      "twm:block/sculk_catalyst/spread3",
-      "twm:block/sculk_catalyst/spread4",
-      "twm:block/sculk_catalyst/spread5"
-    ]
-  },
-  "block.sculk_catalyst.step": {
-    "sounds": [
-      "twm:block/sculk_catalyst/step1",
-      "twm:block/sculk_catalyst/step2",
-      "twm:block/sculk_catalyst/step3",
-      "twm:block/sculk_catalyst/step4",
-      "twm:block/sculk_catalyst/step5",
-      "twm:block/sculk_catalyst/step6"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "block.sculk_shrieker.break": {
-    "sounds": [
-      "twm:block/sculk_shrieker/break1",
-      "twm:block/sculk_shrieker/break2",
-      "twm:block/sculk_shrieker/break3",
-      "twm:block/sculk_shrieker/break4",
-      "twm:block/sculk_shrieker/break5",
-      "twm:block/sculk_shrieker/break6"
-    ],
-    "subtitle": "subtitles.block.generic.break"
-  },
-  "block.sculk_shrieker.fall": {
-    "sounds": [
-      "minecraft:block/sculk/step1",
-      "minecraft:block/sculk/step2",
-      "minecraft:block/sculk/step3",
-      "minecraft:block/sculk/step4",
-      "minecraft:block/sculk/step5",
-      "minecraft:block/sculk/step6"
-    ],
-    "subtitle": "subtitles.block.generic.fall"
-  },
-  "block.sculk_shrieker.hit": {
-    "sounds": [
-      "minecraft:block/sculk/step1",
-      "minecraft:block/sculk/step2",
-      "minecraft:block/sculk/step3",
-      "minecraft:block/sculk/step4",
-      "minecraft:block/sculk/step5",
-      "minecraft:block/sculk/step6"
-    ],
-    "subtitle": "subtitles.block.generic.hit"
-  },
-  "block.sculk_shrieker.place": {
-    "sounds": [
-      "twm:block/sculk_shrieker/place1",
-      "twm:block/sculk_shrieker/place2",
-      "twm:block/sculk_shrieker/place3",
-      "twm:block/sculk_shrieker/place4"
-    ],
-    "subtitle": "subtitles.block.generic.place"
-  },
-  "block.sculk_shrieker.shriek": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "twm:block/sculk_shrieker/shriek1",
-        "volume": 1,
-        "pitch": 0.5
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:block/sculk_shrieker/shriek2",
-        "volume": 1
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:block/sculk_shrieker/shriek3",
-        "volume": 1
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:block/sculk_shrieker/shriek4",
-        "volume": 1
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:block/sculk_shrieker/shriek5",
-        "volume": 1
-      }
-    ],
-    "subtitle": "subtitles.block.sculk_shrieker.shriek"
-  },
-  "block.sculk_shrieker.step": {
-    "sounds": [
-      "minecraft:block/sculk/step1",
-      "minecraft:block/sculk/step2",
-      "minecraft:block/sculk/step3",
-      "minecraft:block/sculk/step4",
-      "minecraft:block/sculk/step5",
-      "minecraft:block/sculk/step6"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "entity.chest_boat.paddle_water": {
-    "sounds": [
-      {
-        "name": "entity/boat/paddle_water1",
-        "volume": 0.8
-      },
-      {
-        "name": "entity/boat/paddle_water2",
-        "volume": 0.8
-      },
-      {
-        "name": "entity/boat/paddle_water3",
-        "volume": 0.8
-      },
-      {
-        "name": "entity/boat/paddle_water4",
-        "volume": 0.8
-      },
-      {
-        "name": "entity/boat/paddle_water5",
-        "volume": 0.8
-      },
-      {
-        "name": "entity/boat/paddle_water6",
-        "volume": 0.8
-      },
-      {
-        "name": "entity/boat/paddle_water7",
-        "volume": 0.8
-      },
-      {
-        "name": "entity/boat/paddle_water8",
-        "volume": 0.8
-      }
-    ],
-    "subtitle": "subtitles.entity.boat.paddle_water"
-  },
-  "entity.chest_boat.paddle_land": {
-    "sounds": [
-      "entity/boat/paddle_land1",
-      "entity/boat/paddle_land2",
-      "entity/boat/paddle_land3",
-      "entity/boat/paddle_land4",
-      "entity/boat/paddle_land5",
-      "entity/boat/paddle_land6"
-    ],
-    "subtitle": "subtitles.entity.boat.paddle_land"
-  },
-  "entity.firefly.loop": {
-    "sounds": [
-      "twm:entity/firefly/loop1",
-      "twm:entity/firefly/loop2",
-      "twm:entity/firefly/loop3",
-      "twm:entity/firefly/loop4",
-      "twm:entity/firefly/loop5"
-    ]
-  },
-  "entity.firefly.hurt": {
-    "sounds": [
-      "twm:entity/firefly/hurt1",
-      "twm:entity/firefly/hurt2",
-      "twm:entity/firefly/hurt3"
-    ]
-  },
-  "entity.frog.ambient": {
-    "sounds": [
-      {
-        "name": "twm:entity/frog/idle1"
-      },
-      {
-        "name": "twm:entity/frog/idle2"
-      },
-      {
-        "name": "twm:entity/frog/idle3"
-      },
-      {
-        "name": "twm:entity/frog/idle4"
-      },
-      {
-        "name": "twm:entity/frog/idle5"
-      },
-      {
-        "name": "twm:entity/frog/idle6"
-      },
-      {
-        "name": "twm:entity/frog/idle7"
-      },
-      {
-        "name": "twm:entity/frog/idle8"
-      }
-    ],
-    "subtitle": "subtitles.entity.twm.frog.ambient"
-  },
-  "entity.frog.death": {
-    "sounds": [
-      {
-        "name": "twm:entity/frog/death1"
-      },
-      {
-        "name": "twm:entity/frog/death2"
-      },
-      {
-        "name": "twm:entity/frog/death3"
-      }
-    ],
-    "subtitle": "subtitles.entity.twm.frog.death"
-  },
-  "entity.frog.eat": {
-    "sounds": [
-      {
-        "name": "twm:entity/frog/eat1"
-      },
-      {
-        "name": "twm:entity/frog/eat2"
-      },
-      {
-        "name": "twm:entity/frog/eat3"
-      },
-      {
-        "name": "twm:entity/frog/eat4"
-      }
-    ],
-    "subtitle": "subtitles.entity.twm.frog.eat"
-  },
-  "entity.frog.hurt": {
-    "sounds": [
-      {
-        "name": "twm:entity/frog/hurt1"
-      },
-      {
-        "name": "twm:entity/frog/hurt2"
-      },
-      {
-        "name": "twm:entity/frog/hurt3"
-      },
-      {
-        "name": "twm:entity/frog/hurt4"
-      },
-      {
-        "name": "twm:entity/frog/hurt5"
-      }
-    ],
-    "subtitle": "subtitles.entity.twm.frog.hurt"
-  },
-  "entity.frog.long_jump": {
-    "sounds": [
-      {
-        "name": "twm:entity/frog/long_jump1"
-      },
-      {
-        "name": "twm:entity/frog/long_jump2"
-      },
-      {
-        "name": "twm:entity/frog/long_jump3"
-      },
-      {
-        "name": "twm:entity/frog/long_jump4"
-      }
-    ],
-    "subtitle": "subtitles.entity.twm.frog.long_jump"
-  },
-  "entity.frog.step": {
-    "sounds": [
-      "twm:entity/frog/step1",
-      "twm:entity/frog/step2",
-      "twm:entity/frog/step3",
-      "twm:entity/frog/step4"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "entity.frog.tongue": {
-    "sounds": [
-      {
-        "name": "twm:entity/frog/tongue1"
-      },
-      {
-        "name": "twm:entity/frog/tongue2"
-      },
-      {
-        "name": "twm:entity/frog/tongue3"
-      },
-      {
-        "name": "twm:entity/frog/tongue4"
-      }
-    ],
-    "subtitle": "subtitles.entity.twm.frog.tongue"
-  },
-  "entity.warden.ambient": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_1"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_2"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_3"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_4"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_5"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_6"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_7"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_8"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_9"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_10"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_11"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/idle_12"
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.ambient"
-  },
-  "entity.warden.ambient_underground": {
-    "sounds": []
-  },
-  "entity.warden.listening": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_1"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_2"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_3"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_4"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_5"
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.listening"
-  },
-  "entity.warden.listening_angry": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_angry_1"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_angry_2"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_angry_3"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_angry_4"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/listening_angry_5"
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.listening_angry"
-  },
-  "entity.warden.slightly_angry": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/agitated_1"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/agitated_2"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/agitated_3"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/agitated_4"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/agitated_5"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/agitated_6"
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.slightly_angry"
-  },
-  "entity.warden.angry": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/angry_1"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/angry_2"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/angry_3"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/angry_4"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/angry_5"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/angry_6"
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.angry"
-  },
-  "entity.warden.close": {
-    "sounds": [
-      "twm:entity/warden/nearby_close_1",
-      "twm:entity/warden/nearby_close_2",
-      "twm:entity/warden/nearby_close_3",
-      "twm:entity/warden/nearby_close_4"
-    ],
-    "subtitle": "subtitles.entity.warden.nearby_close"
-  },
-  "entity.warden.closer": {
-    "sounds": [
-      "twm:entity/warden/nearby_closer_1",
-      "twm:entity/warden/nearby_closer_2",
-      "twm:entity/warden/nearby_closer_3"
-    ],
-    "subtitle": "subtitles.entity.warden.nearby_closer"
-  },
-  "entity.warden.closest": {
-    "sounds": [
-      "twm:entity/warden/nearby_closest_1",
-      "twm:entity/warden/nearby_closest_2",
-      "twm:entity/warden/nearby_closest_3"
-    ],
-    "subtitle": "subtitles.entity.warden.nearby_closest"
-  },
-  "entity.warden.dig": {
-    "sounds": [
-      "twm:entity/warden/dig"
-    ],
-    "subtitle": "subtitles.entity.warden.dig"
-  },
-  "entity.warden.emerge": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/emerge",
-        "volume": 1
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.emerge"
-  },
-  "entity.warden.heartbeat": {
-    "sounds": [
-      {
-        "attenuation_distance": 48,
-        "name": "twm:entity/warden/heartbeat_1",
-        "volume": 1
-      },
-      {
-        "attenuation_distance": 48,
-        "name": "twm:entity/warden/heartbeat_2",
-        "volume": 1
-      },
-      {
-        "attenuation_distance": 48,
-        "name": "twm:entity/warden/heartbeat_3",
-        "volume": 1
-      },
-      {
-        "attenuation_distance": 48,
-        "name": "twm:entity/warden/heartbeat_4",
-        "volume": 1
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.heartbeat"
-  },
-  "entity.warden.hurt": {
-    "sounds": [
-      {
-        "attenuation_distance": 24,
-        "name": "twm:entity/warden/hurt_1",
-        "volume": 1
-      },
-      {
-        "attenuation_distance": 24,
-        "name": "twm:entity/warden/hurt_2",
-        "volume": 1
-      },
-      {
-        "attenuation_distance": 24,
-        "name": "twm:entity/warden/hurt_3",
-        "volume": 1
-      },
-      {
-        "attenuation_distance": 24,
-        "name": "twm:entity/warden/hurt_4",
-        "volume": 1
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.hurt"
-  },
-  "entity.warden.death": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/death_1"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/death_2"
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.death"
-  },
-  "entity.warden.roar": {
-    "sounds": [
-      {
-        "attenuation_distance": 64,
-        "name": "twm:entity/warden/roar_1"
-      },
-      {
-        "attenuation_distance": 64,
-        "name": "twm:entity/warden/roar_2"
-      },
-      {
-        "attenuation_distance": 64,
-        "name": "twm:entity/warden/roar_3"
-      },
-      {
-        "attenuation_distance": 64,
-        "name": "twm:entity/warden/roar_4"
-      },
-      {
-        "attenuation_distance": 64,
-        "name": "twm:entity/warden/roar_5"
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.roar"
-  },
-  "entity.warden.attack": {
-    "sounds": [
-      "twm:entity/warden/attack_impact_1",
-      "twm:entity/warden/attack_impact_2"
-    ],
-    "subtitle": "subtitles.entity.warden.attack"
-  },
-  "entity.warden.sniff": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/sniff1"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/sniff2"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/sniff3"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "twm:entity/warden/sniff4"
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.sniff"
-  },
-  "entity.warden.step": {
-    "sounds": [
-      "twm:entity/warden/step_1",
-      "twm:entity/warden/step_2",
-      "twm:entity/warden/step_3",
-      "twm:entity/warden/step_4"
-    ],
-    "subtitle": "subtitles.block.generic.footsteps"
-  },
-  "entity.warden.vibration": {
-    "sounds": [
-      {
-        "attenuation_distance": 32,
-        "name": "minecraft:block/sculk_sensor/sculk_clicking1"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "minecraft:block/sculk_sensor/sculk_clicking2"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "minecraft:block/sculk_sensor/sculk_clicking3"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "minecraft:block/sculk_sensor/sculk_clicking4"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "minecraft:block/sculk_sensor/sculk_clicking5"
-      },
-      {
-        "attenuation_distance": 32,
-        "name": "minecraft:block/sculk_sensor/sculk_clicking6"
-      }
-    ],
-    "subtitle": "subtitles.entity.warden.vibration"
-  },
-  "music.overworld.deep_dark": {
-    "sounds": [
-      {
-        "name": "twm:music/game/ancestry",
-        "stream": true
-      }
-    ]
-  }
+	"ambient.deep_dark.additions": {
+		"sounds": [
+			{
+				"name": "twm:ambient/cave/deep_dark/additions1",
+				"volume": 0.5,
+				"weight": 4
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/additions2",
+				"volume": 0.3,
+				"weight": 4
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/additions3",
+				"volume": 0.6,
+				"weight": 4
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/clicking1",
+				"volume": 0.5,
+				"weight": 5
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/clicking2",
+				"volume": 0.5,
+				"weight": 5
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/clicking3",
+				"volume": 0.5,
+				"weight": 5
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/mood1",
+				"volume": 0.4,
+				"weight": 2
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/mood2",
+				"volume": 0.5,
+				"weight": 2
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/mood3",
+				"volume": 0.4,
+				"weight": 2
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/sculk1",
+				"volume": 0.3,
+				"weight": 3
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/sculk2",
+				"volume": 0.3,
+				"weight": 3
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/sculk3",
+				"volume": 0.3,
+				"weight": 3
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/sculk4",
+				"volume": 0.3,
+				"weight": 3
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices1",
+				"volume": 0.4,
+				"weight": 1
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices2",
+				"volume": 0.4,
+				"weight": 1
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices1",
+				"volume": 0.4,
+				"weight": 1
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices4",
+				"volume": 0.4,
+				"weight": 1
+			},
+			{
+				"name": "twm:ambient/cave/deep_dark/voices5",
+				"volume": 0.5,
+				"weight": 1
+			},
+			{
+				"name": "minecraft:ambient/nether/soulsand_valley/wind1",
+				"volume": 0.3,
+				"weight": 25
+			},
+			{
+				"name": "minecraft:ambient/nether/soulsand_valley/wind2",
+				"volume": 0.25,
+				"weight": 25
+			},
+			{
+				"name": "minecraft:ambient/nether/soulsand_valley/wind3",
+				"volume": 0.25,
+				"weight": 25
+			},
+			{
+				"name": "minecraft:ambient/nether/soulsand_valley/wind4",
+				"volume": 0.3,
+				"weight": 25
+			}
+		]
+	},
+	"ambient.deep_dark.loop": {
+		"sounds": [
+			{
+				"name": "twm:ambient/cave/deep_dark/ambience",
+				"volume": 1.0,
+				"stream": true
+			}
+		]
+	},
+	"block.reinforced_deepslate.break": {
+		"sounds": [
+			"twm:block/reinforced_deepslate/break1",
+			"twm:block/reinforced_deepslate/break2",
+			"twm:block/reinforced_deepslate/break3",
+			"twm:block/reinforced_deepslate/break4"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.reinforced_deepslate.hit": {
+		"sounds": [
+			"twm:block/reinforced_deepslate/step1",
+			"twm:block/reinforced_deepslate/step2",
+			"twm:block/reinforced_deepslate/step3",
+			"twm:block/reinforced_deepslate/step4",
+			"twm:block/reinforced_deepslate/step5",
+			"twm:block/reinforced_deepslate/step6"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"block.reinforced_deepslate.place": {
+		"sounds": [
+			"twm:block/reinforced_deepslate/place1",
+			"twm:block/reinforced_deepslate/place2",
+			"twm:block/reinforced_deepslate/place3",
+			"twm:block/reinforced_deepslate/place4",
+			"twm:block/reinforced_deepslate/place5",
+			"twm:block/reinforced_deepslate/place6"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.reinforced_deepslate.step": {
+		"sounds": [
+			"twm:block/reinforced_deepslate/step1",
+			"twm:block/reinforced_deepslate/step2",
+			"twm:block/reinforced_deepslate/step3",
+			"twm:block/reinforced_deepslate/step4",
+			"twm:block/reinforced_deepslate/step5",
+			"twm:block/reinforced_deepslate/step6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"block.mangrove_roots.break": {
+		"sounds": [
+			"twm:block/mangrove_roots/break1",
+			"twm:block/mangrove_roots/break2",
+			"twm:block/mangrove_roots/break3",
+			"twm:block/mangrove_roots/break4"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.mangrove_roots.fall": {
+		"sounds": [
+			"twm:block/mangrove_roots/step1",
+			"twm:block/mangrove_roots/step2",
+			"twm:block/mangrove_roots/step3",
+			"twm:block/mangrove_roots/step4",
+			"twm:block/mangrove_roots/step5",
+			"twm:block/mangrove_roots/step6"
+		],
+		"subtitle": "subtitles.block.generic.fall"
+	},
+	"block.mangrove_roots.hit": {
+		"sounds": [
+			"twm:block/mangrove_roots/step1",
+			"twm:block/mangrove_roots/step2",
+			"twm:block/mangrove_roots/step3",
+			"twm:block/mangrove_roots/step4",
+			"twm:block/mangrove_roots/step5",
+			"twm:block/mangrove_roots/step6"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"block.mangrove_roots.place": {
+		"sounds": [
+			"twm:block/mangrove_roots/break1",
+			"twm:block/mangrove_roots/break2",
+			"twm:block/mangrove_roots/break3",
+			"twm:block/mangrove_roots/break4"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.mangrove_roots.step": {
+		"sounds": [
+			"twm:block/mangrove_roots/step1",
+			"twm:block/mangrove_roots/step2",
+			"twm:block/mangrove_roots/step3",
+			"twm:block/mangrove_roots/step4",
+			"twm:block/mangrove_roots/step5",
+			"twm:block/mangrove_roots/step6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"block.mud.break": {
+		"sounds": [
+			"twm:block/mud/break1",
+			"twm:block/mud/break2",
+			"twm:block/mud/break3",
+			"twm:block/mud/break4"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.mud.hit": {
+		"sounds": [
+			"twm:block/mud/step1",
+			"twm:block/mud/step2",
+			"twm:block/mud/step3",
+			"twm:block/mud/step4"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"block.mud.place": {
+		"sounds": [
+			"twm:block/mud/break1",
+			"twm:block/mud/break2",
+			"twm:block/mud/break3",
+			"twm:block/mud/break4"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.mud.step": {
+		"sounds": [
+			"twm:block/mud/step1",
+			"twm:block/mud/step2",
+			"twm:block/mud/step3",
+			"twm:block/mud/step4"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"block.mud_bricks.break": {
+		"sounds": [
+			"twm:block/mud_bricks/break1",
+			"twm:block/mud_bricks/break2",
+			"twm:block/mud_bricks/break3",
+			"twm:block/mud_bricks/break4"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.mud_bricks.hit": {
+		"sounds": [
+			"twm:block/mud_bricks/step1",
+			"twm:block/mud_bricks/step2",
+			"twm:block/mud_bricks/step3",
+			"twm:block/mud_bricks/step4",
+			"twm:block/mud_bricks/step5"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"block.mud_bricks.place": {
+		"sounds": [
+			"twm:block/mud_bricks/break1",
+			"twm:block/mud_bricks/break2",
+			"twm:block/mud_bricks/break3",
+			"twm:block/mud_bricks/break4"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.mud_bricks.step": {
+		"sounds": [
+			"twm:block/mud_bricks/step1",
+			"twm:block/mud_bricks/step2",
+			"twm:block/mud_bricks/step3",
+			"twm:block/mud_bricks/step4",
+			"twm:block/mud_bricks/step5"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"block.mud_bricks.fall": {
+		"sounds": [
+			"twm:block/mud_bricks/step1",
+			"twm:block/mud_bricks/step2",
+			"twm:block/mud_bricks/step3",
+			"twm:block/mud_bricks/step4",
+			"twm:block/mud_bricks/step5"
+		],
+		"subtitle": "subtitles.block.generic.fall"
+	},
+	"block.propagule.break": {
+		"sounds": [
+			"twm:block/propagule/break1",
+			"twm:block/propagule/break2",
+			"twm:block/propagule/break3",
+			"twm:block/propagule/break4",
+			"twm:block/propagule/break5"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.propagule.fall": {
+		"sounds": [
+			"twm:block/propagule/step1",
+			"twm:block/propagule/step2",
+			"twm:block/propagule/step3",
+			"twm:block/propagule/step4",
+			"twm:block/propagule/step5",
+			"twm:block/propagule/step6"
+		],
+		"subtitle": "subtitles.block.generic.fall"
+	},
+	"block.propagule.hit": {
+		"sounds": [
+			"twm:block/propagule/step1",
+			"twm:block/propagule/step2",
+			"twm:block/propagule/step3",
+			"twm:block/propagule/step4",
+			"twm:block/propagule/step5",
+			"twm:block/propagule/step6"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"block.propagule.place": {
+		"sounds": [
+			"twm:block/propagule/break1",
+			"twm:block/propagule/break2",
+			"twm:block/propagule/break3",
+			"twm:block/propagule/break4",
+			"twm:block/propagule/break5"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.propagule.step": {
+		"sounds": [
+			"twm:block/propagule/step1",
+			"twm:block/propagule/step2",
+			"twm:block/propagule/step3",
+			"twm:block/propagule/step4",
+			"twm:block/propagule/step5",
+			"twm:block/propagule/step6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"block.sculk.break": {
+		"sounds": [
+			"twm:block/sculk/break1",
+			"twm:block/sculk/break2",
+			"twm:block/sculk/break3",
+			"twm:block/sculk/break4",
+			"twm:block/sculk/break5",
+			"twm:block/sculk/break6",
+			"twm:block/sculk/break7",
+			"twm:block/sculk/break8",
+			"twm:block/sculk/break9",
+			"twm:block/sculk/break10",
+			"twm:block/sculk/break11",
+			"twm:block/sculk/break12",
+			"twm:block/sculk/break13",
+			"twm:block/sculk/break14"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.sculk.fall": {
+		"sounds": [
+			{
+				"name": "minecraft:block/sculk/step1",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step2",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step3",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step4",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step5",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step6",
+				"pitch": 0.8
+			}
+		],
+		"subtitle": "subtitles.block.generic.fall"
+	},
+	"block.sculk.hit": {
+		"sounds": [
+			{
+				"name": "minecraft:block/sculk/step1",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step2",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step3",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step4",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step5",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step6",
+				"pitch": 0.8
+			}
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"block.sculk.place": {
+		"sounds": [
+			"twm:block/sculk/place1",
+			"twm:block/sculk/place2",
+			"twm:block/sculk/place3",
+			"twm:block/sculk/place4",
+			"twm:block/sculk/place5"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.sculk.step": {
+		"sounds": [
+			{
+				"name": "minecraft:block/sculk/step1",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step2",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step3",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step4",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step5",
+				"pitch": 0.8
+			},
+			{
+				"name": "minecraft:block/sculk/step6",
+				"pitch": 0.8
+			}
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"block.sculk_sensor.receive_rf": {
+		"sounds": [
+			"twm:block/sculk_sensor/receive_rf1",
+			"twm:block/sculk_sensor/receive_rf2",
+			"twm:block/sculk_sensor/receive_rf3",
+			"twm:block/sculk_sensor/receive_rf4",
+			"twm:block/sculk_sensor/receive_rf5",
+			"twm:block/sculk_sensor/receive_rf6"
+		],
+		"subtitle": "subtitles.block.twm.sculk_sensor.rf"
+	},
+	"block.sculk_vein.break": {
+		"sounds": [
+			"twm:block/sculk_vein/break1",
+			"twm:block/sculk_vein/break2",
+			"twm:block/sculk_vein/break3",
+			"twm:block/sculk_vein/break4",
+			"twm:block/sculk_vein/break5"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.sculk_vein.fall": {
+		"sounds": [
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
+		],
+		"subtitle": "subtitles.block.generic.fall"
+	},
+	"block.sculk_vein.hit": {
+		"sounds": [
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"block.sculk_vein.place": {
+		"sounds": [
+			"twm:block/sculk_vein/break1",
+			"twm:block/sculk_vein/break2",
+			"twm:block/sculk_vein/break3",
+			"twm:block/sculk_vein/break4",
+			"twm:block/sculk_vein/break5"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.sculk_vein.step": {
+		"sounds": [
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"block.sculk_catalyst.break": {
+		"sounds": [
+			"twm:block/sculk_catalyst/break1",
+			"twm:block/sculk_catalyst/break2",
+			"twm:block/sculk_catalyst/break3",
+			"twm:block/sculk_catalyst/break4",
+			"twm:block/sculk_catalyst/break5",
+			"twm:block/sculk_catalyst/break6",
+			"twm:block/sculk_catalyst/break7",
+			"twm:block/sculk_catalyst/break8",
+			"twm:block/sculk_catalyst/break9",
+			"twm:block/sculk_catalyst/break10"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.sculk_catalyst.place": {
+		"sounds": [
+			"twm:block/sculk_catalyst/place1",
+			"twm:block/sculk_catalyst/place2",
+			"twm:block/sculk_catalyst/place3",
+			"twm:block/sculk_catalyst/place4",
+			"twm:block/sculk_catalyst/place5"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.sculk_catalyst.bloom": {
+		"sounds": [
+			"twm:block/sculk_catalyst/spread1",
+			"twm:block/sculk_catalyst/spread2",
+			"twm:block/sculk_catalyst/spread3",
+			"twm:block/sculk_catalyst/spread4",
+			"twm:block/sculk_catalyst/spread5"
+		]
+	},
+	"block.sculk_catalyst.step": {
+		"sounds": [
+			"twm:block/sculk_catalyst/step1",
+			"twm:block/sculk_catalyst/step2",
+			"twm:block/sculk_catalyst/step3",
+			"twm:block/sculk_catalyst/step4",
+			"twm:block/sculk_catalyst/step5",
+			"twm:block/sculk_catalyst/step6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"block.sculk_shrieker.break": {
+		"sounds": [
+			"twm:block/sculk_shrieker/break1",
+			"twm:block/sculk_shrieker/break2",
+			"twm:block/sculk_shrieker/break3",
+			"twm:block/sculk_shrieker/break4",
+			"twm:block/sculk_shrieker/break5",
+			"twm:block/sculk_shrieker/break6"
+		],
+		"subtitle": "subtitles.block.generic.break"
+	},
+	"block.sculk_shrieker.fall": {
+		"sounds": [
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
+		],
+		"subtitle": "subtitles.block.generic.fall"
+	},
+	"block.sculk_shrieker.hit": {
+		"sounds": [
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"block.sculk_shrieker.place": {
+		"sounds": [
+			"twm:block/sculk_shrieker/place1",
+			"twm:block/sculk_shrieker/place2",
+			"twm:block/sculk_shrieker/place3",
+			"twm:block/sculk_shrieker/place4"
+		],
+		"subtitle": "subtitles.block.generic.place"
+	},
+	"block.sculk_shrieker.shriek": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "twm:block/sculk_shrieker/shriek1",
+				"volume": 1,
+				"pitch": 0.5
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:block/sculk_shrieker/shriek2",
+				"volume": 1
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:block/sculk_shrieker/shriek3",
+				"volume": 1
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:block/sculk_shrieker/shriek4",
+				"volume": 1
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:block/sculk_shrieker/shriek5",
+				"volume": 1
+			}
+		],
+		"subtitle": "subtitles.block.sculk_shrieker.shriek"
+	},
+	"block.sculk_shrieker.step": {
+		"sounds": [
+			"minecraft:block/sculk/step1",
+			"minecraft:block/sculk/step2",
+			"minecraft:block/sculk/step3",
+			"minecraft:block/sculk/step4",
+			"minecraft:block/sculk/step5",
+			"minecraft:block/sculk/step6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"entity.chest_boat.paddle_water": {
+		"sounds": [
+			{
+				"name": "entity/boat/paddle_water1",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water2",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water3",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water4",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water5",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water6",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water7",
+				"volume": 0.8
+			},
+			{
+				"name": "entity/boat/paddle_water8",
+				"volume": 0.8
+			}
+		],
+		"subtitle": "subtitles.entity.boat.paddle_water"
+	},
+	"entity.chest_boat.paddle_land": {
+		"sounds": [
+			"entity/boat/paddle_land1",
+			"entity/boat/paddle_land2",
+			"entity/boat/paddle_land3",
+			"entity/boat/paddle_land4",
+			"entity/boat/paddle_land5",
+			"entity/boat/paddle_land6"
+		],
+		"subtitle": "subtitles.entity.boat.paddle_land"
+	},
+	"entity.firefly.loop": {
+		"sounds": [
+			"twm:entity/firefly/loop1",
+			"twm:entity/firefly/loop2",
+			"twm:entity/firefly/loop3",
+			"twm:entity/firefly/loop4",
+			"twm:entity/firefly/loop5"
+		]
+	},
+	"entity.firefly.hurt": {
+		"sounds": [
+			"twm:entity/firefly/hurt1",
+			"twm:entity/firefly/hurt2",
+			"twm:entity/firefly/hurt3"
+		]
+	},
+	"entity.frog.ambient": {
+		"sounds": [
+			{
+				"name": "twm:entity/frog/idle1"
+			},
+			{
+				"name": "twm:entity/frog/idle2"
+			},
+			{
+				"name": "twm:entity/frog/idle3"
+			},
+			{
+				"name": "twm:entity/frog/idle4"
+			},
+			{
+				"name": "twm:entity/frog/idle5"
+			},
+			{
+				"name": "twm:entity/frog/idle6"
+			},
+			{
+				"name": "twm:entity/frog/idle7"
+			},
+			{
+				"name": "twm:entity/frog/idle8"
+			}
+		],
+		"subtitle": "subtitles.entity.twm.frog.ambient"
+	},
+	"entity.frog.death": {
+		"sounds": [
+			{
+				"name": "twm:entity/frog/death1"
+			},
+			{
+				"name": "twm:entity/frog/death2"
+			},
+			{
+				"name": "twm:entity/frog/death3"
+			}
+		],
+		"subtitle": "subtitles.entity.twm.frog.death"
+	},
+	"entity.frog.eat": {
+		"sounds": [
+			{
+				"name": "twm:entity/frog/eat1"
+			},
+			{
+				"name": "twm:entity/frog/eat2"
+			},
+			{
+				"name": "twm:entity/frog/eat3"
+			},
+			{
+				"name": "twm:entity/frog/eat4"
+			}
+		],
+		"subtitle": "subtitles.entity.twm.frog.eat"
+	},
+	"entity.frog.hurt": {
+		"sounds": [
+			{
+				"name": "twm:entity/frog/hurt1"
+			},
+			{
+				"name": "twm:entity/frog/hurt2"
+			},
+			{
+				"name": "twm:entity/frog/hurt3"
+			},
+			{
+				"name": "twm:entity/frog/hurt4"
+			},
+			{
+				"name": "twm:entity/frog/hurt5"
+			}
+		],
+		"subtitle": "subtitles.entity.twm.frog.hurt"
+	},
+	"entity.frog.long_jump": {
+		"sounds": [
+			{
+				"name": "twm:entity/frog/long_jump1"
+			},
+			{
+				"name": "twm:entity/frog/long_jump2"
+			},
+			{
+				"name": "twm:entity/frog/long_jump3"
+			},
+			{
+				"name": "twm:entity/frog/long_jump4"
+			}
+		],
+		"subtitle": "subtitles.entity.twm.frog.long_jump"
+	},
+	"entity.frog.step": {
+		"sounds": [
+			"twm:entity/frog/step1",
+			"twm:entity/frog/step2",
+			"twm:entity/frog/step3",
+			"twm:entity/frog/step4"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"entity.frog.tongue": {
+		"sounds": [
+			{
+				"name": "twm:entity/frog/tongue1"
+			},
+			{
+				"name": "twm:entity/frog/tongue2"
+			},
+			{
+				"name": "twm:entity/frog/tongue3"
+			},
+			{
+				"name": "twm:entity/frog/tongue4"
+			}
+		],
+		"subtitle": "subtitles.entity.twm.frog.tongue"
+	},
+	"entity.warden.ambient": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_1"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_2"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_3"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_4"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_5"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_6"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_7"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_8"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_9"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_10"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_11"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/idle_12"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.ambient"
+	},
+	"entity.warden.ambient_underground": {
+		"sounds": []
+	},
+	"entity.warden.listening": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_1"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_2"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_3"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_4"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_5"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.listening"
+	},
+	"entity.warden.listening_angry": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_angry_1"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_angry_2"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_angry_3"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_angry_4"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/listening_angry_5"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.listening_angry"
+	},
+	"entity.warden.slightly_angry": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/agitated_1"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/agitated_2"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/agitated_3"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/agitated_4"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/agitated_5"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/agitated_6"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.slightly_angry"
+	},
+	"entity.warden.angry": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/angry_1"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/angry_2"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/angry_3"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/angry_4"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/angry_5"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/angry_6"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.angry"
+	},
+	"entity.warden.close": {
+		"sounds": [
+			"twm:entity/warden/nearby_close_1",
+			"twm:entity/warden/nearby_close_2",
+			"twm:entity/warden/nearby_close_3",
+			"twm:entity/warden/nearby_close_4"
+		],
+		"subtitle": "subtitles.entity.warden.nearby_close"
+	},
+	"entity.warden.closer": {
+		"sounds": [
+			"twm:entity/warden/nearby_closer_1",
+			"twm:entity/warden/nearby_closer_2",
+			"twm:entity/warden/nearby_closer_3"
+		],
+		"subtitle": "subtitles.entity.warden.nearby_closer"
+	},
+	"entity.warden.closest": {
+		"sounds": [
+			"twm:entity/warden/nearby_closest_1",
+			"twm:entity/warden/nearby_closest_2",
+			"twm:entity/warden/nearby_closest_3"
+		],
+		"subtitle": "subtitles.entity.warden.nearby_closest"
+	},
+	"entity.warden.dig": {
+		"sounds": [
+			"twm:entity/warden/dig"
+		],
+		"subtitle": "subtitles.entity.warden.dig"
+	},
+	"entity.warden.emerge": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/emerge",
+				"volume": 1
+			}
+		],
+		"subtitle": "subtitles.entity.warden.emerge"
+	},
+	"entity.warden.heartbeat": {
+		"sounds": [
+			{
+				"attenuation_distance": 48,
+				"name": "twm:entity/warden/heartbeat_1",
+				"volume": 1
+			},
+			{
+				"attenuation_distance": 48,
+				"name": "twm:entity/warden/heartbeat_2",
+				"volume": 1
+			},
+			{
+				"attenuation_distance": 48,
+				"name": "twm:entity/warden/heartbeat_3",
+				"volume": 1
+			},
+			{
+				"attenuation_distance": 48,
+				"name": "twm:entity/warden/heartbeat_4",
+				"volume": 1
+			}
+		],
+		"subtitle": "subtitles.entity.warden.heartbeat"
+	},
+	"entity.warden.hurt": {
+		"sounds": [
+			{
+				"attenuation_distance": 24,
+				"name": "twm:entity/warden/hurt_1",
+				"volume": 1
+			},
+			{
+				"attenuation_distance": 24,
+				"name": "twm:entity/warden/hurt_2",
+				"volume": 1
+			},
+			{
+				"attenuation_distance": 24,
+				"name": "twm:entity/warden/hurt_3",
+				"volume": 1
+			},
+			{
+				"attenuation_distance": 24,
+				"name": "twm:entity/warden/hurt_4",
+				"volume": 1
+			}
+		],
+		"subtitle": "subtitles.entity.warden.hurt"
+	},
+	"entity.warden.death": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/death_1"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/death_2"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.death"
+	},
+	"entity.warden.roar": {
+		"sounds": [
+			{
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_1"
+			},
+			{
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_2"
+			},
+			{
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_3"
+			},
+			{
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_4"
+			},
+			{
+				"attenuation_distance": 64,
+				"name": "twm:entity/warden/roar_5"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.roar"
+	},
+	"entity.warden.attack": {
+		"sounds": [
+			"twm:entity/warden/attack_impact_1",
+			"twm:entity/warden/attack_impact_2"
+		],
+		"subtitle": "subtitles.entity.warden.attack"
+	},
+	"entity.warden.sniff": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/sniff1"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/sniff2"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/sniff3"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "twm:entity/warden/sniff4"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.sniff"
+	},
+	"entity.warden.step": {
+		"sounds": [
+			"twm:entity/warden/step_1",
+			"twm:entity/warden/step_2",
+			"twm:entity/warden/step_3",
+			"twm:entity/warden/step_4"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"entity.warden.vibration": {
+		"sounds": [
+			{
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking1"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking2"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking3"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking4"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking5"
+			},
+			{
+				"attenuation_distance": 32,
+				"name": "minecraft:block/sculk_sensor/sculk_clicking6"
+			}
+		],
+		"subtitle": "subtitles.entity.warden.vibration"
+	},
+	"music.overworld.deep_dark": {
+		"sounds": [
+			{
+				"name": "twm:music/game/ancestry",
+				"stream": true
+			}
+		]
+	}
 }

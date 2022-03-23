@@ -51,8 +51,8 @@ public class TadpoleEntity extends SchoolingFishEntity {
 
     public void mobTick() {
         this.life = this.life + 1;
-        if (this.life > lifeBeforeFrog * 20) {
-            if (Math.random() < 0.3) {
+        if(this.life > lifeBeforeFrog*20) {
+            if(Math.random() < 0.3) {
                 this.convertTo(RegisterEntities.FROG, true);
             }
         }
