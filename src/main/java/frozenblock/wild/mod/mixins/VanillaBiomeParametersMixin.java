@@ -6,6 +6,7 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 import net.minecraft.world.biome.source.util.VanillaBiomeParameters;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,15 +16,6 @@ import java.util.function.Consumer;
 
 @Mixin(VanillaBiomeParameters.class)
 public final class VanillaBiomeParametersMixin {
-    private final RegistryKey<Biome>[][] UNCOMMON_BIOMES;
-
-    private final MultiNoiseUtil.ParameterRange NEAR_INLAND_CONTINENTALNESS;
-    private final MultiNoiseUtil.ParameterRange FAR_INLAND_CONTINENTALNESS;
-    private final MultiNoiseUtil.ParameterRange[] EROSION_PARAMETERS = new MultiNoiseUtil.ParameterRange[]{MultiNoiseUtil.ParameterRange.of(-1.0F, -0.78F), MultiNoiseUtil.ParameterRange.of(-0.78F, -0.375F), MultiNoiseUtil.ParameterRange.of(-0.375F, -0.2225F), MultiNoiseUtil.ParameterRange.of(-0.2225F, 0.05F), MultiNoiseUtil.ParameterRange.of(0.05F, 0.45F), MultiNoiseUtil.ParameterRange.of(0.45F, 0.55F), MultiNoiseUtil.ParameterRange.of(0.55F, 1.0F)};
-    private final MultiNoiseUtil.ParameterRange DEFAULT_PARAMETER = MultiNoiseUtil.ParameterRange.of(-1.0F, 1.0F);
-    private final MultiNoiseUtil.ParameterRange NON_FROZEN_TEMPERATURE_PARAMETERS;
-    private final MultiNoiseUtil.ParameterRange RIVER_CONTINENTALNESS;
-
     private VanillaBiomeParametersMixin(RegistryKey<Biome>[][] uncommon_biomes, MultiNoiseUtil.ParameterRange near_inland_continentalness, MultiNoiseUtil.ParameterRange far_inland_continentalness, MultiNoiseUtil.ParameterRange non_frozen_temperature_parameters, MultiNoiseUtil.ParameterRange river_continentalness) {
         UNCOMMON_BIOMES = uncommon_biomes;
         NEAR_INLAND_CONTINENTALNESS = near_inland_continentalness;
@@ -31,20 +23,27 @@ public final class VanillaBiomeParametersMixin {
         NON_FROZEN_TEMPERATURE_PARAMETERS = non_frozen_temperature_parameters;
         RIVER_CONTINENTALNESS = river_continentalness;
     }
+    private final RegistryKey<Biome>[][] UNCOMMON_BIOMES;
+    private final MultiNoiseUtil.ParameterRange NEAR_INLAND_CONTINENTALNESS;
+    private final MultiNoiseUtil.ParameterRange FAR_INLAND_CONTINENTALNESS;
+    private final MultiNoiseUtil.ParameterRange[] EROSION_PARAMETERS = new MultiNoiseUtil.ParameterRange[]{MultiNoiseUtil.ParameterRange.of(-1.0F, -0.78F), MultiNoiseUtil.ParameterRange.of(-0.78F, -0.375F), MultiNoiseUtil.ParameterRange.of(-0.375F, -0.2225F), MultiNoiseUtil.ParameterRange.of(-0.2225F, 0.05F), MultiNoiseUtil.ParameterRange.of(0.05F, 0.45F), MultiNoiseUtil.ParameterRange.of(0.45F, 0.55F), MultiNoiseUtil.ParameterRange.of(0.55F, 1.0F)};
+    private final MultiNoiseUtil.ParameterRange DEFAULT_PARAMETER = MultiNoiseUtil.ParameterRange.of(-1.0F, 1.0F);
+    private final MultiNoiseUtil.ParameterRange NON_FROZEN_TEMPERATURE_PARAMETERS;
+    private final MultiNoiseUtil.ParameterRange RIVER_CONTINENTALNESS;
 
-    private void writeBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, float offset, RegistryKey<Biome> biome) {
+    private void writeBiomeParameters(@NotNull Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, final float offset, RegistryKey<Biome> biome) {
         parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(temperature, humidity, continentalness, erosion, MultiNoiseUtil.ParameterRange.of(0.0F), weirdness, offset), biome));
         parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(temperature, humidity, continentalness, erosion, MultiNoiseUtil.ParameterRange.of(1.0F), weirdness, offset), biome));
     }
 
-    private void writeCaveBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, float offset, RegistryKey<Biome> biome) {
+    private void writeCaveBiomeParameters(@NotNull Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, final float offset, RegistryKey<Biome> biome) {
         parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(temperature, humidity, continentalness, erosion, MultiNoiseUtil.ParameterRange.of(0.825F, 1.5F), weirdness, offset), biome));
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void injectBiomes(CallbackInfo ci) {
         UNCOMMON_BIOMES[1][0] = RegisterWorldgen.MANGROVE_SWAMP;
-        //UNCOMMON_BIOMES[2][0] = RegisterWorldgen.DEEP_DARK;
+//        UNCOMMON_BIOMES[2][0] = RegisterWorldgen.DEEP_DARK;
     }
 
     @Inject(method = "writeBiomesNearRivers", at = @At("TAIL"))
