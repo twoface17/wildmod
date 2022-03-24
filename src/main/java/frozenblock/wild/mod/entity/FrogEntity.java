@@ -60,7 +60,7 @@ public class FrogEntity extends AnimalEntity {
     public static final TrackedData<Boolean> PREGNANT;
     public static final TrackedData<BlockPos> TRAVEL_POS;
     public static final TrackedData<Boolean> ACTIVELY_TRAVELLING;
-    public static final Ingredient BREEDING_ITEM;
+    public static final Ingredient SLIME_BALL;
     private int loveTicks;
 
     private int tongue;
@@ -83,7 +83,7 @@ public class FrogEntity extends AnimalEntity {
         PREGNANT = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
         TRAVEL_POS = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
         ACTIVELY_TRAVELLING = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-        BREEDING_ITEM = Ingredient.ofItems(Blocks.SEAGRASS.asItem());
+        SLIME_BALL = Ingredient.ofItems(Items.SLIME_BALL.asItem());
     }
 
     public static DefaultAttributeContainer.Builder createFrogAttributes() {
@@ -247,7 +247,7 @@ public class FrogEntity extends AnimalEntity {
         this.goalSelector.add(2, new WanderAroundGoal(this, speed));
         this.goalSelector.add(3, new FrogWanderInWaterGoal(this, 1.0D));
         this.goalSelector.add(2, new WanderAroundFarGoal(this, speed));
-        this.goalSelector.add(2, new TemptGoal(this, 1.1D, BREEDING_ITEM, false));
+        this.goalSelector.add(2, new TemptGoal(this, 1.1D, SLIME_BALL, false));
         this.goalSelector.add(3, new FrogGoal(this));
         this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
     }
