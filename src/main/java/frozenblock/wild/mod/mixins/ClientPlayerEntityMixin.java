@@ -16,8 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
 
-    private double time;
-
     @Shadow
     private boolean riding;
 
@@ -32,13 +30,11 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Inject(at = @At("HEAD"), method = "tickRiding")
     public void tickRiding(CallbackInfo ci) {
         this.riding = false;
-        if (this.getVehicle() instanceof MangroveBoatEntity) {
-            MangroveBoatEntity boatEntity = (MangroveBoatEntity)this.getVehicle();
+        if (this.getVehicle() instanceof MangroveBoatEntity boatEntity) {
             boatEntity.setInputs(this.input.pressingLeft, this.input.pressingRight, this.input.pressingForward, this.input.pressingBack);
             this.riding |= this.input.pressingLeft || this.input.pressingRight || this.input.pressingForward || this.input.pressingBack;
         }
-        if (this.getVehicle() instanceof ChestBoatEntity) {
-            ChestBoatEntity boatEntity = (ChestBoatEntity)this.getVehicle();
+        if (this.getVehicle() instanceof ChestBoatEntity boatEntity) {
             boatEntity.setInputs(this.input.pressingLeft, this.input.pressingRight, this.input.pressingForward, this.input.pressingBack);
             this.riding |= this.input.pressingLeft || this.input.pressingRight || this.input.pressingForward || this.input.pressingBack;
         }
