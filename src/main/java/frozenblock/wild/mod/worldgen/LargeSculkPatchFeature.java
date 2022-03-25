@@ -256,12 +256,12 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
     }
     public static void fourDirVeins(BlockPos blockpos, StructureWorldAccess world) {
         if (world.isChunkLoaded(blockpos)) {
-        for (Direction direction : Direction.values()) {
-            if (airveins(world, blockpos.offset(direction))) {
-                veins(blockpos.offset(direction), world);
+            for (Direction direction : Direction.values()) {
+                if (airveins(world, blockpos.offset(direction))) {
+                    veins(blockpos.offset(direction), world);
+                }
             }
         }
-    }
     }
     public static void veins(BlockPos blockpos, StructureWorldAccess world) {
         if (world.isChunkLoaded(blockpos)) {

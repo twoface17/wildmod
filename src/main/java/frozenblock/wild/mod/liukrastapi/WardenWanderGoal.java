@@ -15,7 +15,7 @@ public class WardenWanderGoal
     protected double targetY;
     protected double targetZ;
     protected final double speed;
-    public static Random random = new Random();
+    public static final Random random = new Random();
 
 
     public WardenWanderGoal(WardenEntity entity, double speed) {

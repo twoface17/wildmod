@@ -7,7 +7,6 @@ import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Bucketable;
-import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.Brain;
@@ -40,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TadpoleEntity extends FishEntity {
     @VisibleForTesting
-    public static int MAX_TADPOLE_AGE = Math.abs(-24000);
+    public static final int MAX_TADPOLE_AGE = Math.abs(-24000);
     private int tadpoleAge;
     protected static final ImmutableList<SensorType<? extends Sensor<? super TadpoleEntity>>> SENSORS;
     protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES;
@@ -127,7 +126,7 @@ public class TadpoleEntity extends FishEntity {
             this.eatSlimeBall(player, itemStack);
             return ActionResult.success(this.world.isClient);
         } else {
-            return (ActionResult) Bucketable.tryBucket(player, hand, this).orElse(super.interactMob(player, hand));
+            return Bucketable.tryBucket(player, hand, this).orElse(super.interactMob(player, hand));
         }
     }
 
@@ -207,11 +206,11 @@ public class TadpoleEntity extends FishEntity {
 
     private void growUp() {
         World var2 = this.world;
-        if (var2 instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld)var2;
-            FrogEntity frogEntity = (FrogEntity)RegisterEntities.FROG.create(this.world);
+        if (var2 instanceof ServerWorld serverWorld) {
+            FrogEntity frogEntity = RegisterEntities.FROG.create(this.world);
+            assert frogEntity != null;
             frogEntity.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch());
-            frogEntity.initialize(serverWorld, this.world.getLocalDifficulty(frogEntity.getBlockPos()), SpawnReason.CONVERSION, (EntityData)null, (NbtCompound)null);
+            frogEntity.initialize(serverWorld, this.world.getLocalDifficulty(frogEntity.getBlockPos()), SpawnReason.CONVERSION, null, null);
             frogEntity.setAiDisabled(this.isAiDisabled());
             if (this.hasCustomName()) {
                 frogEntity.setCustomName(this.getCustomName());

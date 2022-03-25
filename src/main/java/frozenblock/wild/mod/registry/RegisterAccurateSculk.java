@@ -34,7 +34,7 @@ public abstract class RegisterAccurateSculk {
     public static final GameEvent CLICK = new GameEvent("click", 8);
     public static final GameEvent DEATH = new GameEvent("death", 8);
     public static final PositionSourceType<WardenPositionSource> WARDEN = new WardenPositionSource.Type();
-    public static SoundEvent GARGLE_EVENT = new SoundEvent(GARGLE);
+    public static final SoundEvent GARGLE_EVENT = new SoundEvent(GARGLE);
 
     public static void RegisterAccurateSculk() {
         Registry.register(Registry.POSITION_SOURCE_TYPE, new Identifier(WildMod.MOD_ID, "warden_source"), WARDEN);

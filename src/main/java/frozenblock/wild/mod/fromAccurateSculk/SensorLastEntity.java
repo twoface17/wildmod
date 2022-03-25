@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class SensorLastEntity {
 
-    public static IntArrayList entityList = new IntArrayList();
-    public static ArrayList<BlockPos> sensors = new ArrayList<>();
-    public static ArrayList<BlockPos> eventPos = new ArrayList<>();
-    public static ArrayList<GameEvent> gameEvents = new ArrayList<>();
+    public static final IntArrayList entityList = new IntArrayList();
+    public static final ArrayList<BlockPos> sensors = new ArrayList<>();
+    public static final ArrayList<BlockPos> eventPos = new ArrayList<>();
+    public static final ArrayList<GameEvent> gameEvents = new ArrayList<>();
 
     public static void addEntity(Entity entity, BlockPos pos, BlockPos event, GameEvent gameEvent) {
         if (!sensors.isEmpty()) {

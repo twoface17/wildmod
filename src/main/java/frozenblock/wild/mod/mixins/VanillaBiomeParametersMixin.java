@@ -36,7 +36,7 @@ public final class VanillaBiomeParametersMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void injectBiomes(CallbackInfo ci) {
         uncommonBiomes[1][0] = RegisterWorldgen.MANGROVE_SWAMP;
-        uncommonBiomes[2][0] = RegisterWorldgen.DEEP_DARK;
+//        uncommonBiomes[2][0] = RegisterWorldgen.DEEP_DARK;
     }
 
     @Inject(method = "writeBiomesNearRivers", at = @At("TAIL"))
@@ -57,6 +57,6 @@ public final class VanillaBiomeParametersMixin {
     @Inject(method = "writeCaveBiomes", at = @At("RETURN"))
     private void injectDeepDark(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, CallbackInfo ci) {
         parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(this.defaultParameter, MultiNoiseUtil.ParameterRange.of(0.4F, 1.0F), MultiNoiseUtil.ParameterRange.of(0.4F, 0.45F), this.defaultParameter, MultiNoiseUtil.ParameterRange.of(0.825F, 1.5F), this.defaultParameter, 0.0F), RegisterWorldgen.DEEP_DARK));
-        this.writeCaveBiomeParameters(parameters, this.defaultParameter, this.defaultParameter, MultiNoiseUtil.ParameterRange.of(0.8f, 1.0F), MultiNoiseUtil.ParameterRange.of(0.0F, 1.0F), MultiNoiseUtil.ParameterRange.of(0.0F, 1.0F), 0.0f, RegisterWorldgen.DEEP_DARK);
+//        this.writeCaveBiomeParameters(parameters, this.defaultParameter, this.defaultParameter, MultiNoiseUtil.ParameterRange.of(0.8f, 1.0F), MultiNoiseUtil.ParameterRange.of(0.0F, 1.0F), MultiNoiseUtil.ParameterRange.of(0.0F, 1.0F), 0.0f, RegisterWorldgen.DEEP_DARK);
     }
 }
