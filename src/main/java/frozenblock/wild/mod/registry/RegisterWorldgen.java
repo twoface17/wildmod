@@ -163,7 +163,8 @@ public class RegisterWorldgen {
     }
 
     public static void addMangroveSwampFeatures(GenerationSettings.Builder builder2) {
-        GenerationSettings.Builder builder = new GenerationSettings.Builder()
+        GenerationSettings.Builder builder = new GenerationSettings.Builder();
+        builder
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedMangrove)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP)
@@ -171,7 +172,8 @@ public class RegisterWorldgen {
     }
 
     public static void addDeepDarkFeatures(GenerationSettings.Builder builder2) {
-        GenerationSettings.Builder builder = new GenerationSettings.Builder()
+        GenerationSettings.Builder builder = new GenerationSettings.Builder();
+        builder
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkPatch)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkCatastrophe)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRandomSculk)
