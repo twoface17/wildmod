@@ -17,6 +17,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class CommonActivatorFeature extends Feature<DefaultFeatureConfig> {
@@ -36,9 +37,9 @@ public class CommonActivatorFeature extends Feature<DefaultFeatureConfig> {
         StructureWorldAccess world = context.getWorld();
         BlockPos pos = context.getOrigin();
         if (blockTagsInSphere(context.getOrigin(), 2, SculkTags.COMMON_ACTIVATORS, context.getWorld()).isEmpty() && world.getBlockState(context.getOrigin()).getBlock()==sculk.getBlock()) {
-            BlockState activator = null;
-            if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {;
-                activator = SculkTags.getRandomBlock(new Random(context.getWorld().getSeed()), SculkTags.COMMON_ACTIVATORS).getDefaultState();
+            BlockState activator;
+            if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {
+                activator = Objects.requireNonNull(SculkTags.getRandomBlock(new Random(context.getWorld().getSeed()), SculkTags.COMMON_ACTIVATORS)).getDefaultState();
                 if (SculkTags.blockTagContains(activator.getBlock(), SculkTags.GROUND_ACTIVATORS)) {
                     world.setBlockState(pos, activator,0);
                 } else {

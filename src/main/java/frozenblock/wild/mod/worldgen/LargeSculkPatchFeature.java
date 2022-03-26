@@ -206,7 +206,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                         return true;
                     } else if (airveins(world, NewSculk)) {
                         Block blockUp = world.getBlockState(NewSculk.up()).getBlock();
-                        if (world.getBlockState(NewSculk.up()).getBlock().equals(SculkTags.SCULK_VEIN_REPLACEABLE) && blockUp != veinBlock) {
+                        if (SculkTags.blockTagContains(world.getBlockState(NewSculk.up()).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE) && blockUp != veinBlock) {
                             veins(NewSculk, world);
                             fourDirVeins(NewSculk, world);
                             return true;
