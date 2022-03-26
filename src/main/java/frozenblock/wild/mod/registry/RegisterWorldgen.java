@@ -107,7 +107,13 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addDefaultGrass(builder2);
         DefaultBiomeFeatures.addPlainsFeatures(builder2);
         DefaultBiomeFeatures.addDefaultVegetation(builder2);
-        addDeepDarkFeatures(builder2);
+        builder2
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkPatch)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkCatastrophe)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRandomSculk)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRandomVeins)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedCommonActivator)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRareActivator);
 
         MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_DEEP_DARK);
         return (
@@ -140,7 +146,11 @@ public class RegisterWorldgen {
         addBasicFeatures(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
         DefaultBiomeFeatures.addClayDisk(builder2);
-        addMangroveSwampFeatures(builder2);
+        builder2
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedMangrove)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
         DefaultBiomeFeatures.addDefaultMushrooms(builder2);
         DefaultBiomeFeatures.addSwampVegetation(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, OceanPlacedFeatures.SEAGRASS_SWAMP);
@@ -160,26 +170,6 @@ public class RegisterWorldgen {
                 .spawnSettings(builder.build())
                 .generationSettings(builder2.build()).build();
 
-    }
-
-    public static void addMangroveSwampFeatures(GenerationSettings.Builder builder2) {
-        GenerationSettings.Builder builder = new GenerationSettings.Builder();
-        builder
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedMangrove)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
-    }
-
-    public static void addDeepDarkFeatures(GenerationSettings.Builder builder2) {
-        GenerationSettings.Builder builder = new GenerationSettings.Builder();
-        builder
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkPatch)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkCatastrophe)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRandomSculk)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRandomVeins)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedCommonActivator)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRareActivator);
     }
     private static void addBasicFeatures(GenerationSettings.Builder generationSettings) {
         DefaultBiomeFeatures.addLandCarvers(generationSettings);
