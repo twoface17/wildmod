@@ -73,17 +73,17 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
         float j = (float) (180 / PI); //Converts degrees to radians
 
         /* STARTING ANIMATIONS */
-        if (entity.canEatAnim) {
+      /*  if (entity.canEatAnim) {
             entity.eatAnimStartTime = time;
             entity.canEatAnim=false;
-        }
+        } */
 
-        float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 10) / 10;
+        //float eatTime = AnimationAPI.animationTimer(time, entity.eatAnimStartTime, entity.eatAnimStartTime + 10) / 10;
 
-        boolean canEat = eatTime != 0;
+        boolean canEat = false;
 
         if(canEat) { //Eat animation
-            this.tongue.visible=false;
+          /*  this.tongue.visible=false;
             this.tongue_eat.visible=true;
             this.head.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, -60f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, 0f / j, eatTime) +
@@ -92,7 +92,7 @@ public class FrogEntityModel extends EntityModel<FrogEntity> {
             this.tongue_eat.pitch = (AnimationAPI.easeInOutSine(t * 0f, t * 0.0833f, -18f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.0833f, t * 0.4167f, 0f / j, eatTime) +
                     AnimationAPI.easeInOutSine(t * 0.4167f, t * 0.5f, 18f / j, eatTime)
-            );
+            ); */
         } else {
         this.head.pitch = 0;
         this.tongue.pitch = 0;

@@ -5,21 +5,24 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractBlockMixin",
+    "ActivityInvoker",
     "BackgroundRendererMixin",
     "ClientPlayerEntityMixin",
     "ItemsMixin",
     "LightmapTextureManagerMixin",
     "LivingEntityMixin",
+    "MemoryModuleTypeInvoker",
     "PlayerEntityMixin",
-    "SculkSensorListenerMixin",
     "SculkSensorBlockMixin",
+    "SculkSensorListenerMixin",
+    "SensorTypeInvoker",
     "SimpleGameEventDispatcherMixin",
     "TreeDecoratorTypeInvoker",
+    "UndergroundPlacedFeaturesMixin",
     "VanillaBiomeParametersMixin",
     "VanillaSurfaceRulesBlockInvoker",
     "VanillaSurfaceRulesInjector",
-    "VillagerTypeMixin",
-    "UndergroundPlacedFeaturesMixin"
+    "VillagerTypeMixin"
   ],
   "client": [
   ],
