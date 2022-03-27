@@ -18,6 +18,9 @@ import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -254,6 +257,19 @@ public class WardenEntity extends HostileEntity {
             else { createFloorVibration(this.world, this, eventPos);
                 this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos.getX(), eventPos.getY(), eventPos.getZ()))) * 2);}
         }
+    }
+
+    private int method_42218() {
+        float f = (float)this.getAnger() / (float)Angriness.ANGRY.method_42170();
+        return 40 - MathHelper.floor(MathHelper.clamp(f, 0.0f, 1.0f) * 30.0f);
+    }
+
+    public float method_42223(float f) {
+        return Math.max(1.0f - MathHelper.lerp(f, this.field_38163, this.field_38162), 0.0f);
+    }
+
+    public float method_42202(float f) {
+        return Math.max(1.0f - MathHelper.lerp(f, this.field_38165, this.field_38164), 0.0f);
     }
 
     /** SUSPICION */
@@ -583,6 +599,7 @@ public class WardenEntity extends HostileEntity {
         this.setPathfindingPenalty(PathNodeType.DAMAGE_OTHER, -1.0F);
         this.setPathfindingPenalty(PathNodeType.DANGER_OTHER, 8.0F);
         this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, -1.0F);
+        this.experiencePoints = 5;
         this.stepHeight = 1.0F;
     }
 
@@ -842,8 +859,10 @@ public class WardenEntity extends HostileEntity {
     //Anger & Heartbeat
     public int heartbeatTime = 40;
     public int nonEntityAnger;
+    public int getAnger() {return this.dataTracker.get(ANGER);}
     public long nextHeartBeat;
     public long lastHeartBeat;
+    private static final TrackedData<Integer> ANGER = DataTracker.registerData(WardenEntity.class, TrackedDataHandlerRegistry.INTEGER);
     //Emerging & Digging
     public boolean hasDetected=false;
     public boolean hasEmerged;
@@ -907,4 +926,9 @@ public class WardenEntity extends HostileEntity {
 
     public int headRoll=0; //HAS VALUES OF 0,1,2,3 AND 4 - DERIVATIVE OF OVERALL ANGER
 
+    //NO IDEA WHAT THESE ARE.
+    private float field_38162;
+    private float field_38163;
+    private float field_38164;
+    private float field_38165;
 }
