@@ -20,14 +20,14 @@ public class WardenAngerManager {
     private static final int maxAnger = 150;
     private static final int angerDecreasePerTick = 1;
     //public static final Codec<WardenAngerManager> field_38127 = RecordCodecBuilder.create(instance -> instance.group(((MapCodec)Codec.unboundedMap(Codecs.field_38081, Codecs.NONNEGATIVE_INT).fieldOf("suspects")).forGetter(wardenAngerManager -> wardenAngerManager.suspects)).apply((Applicative<WardenAngerManager, ?>)instance, WardenAngerManager::new));
-    private Object2IntMap<UUID> suspects;
+    private final Object2IntMap<UUID> suspects;
 
     public WardenAngerManager(Map<UUID, Integer> map) {
-        this.suspects = new Object2IntOpenHashMap<UUID>(map);
+        this.suspects = new Object2IntOpenHashMap<>(map);
     }
 
     public void tick() {
-        this.suspects.keySet().forEach(uUID2 -> this.suspects.computeInt((UUID)uUID2, (uUID, integer) -> {
+        this.suspects.keySet().forEach(uUID2 -> this.suspects.computeInt(uUID2, (uUID, integer) -> {
             if (integer <= 1) {
                 return null;
             }
@@ -52,8 +52,7 @@ public class WardenAngerManager {
     }
 
     public Optional<LivingEntity> getPrimeSuspectUuid(World world) {
-        if (world instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld)world;
+        if (world instanceof ServerWorld serverWorld) {
             return this.getPrimeSuspect().map(Map.Entry::getKey).map(serverWorld::getEntity).filter(entity -> entity instanceof LivingEntity).map(entity -> (LivingEntity)entity);
         }
         return Optional.empty();
