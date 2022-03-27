@@ -788,6 +788,30 @@ public class WardenEntity extends HostileEntity {
             this.vibrationTicks=-1;
         }
     }
+  /*  @Override
+    public void onTrackedDataSet(TrackedData<?> data) {
+        if (POSE.equals(data)) {
+            switch (this.getPose()) {
+                case ROARING: {
+                    this.roaringAnimation.start();
+                    break;
+                }
+                case SNIFFING: {
+                    this.sniffingAnimation.start();
+                    break;
+                }
+                case EMERGING: {
+                    this.emergingAnimation.start();
+                    break;
+                }
+                case DIGGING: {
+                    this.diggingAnimation.start();
+                }
+            }
+        }
+        super.onTrackedDataSet(data);
+    } */
+
     public void listenVibration() {
         this.world.sendEntityStatus(this, (byte)7);
         this.world.sendEntityStatus(this, (byte)15);
@@ -931,6 +955,13 @@ public class WardenEntity extends HostileEntity {
 
     public boolean canTendrilAnim; //Status 7
     public float tendrilAnimStartTime=-200;
+
+
+    public AnimationState roaringAnimation = new AnimationState();
+    public AnimationState sniffingAnimation = new AnimationState();
+    public AnimationState emergingAnimation = new AnimationState();
+    public AnimationState diggingAnimation = new AnimationState();
+    public AnimationState field_38137 = new AnimationState();
 
     public int headRoll=0; //HAS VALUES OF 0,1,2,3 AND 4 - DERIVATIVE OF OVERALL ANGER
 
