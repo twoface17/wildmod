@@ -22,7 +22,9 @@
     "VanillaBiomeParametersMixin",
     "VanillaSurfaceRulesBlockInvoker",
     "VanillaSurfaceRulesInjector",
-    "VillagerTypeMixin"
+    "VillagerTypeMixin",
+    "ModelPartMixin",
+    "SinglePartEntityModelMixin"
   ],
   "client": [
   ],
