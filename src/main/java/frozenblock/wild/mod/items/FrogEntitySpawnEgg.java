@@ -58,11 +58,11 @@ public class FrogEntitySpawnEgg extends SpawnEggItem {
             } else {
                 blockPos3 = blockPos.offset(direction);
             }
-            if(FrogEntity.canColdSpawn(world, blockPos3)) {
+            /*if(FrogEntity.canColdSpawn(world, blockPos3)) {
                 frogEntity.setVariant(FrogEntity.Variant.COLD);
             } else if(FrogEntity.canTemperateSpawn(world, blockPos3)) {
                 frogEntity.setVariant(FrogEntity.Variant.WARM);
-            }
+            } */
             frogEntity.setPos(blockPos3.getX()+0.5, blockPos3.getY()+0.1, blockPos3.getZ()+0.5);
             frogEntity.setYaw((float) Math.random() * 360 * (float) Math.PI/180);
             world.spawnEntity(frogEntity);
