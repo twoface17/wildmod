@@ -30,6 +30,9 @@
   "mixins": [
     "twm.mixins.json"
   ],
+
+  "accessWidener" : "twm.accesswidener",
+  
   "depends": {
     "fabricloader": ">=0.13.3",
     "fabric": "*",

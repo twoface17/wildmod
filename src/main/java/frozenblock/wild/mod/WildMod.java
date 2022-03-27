@@ -1,12 +1,15 @@
 package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.entity.FrogBrain;
+import frozenblock.wild.mod.liukrastapi.AnimationChannel;
+import frozenblock.wild.mod.liukrastapi.AnimationDefinition;
 import frozenblock.wild.mod.liukrastapi.FrogAttackablesSensor;
 import frozenblock.wild.mod.liukrastapi.IsInWaterSensor;
 import frozenblock.wild.mod.mixins.ActivityInvoker;
 import frozenblock.wild.mod.mixins.SensorTypeInvoker;
 import frozenblock.wild.mod.registry.*;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.entity.ai.brain.Activity;
@@ -45,6 +48,14 @@ public class WildMod implements ModInitializer {
 
         RegisterAccurateSculk.RegisterAccurateSculk();
     }
+
+    public static <T> T registerInRegistryVanilla(Registry<T> registry, String name, T idk) {
+        return Registry.register(registry, name, idk);
+    }
+
+    public static Registry<AnimationDefinition> ANIMATION_DEFINITIONS = FabricRegistryBuilder.createSimple(AnimationDefinition.class, new Identifier( "animation_definitions")).buildAndRegister();
+    public static Registry<AnimationChannel.Interpolation> ANIMATION_CHANNEL_INTERPOLATIONS = FabricRegistryBuilder.createSimple(AnimationChannel.Interpolation.class, new Identifier("animation_channel_interpolations")).buildAndRegister();
+    public static Registry<AnimationChannel.Target> ANIMATION_CHANNEL_TARGETS = FabricRegistryBuilder.createSimple(AnimationChannel.Target.class, new Identifier("animation_channel_targets")).buildAndRegister();
 
     public static final SensorType<TemptationsSensor> FROG_TEMPTATIONS = SensorTypeInvoker.callRegister("frog_temptations", () -> new TemptationsSensor(FrogBrain.getTemptItems()));
     public static final SensorType<FrogAttackablesSensor> FROG_ATTACKABLES = SensorTypeInvoker.callRegister("frog_attackables", FrogAttackablesSensor::new);

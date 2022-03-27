@@ -12,7 +12,11 @@ public class MathAddon {
         }
     }
 
-    public static float method_41303(float f, float g, float h, float i, float j) {
+    public static float pow(float value, float power) {
+        return (float) Math.pow(value, power);
+    }
+
+    public static float catmullrom(float f, float g, float h, float i, float j) {
         return 0.5F * (2.0F * h + (i - g) * f + (2.0F * g - 5.0F * h + 4.0F * i - j) * f * f + (3.0F * h - g - 3.0F * i + j) * f * f * f);
     }
 
