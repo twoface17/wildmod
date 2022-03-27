@@ -39,6 +39,7 @@ import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -585,6 +586,10 @@ public class WardenEntity extends HostileEntity {
     @Override
     public void emitGameEvent(GameEvent event) {}
 
+    public Angriness getAngriness() {
+        return Angriness.method_42171(this.field_38141.getPrimeSuspectAnger());
+    }
+
     public boolean collides() {
         if (this.isRemoved()) {return false;}
         return this.emergeTicksLeft!=-5;
@@ -607,7 +612,7 @@ public class WardenEntity extends HostileEntity {
     public int getSafeFallDistance() { return 16; }
 
     private float getAttackDamage() { return (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE); }
-    public static DefaultAttributeContainer.Builder createWardenAttributes() {return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 31.0D);}
+    public static DefaultAttributeContainer.Builder createWardenAttributes() {return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.5D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 30.0D);}
     protected boolean burnsInDaylight() { return !this.hasDug || this.emergeTicksLeft==-5; }
     @Override
     @Nullable
@@ -863,6 +868,7 @@ public class WardenEntity extends HostileEntity {
     public long nextHeartBeat;
     public long lastHeartBeat;
     private static final TrackedData<Integer> ANGER = DataTracker.registerData(WardenEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private WardenAngerManager field_38141 = new WardenAngerManager(Collections.emptyMap());
     //Emerging & Digging
     public boolean hasDetected=false;
     public boolean hasEmerged;
