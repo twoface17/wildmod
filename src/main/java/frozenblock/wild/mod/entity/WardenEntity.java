@@ -41,6 +41,7 @@ import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -587,6 +588,10 @@ public class WardenEntity extends HostileEntity {
     @Override
     public void emitGameEvent(GameEvent event) {}
 
+    public Angriness getAngriness() {
+        return Angriness.method_42171(this.field_38141.getPrimeSuspectAnger());
+    }
+
     public boolean collides() {
         if (this.isRemoved()) {return false;}
         return this.emergeTicksLeft!=-5;
@@ -865,6 +870,7 @@ public class WardenEntity extends HostileEntity {
     public long nextHeartBeat;
     public long lastHeartBeat;
     private static final TrackedData<Integer> ANGER = DataTracker.registerData(WardenEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private WardenAngerManager field_38141 = new WardenAngerManager(Collections.emptyMap());
     //Emerging & Digging
     public boolean hasDetected=false;
     public boolean hasEmerged;
