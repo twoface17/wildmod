@@ -17,6 +17,8 @@ import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.sensor.TemptationsSensor;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 
 import java.util.OptionalInt;
