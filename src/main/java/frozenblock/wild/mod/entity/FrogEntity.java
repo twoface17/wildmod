@@ -3,6 +3,7 @@ package frozenblock.wild.mod.entity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.liukrastapi.AnimationState;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import frozenblock.wild.mod.registry.RegisterTags;
@@ -53,12 +54,12 @@ public class FrogEntity
     private static final TrackedData<Integer> VARIANT = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<OptionalInt> TARGET = DataTracker.registerData(FrogEntity.class, WildMod.OPTIONAL_INT);
     private static final int field_37459 = 5;
-   /* public final AnimationState longJumping = new AnimationState();
+    public final AnimationState longJumping = new AnimationState();
     public final AnimationState croaking = new AnimationState();
     public final AnimationState usingTongue = new AnimationState();
     public final AnimationState walking = new AnimationState();
     public final AnimationState swimming = new AnimationState();
-    public final AnimationState idlingInWater = new AnimationState(); */
+    public final AnimationState idlingInWater = new AnimationState();
 
     public FrogEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
@@ -154,44 +155,44 @@ public class FrogEntity
         super.mobTick();
     }
 
-   /* @Override
+    @Override
     public void tick() {
         if (this.world.isClient()) {
             if (this.shouldWalk()) {
-                //this.walking.startIfNotRunning();
+                //this.walking.startIfStopped();
             } else {
                 //this.walking.stop();
             }
             if (this.shouldSwim()) {
                 //this.idlingInWater.stop();
-                //this.swimming.startIfNotRunning();
+                //this.swimming.startIfStopped();
             } else if (this.isInsideWaterOrBubbleColumn()) {
                 //this.swimming.stop();
-                //this.idlingInWater.startIfNotRunning();
+                //this.idlingInWater.startIfStopped();
             } else {
                 //this.swimming.stop();
                 //this.idlingInWater.stop();
             }
         }
         super.tick();
-    } */
+    }
 
     /*@Override
     public void onTrackedDataSet(TrackedData<?> data) {
         if (POSE.equals(data)) {
             EntityPose entityPose = this.getPose();
             if (entityPose == EntityPose.LONG_JUMPING) {
-                //this.longJumping.start();
+                this.longJumping.start();
             } else {
-                //this.longJumping.stop();
+                this.longJumping.stop();
             }
-            if (entityPose == WildModEntityPose.CROAKING) {
-                //this.croaking.start();
+            if (entityPose == EntityPose.CROAKING) {
+                this.croaking.start();
             } else {
-                //this.croaking.stop();
+                this.croaking.stop();
             }
-            if (entityPose == WildModEntityPose.USING_TONGUE) {
-                //this.usingTongue.start();
+            if (entityPose == EntityPose.USING_TONGUE) {
+                this.usingTongue.start();
             }
         }
         super.onTrackedDataSet(data);
