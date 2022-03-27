@@ -868,7 +868,7 @@ public class WardenEntity extends HostileEntity {
     public long nextHeartBeat;
     public long lastHeartBeat;
     private static final TrackedData<Integer> ANGER = DataTracker.registerData(WardenEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private WardenAngerManager field_38141 = new WardenAngerManager(Collections.emptyMap());
+    private final WardenAngerManager field_38141 = new WardenAngerManager(Collections.emptyMap());
     //Emerging & Digging
     public boolean hasDetected=false;
     public boolean hasEmerged;
