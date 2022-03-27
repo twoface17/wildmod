@@ -16,7 +16,7 @@ public enum Angriness {
     private final int field_38124;
     private final SoundEvent field_38125;
 
-    private Angriness(int j, SoundEvent soundEvent) {
+    Angriness(int j, SoundEvent soundEvent) {
         this.field_38124 = j;
         this.field_38125 = soundEvent;
     }
