@@ -26,7 +26,7 @@ public class WardenEntityEmissiveFeatureRenderer extends EyesFeatureRenderer<War
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {;
+    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WardenEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         if (entity.shouldRender) {
         String string = Formatting.strip(entity.getName().getString());
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.OVERLAY);

@@ -47,13 +47,11 @@ public class MangroveBoatEntityRenderer extends EntityRenderer<MangroveBoatEntit
         }
 
         Identifier texture = this.texture;
-        MangroveBoatEntityModel model = this.model;
-        Identifier identifier = texture;
-        MangroveBoatEntityModel boatEntityModel = model;
+        MangroveBoatEntityModel boatEntityModel = this.model;
         matrixStack.scale(-1.0F, -1.0F, 1.0F);
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90.0F));
         boatEntityModel.setAngles(boatEntity, g, 0.0F, -0.1F, 0.0F, 0.0F);
-        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(boatEntityModel.getLayer(identifier));
+        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(boatEntityModel.getLayer(texture));
         boatEntityModel.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
         if (!boatEntity.isSubmergedInWater()) {
             VertexConsumer vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getWaterMask());

@@ -37,9 +37,8 @@ public class CommonActivatorFeature extends Feature<DefaultFeatureConfig> {
         StructureWorldAccess world = context.getWorld();
         BlockPos pos = context.getOrigin();
         if (blockTagsInSphere(context.getOrigin(), 2, SculkTags.COMMON_ACTIVATORS, context.getWorld()).isEmpty() && world.getBlockState(context.getOrigin()).getBlock()==sculk.getBlock()) {
-            BlockState activator;
             if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {
-                activator = Objects.requireNonNull(SculkTags.getRandomBlock(new Random(context.getWorld().getSeed()), SculkTags.COMMON_ACTIVATORS)).getDefaultState();
+                BlockState activator = Objects.requireNonNull(SculkTags.getRandomBlock(new Random(context.getWorld().getSeed()), SculkTags.COMMON_ACTIVATORS)).getDefaultState();
                 if (SculkTags.blockTagContains(activator.getBlock(), SculkTags.GROUND_ACTIVATORS)) {
                     world.setBlockState(pos, activator,0);
                 } else {

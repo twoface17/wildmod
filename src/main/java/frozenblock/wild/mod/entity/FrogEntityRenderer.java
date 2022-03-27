@@ -23,7 +23,7 @@ public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntity
     @Override
     public Identifier getTexture(FrogEntity entity) {
         String string = Formatting.strip(entity.getName().getString());
-        if (string != null && "Xfrtrex".equals(string)) {
+        if ("Xfrtrex".equals(string)) {
             return SUS_TEXTURE;
         }
         if(entity.getVariant() == FrogEntity.Variant.WARM) {

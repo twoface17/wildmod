@@ -44,9 +44,6 @@ import java.util.List;
 
 public class RegisterWorldgen {
 
-    @Nullable
-    private static final MusicSound DEFAULT_MUSIC = null;
-
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
     public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
 

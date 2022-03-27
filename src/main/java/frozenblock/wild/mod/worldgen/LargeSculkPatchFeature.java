@@ -206,7 +206,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                         return true;
                     } else if (airveins(world, NewSculk)) {
                         Block blockUp = world.getBlockState(NewSculk.up()).getBlock();
-                        if (SculkTags.blockTagContains(world.getBlockState(NewSculk.up()).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE) && blockUp != veinBlock) {
+                        if (SculkTags.blockTagContains(blockUp, SculkTags.SCULK_VEIN_REPLACEABLE) && blockUp != veinBlock) {
                             veins(NewSculk, world);
                             fourDirVeins(NewSculk, world);
                             return true;
@@ -275,7 +275,7 @@ public class LargeSculkPatchFeature extends Feature<DefaultFeatureConfig> {
                     } else if (block != waterBlock) {
                         if (block == veinBlock) {
                             world.setBlockState(pos1, state.with(getOpposite(direction), true), 0);
-                        } else if (SculkTags.blockTagContains(world.getBlockState(blockpos).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE) || state.isAir()) {
+                        } else if (SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) || state.isAir()) {
                             world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(getOpposite(direction), true), 0);
                         }
                     }

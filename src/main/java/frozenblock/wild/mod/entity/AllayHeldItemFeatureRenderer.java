@@ -30,7 +30,7 @@ public class AllayHeldItemFeatureRenderer extends FeatureRenderer<AllayEntity, A
 
 
         matrices.push();
-        matrices.translate((double)x, (double)n, (double)m);
+        matrices.translate(x, n, m);
         MinecraftClient.getInstance().getHeldItemRenderer().renderItem(entity, itemStack, ModelTransformation.Mode.GROUND, false, matrices, vertexConsumers, light);
         matrices.pop();
     }

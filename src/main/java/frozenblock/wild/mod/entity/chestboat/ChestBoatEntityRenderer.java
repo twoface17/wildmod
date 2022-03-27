@@ -28,9 +28,7 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     public ChestBoatEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
         this.shadowRadius = 0.8F;
-        this.texturesAndModels = Stream.of(ChestBoatEntity.Type.values()).collect(ImmutableMap.toImmutableMap((type) -> type, (type) -> {
-            return Pair.of(new Identifier(WildMod.MOD_ID, "textures/entity/chest_boat/" + type.getName() + ".png"), new ChestBoatEntityModel(context.getPart(WildModClient.MODEL_CHEST_BOAT_LAYER)));
-        }));
+        this.texturesAndModels = Stream.of(ChestBoatEntity.Type.values()).collect(ImmutableMap.toImmutableMap((type) -> type, (type) -> Pair.of(new Identifier(WildMod.MOD_ID, "textures/entity/chest_boat/" + type.getName() + ".png"), new ChestBoatEntityModel(context.getPart(WildModClient.MODEL_CHEST_BOAT_LAYER)))));
     }
 
     public void render(ChestBoatEntity boatEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {

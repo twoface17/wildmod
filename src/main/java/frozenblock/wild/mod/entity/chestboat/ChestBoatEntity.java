@@ -1,7 +1,6 @@
 package frozenblock.wild.mod.entity.chestboat;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.UnmodifiableIterator;
 import frozenblock.wild.mod.registry.MangroveWoods;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterItems;
@@ -18,7 +17,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -122,7 +120,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         this.dataTracker.startTracking(DAMAGE_WOBBLE_TICKS, 0);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0F);
-        this.dataTracker.startTracking(BOAT_TYPE, BoatEntity.Type.OAK.ordinal());
+        this.dataTracker.startTracking(BOAT_TYPE, ChestBoatEntity.Type.OAK.ordinal());
         this.dataTracker.startTracking(LEFT_PADDLE_MOVING, false);
         this.dataTracker.startTracking(RIGHT_PADDLE_MOVING, false);
         this.dataTracker.startTracking(BUBBLE_WOBBLE_TICKS, 0);
@@ -194,7 +192,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public void pushAwayFrom(Entity entity) {
-        if (entity instanceof BoatEntity) {
+        if (entity instanceof ChestBoatEntity) {
             if (entity.getBoundingBox().minY < this.getBoundingBox().maxY) {
                 super.pushAwayFrom(entity);
             }
@@ -238,8 +236,8 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         this.x = x;
         this.y = y;
         this.z = z;
-        this.boatYaw = (double)yaw;
-        this.boatPitch = (double)pitch;
+        this.boatYaw = yaw;
+        this.boatPitch = pitch;
         this.field_7708 = 10;
     }
 
@@ -296,7 +294,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
                         Vec3d vec3d = this.getRotationVec(1.0F);
                         double d = i == 1 ? -vec3d.z : vec3d.z;
                         double e = i == 1 ? vec3d.x : -vec3d.x;
-                        this.world.playSound((PlayerEntity)null, this.getX() + d, this.getY(), this.getZ() + e, soundEvent, this.getSoundCategory(), 1.0F, 0.8F + 0.4F * this.random.nextFloat());
+                        this.world.playSound(null, this.getX() + d, this.getY(), this.getZ() + e, soundEvent, this.getSoundCategory(), 1.0F, 0.8F + 0.4F * this.random.nextFloat());
                         this.world.emitGameEvent(this.getPrimaryPassenger(), GameEvent.SPLASH, new BlockPos(this.getX() + d, this.getY(), this.getZ() + e));
                     }
                 }
@@ -322,7 +320,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
             this.bubbleWobbleStrength = MathHelper.clamp(this.bubbleWobbleStrength, 0.0F, 1.0F);
             this.lastBubbleWobble = this.bubbleWobble;
-            this.bubbleWobble = 10.0F * (float)Math.sin((double)(0.5F * (float)this.world.getTime())) * this.bubbleWobbleStrength;
+            this.bubbleWobble = 10.0F * (float)Math.sin(0.5F * (float)this.world.getTime()) * this.bubbleWobbleStrength;
         } else {
             if (!this.onBubbleColumnSurface) {
                 this.setBubbleWobbleTicks(0);
@@ -340,9 +338,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
                         this.setVelocity(vec3d.add(0.0D, -0.7D, 0.0D));
                         this.removeAllPassengers();
                     } else {
-                        this.setVelocity(vec3d.x, this.hasPassengerType((entity) -> {
-                            return entity instanceof PlayerEntity;
-                        }) ? 2.7D : 0.6D, vec3d.z);
+                        this.setVelocity(vec3d.x, this.hasPassengerType((entity) -> entity instanceof PlayerEntity) ? 2.7D : 0.6D, vec3d.z);
                     }
                 }
 
@@ -392,7 +388,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public float interpolatePaddlePhase(int paddle, float tickDelta) {
-        return this.isPaddleMoving(paddle) ? (float)MathHelper.clampedLerp((double)this.paddlePhases[paddle] - 0.39269909262657166D, (double)this.paddlePhases[paddle], (double)tickDelta) : 0.0F;
+        return this.isPaddleMoving(paddle) ? (float)MathHelper.clampedLerp((double)this.paddlePhases[paddle] - 0.39269909262657166D, this.paddlePhases[paddle], tickDelta) : 0.0F;
     }
 
     private ChestBoatEntity.Location checkLocation() {
@@ -471,7 +467,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
                         if (r <= 0 || s != k && s != l - 1) {
                             mutable.set(p, s, q);
                             BlockState blockState = this.world.getBlockState(mutable);
-                            if (!(blockState.getBlock() instanceof LilyPadBlock) && VoxelShapes.matchesAnywhere(blockState.getCollisionShape(this.world, mutable).offset((double)p, (double)s, (double)q), voxelShape, BooleanBiFunction.AND)) {
+                            if (!(blockState.getBlock() instanceof LilyPadBlock) && VoxelShapes.matchesAnywhere(blockState.getCollisionShape(this.world, mutable).offset(p, s, q), voxelShape, BooleanBiFunction.AND)) {
                                 f += blockState.getBlock().getSlipperiness();
                                 ++o;
                             }
@@ -503,7 +499,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
                     FluidState fluidState = this.world.getFluidState(mutable);
                     if (fluidState.isIn(FluidTags.WATER)) {
                         float f = (float)p + fluidState.getHeight(this.world, mutable);
-                        this.waterLevel = Math.max((double)f, this.waterLevel);
+                        this.waterLevel = Math.max(f, this.waterLevel);
                         bl |= box.minY < (double)f;
                     }
                 }
@@ -610,7 +606,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
                 f -= 0.005F;
             }
 
-            this.setVelocity(this.getVelocity().add((double)(MathHelper.sin(-this.getYaw() * 0.017453292F) * f), 0.0D, (double)(MathHelper.cos(this.getYaw() * 0.017453292F) * f)));
+            this.setVelocity(this.getVelocity().add(MathHelper.sin(-this.getYaw() * 0.017453292F) * f, 0.0D, MathHelper.cos(this.getYaw() * 0.017453292F) * f));
             this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
         }
     }
@@ -635,7 +631,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public Vec3d updatePassengerForDismount(LivingEntity passenger) {
-        Vec3d vec3d = getPassengerDismountOffset((double)(this.getWidth() * MathHelper.SQUARE_ROOT_OF_TWO), (double)passenger.getWidth(), passenger.getYaw());
+        Vec3d vec3d = getPassengerDismountOffset(this.getWidth() * MathHelper.SQUARE_ROOT_OF_TWO, passenger.getWidth(), passenger.getYaw());
         double d = this.getX() + vec3d.x;
         double e = this.getZ() + vec3d.z;
         BlockPos blockPos = new BlockPos(d, this.getBoundingBox().maxY, e);
@@ -652,14 +648,9 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
                 list.add(new Vec3d(d, (double)blockPos2.getY() + g, e));
             }
 
-            UnmodifiableIterator var14 = passenger.getPoses().iterator();
+            for (EntityPose entityPose : passenger.getPoses()) {
 
-            while(var14.hasNext()) {
-                EntityPose entityPose = (EntityPose)var14.next();
-                Iterator var16 = list.iterator();
-
-                while(var16.hasNext()) {
-                    Vec3d vec3d2 = (Vec3d)var16.next();
+                for (Vec3d vec3d2 : list) {
                     if (Dismounting.canPlaceEntityAt(this.world, vec3d2, passenger, entityPose)) {
                         passenger.setPose(entityPose);
                         return vec3d2;
@@ -765,7 +756,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public boolean isPaddleMoving(int paddle) {
-        return (Boolean)this.dataTracker.get(paddle == 0 ? LEFT_PADDLE_MOVING : RIGHT_PADDLE_MOVING) && this.getPrimaryPassenger() != null;
+        return this.dataTracker.get(paddle == 0 ? LEFT_PADDLE_MOVING : RIGHT_PADDLE_MOVING) && this.getPrimaryPassenger() != null;
     }
 
     public void setDamageWobbleStrength(float wobbleStrength) {
@@ -773,7 +764,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public float getDamageWobbleStrength() {
-        return (Float)this.dataTracker.get(DAMAGE_WOBBLE_STRENGTH);
+        return this.dataTracker.get(DAMAGE_WOBBLE_STRENGTH);
     }
 
     public void setDamageWobbleTicks(int wobbleTicks) {
@@ -781,7 +772,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public int getDamageWobbleTicks() {
-        return (Integer)this.dataTracker.get(DAMAGE_WOBBLE_TICKS);
+        return this.dataTracker.get(DAMAGE_WOBBLE_TICKS);
     }
 
     private void setBubbleWobbleTicks(int wobbleTicks) {
@@ -789,7 +780,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     private int getBubbleWobbleTicks() {
-        return (Integer)this.dataTracker.get(BUBBLE_WOBBLE_TICKS);
+        return this.dataTracker.get(BUBBLE_WOBBLE_TICKS);
     }
 
     public float interpolateBubbleWobble(float tickDelta) {
@@ -801,7 +792,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public int getDamageWobbleSide() {
-        return (Integer)this.dataTracker.get(DAMAGE_WOBBLE_SIDE);
+        return this.dataTracker.get(DAMAGE_WOBBLE_SIDE);
     }
 
     public void setBoatType(ChestBoatEntity.Type type) {
@@ -809,7 +800,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public ChestBoatEntity.Type getBoatType() {
-        return ChestBoatEntity.Type.getType((Integer)this.dataTracker.get(BOAT_TYPE));
+        return ChestBoatEntity.Type.getType(this.dataTracker.get(BOAT_TYPE));
     }
 
     protected boolean canAddPassenger(Entity passenger) {
@@ -852,7 +843,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
     public void remove(Entity.RemovalReason reason) {
         if (!this.world.isClient && reason.shouldDestroy()) {
-            ItemScatterer.spawn(this.world, (Entity)this, (Inventory)this);
+            ItemScatterer.spawn(this.world, this, this);
         }
 
         super.remove(reason);
@@ -865,7 +856,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
     @Override
     public boolean isEmpty() {
-        Iterator var1 = this.inventory.iterator();
+        Iterator<ItemStack> var1 = this.inventory.iterator();
 
         ItemStack itemStack;
         do {
@@ -873,7 +864,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
                 return true;
             }
 
-            itemStack = (ItemStack)var1.next();
+            itemStack = var1.next();
         } while(itemStack.isEmpty());
 
         return false;
@@ -881,7 +872,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
     @Override
     public ItemStack getStack(int slot) {
-        return (ItemStack)this.inventory.get(slot);
+        return this.inventory.get(slot);
     }
 
     @Override
@@ -891,7 +882,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
     @Override
     public ItemStack removeStack(int slot) {
-        ItemStack itemStack = (ItemStack)this.inventory.get(slot);
+        ItemStack itemStack = this.inventory.get(slot);
         if (itemStack.isEmpty()) {
             return ItemStack.EMPTY;
         } else {
@@ -936,7 +927,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         return GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this);
     }
 
-    public static enum Type {
+    public enum Type {
         OAK(Blocks.OAK_PLANKS, "oak"),
         SPRUCE(Blocks.SPRUCE_PLANKS, "spruce"),
         BIRCH(Blocks.BIRCH_PLANKS, "birch"),
@@ -948,7 +939,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         private final String name;
         private final Block baseBlock;
 
-        private Type(Block baseBlock, String name) {
+        Type(Block baseBlock, String name) {
             this.name = name;
             this.baseBlock = baseBlock;
         }
@@ -977,9 +968,9 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         public static ChestBoatEntity.Type getType(String name) {
             ChestBoatEntity.Type[] types = values();
 
-            for(int i = 0; i < types.length; ++i) {
-                if (types[i].getName().equals(name)) {
-                    return types[i];
+            for (Type type : types) {
+                if (type.getName().equals(name)) {
+                    return type;
                 }
             }
 
@@ -987,11 +978,11 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         }
     }
 
-    public static enum Location {
+    public enum Location {
         IN_WATER,
         UNDER_WATER,
         UNDER_FLOWING_WATER,
         ON_LAND,
-        IN_AIR;
+        IN_AIR
     }
 }
