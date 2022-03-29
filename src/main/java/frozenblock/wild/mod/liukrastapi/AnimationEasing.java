@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.liukrastapi;
 
 import frozenblock.wild.mod.WildMod;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 import org.apache.commons.lang3.tuple.Triple;
@@ -11,7 +12,7 @@ public class AnimationEasing {
 
 	public static AnimationChannel.Interpolation interpolation(EasingCategories easingCategory, Type type) {
 		EasingTypes easing = easingCategory.getEasingType(type);
-		return WildMod.registerInRegistryVanilla(WildMod.ANIMATION_CHANNEL_INTERPOLATIONS, easing.getName(),
+		return WildMod.registerInRegistryVanilla(WildMod.ANIMATION_CHANNEL_INTERPOLATIONS, new Identifier(WildMod.MOD_ID, easing.getName()),
 				(vector3f, f, keyframes, i, j, g) -> easing(vector3f, easing.apply(f), keyframes, i, j, g));
 	}
 

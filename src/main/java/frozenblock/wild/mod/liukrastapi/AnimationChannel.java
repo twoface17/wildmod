@@ -1,16 +1,12 @@
 package frozenblock.wild.mod.liukrastapi;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import frozenblock.wild.mod.WildMod;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * A GUI interface which handles keyboard and mouse callbacks for child GUI elements.
@@ -18,19 +14,6 @@ import java.util.stream.Collectors;
  */
 @Environment(EnvType.CLIENT)
 public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyframes) {
-	public static final Codec<AnimationChannel> CODEC = RecordCodecBuilder.create(
-			instance -> instance.group(
-					Target.CODEC.fieldOf("target").forGetter(AnimationChannel::target),
-					Keyframe.CODEC.listOf().fieldOf("target").forGetter(o -> {
-						Keyframe[] keyframes = o.keyframes();
-						return Arrays.stream(keyframes).collect(Collectors.toList());
-					})
-			).apply(instance, AnimationChannel::new)
-	);
-
-	public AnimationChannel(AnimationChannel.Target target, List<Keyframe> keyframes) {
-		this(target, keyframes.toArray(new Keyframe[]{}));
-	}
 
 	@Environment(EnvType.CLIENT)
 	public interface Interpolation {
@@ -43,7 +26,7 @@ public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyfr
 		public static final AnimationChannel.Interpolation LINEAR = AnimationEasing::easing;
 		public static final AnimationChannel.Interpolation CATMULLROM = WildMod.registerInRegistryVanilla(
 				WildMod.ANIMATION_CHANNEL_INTERPOLATIONS,
-				"catmullrom",
+				new Identifier(WildMod.MOD_ID, "catmullrom"),
 				(vector3f, f, keyframes, i, j, g) -> {
 					Vec3f vector3f2 = keyframes[Math.max(0, i - 1)].target();
 					Vec3f vector3f3 = keyframes[i].target();
@@ -99,21 +82,9 @@ public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyfr
 
 	@Environment(EnvType.CLIENT)
 	public static class Targets {
-		public static final AnimationChannel.Target POSITION = WildMod.registerInRegistryVanilla(
-				WildMod.ANIMATION_CHANNEL_TARGETS,
-				"position",
-				(modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetPos(vector3f)
-		);
-		public static final AnimationChannel.Target ROTATION = WildMod.registerInRegistryVanilla(
-				WildMod.ANIMATION_CHANNEL_TARGETS,
-				"rotation",
-				(modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetRotation(vector3f)
-		);
-		public static final AnimationChannel.Target SCALE = WildMod.registerInRegistryVanilla(
-				WildMod.ANIMATION_CHANNEL_TARGETS,
-				"scale",
-				(modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetScale(vector3f)
-		);
+		public static final AnimationChannel.Target POSITION = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetPos(vector3f);
+		public static final AnimationChannel.Target ROTATION = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetRotation(vector3f);
+		public static final AnimationChannel.Target SCALE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetScale(vector3f);
 
 		public static void init() {}
 	}

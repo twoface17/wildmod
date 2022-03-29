@@ -11,6 +11,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
+import javax.swing.text.html.parser.Entity;
+
 @Environment(value= EnvType.CLIENT)
 public class WardenEntityModel<T extends WardenEntity>
         extends SinglePartEntityModel<T> {
@@ -45,16 +47,16 @@ public class WardenEntityModel<T extends WardenEntity>
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-        ModelPartData modelPartData2 = modelPartData.addChild("bone", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 24.0f, 0.0f));
-        ModelPartData modelPartData3 = modelPartData2.addChild(EntityModelPartNames.BODY, ModelPartBuilder.create().uv(0, 0).cuboid(-9.0f, -13.0f, -4.0f, 18.0f, 21.0f, 11.0f), ModelTransform.pivot(0.0f, -21.0f, 0.0f));
-        ModelPartData modelPartData4 = modelPartData3.addChild(EntityModelPartNames.HEAD, ModelPartBuilder.create().uv(0, 32).cuboid(-8.0f, -16.0f, -5.0f, 16.0f, 16.0f, 10.0f), ModelTransform.pivot(0.0f, -13.0f, 0.0f));
-        modelPartData4.addChild("right_tendril", ModelPartBuilder.create().uv(52, 32).cuboid(-16.0f, -13.0f, 0.0f, 16.0f, 16.0f, 0.0f), ModelTransform.pivot(-8.0f, -12.0f, 0.0f));
-        modelPartData4.addChild("left_tendril", ModelPartBuilder.create().uv(58, 0).cuboid(0.0f, -13.0f, 0.0f, 16.0f, 16.0f, 0.0f), ModelTransform.pivot(8.0f, -12.0f, 0.0f));
-        modelPartData3.addChild(EntityModelPartNames.RIGHT_ARM, ModelPartBuilder.create().uv(44, 50).cuboid(-4.0f, 0.0f, -4.0f, 8.0f, 28.0f, 8.0f), ModelTransform.pivot(-13.0f, -13.0f, 1.0f));
-        modelPartData3.addChild(EntityModelPartNames.LEFT_ARM, ModelPartBuilder.create().uv(0, 58).cuboid(-4.0f, 0.0f, -4.0f, 8.0f, 28.0f, 8.0f), ModelTransform.pivot(13.0f, -13.0f, 1.0f));
-        modelPartData2.addChild(EntityModelPartNames.RIGHT_LEG, ModelPartBuilder.create().uv(76, 48).cuboid(-3.1f, 0.0f, -3.0f, 6.0f, 13.0f, 6.0f), ModelTransform.pivot(-5.9f, -13.0f, 0.0f));
-        modelPartData2.addChild(EntityModelPartNames.LEFT_LEG, ModelPartBuilder.create().uv(76, 76).cuboid(-2.9f, 0.0f, -3.0f, 6.0f, 13.0f, 6.0f), ModelTransform.pivot(5.9f, -13.0f, 0.0f));
-        return TexturedModelData.of(modelData, 128, 128);
+        ModelPartData modelPartData1 = modelPartData.addChild("bone", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 24.0f, 0.0f));
+        ModelPartData modelPartData2 = modelPartData1.addChild(EntityModelPartNames.BODY, ModelPartBuilder.create().uv(0,0).cuboid(-9.0f, -13.0f, -4.0f, 18.0f, 21.0f, 11.0f), ModelTransform.pivot(0.0f,-21.0f,0.0f));
+        ModelPartData modelPartData3 = modelPartData2.addChild(EntityModelPartNames.HEAD, ModelPartBuilder.create().uv(0,32).cuboid(-8.0F, -29F, -5.0F, 16.0F, 16.0F, 10.0f), ModelTransform.pivot(0.0F,-13.0F,0.0F));
+        modelPartData3.addChild("right_tendril", ModelPartBuilder.create().uv(52,32).cuboid(-24.0F, -35.0F, 0.0F, 16.0F, 16.0F, 0.002F), ModelTransform.pivot(-8.0F,-12.5F,0.0F));
+        modelPartData3.addChild("left_tendril", ModelPartBuilder.create().uv(58,0).cuboid(8.0F, -35.0F, 0.0F, 16.0F, 16.0F, 0.002F), ModelTransform.pivot(8.0F,-12.5F,0.0F));
+        modelPartData2.addChild(EntityModelPartNames.RIGHT_ARM, ModelPartBuilder.create().uv(44,50).cuboid(-4.0F, 0.0F, -5.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(-13.0F,-13.0F,1.0F));
+        modelPartData2.addChild(EntityModelPartNames.LEFT_ARM, ModelPartBuilder.create().uv(0,58).cuboid(-4.0F, 0F, -5.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(13.0F,-13.0F,1.0F));
+        modelPartData1.addChild(EntityModelPartNames.RIGHT_LEG, ModelPartBuilder.create().uv(76,48).cuboid(2.9F, 8.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(-5.9F,-13.0F,0.0F));
+        modelPartData1.addChild(EntityModelPartNames.LEFT_LEG, ModelPartBuilder.create().uv(76,76).cuboid(-8.9F, 8.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(5.9F,-13.0F,0.0F));
+        return TexturedModelData.of(modelData,128,128);
     }
 
     @Override

@@ -1,10 +1,7 @@
 package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.entity.FrogBrain;
-import frozenblock.wild.mod.liukrastapi.AnimationChannel;
-import frozenblock.wild.mod.liukrastapi.AnimationDefinition;
-import frozenblock.wild.mod.liukrastapi.FrogAttackablesSensor;
-import frozenblock.wild.mod.liukrastapi.IsInWaterSensor;
+import frozenblock.wild.mod.liukrastapi.*;
 import frozenblock.wild.mod.mixins.ActivityInvoker;
 import frozenblock.wild.mod.mixins.SensorTypeInvoker;
 import frozenblock.wild.mod.registry.*;
@@ -18,6 +15,7 @@ import net.minecraft.entity.ai.brain.sensor.TemptationsSensor;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 
@@ -32,6 +30,7 @@ public class WildMod implements ModInitializer {
         RegisterBlocks.RegisterBlocks();
         RegisterItems.RegisterItems();
         RegisterEntities.RegisterEntities();
+        new AnimationChannel.Interpolations();
         RegisterDispenser.RegisterDispenser();
         RegisterParticles.RegisterParticles();
         RegisterStatusEffects.RegisterStatusEffects();
@@ -44,13 +43,13 @@ public class WildMod implements ModInitializer {
         RegisterAccurateSculk.RegisterAccurateSculk();
     }
 
-    public static <T> T registerInRegistryVanilla(Registry<T> registry, String name, T idk) {
-        return Registry.register(registry, name, idk);
+    public static <T> T registerInRegistryVanilla(Registry<T> registry, Identifier identifier, T values) {
+        return Registry.register(registry, identifier, values);
     }
 
-    public static Registry<AnimationDefinition> ANIMATION_DEFINITIONS = FabricRegistryBuilder.createSimple(AnimationDefinition.class, new Identifier( "animation_definitions")).buildAndRegister();
-    public static Registry<AnimationChannel.Interpolation> ANIMATION_CHANNEL_INTERPOLATIONS = FabricRegistryBuilder.createSimple(AnimationChannel.Interpolation.class, new Identifier("animation_channel_interpolations")).buildAndRegister();
-    public static Registry<AnimationChannel.Target> ANIMATION_CHANNEL_TARGETS = FabricRegistryBuilder.createSimple(AnimationChannel.Target.class, new Identifier("animation_channel_targets")).buildAndRegister();
+    public static Registry<AnimationDefinition> ANIMATION_DEFINITIONS = FabricRegistryBuilder.createSimple(AnimationDefinition.class, new Identifier(WildMod.MOD_ID, "animation_definitions")).buildAndRegister();
+    public static Registry<AnimationChannel.Interpolation> ANIMATION_CHANNEL_INTERPOLATIONS = FabricRegistryBuilder.createSimple(AnimationChannel.Interpolation.class, new Identifier(WildMod.MOD_ID, "animation_channel_interpolations")).buildAndRegister();
+    public static Registry<AnimationChannel.Target> ANIMATION_CHANNEL_TARGETS = FabricRegistryBuilder.createSimple(AnimationChannel.Target.class, new Identifier(WildMod.MOD_ID, "animation_channel_targets")).buildAndRegister();
 
     public static final SensorType<TemptationsSensor> FROG_TEMPTATIONS = SensorTypeInvoker.callRegister("frog_temptations", () -> new TemptationsSensor(FrogBrain.getTemptItems()));
     public static final SensorType<FrogAttackablesSensor> FROG_ATTACKABLES = SensorTypeInvoker.callRegister("frog_attackables", FrogAttackablesSensor::new);

@@ -927,7 +927,7 @@ public class WardenEntity extends HostileEntity {
 
     public int delay = 0;
     protected int distance;
-    private static final double speed = 0.4D;
+    private static final double speed = 0.3D;
 
     //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
     public long lastClientHeartBeat; //Status 8
