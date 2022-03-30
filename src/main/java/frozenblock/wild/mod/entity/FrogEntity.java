@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.entity;
 
+import com.chocohead.mm.api.ClassTinkerers;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
 import frozenblock.wild.mod.WildMod;
@@ -27,6 +28,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -46,9 +48,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 
-public class FrogEntity
-        extends AnimalEntity {
-    public static final Ingredient SLIME_BALL = Ingredient.ofItems(Items.SLIME_BALL);
+public class FrogEntity extends AnimalEntity {
+    public static final Ingredient SLIME_BALL = Ingredient.ofItems(new ItemConvertible[]{Items.SLIME_BALL});
     protected final ImmutableList<SensorType<? extends Sensor<? super FrogEntity>>> SENSORS = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, WildMod.FROG_ATTACKABLES, WildMod.FROG_TEMPTATIONS, WildMod.IS_IN_WATER);
     protected final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES = ImmutableList.of(MemoryModuleType.LOOK_TARGET, MemoryModuleType.MOBS, MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.PATH, MemoryModuleType.BREED_TARGET, MemoryModuleType.LONG_JUMP_COOLING_DOWN, MemoryModuleType.LONG_JUMP_MID_JUMP, MemoryModuleType.ATTACK_TARGET, MemoryModuleType.TEMPTING_PLAYER, MemoryModuleType.TEMPTATION_COOLDOWN_TICKS, MemoryModuleType.IS_TEMPTED, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_ATTACKABLE, RegisterEntities.IS_IN_WATER, RegisterEntities.IS_PREGNANT);
     private static final TrackedData<Integer> VARIANT = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -63,7 +64,7 @@ public class FrogEntity
 
     public FrogEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
-        this.lookControl = new FrogLookControl(this);
+        this.lookControl = new FrogEntity.FrogLookControl(this);
         this.setPathfindingPenalty(PathNodeType.WATER, 4.0f);
         this.moveControl = new AquaticMoveControl(this, 85, 10, 0.02f, 0.1f, true);
         this.stepHeight = 1.0f;
@@ -159,44 +160,44 @@ public class FrogEntity
     public void tick() {
         if (this.world.isClient()) {
             if (this.shouldWalk()) {
-                //this.walking.startIfNotRunning();
+                this.walking.startIfStopped();
             } else {
-                //this.walking.stop();
+                this.walking.stop();
             }
             if (this.shouldSwim()) {
-                //this.idlingInWater.stop();
-                //this.swimming.startIfNotRunning();
+                this.idlingInWater.stop();
+                this.swimming.startIfStopped();
             } else if (this.isInsideWaterOrBubbleColumn()) {
-                //this.swimming.stop();
-                //this.idlingInWater.startIfNotRunning();
+                this.swimming.stop();
+                this.idlingInWater.startIfStopped();
             } else {
-                //this.swimming.stop();
-                //this.idlingInWater.stop();
+                this.swimming.stop();
+                this.idlingInWater.stop();
             }
         }
         super.tick();
     }
 
-   /* @Override
+    @Override
     public void onTrackedDataSet(TrackedData<?> data) {
-        if (POSE.equals(data)) {
+         if (POSE.equals(data)) {
             EntityPose entityPose = this.getPose();
             if (entityPose == EntityPose.LONG_JUMPING) {
                 this.longJumping.start();
             } else {
                 this.longJumping.stop();
             }
-            if (entityPose == EntityPose.CROAKING) {
+            if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "CROAKING"))) {
                 this.croaking.start();
             } else {
                 this.croaking.stop();
             }
-            if (entityPose == EntityPose.USING_TONGUE) {
+            if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "USING_TONGUE"))) {
                 this.usingTongue.start();
             }
         }
         super.onTrackedDataSet(data);
-    } */
+    }
 
     @Override
     @Nullable

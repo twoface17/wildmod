@@ -20,6 +20,10 @@ public class MathAddon {
         return 0.5F * (2.0F * h + (i - g) * f + (2.0F * g - 5.0F * h + 4.0F * i - j) * f * f + (3.0F * h - g - 3.0F * i + j) * f * f * f);
     }
 
+    public static double squaredMagnitude(double d, double e, double f) {
+        return d * d + e * e + f * f;
+    }
+
     public static double cutSin(double value, double offset, boolean inverse) {
         double equation = Math.sin(value);
         if(!inverse) {

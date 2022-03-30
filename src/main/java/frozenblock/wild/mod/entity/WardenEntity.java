@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.entity;
 
+import com.chocohead.mm.api.ClassTinkerers;
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.fromAccurateSculk.WardenPositionSource;
@@ -788,29 +789,21 @@ public class WardenEntity extends HostileEntity {
             this.vibrationTicks=-1;
         }
     }
-  /*  @Override
+   @Override
     public void onTrackedDataSet(TrackedData<?> data) {
         if (POSE.equals(data)) {
-            switch (this.getPose()) {
-                case ROARING: {
-                    this.roaringAnimation.start();
-                    break;
-                }
-                case SNIFFING: {
-                    this.sniffingAnimation.start();
-                    break;
-                }
-                case EMERGING: {
-                    this.emergingAnimation.start();
-                    break;
-                }
-                case DIGGING: {
-                    this.diggingAnimation.start();
-                }
-            }
+            if(this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "ROARING"))) {
+                   this.roaringAnimation.start();
+               } if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "SNIFFING"))) {
+                   this.sniffingAnimation.start();
+               } if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "EMERGING"))) {
+                   this.emergingAnimation.start();
+               } if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "DIGGING"))) {
+                   this.diggingAnimation.start();
+               }
         }
         super.onTrackedDataSet(data);
-    } */
+    }
 
     public void listenVibration() {
         this.world.sendEntityStatus(this, (byte)7);
