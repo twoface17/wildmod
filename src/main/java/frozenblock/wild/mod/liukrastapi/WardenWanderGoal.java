@@ -27,6 +27,7 @@ public class WardenWanderGoal
     public boolean canStart() {
         Vec3d vec3d;
         if (this.mob.roarTicksLeft1 > 0) {return false;}
+        if (this.mob.getTrackingEntityForRoarNavigation() != null) { return false; }
         if (this.mob.hasDug || this.mob.emergeTicksLeft==-5) { return false; }
         if (this.mob.emergeTicksLeft>0) {return false;}
         if (this.mob.movementPriority<=1 && this.mob.ticksToWander<=0) {
@@ -51,10 +52,12 @@ public class WardenWanderGoal
 
     @Override
     public void start() {
-        this.mob.wanderTicksLeft=random.nextInt(50,80);
-        this.mob.getNavigation().startMovingTo(this.targetX, this.targetY, this.targetZ, this.speed);
-        this.mob.movementPriority=1;
-        this.mob.canSniff=true;
+        if (this.mob.getTrackingEntityForRoarNavigation() == null) {
+            this.mob.wanderTicksLeft = random.nextInt(50, 80);
+            this.mob.getNavigation().startMovingTo(this.targetX, this.targetY, this.targetZ, this.speed);
+            this.mob.movementPriority = 1;
+            this.mob.canSniff = true;
+        }
     }
 
     @Override
