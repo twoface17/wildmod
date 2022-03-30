@@ -1,7 +1,10 @@
 package frozenblock.wild.mod;
 
 import frozenblock.wild.mod.entity.FrogBrain;
-import frozenblock.wild.mod.liukrastapi.*;
+import frozenblock.wild.mod.liukrastapi.AnimationChannel;
+import frozenblock.wild.mod.liukrastapi.AnimationDefinition;
+import frozenblock.wild.mod.liukrastapi.FrogAttackablesSensor;
+import frozenblock.wild.mod.liukrastapi.IsInWaterSensor;
 import frozenblock.wild.mod.mixins.ActivityInvoker;
 import frozenblock.wild.mod.mixins.SensorTypeInvoker;
 import frozenblock.wild.mod.registry.*;
@@ -16,10 +19,12 @@ import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 
 import java.util.OptionalInt;
+import java.util.function.Supplier;
 
 public class WildMod implements ModInitializer {
 
@@ -30,18 +35,28 @@ public class WildMod implements ModInitializer {
         RegisterBlocks.RegisterBlocks();
         RegisterItems.RegisterItems();
         RegisterEntities.RegisterEntities();
-        new AnimationChannel.Interpolations();
+
         RegisterDispenser.RegisterDispenser();
         RegisterParticles.RegisterParticles();
         RegisterStatusEffects.RegisterStatusEffects();
         RegisterWorldgen.RegisterWorldgen();
 
+        registerData(OPTIONAL_INT);
+
         TONGUE = ActivityInvoker.callRegister( "tongue");
         SWIM = ActivityInvoker.callRegister( "swim");
         LAY_SPAWN = ActivityInvoker.callRegister( "lay_spawn");
 
+        new AnimationChannel.Interpolations();
+
         RegisterAccurateSculk.RegisterAccurateSculk();
     }
+
+    public static void registerData(TrackedDataHandler<?> handler) {
+        DATA_HANDLERS.add(handler);
+    }
+
+    private static final Int2ObjectBiMap<TrackedDataHandler<?>> DATA_HANDLERS = Int2ObjectBiMap.create(16);
 
     public static <T> T registerInRegistryVanilla(Registry<T> registry, Identifier identifier, T values) {
         return Registry.register(registry, identifier, values);
@@ -59,7 +74,21 @@ public class WildMod implements ModInitializer {
     public static Activity SWIM;
     public static Activity LAY_SPAWN;
 
-    public static final TrackedDataHandler<OptionalInt> OPTIONAL_INT = new TrackedDataHandler<>() {public void write(PacketByteBuf packetByteBuf, OptionalInt optionalInt) {packetByteBuf.writeVarInt(optionalInt.orElse(-1) + 1);}public OptionalInt read(PacketByteBuf packetByteBuf) {int i = packetByteBuf.readVarInt();return i == 0 ? OptionalInt.empty() : OptionalInt.of(i - 1);}public OptionalInt copy(OptionalInt optionalInt) {return optionalInt;}};
+    public static final TrackedDataHandler<OptionalInt> OPTIONAL_INT = new TrackedDataHandler<OptionalInt>() {
+        public void write(PacketByteBuf packetByteBuf, OptionalInt optionalInt) {
+            packetByteBuf.writeVarInt(optionalInt.orElse(-1) + 1);
+        }
+
+        public OptionalInt read(PacketByteBuf packetByteBuf) {
+            int i = packetByteBuf.readVarInt();
+            return i == 0 ? OptionalInt.empty() : OptionalInt.of(i - 1);
+        }
+
+        public OptionalInt copy(OptionalInt optionalInt) {
+            return optionalInt;
+        }
+    };
+
     public static final GameRules.Key<GameRules.BooleanRule> DARKNESS_ENABLED =
             GameRuleRegistry.register("doDarkness", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
     public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_NEEDS_SCULK =

@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.entity;
 
+import com.chocohead.mm.api.ClassTinkerers;
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.fromAccurateSculk.WardenPositionSource;
@@ -83,11 +84,20 @@ public class WardenEntity extends HostileEntity {
             }
             if (this.roarTicksLeft1<=0 && this.roarOtherCooldown > 0) {
                 LivingEntity lastEvent = this.getTrackingEntityForRoarNavigation();
+                PlayerEntity player = this.world.getClosestPlayer(this, 48);
                 if (lastEvent!=null) {
                     BlockPos roarPos = lastEvent.getBlockPos();
                     this.getNavigation().startMovingTo(roarPos.getX(), roarPos.getY(), roarPos.getZ(), (speed + (45 * 0.01) + (45 * 0.002)));
                     this.getLookControl().lookAt(lastEvent);
-                    this.vibrationTimer= (long) Double.POSITIVE_INFINITY;
+                    if (lastEvent == player && !((PlayerEntity)lastEvent).getAbilities().creativeMode) {
+                        this.vibrationTimer = (long) Double.POSITIVE_INFINITY;
+                    } else if (lastEvent!=player) {
+                        this.vibrationTimer = (long) Double.POSITIVE_INFINITY;
+                    } else {
+                        this.getNavigation().stop();
+                        this.trackingEntity="null";
+                        this.vibrationTimer=1;
+                    }
                     this.movementPriority=4;
                 } else {
                     this.movementPriority=0;
@@ -383,7 +393,7 @@ public class WardenEntity extends HostileEntity {
         } return null;
     }
     public LivingEntity getTrackingEntityForRoarNavigation() {
-        Box box = new Box(this.getBlockPos().add(-32,-32,-32), this.getBlockPos().add(32,32,32));
+        Box box = new Box(this.getBlockPos().add(-48,-48,-48), this.getBlockPos().add(48,48,48));
         List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
@@ -833,29 +843,21 @@ public class WardenEntity extends HostileEntity {
             this.vibrationTicks=-1;
         }
     }
-  /*  @Override
+   @Override
     public void onTrackedDataSet(TrackedData<?> data) {
         if (POSE.equals(data)) {
-            switch (this.getPose()) {
-                case ROARING: {
-                    this.roaringAnimation.start();
-                    break;
-                }
-                case SNIFFING: {
-                    this.sniffingAnimation.start();
-                    break;
-                }
-                case EMERGING: {
-                    this.emergingAnimation.start();
-                    break;
-                }
-                case DIGGING: {
-                    this.diggingAnimation.start();
-                }
-            }
+            if(this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "ROARING"))) {
+                   this.roaringAnimation.start();
+               } if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "SNIFFING"))) {
+                   this.sniffingAnimation.start();
+               } if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "EMERGING"))) {
+                   this.emergingAnimation.start();
+               } if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "DIGGING"))) {
+                   this.diggingAnimation.start();
+               }
         }
         super.onTrackedDataSet(data);
-    } */
+    }
 
     public void listenVibration() {
         this.world.sendEntityStatus(this, (byte)7);
