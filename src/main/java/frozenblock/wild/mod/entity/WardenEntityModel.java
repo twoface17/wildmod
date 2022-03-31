@@ -47,7 +47,7 @@ public class WardenEntityModel<T extends WardenEntity>
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData1 = modelPartData.addChild("bone", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
         ModelPartData modelPartData2 = modelPartData1.addChild("body", ModelPartBuilder.create().uv(0,0).cuboid(-9.0F, -10.0F, -4.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(-9.0F,-21.0F,-4.0F));
-        ModelPartData modelPartData3 = modelPartData2.addChild("head", ModelPartBuilder.create().uv(0,32).cuboid(-8.0F, -26F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(-8.0F,-25.0F,-5.0F));
+        ModelPartData modelPartData3 = modelPartData2.addChild("head", ModelPartBuilder.create().uv(0,32).cuboid(-8.0F, -26F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(-8.0F,25.0F,-5.0F));
         modelPartData3.addChild("right_tendril", ModelPartBuilder.create().uv(52,32).cuboid(-24.0F, -32.0F, 0.0F, 16.0F, 16.0F, 0.002F), ModelTransform.pivot(-24.0F,-31.5F,0.0F));
         modelPartData3.addChild("left_tendril", ModelPartBuilder.create().uv(58,0).cuboid(8.0F, -32.0F, 0.0F, 16.0F, 16.0F, 0.002F), ModelTransform.pivot(8.0F,-31.5F,0.0F));
         modelPartData2.addChild("right_arm", ModelPartBuilder.create().uv(44,50).cuboid(-4.0F, 3.0F, -5.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(-4.0F,-32.0F,-5.0F));
@@ -86,7 +86,7 @@ public class WardenEntityModel<T extends WardenEntity>
         var10000 = this.body;
         var10000.pitch += 0.025F * q;
         this.leftLeg.pitch = 1.0F * o * l;
-        this.rightLeg.pitch = 1.0F * MathHelper.cos(n + 3.1415927F) * l;
+        this.rightLeg.pitch = 1.0F * MathHelper.cos(n + 3.141592653589793238462643383279F) * l;
         this.leftArm.pitch = -(0.8F * o * l);
         this.leftArm.roll = 0.0F;
         this.rightArm.pitch = -(0.8F * p * l);

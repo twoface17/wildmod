@@ -21,9 +21,6 @@ public class WardenAttackNearGoal extends Goal {
         if (this.mob.roarTicksLeft1 > 0) {
             return false;
         }
-        if (this.mob.sniffTicksLeft > 0) {
-            return false;
-        }
         if (this.mob.attackCooldown > 0) {
             return false;
         }
