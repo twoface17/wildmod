@@ -3,7 +3,6 @@ package frozenblock.wild.mod.liukrastapi;
 import frozenblock.wild.mod.entity.WardenEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
 
 public class WardenAttackNearGoal extends Goal {
 

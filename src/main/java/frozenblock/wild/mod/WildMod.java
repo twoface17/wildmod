@@ -18,13 +18,11 @@ import net.minecraft.entity.ai.brain.sensor.TemptationsSensor;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 
 import java.util.OptionalInt;
-import java.util.function.Supplier;
 
 public class WildMod implements ModInitializer {
 

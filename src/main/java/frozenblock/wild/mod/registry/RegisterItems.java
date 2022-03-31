@@ -7,7 +7,6 @@ import frozenblock.wild.mod.items.ChestBoatItem;
 import frozenblock.wild.mod.items.MangroveBoatItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.Fluids;
