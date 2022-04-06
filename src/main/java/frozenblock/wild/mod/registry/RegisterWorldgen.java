@@ -81,12 +81,8 @@ public class RegisterWorldgen {
     public static Biome createDeepDark() {
         SpawnSettings.Builder builder = new SpawnSettings.Builder();
         net.minecraft.world.biome.GenerationSettings.Builder builder2 = new net.minecraft.world.biome.GenerationSettings.Builder();
-        DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeaturesNoSprings(builder2);
-        DefaultBiomeFeatures.addPlainsTallGrass(builder2);
         DefaultBiomeFeatures.addDefaultGrass(builder2);
-        DefaultBiomeFeatures.addPlainsFeatures(builder2);
-        DefaultBiomeFeatures.addDefaultVegetation(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_PATCH_PLACED);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, SCULK_CATASTROPHE_PLACED);
@@ -136,11 +132,11 @@ public class RegisterWorldgen {
                 .category(Biome.Category.SWAMP)
                 .temperature(0.8F).downfall(0.9F)
                 .effects((new net.minecraft.world.biome.BiomeEffects.Builder())
-                        .waterColor(0x397d71)
-                        .waterFogColor(0x397d71)
+                        .waterColor(3832426)
+                        .waterFogColor(2302743)
                         .fogColor(12638463)
                         .skyColor(getSkyColor(0.8F))
-                        .foliageColor(6975545)
+                        .foliageColor(9285927)
                         .grassColorModifier(BiomeEffects.GrassColorModifier.SWAMP)
                         .moodSound(BiomeMoodSound.CAVE).build())
                 .spawnSettings(builder.build())
@@ -151,8 +147,6 @@ public class RegisterWorldgen {
     public static void addMangroveSwampFeatures(GenerationSettings.Builder builder) {
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, TREES_MANGROVE);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY);
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP);
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
     }
 
     private static void addBasicFeatures(net.minecraft.world.biome.GenerationSettings.Builder generationSettings) {
