@@ -95,28 +95,32 @@ public class RegisterWorldgen {
     public static Biome createDeepDark() {
         SpawnSettings.Builder builder = new SpawnSettings.Builder();
         GenerationSettings.Builder builder2 = new GenerationSettings.Builder();
-        DefaultBiomeFeatures.addFossils(builder2);
-        addBasicFeaturesNoSprings(builder2);
-        DefaultBiomeFeatures.addDefaultOres(builder2);
-        DefaultBiomeFeatures.addClayDisk(builder2);
-        DefaultBiomeFeatures.addPlainsTallGrass(builder2);
-        DefaultBiomeFeatures.addDefaultGrass(builder2);
-        DefaultBiomeFeatures.addPlainsFeatures(builder2);
-        DefaultBiomeFeatures.addDefaultVegetation(builder2);
         builder2
+                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE)
+                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE_EXTRA_UNDERGROUND)
+                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CANYON)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkPatch)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkCatastrophe)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRandomSculk)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRandomVeins)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedCommonActivator)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRareActivator);
-
+        DefaultBiomeFeatures.addAmethystGeodes(builder2);
+        DefaultBiomeFeatures.addDungeons(builder2);
+        DefaultBiomeFeatures.addMineables(builder2);
+        DefaultBiomeFeatures.addFrozenTopLayer(builder2);
+        DefaultBiomeFeatures.addPlainsTallGrass(builder2);
+        DefaultBiomeFeatures.addDefaultOres(builder2, true);
+        DefaultBiomeFeatures.addDefaultDisks(builder2);
+        DefaultBiomeFeatures.addPlainsFeatures(builder2);
+        DefaultBiomeFeatures.addDefaultMushrooms(builder2);
+        DefaultBiomeFeatures.addDefaultVegetation(builder2);
         MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_DEEP_DARK);
         return (
                 new Biome.Builder())
-                .precipitation(Biome.Precipitation.NONE)
+                .precipitation(Biome.Precipitation.RAIN)
                 .category(Biome.Category.UNDERGROUND)
-                .temperature(0.8F).downfall(0.9F)
+                .temperature(0.8F).downfall(0.4F)
                 .effects((new BiomeEffects.Builder())
                         .waterColor(4159204)
                         .waterFogColor(329011)
@@ -124,6 +128,7 @@ public class RegisterWorldgen {
                         .skyColor(getSkyColor(0.8F))
                         .foliageColor(FoliageColors.getDefaultColor())
                         .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
+                        .moodSound(BiomeMoodSound.CAVE)
                         .music(musicSound)
                         .loopSound(RegisterSounds.AMBIENT_DEEP_DARK_LOOP)
                         .additionsSound(new BiomeAdditionsSound(RegisterSounds.AMBIENT_DEEP_DARK_ADDITIONS, 0.0072D))
@@ -135,15 +140,17 @@ public class RegisterWorldgen {
 
     public static Biome createMangroveSwamp() {
         SpawnSettings.Builder builder = new SpawnSettings.Builder();
-        DefaultBiomeFeatures.addFarmAnimals(builder);
+        DefaultBiomeFeatures.addBatsAndMonsters(builder);
         builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.SLIME, 1, 1, 1));
         GenerationSettings.Builder builder2 = new GenerationSettings.Builder();
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeatures(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
-        DefaultBiomeFeatures.addClayDisk(builder2);
         builder2
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedMangrove)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, MiscPlacedFeatures.DISK_CLAY)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_GRASS_NORMAL)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_DEAD_BUSH)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
@@ -175,14 +182,9 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addSprings(generationSettings);
         DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
     }
-
-    private static void addBasicFeaturesNoSprings(GenerationSettings.Builder generationSettings) {
-        DefaultBiomeFeatures.addLandCarvers(generationSettings);
-        DefaultBiomeFeatures.addAmethystGeodes(generationSettings);
-        DefaultBiomeFeatures.addDungeons(generationSettings);
-        DefaultBiomeFeatures.addMineables(generationSettings);
-        DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
-    }
+    
+                         
+                         
 
     protected static int getSkyColor(float temperature) {
         float f = temperature / 3.0F;
