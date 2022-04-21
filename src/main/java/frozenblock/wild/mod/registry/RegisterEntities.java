@@ -11,17 +11,50 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Unit;
+import net.minecraft.util.dynamic.GlobalPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.event.GameEvent;
+
+import java.util.UUID;
 
 public class RegisterEntities {
 
     public static MemoryModuleType<Unit> IS_PREGNANT;
     public static MemoryModuleType<Unit> IS_IN_WATER;
+    public static MemoryModuleType<LivingEntity> ROAR_TARGET;
+    public static MemoryModuleType<BlockPos> DISTURBANCE_LOCATION;
+    public static MemoryModuleType<Unit> RECENT_PROJECTILE;
+    public static MemoryModuleType<Unit> IS_SNIFFING;
+    public static MemoryModuleType<Unit> IS_EMERGING;
+    public static MemoryModuleType<Unit> ROAR_SOUND_DELAY;
+    public static MemoryModuleType<Unit> DIG_COOLDOWN;
+    public static MemoryModuleType<Unit> ROAR_SOUND_COOLDOWN;
+    public static MemoryModuleType<Unit> SNIFF_COOLDOWN;
+    public static MemoryModuleType<Unit> TOUCH_COOLDOWN;
+    public static MemoryModuleType<Unit> VIBRATION_COOLDOWN;
+    public static MemoryModuleType<Unit> SONIC_BOOM_COOLDOWN;
+    public static MemoryModuleType<Unit> SONIC_BOOM_SOUND_COOLDOWN;
+    public static MemoryModuleType<Unit> SONIC_BOOM_SOUND_DELAY;
+    public static MemoryModuleType<UUID> LIKED_PLAYER;
+    public static MemoryModuleType<GlobalPos> LIKED_NOTEBLOCK;
+    public static MemoryModuleType<Integer> LIKED_NOTEBLOCK_COOLDOWN_TICKS;
+    public static MemoryModuleType<Integer> ITEM_PICKUP_COOLDOWN_TICKS;
+
+    public static final TagKey<GameEvent> WARDEN_CAN_LISTEN = of("warden_can_listen");
+    public static final TagKey<GameEvent> SHRIEKER_CAN_LISTEN = of("shrieker_can_listen");
+    public static final TagKey<GameEvent> IGNORE_VIBRATIONS_ON_OCCLUDING_BLOCK = of("ignore_vibrations_on_occluding_block");
+
+    private static TagKey<GameEvent> of(String id) {
+        return TagKey.of(Registry.GAME_EVENT_KEY, new Identifier(id));
+    }
 
     public static EntityType<MangroveBoatEntity> MANGROVE_BOAT;
     public static EntityType<ChestBoatEntity> CHEST_BOAT;
@@ -34,7 +67,7 @@ public class RegisterEntities {
     public static void RegisterEntities() {
         MANGROVE_BOAT = Registry.register(Registry.ENTITY_TYPE, new Identifier(WildMod.MOD_ID, "mangrove_boat"), FabricEntityTypeBuilder.<MangroveBoatEntity>create(SpawnGroup.CREATURE, MangroveBoatEntity::new).dimensions(EntityDimensions.fixed(1.375F, 0.5625F)).build());
         CHEST_BOAT = Registry.register(Registry.ENTITY_TYPE, new Identifier(WildMod.MOD_ID, "chest_boat"), FabricEntityTypeBuilder.<ChestBoatEntity>create(SpawnGroup.CREATURE, ChestBoatEntity::new).dimensions(EntityDimensions.fixed(1.375F, 0.5625F)).build());
-        FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.createWardenAttributes());
+        FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.addAttributes());
         FabricDefaultAttributeRegistry.register(ALLAY, AllayEntity.createMobAttributes());
         FabricDefaultAttributeRegistry.register(FROG, FrogEntity.createFrogAttributes());
         FabricDefaultAttributeRegistry.register(TADPOLE, TadpoleEntity.createTadpoleAttributes());

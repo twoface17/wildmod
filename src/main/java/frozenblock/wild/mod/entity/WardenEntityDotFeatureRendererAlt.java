@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.entity;
+/*package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
 import net.fabricmc.api.EnvType;
@@ -53,3 +53,4 @@ public class WardenEntityDotFeatureRendererAlt extends EyesFeatureRenderer<Warde
         }
 
 }
+*/

@@ -44,7 +44,7 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
     }
 
     protected boolean shouldRun(ServerWorld serverWorld, FrogEntity frogEntity) {
-        return super.shouldRun(serverWorld, frogEntity) && FrogEntity.isValidFrogTarget(frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get());
+        return super.shouldRun(serverWorld, frogEntity) && FrogEntity.isValidFrogFood(frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get());
     }
 
     protected boolean shouldKeepRunning(ServerWorld serverWorld, FrogEntity frogEntity, long l) {

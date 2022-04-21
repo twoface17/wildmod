@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.entity;
+/*package frozenblock.wild.mod.entity;
 
 import frozenblock.wild.mod.WildMod;
 import net.minecraft.client.render.OverlayTexture;
@@ -58,3 +58,4 @@ public class WardenEntityTendrilsFeatureRenderer extends EyesFeatureRenderer<War
         return this.TENDRILS;
     }
 }
+*/

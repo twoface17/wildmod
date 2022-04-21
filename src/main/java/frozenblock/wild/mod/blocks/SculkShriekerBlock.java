@@ -4,6 +4,7 @@
 package frozenblock.wild.mod.blocks;
 
 import frozenblock.wild.mod.WildMod;
+import frozenblock.wild.mod.entity.WardenBrain;
 import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.fromAccurateSculk.*;
 import frozenblock.wild.mod.registry.*;
@@ -540,7 +541,7 @@ public class SculkShriekerBlock
                                         warden.refreshPositionAndAngles(currentCheck.getX() + 0.5D, currentCheck.up(1).getY(), currentCheck.getZ() + 0.5D, 0.0F, 0.0F);
                                         world.spawnEntity(warden);
                                         warden.handleStatus((byte) 5);
-                                        warden.leaveTime = world.getTime() + 1200;
+                                        WardenBrain.DIG_COOLDOWN = (int) (world.getTime() + 1200);
                                         warden.setPersistent();
                                         world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
                                     }

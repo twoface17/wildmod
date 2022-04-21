@@ -83,7 +83,7 @@ public abstract class RegisterBlocks {
 
 
     // ALL BLOCKS HERE HAVE NO COLLISION
-    public static final Block FROG_SPAWN = new FrogSpawnBlock(FROG_SPAWN_PROPERTIES.nonOpaque().noCollision());
+    public static final Block FROGSPAWN = new FrogSpawnBlock(FROG_SPAWN_PROPERTIES.nonOpaque().noCollision());
     public static final Block SCULK_VEIN = SculkVeinBlock.SCULK_VEIN;
 
     public static void RegisterBlocks() {
@@ -123,8 +123,8 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "reinforced_deepslate"), REINFORCED_DEEPSLATE);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "reinforced_deepslate"), new BlockItem(REINFORCED_DEEPSLATE, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_spawn"), FROG_SPAWN);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_spawn"), new FrogSpawnItem(FROG_SPAWN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_spawn"), FROGSPAWN);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_spawn"), new FrogSpawnItem(FROGSPAWN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), PEARLESCENT_FROGLIGHT);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), new BlockItem(PEARLESCENT_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));

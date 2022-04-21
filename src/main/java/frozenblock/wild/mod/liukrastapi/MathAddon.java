@@ -1,5 +1,7 @@
 package frozenblock.wild.mod.liukrastapi;
 
+import net.minecraft.world.gen.random.AbstractRandom;
+
 public class MathAddon {
     public static double time;
 
@@ -43,5 +45,13 @@ public class MathAddon {
         if(z1 > z2) {distancez = z1 - z2;} else {distancez = z2 -z1;}
 
         return Math.sqrt(Math.pow(distancex, 2) + Math.pow(distancey, 2) + Math.pow(distancez, 2));
+    }
+
+    public static int nextBetween(AbstractRandom abstractRandom, int min, int max) {
+        return abstractRandom.nextInt(max - min + 1) + min;
+    }
+
+    public static float nextBetween(AbstractRandom abstractRandom, float min, float max) {
+        return abstractRandom.nextFloat() * (max - min) + min;
     }
 }

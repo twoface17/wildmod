@@ -7,36 +7,48 @@ import net.minecraft.util.Util;
 import java.util.Arrays;
 
 public enum Angriness {
-    CALM(0, RegisterSounds.ENTITY_WARDEN_AMBIENT),
-    AGITATED(40, RegisterSounds.ENTITY_WARDEN_SLIGHTLY_ANGRY),
-    ANGRY(80, RegisterSounds.ENTITY_WARDEN_ANGRY);
+    CALM(0, RegisterSounds.ENTITY_WARDEN_AMBIENT, RegisterSounds.ENTITY_WARDEN_LISTENING),
+    AGITATED(40, RegisterSounds.ENTITY_WARDEN_AGITATED, RegisterSounds.ENTITY_WARDEN_LISTENING_ANGRY),
+    ANGRY(80, RegisterSounds.ENTITY_WARDEN_ANGRY, RegisterSounds.ENTITY_WARDEN_LISTENING_ANGRY);
 
-    private static final Angriness[] field_38123;
-    private final int field_38124;
-    private final SoundEvent field_38125;
+    private static final Angriness[] VALUES = (Angriness[])Util.make(values(), (values) -> {
+        Arrays.sort(values, (a, b) -> {
+            return Integer.compare(b.threshold, a.threshold);
+        });
+    });
+    private final int threshold;
+    private final SoundEvent sound;
+    private final SoundEvent listeningSound;
 
-    Angriness(int j, SoundEvent soundEvent) {
-        this.field_38124 = j;
-        this.field_38125 = soundEvent;
+    private Angriness(int threshold, SoundEvent sound, SoundEvent listeningSound) {
+        this.threshold = threshold;
+        this.sound = sound;
+        this.listeningSound = listeningSound;
     }
 
-    public int method_42170() {
-        return this.field_38124;
+    public int getThreshold() {
+        return this.threshold;
     }
 
-    public SoundEvent method_42174() {
-        return this.field_38125;
+    public SoundEvent getSound() {
+        return this.sound;
     }
 
-    public static Angriness method_42171(int i) {
-        for (Angriness angriness : field_38123) {
-            if (i < angriness.field_38124) continue;
-            return angriness;
+    public SoundEvent getListeningSound() {
+        return this.listeningSound;
+    }
+
+    public static Angriness getForAnger(int anger) {
+        Angriness[] var1 = VALUES;
+        int var2 = var1.length;
+
+        for (int var3 = 0; var3 < var2; ++var3) {
+            Angriness angriness = var1[var3];
+            if (anger >= angriness.threshold) {
+                return angriness;
+            }
         }
-        return CALM;
-    }
 
-    static {
-        field_38123 = Util.make(Angriness.values(), angrinesss -> Arrays.sort(angrinesss, (angriness, angriness2) -> Integer.compare(angriness2.field_38124, angriness.field_38124)));
+        return CALM;
     }
 }

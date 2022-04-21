@@ -163,20 +163,13 @@ public class RegisterWorldgen {
         SpawnSettings.Builder builder = new SpawnSettings.Builder();
         DefaultBiomeFeatures.addBatsAndMonsters(builder);
         builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.SLIME, 1, 1, 1));
+        builder.spawn(SpawnGroup.WATER_AMBIENT, new SpawnSettings.SpawnEntry(EntityType.TROPICAL_FISH, 25, 8, 8));
         GenerationSettings.Builder builder2 = new GenerationSettings.Builder();
         DefaultBiomeFeatures.addFossils(builder2);
         addBasicFeatures(builder2);
         DefaultBiomeFeatures.addDefaultOres(builder2);
-        builder2
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedMangrove)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, MiscPlacedFeatures.DISK_CLAY)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_GRASS_NORMAL)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_DEAD_BUSH)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.BROWN_MUSHROOM_SWAMP)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.RED_MUSHROOM_SWAMP);
-        DefaultBiomeFeatures.addDefaultMushrooms(builder2);
-        DefaultBiomeFeatures.addSwampVegetation(builder2);
+        addGrassAndClayDisks(builder2);
+        addMangroveSwampFeatures(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, OceanPlacedFeatures.SEAGRASS_SWAMP);
         return (
                 new Biome.Builder())
@@ -202,6 +195,16 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addMineables(generationSettings);
         DefaultBiomeFeatures.addSprings(generationSettings);
         DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
+    }
+    private static void addGrassAndClayDisks(GenerationSettings.Builder builder) {
+        //builder.feature(GenerationStep.Feature.UNDERGROUND_ORES, DISK_GRASS);
+        builder.feature(GenerationStep.Feature.UNDERGROUND_ORES, MiscPlacedFeatures.DISK_CLAY);
+    }
+    private static void addMangroveSwampFeatures(GenerationSettings.Builder builder) {
+        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, placedMangrove);
+        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_GRASS_NORMAL);
+        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_DEAD_BUSH);
+        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY);
     }
     protected static int getSkyColor(float temperature) {
         float f = temperature / 3.0F;

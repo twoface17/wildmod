@@ -1381,7 +1381,7 @@
 		],
 		"subtitle": "subtitles.entity.warden.listening_angry"
 	},
-	"entity.warden.slightly_angry": {
+	"entity.warden.agitated": {
 		"sounds": [
 			{
 				"attenuation_distance": 32,
@@ -1451,7 +1451,7 @@
 		],
 		"subtitle": "subtitles.entity.warden.angry"
 	},
-	"entity.warden.close": {
+	"entity.warden.nearby_close": {
 		"sounds": [
 			{
 				"name": "twm:entity/warden/nearby_close_1",
@@ -1472,7 +1472,7 @@
 		],
 		"subtitle": "subtitles.entity.warden.nearby_close"
 	},
-	"entity.warden.closer": {
+	"entity.warden.nearby_closer": {
 		"sounds": [
 			{
 				"name": "twm:entity/warden/nearby_closer_1",
@@ -1489,7 +1489,7 @@
 		],
 		"subtitle": "subtitles.entity.warden.nearby_closer"
 	},
-	"entity.warden.closest": {
+	"entity.warden.nearby_closest": {
 		"sounds": [
 			{
 				"name": "twm:entity/warden/nearby_closest_1",
@@ -1621,7 +1621,7 @@
 		],
 		"subtitle": "subtitles.entity.warden.roar"
 	},
-	"entity.warden.attack": {
+	"entity.warden.attack_impact": {
 		"sounds": [
 			{
 				"name": "twm:entity/warden/attack_impact_1",
@@ -1658,6 +1658,24 @@
 			}
 		],
 		"subtitle": "subtitles.entity.warden.sniff"
+	},
+  	"entity.warden.sonic_boom": {
+	  "sounds": [
+		"twm:entity/warden/sonic_boom1",
+		"twm:entity/warden/sonic_boom2",
+		"twm:entity/warden/sonic_boom3",
+		"twm:entity/warden/sonic_boom4"
+	  ],
+	  "subtitle": "subtitles.entity.warden.sonic_boom"
+	},
+  	"entity.warden.sonic_charge": {
+	  "sounds": [
+		"twm:entity/warden/sonic_charge1",
+		"twm:entity/warden/sonic_charge2",
+		"twm:entity/warden/sonic_charge3",
+		"twm:entity/warden/sonic_charge4"
+	  ],
+	  "subtitle": "subtitles.entity.warden.sonic_charge"
 	},
 	"entity.warden.step": {
 		"sounds": [

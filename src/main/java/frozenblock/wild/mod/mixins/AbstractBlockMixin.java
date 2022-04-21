@@ -102,24 +102,6 @@ public class AbstractBlockMixin {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci) {
         if (!world.isClient) {
             if (world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState() && entity != null && entity.getType() != RegisterEntities.WARDEN) {
-                if (entity instanceof LivingEntity) {
-                    SensorLastEntity.addEntity(entity, pos, entity.getBlockPos(), null);
-                    int lastEntity = SensorLastEntity.getLastEntity(pos);
-                    LivingEntity target = (LivingEntity) world.getEntityById(lastEntity);
-                    BlockPos lastEventPos = SensorLastEntity.getLastPos(pos);
-                    if (lastEventPos != null) {
-                        Box box = new Box(pos.getX() - 18, pos.getY() - 18, pos.getZ() - 18, pos.getX() + 18, pos.getY() + 18, pos.getZ() + 18);
-                        List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
-                        Iterator<WardenEntity> var11 = list.iterator();
-                        WardenEntity wardenEntity;
-                        while (var11.hasNext()) {
-                            wardenEntity = var11.next();
-                            if (wardenEntity.getBlockPos().isWithinDistance(pos, 16)) {
-                                wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), target, 10, pos);
-                            }
-                        }
-                    }
-                }
                 SculkSensorBlock.setActive(world, pos, state, 15);
             }
             assert entity != null;

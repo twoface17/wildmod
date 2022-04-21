@@ -72,7 +72,7 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSE, SoundCategory.AMBIENT, 0.2F, 1F);
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_NEARBY_CLOSE, SoundCategory.AMBIENT, 0.2F, 1F);
                 } else if (angerLevel == 1) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
@@ -81,7 +81,7 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 0.4F, 1F);
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_NEARBY_CLOSER, SoundCategory.AMBIENT, 0.4F, 1F);
                 } else if (angerLevel == 2) {
                     shouldPlay=false;
                     double a = random() * 2 * PI;
@@ -90,7 +90,7 @@ public class LightmapTextureManagerMixin {
                     int z = (int) (r * sin(a));
                     BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
                     assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSEST, SoundCategory.AMBIENT, 0.6F, 1F);
+                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_NEARBY_CLOSEST, SoundCategory.AMBIENT, 0.6F, 1F);
                 } else if (angerLevel == 3) { //WARDEN DARKNESS
                     shouldPlay=false;
                     /*double a = random() * 2 * PI;

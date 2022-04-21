@@ -1,34 +1,40 @@
 package frozenblock.wild.mod.liukrastapi;
 
+import java.util.function.Consumer;
 import net.minecraft.util.Util;
 
-import java.util.function.Consumer;
-
 public class AnimationState {
-	private static final long STOPPED = Long.MAX_VALUE;
-	private long startTime = Long.MAX_VALUE;
+	private static final long STOPPED = 9223372036854775807L;
+	private long startedAt = 9223372036854775807L;
 
-	public void start() {
-		this.startTime = Util.getMeasuringTimeMs();
+	public AnimationState() {
 	}
 
-	public void startIfStopped() {
-		if (!this.isStarted()) this.start();
+	public void start() {
+		this.startedAt = Util.getMeasuringTimeMs();
+	}
+
+	public void startIfNotRunning() {
+		if (!this.isRunning()) {
+			this.start();
+		}
 	}
 
 	public void stop() {
-		this.startTime = STOPPED;
+		this.startedAt = STOPPED;
 	}
 
-	public long startTime() {
-		return this.startTime;
+	public long getStartTime() {
+		return this.startedAt;
 	}
 
-	public void ifStarted(Consumer<AnimationState> consumer) {
-		if (this.isStarted()) consumer.accept(this);
+	public void run(Consumer<AnimationState> consumer) {
+		if (this.isRunning()) {
+			consumer.accept(this);
+		}
 	}
 
-	private boolean isStarted() {
-		return this.startTime != STOPPED;
+	private boolean isRunning() {
+		return this.startedAt != STOPPED;
 	}
 }

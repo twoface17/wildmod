@@ -74,13 +74,14 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent ENTITY_FROG_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.step"));
         public static final SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
     //Warden
+        public static final SoundEvent ENTITY_WARDEN_AGITATED = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.agitated"));
         public static final SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
         public static final SoundEvent ENTITY_WARDEN_AMBIENT_UNDERGROUND = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient_underground"));
         public static final SoundEvent ENTITY_WARDEN_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.angry"));
-        public static final SoundEvent ENTITY_WARDEN_ATTACK = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.attack"));
-        public static final SoundEvent ENTITY_WARDEN_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.close"));
-        public static final SoundEvent ENTITY_WARDEN_CLOSER = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.closer"));
-        public static final SoundEvent ENTITY_WARDEN_CLOSEST = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.closest"));
+        public static final SoundEvent ENTITY_WARDEN_ATTACK_IMPACT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.attack_impact"));
+        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.neaby_close"));
+        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSER = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.nearby_closer"));
+        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSEST = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.nearby_closest"));
         public static final SoundEvent ENTITY_WARDEN_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.death"));
         public static final SoundEvent ENTITY_WARDEN_DIG = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.dig"));
         public static final SoundEvent ENTITY_WARDEN_EMERGE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.emerge"));
@@ -89,10 +90,11 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent ENTITY_WARDEN_LISTENING = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.listening"));
         public static final SoundEvent ENTITY_WARDEN_LISTENING_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.listening_angry"));
         public static final SoundEvent ENTITY_WARDEN_ROAR = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.roar"));
-        public static final SoundEvent ENTITY_WARDEN_SLIGHTLY_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.slightly_angry"));
         public static final SoundEvent ENTITY_WARDEN_SNIFF = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.sniff"));
+        public static final SoundEvent ENTITY_WARDEN_SONIC_BOOM = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.sonic_boom"));
+        public static final SoundEvent ENTITY_WARDEN_SONIC_CHARGE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.sonic_charge"));
         public static final SoundEvent ENTITY_WARDEN_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.step"));
-        public static final SoundEvent ENTITY_WARDEN_VIBRATION = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.vibration"));
+        public static final SoundEvent ENTITY_WARDEN_TENDRIL_CLICKS = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.tendril_clicks"));
 
     /** MUSIC **/
         public static final SoundEvent MUSIC_OVERWORLD_DEEP_DARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deep_dark"));

@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.mixins;
 
+import frozenblock.wild.mod.entity.WardenBrain;
 import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.fromAccurateSculk.ActivatorGrower;
 import frozenblock.wild.mod.fromAccurateSculk.BrokenSculkGrower;
@@ -76,7 +77,7 @@ public class PlayerEntityMixin {
 				WardenEntity wardie;
 				while(var11.hasNext()) {
 					wardie = var11.next();
-					wardie.listen(player.getBlockPos(), world, player, 48, null);
+					wardie.setTarget(player);
 				}
 				if (wardens.isEmpty()) {
 					player.emitGameEvent(GameEvent.BLOCK_DESTROY, player, pos);
@@ -85,7 +86,7 @@ public class PlayerEntityMixin {
 					warden.refreshPositionAndAngles(player.getX() + 1D, player.getY()+1.5, player.getZ() + 1D, 0.0F, 0.0F);
 					world.spawnEntity(warden);
 					warden.handleStatus((byte) 5);
-					warden.leaveTime = world.getTime() + 1200;
+					WardenBrain.DIG_COOLDOWN = (int) (world.getTime() + 1200);
 					warden.setPersistent();
 					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 0.2F);
 					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 0.2F);
@@ -111,7 +112,7 @@ public class PlayerEntityMixin {
 						warden2.refreshPositionAndAngles(player.getX() + 1D, player.getY()+1.5, player.getZ() + 1D, 0.0F, 0.0F);
 						world.spawnEntity(warden2);
 						warden2.handleStatus((byte) 5);
-						warden2.leaveTime = world.getTime() + 1200;
+						WardenBrain.DIG_COOLDOWN = (int) (world.getTime() + 1200);
 						warden2.setPersistent();
 						WitherEntity warden3 = EntityType.WITHER.create(world);
 						assert warden3 != null;

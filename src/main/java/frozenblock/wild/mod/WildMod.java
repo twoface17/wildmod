@@ -1,6 +1,8 @@
 package frozenblock.wild.mod;
 
+import com.chocohead.mm.api.ClassTinkerers;
 import frozenblock.wild.mod.entity.FrogBrain;
+import frozenblock.wild.mod.entity.WardenAttackablesSensor;
 import frozenblock.wild.mod.liukrastapi.AnimationChannel;
 import frozenblock.wild.mod.liukrastapi.AnimationDefinition;
 import frozenblock.wild.mod.liukrastapi.FrogAttackablesSensor;
@@ -12,6 +14,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.sensor.TemptationsSensor;
@@ -21,12 +24,21 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.event.GameEvent;
 
 import java.util.OptionalInt;
 
 public class WildMod implements ModInitializer {
 
     public static final String MOD_ID = "twm";
+    public static EntityPose CROAKING;
+    public static EntityPose USING_TONGUE;
+    public static EntityPose ROARING;
+    public static EntityPose SNIFFING;
+    public static EntityPose EMERGING;
+    public static EntityPose DIGGING;
+
+    public static final GameEvent WARDEN_CAN_LISTEN = new GameEvent("warden_can_listen", 16);
 
     @Override
     public void onInitialize() {
@@ -44,10 +56,24 @@ public class WildMod implements ModInitializer {
         TONGUE = ActivityInvoker.callRegister( "tongue");
         SWIM = ActivityInvoker.callRegister( "swim");
         LAY_SPAWN = ActivityInvoker.callRegister( "lay_spawn");
+        SNIFF = ActivityInvoker.callRegister("sniff");
+        INVESTIGATE = ActivityInvoker.callRegister("investigate");
+        ROAR = ActivityInvoker.callRegister("roar");
+        EMERGE = ActivityInvoker.callRegister("emerge");
+        DIG = ActivityInvoker.callRegister("dig");
 
-        new AnimationChannel.Interpolations();
+        AnimationChannel.Interpolations.init();
 
         RegisterAccurateSculk.RegisterAccurateSculk();
+
+        CROAKING = ClassTinkerers.getEnum(EntityPose.class, "CROAKING");
+        USING_TONGUE = ClassTinkerers.getEnum(EntityPose.class, "USING_TONGUE");
+        ROARING = ClassTinkerers.getEnum(EntityPose.class, "ROARING");
+        SNIFFING = ClassTinkerers.getEnum(EntityPose.class, "SNIFFING");
+        EMERGING = ClassTinkerers.getEnum(EntityPose.class, "EMERGING");
+        DIGGING = ClassTinkerers.getEnum(EntityPose.class, "DIGGING");
+
+        Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "warden_can_listen"), WARDEN_CAN_LISTEN);
     }
 
     public static void registerData(TrackedDataHandler<?> handler) {
@@ -67,10 +93,16 @@ public class WildMod implements ModInitializer {
     public static final SensorType<TemptationsSensor> FROG_TEMPTATIONS = SensorTypeInvoker.callRegister("frog_temptations", () -> new TemptationsSensor(FrogBrain.getTemptItems()));
     public static final SensorType<FrogAttackablesSensor> FROG_ATTACKABLES = SensorTypeInvoker.callRegister("frog_attackables", FrogAttackablesSensor::new);
     public static final SensorType<IsInWaterSensor> IS_IN_WATER = SensorTypeInvoker.callRegister("is_in_water", IsInWaterSensor::new);
+    public static final SensorType<WardenAttackablesSensor> WARDEN_ENTITY_SENSOR = SensorTypeInvoker.callRegister("warden_entity_sensor", WardenAttackablesSensor::new);
 
     public static Activity TONGUE;
     public static Activity SWIM;
     public static Activity LAY_SPAWN;
+    public static Activity SNIFF;
+    public static Activity INVESTIGATE;
+    public static Activity ROAR;
+    public static Activity EMERGE;
+    public static Activity DIG;
 
     public static final TrackedDataHandler<OptionalInt> OPTIONAL_INT = new TrackedDataHandler<OptionalInt>() {
         public void write(PacketByteBuf packetByteBuf, OptionalInt optionalInt) {

@@ -75,6 +75,8 @@
 	"subtitles.entity.warden.roar": "Warden roars",
 	"subtitles.entity.warden.slightly_angry": "Warden groans angrily",
 	"subtitles.entity.warden.sniff": "Warden sniffs",
+  	"subtitles.entity.warden.sonic_boom": "Warden booms",
+  	"subtitles.entity.warden.sonic_charge": "Warden charges",
 	"subtitles.entity.warden.vibration": "Warden tendrils click",
 	"subtitles.twm.nearby_close": "Warden approaches",
 	"subtitles.twm.nearby_closer": "Warden advances",

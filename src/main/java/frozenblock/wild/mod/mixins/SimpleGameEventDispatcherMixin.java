@@ -105,16 +105,8 @@ public class SimpleGameEventDispatcherMixin{
                 while(var11.hasNext()) {
                     wardie = var11.next();
                     //System.out.println(Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos, false))));
-                    if(
-                            wardie.getEntityWorld() == eventworld &&
-                                    Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos))) <= 16
-                    ) {
-                        boolean bl2 = event==GameEvent.HIT_GROUND && evententity==null;
-                        if (event!=GameEvent.PROJECTILE_LAND && event!=GameEvent.EAT && !bl2) {
-                            wardie.listen(eventpos, eventworld, evententity, wardie.eventSuspicionValue(event, evententity), null);
-                        } else {
-                            wardie.listen(eventpos, eventworld, null, 0, null);
-                        }
+                    if (wardie.getEntityWorld() == eventworld) {
+                        wardie.getBlockPos().getSquaredDistance(eventpos);
                     }
                 }
             }

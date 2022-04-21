@@ -18,7 +18,7 @@ public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyfr
 	@Environment(EnvType.CLIENT)
 	public interface Interpolation {
 		Codec<Interpolation> CODEC = Codec.unit(() -> (vector3f, f, keyframes, i, j, g) -> null);
-		Vec3f apply(Vec3f vector3f, float f, Keyframe[] keyframes, int i, int j, float g);
+		Vec3f apply(Vec3f vec3f, float delta, Keyframe[] keyframes, int start, int end, float f);
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -82,10 +82,11 @@ public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyfr
 
 	@Environment(EnvType.CLIENT)
 	public static class Targets {
-		public static final AnimationChannel.Target POSITION = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetPos(vector3f);
-		public static final AnimationChannel.Target ROTATION = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetRotation(vector3f);
+		public static final AnimationChannel.Target TRANSLATE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetPos(vector3f);
+		public static final AnimationChannel.Target ROTATE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetRotation(vector3f);
 		public static final AnimationChannel.Target SCALE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetScale(vector3f);
 
-		public static void init() {}
+		public Targets() {
+		}
 	}
 }
