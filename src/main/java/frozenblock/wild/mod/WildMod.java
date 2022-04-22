@@ -40,6 +40,7 @@ public class WildMod implements ModInitializer {
 
     public static final GameEvent WARDEN_CAN_LISTEN = new GameEvent("warden_can_listen", 16);
 
+
     @Override
     public void onInitialize() {
         RegisterBlocks.RegisterBlocks();
