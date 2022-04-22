@@ -9,7 +9,7 @@ import frozenblock.wild.mod.worldgen.MangroveTreeDecorator;
 import frozenblock.wild.mod.worldgen.RandomSculkFeature;
 import frozenblock.wild.mod.worldgen.RandomVeinsFeature;
 import frozenblock.wild.mod.worldgen.RareActivatorFeature;
-import frozenblock.wild.mod.worldgen.SculkPatchFeature;
+import frozenblock.wild.mod.worldgen.WildPlacedFeatures;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.sound.MusicType;
@@ -47,6 +47,7 @@ import net.minecraft.world.gen.feature.PlacedFeatures;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.VegetationPlacedFeatures;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
+import net.minecraft.world.gen.feature.ConfiguredFeatures;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
 import net.minecraft.world.gen.placementmodifier.BlockFilterPlacementModifier;
@@ -68,24 +69,21 @@ public class RegisterWorldgen {
     public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
 
     private static final Feature<DefaultFeatureConfig> SCULK_CATASTROPHE_FEATURE = new LargeSculkPatchFeature(DefaultFeatureConfig.CODEC);
-    private static final Feature<DefaultFeatureConfig> SCULK_PATCH_FEATURE = new SculkPatchFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> RANDOM_SCULK_FEATURE = new RandomSculkFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> RANDOM_VEINS_FEATURE = new RandomVeinsFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> COMMON_ACTIVATOR_FEATURE = new CommonActivatorFeature(DefaultFeatureConfig.CODEC);
     private static final Feature<DefaultFeatureConfig> RARE_ACTIVATOR_FEATURE = new RareActivatorFeature(DefaultFeatureConfig.CODEC);
 
-    public static PlacedFeature TREES_MANGROVE;
+    public static RegistryEntry<PlacedFeature> TREES_MANGROVE;
     public static PlacedFeature SCULK_CATASTROPHE_PLACED;
-    public static PlacedFeature SCULK_PATCH_PLACED;
     public static PlacedFeature RANDOM_SCULK_PLACED;
     public static PlacedFeature RANDOM_VEINS_PLACED;
     public static PlacedFeature COMMON_ACTIVATOR_PLACED;
     public static PlacedFeature RARE_ACTIVATOR_PLACED;
 
-    public static ConfiguredFeature<TreeFeatureConfig, ?> MANGROVE;
+    public static RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> MANGROVE;
     public static ConfiguredFeature<TreeFeatureConfig, ?> BIRCH_NEW;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> SCULK_CATASTROPHE_CONFIGURED;
-    public static ConfiguredFeature<DefaultFeatureConfig, ?> SCULK_PATCH_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> RANDOM_SCULK_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> RANDOM_VEINS_CONFIGURED;
     public static ConfiguredFeature<DefaultFeatureConfig, ?> COMMON_ACTIVATOR_CONFIGURED;
@@ -93,17 +91,17 @@ public class RegisterWorldgen {
 
     public static final TreeDecoratorType<MangroveTreeDecorator> MANGROVE_TREE_DECORATOR = TreeDecoratorTypeInvoker.callRegister("rich_tree_decorator", MangroveTreeDecorator.CODEC);
 
-    public static RegistryEntry<PlacedFeature> placedMangrove;
+    //public static RegistryEntry<PlacedFeature> placedMangrove;
     public static RegistryEntry<PlacedFeature> placedSculkCatastrophe;
-    public static RegistryEntry<PlacedFeature> placedSculkPatch;
+    //public static RegistryEntry<PlacedFeature> placedSculkPatch;
     public static RegistryEntry<PlacedFeature> placedRandomSculk;
     public static RegistryEntry<PlacedFeature> placedRandomVeins;
     public static RegistryEntry<PlacedFeature> placedCommonActivator;
     public static RegistryEntry<PlacedFeature> placedRareActivator;
 
-    public static RegistryEntry<ConfiguredFeature<?, ?>> configuredMangrove;
+    //public static RegistryEntry<ConfiguredFeature<?, ?>> configuredMangrove;
     public static RegistryEntry<ConfiguredFeature<?, ?>> configuredSculkCatastrophe;
-    public static RegistryEntry<ConfiguredFeature<?, ?>> configuredSculkPatch;
+    //public static RegistryEntry<ConfiguredFeature<?, ?>> configuredSculkPatch;
     public static RegistryEntry<ConfiguredFeature<?, ?>> configuredRandomSculk;
     public static RegistryEntry<ConfiguredFeature<?, ?>> configuredRandomVeins;
     public static RegistryEntry<ConfiguredFeature<?, ?>> configuredCommonActivator;
@@ -120,7 +118,6 @@ public class RegisterWorldgen {
                 .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE)
                 .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE_EXTRA_UNDERGROUND)
                 .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CANYON)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkPatch)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedSculkCatastrophe)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRandomSculk)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, RegisterWorldgen.placedRandomVeins)
@@ -136,6 +133,7 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addPlainsFeatures(builder2);
         DefaultBiomeFeatures.addDefaultMushrooms(builder2);
         DefaultBiomeFeatures.addDefaultVegetation(builder2);
+        addSculk(builder2);
         MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_DEEP_DARK);
         return (
                 new Biome.Builder())
@@ -177,11 +175,11 @@ public class RegisterWorldgen {
                 .category(Biome.Category.SWAMP)
                 .temperature(0.8F).downfall(0.9F)
                 .effects((new BiomeEffects.Builder())
-                        .waterColor(0x397d71)
-                        .waterFogColor(0x397d71)
+                        .waterColor(3832426)
+                        .waterFogColor(5077600)
                         .fogColor(12638463)
                         .skyColor(getSkyColor(0.8F))
-                        .foliageColor(6975545)
+                        .foliageColor(9285927)
                         .grassColorModifier(BiomeEffects.GrassColorModifier.SWAMP)
                         .moodSound(BiomeMoodSound.CAVE).build())
                 .spawnSettings(builder.build())
@@ -201,10 +199,14 @@ public class RegisterWorldgen {
         builder.feature(GenerationStep.Feature.UNDERGROUND_ORES, MiscPlacedFeatures.DISK_CLAY);
     }
     private static void addMangroveSwampFeatures(GenerationSettings.Builder builder) {
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, placedMangrove);
+        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, TREES_MANGROVE);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_GRASS_NORMAL);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_DEAD_BUSH);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY);
+    }
+    private static void addSculk(GenerationSettings.Builder builder) {
+        //builder.feature(GenerationStep.Feature.UNDERGROUND_DECORATION, RegisterWorldgen.SCULK_VEIN);
+        builder.feature(GenerationStep.Feature.UNDERGROUND_DECORATION, WildPlacedFeatures.SCULK_PATCH_DEEP_DARK);
     }
     protected static int getSkyColor(float temperature) {
         float f = temperature / 3.0F;
@@ -214,7 +216,7 @@ public class RegisterWorldgen {
 
     public static void RegisterWorldgen() {
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe_feature"), SCULK_CATASTROPHE_FEATURE);
-        Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch_feature"), SCULK_PATCH_FEATURE);
+        //Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch_feature"), WildFeatures.SCULK_PATCH);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_feature"), RANDOM_SCULK_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_feature"), RANDOM_VEINS_FEATURE);
         Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, "common_activator_feature"), COMMON_ACTIVATOR_FEATURE);
@@ -222,13 +224,13 @@ public class RegisterWorldgen {
 
 
 
-        MANGROVE = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "mangrove"), new ConfiguredFeature<>(Feature.TREE, new TreeFeatureConfig.Builder(
+        MANGROVE = ConfiguredFeatures.register("mangrove", Feature.TREE, new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
                         new BendingTrunkPlacer(8, 2, 0, 8, UniformIntProvider.create(1, 2)), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
                         new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 100),
                         new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
                         .decorators(ImmutableList.of(MangroveTreeDecorator.INSTANCE))
-                        .build()));
+                        .build());
 
         BIRCH_NEW = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "birch"), new ConfiguredFeature<>(Feature.TREE, new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
@@ -238,31 +240,30 @@ public class RegisterWorldgen {
                         .build()));
 
         SCULK_CATASTROPHE_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe"), new ConfiguredFeature<>(SCULK_CATASTROPHE_FEATURE, new DefaultFeatureConfig()));
-        SCULK_PATCH_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), new ConfiguredFeature<>(SCULK_PATCH_FEATURE, new DefaultFeatureConfig()));
         RANDOM_SCULK_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_patch"), new ConfiguredFeature<>(RANDOM_SCULK_FEATURE, new DefaultFeatureConfig()));
         RANDOM_VEINS_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_patch"), new ConfiguredFeature<>(RANDOM_VEINS_FEATURE, new DefaultFeatureConfig()));
         COMMON_ACTIVATOR_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "common_activators"), new ConfiguredFeature<>(COMMON_ACTIVATOR_FEATURE, new DefaultFeatureConfig()));
         RARE_ACTIVATOR_CONFIGURED = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(WildMod.MOD_ID, "rare_activators"), new ConfiguredFeature<>(RARE_ACTIVATOR_FEATURE, new DefaultFeatureConfig()));
 
-        configuredMangrove = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(MANGROVE).orElseThrow());
+        //configuredMangrove = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(MANGROVE).orElseThrow());
         configuredSculkCatastrophe = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(SCULK_CATASTROPHE_CONFIGURED).orElseThrow());
-        configuredSculkPatch = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(SCULK_PATCH_CONFIGURED).orElseThrow());
+        //configuredSculkPatch = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(SCULK_PATCH_CONFIGURED).orElseThrow());
         configuredRandomSculk = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(RANDOM_SCULK_CONFIGURED).orElseThrow());
         configuredRandomVeins = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(RANDOM_VEINS_CONFIGURED).orElseThrow());
         configuredCommonActivator = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(COMMON_ACTIVATOR_CONFIGURED).orElseThrow());
         configuredRareActivator = BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(RARE_ACTIVATOR_CONFIGURED).orElseThrow());
 
-        TREES_MANGROVE = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "trees_mangrove"), new PlacedFeature(configuredMangrove, List.of(PlacedFeatures.createCountExtraModifier(8, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(6), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN)))));
+        TREES_MANGROVE = PlacedFeatures.register("trees_mangrove", MANGROVE, List.of(PlacedFeatures.createCountExtraModifier(8, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(6), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
         SCULK_CATASTROPHE_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_catastrophe"), new PlacedFeature(configuredSculkCatastrophe, List.of(PlacedFeatures.createCountExtraModifier(1, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of())));
-        SCULK_PATCH_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "sculk_patch"), new PlacedFeature(configuredSculkPatch, List.of(PlacedFeatures.createCountExtraModifier(20, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of())));
+        //SCULK_PATCH_DEEP_DARK_PLACED = PlacedFeatures.register("sculk_patch", SCULK_PATCH_DEEP_DARK_CONFIGURED, CountPlacementModifier.of(ConstantIntProvider.create(256)), SquarePlacementModifier.of(), PlacedFeatures.BOTTOM_TO_120_RANGE, BiomePlacementModifier.of());
         RANDOM_SCULK_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "random_sculk_patch"), new PlacedFeature(configuredRandomSculk, List.of(PlacedFeatures.createCountExtraModifier(10, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of())));
         RANDOM_VEINS_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "random_veins_patch"), new PlacedFeature(configuredRandomVeins, List.of(PlacedFeatures.createCountExtraModifier(10, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of())));
         COMMON_ACTIVATOR_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "common_activators"), new PlacedFeature(configuredCommonActivator, List.of(PlacedFeatures.createCountExtraModifier(70, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of())));
         RARE_ACTIVATOR_PLACED = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, "rare_activators"), new PlacedFeature(configuredRareActivator, List.of(PlacedFeatures.createCountExtraModifier(23, 0.1f, 3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(0)), EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.IS_AIR, 12), BiomePlacementModifier.of())));
 
-        placedMangrove = BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(BuiltinRegistries.PLACED_FEATURE.getKey(TREES_MANGROVE).orElseThrow());
+        //placedMangrove = BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(BuiltinRegistries.PLACED_FEATURE.getKey(TREES_MANGROVE).orElseThrow());
         placedSculkCatastrophe = BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(BuiltinRegistries.PLACED_FEATURE.getKey(SCULK_CATASTROPHE_PLACED).orElseThrow());
-        placedSculkPatch = BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(BuiltinRegistries.PLACED_FEATURE.getKey(SCULK_PATCH_PLACED).orElseThrow());
+        //placedSculkPatch = BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(BuiltinRegistries.PLACED_FEATURE.getKey(SCULK_PATCH_DEEP_DARK).orElseThrow());
         placedRandomSculk = BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(BuiltinRegistries.PLACED_FEATURE.getKey(RegisterWorldgen.RANDOM_SCULK_PLACED).orElseThrow());
         placedRandomVeins = BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(BuiltinRegistries.PLACED_FEATURE.getKey(RegisterWorldgen.RANDOM_VEINS_PLACED).orElseThrow());
         placedCommonActivator = BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(BuiltinRegistries.PLACED_FEATURE.getKey(RegisterWorldgen.COMMON_ACTIVATOR_PLACED).orElseThrow());

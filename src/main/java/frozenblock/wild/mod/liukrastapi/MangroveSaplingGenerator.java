@@ -10,6 +10,6 @@ import java.util.Random;
 public class MangroveSaplingGenerator extends SaplingGenerator {
     @Override
     protected RegistryEntry<? extends ConfiguredFeature<?, ?>> getTreeFeature(Random random, boolean bees) {
-        return RegisterWorldgen.configuredMangrove;
+        return RegisterWorldgen.MANGROVE;
     }
 }

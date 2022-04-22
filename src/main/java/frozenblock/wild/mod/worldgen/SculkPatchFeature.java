@@ -1,6 +1,7 @@
 package frozenblock.wild.mod.worldgen;
 
 import com.mojang.serialization.Codec;
+import frozenblock.wild.mod.blocks.SculkShriekerBlock;
 import frozenblock.wild.mod.blocks.SculkVeinBlock;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.registry.RegisterBlocks;
@@ -16,9 +17,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.world.gen.random.AbstractRandom;
 import net.minecraft.world.gen.random.SimpleRandom;
 
 import java.util.ArrayList;
@@ -26,7 +29,10 @@ import java.util.Random;
 
 import static java.lang.Math.*;
 
-public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
+public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
+    public SculkPatchFeature(Codec<SculkPatchFeatureConfig> codec) {
+        super(codec);
+    }
 
     Random random = new Random();
     /** NOISE VARIABLES */
@@ -34,13 +40,54 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
     public static long seed = 1; //This gets set to the current world's seed in generate()
     public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new SimpleRandom(seed));
 
-    public SculkPatchFeature(Codec<DefaultFeatureConfig> configCodec) {
-        super(configCodec);
-    }
 
     @Override
-    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
-        if (seed!=context.getWorld().getSeed()) {
+    public boolean generate(FeatureContext<SculkPatchFeatureConfig> context) {
+        /*StructureWorldAccess structureWorldAccess = context.getWorld();
+        BlockPos blockPos = context.getOrigin();
+        if (!this.canGenerate(structureWorldAccess, blockPos)) {
+            return false;
+        } else {
+            SculkPatchFeatureConfig sculkPatchFeatureConfig = (SculkPatchFeatureConfig)context.getConfig();
+            AbstractRandom abstractRandom = (AbstractRandom) context.getRandom();
+            SculkSpreadManager sculkSpreadManager = SculkSpreadManager.createWorldGen();
+            int i = sculkPatchFeatureConfig.spreadRounds() + sculkPatchFeatureConfig.growthRounds();
+
+            for(int j = 0; j < i; ++j) {
+                for(int k = 0; k < sculkPatchFeatureConfig.chargeCount(); ++k) {
+                    sculkSpreadManager.spread(blockPos, sculkPatchFeatureConfig.amountPerCharge());
+                }
+
+                boolean bl = j < sculkPatchFeatureConfig.spreadRounds();
+
+                for(int l = 0; l < sculkPatchFeatureConfig.spreadAttempts(); ++l) {
+                    sculkSpreadManager.tick(structureWorldAccess, blockPos, abstractRandom, bl);
+                }
+
+                sculkSpreadManager.clearCursors();
+            }
+
+            BlockPos blockPos2 = blockPos.down();
+            if (abstractRandom.nextFloat() <= sculkPatchFeatureConfig.catalystChance()
+                    && structureWorldAccess.getBlockState(blockPos2).isFullCube(structureWorldAccess, blockPos2)) {
+                structureWorldAccess.setBlockState(blockPos, RegisterBlocks.SCULK_CATALYST.getDefaultState(), 3);
+            }
+
+            int k = sculkPatchFeatureConfig.extraRareGrowths().get((Random) abstractRandom);
+
+            for(int l = 0; l < k; ++l) {
+                BlockPos blockPos3 = blockPos.add(abstractRandom.nextInt(5) - 2, 0, abstractRandom.nextInt(5) - 2);
+                if (structureWorldAccess.getBlockState(blockPos3).isAir()
+                        && structureWorldAccess.getBlockState(blockPos3.down()).isSideSolidFullSquare(structureWorldAccess, blockPos3.down(), Direction.UP)) {
+                    structureWorldAccess.setBlockState(
+                            blockPos3, (BlockState)SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(SculkShriekerBlock.CAN_SUMMON, true), 3
+                    );
+                }
+            }
+
+            return true;
+        }
+        */if (seed!=context.getWorld().getSeed()) {
             seed=context.getWorld().getSeed();
             sample = new PerlinNoiseSampler(new SimpleRandom(seed));
         }
@@ -55,8 +102,19 @@ public class SculkPatchFeature extends Feature<DefaultFeatureConfig> {
         } return false;
     }
 
+    /*private boolean canGenerate(WorldAccess world, BlockPos pos) {
+        BlockState  blockState = world.getBlockState(pos);
+        if (blockState.getBlock() instanceof SculkSpreadable) {
+            return true;
+        } else {
+            return !blockState.isAir() && (!blockState.isOf(Blocks.WATER) || !blockState.getFluidState().isStill())
+                ? false
+                : Direction.stream().map(pos::offset).anyMatch(pos2 -> world.getBlockState(pos2).isFullCube(world, pos2));
+        }
+    }
 
-    public void placePatch(FeatureContext<DefaultFeatureConfig> context, BlockPos pos, double average) {
+
+    */public void placePatch(FeatureContext<SculkPatchFeatureConfig> context, BlockPos pos, double average) {
         StructureWorldAccess world = context.getWorld();
 
         double otherSculkChance = Math.cos(((average)*Math.PI)/12);
