@@ -57,7 +57,7 @@ public class SculkShriekerBlock
         extends BlockWithEntity implements Waterloggable {
     public static final int field_31239 = 40;
     public static final int field_31240 = 1;
-    public static final EnumProperty<SculkShriekerPhase> SCULK_SHRIEKER_PHASE = NewProperties.SCULK_SHRIEKER_PHASE;
+    public static final EnumProperty<SculkShriekerPhase> SCULK_SHRIEKER_PHASE = WildProperties.SCULK_SHRIEKER_PHASE;
     public static final IntProperty POWER = Properties.POWER;
     private static final VoxelShape SHAPE = VoxelShapes.union(Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.createCuboidShape(1.0D, 8.0D, 1.0D, 15.0D, 16D, 15.0D));
     private static final VoxelShape COLLISION = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
@@ -184,7 +184,7 @@ public class SculkShriekerBlock
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world2, BlockState blockState2, BlockEntityType<T> blockEntityType) {
         if (!world2.isClient) {
-            return SculkShriekerBlock.checkType(blockEntityType, NewBlockEntityType.SCULK_SHRIEKER, (world, blockPos, blockState, sculkShriekerBlockEntity) -> sculkShriekerBlockEntity.getEventListener().tick(world));
+            return SculkShriekerBlock.checkType(blockEntityType, WildBlockEntityType.SCULK_SHRIEKER, (world, blockPos, blockState, sculkShriekerBlockEntity) -> sculkShriekerBlockEntity.getEventListener().tick(world));
         }
         return null;
     }
@@ -517,7 +517,7 @@ public class SculkShriekerBlock
                 timer = 0;
                 shrieks = 0;
             }
-            if (world.getGameRules().getBoolean(WildMod.WARDEN_SPAWNING) && world.getTime() > timer) {
+            if (world.getGameRules().getBoolean(WildMod.DO_WARDEN_SPAWNING) && world.getTime() > timer) {
                 timer = world.getTime() + 30;
                 if (!findWarden(world, pos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
                     shrieks = shrieks + i;
@@ -541,7 +541,7 @@ public class SculkShriekerBlock
                                         warden.refreshPositionAndAngles(currentCheck.getX() + 0.5D, currentCheck.up(1).getY(), currentCheck.getZ() + 0.5D, 0.0F, 0.0F);
                                         world.spawnEntity(warden);
                                         warden.handleStatus((byte) 5);
-                                        WardenBrain.DIG_COOLDOWN = (int) (world.getTime() + 1200);
+                                        WardenBrain.resetDigCooldown(warden);
                                         warden.setPersistent();
                                         world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
                                     }
