@@ -2,7 +2,7 @@ package frozenblock.wild.mod;
 
 import com.chocohead.mm.api.ClassTinkerers;
 import frozenblock.wild.mod.entity.FrogBrain;
-import frozenblock.wild.mod.entity.WardenAttackablesSensor;
+import frozenblock.wild.mod.entity.ai.sensor.WardenAttackablesSensor;
 import frozenblock.wild.mod.liukrastapi.AnimationChannel;
 import frozenblock.wild.mod.liukrastapi.AnimationDefinition;
 import frozenblock.wild.mod.liukrastapi.FrogAttackablesSensor;
@@ -24,7 +24,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.event.GameEvent;
 
 import java.util.OptionalInt;
 
@@ -37,9 +36,6 @@ public class WildMod implements ModInitializer {
     public static EntityPose SNIFFING;
     public static EntityPose EMERGING;
     public static EntityPose DIGGING;
-
-    public static final GameEvent WARDEN_CAN_LISTEN = new GameEvent("warden_can_listen", 16);
-
 
     @Override
     public void onInitialize() {
@@ -74,7 +70,6 @@ public class WildMod implements ModInitializer {
         EMERGING = ClassTinkerers.getEnum(EntityPose.class, "EMERGING");
         DIGGING = ClassTinkerers.getEnum(EntityPose.class, "DIGGING");
 
-        Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "warden_can_listen"), WARDEN_CAN_LISTEN);
     }
 
     public static void registerData(TrackedDataHandler<?> handler) {
@@ -144,6 +139,6 @@ public class WildMod implements ModInitializer {
     //TESTING GAMERULES. TODO: DELETE THESE AT 1.0. DO NOT WRITE TOO MUCH CODE THAT DEPENDS ON THESE.
     public static final GameRules.Key<GameRules.BooleanRule> NO_WARDEN_COOLDOWN =
             GameRuleRegistry.register("noWardenCooldown", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
-    public static final GameRules.Key<GameRules.BooleanRule> WARDEN_SPAWNING =
-            GameRuleRegistry.register("wardenSpawns", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
+    public static final GameRules.Key<GameRules.BooleanRule> DO_WARDEN_SPAWNING =
+            GameRuleRegistry.register("doWardenSpawning", GameRules.Category.SPAWNING, GameRuleFactory.createBooleanRule(true));
 }

@@ -5,8 +5,15 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.event.*;
-import frozenblock.wild.mod.liukrastapi.*;
+import frozenblock.wild.mod.entity.ai.task.SonicBoomTask;
+import frozenblock.wild.mod.entity.ai.task.UpdateAttackTargetTask;
+import frozenblock.wild.mod.event.EntityGameEventHandler;
+import frozenblock.wild.mod.event.GameEventListener;
+import frozenblock.wild.mod.event.SculkSensorListener;
+import frozenblock.wild.mod.event.WildEventTags;
+import frozenblock.wild.mod.liukrastapi.Angriness;
+import frozenblock.wild.mod.liukrastapi.AnimationState;
+import frozenblock.wild.mod.liukrastapi.WardenAngerManager;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import frozenblock.wild.mod.registry.RegisterStatusEffects;
@@ -46,7 +53,10 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.*;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import net.minecraft.world.gen.random.AbstractRandom;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -176,7 +186,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     public void tick() {
         World var2 = this.world;
         if (var2 instanceof ServerWorld serverWorld) {
-            this.gameEventHandler.getListener().tick(serverWorld);
+            //this.gameEventHandler.getListener().tick(serverWorld);
             if (this.hasCustomName()) {
                 WardenBrain.resetDigCooldown(this);
             }
@@ -303,7 +313,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     public void updateEventHandler(BiConsumer<EntityGameEventHandler, ServerWorld> biConsumer) {
         World var3 = this.world;
         if (var3 instanceof ServerWorld serverWorld) {
-            biConsumer.accept(this.gameEventHandler, serverWorld);
+            //biConsumer.accept(this.gameEventHandler, serverWorld);
         }
 
     }
@@ -338,13 +348,13 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         var10000.resultOrPartial(var10001::error).ifPresent((angerNbt) -> {
             nbt.put("anger", angerNbt);
         });
-        var10000 = SculkSensorListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.gameEventHandler.getListener());
+        /*var10000 = SculkSensorListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.gameEventHandler.getListener());
         var10001 = field_38138;
         Objects.requireNonNull(var10001);
         var10000.resultOrPartial(var10001::error).ifPresent((nbtElement) -> {
             nbt.put("listener", nbtElement);
         });
-    }
+    */}
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         DataResult<?> var10000;
@@ -359,7 +369,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
             this.updateAnger();
         }
 
-        if (nbt.contains("listener", 10)) {
+        /*if (nbt.contains("listener", 10)) {
             var10000 = SculkSensorListener.createCodec(this).parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener")));
             var10001 = field_38138;
             Objects.requireNonNull(var10001);
@@ -368,7 +378,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
             });
         }
 
-    }
+    */}
 
     private void playListeningSound() {
         if (!this.isInPose(WildMod.ROARING)) {
@@ -598,5 +608,5 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         return MathHelper.squaredHypot(d, f) < MathHelper.square(horizontalRadius) && MathHelper.square(e) < MathHelper.square(verticalRadius);
     }
 
-    private final EntityGameEventHandler<SculkSensorListener> gameEventHandler = new EntityGameEventHandler<>(new SculkSensorListener((PositionSource) new EntityPositionSource(this, this.getStandingEyeHeight()), 16, (SculkSensorListener.Callback) this, null, 0, 0));
+    //private final EntityGameEventHandler<SculkSensorListener> gameEventHandler = new EntityGameEventHandler<>(new SculkSensorListener((PositionSource) new EntityPositionSource(this, this.getStandingEyeHeight()), 16, (SculkSensorListener.Callback) this, null, 0, 0));
 }

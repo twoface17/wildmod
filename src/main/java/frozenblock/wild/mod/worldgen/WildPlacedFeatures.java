@@ -1,13 +1,11 @@
 package frozenblock.wild.mod.worldgen;
 
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.PlacedFeatures;
 import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
 import net.minecraft.world.gen.placementmodifier.CountPlacementModifier;
-import net.minecraft.world.gen.placementmodifier.PlacementModifier;
 import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
 
 public class WildPlacedFeatures {

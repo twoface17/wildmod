@@ -1,8 +1,8 @@
 package frozenblock.wild.mod.worldgen;
 
 import com.mojang.serialization.Codec;
-import frozenblock.wild.mod.blocks.mangrove.MangrovePropagule;
-import frozenblock.wild.mod.blocks.mangrove.MangroveRoots;
+import frozenblock.wild.mod.block.mangrove.MangroveRoots;
+import frozenblock.wild.mod.block.mangrove.PropaguleBlock;
 import frozenblock.wild.mod.registry.MangroveWoods;
 import frozenblock.wild.mod.registry.RegisterWorldgen;
 import net.minecraft.block.BlockState;
@@ -118,9 +118,9 @@ public class MangroveTreeDecorator extends TreeDecorator {
                     int high = 4;
                     int result = r.nextInt(high-low) + low;
                     if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState()))) {
-                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(MangrovePropagule.HANGING, true).with(MangrovePropagule.AGE, result));
+                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(PropaguleBlock.HANGING, true).with(PropaguleBlock.AGE, result));
                     } else if (world.testBlockState(leavesPosition.down(), Predicate.isEqual(Blocks.WATER.getDefaultState()))) {
-                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(MangrovePropagule.HANGING, true).with(MangrovePropagule.AGE, result).with(MangrovePropagule.WATERLOGGED, true));
+                        replacer.accept(leavesPosition.down(), MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(PropaguleBlock.HANGING, true).with(PropaguleBlock.AGE, result).with(PropaguleBlock.WATERLOGGED, true));
                     }
                 }
             }

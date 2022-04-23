@@ -1,10 +1,12 @@
 package frozenblock.wild.mod;
 
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
-import frozenblock.wild.mod.blocks.SculkVeinBlock;
+import frozenblock.wild.mod.block.SculkShriekerBlock;
+import frozenblock.wild.mod.block.SculkVeinBlock;
+import frozenblock.wild.mod.data.DataGenerator;
 import frozenblock.wild.mod.entity.*;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityModel;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityRenderer;
+import frozenblock.wild.mod.event.GameEventTagProvider;
 import frozenblock.wild.mod.fromAccurateSculk.*;
 import frozenblock.wild.mod.registry.*;
 import net.fabricmc.api.ClientModInitializer;
@@ -17,14 +19,27 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.minecraft.GameVersion;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.particle.ExplosionLargeParticle;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.data.SnbtProvider;
+import net.minecraft.data.client.ModelProvider;
+import net.minecraft.data.dev.NbtProvider;
+import net.minecraft.data.report.BlockListProvider;
+import net.minecraft.data.report.CommandSyntaxProvider;
+import net.minecraft.data.report.RegistryDumpProvider;
+import net.minecraft.data.report.WorldgenProvider;
+import net.minecraft.data.server.*;
+import net.minecraft.data.validate.StructureValidatorProvider;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+
+import java.nio.file.Path;
+import java.util.Collection;
 
 @Environment(EnvType.CLIENT)
 public class WildModClient implements ClientModInitializer {
@@ -136,5 +151,12 @@ public class WildModClient implements ClientModInitializer {
                 SculkParticleHandler.wardenDig(client.world, pos, (160-ticks));
             });
         });
+    }
+
+    public static DataGenerator create(final Path output, final Collection<Path> inputs, final boolean includeClient, final boolean includeServer, final boolean includeDev, final boolean includeReports, final boolean validate, final GameVersion gameVersion, final boolean ignoreCache) {
+        final frozenblock.wild.mod.data.DataGenerator dataGenerator = new frozenblock.wild.mod.data.DataGenerator(output, inputs, gameVersion, ignoreCache);
+        dataGenerator.addProvider(includeClient || includeServer, new SnbtProvider(dataGenerator).addWriter(new StructureValidatorProvider()));
+        dataGenerator.addProvider(includeServer, new GameEventTagProvider(dataGenerator));
+        return dataGenerator;
     }
 }

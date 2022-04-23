@@ -9,7 +9,6 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.Locale;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
@@ -20,6 +19,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.PositionSourceType;
+
+import java.util.Locale;
 
 public class VibrationParticleEffect implements ParticleEffect {
     public static final Codec<VibrationParticleEffect> CODEC = RecordCodecBuilder.create((instance) -> {

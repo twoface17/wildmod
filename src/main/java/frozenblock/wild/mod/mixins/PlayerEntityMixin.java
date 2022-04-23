@@ -1,5 +1,6 @@
 package frozenblock.wild.mod.mixins;
 
+import frozenblock.wild.mod.block.entity.SculkShriekerWarningManager;
 import frozenblock.wild.mod.entity.WardenBrain;
 import frozenblock.wild.mod.entity.WardenEntity;
 import frozenblock.wild.mod.fromAccurateSculk.ActivatorGrower;
@@ -34,11 +35,18 @@ import java.util.List;
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
 
+	protected SculkShriekerWarningManager sculkShriekerWarningManager = new SculkShriekerWarningManager(0, 0, 0);
+
 	private static final ArrayList<String> names = new ArrayList<>();
 
 	private static final boolean stinkyThiefMode=false;
 	//ONLY SET TO TRUE IF YOU WANT STINKY THIEF MODE TO ALWAYS RUN REGARDLESS OF USERNAME
 	//ALWAYS SET TO FALSE BEFORE COMMITTING AND RELEASING THE WILD MOD
+
+
+	public SculkShriekerWarningManager getSculkShriekerWarningManager() {
+		return this.sculkShriekerWarningManager;
+	}
 
 	@Inject(method = "tickMovement", at = @At("HEAD"))
 	public void tickMove(CallbackInfo info) {
@@ -86,7 +94,7 @@ public class PlayerEntityMixin {
 					warden.refreshPositionAndAngles(player.getX() + 1D, player.getY()+1.5, player.getZ() + 1D, 0.0F, 0.0F);
 					world.spawnEntity(warden);
 					warden.handleStatus((byte) 5);
-					WardenBrain.DIG_COOLDOWN = (int) (world.getTime() + 1200);
+					WardenBrain.resetDigCooldown(warden);
 					warden.setPersistent();
 					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 0.2F);
 					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 0.2F);
@@ -112,7 +120,7 @@ public class PlayerEntityMixin {
 						warden2.refreshPositionAndAngles(player.getX() + 1D, player.getY()+1.5, player.getZ() + 1D, 0.0F, 0.0F);
 						world.spawnEntity(warden2);
 						warden2.handleStatus((byte) 5);
-						WardenBrain.DIG_COOLDOWN = (int) (world.getTime() + 1200);
+						WardenBrain.resetDigCooldown(warden2);
 						warden2.setPersistent();
 						WitherEntity warden3 = EntityType.WITHER.create(world);
 						assert warden3 != null;

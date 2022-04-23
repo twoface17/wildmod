@@ -1,6 +1,6 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
-import frozenblock.wild.mod.blocks.SculkCatalystBlock;
+import frozenblock.wild.mod.block.SculkCatalystBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -22,7 +22,7 @@ public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensor
     public int lastSculkRange;
 
     public SculkCatalystBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(NewBlockEntityType.SCULK_CATALYST, blockPos, blockState);
+        super(WildBlockEntityType.SCULK_CATALYST, blockPos, blockState);
         this.listener = new SculkCatalystListener(new BlockPositionSource(this.pos), ((SculkCatalystBlock)blockState.getBlock()).getRange(), this);
     }
 

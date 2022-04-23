@@ -1,7 +1,8 @@
 package frozenblock.wild.mod.liukrastapi;
 
-import java.util.function.Consumer;
 import net.minecraft.util.Util;
+
+import java.util.function.Consumer;
 
 public class AnimationState {
 	private static final long STOPPED = 9223372036854775807L;

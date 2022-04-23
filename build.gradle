@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.11-SNAPSHOT'
+	id 'fabric-loom' version '0.12-SNAPSHOT'
 	id 'maven-publish'
 }
 apply from: "${rootProject.projectDir}/gradle/fabric.gradle"
@@ -55,7 +55,7 @@ jar {
 }
 
 String getVersion() {
-	String version = "${project.mod_version}+[${project.minecraft_version}"
+	String version = "${project.mod_version}+[${project.minecraft_version}]"
 }
 
 publishing {

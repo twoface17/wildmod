@@ -40,6 +40,8 @@ public class BiomeTagProvider extends AbstractTagProvider<Biome> {
         Objects.requireNonNull(objectBuilder2);
         stream2.forEach(objectBuilder::add);
         this.getOrCreateTagBuilder(frozenblock.wild.mod.tags.BiomeTags.IS_END).add(BiomeKeys.THE_END).add(BiomeKeys.END_HIGHLANDS).add(BiomeKeys.END_MIDLANDS).add(BiomeKeys.SMALL_END_ISLANDS).add(BiomeKeys.END_BARRENS);
+        this.getOrCreateTagBuilder(frozenblock.wild.mod.tags.BiomeTags.SPAWNS_COLD_VARIANT_FROGS).add(BiomeKeys.SNOWY_PLAINS).add(BiomeKeys.ICE_SPIKES).add(BiomeKeys.FROZEN_PEAKS).add(BiomeKeys.JAGGED_PEAKS).add(BiomeKeys.SNOWY_SLOPES).add(BiomeKeys.FROZEN_OCEAN).add(BiomeKeys.DEEP_FROZEN_OCEAN).add(BiomeKeys.GROVE).add(RegisterWorldgen.DEEP_DARK).add(BiomeKeys.FROZEN_RIVER).add(BiomeKeys.SNOWY_TAIGA).add(BiomeKeys.SNOWY_BEACH).addTag(frozenblock.wild.mod.tags.BiomeTags.IS_END);
+        this.getOrCreateTagBuilder(frozenblock.wild.mod.tags.BiomeTags.SPAWNS_WARM_VARIANT_FROGS).add(BiomeKeys.DESERT).add(BiomeKeys.WARM_OCEAN).addTag(net.minecraft.tag.BiomeTags.IS_JUNGLE).addTag(frozenblock.wild.mod.tags.BiomeTags.IS_SAVANNA).addTag(net.minecraft.tag.BiomeTags.IS_NETHER).addTag(BiomeTags.IS_BADLANDS).add(RegisterWorldgen.MANGROVE_SWAMP);
         this.getOrCreateTagBuilder(BiomeTags.BURIED_TREASURE_HAS_STRUCTURE).addTag(BiomeTags.IS_BEACH);
         this.getOrCreateTagBuilder(BiomeTags.DESERT_PYRAMID_HAS_STRUCTURE).add(BiomeKeys.DESERT);
         this.getOrCreateTagBuilder(BiomeTags.IGLOO_HAS_STRUCTURE).add(BiomeKeys.SNOWY_TAIGA).add(BiomeKeys.SNOWY_PLAINS).add(BiomeKeys.SNOWY_SLOPES);

@@ -7,15 +7,10 @@ package frozenblock.wild.mod.event;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.liukrastapi.TickCriterion;
 import frozenblock.wild.mod.liukrastapi.Vec3d;
 import frozenblock.wild.mod.particle.VibrationParticleEffect;
-import frozenblock.wild.mod.registry.RegisterEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -33,6 +28,10 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockStateRaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 public class SculkSensorListener implements GameEventListener {
     public static final Codec<UUID> UUID = DynamicSerializableUuid.CODEC;
@@ -62,7 +61,14 @@ public class SculkSensorListener implements GameEventListener {
         });
     }
 
-    public SculkSensorListener(PositionSource positionSource, int range, Callback callback, @Nullable Vibration vibration, int distance, int delay) {
+    public SculkSensorListener(
+            PositionSource positionSource,
+            int range,
+            SculkSensorListener.Callback callback,
+            @Nullable SculkSensorListener.Vibration vibration,
+            int distance,
+            int delay
+    ) {
         this.positionSource = positionSource;
         this.range = range;
         this.callback = callback;
@@ -72,14 +78,21 @@ public class SculkSensorListener implements GameEventListener {
     }
 
     public void tick(World world) {
-        if (world instanceof ServerWorld serverWorld) {
-            if (this.vibration != null) {
-                --this.delay;
-                if (this.delay <= 0) {
-                    this.delay = 0;
-                    this.callback.accept(serverWorld, this, new BlockPos(this.vibration.pos), this.vibration.gameEvent, (Entity)this.vibration.getEntity(serverWorld).orElse(null), (Entity)this.vibration.getOwner(serverWorld).orElse(null), this.distance);
-                    this.vibration = null;
-                }
+        if (world instanceof ServerWorld serverWorld && this.vibration != null) {
+            --this.delay;
+            if (this.delay <= 0) {
+                this.delay = 0;
+                this.callback
+                        .accept(
+                                serverWorld,
+                                this,
+                                new BlockPos(this.vibration.pos),
+                                this.vibration.gameEvent,
+                                this.vibration.getEntity(serverWorld).orElse(null),
+                                this.vibration.getOwner(serverWorld).orElse(null),
+                                this.distance
+                        );
+                this.vibration = null;
             }
         }
 
@@ -104,13 +117,13 @@ public class SculkSensorListener implements GameEventListener {
             if (optional.isEmpty()) {
                 return false;
             } else {
-                Vec3d vec3d = (Vec3d) Vec3d.ofCenter(optional.get());
+                net.minecraft.util.math.Vec3d vec3d = optional.get();
                 if (!this.callback.accepts(world, this, new BlockPos(pos), event, emitter)) {
                     return false;
-                } else if (isOccluded(world, pos, vec3d)) {
+                } else if (isOccluded(world, pos, (Vec3d) vec3d)) {
                     return false;
                 } else {
-                    this.listen(world, event, emitter, pos, vec3d);
+                    this.listen(world, event, emitter, pos, (Vec3d) vec3d);
                     return true;
                 }
             }
@@ -119,7 +132,7 @@ public class SculkSensorListener implements GameEventListener {
 
     private void listen(ServerWorld world, GameEvent gameEvent, GameEvent.Emitter emitter, Vec3d start, Vec3d end) {
         this.distance = MathHelper.floor(start.distanceTo(end));
-        this.vibration = new Vibration(gameEvent, this.distance, start, emitter.sourceEntity());
+        this.vibration = new SculkSensorListener.Vibration(gameEvent, this.distance, start, emitter.sourceEntity());
         this.delay = this.distance;
         world.spawnParticles(new VibrationParticleEffect((net.minecraft.world.event.PositionSource) this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
         this.callback.onListen();

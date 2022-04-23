@@ -1,7 +1,7 @@
 package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.blocks.mangrove.*;
+import frozenblock.wild.mod.block.mangrove.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -38,7 +38,7 @@ public abstract class MangroveWoods {
              RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
              RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
     )));
-    public static final Block MANGROVE_PROPAGULE = new MangrovePropagule(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(new BlockSoundGroup(1.0f, 1.0f,
+    public static final Block MANGROVE_PROPAGULE = new PropaguleBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(new BlockSoundGroup(1.0f, 1.0f,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_BREAK,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_STEP,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_PLACE,

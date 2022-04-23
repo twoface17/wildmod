@@ -1,11 +1,12 @@
 package frozenblock.wild.mod.liukrastapi;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Streams;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import frozenblock.wild.mod.worldgen.random.WildAbstractRandom;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
@@ -15,7 +16,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.dynamic.DynamicSerializableUuid;
-import com.google.common.annotations.VisibleForTesting;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.gen.random.AbstractRandom;
 import net.minecraft.world.gen.random.AtomicSimpleRandom;
@@ -34,7 +34,7 @@ public class WardenAngerManager {
     @VisibleForTesting
     protected static final int maxAnger = 150;
     private static final int angerDecreasePerTick = 1;
-    private int updateTimer = MathHelper.nextBetween((Random) createAtomic(), 0, 40);
+    private int updateTimer = MathHelper.nextBetween((Random)WildAbstractRandom.createAtomic(), 0, 40);
     private static final Codec<Pair<UUID, Integer>> SUSPECT_CODEC = RecordCodecBuilder.create((instance) -> {
         return instance.group(UUID.fieldOf("uuid").forGetter(Pair::getFirst), Codecs.NONNEGATIVE_INT.fieldOf("anger").forGetter(Pair::getSecond)).apply(instance, Pair::of);
     });
@@ -42,16 +42,16 @@ public class WardenAngerManager {
         return instance.group(SUSPECT_CODEC.listOf().fieldOf("suspects").orElse(Collections.emptyList()).forGetter(WardenAngerManager::getSuspects)).apply(instance, WardenAngerManager::new);
     });
     @VisibleForTesting
-    protected final SortedSet<Entity> suspects = new ObjectAVLTreeSet(new SuspectComparator(this));
+    protected final SortedSet<Entity> suspects = new ObjectAVLTreeSet<>(new SuspectComparator(this));
     @VisibleForTesting
-    protected final Object2IntMap<Entity> suspectsToAngerLevel = new Object2IntOpenHashMap();
+    protected final Object2IntMap<Entity> suspectsToAngerLevel = new Object2IntOpenHashMap<>();
     @VisibleForTesting
     protected final Object2IntMap<UUID> suspectUuidsToAngerLevel;
 
     public WardenAngerManager(List<Pair<UUID, Integer>> suspects) {
-        this.suspectUuidsToAngerLevel = new Object2IntOpenHashMap(suspects.size());
+        this.suspectUuidsToAngerLevel = new Object2IntOpenHashMap<>(suspects.size());
         suspects.forEach((pair) -> {
-            this.suspectUuidsToAngerLevel.put((UUID)pair.getFirst(), (Integer)pair.getSecond());
+            this.suspectUuidsToAngerLevel.put(pair.getFirst(), pair.getSecond());
         });
     }
 
@@ -59,7 +59,7 @@ public class WardenAngerManager {
         return (List)Streams.concat(new Stream[]{this.suspects.stream().map((suspect) -> {
             return Pair.of(suspect.getUuid(), this.suspectsToAngerLevel.getInt(suspect));
         }), this.suspectUuidsToAngerLevel.object2IntEntrySet().stream().map((entry) -> {
-            return Pair.of((UUID)entry.getKey(), entry.getIntValue());
+            return Pair.of(entry.getKey(), entry.getIntValue());
         })}).collect(Collectors.toList());
     }
 
@@ -73,7 +73,7 @@ public class WardenAngerManager {
         ObjectIterator<Object2IntMap.Entry<UUID>> objectIterator = this.suspectUuidsToAngerLevel.object2IntEntrySet().iterator();
 
         while(objectIterator.hasNext()) {
-            Object2IntMap.Entry<UUID> entry = (Object2IntMap.Entry)objectIterator.next();
+            Object2IntMap.Entry<UUID> entry = objectIterator.next();
             int i = entry.getIntValue();
             if (i <= 1) {
                 objectIterator.remove();
@@ -86,9 +86,9 @@ public class WardenAngerManager {
 
         while(true) {
             while(objectIterator2.hasNext()) {
-                Object2IntMap.Entry<Entity> entry2 = (Object2IntMap.Entry)objectIterator2.next();
+                Object2IntMap.Entry<Entity> entry2 = objectIterator2.next();
                 int j = entry2.getIntValue();
-                Entity entity = (Entity)entry2.getKey();
+                Entity entity = entry2.getKey();
                 if (j > 1 && suspectPredicate.test(entity)) {
                     entry2.setValue(j - 1);
                 } else {
@@ -105,9 +105,9 @@ public class WardenAngerManager {
         ObjectIterator<Object2IntMap.Entry<UUID>> objectIterator = this.suspectUuidsToAngerLevel.object2IntEntrySet().iterator();
 
         while(objectIterator.hasNext()) {
-            Object2IntMap.Entry<UUID> entry = (Object2IntMap.Entry)objectIterator.next();
+            Object2IntMap.Entry<UUID> entry = objectIterator.next();
             int i = entry.getIntValue();
-            Entity entity = world.getEntity((UUID)entry.getKey());
+            Entity entity = world.getEntity(entry.getKey());
             if (entity != null) {
                 this.suspectsToAngerLevel.put(entity, i);
                 this.suspects.add(entity);
@@ -139,7 +139,7 @@ public class WardenAngerManager {
 
     @Nullable
     private Entity getPrimeSuspect1() {
-        return this.suspects.isEmpty() ? null : (Entity)this.suspects.first();
+        return this.suspects.isEmpty() ? null : this.suspects.first();
     }
 
     public int getPrimeSuspectAnger() {
@@ -187,12 +187,5 @@ public class WardenAngerManager {
         public WardenAngerManager angerManagement() {
             return this.angerManagement;
         }
-    }
-
-    static AbstractRandom createAtomic() {
-        return createAtomic(System.nanoTime());
-    }
-    static AbstractRandom createAtomic(long seed) {
-        return new AtomicSimpleRandom(seed);
     }
 }

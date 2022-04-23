@@ -1,9 +1,9 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.blocks.SculkBlock;
-import frozenblock.wild.mod.blocks.SculkCatalystBlock;
-import frozenblock.wild.mod.blocks.SculkVeinBlock;
+import frozenblock.wild.mod.block.SculkBlock;
+import frozenblock.wild.mod.block.SculkCatalystBlock;
+import frozenblock.wild.mod.block.SculkVeinBlock;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import frozenblock.wild.mod.registry.RegisterSounds;
 import net.minecraft.block.Block;

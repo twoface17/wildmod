@@ -1,8 +1,7 @@
 package frozenblock.wild.mod.worldgen;
 
 import com.mojang.serialization.Codec;
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
-import frozenblock.wild.mod.blocks.SculkVeinBlock;
+import frozenblock.wild.mod.block.SculkVeinBlock;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.Block;
@@ -17,11 +16,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.random.AbstractRandom;
 import net.minecraft.world.gen.random.SimpleRandom;
 
 import java.util.ArrayList;

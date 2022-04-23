@@ -1,8 +1,8 @@
 package frozenblock.wild.mod.fromAccurateSculk;
 
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.blocks.SculkBlock;
-import frozenblock.wild.mod.blocks.SculkVeinBlock;
+import frozenblock.wild.mod.block.SculkBlock;
+import frozenblock.wild.mod.block.SculkVeinBlock;
 import frozenblock.wild.mod.liukrastapi.Sphere;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

@@ -2,7 +2,6 @@ package frozenblock.wild.mod.event;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import org.jetbrains.annotations.Nullable;

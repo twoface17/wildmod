@@ -1,7 +1,7 @@
 package frozenblock.wild.mod.worldgen;
 
 import com.mojang.serialization.Codec;
-import frozenblock.wild.mod.blocks.SculkVeinBlock;
+import frozenblock.wild.mod.block.SculkVeinBlock;
 import frozenblock.wild.mod.fromAccurateSculk.SculkTags;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.Block;

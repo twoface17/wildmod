@@ -18,8 +18,8 @@ import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.entity.ai.brain.task.ForgetAttackTargetTask;
+import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.random.AbstractRandom;
@@ -66,7 +66,7 @@ public class FrogBrain {
     private static void addIdleActivities(Brain<FrogEntity> brain) {
         brain.setTaskList(Activity.IDLE, ImmutableList.of(Pair.of(0, new TimeLimitedTask<>(new FollowMobTask(EntityType.PLAYER, 6.0F), UniformIntProvider.create(30, 60))), Pair.of(0, new BreedTask(RegisterEntities.FROG, 1.0F)), Pair.of(1, new TemptTask((frog) -> {
             return 1.25F;
-        })), Pair.of(2, new UpdateAttackTargetTask<>(FrogBrain::isNotBreeding, (frog) -> {
+        })), Pair.of(2, new frozenblock.wild.mod.entity.ai.task.UpdateAttackTargetTask<>(FrogBrain::isNotBreeding, (frog) -> {
             return frog.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE);
         })), Pair.of(3, new WalkTowardsLandTask(6, 1.0F)), Pair.of(4, new RandomTask<>(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT), ImmutableList.of(Pair.of(new StrollTask(1.0F), 1), Pair.of(new GoTowardsLookTarget(1.0F, 3), 1), Pair.of(new CroakTask(), 3), Pair.of(new ConditionalTask<>(Entity::isOnGround, new WaitTask(5, 20)), 2))))), ImmutableSet.of(Pair.of(MemoryModuleType.LONG_JUMP_MID_JUMP, MemoryModuleState.VALUE_ABSENT), Pair.of(RegisterEntities.IS_IN_WATER, MemoryModuleState.VALUE_ABSENT)));
     }
@@ -74,13 +74,13 @@ public class FrogBrain {
     private static void addSwimActivities(Brain<FrogEntity> brain) {
         brain.setTaskList(WildMod.SWIM, ImmutableList.of(Pair.of(0, new TimeLimitedTask<>(new FollowMobTask(EntityType.PLAYER, 6.0F), UniformIntProvider.create(30, 60))), Pair.of(1, new TemptTask((frog) -> {
             return 1.25F;
-        })), Pair.of(2, new UpdateAttackTargetTask<>(FrogBrain::isNotBreeding, (frog) -> {
+        })), Pair.of(2, new frozenblock.wild.mod.entity.ai.task.UpdateAttackTargetTask<>(FrogBrain::isNotBreeding, (frog) -> {
             return frog.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE);
         })), Pair.of(3, new WalkTowardsLandTask(8, 1.5F)), Pair.of(5, new CompositeTask<>(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT), ImmutableSet.of(), CompositeTask.Order.ORDERED, CompositeTask.RunMode.TRY_ALL, ImmutableList.of(Pair.of(new AquaticStrollTask(0.75F), 1), Pair.of(new StrollTask(1.0F, true), 1), Pair.of(new GoTowardsLookTarget(1.0F, 3), 1), Pair.of(new ConditionalTask<>(Entity::isInsideWaterOrBubbleColumn, new WaitTask(30, 60)), 5))))), ImmutableSet.of(Pair.of(MemoryModuleType.LONG_JUMP_MID_JUMP, MemoryModuleState.VALUE_ABSENT), Pair.of(RegisterEntities.IS_IN_WATER, MemoryModuleState.VALUE_PRESENT)));
     }
 
     private static void addLaySpawnActivities(Brain<FrogEntity> brain) {
-        brain.setTaskList(WildMod.LAY_SPAWN, ImmutableList.of(Pair.of(0, new TimeLimitedTask<>(new FollowMobTask(EntityType.PLAYER, 6.0F), UniformIntProvider.create(30, 60))), Pair.of(1, new UpdateAttackTargetTask<>(FrogBrain::isNotBreeding, (frog) -> {
+        brain.setTaskList(WildMod.LAY_SPAWN, ImmutableList.of(Pair.of(0, new TimeLimitedTask<>(new FollowMobTask(EntityType.PLAYER, 6.0F), UniformIntProvider.create(30, 60))), Pair.of(1, new frozenblock.wild.mod.entity.ai.task.UpdateAttackTargetTask<>(FrogBrain::isNotBreeding, (frog) -> {
             return frog.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE);
         })), Pair.of(2, new WalkTowardsWaterTask(8, 1.0F)), Pair.of(3, new LayFrogSpawnTask(RegisterBlocks.FROGSPAWN, RegisterEntities.IS_PREGNANT)), Pair.of(4, new RandomTask<>(ImmutableList.of(Pair.of(new StrollTask(1.0F), 2), Pair.of(new GoTowardsLookTarget(1.0F, 3), 1), Pair.of(new CroakTask(), 2), Pair.of(new ConditionalTask<>(Entity::isOnGround, new WaitTask(5, 20)), 1))))), ImmutableSet.of(Pair.of(MemoryModuleType.LONG_JUMP_MID_JUMP, MemoryModuleState.VALUE_ABSENT), Pair.of(RegisterEntities.IS_PREGNANT, MemoryModuleState.VALUE_PRESENT)));
     }

@@ -1,7 +1,7 @@
 package frozenblock.wild.mod.registry;
 
 import frozenblock.wild.mod.WildMod;
-import frozenblock.wild.mod.fromAccurateSculk.NewBlockEntityType;
+import frozenblock.wild.mod.fromAccurateSculk.WildBlockEntityType;
 import frozenblock.wild.mod.fromAccurateSculk.WardenPositionSource;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.particle.DefaultParticleType;
@@ -49,6 +49,6 @@ public abstract class RegisterAccurateSculk {
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_shriekx"), SCULK_SHRIEKX);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_shriekx2"), SCULK_SHRIEKX2);
         Registry.register(Registry.SOUND_EVENT, RegisterAccurateSculk.GARGLE, GARGLE_EVENT);
-        NewBlockEntityType.init();
+        WildBlockEntityType.init();
     }
 }

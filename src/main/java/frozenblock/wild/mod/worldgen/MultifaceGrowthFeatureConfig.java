@@ -8,7 +8,6 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.block.AbstractLichenBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryCodecs;

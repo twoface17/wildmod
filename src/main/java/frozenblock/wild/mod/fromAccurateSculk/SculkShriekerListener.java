@@ -3,7 +3,7 @@
  */
 package frozenblock.wild.mod.fromAccurateSculk;
 
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
+import frozenblock.wild.mod.block.SculkShriekerBlock;
 import frozenblock.wild.mod.registry.RegisterAccurateSculk;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.SculkSensorBlockEntity;

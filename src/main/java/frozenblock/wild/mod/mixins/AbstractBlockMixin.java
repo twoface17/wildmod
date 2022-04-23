@@ -1,8 +1,6 @@
 package frozenblock.wild.mod.mixins;
 
-import frozenblock.wild.mod.blocks.SculkShriekerBlock;
-import frozenblock.wild.mod.entity.WardenEntity;
-import frozenblock.wild.mod.fromAccurateSculk.SensorLastEntity;
+import frozenblock.wild.mod.block.SculkShriekerBlock;
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import frozenblock.wild.mod.registry.RegisterEntities;
 import frozenblock.wild.mod.registry.RegisterTags;
@@ -14,7 +12,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ExperienceOrbEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -30,7 +27,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -40,8 +36,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
