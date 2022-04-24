@@ -4,18 +4,17 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.mob.FlyingEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
-public class AllayEntityModel extends SinglePartEntityModel<AllayEntity> implements ModelWithArms {
+public class AllayEntityModel<A extends PathAwareEntity> extends SinglePartEntityModel<AllayEntity> implements ModelWithArms {
 	private final ModelPart root;
 	private final ModelPart body;
 	private final ModelPart rightArm;

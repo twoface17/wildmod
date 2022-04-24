@@ -8,7 +8,8 @@ import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.gen.random.AbstractRandom;
+
+import java.util.Random;
 
 public class GoToCelebrateTask<E extends MobEntity> extends Task<E> {
     private final MemoryModuleType<BlockPos> memoryModuleType;
@@ -32,11 +33,11 @@ public class GoToCelebrateTask<E extends MobEntity> extends Task<E> {
     }
 
     private static BlockPos fuzz(MobEntity mob, BlockPos pos) {
-        AbstractRandom abstractRandom = (AbstractRandom) mob.world.random;
-        return pos.add(fuzz(abstractRandom), 0, fuzz(abstractRandom));
+        Random random = mob.world.random;
+        return pos.add(fuzz(random), 0, fuzz(random));
     }
 
-    private static int fuzz(AbstractRandom random) {
+    private static int fuzz(Random random) {
         return random.nextInt(3) - 1;
     }
 

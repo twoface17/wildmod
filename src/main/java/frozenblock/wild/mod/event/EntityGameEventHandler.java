@@ -1,23 +1,21 @@
 package frozenblock.wild.mod.event;
 
+import frozenblock.wild.mod.liukrastapi.ChunkSectionPos;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.event.listener.GameEventDispatcher;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class EntityGameEventHandler<T extends GameEventListener> extends net.minecraft.world.event.listener.EntityGameEventHandler {
+public class EntityGameEventHandler<T extends GameEventListener> {
     private T listener;
     @Nullable
     private ChunkSectionPos sectionPos;
 
     public EntityGameEventHandler(T listener) {
-        super((net.minecraft.world.event.listener.GameEventListener) listener);
         this.listener = listener;
     }
 
@@ -30,10 +28,10 @@ public class EntityGameEventHandler<T extends GameEventListener> extends net.min
         if (gameEventListener != listener) {
             if (world instanceof ServerWorld serverWorld) {
                 updateDispatcher(serverWorld, this.sectionPos, (dispatcher) -> {
-                    dispatcher.removeListener((net.minecraft.world.event.listener.GameEventListener) gameEventListener);
+                    dispatcher.removeListener(gameEventListener);
                 });
                 updateDispatcher(serverWorld, this.sectionPos, (dispatcher) -> {
-                    dispatcher.addListener((net.minecraft.world.event.listener.GameEventListener) listener);
+                    dispatcher.addListener(listener);
                 });
             }
 
@@ -47,19 +45,19 @@ public class EntityGameEventHandler<T extends GameEventListener> extends net.min
 
     public void onEntityRemoval(ServerWorld world) {
         updateDispatcher(world, this.sectionPos, (dispatcher) -> {
-            dispatcher.removeListener((net.minecraft.world.event.listener.GameEventListener) this.listener);
+            dispatcher.removeListener(this.listener);
         });
     }
 
     public void onEntitySetPos(ServerWorld world) {
-        this.listener.getPositionSource().getPos(world).map(ChunkSectionPos::from).ifPresent((sectionPos) -> {
+        this.listener.getPositionSource().getPos(world).map(frozenblock.wild.mod.liukrastapi.ChunkSectionPos::from).ifPresent((sectionPos) -> {
             if (this.sectionPos == null || !this.sectionPos.equals(sectionPos)) {
                 updateDispatcher(world, this.sectionPos, (dispatcher) -> {
-                    dispatcher.removeListener((net.minecraft.world.event.listener.GameEventListener) this.listener);
+                    dispatcher.removeListener(this.listener);
                 });
-                this.sectionPos = sectionPos;
+                this.sectionPos = (frozenblock.wild.mod.liukrastapi.ChunkSectionPos) sectionPos;
                 updateDispatcher(world, this.sectionPos, (dispatcher) -> {
-                    dispatcher.addListener((net.minecraft.world.event.listener.GameEventListener) this.listener);
+                    dispatcher.addListener(this.listener);
                 });
             }
 
@@ -70,7 +68,7 @@ public class EntityGameEventHandler<T extends GameEventListener> extends net.min
         if (sectionPos != null) {
             Chunk chunk = world.getChunk(sectionPos.getSectionX(), sectionPos.getSectionZ(), ChunkStatus.FULL, false);
             if (chunk != null) {
-                dispatcherConsumer.accept(chunk.getGameEventDispatcher(sectionPos.getSectionY()));
+                dispatcherConsumer.accept((GameEventDispatcher) chunk.getGameEventDispatcher(sectionPos.getSectionY()));
             }
 
         }

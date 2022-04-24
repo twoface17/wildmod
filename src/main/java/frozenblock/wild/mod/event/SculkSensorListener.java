@@ -69,6 +69,7 @@ public class SculkSensorListener implements GameEventListener {
             int distance,
             int delay
     ) {
+        super();
         this.positionSource = positionSource;
         this.range = range;
         this.callback = callback;
@@ -98,8 +99,8 @@ public class SculkSensorListener implements GameEventListener {
 
     }
 
-    public net.minecraft.world.event.PositionSource getPositionSource() {
-        return (net.minecraft.world.event.PositionSource) this.positionSource;
+    public PositionSource getPositionSource() {
+        return this.positionSource;
     }
 
     public int getRange() {
@@ -118,12 +119,12 @@ public class SculkSensorListener implements GameEventListener {
                 return false;
             } else {
                 net.minecraft.util.math.Vec3d vec3d = optional.get();
-                if (!this.callback.accepts(world, this, new BlockPos(pos), event, emitter)) {
+                if (!this.callback.accepts((ServerWorld) world, this, new BlockPos(pos), event, emitter)) {
                     return false;
                 } else if (isOccluded(world, pos, (Vec3d) vec3d)) {
                     return false;
                 } else {
-                    this.listen(world, event, emitter, pos, (Vec3d) vec3d);
+                    this.listen((ServerWorld) world, event, emitter, pos, (Vec3d) vec3d);
                     return true;
                 }
             }

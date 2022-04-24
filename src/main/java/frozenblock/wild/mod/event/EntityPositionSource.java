@@ -48,10 +48,10 @@ public class EntityPositionSource implements PositionSource {
 
     private void findEntityInWorld(World world) {
         (this.source.map(Optional::of, (either) -> {
-            Function var10001 = (uuid) -> {
+            Function<UUID, Entity> var10001 = (uuid) -> {
                 Entity var10000;
                 if (world instanceof ServerWorld serverWorld) {
-                    var10000 = serverWorld.getEntity((UUID) uuid);
+                    var10000 = serverWorld.getEntity(uuid);
                 } else {
                     var10000 = null;
                 }

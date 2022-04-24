@@ -7,10 +7,7 @@ import com.mojang.serialization.Dynamic;
 import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.entity.ai.task.SonicBoomTask;
 import frozenblock.wild.mod.entity.ai.task.UpdateAttackTargetTask;
-import frozenblock.wild.mod.event.EntityGameEventHandler;
-import frozenblock.wild.mod.event.GameEventListener;
-import frozenblock.wild.mod.event.SculkSensorListener;
-import frozenblock.wild.mod.event.WildEventTags;
+import frozenblock.wild.mod.event.*;
 import frozenblock.wild.mod.liukrastapi.Angriness;
 import frozenblock.wild.mod.liukrastapi.AnimationState;
 import frozenblock.wild.mod.liukrastapi.WardenAngerManager;
@@ -57,7 +54,6 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.gen.random.AbstractRandom;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -186,7 +182,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     public void tick() {
         World var2 = this.world;
         if (var2 instanceof ServerWorld serverWorld) {
-            //this.gameEventHandler.getListener().tick(serverWorld);
+            this.gameEventHandler.getListener().tick(serverWorld);
             if (this.hasCustomName()) {
                 WardenBrain.resetDigCooldown(this);
             }
@@ -266,13 +262,13 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
 
     private void addDigParticles(AnimationState animationState) {
         if ((float)(Util.getMeasuringTimeMs() - animationState.getStartTime()) < 4500.0F) {
-            AbstractRandom abstractRandom = (AbstractRandom) this.getRandom();
+            Random random = this.getRandom();
             BlockState blockState = this.world.getBlockState(this.getBlockPos().down());
             if (blockState.getRenderType() != BlockRenderType.INVISIBLE) {
                 for(int i = 0; i < 30; ++i) {
-                    double d = this.getX() + (double)MathHelper.nextBetween((Random) abstractRandom, -0.7F, 0.7F);
+                    double d = this.getX() + (double)MathHelper.nextBetween(random, -0.7F, 0.7F);
                     double e = this.getY();
-                    double f = this.getZ() + (double)MathHelper.nextBetween((Random) abstractRandom, -0.7F, 0.7F);
+                    double f = this.getZ() + (double)MathHelper.nextBetween(random, -0.7F, 0.7F);
                     this.world.addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState), d, e, f, 0.0, 0.0, 0.0);
                 }
             }
@@ -313,7 +309,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     public void updateEventHandler(BiConsumer<EntityGameEventHandler, ServerWorld> biConsumer) {
         World var3 = this.world;
         if (var3 instanceof ServerWorld serverWorld) {
-            //biConsumer.accept(this.gameEventHandler, serverWorld);
+            biConsumer.accept(this.gameEventHandler, serverWorld);
         }
 
     }
@@ -348,13 +344,13 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         var10000.resultOrPartial(var10001::error).ifPresent((angerNbt) -> {
             nbt.put("anger", angerNbt);
         });
-        /*var10000 = SculkSensorListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.gameEventHandler.getListener());
+        var10000 = SculkSensorListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.gameEventHandler.getListener());
         var10001 = field_38138;
         Objects.requireNonNull(var10001);
         var10000.resultOrPartial(var10001::error).ifPresent((nbtElement) -> {
             nbt.put("listener", nbtElement);
         });
-    */}
+    }
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         DataResult<?> var10000;
@@ -369,7 +365,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
             this.updateAnger();
         }
 
-        /*if (nbt.contains("listener", 10)) {
+        if (nbt.contains("listener", 10)) {
             var10000 = SculkSensorListener.createCodec(this).parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener")));
             var10001 = field_38138;
             Objects.requireNonNull(var10001);
@@ -378,7 +374,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
             });
         }
 
-    */}
+    }
 
     private void playListeningSound() {
         if (!this.isInPose(WildMod.ROARING)) {
@@ -434,7 +430,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         this.getBrain().remember(RegisterEntities.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
-        if (spawnReason == SpawnReason.TRIGGERED) {
+        if (spawnReason == SpawnReason.TRIGGERED || spawnReason == SpawnReason.SPAWN_EGG) {
             this.setPose(EMERGING);
             this.getBrain().remember(RegisterEntities.IS_EMERGING, Unit.INSTANCE, (long)WardenBrain.EMERGE_DURATION);
             this.setPersistent();
@@ -608,5 +604,5 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         return MathHelper.squaredHypot(d, f) < MathHelper.square(horizontalRadius) && MathHelper.square(e) < MathHelper.square(verticalRadius);
     }
 
-    //private final EntityGameEventHandler<SculkSensorListener> gameEventHandler = new EntityGameEventHandler<>(new SculkSensorListener((PositionSource) new EntityPositionSource(this, this.getStandingEyeHeight()), 16, (SculkSensorListener.Callback) this, null, 0, 0));
+    private final EntityGameEventHandler<SculkSensorListener> gameEventHandler = new EntityGameEventHandler<>(new SculkSensorListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, (SculkSensorListener.Callback) this, null, 0, 0));
 }
