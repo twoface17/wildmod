@@ -22,13 +22,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "frozenblock.wild.mod.WildMod"
+	  "net.frozenblock.wildmod.WildMod"
     ],
     "mm:early_risers": [
-      "frozenblock.wild.mod.EarlyRiser"
+	  "net.frozenblock.wildmod.EarlyRiser"
     ],
     "client": [
-      "frozenblock.wild.mod.WildModClient"
+	  "net.frozenblock.wildmod.WildModClient"
     ]
   },
   "mixins": [
