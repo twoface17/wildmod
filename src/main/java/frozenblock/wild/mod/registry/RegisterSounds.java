@@ -96,6 +96,16 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent ENTITY_WARDEN_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.step"));
         public static final SoundEvent ENTITY_WARDEN_TENDRIL_CLICKS = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.tendril_clicks"));
 
+    //Allay
+        public static final SoundEvent ENTITY_ALLAY_AMBIENT_WITH_ITEM = register("entity.allay.ambient_with_item");
+        public static final SoundEvent ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM = register("entity.allay.ambient_without_item");
+        public static final SoundEvent ENTITY_ALLAY_DEATH = register("entity.allay.death");
+        public static final SoundEvent ENTITY_ALLAY_FLAP = register("entity.allay.flap");
+        public static final SoundEvent ENTITY_ALLAY_HURT = register("entity.allay.hurt");
+        public static final SoundEvent ENTITY_ALLAY_ITEM_GIVEN = register("entity.allay.item_given");
+        public static final SoundEvent ENTITY_ALLAY_ITEM_TAKEN = register("entity.allay.item_taken");
+
+
     /** MUSIC **/
         public static final SoundEvent MUSIC_OVERWORLD_DEEP_DARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deep_dark"));
 

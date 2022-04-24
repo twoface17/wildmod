@@ -17,6 +17,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Unit;
+import net.minecraft.util.dynamic.DynamicSerializableUuid;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -75,6 +76,11 @@ public class RegisterEntities {
 
         IS_PREGNANT = MemoryModuleTypeInvoker.callRegister("is_pregnant", Codec.unit(Unit.INSTANCE));
         IS_IN_WATER = MemoryModuleTypeInvoker.callRegister("is_in_water", Codec.unit(Unit.INSTANCE));
+
+        LIKED_PLAYER = MemoryModuleTypeInvoker.callRegister("liked_player", DynamicSerializableUuid.CODEC);
+        LIKED_NOTEBLOCK = MemoryModuleTypeInvoker.callRegister("liked_noteblock", GlobalPos.CODEC);
+        LIKED_NOTEBLOCK_COOLDOWN_TICKS = MemoryModuleTypeInvoker.callRegister("liked_noteblock_cooldown_ticks", Codec.INT);
+        ITEM_PICKUP_COOLDOWN_TICKS = MemoryModuleTypeInvoker.callRegister("item_pickup_cooldown_ticks", Codec.INT);
 
         BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FROG.getSpawnGroup(), RegisterEntities.FROG, 200, 3, 6);
         BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FIREFLY.getSpawnGroup(), RegisterEntities.FIREFLY, 200, 4, 10);
