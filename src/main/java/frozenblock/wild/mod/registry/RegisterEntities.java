@@ -77,6 +77,5 @@ public class RegisterEntities {
 
         BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FROG.getSpawnGroup(), RegisterEntities.FROG, 200, 3, 6);
         BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FIREFLY.getSpawnGroup(), RegisterEntities.FIREFLY, 200, 4, 10);
-        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.FOREST, Biome.Category.JUNGLE), SpawnGroup.CREATURE, ALLAY, 15,1, 1);
     }
 }
