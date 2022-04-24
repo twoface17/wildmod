@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.worldgen;
+package frozenblock.wild.mod.world.gen;
 
 import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.AbstractLichenBlock;

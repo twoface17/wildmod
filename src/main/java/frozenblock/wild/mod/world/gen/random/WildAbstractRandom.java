@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.worldgen.random;
+package frozenblock.wild.mod.world.gen.random;
 
 import net.minecraft.world.gen.random.AbstractRandom;
 import net.minecraft.world.gen.random.AtomicSimpleRandom;

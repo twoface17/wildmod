@@ -9,6 +9,7 @@ import frozenblock.wild.mod.entity.chestboat.ChestBoatEntityRenderer;
 import frozenblock.wild.mod.event.GameEventTagProvider;
 import frozenblock.wild.mod.fromAccurateSculk.*;
 import frozenblock.wild.mod.registry.*;
+import frozenblock.wild.mod.render.entity.WildEntityRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -89,7 +90,7 @@ public class WildModClient implements ClientModInitializer {
         EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(WARDEN, WardenEntityModel::getTexturedModelData);
 
-        EntityRendererRegistry.register(RegisterEntities.ALLAY, AllayEntityRenderer::new);
+        WildEntityRendererRegistry.register(RegisterEntities.ALLAY, AllayEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_ALLAY_LAYER, AllayEntityModel::getTexturedModelData);
 
         EntityRendererRegistry.register(RegisterEntities.FROG, FrogEntityRenderer::new);

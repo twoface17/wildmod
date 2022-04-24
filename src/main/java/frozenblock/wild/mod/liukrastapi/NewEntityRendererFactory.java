@@ -17,11 +17,11 @@ import net.minecraft.resource.ResourceManager;
 
 @FunctionalInterface
 @Environment(EnvType.CLIENT)
-public interface NewEntityRendererFactory<T extends Entity> {
+public interface NewEntityRendererFactory<T extends Entity> extends EntityRendererFactory<T> {
     EntityRenderer<T> create(net.minecraft.client.render.entity.EntityRendererFactory.Context ctx);
 
     @Environment(EnvType.CLIENT)
-    public static class Context extends EntityRendererFactory.Context {
+    class Context extends EntityRendererFactory.Context {
         private final EntityRenderDispatcher renderDispatcher;
         private final ItemRenderer itemRenderer;
         private final BlockRenderManager blockRenderManager;

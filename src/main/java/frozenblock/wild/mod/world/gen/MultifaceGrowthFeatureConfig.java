@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.worldgen;
+package frozenblock.wild.mod.world.gen;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;

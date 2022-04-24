@@ -29,12 +29,12 @@ import java.util.OptionalInt;
 public class WildMod implements ModInitializer {
 
     public static final String MOD_ID = "twm";
-    public static EntityPose CROAKING;
-    public static EntityPose USING_TONGUE;
-    public static EntityPose ROARING;
-    public static EntityPose SNIFFING;
-    public static EntityPose EMERGING;
-    public static EntityPose DIGGING;
+    public static final EntityPose CROAKING = ClassTinkerers.getEnum(EntityPose.class, "CROAKING");
+    public static final EntityPose USING_TONGUE = ClassTinkerers.getEnum(EntityPose.class, "USING_TONGUE");
+    public static final EntityPose ROARING = ClassTinkerers.getEnum(EntityPose.class, "ROARING");
+    public static final EntityPose SNIFFING = ClassTinkerers.getEnum(EntityPose.class, "SNIFFING");
+    public static final EntityPose EMERGING = ClassTinkerers.getEnum(EntityPose.class, "EMERGING");
+    public static final EntityPose DIGGING = ClassTinkerers.getEnum(EntityPose.class, "DIGGING");
 
     public static final GameEvent WARDEN_CAN_LISTEN = new GameEvent("warden_can_listen", 16);
     public static final GameEvent NOTE_BLOCK_PLAY = new GameEvent("note_block_play", 16);
@@ -67,13 +67,6 @@ public class WildMod implements ModInitializer {
         AnimationChannel.Interpolations.init();
 
         RegisterAccurateSculk.RegisterAccurateSculk();
-
-        CROAKING = ClassTinkerers.getEnum(EntityPose.class, "CROAKING");
-        USING_TONGUE = ClassTinkerers.getEnum(EntityPose.class, "USING_TONGUE");
-        ROARING = ClassTinkerers.getEnum(EntityPose.class, "ROARING");
-        SNIFFING = ClassTinkerers.getEnum(EntityPose.class, "SNIFFING");
-        EMERGING = ClassTinkerers.getEnum(EntityPose.class, "EMERGING");
-        DIGGING = ClassTinkerers.getEnum(EntityPose.class, "DIGGING");
 
         Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "warden_can_listen"), WARDEN_CAN_LISTEN);
         Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "note_block_play"), NOTE_BLOCK_PLAY);
@@ -146,6 +139,6 @@ public class WildMod implements ModInitializer {
     //TESTING GAMERULES. TODO: DELETE THESE AT 1.0. DO NOT WRITE TOO MUCH CODE THAT DEPENDS ON THESE.
     public static final GameRules.Key<GameRules.BooleanRule> NO_WARDEN_COOLDOWN =
             GameRuleRegistry.register("noWardenCooldown", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
-    public static final GameRules.Key<GameRules.BooleanRule> WARDEN_SPAWNING =
-            GameRuleRegistry.register("wardenSpawns", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
+    public static final GameRules.Key<GameRules.BooleanRule> DO_WARDEN_SPAWNING =
+            GameRuleRegistry.register("doWardenSpawning", GameRules.Category.SPAWNING, GameRuleFactory.createBooleanRule(true));
 }

@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.worldgen;
+package frozenblock.wild.mod.world.gen;
 
 import com.mojang.serialization.Codec;
 import frozenblock.wild.mod.block.SculkVeinBlock;

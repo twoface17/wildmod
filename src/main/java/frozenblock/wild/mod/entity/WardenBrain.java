@@ -63,7 +63,7 @@ public class WardenBrain {
             RegisterEntities.SONIC_BOOM_SOUND_COOLDOWN,
             RegisterEntities.SONIC_BOOM_SOUND_DELAY
     );
-    private static final Task<WardenEntity> RESET_DIG_COOLDOWN_TASK = new Task<WardenEntity>(
+    private static final Task<WardenEntity> RESET_DIG_COOLDOWN_TASK = new Task<>(
             ImmutableMap.of(RegisterEntities.DIG_COOLDOWN, MemoryModuleState.REGISTERED)
     ) {
         protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
@@ -195,8 +195,8 @@ public class WardenBrain {
 
     public static void lookAtDisturbance(WardenEntity warden, BlockPos pos) {
         if (warden.world.getWorldBorder().contains(pos)
-                && !warden.getPrimeSuspect().isPresent()
-                && !warden.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent()) {
+                && warden.getPrimeSuspect().isEmpty()
+                && warden.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty()) {
             resetDigCooldown(warden);
             warden.getBrain().remember(RegisterEntities.SNIFF_COOLDOWN, Unit.INSTANCE, 100L);
             warden.getBrain().remember(MemoryModuleType.LOOK_TARGET, new BlockPosLookTarget(pos), 100L);

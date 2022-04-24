@@ -5,6 +5,7 @@ import frozenblock.wild.mod.WildMod;
 import frozenblock.wild.mod.entity.*;
 import frozenblock.wild.mod.entity.chestboat.ChestBoatEntity;
 import frozenblock.wild.mod.mixins.MemoryModuleTypeInvoker;
+import frozenblock.wild.mod.mixins.MemoryModuleTypeInvoker2;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -28,26 +29,26 @@ import java.util.UUID;
 
 public class RegisterEntities {
 
-    public static MemoryModuleType<Unit> IS_PREGNANT;
-    public static MemoryModuleType<Unit> IS_IN_WATER;
-    public static MemoryModuleType<LivingEntity> ROAR_TARGET;
-    public static MemoryModuleType<BlockPos> DISTURBANCE_LOCATION;
-    public static MemoryModuleType<Unit> RECENT_PROJECTILE;
-    public static MemoryModuleType<Unit> IS_SNIFFING;
-    public static MemoryModuleType<Unit> IS_EMERGING;
-    public static MemoryModuleType<Unit> ROAR_SOUND_DELAY;
-    public static MemoryModuleType<Unit> DIG_COOLDOWN;
-    public static MemoryModuleType<Unit> ROAR_SOUND_COOLDOWN;
-    public static MemoryModuleType<Unit> SNIFF_COOLDOWN;
-    public static MemoryModuleType<Unit> TOUCH_COOLDOWN;
-    public static MemoryModuleType<Unit> VIBRATION_COOLDOWN;
-    public static MemoryModuleType<Unit> SONIC_BOOM_COOLDOWN;
-    public static MemoryModuleType<Unit> SONIC_BOOM_SOUND_COOLDOWN;
-    public static MemoryModuleType<Unit> SONIC_BOOM_SOUND_DELAY;
-    public static MemoryModuleType<UUID> LIKED_PLAYER;
-    public static MemoryModuleType<GlobalPos> LIKED_NOTEBLOCK;
-    public static MemoryModuleType<Integer> LIKED_NOTEBLOCK_COOLDOWN_TICKS;
-    public static MemoryModuleType<Integer> ITEM_PICKUP_COOLDOWN_TICKS;
+    public static final MemoryModuleType<Unit> IS_PREGNANT = MemoryModuleTypeInvoker.callRegister("is_pregnant", Codec.unit(Unit.INSTANCE));;
+    public static final MemoryModuleType<Unit> IS_IN_WATER = MemoryModuleTypeInvoker.callRegister("is_in_water", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<LivingEntity> ROAR_TARGET = MemoryModuleTypeInvoker2.callRegister("roar_target");
+    public static final MemoryModuleType<BlockPos> DISTURBANCE_LOCATION = MemoryModuleTypeInvoker2.callRegister("disturbance_location");
+    public static final MemoryModuleType<Unit> RECENT_PROJECTILE = MemoryModuleTypeInvoker.callRegister("recent_projectile", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> IS_SNIFFING = MemoryModuleTypeInvoker.callRegister("is_sniffing", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> IS_EMERGING = MemoryModuleTypeInvoker.callRegister("is_emerging", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> ROAR_SOUND_DELAY = MemoryModuleTypeInvoker.callRegister("roar_sound_delay", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> DIG_COOLDOWN = MemoryModuleTypeInvoker.callRegister("dig_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> ROAR_SOUND_COOLDOWN  = MemoryModuleTypeInvoker.callRegister("roar_sound_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> SNIFF_COOLDOWN = MemoryModuleTypeInvoker.callRegister("sniff_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> TOUCH_COOLDOWN = MemoryModuleTypeInvoker.callRegister("touch_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> VIBRATION_COOLDOWN = MemoryModuleTypeInvoker.callRegister("vibration_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> SONIC_BOOM_COOLDOWN = MemoryModuleTypeInvoker.callRegister("sonic_boom_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> SONIC_BOOM_SOUND_COOLDOWN = MemoryModuleTypeInvoker.callRegister("sonic_boom_sound_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> SONIC_BOOM_SOUND_DELAY = MemoryModuleTypeInvoker.callRegister("sonic_boom_sound_delay", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<UUID> LIKED_PLAYER = MemoryModuleTypeInvoker.callRegister("liked_player", DynamicSerializableUuid.CODEC);
+    public static final MemoryModuleType<GlobalPos> LIKED_NOTEBLOCK = MemoryModuleTypeInvoker.callRegister("liked_noteblock", GlobalPos.CODEC);
+    public static final MemoryModuleType<Integer> LIKED_NOTEBLOCK_COOLDOWN_TICKS = MemoryModuleTypeInvoker.callRegister("liked_noteblock_cooldown_ticks", Codec.INT);
+    public static final MemoryModuleType<Integer> ITEM_PICKUP_COOLDOWN_TICKS = MemoryModuleTypeInvoker.callRegister("item_pickup_cooldown_ticks", Codec.INT);
 
     public static final TagKey<GameEvent> WARDEN_CAN_LISTEN = of("warden_can_listen");
     public static final TagKey<GameEvent> SHRIEKER_CAN_LISTEN = of("shrieker_can_listen");
@@ -73,14 +74,6 @@ public class RegisterEntities {
         FabricDefaultAttributeRegistry.register(FROG, FrogEntity.createFrogAttributes());
         FabricDefaultAttributeRegistry.register(TADPOLE, TadpoleEntity.createTadpoleAttributes());
         FabricDefaultAttributeRegistry.register(FIREFLY, FireflyEntity.createFireflyAttributes());
-
-        IS_PREGNANT = MemoryModuleTypeInvoker.callRegister("is_pregnant", Codec.unit(Unit.INSTANCE));
-        IS_IN_WATER = MemoryModuleTypeInvoker.callRegister("is_in_water", Codec.unit(Unit.INSTANCE));
-
-        LIKED_PLAYER = MemoryModuleTypeInvoker.callRegister("liked_player", DynamicSerializableUuid.CODEC);
-        LIKED_NOTEBLOCK = MemoryModuleTypeInvoker.callRegister("liked_noteblock", GlobalPos.CODEC);
-        LIKED_NOTEBLOCK_COOLDOWN_TICKS = MemoryModuleTypeInvoker.callRegister("liked_noteblock_cooldown_ticks", Codec.INT);
-        ITEM_PICKUP_COOLDOWN_TICKS = MemoryModuleTypeInvoker.callRegister("item_pickup_cooldown_ticks", Codec.INT);
 
         BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FROG.getSpawnGroup(), RegisterEntities.FROG, 200, 3, 6);
         BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SWAMP), FIREFLY.getSpawnGroup(), RegisterEntities.FIREFLY, 200, 4, 10);

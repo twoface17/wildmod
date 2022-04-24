@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.worldgen;
+package frozenblock.wild.mod.world.gen;
 
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.Feature;

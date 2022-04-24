@@ -1,4 +1,4 @@
-package frozenblock.wild.mod.worldgen;
+package frozenblock.wild.mod.world.gen;
 
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.registry.RegistryEntry;
