@@ -78,7 +78,7 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
     }
 
     public void setAngles(T wardenEntity, float f, float g, float h, float i, float j) {
-        this.getPart().traverse().forEach(ModelPart::resetTransform);
+        this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetModelTransform());
         float k = h - (float)wardenEntity.age;
         long l = Util.getMeasuringTimeMs();
         this.setHeadAngle(i, j);
@@ -150,9 +150,9 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
         this.rightTendril.pitch = -f;
     }
 
-    public void runAnimation(AnimationState animationState, Animation animation, long time) {
+    public void runAnimation(AnimationState animationState, AnimationDefinition animation, long time) {
         animationState.run((state) -> {
-            AnimationHelper.animate(this, animation, time - state.getStartTime(), 1.0F, field_38326);
+            KeyframeAnimations.animate(this, animation, time - state.getStartTime(), 1.0F, field_38326);
         });
     }
 
