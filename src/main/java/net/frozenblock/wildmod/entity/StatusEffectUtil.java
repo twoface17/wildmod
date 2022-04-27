@@ -1,8 +1,9 @@
-package net.frozenblock.wildmod.entity;
+/*package net.frozenblock.wildmod.entity;
 
 import net.frozenblock.wildmod.liukrastapi.MathAddon;
 import net.frozenblock.wildmod.liukrastapi.StatusEffectInstance;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -66,3 +67,4 @@ public final class StatusEffectUtil {
         return list;
     }
 }
+*/

@@ -4,6 +4,7 @@ package net.frozenblock.wildmod.entity.render.allay;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.WildModClient;
 import net.frozenblock.wildmod.entity.AllayEntity;
+import net.frozenblock.wildmod.entity.AllayEntityModel;
 import net.frozenblock.wildmod.entity.AllayHeldItemFeatureRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

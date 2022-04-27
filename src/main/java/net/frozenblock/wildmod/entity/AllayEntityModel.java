@@ -14,7 +14,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
-public class AllayEntityModel<A extends PathAwareEntity> extends SinglePartEntityModel<AllayEntity> implements ModelWithArms {
+public class AllayEntityModel extends SinglePartEntityModel<AllayEntity> implements ModelWithArms {
 	private final ModelPart root;
 	private final ModelPart body;
 	private final ModelPart rightArm;

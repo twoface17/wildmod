@@ -5,6 +5,7 @@ import net.frozenblock.wildmod.block.SculkVeinBlock;
 import net.frozenblock.wildmod.data.DataGenerator;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityModel;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityRenderer;
+import net.frozenblock.wildmod.entity.render.allay.AllayEntityRenderer;
 import net.frozenblock.wildmod.event.GameEventTagProvider;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
