@@ -15,7 +15,6 @@ import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.frozenblock.wildmod.event.*;
-import net.frozenblock.wildmod.registry.Util;
 import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -49,6 +48,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Unit;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -56,6 +56,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.gen.random.AbstractRandom;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -264,13 +265,13 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
 
     private void addDigParticles(AnimationState animationState) {
         if ((float)(Util.getMeasuringTimeMs() - animationState.getStartTime()) < 4500.0F) {
-            Random random = this.getRandom();
+            AbstractRandom abstractRandom = WildAbstractRandom.createAtomic();
             BlockState blockState = this.world.getBlockState(this.getBlockPos().down());
             if (blockState.getRenderType() != BlockRenderType.INVISIBLE) {
                 for(int i = 0; i < 30; ++i) {
-                    double d = this.getX() + (double)MathHelper.nextBetween(random, -0.7F, 0.7F);
+                    double d = this.getX() + (double)MathAddon.nextBetween(abstractRandom, -0.7F, 0.7F);
                     double e = this.getY();
-                    double f = this.getZ() + (double)MathHelper.nextBetween(random, -0.7F, 0.7F);
+                    double f = this.getZ() + (double)MathAddon.nextBetween(abstractRandom, -0.7F, 0.7F);
                     this.world.addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState), d, e, f, 0.0, 0.0, 0.0);
                 }
             }
