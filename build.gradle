@@ -31,6 +31,7 @@ dependencies {
 
 	// Fabric-ASM
 	modImplementation "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
+	include "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 }
 
 tasks.withType(JavaCompile).configureEach {
