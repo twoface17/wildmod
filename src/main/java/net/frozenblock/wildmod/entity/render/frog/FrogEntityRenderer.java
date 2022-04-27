@@ -1,7 +1,8 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.render.frog;
 
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.WildModClient;
+import net.frozenblock.wildmod.entity.FrogEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

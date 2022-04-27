@@ -1,11 +1,18 @@
 package net.frozenblock.wildmod;
 
+import com.google.common.collect.ImmutableMap;
 import net.frozenblock.wildmod.block.SculkShriekerBlock;
 import net.frozenblock.wildmod.block.SculkVeinBlock;
 import net.frozenblock.wildmod.data.DataGenerator;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityModel;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityRenderer;
+import net.frozenblock.wildmod.entity.render.allay.AllayEntityModel;
 import net.frozenblock.wildmod.entity.render.allay.AllayEntityRenderer;
+import net.frozenblock.wildmod.entity.render.firefly.FireflyEntityRenderer;
+import net.frozenblock.wildmod.entity.render.frog.FrogEntityModel;
+import net.frozenblock.wildmod.entity.render.frog.FrogEntityRenderer;
+import net.frozenblock.wildmod.entity.render.tadpole.TadpoleEntityModel;
+import net.frozenblock.wildmod.entity.render.tadpole.TadpoleEntityRenderer;
 import net.frozenblock.wildmod.event.GameEventTagProvider;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -23,11 +30,14 @@ import net.frozenblock.wildmod.registry.*;
 import net.minecraft.GameVersion;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ExplosionLargeParticle;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.data.SnbtProvider;
 import net.minecraft.data.validate.StructureValidatorProvider;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -53,6 +63,7 @@ public class WildModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        ImmutableMap.Builder<EntityModelLayer, TexturedModelData> builder = ImmutableMap.builder();
 
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((spriteAtlasTexture, registry) -> {
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriek"));
@@ -92,8 +103,14 @@ public class WildModClient implements ClientModInitializer {
         EntityRendererRegistry.register(RegisterEntities.TADPOLE, TadpoleEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_TADPOLE_LAYER, TadpoleEntityModel::getTexturedModelData);
 
-        EntityRendererRegistry.register(RegisterEntities.MANGROVE_BOAT, MangroveBoatEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_MANGROVE_BOAT_LAYER, MangroveBoatEntityModel::getTexturedModelData);
+        EntityRendererRegistry.register(RegisterEntities.MANGROVE_BOAT, context -> new MangroveBoatEntityRenderer(context, false));
+        TexturedModelData texturedModelData19 = MangroveBoatEntityModel.getTexturedModelData(false);
+        TexturedModelData texturedModelData20 = MangroveBoatEntityModel.getTexturedModelData(true);
+        for (BoatEntity.Type type : BoatEntity.Type.values()) {
+            builder.put(EntityModelLayers.createBoat(type), texturedModelData19);
+            builder.put(MangroveBoatEntityRenderer.createChestBoat(type), texturedModelData20);
+        }
+        //EntityModelLayerRegistry.registerModelLayer(MODEL_MANGROVE_BOAT_LAYER, MangroveBoatEntityModel.getTexturedModelData(false));
 
         EntityRendererRegistry.register(RegisterEntities.CHEST_BOAT, ChestBoatEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_CHEST_BOAT_LAYER, ChestBoatEntityModel::getTexturedModelData);

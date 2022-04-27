@@ -1,6 +1,7 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.render.firefly;
 
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.entity.FireflyEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

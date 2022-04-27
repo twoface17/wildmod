@@ -1,5 +1,6 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.render.tadpole;
 
+import net.frozenblock.wildmod.entity.TadpoleEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
