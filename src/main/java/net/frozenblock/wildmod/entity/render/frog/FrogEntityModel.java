@@ -1,5 +1,6 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.render.frog;
 
+import net.frozenblock.wildmod.entity.FrogEntity;
 import net.frozenblock.wildmod.liukrastapi.MathAddon;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;

@@ -1,7 +1,8 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.render.allay;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.frozenblock.wildmod.entity.AllayEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.ModelWithArms;

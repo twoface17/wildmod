@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.entity;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.UnmodifiableIterator;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterItems;
 import net.minecraft.block.BlockState;
@@ -42,19 +43,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class MangroveBoatEntity extends Entity {
-    private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS;
-    private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE;
-    private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH;
-    private static final TrackedData<Boolean> LEFT_PADDLE_MOVING;
-    private static final TrackedData<Boolean> RIGHT_PADDLE_MOVING;
-    private static final TrackedData<Integer> BUBBLE_WOBBLE_TICKS;
+    private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(MangroveBoatEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(MangroveBoatEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(MangroveBoatEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Integer> BOAT_TYPE = DataTracker.registerData(MangroveBoatEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Boolean> LEFT_PADDLE_MOVING = DataTracker.registerData(MangroveBoatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> RIGHT_PADDLE_MOVING = DataTracker.registerData(MangroveBoatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Integer> BUBBLE_WOBBLE_TICKS = DataTracker.registerData(MangroveBoatEntity.class, TrackedDataHandlerRegistry.INTEGER);
     public static final int field_30697 = 0;
     public static final int field_30698 = 1;
     private static final int field_30695 = 60;
-    private static final double field_30696 = 0.39269909262657166D;
-    public static final double field_30699 = 0.7853981852531433D;
+    private static final float NEXT_PADDLE_PHASE = (float) (Math.PI / 8);
+    public static final double EMIT_SOUND_EVENT_PADDLE_ROTATION = (float) (Math.PI / 4);
     public static final int field_30700 = 60;
-    private final float[] paddlePhases;
+    private final float[] paddlePhases = new float[2];
     private float velocityDecay;
     private float ticksUnderwater;
     private float yawVelocity;
@@ -69,7 +71,7 @@ public class MangroveBoatEntity extends Entity {
     private boolean pressingForward;
     private boolean pressingBack;
     private double waterLevel;
-    private float field_7714;
+    private float nearbySlipperiness;
     private MangroveBoatEntity.Location location;
     private MangroveBoatEntity.Location lastLocation;
     private double fallVelocity;
@@ -81,7 +83,6 @@ public class MangroveBoatEntity extends Entity {
 
     public MangroveBoatEntity(EntityType<? extends MangroveBoatEntity> type, World world) {
         super(type, world);
-        this.paddlePhases = new float[2];
         this.intersectionChecked = true;
     }
 
@@ -99,14 +100,14 @@ public class MangroveBoatEntity extends Entity {
     }
 
     protected Entity.MoveEffect getMoveEffect() {
-        return Entity.MoveEffect.NONE;
+        return MoveEffect.EVENTS;
     }
 
-    @Override
     protected void initDataTracker() {
         this.dataTracker.startTracking(DAMAGE_WOBBLE_TICKS, 0);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0F);
+        this.dataTracker.startTracking(BOAT_TYPE, BoatEntity.Type.OAK.ordinal());
         this.dataTracker.startTracking(LEFT_PADDLE_MOVING, false);
         this.dataTracker.startTracking(RIGHT_PADDLE_MOVING, false);
         this.dataTracker.startTracking(BUBBLE_WOBBLE_TICKS, 0);
@@ -133,7 +134,7 @@ public class MangroveBoatEntity extends Entity {
     }
 
     public double getMountedHeightOffset() {
-        return -0.1D;
+        return -0.1;
     }
 
     public boolean damage(DamageSource source, float amount) {
@@ -148,7 +149,7 @@ public class MangroveBoatEntity extends Entity {
             boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity)source.getAttacker()).getAbilities().creativeMode;
             if (bl || this.getDamageWobbleStrength() > 40.0F) {
                 if (!bl && this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
-                    this.dropItem(this.asItem());
+                    this.dropItems(source);
                 }
 
                 this.discard();
@@ -160,6 +161,10 @@ public class MangroveBoatEntity extends Entity {
         }
     }
 
+    protected void dropItems(DamageSource source) {
+        this.dropItem(this.asItem());
+    }
+
     public void onBubbleColumnSurfaceCollision(boolean drag) {
         if (!this.world.isClient) {
             this.onBubbleColumnSurface = true;
@@ -169,12 +174,24 @@ public class MangroveBoatEntity extends Entity {
             }
         }
 
-        this.world.addParticle(ParticleTypes.SPLASH, this.getX() + (double)this.random.nextFloat(), this.getY() + 0.7D, this.getZ() + (double)this.random.nextFloat(), 0.0D, 0.0D, 0.0D);
+        this.world
+            .addParticle(
+                ParticleTypes.SPLASH,
+                this.getX() + (double)this.random.nextFloat(),
+                this.getY() + 0.7,
+                this.getZ() + (double)this.random.nextFloat(),
+                0.0,
+                0.0,
+                0.0
+            );
         if (this.random.nextInt(20) == 0) {
-            this.world.playSound(this.getX(), this.getY(), this.getZ(), this.getSplashSound(), this.getSoundCategory(), 1.0F, 0.8F + 0.4F * this.random.nextFloat(), false);
+            this.world
+            .playSound(
+                this.getX(), this.getY(), this.getZ(), this.getSplashSound(), this.getSoundCategory(), 1.0F, 0.8F + 0.4F * this.random.nextFloat(), false
+            );
+            this.emitGameEvent(GameEvent.SPLASH, this.getPrimaryPassenger());
         }
 
-        this.emitGameEvent(GameEvent.SPLASH, this.getPrimaryPassenger());
     }
 
     public void pushAwayFrom(Entity entity) {
@@ -206,8 +223,8 @@ public class MangroveBoatEntity extends Entity {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.boatYaw = yaw;
-        this.boatPitch = pitch;
+        this.boatYaw = (double)yaw;
+        this.boatPitch = (double)pitch;
         this.field_7708 = 10;
     }
 
@@ -237,7 +254,7 @@ public class MangroveBoatEntity extends Entity {
         }
 
         super.tick();
-        this.method_7555();
+        this.updatePositionAndRotation();
         if (this.isLogicalSideForUpdatingMovement()) {
             if (!(this.getFirstPassenger() instanceof PlayerEntity)) {
                 this.setPaddleMovings(false, false);
@@ -258,32 +275,49 @@ public class MangroveBoatEntity extends Entity {
 
         for(int i = 0; i <= 1; ++i) {
             if (this.isPaddleMoving(i)) {
-                if (!this.isSilent() && (double)(this.paddlePhases[i] % 6.2831855F) <= 0.7853981852531433D && ((double)this.paddlePhases[i] + 0.39269909262657166D) % 6.2831854820251465D >= 0.7853981852531433D) {
+                if (!this.isSilent()
+                        && (double)(this.paddlePhases[i] % (float) (Math.PI * 2)) <= (float) (Math.PI / 4)
+                        && (double)((this.paddlePhases[i] + (float) (Math.PI / 8)) % (float) (Math.PI * 2)) >= (float) (Math.PI / 4)) {
                     SoundEvent soundEvent = this.getPaddleSoundEvent();
                     if (soundEvent != null) {
                         Vec3d vec3d = this.getRotationVec(1.0F);
                         double d = i == 1 ? -vec3d.z : vec3d.z;
                         double e = i == 1 ? vec3d.x : -vec3d.x;
-                        this.world.playSound(null, this.getX() + d, this.getY(), this.getZ() + e, soundEvent, this.getSoundCategory(), 1.0F, 0.8F + 0.4F * this.random.nextFloat());
-                        this.world.emitGameEvent(this.getPrimaryPassenger(), GameEvent.SPLASH, new BlockPos(this.getX() + d, this.getY(), this.getZ() + e));
+                        this.world
+                                .playSound(
+                                        null,
+                                        this.getX() + d,
+                                        this.getY(),
+                                        this.getZ() + e,
+                                        soundEvent,
+                                        this.getSoundCategory(),
+                                        1.0F,
+                                        0.8F + 0.4F * this.random.nextFloat()
+                                );
                     }
                 }
 
-                float[] var10000 = this.paddlePhases;
-                var10000[i] = (float)((double)var10000[i] + 0.39269909262657166D);
+                this.paddlePhases[i] += (float) (Math.PI / 8);
             } else {
                 this.paddlePhases[i] = 0.0F;
             }
         }
 
         this.checkBlockCollision();
-        List<Entity> list = this.world.getOtherEntities(this, this.getBoundingBox().expand(0.20000000298023224D, -0.009999999776482582D, 0.20000000298023224D), EntityPredicates.canBePushedBy(this));
+        List<Entity> list = this.world.getOtherEntities(this, this.getBoundingBox().expand(0.2F, -0.01F, 0.2F), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
             boolean bl = !this.world.isClient && !(this.getPrimaryPassenger() instanceof PlayerEntity);
 
-            for (Entity entity : list) {
+            for(int j = 0; j < list.size(); ++j) {
+                Entity entity = (Entity)list.get(j);
                 if (!entity.hasPassenger(this)) {
-                    if (bl && this.getPassengerList().size() < 2 && !entity.hasVehicle() && entity.getWidth() < this.getWidth() && entity instanceof LivingEntity && !(entity instanceof WaterCreatureEntity) && !(entity instanceof PlayerEntity)) {
+                    if (bl
+                            && this.getPassengerList().size() < this.getMaxPassengers()
+                            && !entity.hasVehicle()
+                            && entity.getWidth() < this.getWidth()
+                            && entity instanceof LivingEntity
+                            && !(entity instanceof WaterCreatureEntity)
+                            && !(entity instanceof PlayerEntity)) {
                         entity.startRiding(this);
                     } else {
                         this.pushAwayFrom(entity);
@@ -295,10 +329,9 @@ public class MangroveBoatEntity extends Entity {
     }
 
     private void handleBubbleColumn() {
-        int j;
         if (this.world.isClient) {
-            j = this.getBubbleWobbleTicks();
-            if (j > 0) {
+            int i = this.getBubbleWobbleTicks();
+            if (i > 0) {
                 this.bubbleWobbleStrength += 0.05F;
             } else {
                 this.bubbleWobbleStrength -= 0.1F;
@@ -306,25 +339,24 @@ public class MangroveBoatEntity extends Entity {
 
             this.bubbleWobbleStrength = MathHelper.clamp(this.bubbleWobbleStrength, 0.0F, 1.0F);
             this.lastBubbleWobble = this.bubbleWobble;
-            this.bubbleWobble = 10.0F * (float)Math.sin(0.5F * (float)this.world.getTime()) * this.bubbleWobbleStrength;
+            this.bubbleWobble = 10.0F * (float)Math.sin((double)(0.5F * (float)this.world.getTime())) * this.bubbleWobbleStrength;
         } else {
             if (!this.onBubbleColumnSurface) {
                 this.setBubbleWobbleTicks(0);
             }
 
-            j = this.getBubbleWobbleTicks();
-            if (j > 0) {
-                --j;
-                this.setBubbleWobbleTicks(j);
-                int k = 60 - j - 1;
-                if (k > 0 && j == 0) {
+            int i = this.getBubbleWobbleTicks();
+            if (i > 0) {
+                this.setBubbleWobbleTicks(--i);
+                int j = 60 - i - 1;
+                if (j > 0 && i == 0) {
                     this.setBubbleWobbleTicks(0);
                     Vec3d vec3d = this.getVelocity();
                     if (this.bubbleColumnIsDrag) {
-                        this.setVelocity(vec3d.add(0.0D, -0.7D, 0.0D));
+                        this.setVelocity(vec3d.add(0.0, -0.7, 0.0));
                         this.removeAllPassengers();
                     } else {
-                        this.setVelocity(vec3d.x, this.hasPassengerType((entity) -> entity instanceof PlayerEntity) ? 2.7D : 0.6D, vec3d.z);
+                        this.setVelocity(vec3d.x, this.hasPassengerType(entity -> entity instanceof PlayerEntity) ? 2.7 : 0.6, vec3d.z);
                     }
                 }
 
@@ -349,7 +381,7 @@ public class MangroveBoatEntity extends Entity {
         }
     }
 
-    private void method_7555() {
+    private void updatePositionAndRotation() {
         if (this.isLogicalSideForUpdatingMovement()) {
             this.field_7708 = 0;
             this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
@@ -374,7 +406,9 @@ public class MangroveBoatEntity extends Entity {
     }
 
     public float interpolatePaddlePhase(int paddle, float tickDelta) {
-        return this.isPaddleMoving(paddle) ? (float)MathHelper.clampedLerp((double)this.paddlePhases[paddle] - 0.39269909262657166D, this.paddlePhases[paddle], tickDelta) : 0.0F;
+        return this.isPaddleMoving(paddle)
+                ? MathHelper.clampedLerp(this.paddlePhases[paddle] - (float) (Math.PI / 8), this.paddlePhases[paddle], tickDelta)
+                : 0.0F;
     }
 
     private MangroveBoatEntity.Location checkLocation() {
@@ -385,9 +419,9 @@ public class MangroveBoatEntity extends Entity {
         } else if (this.checkBoatInWater()) {
             return MangroveBoatEntity.Location.IN_WATER;
         } else {
-            float f = this.method_7548();
+            float f = this.getNearbySlipperiness();
             if (f > 0.0F) {
-                this.field_7714 = f;
+                this.nearbySlipperiness = f;
                 return MangroveBoatEntity.Location.ON_LAND;
             } else {
                 return MangroveBoatEntity.Location.IN_AIR;
@@ -395,7 +429,7 @@ public class MangroveBoatEntity extends Entity {
         }
     }
 
-    public float method_7544() {
+    public float getWaterHeightBelow() {
         Box box = this.getBoundingBox();
         int i = MathHelper.floor(box.minX);
         int j = MathHelper.ceil(box.maxX);
@@ -431,9 +465,9 @@ public class MangroveBoatEntity extends Entity {
         return (float)(l + 1);
     }
 
-    public float method_7548() {
+    public float getNearbySlipperiness() {
         Box box = this.getBoundingBox();
-        Box box2 = new Box(box.minX, box.minY - 0.001D, box.minZ, box.maxX, box.minY, box.maxZ);
+        Box box2 = new Box(box.minX, box.minY - 0.001, box.minZ, box.maxX, box.minY, box.maxZ);
         int i = MathHelper.floor(box2.minX) - 1;
         int j = MathHelper.ceil(box2.maxX) + 1;
         int k = MathHelper.floor(box2.minY) - 1;
@@ -453,7 +487,12 @@ public class MangroveBoatEntity extends Entity {
                         if (r <= 0 || s != k && s != l - 1) {
                             mutable.set(p, s, q);
                             BlockState blockState = this.world.getBlockState(mutable);
-                            if (!(blockState.getBlock() instanceof LilyPadBlock) && VoxelShapes.matchesAnywhere(blockState.getCollisionShape(this.world, mutable).offset(p, s, q), voxelShape, BooleanBiFunction.AND)) {
+                            if (!(blockState.getBlock() instanceof LilyPadBlock)
+                                    && VoxelShapes.matchesAnywhere(
+                                    blockState.getCollisionShape(this.world, mutable).offset((double)p, (double)s, (double)q),
+                                    voxelShape,
+                                    BooleanBiFunction.AND
+                            )) {
                                 f += blockState.getBlock().getSlipperiness();
                                 ++o;
                             }
@@ -471,11 +510,11 @@ public class MangroveBoatEntity extends Entity {
         int i = MathHelper.floor(box.minX);
         int j = MathHelper.ceil(box.maxX);
         int k = MathHelper.floor(box.minY);
-        int l = MathHelper.ceil(box.minY + 0.001D);
+        int l = MathHelper.ceil(box.minY + 0.001);
         int m = MathHelper.floor(box.minZ);
         int n = MathHelper.ceil(box.maxZ);
         boolean bl = false;
-        this.waterLevel = -1.7976931348623157E308D;
+        this.waterLevel = -Double.MAX_VALUE;
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
         for(int o = i; o < j; ++o) {
@@ -485,7 +524,7 @@ public class MangroveBoatEntity extends Entity {
                     FluidState fluidState = this.world.getFluidState(mutable);
                     if (fluidState.isIn(FluidTags.WATER)) {
                         float f = (float)p + fluidState.getHeight(this.world, mutable);
-                        this.waterLevel = Math.max(f, this.waterLevel);
+                        this.waterLevel = Math.max((double)f, this.waterLevel);
                         bl |= box.minY < (double)f;
                     }
                 }
@@ -498,7 +537,7 @@ public class MangroveBoatEntity extends Entity {
     @Nullable
     private MangroveBoatEntity.Location getUnderWaterLocation() {
         Box box = this.getBoundingBox();
-        double d = box.maxY + 0.001D;
+        double d = box.maxY + 0.001;
         int i = MathHelper.floor(box.minX);
         int j = MathHelper.ceil(box.maxX);
         int k = MathHelper.floor(box.maxY);
@@ -528,41 +567,41 @@ public class MangroveBoatEntity extends Entity {
     }
 
     private void updateVelocity() {
-        double d = -0.03999999910593033D;
-        double e = this.hasNoGravity() ? 0.0D : -0.03999999910593033D;
-        double f = 0.0D;
+        double d = -0.04F;
+        double e = this.hasNoGravity() ? 0.0 : -0.04F;
+        double f = 0.0;
         this.velocityDecay = 0.05F;
         if (this.lastLocation == MangroveBoatEntity.Location.IN_AIR && this.location != MangroveBoatEntity.Location.IN_AIR && this.location != MangroveBoatEntity.Location.ON_LAND) {
-            this.waterLevel = this.getBodyY(1.0D);
-            this.setPosition(this.getX(), (double)(this.method_7544() - this.getHeight()) + 0.101D, this.getZ());
-            this.setVelocity(this.getVelocity().multiply(1.0D, 0.0D, 1.0D));
-            this.fallVelocity = 0.0D;
+            this.waterLevel = this.getBodyY(1.0);
+            this.setPosition(this.getX(), (double)(this.getWaterHeightBelow() - this.getHeight()) + 0.101, this.getZ());
+            this.setVelocity(this.getVelocity().multiply(1.0, 0.0, 1.0));
+            this.fallVelocity = 0.0;
             this.location = MangroveBoatEntity.Location.IN_WATER;
         } else {
             if (this.location == MangroveBoatEntity.Location.IN_WATER) {
                 f = (this.waterLevel - this.getY()) / (double)this.getHeight();
                 this.velocityDecay = 0.9F;
             } else if (this.location == MangroveBoatEntity.Location.UNDER_FLOWING_WATER) {
-                e = -7.0E-4D;
+                e = -7.0E-4;
                 this.velocityDecay = 0.9F;
             } else if (this.location == MangroveBoatEntity.Location.UNDER_WATER) {
-                f = 0.009999999776482582D;
+                f = 0.01F;
                 this.velocityDecay = 0.45F;
             } else if (this.location == MangroveBoatEntity.Location.IN_AIR) {
                 this.velocityDecay = 0.9F;
             } else if (this.location == MangroveBoatEntity.Location.ON_LAND) {
-                this.velocityDecay = this.field_7714;
+                this.velocityDecay = this.nearbySlipperiness;
                 if (this.getPrimaryPassenger() instanceof PlayerEntity) {
-                    this.field_7714 /= 2.0F;
+                    this.nearbySlipperiness /= 2.0F;
                 }
             }
 
             Vec3d vec3d = this.getVelocity();
             this.setVelocity(vec3d.x * (double)this.velocityDecay, vec3d.y + e, vec3d.z * (double)this.velocityDecay);
             this.yawVelocity *= this.velocityDecay;
-            if (f > 0.0D) {
+            if (f > 0.0) {
                 Vec3d vec3d2 = this.getVelocity();
-                this.setVelocity(vec3d2.x, (vec3d2.y + f * 0.06153846016296973D) * 0.75D, vec3d2.z);
+                this.setVelocity(vec3d2.x, (vec3d2.y + f * 0.06153846016296973) * 0.75, vec3d2.z);
             }
         }
 
@@ -592,15 +631,28 @@ public class MangroveBoatEntity extends Entity {
                 f -= 0.005F;
             }
 
-            this.setVelocity(this.getVelocity().add(MathHelper.sin(-this.getYaw() * 0.017453292F) * f, 0.0D, MathHelper.cos(this.getYaw() * 0.017453292F) * f));
-            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
+            this.setVelocity(
+                    this.getVelocity()
+                            .add(
+                                    (double)(MathHelper.sin(-this.getYaw() * (float) (Math.PI / 180.0)) * f),
+                                    0.0,
+                                    (double)(MathHelper.cos(this.getYaw() * (float) (Math.PI / 180.0)) * f)
+                            )
+            );
+            this.setPaddleMovings(
+                    this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward
+            );
         }
+    }
+
+    protected float getPassengerHorizontalOffset() {
+        return 0.0F;
     }
 
     public void updatePassengerPosition(Entity passenger) {
         if (this.hasPassenger(passenger)) {
-            float f = 0.0F;
-            float g = (float)((this.isRemoved() ? 0.009999999776482582D : this.getMountedHeightOffset()) + passenger.getHeightOffset());
+            float f = this.getPassengerHorizontalOffset();
+            float g = (float)((this.isRemoved() ? 0.01F : this.getMountedHeightOffset()) + passenger.getHeightOffset());
             if (this.getPassengerList().size() > 1) {
                 int i = this.getPassengerList().indexOf(passenger);
                 if (i == 0) {
@@ -610,16 +662,16 @@ public class MangroveBoatEntity extends Entity {
                 }
 
                 if (passenger instanceof AnimalEntity) {
-                    f = (float)((double)f + 0.2D);
+                    f += 0.2F;
                 }
             }
 
-            Vec3d vec3d = (new Vec3d(f, 0.0D, 0.0D)).rotateY(-this.getYaw() * 0.017453292F - 1.5707964F);
+            Vec3d vec3d = new Vec3d((double)f, 0.0, 0.0).rotateY(-this.getYaw() * (float) (Math.PI / 180.0) - (float) (Math.PI / 2));
             passenger.setPosition(this.getX() + vec3d.x, this.getY() + (double)g, this.getZ() + vec3d.z);
             passenger.setYaw(passenger.getYaw() + this.yawVelocity);
             passenger.setHeadYaw(passenger.getHeadYaw() + this.yawVelocity);
             this.copyEntityData(passenger);
-            if (passenger instanceof AnimalEntity && this.getPassengerList().size() > 1) {
+            if (passenger instanceof AnimalEntity && this.getPassengerList().size() == this.getMaxPassengers()) {
                 int j = passenger.getId() % 2 == 0 ? 90 : 270;
                 passenger.setBodyYaw(((AnimalEntity)passenger).bodyYaw + (float)j);
                 passenger.setHeadYaw(passenger.getHeadYaw() + (float)j);
@@ -646,9 +698,12 @@ public class MangroveBoatEntity extends Entity {
                 list.add(new Vec3d(d, (double)blockPos2.getY() + g, e));
             }
 
-            for (EntityPose entityPose : passenger.getPoses()) {
+            UnmodifiableIterator<EntityPose> var14 = passenger.getPoses().iterator();
 
-                for (Vec3d vec3d2 : list) {
+            while(var14.hasNext()) {
+                EntityPose entityPose = var14.next();
+
+                for(Vec3d vec3d2 : list) {
                     if (Dismounting.canPlaceEntityAt(this.world, vec3d2, passenger, entityPose)) {
                         passenger.setPose(entityPose);
                         return vec3d2;
@@ -674,9 +729,14 @@ public class MangroveBoatEntity extends Entity {
     }
 
     protected void writeCustomDataToNbt(NbtCompound nbt) {
+        nbt.putString("Type", this.getBoatType().getName());
     }
 
     protected void readCustomDataFromNbt(NbtCompound nbt) {
+        if (nbt.contains("Type", 8)) {
+            this.setBoatType(BoatEntity.Type.getType(nbt.getString("Type")));
+        }
+
     }
 
     public ActionResult interact(PlayerEntity player, Hand hand) {
@@ -693,13 +753,13 @@ public class MangroveBoatEntity extends Entity {
         }
     }
 
-    protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+    protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
         this.fallVelocity = this.getVelocity().y;
         if (!this.hasVehicle()) {
             if (onGround) {
                 if (this.fallDistance > 3.0F) {
                     if (this.location != MangroveBoatEntity.Location.ON_LAND) {
-                        this.fallDistance = 0.0F;
+                        this.onLanding();
                         return;
                     }
 
@@ -707,21 +767,20 @@ public class MangroveBoatEntity extends Entity {
                     if (!this.world.isClient && !this.isRemoved()) {
                         this.kill();
                         if (this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
-                            int j;
-                            for(j = 0; j < 3; ++j) {
-                                this.dropItem(this.asItem());
+                            for(int i = 0; i < 3; ++i) {
+                                this.dropItem(this.getBoatType().getBaseBlock());
                             }
 
-                            for(j = 0; j < 2; ++j) {
+                            for(int i = 0; i < 2; ++i) {
                                 this.dropItem(Items.STICK);
                             }
                         }
                     }
                 }
 
-                this.fallDistance = 0.0F;
-            } else if (!this.world.getFluidState(this.getBlockPos().down()).isIn(FluidTags.WATER) && heightDifference < 0.0D) {
-                this.fallDistance = (float)((double)this.fallDistance - heightDifference);
+                this.onLanding();
+            } else if (!this.world.getFluidState(this.getBlockPos().down()).isIn(FluidTags.WATER) && heightDifference < 0.0) {
+                this.fallDistance -= (float)heightDifference;
             }
 
         }
@@ -767,8 +826,20 @@ public class MangroveBoatEntity extends Entity {
         return this.dataTracker.get(DAMAGE_WOBBLE_SIDE);
     }
 
+    public void setBoatType(BoatEntity.Type type) {
+        this.dataTracker.set(BOAT_TYPE, type.ordinal());
+    }
+
+    public BoatEntity.Type getBoatType() {
+        return BoatEntity.Type.getType(this.dataTracker.get(BOAT_TYPE));
+    }
+
     protected boolean canAddPassenger(Entity passenger) {
         return this.getPassengerList().size() < 2 && !this.isSubmergedIn(FluidTags.WATER);
+    }
+
+    protected int getMaxPassengers() {
+        return 2;
     }
 
     @Nullable
@@ -795,20 +866,16 @@ public class MangroveBoatEntity extends Entity {
         return new ItemStack(this.asItem());
     }
 
-    static {
-        DAMAGE_WOBBLE_TICKS = DataTracker.registerData(BoatEntity.class, TrackedDataHandlerRegistry.INTEGER);
-        DAMAGE_WOBBLE_SIDE = DataTracker.registerData(BoatEntity.class, TrackedDataHandlerRegistry.INTEGER);
-        DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(BoatEntity.class, TrackedDataHandlerRegistry.FLOAT);
-        LEFT_PADDLE_MOVING = DataTracker.registerData(BoatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-        RIGHT_PADDLE_MOVING = DataTracker.registerData(BoatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-        BUBBLE_WOBBLE_TICKS = DataTracker.registerData(BoatEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    }
-
-    public enum Location {
+    public static enum Location {
         IN_WATER,
         UNDER_WATER,
         UNDER_FLOWING_WATER,
         ON_LAND,
-        IN_AIR
+        IN_AIR;
+
+        private Location() {
+        }
     }
+
+
 }

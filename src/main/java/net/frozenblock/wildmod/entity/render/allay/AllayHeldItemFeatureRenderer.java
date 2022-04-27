@@ -1,7 +1,8 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.render.allay;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.frozenblock.wildmod.entity.AllayEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -9,7 +10,6 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.item.ItemStack;
 
 @Environment(EnvType.CLIENT)
