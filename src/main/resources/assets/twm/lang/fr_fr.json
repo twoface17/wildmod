@@ -1,5 +1,5 @@
 {
-  "block.twm.mud_block": "Bloc de boue",
+  "block.twm.mud": "Bloc de boue",
   "block.twm.mud_bricks": "Briques de boue",
   "block.twm.mud_brick_stairs": "Escalier en brique de boue",
   "block.twm.mud_brick_slab": "Dalle en brique de boue",
@@ -22,7 +22,7 @@
   "block.twm.mangrove_roots": "Racines de mangrove",
   "block.twm.mangrove_propagule": "Propagule de Mangrove",
 
-  "biome.twm.mangrove_swamps": "Marais de mangrove",
+  "biome.twm.mangrove_swamp": "Marais de mangrove",
   "biome.twm.deep_dark": "Deep Dark",
 
   "block.twm.sculk": "Sculk",
@@ -38,7 +38,7 @@
   "item.twm.firefly_spawn_egg": "Oeuf d'apparition de luciole",
   "item.twm.tadpole_bucket": "Tétard dans un sceau",
 
-  "block.twm.frog_spawn": "Oeuf de grenouille",
+  "block.twm.frogspawn": "Oeuf de grenouille",
   "block.twm.pearlescent_froglight": "Froglight nacrée",
   "block.twm.verdant_froglight": "Froglight verdoyant",
   "block.twm.ochre_froglight": "Froglight ocre",
@@ -72,7 +72,7 @@
   "subtitles.entity.warden.death":"Warden qui meurt",
   "subtitles.entity.warden.roar":"Rugissement de warden",
   "subtitles.entity.warden.sniff":"Warden qui renifle",
-  "subtitles.entity.warden.vibration":"Les vrilles du warden qui cliquent",
+  "subtitles.entity.warden.tendril_clicks":"Les vrilles du warden qui cliquent",
   "subtitles.entity.warden.attack":"Coups de warden",
   "subtitles.block.sculk_shrieker.shriek":"Hurleur sculk qui hurle",
   "subtitles.entity.warden.nearby_close":"Battements de coeur lointains",

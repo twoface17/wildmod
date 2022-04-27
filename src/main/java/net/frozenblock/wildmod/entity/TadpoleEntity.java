@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterItems;
+import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Bucketable;
 import net.minecraft.entity.EntityType;
@@ -22,8 +23,10 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.FishEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.DebugInfoSender;
@@ -39,10 +42,19 @@ import org.jetbrains.annotations.Nullable;
 
 public class TadpoleEntity extends FishEntity {
     @VisibleForTesting
-    public static final int MAX_TADPOLE_AGE = Math.abs(-24000);
+    public static int MAX_TADPOLE_AGE = Math.abs(-24000);
     private int tadpoleAge;
-    protected static final ImmutableList<SensorType<? extends Sensor<? super TadpoleEntity>>> SENSORS;
-    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES;
+    protected static final ImmutableList<SensorType<? extends Sensor<? super TadpoleEntity>>> SENSORS = ImmutableList.of(
+            SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY
+    );
+    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES = ImmutableList.of(
+            MemoryModuleType.LOOK_TARGET,
+            MemoryModuleType.VISIBLE_MOBS,
+            MemoryModuleType.WALK_TARGET,
+            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+            MemoryModuleType.PATH,
+            MemoryModuleType.NEAREST_VISIBLE_ADULT
+    );
 
     public TadpoleEntity(EntityType<? extends FishEntity> entityType, World world) {
         super(entityType, world);
@@ -62,11 +74,12 @@ public class TadpoleEntity extends FishEntity {
         return TadpoleBrain.create(this.createBrainProfile().deserialize(dynamic));
     }
 
-
-    public Brain<TadpoleEntity> getBrain() {return (Brain<TadpoleEntity>) super.getBrain();}
+    public Brain<TadpoleEntity> getBrain() {
+        return (Brain<TadpoleEntity>) super.getBrain();
+    }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;
+        return RegisterSounds.ENTITY_TADPOLE_FLOP;
     }
 
     protected void mobTick() {
@@ -74,13 +87,13 @@ public class TadpoleEntity extends FishEntity {
         this.getBrain().tick((ServerWorld)this.world, this);
         this.world.getProfiler().pop();
         this.world.getProfiler().push("tadpoleActivityUpdate");
-        TadpoleBrain.method_41401(this);
+        TadpoleBrain.updateActivities(this);
         this.world.getProfiler().pop();
         super.mobTick();
     }
 
     public static DefaultAttributeContainer.Builder createTadpoleAttributes() {
-        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1.0D).add(EntityAttributes.GENERIC_MAX_HEALTH, 6.0D);
+        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1.0).add(EntityAttributes.GENERIC_MAX_HEALTH, 6.0);
     }
 
     public void tickMovement() {
@@ -108,16 +121,12 @@ public class TadpoleEntity extends FishEntity {
 
     @Nullable
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_COD_HURT;
+        return RegisterSounds.ENTITY_TADPOLE_HURT;
     }
 
     @Nullable
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SALMON_DEATH;
-    }
-
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.ENTITY_TROPICAL_FISH_FLOP, 0.15F, 1.0F);
+        return RegisterSounds.ENTITY_TADPOLE_DEATH;
     }
 
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
@@ -126,7 +135,7 @@ public class TadpoleEntity extends FishEntity {
             this.eatSlimeBall(player, itemStack);
             return ActionResult.success(this.world.isClient);
         } else {
-            return Bucketable.tryBucket(player, hand, this).orElse(super.interactMob(player, hand));
+            return (ActionResult)Bucketable.tryBucket(player, hand, this).orElse(super.interactMob(player, hand));
         }
     }
 
@@ -142,14 +151,12 @@ public class TadpoleEntity extends FishEntity {
     public void setFromBucket(boolean fromBucket) {
     }
 
-    @Deprecated
     public void copyDataToStack(ItemStack stack) {
         Bucketable.copyDataToStack(this, stack);
         NbtCompound nbtCompound = stack.getOrCreateNbt();
         nbtCompound.putInt("Age", this.getTadpoleAge());
     }
 
-    @Deprecated
     public void copyDataFromNbt(NbtCompound nbt) {
         Bucketable.copyDataFromNbt(this, nbt);
         if (nbt.contains("Age")) {
@@ -162,8 +169,8 @@ public class TadpoleEntity extends FishEntity {
         return new ItemStack(RegisterItems.TADPOLE_BUCKET);
     }
 
-    public SoundEvent getBucketedSound() {
-        return SoundEvents.ITEM_BUCKET_FILL_FISH;
+    public SoundEvent getBucketFillSound() {
+        return RegisterSounds.ITEM_BUCKET_FILL_TADPOLE;
     }
 
     private boolean isSlimeBall(ItemStack stack) {
@@ -172,9 +179,8 @@ public class TadpoleEntity extends FishEntity {
 
     private void eatSlimeBall(PlayerEntity player, ItemStack stack) {
         this.decrementItem(player, stack);
-        this.increaseAge(method_41321(this.getTicksUntilGrowth()));
-        this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getParticleX(1.0D), this.getRandomBodyY() + 0.5D, this.getParticleZ(1.0D), 0.0D, 0.0D, 0.0D);
-        this.emitGameEvent(GameEvent.MOB_INTERACT, this.getCameraBlockPos());
+        this.increaseAge(toGrowUpAge(this.getTicksUntilGrowth()));
+        this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getParticleX(1.0), this.getRandomBodyY() + 0.5, this.getParticleZ(1.0), 0.0, 0.0, 0.0);
     }
 
     private void decrementItem(PlayerEntity player, ItemStack stack) {
@@ -184,8 +190,8 @@ public class TadpoleEntity extends FishEntity {
 
     }
 
-    public static int method_41321(int i) {
-        return (int)((float)(i / 20) * 0.1F);
+    public static int toGrowUpAge(int breedingAge) {
+        return (int)((float)(breedingAge / 20) * 0.1F);
     }
 
     private int getTadpoleAge() {
@@ -205,8 +211,8 @@ public class TadpoleEntity extends FishEntity {
     }
 
     private void growUp() {
-        World var2 = this.world;
-        if (var2 instanceof ServerWorld serverWorld) {
+        World frogWorld = this.world;
+        if (frogWorld instanceof ServerWorld serverWorld) {
             FrogEntity frogEntity = RegisterEntities.FROG.create(this.world);
             assert frogEntity != null;
             frogEntity.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch());
@@ -218,7 +224,7 @@ public class TadpoleEntity extends FishEntity {
             }
 
             frogEntity.setPersistent();
-            //this.playSound(SoundEvents.ENTITY_TADPOLE_GROW_UP, 0.15F, 1.0F);
+            this.playSound(RegisterSounds.ENTITY_TADPOLE_GROW_UP, 0.15F, 1.0F);
             serverWorld.spawnEntityAndPassengers(frogEntity);
             this.discard();
         }
@@ -227,11 +233,6 @@ public class TadpoleEntity extends FishEntity {
 
     private int getTicksUntilGrowth() {
         return Math.max(0, MAX_TADPOLE_AGE - this.tadpoleAge);
-    }
-
-    static {
-        SENSORS = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY);
-        MEMORY_MODULES = ImmutableList.of(MemoryModuleType.LOOK_TARGET, MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.PATH, MemoryModuleType.NEAREST_VISIBLE_ADULT);
     }
 }
 

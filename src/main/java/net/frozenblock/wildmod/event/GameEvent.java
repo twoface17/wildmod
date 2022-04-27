@@ -1,7 +1,9 @@
 package net.frozenblock.wildmod.event;
 
+import net.frozenblock.wildmod.WildMod;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +47,7 @@ public class GameEvent extends net.minecraft.world.event.GameEvent {
     public static final GameEvent PROJECTILE_SHOOT = register("projectile_shoot");
     public static final GameEvent SCULK_SENSOR_TENDRILS_CLICKING = register("sculk_sensor_tendrils_clicking");
     public static final GameEvent SHEAR = register("shear");
-    public static final GameEvent SHRIEK = register("shriek", 32);
+    public static final GameEvent SHRIEK = register(String.valueOf(new Identifier(WildMod.MOD_ID, "shriek")), 32);
     public static final GameEvent SPLASH = register("splash");
     public static final GameEvent STEP = register("step");
     public static final GameEvent SWIM = register("swim");
@@ -74,7 +76,7 @@ public class GameEvent extends net.minecraft.world.event.GameEvent {
     }
 
     private static GameEvent register(String id, int range) {
-        return (GameEvent)Registry.register(Registry.GAME_EVENT, id, new GameEvent(id, range));
+        return Registry.register(Registry.GAME_EVENT, id, new GameEvent(id, range));
     }
 
     public String toString() {

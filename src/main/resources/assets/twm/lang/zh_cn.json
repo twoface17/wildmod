@@ -2,7 +2,7 @@
 	"biome.twm.deep_dark": "深暗之域",
 	"biome.twm.mangrove_swamp": "红树沼泽",
 	"block.twm.reinforced_deepslate": "强化深板岩",
-	"block.twm.frog_spawn": "蝌蚪卵",
+	"block.twm.frogspawn": "蝌蚪卵",
 	"block.twm.mangrove_button": "红树木按钮",
 	"block.twm.mangrove_door": "红树木门",
 	"block.twm.mangrove_fence": "红树栅栏",
@@ -76,7 +76,7 @@
 	"subtitles.entity.warden.roar": "监守者：咆哮",
 	"subtitles.entity.warden.slightly_angry": "监守者：愤怒地咆哮",
 	"subtitles.entity.warden.sniff": "监守者：嗅闻",
-	"subtitles.entity.warden.vibration": "监守者：卷须颤动",
+	"subtitles.entity.warden.tendril_clicks": "监守者：卷须颤动",
 	"subtitles.twm.nearby_close": "监守者接近",
 	"subtitles.twm.nearby_closer": "监守者逼近",
 	"subtitles.twm.nearby_closest": "监守者迫近"

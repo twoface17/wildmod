@@ -16,6 +16,8 @@ import net.minecraft.util.registry.Registry;
 
 public abstract class RegisterBlocks {
 
+    public static final Material FROGSPAWNMATERIAL = new Material.Builder(MapColor.WATER_BLUE).allowsMovement()/*.lightPassesThrough()*/.notSolid().allowsMovement().build();
+
     public static final AbstractBlock.Settings REINFORCED_DEEPSLATE_SETTINGS = FabricBlockSettings
             .of(Material.STONE, MapColor.DEEPSLATE_GRAY)
             .requiresTool()
@@ -28,8 +30,8 @@ public abstract class RegisterBlocks {
                     RegisterSounds.BLOCK_REINFORCED_DEEPSLATE_STEP
             ));
 
-    public static final AbstractBlock.Settings FROG_SPAWN_PROPERTIES = FabricBlockSettings
-            .of(Material.EGG)
+    public static final AbstractBlock.Settings FROGSPAWN_PROPERTIES = FabricBlockSettings
+            .of(FROGSPAWNMATERIAL).breakInstantly().nonOpaque().noCollision()
             .sounds(new BlockSoundGroup(1.0f, 1.5f,
                     SoundEvents.ENTITY_TURTLE_EGG_BREAK,
                     SoundEvents.BLOCK_METAL_STEP,
@@ -83,7 +85,7 @@ public abstract class RegisterBlocks {
 
 
     // ALL BLOCKS HERE HAVE NO COLLISION
-    public static final Block FROGSPAWN = new FrogSpawnBlock(FROG_SPAWN_PROPERTIES.nonOpaque().noCollision());
+    public static final Block FROGSPAWN = new FrogSpawnBlock(FROGSPAWN_PROPERTIES.nonOpaque().noCollision());
     public static final Block SCULK_VEIN = SculkVeinBlock.SCULK_VEIN;
 
     public static void RegisterBlocks() {
@@ -123,8 +125,8 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "reinforced_deepslate"), REINFORCED_DEEPSLATE);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "reinforced_deepslate"), new BlockItem(REINFORCED_DEEPSLATE, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frog_spawn"), FROGSPAWN);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frog_spawn"), new FrogSpawnItem(FROGSPAWN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "frogspawn"), FROGSPAWN);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "frogspawn"), new FrogSpawnItem(FROGSPAWN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), PEARLESCENT_FROGLIGHT);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "pearlescent_froglight"), new BlockItem(PEARLESCENT_FROGLIGHT, new FabricItemSettings().group(ItemGroup.DECORATIONS)));

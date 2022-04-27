@@ -70,9 +70,17 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent ENTITY_FROG_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.death"));
         public static final SoundEvent ENTITY_FROG_EAT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.eat"));
         public static final SoundEvent ENTITY_FROG_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.hurt"));
+        public static final SoundEvent ENTITY_FROG_LAY_SPAWN = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.lay_spawn"));
         public static final SoundEvent ENTITY_FROG_LONG_JUMP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.long_jump"));
         public static final SoundEvent ENTITY_FROG_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.step"));
         public static final SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
+    //Tadpole
+        public static final SoundEvent ENTITY_TADPOLE_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.death"));
+        public static final SoundEvent ENTITY_TADPOLE_FLOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.flop"));
+        public static final SoundEvent ENTITY_TADPOLE_GROW_UP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.grow_up"));
+        public static final SoundEvent ENTITY_TADPOLE_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.hurt"));
+        public static final SoundEvent ITEM_BUCKET_EMPTY_TADPOLE = new SoundEvent(new Identifier(WildMod.MOD_ID, "item.bucket.empty_tadpole"));
+        public static final SoundEvent ITEM_BUCKET_FILL_TADPOLE = new SoundEvent(new Identifier(WildMod.MOD_ID, "item.bucket.fill_tadpole"));
     //Warden
         public static final SoundEvent ENTITY_WARDEN_AGITATED = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.agitated"));
         public static final SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));

@@ -2,6 +2,7 @@ package net.frozenblock.wildmod.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.frozenblock.wildmod.entity.render.allay.AllayEntityModel;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -11,11 +12,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
-public class AllayHeldItemFeatureRenderer extends FeatureRenderer<AllayEntity, AllayEntityModel<PathAwareEntity>> {
-    public AllayHeldItemFeatureRenderer(FeatureRendererContext<AllayEntity, AllayEntityModel<PathAwareEntity>> featureRendererContext) {
+public class AllayHeldItemFeatureRenderer extends FeatureRenderer<AllayEntity, AllayEntityModel> {
+    public AllayHeldItemFeatureRenderer(FeatureRendererContext<AllayEntity, AllayEntityModel> featureRendererContext) {
         super(featureRendererContext);
     }
 

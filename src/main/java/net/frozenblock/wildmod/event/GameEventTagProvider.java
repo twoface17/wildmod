@@ -8,7 +8,7 @@ import net.minecraft.world.event.GameEvent;
 
 public class GameEventTagProvider extends AbstractTagProvider<GameEvent> {
 
-    private static final GameEvent[] field_38363 = new GameEvent[]{
+    private static final GameEvent[] wildVibrations = new GameEvent[]{
             GameEvent.BLOCK_ATTACH,
             GameEvent.BLOCK_CHANGE,
             GameEvent.BLOCK_CLOSE,
@@ -36,13 +36,10 @@ public class GameEventTagProvider extends AbstractTagProvider<GameEvent> {
             GameEvent.FLUID_PICKUP,
             GameEvent.FLUID_PLACE,
             GameEvent.HIT_GROUND,
-            GameEvent.EQUIP,
             GameEvent.SHULKER_CLOSE,
             GameEvent.SHULKER_OPEN,
             GameEvent.FISHING_ROD_CAST,
             GameEvent.FISHING_ROD_REEL_IN,
-            GameEvent.FLUID_PICKUP,
-            GameEvent.FLUID_PLACE,
             GameEvent.RING_BELL,
             GameEvent.LIGHTNING_STRIKE,
             GameEvent.PISTON_CONTRACT,
@@ -93,12 +90,9 @@ public class GameEventTagProvider extends AbstractTagProvider<GameEvent> {
             GameEvent.RAVAGER_ROAR,
             GameEvent.RING_BELL,
             GameEvent.SHEAR,
-            GameEvent.SHULKER_CLOSE,
-            GameEvent.SHULKER_OPEN,
             GameEvent.SPLASH,
             GameEvent.STEP,
             GameEvent.SWIM,
-            GameEvent.WOLF_SHAKING
     };
 
     public GameEventTagProvider(DataGenerator root) {
@@ -106,9 +100,9 @@ public class GameEventTagProvider extends AbstractTagProvider<GameEvent> {
     }
 
     protected void configure() {
-        this.getOrCreateTagBuilder(GameEventTags.VIBRATIONS).add(field_38363).add(GameEvent.FLAP);
+        this.getOrCreateTagBuilder(GameEventTags.VIBRATIONS).add(wildVibrations).add(GameEvent.FLAP);
         this.getOrCreateTagBuilder(WildEventTags.SHRIEKER_CAN_LISTEN).add(net.frozenblock.wildmod.event.GameEvent.SCULK_SENSOR_TENDRILS_CLICKING);
-        this.getOrCreateTagBuilder(WildEventTags.WARDEN_CAN_LISTEN).add(field_38363).add(net.frozenblock.wildmod.event.GameEvent.SHRIEK).addTag(WildEventTags.SHRIEKER_CAN_LISTEN);
+        this.getOrCreateTagBuilder(WildEventTags.WARDEN_CAN_LISTEN).add(wildVibrations).add(net.frozenblock.wildmod.event.GameEvent.SHRIEK).addTag(WildEventTags.SHRIEKER_CAN_LISTEN);
         this.getOrCreateTagBuilder(WildEventTags.DAMPENABLE_VIBRATIONS).add(GameEvent.HIT_GROUND, GameEvent.STEP);
     }
 

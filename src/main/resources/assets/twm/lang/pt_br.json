@@ -1,5 +1,5 @@
 {
-  "block.twm.mud_block": "Lama",
+  "block.twm.mud": "Lama",
   "block.twm.mud_bricks": "Tijolos de lama",
   "block.twm.mud_brick_stairs": "Escadas de tijolos de lama",
   "block.twm.mud_brick_slab": "Laje de tijolos de lama",
@@ -37,7 +37,7 @@
   "item.twm.firefly_spawn_egg": "Ovo gerador de vagalume",
   "item.twm.tadpole_bucket": "Balde com girino",
 
-  "block.twm.frog_spawn": "Invocaçao de Ra",
+  "block.twm.frogspawn": "Invocaçao de Ra",
   "block.twm.pearlescent_froglight": "Luz de sapo Perolada",
   "block.twm.verdant_froglight": "Luz de sapo Verdejante",
   "block.twm.ochre_froglight": "Luz de sapo Ocre",
@@ -71,7 +71,7 @@
   "subtitles.entity.warden.death":"Warden morre",
   "subtitles.entity.warden.roar":"Warden ruge",
   "subtitles.entity.warden.sniff":"Warden fareja",
-  "subtitles.entity.warden.vibration":"Antenas do warden ativam",
+  "subtitles.entity.warden.tendril_clicks":"Antenas do warden ativam",
   "subtitles.entity.warden.attack":"Warden ataca",
   "subtitles.block.sculk_shrieker.shriek":"Sculk Shrieker grita",
   "subtitles.entity.warden.nearby_close":"Batimento cardíaco longe",
