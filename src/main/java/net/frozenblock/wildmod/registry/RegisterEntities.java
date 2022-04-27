@@ -70,7 +70,7 @@ public class RegisterEntities {
         MANGROVE_BOAT = Registry.register(Registry.ENTITY_TYPE, new Identifier(WildMod.MOD_ID, "mangrove_boat"), FabricEntityTypeBuilder.<MangroveBoatEntity>create(SpawnGroup.CREATURE, MangroveBoatEntity::new).dimensions(EntityDimensions.fixed(1.375F, 0.5625F)).build());
         CHEST_BOAT = Registry.register(Registry.ENTITY_TYPE, new Identifier(WildMod.MOD_ID, "chest_boat"), FabricEntityTypeBuilder.<ChestBoatEntity>create(SpawnGroup.CREATURE, ChestBoatEntity::new).dimensions(EntityDimensions.fixed(1.375F, 0.5625F)).build());
         FabricDefaultAttributeRegistry.register(WARDEN, WardenEntity.addAttributes());
-        FabricDefaultAttributeRegistry.register(ALLAY, AllayEntity.createMobAttributes());
+        FabricDefaultAttributeRegistry.register(ALLAY, AllayEntity.createAllayAttributes());
         FabricDefaultAttributeRegistry.register(FROG, FrogEntity.createFrogAttributes());
         FabricDefaultAttributeRegistry.register(TADPOLE, TadpoleEntity.createTadpoleAttributes());
         FabricDefaultAttributeRegistry.register(FIREFLY, FireflyEntity.createFireflyAttributes());
