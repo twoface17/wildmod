@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.entity;
 
 
+import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.WildModClient;
 import net.frozenblock.wildmod.liukrastapi.NewEntityRendererFactory;
 import net.frozenblock.wildmod.render.entity.HeldItemFeatureRenderer;
@@ -14,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 
 @Environment(EnvType.CLIENT)
 public class AllayEntityRenderer extends MobEntityRenderer<AllayEntity, AllayEntityModel<PathAwareEntity>> {
-    private static final Identifier TEXTURE = new Identifier("textures/entity/allay/allay.png");
+    private static final Identifier TEXTURE = new Identifier(WildMod.MOD_ID,"textures/entity/allay/allay.png");
 
     public AllayEntityRenderer( EntityRendererFactory.Context context) {
         super(context, new AllayEntityModel<>(context.getPart(WildModClient.MODEL_ALLAY_LAYER)), 0.4F);
