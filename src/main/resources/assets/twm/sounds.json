@@ -932,10 +932,6 @@
 	  {
 		"name": "twm:block/sculk_shrieker/place5",
 		"volume": 0.9
-	  },
-	  {
-		"name": "twm:block/sculk_shrieker/place6",
-		"volume": 0.9
 	  }
 	],
 	"subtitle": "subtitles.block.generic.place"
