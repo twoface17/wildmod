@@ -1,15 +1,15 @@
-/*package frozenblock.wild.mod.event;
+package net.frozenblock.wildmod.event;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.frozenblock.wildmod.liukrastapi.Vec3d;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Optional;
 
-public class BlockPositionSource  implements PositionSource {
+public class BlockPositionSource implements PositionSource {
     public static final Codec<BlockPositionSource> CODEC = RecordCodecBuilder.create((instance) -> {
         return instance.group(BlockPos.CODEC.fieldOf("pos").forGetter((blockPositionSource) -> {
             return blockPositionSource.pos;
@@ -21,15 +21,15 @@ public class BlockPositionSource  implements PositionSource {
         this.pos = pos;
     }
 
-    public Optional<Vec3d> getPos(World world) {
-        return Optional.of((this.pos));
+    public Optional<net.minecraft.util.math.Vec3d> getPos(World world) {
+        return Optional.of(Vec3d.ofCenter(this.pos));
     }
 
     public PositionSourceType<?> getType() {
-        return (PositionSourceType<?>) PositionSourceType.BLOCK;
+        return PositionSourceType.BLOCK;
     }
 
-    public static class Type implements net.minecraft.world.event.PositionSourceType<BlockPositionSource> {
+    public static class Type implements PositionSourceType<BlockPositionSource> {
         public Type() {
         }
 
@@ -46,4 +46,3 @@ public class BlockPositionSource  implements PositionSource {
         }
     }
 }
-*/

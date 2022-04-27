@@ -46,7 +46,7 @@ public class SculkSensorListener implements GameEventListener {
     public static Codec<SculkSensorListener> createCodec(Callback callback) {
         return RecordCodecBuilder.create((instance) -> {
             return instance.group(PositionSource.CODEC.fieldOf("source").forGetter((listener) -> {
-                return (net.minecraft.world.event.PositionSource) listener.positionSource;
+                return listener.positionSource;
             }), Codecs.NONNEGATIVE_INT.fieldOf("range").forGetter((listener) -> {
                 return listener.range;
             }), SculkSensorListener.Vibration.CODEC.optionalFieldOf("event").forGetter((listener) -> {

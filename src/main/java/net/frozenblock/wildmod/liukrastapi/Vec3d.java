@@ -29,4 +29,8 @@ public class Vec3d extends net.minecraft.util.math.Vec3d {
     }), (vec3d) -> {
         return List.of(vec3d.getX(), vec3d.getY(), vec3d.getZ());
     });
+
+    public static Vec3d ofCenter(Vec3i vec) {
+        return new Vec3d((double)vec.getX() + 0.5, (double)vec.getY() + 0.5, (double)vec.getZ() + 0.5);
+    }
 }

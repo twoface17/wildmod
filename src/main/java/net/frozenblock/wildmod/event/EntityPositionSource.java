@@ -42,7 +42,7 @@ public class EntityPositionSource implements PositionSource {
         }
 
         return this.source.left().map((entity) -> {
-            return entity.getPos().add(0.0, (double)this.yOffset, 0.0);
+            return entity.getPos().add(0.0, this.yOffset, 0.0);
         });
     }
 
@@ -89,12 +89,8 @@ public class EntityPositionSource implements PositionSource {
         public Type() {
         }
 
-        public net.minecraft.world.event.PositionSource readFromBuf(PacketByteBuf packetByteBuf) {
-            return (net.minecraft.world.event.PositionSource) new EntityPositionSource(Either.right(Either.right(packetByteBuf.readVarInt())), packetByteBuf.readFloat());
-        }
-
-        public void writeToBuf(PacketByteBuf buf, net.minecraft.world.event.PositionSource positionSource) {
-
+        public EntityPositionSource readFromBuf(PacketByteBuf packetByteBuf) {
+            return new EntityPositionSource(Either.right(Either.right(packetByteBuf.readVarInt())), packetByteBuf.readFloat());
         }
 
         public void writeToBuf(PacketByteBuf packetByteBuf, EntityPositionSource entityPositionSource) {
