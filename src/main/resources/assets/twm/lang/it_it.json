@@ -1,5 +1,5 @@
 {
-  "block.twm.mud_block": "Fango",
+  "block.twm.mud": "Fango",
   "block.twm.mud_bricks": "Mattoni di Fango",
   "block.twm.mud_brick_stairs": "Scalini di Mattoni di Fango",
   "block.twm.mud_brick_slab": "Lastra di Mattoni di Fango",
@@ -37,7 +37,7 @@
   "item.twm.firefly_spawn_egg": "Uovo generatore di lucciola",
   "item.twm.tadpole_bucket": "Secchio con girino",
 
-  "block.twm.frog_spawn": "Generazione di rane",
+  "block.twm.frogspawn": "Generazione di rane",
   "block.twm.pearlescent_froglight": "Luce di rana perlacea",
   "block.twm.verdant_froglight": "Luce di rana verdeggiante",
   "block.twm.ochre_froglight": "Luce di rana ocra",
@@ -71,7 +71,7 @@
   "subtitles.entity.warden.death":"Warden muore",
   "subtitles.entity.warden.roar":"Warden ruggisce",
   "subtitles.entity.warden.sniff":"Warden annusa",
-  "subtitles.entity.warden.vibration":"I vittici del warden scattano",
+  "subtitles.entity.warden.tendril_clicks":"I vittici del warden scattano",
   "subtitles.entity.warden.attack":"Warden scorre",
   "subtitles.block.sculk_shrieker.shriek":"Sculk Strillante strilla",
   "subtitles.entity.warden.nearby_close":"Battito del cuore lontano",

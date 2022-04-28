@@ -1,13 +1,12 @@
 plugins {
-	id 'fabric-loom' version '0.11-SNAPSHOT'
+	id 'fabric-loom' version '0.12-SNAPSHOT'
 	id 'maven-publish'
 }
-
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+apply from: "${rootProject.projectDir}/gradle/fabric.gradle"
+apply from: "${rootProject.projectDir}/gradle/java.gradle"
 
 archivesBaseName = project.archives_base_name
-version = project.mod_version
+version = getVersion()
 group = project.maven_group
 
 repositories {
@@ -35,18 +34,15 @@ dependencies {
 	include "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 }
 
-processResources {
-	inputs.property "version", project.version
-
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
-}
-
 tasks.withType(JavaCompile).configureEach {
+	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 	it.options.release = 17
 	options.fork = true
 	options.incremental = true
+}
+
+tasks.withType(Test).configureEach {
+	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 }
 
 java {
@@ -57,6 +53,10 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
+}
+
+String getVersion() {
+	String version = "${project.mod_version}+[${project.minecraft_version}]"
 }
 
 publishing {
@@ -73,5 +73,8 @@ publishing {
 	}
 
 	repositories {
+		mavenCentral()
 	}
+
+	return version
 }
