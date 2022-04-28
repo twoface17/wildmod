@@ -47,8 +47,8 @@ public abstract class ModelPartMixin implements ExpandedModelPart {
 	}
 
 	@Override
-	public boolean hasChild(String string) {
-		return this.children.containsKey(string);
+	public boolean hasChild(String child) {
+		return this.children.containsKey(child);
 	}
 
 	@Override
