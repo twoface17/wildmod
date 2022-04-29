@@ -3,9 +3,8 @@ package net.frozenblock.wildmod.entity;
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.*;
-import net.minecraft.client.render.entity.model.CompositeEntityModel;
-import net.minecraft.entity.vehicle.BoatEntity;
+import net.frozenblock.wildmod.entity.render.*;
+import net.minecraft.client.model.ModelTransform;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
@@ -21,16 +20,16 @@ public class MangroveBoatEntityModel extends CompositeEntityModel<MangroveBoatEn
     private static final String CHEST_BOTTOM = "chest_bottom";
     private static final String CHEST_LID = "chest_lid";
     private static final String CHEST_LOCK = "chest_lock";
-    private final ModelPart leftPaddle;
-    private final ModelPart rightPaddle;
-    private final ModelPart waterPatch;
-    private final ImmutableList<ModelPart> parts;
+    private final net.frozenblock.wildmod.entity.render.ModelPart leftPaddle;
+    private final net.frozenblock.wildmod.entity.render.ModelPart rightPaddle;
+    private final net.frozenblock.wildmod.entity.render.ModelPart waterPatch;
+    private final ImmutableList<net.frozenblock.wildmod.entity.render.ModelPart> parts;
 
-    public MangroveBoatEntityModel(ModelPart root, boolean chest) {
+    public MangroveBoatEntityModel(net.frozenblock.wildmod.entity.render.ModelPart root, boolean chest) {
         this.leftPaddle = root.getChild("left_paddle");
         this.rightPaddle = root.getChild("right_paddle");
         this.waterPatch = root.getChild("water_patch");
-        ImmutableList.Builder<ModelPart> builder = new ImmutableList.Builder<>();
+        ImmutableList.Builder<net.frozenblock.wildmod.entity.render.ModelPart> builder = new ImmutableList.Builder<>();
         builder.add(
             root.getChild("bottom"),
             root.getChild("back"),
@@ -125,11 +124,11 @@ public class MangroveBoatEntityModel extends CompositeEntityModel<MangroveBoatEn
         setPaddleAngle(boatEntity, 1, this.rightPaddle, f);
     }
 
-    public ImmutableList<ModelPart> getParts() {
+    public ImmutableList<net.frozenblock.wildmod.entity.render.ModelPart> getParts() {
         return this.parts;
     }
 
-    public ModelPart getWaterPatch() {
+    public net.frozenblock.wildmod.entity.render.ModelPart getWaterPatch() {
         return this.waterPatch;
     }
 

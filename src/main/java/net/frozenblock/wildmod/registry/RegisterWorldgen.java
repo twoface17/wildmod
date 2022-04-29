@@ -205,7 +205,7 @@ public class RegisterWorldgen {
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY);
     }
     private static void addSculk(GenerationSettings.Builder builder) {
-        //builder.feature(GenerationStep.Feature.UNDERGROUND_DECORATION, RegisterWorldgen.SCULK_VEIN);
+        //builder.feature(GenerationStep.Feature.UNDERGROUND_DECORATION, WildPlacedFeatures.SCULK_VEIN);
         builder.feature(GenerationStep.Feature.UNDERGROUND_DECORATION, WildPlacedFeatures.SCULK_PATCH_DEEP_DARK);
     }
     protected static int getSkyColor(float temperature) {

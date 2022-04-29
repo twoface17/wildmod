@@ -8,6 +8,7 @@
 	"ActivityInvoker",
 	"BackgroundRendererMixin",
 	"ClientPlayerEntityMixin",
+	"EntityModelLayersAccessor",
 	"FeatureInvoker",
 	"ItemsMixin",
 	"LightmapTextureManagerMixin",

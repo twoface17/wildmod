@@ -154,8 +154,8 @@ public class SculkShriekerBlock
     }
 
     private static void updateNeighbors(World world, BlockPos blockPos) {
-        world.updateNeighborsAlways(blockPos, SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
-        world.updateNeighborsAlways(blockPos.offset(Direction.UP.getOpposite()), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
+        world.updateNeighborsAlways(blockPos, RegisterBlocks.SCULK_SHRIEKER);
+        world.updateNeighborsAlways(blockPos.offset(Direction.UP.getOpposite()), RegisterBlocks.SCULK_SHRIEKER);
     }
 
     @Override
@@ -460,14 +460,6 @@ public class SculkShriekerBlock
     public boolean hasSidedTransparency(BlockState blockState) {
         return true;
     }
-
-    public static final SculkShriekerBlock SCULK_SHRIEKER_BLOCK = new SculkShriekerBlock(AbstractBlock.Settings.of(Material.SCULK, MapColor.CYAN).strength(1.5f).sounds(new BlockSoundGroup(0.8f, 1.0f,
-            RegisterSounds.BLOCK_SCULK_SHRIEKER_BREAK,
-            RegisterSounds.BLOCK_SCULK_STEP,
-            RegisterSounds.BLOCK_SCULK_SHRIEKER_PLACE,
-            RegisterSounds.BLOCK_SCULK_HIT,
-            RegisterSounds.BLOCK_SCULK_FALL
-    )).nonOpaque(), 8);
 
     public static void setCooldown(World world, BlockPos blockPos, BlockState blockState) {
         if (!world.isClient) {

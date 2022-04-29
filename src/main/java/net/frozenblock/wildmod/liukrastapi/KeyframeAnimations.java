@@ -2,8 +2,8 @@ package net.frozenblock.wildmod.liukrastapi;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.frozenblock.wildmod.entity.render.SinglePartEntityModel;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 

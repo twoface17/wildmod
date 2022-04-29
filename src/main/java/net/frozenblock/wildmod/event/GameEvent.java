@@ -47,7 +47,7 @@ public class GameEvent extends net.minecraft.world.event.GameEvent {
     public static final GameEvent PROJECTILE_SHOOT = register("projectile_shoot");
     public static final GameEvent SCULK_SENSOR_TENDRILS_CLICKING = register("sculk_sensor_tendrils_clicking");
     public static final GameEvent SHEAR = register("shear");
-    public static final GameEvent SHRIEK = register(String.valueOf(new Identifier(WildMod.MOD_ID, "shriek")), 32);
+    public static final net.minecraft.world.event.GameEvent SHRIEK = register(String.valueOf(new Identifier(WildMod.MOD_ID, "shriek")), 32);
     public static final GameEvent SPLASH = register("splash");
     public static final GameEvent STEP = register("step");
     public static final GameEvent SWIM = register("swim");

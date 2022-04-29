@@ -12,8 +12,8 @@ import net.minecraft.world.World;
 public class DarknessStatusEffect extends StatusEffect {
     public DarknessStatusEffect() {
         super(
-                StatusEffectCategory.NEUTRAL,
-                0x000000
+            StatusEffectCategory.HARMFUL,
+            2696993
         );
     }
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {

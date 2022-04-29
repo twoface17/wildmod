@@ -336,7 +336,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
 
     public static void addDarknessToClosePlayers(ServerWorld world, Vec3d pos, @Nullable Entity entity, int range) {
         StatusEffectInstance statusEffectInstance = new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 260, 0, false, false);
-        WardenEntity.addEffectToPlayersWithinDistance(world, entity, pos, (double)range, statusEffectInstance, 200);
+        WardenEntity.addEffectToPlayersWithinDistance(world, entity, pos, range, statusEffectInstance, 200);
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
@@ -607,5 +607,5 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         return MathHelper.squaredHypot(d, f) < MathHelper.square(horizontalRadius) && MathHelper.square(e) < MathHelper.square(verticalRadius);
     }
 
-    private final EntityGameEventHandler<SculkSensorListener> gameEventHandler = new EntityGameEventHandler<>(new SculkSensorListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, (SculkSensorListener.Callback) this, null, 0, 0));
+    private final EntityGameEventHandler<SculkSensorListener> gameEventHandler = new EntityGameEventHandler<>(new SculkSensorListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0));
 }

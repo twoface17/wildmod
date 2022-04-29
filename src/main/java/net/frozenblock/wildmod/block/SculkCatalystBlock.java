@@ -130,18 +130,20 @@ public class SculkCatalystBlock extends BlockWithEntity implements BlockEntityPr
         this.setDefaultState(this.stateManager.getDefaultState().with(SCULK_CATALYST_PHASE, SculkCatalystPhase.INACTIVE));
         this.range = i;
     }
+
+    public static final BlockSoundGroup CATALYSTSOUNDS = new BlockSoundGroup(1.0F, 1.0F,
+            RegisterSounds.BLOCK_SCULK_CATALYST_BREAK,
+            RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
+            RegisterSounds.BLOCK_SCULK_CATALYST_PLACE,
+            RegisterSounds.BLOCK_SCULK_CATALYST_HIT,
+            RegisterSounds.BLOCK_SCULK_CATALYST_FALL
+    );
+
     public static final AbstractBlock.Settings SCULK_CATALYST_PROPERTIES = FabricBlockSettings
             .of(Material.SCULK)
-            .sounds(BlockSoundGroup.SCULK_SENSOR)
-            .luminance(6);
+            .sounds(CATALYSTSOUNDS)
+            .luminance(state -> 6);
     public static final Block SCULK_CATALYST_BLOCK = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES
-            .strength(2f, 2f)
-            .sounds(new BlockSoundGroup(0.8f, 1.0f,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_BREAK,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_PLACE,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
-                    RegisterSounds.BLOCK_SCULK_CATALYST_STEP
-            )), 8);
+            .strength(3.0F, 3.0F), 8);
 
 }
