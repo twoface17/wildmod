@@ -43,9 +43,7 @@ public class GiveInventoryToLookTargetTask<E extends LivingEntity & InventoryOwn
     }
 
     protected void run(ServerWorld world, E entity, long time) {
-        ((Optional)this.lookTargetFunction.apply(entity)).ifPresent((target) -> {
-            LookTargetUtil.walkTowards((LivingEntity) entity, (Entity) target, this.speed, 3);
-        });
+        this.lookTargetFunction.apply(entity).ifPresent((target) -> LookTargetUtil.walkTowards(entity, (Entity) target, this.speed, 3));
     }
 
     protected void keepRunning(ServerWorld world, E entity, long time) {
