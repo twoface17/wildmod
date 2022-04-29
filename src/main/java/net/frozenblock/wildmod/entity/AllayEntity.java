@@ -154,7 +154,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
 
     protected void mobTick() {
         this.world.getProfiler().push("allayBrain");
-        this.getBrain().tick((ServerWorld)this.world, this);
+        this.getBrain(). tick((ServerWorld)this.world, this);
         this.world.getProfiler().pop();
         this.world.getProfiler().push("allayActivityUpdate");
         AllayBrain.updateActivities(this);

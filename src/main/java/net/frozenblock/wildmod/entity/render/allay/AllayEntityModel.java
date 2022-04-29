@@ -54,6 +54,7 @@ public class AllayEntityModel extends SinglePartEntityModel<AllayEntity> impleme
 	}
 
 	public void setAngles(AllayEntity allayEntity, float f, float g, float h, float i, float j) {
+		this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetModelTransform());
 		float k = h * 20.0F * 0.017453292F + g;
 		float l = MathHelper.cos(k) * 3.1415927F * 0.15F;
 		float m = h - (float)allayEntity.age;
