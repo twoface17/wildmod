@@ -24,6 +24,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.random.AbstractRandom;
 
+import java.util.Optional;
 import java.util.Random;
 
 public class FrogBrain {
@@ -64,13 +65,12 @@ public class FrogBrain {
     }
 
     private static void addIdleActivities(Brain<FrogEntity> brain) {
-        brain.setTaskList(Activity.IDLE, ImmutableList.of(Pair.of(0, new TimeLimitedTask<>(new FollowMobTask(EntityType.PLAYER, 6.0F), UniformIntProvider.create(30, 60))), Pair.of(0, new BreedTask(RegisterEntities.FROG, 1.0F)), Pair.of(1, new TemptTask((frog) -> {
+        brain.setTaskList(Activity.IDLE, ImmutableList.of(Pair.of(0, new TimeLimitedTask<LivingEntity>(new FollowMobTask(EntityType.PLAYER, 6.0F), UniformIntProvider.create(30, 60))), Pair.of(0, new BreedTask(RegisterEntities.FROG, 1.0F)), Pair.of(1, new TemptTask((frog) -> {
             return 1.25F;
         })), Pair.of(2, new net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask<>(FrogBrain::isNotBreeding, (frog) -> {
             return frog.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE);
         })), Pair.of(3, new WalkTowardsLandTask(6, 1.0F)), Pair.of(4, new RandomTask<>(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT), ImmutableList.of(Pair.of(new StrollTask(1.0F), 1), Pair.of(new GoTowardsLookTarget(1.0F, 3), 1), Pair.of(new CroakTask(), 3), Pair.of(new ConditionalTask<>(Entity::isOnGround, new WaitTask(5, 20)), 2))))), ImmutableSet.of(Pair.of(MemoryModuleType.LONG_JUMP_MID_JUMP, MemoryModuleState.VALUE_ABSENT), Pair.of(RegisterEntities.IS_IN_WATER, MemoryModuleState.VALUE_ABSENT)));
     }
-
     private static void addSwimActivities(Brain<FrogEntity> brain) {
         brain.setTaskList(WildMod.SWIM, ImmutableList.of(Pair.of(0, new TimeLimitedTask<>(new FollowMobTask(EntityType.PLAYER, 6.0F), UniformIntProvider.create(30, 60))), Pair.of(1, new TemptTask((frog) -> {
             return 1.25F;
