@@ -4,15 +4,15 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.WildModClient;
-import net.frozenblock.wildmod.entity.render.EntityModelLayer;
-import net.frozenblock.wildmod.entity.render.EntityModelLayers;
-import net.frozenblock.wildmod.entity.render.EntityRenderer;
-import net.frozenblock.wildmod.entity.render.EntityRendererFactory;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.BoatEntityModel;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.Identifier;
@@ -45,7 +45,7 @@ public class MangroveBoatEntityRenderer extends EntityRenderer<MangroveBoatEntit
     }
 
     private MangroveBoatEntityModel createModel(EntityRendererFactory.Context ctx, Type type, boolean chest) {
-        net.frozenblock.wildmod.entity.render.EntityModelLayer entityModelLayer = chest ? createChestBoat(type) : EntityModelLayers.createBoat(type);
+        EntityModelLayer entityModelLayer = chest ? createChestBoat(type) : EntityModelLayers.createBoat(type);
         return new MangroveBoatEntityModel(ctx.getPart(entityModelLayer), chest);
     }
 

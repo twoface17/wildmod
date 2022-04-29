@@ -1,12 +1,15 @@
-package net.frozenblock.wildmod.entity.render.warden;
+package net.frozenblock.wildmod.entity;
 
-import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.entity.render.*;
 import net.frozenblock.wildmod.render.RenderLayer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
@@ -52,7 +55,7 @@ public class WardenFeatureRenderer<T extends WardenEntity, M extends WardenEntit
     }
 
     private void updateModelPartVisibility() {
-        List<ModelPart> list = this.modelPartVisibility.getPartsToDraw(this.getContextModel());
+        List<ModelPart> list = this.modelPartVisibility.getPartsToDraw((M)this.getContextModel());
         this.getContextModel().getPart().traverse().forEach(part -> part.visible = false);
         list.forEach(part -> part.visible = true);
     }

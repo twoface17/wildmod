@@ -1,10 +1,9 @@
-package net.frozenblock.wildmod.entity.render.warden;
+package net.frozenblock.wildmod.entity;
 
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.WildModClient;
-import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.entity.render.EntityRendererFactory;
-import net.frozenblock.wildmod.entity.render.MobEntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;

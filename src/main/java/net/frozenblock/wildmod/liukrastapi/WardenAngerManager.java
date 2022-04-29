@@ -53,11 +53,11 @@ public class WardenAngerManager {
     }
 
     private List<Pair<UUID, Integer>> getSuspects() {
-        return Streams.concat(this.suspects.stream().map((suspect) -> {
+        return (List)Streams.concat(new Stream[]{this.suspects.stream().map((suspect) -> {
             return Pair.of(suspect.getUuid(), this.suspectsToAngerLevel.getInt(suspect));
         }), this.suspectUuidsToAngerLevel.object2IntEntrySet().stream().map((entry) -> {
             return Pair.of(entry.getKey(), entry.getIntValue());
-        })).collect(Collectors.toList());
+        })}).collect(Collectors.toList());
     }
 
     public void tick(ServerWorld world, Predicate<Entity> suspectPredicate) {

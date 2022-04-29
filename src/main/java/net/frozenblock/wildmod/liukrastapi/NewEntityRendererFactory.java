@@ -1,10 +1,15 @@
-package net.frozenblock.wildmod.entity.render;
+package net.frozenblock.wildmod.liukrastapi;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.entity.Entity;
@@ -12,11 +17,11 @@ import net.minecraft.resource.ResourceManager;
 
 @FunctionalInterface
 @Environment(EnvType.CLIENT)
-public interface EntityRendererFactory<T extends Entity> {
-    EntityRenderer<T> create(EntityRendererFactory.Context ctx);
+public interface NewEntityRendererFactory<T extends Entity> extends EntityRendererFactory<T> {
+    EntityRenderer<T> create(net.minecraft.client.render.entity.EntityRendererFactory.Context ctx);
 
     @Environment(EnvType.CLIENT)
-    public static class Context extends net.minecraft.client.render.entity.EntityRendererFactory.Context {
+    class Context extends EntityRendererFactory.Context {
         private final EntityRenderDispatcher renderDispatcher;
         private final ItemRenderer itemRenderer;
         private final BlockRenderManager blockRenderManager;
@@ -25,15 +30,7 @@ public interface EntityRendererFactory<T extends Entity> {
         private final EntityModelLoader modelLoader;
         private final TextRenderer textRenderer;
 
-        public Context(
-                EntityRenderDispatcher renderDispatcher,
-                ItemRenderer itemRenderer,
-                BlockRenderManager blockRenderManager,
-                HeldItemRenderer heldItemRenderer,
-                ResourceManager resourceManager,
-                EntityModelLoader modelLoader,
-                TextRenderer textRenderer
-        ) {
+        public Context(EntityRenderDispatcher renderDispatcher, ItemRenderer itemRenderer, BlockRenderManager blockRenderManager, HeldItemRenderer heldItemRenderer, ResourceManager resourceManager, EntityModelLoader modelLoader, TextRenderer textRenderer) {
             super(renderDispatcher, itemRenderer, resourceManager, modelLoader, textRenderer);
             this.renderDispatcher = renderDispatcher;
             this.itemRenderer = itemRenderer;

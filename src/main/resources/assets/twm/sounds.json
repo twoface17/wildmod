@@ -830,26 +830,6 @@
 	],
 	"subtitle": "subtitles.block.generic.break"
   },
-  "block.sculk_catalyst.fall": {
-	"sounds": [
-	  "twm:block/sculk_catalyst/step1",
-	  "twm:block/sculk_catalyst/step2",
-	  "twm:block/sculk_catalyst/step3",
-	  "twm:block/sculk_catalyst/step4",
-	  "twm:block/sculk_catalyst/step5",
-	  "twm:block/sculk_catalyst/step6"
-	]
-  },
-  "block.sculk_catalyst.hit": {
-	"sounds": [
-	  "twm:block/sculk_catalyst/step1",
-	  "twm:block/sculk_catalyst/step2",
-	  "twm:block/sculk_catalyst/step3",
-	  "twm:block/sculk_catalyst/step4",
-	  "twm:block/sculk_catalyst/step5",
-	  "twm:block/sculk_catalyst/step6"
-	]
-  },
   "block.sculk_catalyst.place": {
 	"sounds": [
 	  "twm:block/sculk_catalyst/place1",

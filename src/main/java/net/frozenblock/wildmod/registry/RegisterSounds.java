@@ -43,12 +43,10 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent BLOCK_SCULK_BREAK = new SoundEvent(new Identifier("accuratesculk", "block.sculk.break"));
         public static final SoundEvent BLOCK_SCULK_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk.place"));
     //Sculk Catalyst
-    public static final SoundEvent BLOCK_SCULK_CATALYST_BLOOM = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.bloom"));
         public static final SoundEvent BLOCK_SCULK_CATALYST_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.break"));
-        public static final SoundEvent BLOCK_SCULK_CATALYST_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.fall"));
-        public static final SoundEvent BLOCK_SCULK_CATALYST_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.hit"));
         public static final SoundEvent BLOCK_SCULK_CATALYST_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.place"));
         public static final SoundEvent BLOCK_SCULK_CATALYST_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.step"));
+        public static final SoundEvent BLOCK_SCULK_CATALYST_BLOOM = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.bloom"));
     //Sculk Sensor
         public static final SoundEvent BLOCK_SCULK_SENSOR_RECEIVE_RF = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_sensor.receive_rf"));
     //Sculk Shrieker

@@ -65,8 +65,7 @@ public class RenderPhase extends net.minecraft.client.render.RenderPhase {
         RenderSystem.defaultBlendFunc();
     });
     protected static final RenderPhase.Shader NO_SHADER = new Shader();
-    protected static final Shader ENTITY_TRANSLUCENT_EMISSIVE_SHADER = new RenderPhase.Shader(
-            net.frozenblock.wildmod.render.GameRenderer::getRenderTypeEntityTranslucentEmissiveShader);
+    protected static final Shader ENTITY_TRANSLUCENT_EMISSIVE_SHADER = new RenderPhase.Shader(net.frozenblock.wildmod.render.GameRenderer::getRenderTypeEntityTranslucentEmissiveShader);
     protected static final Shader OUTLINE_SHADER = new Shader(GameRenderer::getRenderTypeOutlineShader);
 
     protected static final RenderPhase.Texture MIPMAP_BLOCK_ATLAS_TEXTURE;
