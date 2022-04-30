@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.registry;
 import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.*;
+import net.frozenblock.wildmod.entity.FrogEntity;
 import net.frozenblock.wildmod.event.PositionSourceType;
 import net.minecraft.Bootstrap;
 import net.minecraft.util.Identifier;
@@ -29,6 +30,9 @@ public abstract class Registry<T> implements Keyable, IndexedIterable<T> {
     public static final Identifier ROOT_KEY = new Identifier("root");
     private final RegistryKey<? extends Registry<T>> registryKey;
     private final Lifecycle lifecycle;
+    public static final RegistryKey<Registry<FrogEntity.Variant>> FROG_VARIANT_KEY = createRegistryKey("frog_variant");
+
+    public static final Registry<FrogEntity.Variant> FROG_VARIANT = create(FROG_VARIANT_KEY, registry -> FrogEntity.Variant.TEMPERATE);
 
     protected Registry(RegistryKey<? extends Registry<T>> key, Lifecycle lifecycle) {
         super();

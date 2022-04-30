@@ -8,6 +8,7 @@ import net.frozenblock.wildmod.liukrastapi.AnimationState;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterTags;
+import net.frozenblock.wildmod.registry.Registry;
 import net.frozenblock.wildmod.tags.BiomeTags;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
@@ -38,6 +39,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -55,8 +57,31 @@ import java.util.stream.IntStream;
 
 public class FrogEntity extends AnimalEntity {
     public static final Ingredient SLIME_BALL = Ingredient.ofItems(Items.SLIME_BALL);
-    protected final ImmutableList<SensorType<? extends Sensor<? super FrogEntity>>> SENSORS = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, WildMod.FROG_ATTACKABLES, WildMod.FROG_TEMPTATIONS, WildMod.IS_IN_WATER);
-    protected final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES = ImmutableList.of(MemoryModuleType.LOOK_TARGET, MemoryModuleType.MOBS, MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.PATH, MemoryModuleType.BREED_TARGET, MemoryModuleType.LONG_JUMP_COOLING_DOWN, MemoryModuleType.LONG_JUMP_MID_JUMP, MemoryModuleType.ATTACK_TARGET, MemoryModuleType.TEMPTING_PLAYER, MemoryModuleType.TEMPTATION_COOLDOWN_TICKS, MemoryModuleType.IS_TEMPTED, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_ATTACKABLE, RegisterEntities.IS_IN_WATER, RegisterEntities.IS_PREGNANT);
+    protected static final ImmutableList<SensorType<? extends Sensor<? super FrogEntity>>> SENSORS = ImmutableList.of(
+            SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, WildMod.FROG_ATTACKABLES, WildMod.FROG_TEMPTATIONS, WildMod.IS_IN_WATER
+    );
+    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES = ImmutableList.of(
+            MemoryModuleType.LOOK_TARGET,
+            MemoryModuleType.MOBS,
+            MemoryModuleType.VISIBLE_MOBS,
+            MemoryModuleType.WALK_TARGET,
+            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+            MemoryModuleType.PATH,
+            MemoryModuleType.BREED_TARGET,
+            MemoryModuleType.LONG_JUMP_COOLING_DOWN,
+            MemoryModuleType.LONG_JUMP_MID_JUMP,
+            MemoryModuleType.ATTACK_TARGET,
+            MemoryModuleType.TEMPTING_PLAYER,
+            MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
+            new MemoryModuleType[]{
+                    MemoryModuleType.IS_TEMPTED,
+                    MemoryModuleType.HURT_BY,
+                    MemoryModuleType.HURT_BY_ENTITY,
+                    MemoryModuleType.NEAREST_ATTACKABLE,
+                    RegisterEntities.IS_IN_WATER,
+                    RegisterEntities.IS_PREGNANT
+            }
+    );
     private static final TrackedData<Integer> VARIANT = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<OptionalInt> TARGET = DataTracker.registerData(FrogEntity.class, WildMod.OPTIONAL_INT);
     private static final int field_37459 = 5;
@@ -132,14 +157,16 @@ public class FrogEntity extends AnimalEntity {
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putString("variant", this.getVariant().toString());
+        nbt.putString("variant", Registry.FROG_VARIANT.getId(this.getVariant()).toString());
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        Variant frogVarient = Variant.valueOf(nbt.getString("variant"));
-        this.setVariant(frogVarient);
+        Variant frogVarient = Registry.FROG_VARIANT.get(Identifier.tryParse(nbt.getString("variant")));
+        if (frogVarient != null) {
+            this.setVariant(frogVarient);
+        }
     }
 
     @Override
@@ -199,13 +226,15 @@ public class FrogEntity extends AnimalEntity {
             } else {
                 this.longJumpingAnimationState.stop();
             }
-            if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "CROAKING"))) {
+            if (entityPose == WildMod.CROAKING) {
                 this.croakingAnimationState.start();
             } else {
                 this.croakingAnimationState.stop();
             }
-            if (this.getPose().equals(ClassTinkerers.getEnum(EntityPose.class, "USING_TONGUE"))) {
+            if (entityPose == WildMod.USING_TONGUE) {
                 this.usingTongueAnimationState.start();
+            } else {
+                this.usingTongueAnimationState.stop();
             }
         }
         super.onTrackedDataSet(data);
@@ -230,7 +259,6 @@ public class FrogEntity extends AnimalEntity {
     public void setBaby(boolean baby) {
     }
 
-    @Override
     public void breed(ServerWorld world, AnimalEntity other) {
         ServerPlayerEntity serverPlayerEntity = this.getLovingPlayer();
         if (serverPlayerEntity == null) {
@@ -239,7 +267,7 @@ public class FrogEntity extends AnimalEntity {
 
         if (serverPlayerEntity != null) {
             serverPlayerEntity.incrementStat(Stats.ANIMALS_BRED);
-            Criteria.BRED_ANIMALS.trigger(serverPlayerEntity, this, other, (PassiveEntity)null);
+            Criteria.BRED_ANIMALS.trigger(serverPlayerEntity, this, other, null);
         }
 
         this.setBreedingAge(6000);
@@ -254,10 +282,11 @@ public class FrogEntity extends AnimalEntity {
 
     }
 
-    @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+    public EntityData initialize(
+            ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt
+    ) {
         RegistryEntry<Biome> registryEntry = world.getBiome(this.getBlockPos());
-        if (registryEntry.isIn(BiomeTags.SPAWNS_COLD_VARIANT_FROGS)) {
+        if (registryEntry.isIn(net.frozenblock.wildmod.tags.BiomeTags.SPAWNS_COLD_VARIANT_FROGS)) {
             this.setVariant(Variant.COLD);
         } else if (registryEntry.isIn(BiomeTags.SPAWNS_WARM_VARIANT_FROGS)) {
             this.setVariant(Variant.WARM);
@@ -270,7 +299,10 @@ public class FrogEntity extends AnimalEntity {
     }
 
     public static DefaultAttributeContainer.Builder createFrogAttributes() {
-        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1.0).add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0);
+        return MobEntity.createMobAttributes()
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1.0)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0);
     }
 
     @Override
@@ -293,7 +325,7 @@ public class FrogEntity extends AnimalEntity {
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(RegisterSounds.ENTITY_FROG_STEP, 0.15f, 1.0f);
+        this.playSound(RegisterSounds.ENTITY_FROG_STEP, 0.15F, 1.0F);
     }
 
     @Override
