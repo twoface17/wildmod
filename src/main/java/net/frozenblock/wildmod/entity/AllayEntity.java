@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.event.*;
-import net.frozenblock.wildmod.registry.RegisterEntities;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -58,10 +58,10 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Scul
             MemoryModuleType.WALK_TARGET,
             MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
             MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
-            RegisterEntities.LIKED_PLAYER,
-            RegisterEntities.LIKED_NOTEBLOCK,
-            RegisterEntities.LIKED_NOTEBLOCK_COOLDOWN_TICKS,
-            RegisterEntities.ITEM_PICKUP_COOLDOWN_TICKS
+            RegisterMemoryModules.LIKED_PLAYER,
+            RegisterMemoryModules.LIKED_NOTEBLOCK,
+            RegisterMemoryModules.LIKED_NOTEBLOCK_COOLDOWN_TICKS,
+            RegisterMemoryModules.ITEM_PICKUP_COOLDOWN_TICKS
     );
     public static final ImmutableList<Float> THROW_SOUND_PITCHES = ImmutableList.of(
             0.5625F, 0.625F, 0.75F, 0.9375F, 1.0F, 1.0F, 1.125F, 1.25F, 1.5F, 1.875F, 2.0F, 2.25F, new Float[]{2.5F, 3.0F, 3.75F, 4.0F}
@@ -140,7 +140,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Scul
     public boolean damage(DamageSource source, float amount) {
         Entity var4 = source.getAttacker();
         if (var4 instanceof PlayerEntity playerEntity) {
-            Optional<UUID> optional = this.getBrain().getOptionalMemory(RegisterEntities.LIKED_PLAYER);
+            Optional<UUID> optional = this.getBrain().getOptionalMemory(RegisterMemoryModules.LIKED_PLAYER);
             if (optional.isPresent() && playerEntity.getUuid().equals(optional.get())) {
                 return false;
             }
@@ -217,7 +217,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Scul
     }
 
     private boolean isItemPickupCoolingDown() {
-        return this.getBrain().isMemoryInState(RegisterEntities.ITEM_PICKUP_COOLDOWN_TICKS, MemoryModuleState.VALUE_PRESENT);
+        return this.getBrain().isMemoryInState(RegisterMemoryModules.ITEM_PICKUP_COOLDOWN_TICKS, MemoryModuleState.VALUE_PRESENT);
     }
 
     protected ActionResult interactMob(PlayerEntity player, Hand hand) {
@@ -232,7 +232,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Scul
             }
 
             this.world.playSoundFromEntity(player, this, RegisterSounds.ENTITY_ALLAY_ITEM_GIVEN, SoundCategory.NEUTRAL, 2.0F, 1.0F);
-            this.getBrain().remember(RegisterEntities.LIKED_PLAYER, player.getUuid());
+            this.getBrain().remember(RegisterMemoryModules.LIKED_PLAYER, player.getUuid());
             return ActionResult.SUCCESS;
         } else if (!itemStack2.isEmpty() && hand == Hand.MAIN_HAND && itemStack.isEmpty()) {
             this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
@@ -243,7 +243,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Scul
                 LookTargetUtil.give(this, itemStack4, this.getPos());
             }
 
-            this.getBrain().forget(RegisterEntities.LIKED_PLAYER);
+            this.getBrain().forget(RegisterMemoryModules.LIKED_PLAYER);
             player.giveItemStack(itemStack2);
             return ActionResult.SUCCESS;
         } else {
@@ -330,10 +330,10 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Scul
     public boolean accepts(ServerWorld world, net.frozenblock.wildmod.event.GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter) {
         if (this.isAiDisabled()) {
             return false;
-        } else if (!this.brain.hasMemoryModule(RegisterEntities.LIKED_NOTEBLOCK)) {
+        } else if (!this.brain.hasMemoryModule(RegisterMemoryModules.LIKED_NOTEBLOCK)) {
             return true;
         } else {
-            Optional<GlobalPos> optional = this.brain.getOptionalMemory(RegisterEntities.LIKED_NOTEBLOCK);
+            Optional<GlobalPos> optional = this.brain.getOptionalMemory(RegisterMemoryModules.LIKED_NOTEBLOCK);
             return optional.isPresent()
                     && ((GlobalPos)optional.get()).getDimension() == world.getRegistryKey()
                     && ((GlobalPos)optional.get()).getPos().equals(pos);

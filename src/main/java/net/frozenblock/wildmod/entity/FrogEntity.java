@@ -1,14 +1,10 @@
 package net.frozenblock.wildmod.entity;
 
-import com.chocohead.mm.api.ClassTinkerers;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.liukrastapi.AnimationState;
-import net.frozenblock.wildmod.registry.RegisterEntities;
-import net.frozenblock.wildmod.registry.RegisterSounds;
-import net.frozenblock.wildmod.registry.RegisterTags;
-import net.frozenblock.wildmod.registry.Registry;
+import net.frozenblock.wildmod.registry.*;
 import net.frozenblock.wildmod.tags.BiomeTags;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
@@ -78,8 +74,8 @@ public class FrogEntity extends AnimalEntity {
                     MemoryModuleType.HURT_BY,
                     MemoryModuleType.HURT_BY_ENTITY,
                     MemoryModuleType.NEAREST_ATTACKABLE,
-                    RegisterEntities.IS_IN_WATER,
-                    RegisterEntities.IS_PREGNANT
+                    RegisterMemoryModules.IS_IN_WATER,
+                    RegisterMemoryModules.IS_PREGNANT
             }
     );
     private static final TrackedData<Integer> VARIANT = DataTracker.registerData(FrogEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -274,7 +270,7 @@ public class FrogEntity extends AnimalEntity {
         other.setBreedingAge(6000);
         this.resetLoveTicks();
         other.resetLoveTicks();
-        this.getBrain().remember(RegisterEntities.IS_PREGNANT, Unit.INSTANCE);
+        this.getBrain().remember(RegisterMemoryModules.IS_PREGNANT, Unit.INSTANCE);
         world.sendEntityStatus(this, (byte)18);
         if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
             world.spawnEntity(new ExperienceOrbEntity(world, this.getX(), this.getY(), this.getZ(), this.getRandom().nextInt(7) + 1));

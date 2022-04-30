@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.entity.ai.task;
 
 import com.google.common.collect.ImmutableMap;
 import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.registry.RegisterEntities;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterParticles;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.entity.Entity;
@@ -12,9 +12,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -33,11 +31,11 @@ public class SonicBoomTask extends Task<WardenEntity> {
             ImmutableMap.of(
                 MemoryModuleType.ATTACK_TARGET,
                 MemoryModuleState.VALUE_PRESENT,
-                RegisterEntities.SONIC_BOOM_COOLDOWN,
+                RegisterMemoryModules.SONIC_BOOM_COOLDOWN,
                 MemoryModuleState.VALUE_ABSENT,
-                RegisterEntities.SONIC_BOOM_SOUND_COOLDOWN,
+                RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN,
                 MemoryModuleState.REGISTERED,
-                RegisterEntities.SONIC_BOOM_SOUND_DELAY,
+                RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY,
                 MemoryModuleState.REGISTERED
             ),
             RUN_TIME
@@ -54,15 +52,15 @@ public class SonicBoomTask extends Task<WardenEntity> {
 
     protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
         wardenEntity.getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, (long)RUN_TIME);
-        wardenEntity.getBrain().remember(RegisterEntities.SONIC_BOOM_SOUND_DELAY, Unit.INSTANCE, 34L);
+        wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY, Unit.INSTANCE, 34L);
         serverWorld.sendEntityStatus(wardenEntity, (byte)62);
         wardenEntity.playSound(RegisterSounds.ENTITY_WARDEN_SONIC_CHARGE, 3.0F, 1.0F);
     }
 
     protected void keepRunning(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
-        if (!wardenEntity.getBrain().hasMemoryModule(RegisterEntities.SONIC_BOOM_SOUND_DELAY)
-                && !wardenEntity.getBrain().hasMemoryModule(RegisterEntities.SONIC_BOOM_SOUND_COOLDOWN)) {
-            wardenEntity.getBrain().remember(RegisterEntities.SONIC_BOOM_SOUND_COOLDOWN, Unit.INSTANCE, (long)(RUN_TIME - 34));
+        if (!wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY)
+                && !wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN)) {
+            wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN, Unit.INSTANCE, (long)(RUN_TIME - 34));
             wardenEntity.getBrain()
                     .getOptionalMemory(MemoryModuleType.ATTACK_TARGET)
                     .filter(target -> wardenEntity.isInRange(target, 15.0, 20.0))
@@ -90,7 +88,7 @@ public class SonicBoomTask extends Task<WardenEntity> {
     }
 
     public static void cooldown(LivingEntity warden, int cooldown) {
-        warden.getBrain().remember(RegisterEntities.SONIC_BOOM_COOLDOWN, Unit.INSTANCE, (long)cooldown);
+        warden.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_COOLDOWN, Unit.INSTANCE, (long)cooldown);
     }
 
     //public static final DamageSource field_39043 = new DamageSource("sonic_boom").setBypassesArmor().setUsesMagic();

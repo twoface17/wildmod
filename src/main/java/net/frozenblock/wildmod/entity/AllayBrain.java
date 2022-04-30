@@ -6,7 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import net.frozenblock.wildmod.liukrastapi.GiveInventoryToLookTargetTask;
 import net.frozenblock.wildmod.liukrastapi.NoPenaltyStrollTask;
 import net.frozenblock.wildmod.liukrastapi.WalkTowardsLookTargetTask;
-import net.frozenblock.wildmod.registry.RegisterEntities;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -45,7 +45,7 @@ public class AllayBrain {
     }
 
     private static void addCoreActivities(Brain<AllayEntity> brain) {
-        brain.setTaskList(Activity.CORE, 0, ImmutableList.of(new StayAboveWaterTask(0.8F), new LookAroundTask(45, 90), new WanderAroundTask(), new TemptationCooldownTask(RegisterEntities.LIKED_NOTEBLOCK_COOLDOWN_TICKS), new TemptationCooldownTask(RegisterEntities.ITEM_PICKUP_COOLDOWN_TICKS)));
+        brain.setTaskList(Activity.CORE, 0, ImmutableList.of(new StayAboveWaterTask(0.8F), new LookAroundTask(45, 90), new WanderAroundTask(), new TemptationCooldownTask(RegisterMemoryModules.LIKED_NOTEBLOCK_COOLDOWN_TICKS), new TemptationCooldownTask(RegisterMemoryModules.ITEM_PICKUP_COOLDOWN_TICKS)));
     }
 
     private static void addIdleActivities(Brain<AllayEntity> brain) {
@@ -63,33 +63,33 @@ public class AllayBrain {
     public static void rememberNoteBlock(LivingEntity allay, BlockPos pos) {
         Brain<?> brain = allay.getBrain();
         GlobalPos globalPos = GlobalPos.create(allay.getWorld().getRegistryKey(), pos);
-        Optional<GlobalPos> optional = brain.getOptionalMemory(RegisterEntities.LIKED_NOTEBLOCK);
+        Optional<GlobalPos> optional = brain.getOptionalMemory(RegisterMemoryModules.LIKED_NOTEBLOCK);
         if (optional.isEmpty()) {
-            brain.remember(RegisterEntities.LIKED_NOTEBLOCK, globalPos);
-            brain.remember(RegisterEntities.LIKED_NOTEBLOCK_COOLDOWN_TICKS, 600);
+            brain.remember(RegisterMemoryModules.LIKED_NOTEBLOCK, globalPos);
+            brain.remember(RegisterMemoryModules.LIKED_NOTEBLOCK_COOLDOWN_TICKS, 600);
         } else if (((GlobalPos)optional.get()).equals(globalPos)) {
-            brain.remember(RegisterEntities.LIKED_NOTEBLOCK_COOLDOWN_TICKS, 600);
+            brain.remember(RegisterMemoryModules.LIKED_NOTEBLOCK_COOLDOWN_TICKS, 600);
         }
 
     }
 
     private static Optional<LookTarget> getLookTarget(LivingEntity allay) {
         Brain<?> brain = allay.getBrain();
-        Optional<GlobalPos> optional = brain.getOptionalMemory(RegisterEntities.LIKED_NOTEBLOCK);
+        Optional<GlobalPos> optional = brain.getOptionalMemory(RegisterMemoryModules.LIKED_NOTEBLOCK);
         if (optional.isPresent()) {
             BlockPos blockPos = ((GlobalPos)optional.get()).getPos();
             if (shouldGoTowardsNoteBlock(allay, brain, blockPos)) {
                 return Optional.of(new BlockPosLookTarget(blockPos.up()));
             }
 
-            brain.forget(RegisterEntities.LIKED_NOTEBLOCK);
+            brain.forget(RegisterMemoryModules.LIKED_NOTEBLOCK);
         }
 
         return getLikedLookTarget(allay);
     }
 
     private static boolean shouldGoTowardsNoteBlock(LivingEntity allay, Brain<?> brain, BlockPos pos) {
-        Optional<Integer> optional = brain.getOptionalMemory(RegisterEntities.LIKED_NOTEBLOCK_COOLDOWN_TICKS);
+        Optional<Integer> optional = brain.getOptionalMemory(RegisterMemoryModules.LIKED_NOTEBLOCK_COOLDOWN_TICKS);
         return allay.getWorld().getBlockState(pos).isOf(Blocks.NOTE_BLOCK) && optional.isPresent();
     }
 
@@ -103,7 +103,7 @@ public class AllayBrain {
         World world = allay.getWorld();
         if (!world.isClient() && world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld)world;
-            Optional<UUID> optional = allay.getBrain().getOptionalMemory(RegisterEntities.LIKED_PLAYER);
+            Optional<UUID> optional = allay.getBrain().getOptionalMemory(RegisterMemoryModules.LIKED_PLAYER);
             if (optional.isPresent()) {
                 Entity entity = serverWorld.getEntity((UUID)optional.get());
                 Optional var10000;
