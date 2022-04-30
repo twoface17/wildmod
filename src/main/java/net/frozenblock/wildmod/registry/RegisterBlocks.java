@@ -42,12 +42,12 @@ public abstract class RegisterBlocks {
 
     public static final AbstractBlock.Settings FROGSPAWN_PROPERTIES = FabricBlockSettings
             .of(FROGSPAWNMATERIAL).breakInstantly().nonOpaque().noCollision()
-            .sounds(new BlockSoundGroup(1.0f, 1.5f,
-                    SoundEvents.ENTITY_TURTLE_EGG_BREAK,
-                    SoundEvents.BLOCK_METAL_STEP,
-                    SoundEvents.ENTITY_TURTLE_LAY_EGG,
-                    SoundEvents.BLOCK_METAL_STEP,
-                    SoundEvents.BLOCK_METAL_STEP
+            .sounds(new BlockSoundGroup(1.0F, 1.0F,
+                    RegisterSounds.BLOCK_FROGSPAWN_BREAK,
+                    RegisterSounds.BLOCK_FROGSPAWN_STEP,
+                    RegisterSounds.BLOCK_FROGSPAWN_PLACE,
+                    RegisterSounds.BLOCK_FROGSPAWN_HIT,
+                    RegisterSounds.BLOCK_FROGSPAWN_FALL
             ));
 
     public static final FabricBlockSettings MUD_BRICKS_SETTINGS = FabricBlockSettings
@@ -101,7 +101,7 @@ public abstract class RegisterBlocks {
 
 
     // ALL BLOCKS HERE HAVE NO COLLISION
-    public static final Block FROGSPAWN = new FrogSpawnBlock(FROGSPAWN_PROPERTIES.nonOpaque().noCollision());
+    public static final Block FROGSPAWN = new FrogspawnBlock(FROGSPAWN_PROPERTIES.nonOpaque().noCollision());
     public static final Block SCULK_VEIN = SculkVeinBlock.SCULK_VEIN;
 
     public static void RegisterBlocks() {

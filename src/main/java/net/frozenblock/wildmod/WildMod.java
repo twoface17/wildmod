@@ -3,6 +3,7 @@ package net.frozenblock.wildmod;
 import com.chocohead.mm.api.ClassTinkerers;
 import net.frozenblock.wildmod.entity.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
+import net.frozenblock.wildmod.event.GameEvent;
 import net.frozenblock.wildmod.mixins.ActivityInvoker;
 import net.frozenblock.wildmod.mixins.SensorTypeInvoker;
 import net.fabricmc.api.ModInitializer;
@@ -21,7 +22,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.event.GameEvent;
 
 import java.util.OptionalInt;
 
@@ -34,9 +34,6 @@ public class WildMod implements ModInitializer {
     public static final EntityPose SNIFFING = ClassTinkerers.getEnum(EntityPose.class, "SNIFFING");
     public static final EntityPose EMERGING = ClassTinkerers.getEnum(EntityPose.class, "EMERGING");
     public static final EntityPose DIGGING = ClassTinkerers.getEnum(EntityPose.class, "DIGGING");
-
-    public static final GameEvent WARDEN_CAN_LISTEN = new GameEvent("warden_can_listen", 16);
-    public static final GameEvent NOTE_BLOCK_PLAY = new GameEvent("note_block_play", 16);
 
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier("allay_drop_item_on_block"));
 
@@ -66,9 +63,7 @@ public class WildMod implements ModInitializer {
         AnimationChannel.Interpolations.init();
 
         RegisterAccurateSculk.RegisterAccurateSculk();
-
-        Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "warden_can_listen"), WARDEN_CAN_LISTEN);
-        Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "note_block_play"), NOTE_BLOCK_PLAY);
+        GameEvent.RegisterGameEvents();
     }
 
     public static void registerData(TrackedDataHandler<?> handler) {

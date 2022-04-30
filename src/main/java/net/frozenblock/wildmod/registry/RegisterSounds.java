@@ -13,6 +13,13 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.break"));
         public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.place"));
         public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.hit"));
+    //Frogspawn
+        public static final SoundEvent BLOCK_FROGSPAWN_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.step"));
+        public static final SoundEvent BLOCK_FROGSPAWN_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.break"));
+        public static final SoundEvent BLOCK_FROGSPAWN_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.fall"));
+        public static final SoundEvent BLOCK_FROGSPAWN_HATCH = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.hatch"));
+        public static final SoundEvent BLOCK_FROGSPAWN_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.hit"));
+        public static final SoundEvent BLOCK_FROGSPAWN_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.place"));
     //Mud
         public static final SoundEvent BLOCK_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.step"));
         public static final SoundEvent BLOCK_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.break"));
@@ -89,7 +96,7 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent ENTITY_WARDEN_AMBIENT_UNDERGROUND = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient_underground"));
         public static final SoundEvent ENTITY_WARDEN_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.angry"));
         public static final SoundEvent ENTITY_WARDEN_ATTACK_IMPACT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.attack_impact"));
-        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.neaby_close"));
+        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.nearby_close"));
         public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSER = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.nearby_closer"));
         public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSEST = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.nearby_closest"));
         public static final SoundEvent ENTITY_WARDEN_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.death"));
@@ -110,7 +117,6 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent ENTITY_ALLAY_AMBIENT_WITH_ITEM = register("entity.allay.ambient_with_item");
         public static final SoundEvent ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM = register("entity.allay.ambient_without_item");
         public static final SoundEvent ENTITY_ALLAY_DEATH = register("entity.allay.death");
-        public static final SoundEvent ENTITY_ALLAY_FLAP = register("entity.allay.flap");
         public static final SoundEvent ENTITY_ALLAY_HURT = register("entity.allay.hurt");
         public static final SoundEvent ENTITY_ALLAY_ITEM_GIVEN = register("entity.allay.item_given");
         public static final SoundEvent ENTITY_ALLAY_ITEM_TAKEN = register("entity.allay.item_taken");

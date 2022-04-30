@@ -29,12 +29,12 @@ public abstract class RegisterAccurateSculk {
     public static final DefaultParticleType SCULK_SHRIEKX2 = FabricParticleTypes.simple();
 
     public static final Identifier GARGLE = new Identifier("accuratesculk:gargle");
-    public static final GameEvent CLICK = new GameEvent("click", 8);
+    //public static final GameEvent CLICK = new GameEvent("click", 8);
     public static final GameEvent DEATH = new GameEvent("death", 8);
     public static final SoundEvent GARGLE_EVENT = new SoundEvent(GARGLE);
 
     public static void RegisterAccurateSculk() {
-        Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "click"), CLICK);
+        //Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "click"), CLICK);
         Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "death"), DEATH);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_shriek"), SCULK_SHRIEK);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_shriek2"), SCULK_SHRIEK2);

@@ -433,7 +433,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         this.getBrain().remember(RegisterEntities.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
-        if (spawnReason == SpawnReason.TRIGGERED || spawnReason == SpawnReason.SPAWN_EGG) {
+        if (spawnReason == SpawnReason.TRIGGERED) {
             this.setPose(EMERGING);
             this.getBrain().remember(RegisterEntities.IS_EMERGING, Unit.INSTANCE, (long)WardenBrain.EMERGE_DURATION);
             this.setPersistent();

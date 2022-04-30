@@ -43,6 +43,6 @@
 	"minecraft:splash",
 	"minecraft:step",
 	"minecraft:swim",
-	"twm:click"
+	"twm:sculk_sensor_tendrils_clicking"
   ]
 }

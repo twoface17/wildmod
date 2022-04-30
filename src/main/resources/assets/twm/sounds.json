@@ -122,6 +122,179 @@
 	  }
 	]
   },
+  "block.frogspawn.break": {
+	"sounds": [
+	  {
+		"name": "twm:block/frogspawn/break1",
+		"pitch": 1.2,
+		"volume": 0.1
+	  },
+	  {
+		"name": "twm:block/frogspawn/break2",
+		"pitch": 1.2,
+		"volume": 0.1
+	  },
+	  {
+		"name": "twm:block/frogspawn/break3",
+		"pitch": 1.2,
+		"volume": 0.1
+	  },
+	  {
+		"name": "twm:block/frogspawn/break4",
+		"pitch": 1.2,
+		"volume": 0.1
+	  }
+	],
+	"subtitle": "subtitles.block.generic.break"
+  },
+  "block.frogspawn.fall": {
+	"sounds": [
+	  {
+		"name": "twm:block/frogspawn/step1",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step2",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step3",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step4",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step5",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step6",
+		"pitch": 1.3,
+		"volume": 0.3
+	  }
+	]
+  },
+  "block.frogspawn.hatch": {
+	"sounds": [
+	  {
+		"name": "twm:block/frogspawn/hatch1",
+		"pitch": 1.2,
+		"volume": 0.6
+	  },
+	  {
+		"name": "twm:block/frogspawn/hatch2",
+		"pitch": 1.2,
+		"volume": 0.6
+	  },
+	  {
+		"name": "twm:block/frogspawn/hatch3",
+		"pitch": 1.2,
+		"volume": 0.6
+	  },
+	  {
+		"name": "twm:block/frogspawn/hatch4",
+		"pitch": 1.2,
+		"volume": 0.6
+	  }
+	],
+	"subtitle": "subtitles.block.frogspawn.hatch"
+  },
+  "block.frogspawn.hit": {
+	"sounds": [
+	  {
+		"name": "twm:block/frogspawn/step1",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step2",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step3",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step4",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step5",
+		"pitch": 1.3,
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step6",
+		"pitch": 1.3,
+		"volume": 0.3
+	  }
+	],
+	"subtitle": "subtitles.block.generic.hit"
+  },
+  "block.frogspawn.place": {
+	"sounds": [
+	  {
+		"name": "twm:block/frogspawn/break1",
+		"pitch": 1.5,
+		"volume": 0.2
+	  },
+	  {
+		"name": "twm:block/frogspawn/break2",
+		"pitch": 1.5,
+		"volume": 0.2
+	  },
+	  {
+		"name": "twm:block/frogspawn/break3",
+		"pitch": 1.5,
+		"volume": 0.2
+	  },
+	  {
+		"name": "twm:block/frogspawn/break4",
+		"pitch": 1.5,
+		"volume": 0.2
+	  }
+	],
+	"subtitle": "subtitles.block.generic.place"
+  },
+  "block.frogspawn.step": {
+	"sounds": [
+	  {
+		"name": "twm:block/frogspawn/step1",
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step2",
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step3",
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step4",
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step5",
+		"volume": 0.3
+	  },
+	  {
+		"name": "twm:block/frogspawn/step6",
+		"volume": 0.3
+	  }
+	],
+	"subtitle": "subtitles.block.generic.footsteps"
+  },
   "block.reinforced_deepslate.break": {
 	"sounds": [
 	  "twm:block/reinforced_deepslate/break1",
