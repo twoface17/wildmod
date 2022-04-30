@@ -1,6 +1,7 @@
 {
   "config": {
     "start_pool": "twm:ancient_city/city_center",
+    "height": -51,
     "size": 7
   },
   "start_height": {

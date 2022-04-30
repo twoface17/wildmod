@@ -16,7 +16,6 @@
     "minecraft:dripstone_block",
     "minecraft:end_stone",
     "minecraft:red_sandstone",
-    "minecraft:sandstone",
-    "twm:mud"
+    "minecraft:sandstone"
   ]
 }
