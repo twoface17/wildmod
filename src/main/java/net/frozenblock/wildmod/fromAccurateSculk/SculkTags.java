@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.fromAccurateSculk;
 
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.event.SculkSensorListener;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
@@ -30,13 +31,6 @@ public class SculkTags {
     public static final TagKey<Block> ALWAYS_WATER = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "always_water_sculk"));
     public static final TagKey<Block> WARDEN_UNSPAWNABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "warden_unspawnable"));
     public static final TagKey<Block> WARDEN_NON_COLLIDE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "warden_non_collide"));
-  
-    //ACTIVATORS
-    public static final TagKey<Block> ACTIVATORS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_activators"));
-    public static final TagKey<Block> COMMON_ACTIVATORS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "common_activators"));
-    public static final TagKey<Block> RARE_ACTIVATORS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "rare_activators"));
-    public static final TagKey<Block> GROUND_ACTIVATORS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "ground_activators"));
-    public static final TagKey<Block> OCCLUDES_VIBRATION_SIGNALS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "occludes_vibration_signals"));
     public static final TagKey<Block> DAMPENS_VIBRATIONS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "dampens_vibrations"));
 
     public static boolean blockTagContains(Block block1, TagKey<Block> tag) {
