@@ -1,8 +1,9 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.render.boat;
 
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.frozenblock.wildmod.entity.MangroveBoatEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.CompositeEntityModel;
 import net.minecraft.entity.vehicle.BoatEntity;

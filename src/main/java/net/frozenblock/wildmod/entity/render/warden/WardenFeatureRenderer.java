@@ -1,5 +1,6 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.render.warden;
 
+import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.render.RenderLayer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
