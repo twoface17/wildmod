@@ -45,5 +45,5 @@
   },
   "step": "underground_decoration",
   "terrain_adaptation": "beard_box",
-  "type": "twm:ancient_city"
+  "type": "minecraft:village"
 }
