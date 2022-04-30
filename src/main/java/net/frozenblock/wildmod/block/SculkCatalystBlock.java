@@ -21,6 +21,8 @@ import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.intprovider.ConstantIntProvider;
+import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.event.listener.GameEventListener;
@@ -29,22 +31,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Random;
 
 public class SculkCatalystBlock extends BlockWithEntity implements BlockEntityProvider {
-    public final int range;
-    public int getRange() {
-        return this.range;
+    public final int getRange() {
+        return 8;
     }
+    private final IntProvider experience = ConstantIntProvider.create(20);
     public static final EnumProperty<SculkCatalystPhase> SCULK_CATALYST_PHASE = WildProperties.SCULK_CATALYST_PHASE;
     public static SculkCatalystPhase getPhase(BlockState blockState) {
         return blockState.get(SCULK_CATALYST_PHASE);
     }
     public static boolean isInactive(BlockState blockState) {
         return SculkCatalystBlock.getPhase(blockState) == SculkCatalystPhase.INACTIVE;
-    }
-    @Override
-    protected void dropExperience(ServerWorld serverWorld, BlockPos blockPos, int i) {
-        if (serverWorld.getGameRules().getBoolean(GameRules.DO_TILE_DROPS)) {
-            ExperienceOrbEntity.spawn(serverWorld, Vec3d.ofCenter(blockPos), 20);
-        }
     }
 
     @Override
@@ -91,15 +87,12 @@ public class SculkCatalystBlock extends BlockWithEntity implements BlockEntityPr
         world.updateNeighborsAlways(blockPos, SculkCatalystBlock.SCULK_CATALYST_BLOCK);
         world.updateNeighborsAlways(blockPos.offset(Direction.UP.getOpposite()), SculkCatalystBlock.SCULK_CATALYST_BLOCK);
     }
-    @Override
-    public void onStacksDropped(BlockState blockState, ServerWorld serverWorld, BlockPos blockPos, ItemStack itemStack) {
-        int i;
-        super.onStacksDropped(blockState, serverWorld, blockPos, itemStack);
-        if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, itemStack) == 0) {
-            i=1;
-            this.dropExperience(serverWorld, blockPos, i);
-        }
+
+    public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack) {
+        super.onStacksDropped(state, world, pos, stack);
+        this.dropExperienceWhenMined(world, pos, stack, this.experience);
     }
+
     @Override
     public BlockRenderType getRenderType(BlockState blockState) {
         return BlockRenderType.MODEL;
@@ -125,10 +118,9 @@ public class SculkCatalystBlock extends BlockWithEntity implements BlockEntityPr
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(SCULK_CATALYST_PHASE);
     }
-    public SculkCatalystBlock(AbstractBlock.Settings settings, int i) {
+    public SculkCatalystBlock(AbstractBlock.Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(SCULK_CATALYST_PHASE, SculkCatalystPhase.INACTIVE));
-        this.range = i;
     }
 
     public static final BlockSoundGroup CATALYSTSOUNDS = new BlockSoundGroup(1.0F, 1.0F,
@@ -144,6 +136,15 @@ public class SculkCatalystBlock extends BlockWithEntity implements BlockEntityPr
             .sounds(CATALYSTSOUNDS)
             .luminance(state -> 6);
     public static final Block SCULK_CATALYST_BLOCK = new SculkCatalystBlock(SCULK_CATALYST_PROPERTIES
-            .strength(3.0F, 3.0F), 8);
+            .strength(3.0F, 3.0F));
 
+    protected void dropExperienceWhenMined(ServerWorld world, BlockPos pos, ItemStack tool, IntProvider experience) {
+        if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) == 0) {
+            int i = experience.get(world.random);
+            if (i > 0) {
+                this.dropExperience(world, pos, i);
+            }
+        }
+
+    }
 }
