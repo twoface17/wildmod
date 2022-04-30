@@ -827,6 +827,15 @@
 	],
 	"subtitle": "subtitles.block.generic.break"
   },
+  "block.sculk.charge": {
+	"sounds": [
+	  "twm:block/sculk/charge1",
+	  "twm:block/sculk/charge2",
+	  "twm:block/sculk/charge3",
+	  "twm:block/sculk/charge4",
+	  "twm:block/sculk/charge5"
+	]
+  },
   "block.sculk.fall": {
 	"sounds": [
 	  {
@@ -894,6 +903,30 @@
 	  "twm:block/sculk/place5"
 	],
 	"subtitle": "subtitles.block.generic.place"
+  },
+  "block.sculk.spread": {
+	"sounds": [
+	  {
+		"name": "twm:block/sculk/spread1",
+		"pitch": 0.9
+	  },
+	  {
+		"name": "twm:block/sculk/spread2",
+		"pitch": 0.9
+	  },
+	  {
+		"name": "twm:block/sculk/spread3",
+		"pitch": 0.9
+	  },
+	  {
+		"name": "twm:block/sculk/spread4",
+		"pitch": 0.9
+	  },
+	  {
+		"name": "twm:block/sculk/spread5",
+		"pitch": 0.9
+	  }
+	]
   },
   "block.sculk.step": {
 	"sounds": [

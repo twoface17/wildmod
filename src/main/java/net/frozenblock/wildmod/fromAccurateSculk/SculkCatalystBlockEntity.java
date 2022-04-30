@@ -1,72 +1,88 @@
 package net.frozenblock.wildmod.fromAccurateSculk;
 
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
+import net.frozenblock.wildmod.event.PositionSource;
+import net.frozenblock.wildmod.liukrastapi.Criteria;
+import net.frozenblock.wildmod.liukrastapi.Vec3d;
+import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
+import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.event.BlockPositionSource;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.GameEventListener;
-import net.minecraft.world.event.listener.SculkSensorListener;
+import net.minecraft.world.gen.random.AbstractRandom;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.VisibleForTesting;
 
 import java.util.Random;
 
-public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensorListener.Callback {
-    private final SculkCatalystListener listener;
-    private int lastVibrationFrequency;
-    public int lastSculkRange;
+public class SculkCatalystBlockEntity extends BlockEntity implements net.frozenblock.wildmod.event.GameEventListener {
+    private final net.frozenblock.wildmod.event.BlockPositionSource positionSource = new net.frozenblock.wildmod.event.BlockPositionSource(this.pos);
+    private final SculkSpreadManager spreadManager = SculkSpreadManager.create();
+
 
     public SculkCatalystBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(WildBlockEntityType.SCULK_CATALYST, blockPos, blockState);
-        this.listener = new SculkCatalystListener(new BlockPositionSource(this.pos), ((SculkCatalystBlock)blockState.getBlock()).getRange(), this);
     }
 
-    @Override
-    public void readNbt(NbtCompound nbtCompound) {
-        super.readNbt(nbtCompound);
-        this.lastVibrationFrequency = nbtCompound.getInt("last_vibration_frequency");
-        this.lastSculkRange = nbtCompound.getInt("lastSculkRange");
+    public PositionSource getPositionSource() {
+        return this.positionSource;
     }
 
-    @Override
-    protected void writeNbt(NbtCompound nbtCompound) {
-        super.writeNbt(nbtCompound);
-        nbtCompound.putInt("last_vibration_frequency", this.lastVibrationFrequency);
-        nbtCompound.putInt("lastSculkRange", this.lastSculkRange);
+    public int getRange() {
+        return 8;
     }
 
-    public SculkCatalystListener getEventListener() {
-        return this.listener;
-    }
+    public boolean listen(ServerWorld world, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter, Vec3d pos) {
+        if (event == GameEvent.ENTITY_KILLED) {
+            Entity livingEntity2 = emitter.sourceEntity();
+            if (livingEntity2 instanceof LivingEntity livingEntity) {
+                if (!livingEntity.isExperienceDroppingDisabled()) {
+                    this.spreadManager.spread(new BlockPos(pos.withBias(Direction.UP, 0.5)), livingEntity.getXpToDrop);
+                    livingEntity.disableExperienceDropping();
+                    LivingEntity livingEntity1 = livingEntity.getAttacker();
+                    if (livingEntity1 instanceof ServerPlayerEntity serverPlayerEntity) {
+                        DamageSource damageSource = livingEntity.getRecentDamageSource() == null ? DamageSource.player(serverPlayerEntity) : livingEntity.getRecentDamageSource();
+                        Criteria.KILL_MOB_NEAR_SCULK_CATALYST.trigger(serverPlayerEntity, emitter.sourceEntity(), damageSource);
+                    }
 
+                    SculkCatalystBlock.bloom(world, this.pos, this.getCachedState(), (AbstractRandom)world.getRandom());
+                }
 
-    @Override
-    public boolean accepts(World world, GameEventListener gameEventListener, BlockPos blockPos, GameEvent gameEvent, @Nullable Entity entity) {
-        boolean bl = gameEvent == GameEvent.BLOCK_DESTROY && blockPos.equals(this.getPos());
-        boolean bl2 = gameEvent == GameEvent.BLOCK_PLACE && blockPos.equals(this.getPos());
-        return !bl && !bl2 && SculkCatalystBlock.isInactive(this.getCachedState());
-    }
-
-    @Override
-    public void accept(World world, GameEventListener gameEventListener, GameEvent gameEvent, int i) {
-        BlockState blockState = this.getCachedState();
-        if (!world.isClient() && SculkCatalystBlock.isInactive(blockState)) {
-            SculkCatalystBlock.setActive(world, this.pos, blockState);
-            double d = (double)this.pos.getX() + 0.5;
-            double e = (double)this.pos.getY() +1;
-            double f = (double)this.pos.getZ() + 0.5;
-            Random random = new Random();
-            BlockPos target = this.getPos();
+                return true;
+            }
         }
+
+        return false;
     }
 
-    public static int getPower(int i, int j) {
-        double d = (double)i / (double)j;
-        return Math.max(1, 15 - MathHelper.floor(d * 15.0));
+    public static void tick(World world, BlockPos pos, BlockState state, SculkCatalystBlockEntity blockEntity) {
+        blockEntity.spreadManager.tick(world, pos, (WildAbstractRandom)world.getRandom(), true);
+    }
+
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        this.spreadManager.readNbt(nbt);
+    }
+
+    protected void writeNbt(NbtCompound nbt) {
+        this.spreadManager.writeNbt(nbt);
+        super.writeNbt(nbt);
+    }
+
+    @VisibleForTesting
+    public SculkSpreadManager getSpreadManager() {
+        return this.spreadManager;
     }
 }
