@@ -16,6 +16,7 @@
 	"MemoryModuleTypeInvoker2",
 	"ModelPartDataMixin",
 	"ModelPartMixin",
+	"NoteBlockMixin",
 	"PlayerEntityMixin",
 	"SculkSensorBlockMixin",
 	"SculkSensorListenerMixin",
@@ -32,6 +33,6 @@
   "client": [
   ],
   "injectors": {
-    "defaultRequire": 1
+	"defaultRequire": 1
   }
 }

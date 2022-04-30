@@ -1,9 +1,9 @@
 package net.frozenblock.wildmod.entity;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Dynamic;
-import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.event.EntityPositionSource;
+import net.frozenblock.wildmod.event.*;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.block.BlockState;
@@ -30,30 +30,43 @@ import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.PositionSource;
-import net.minecraft.world.event.listener.EntityGameEventHandler;
-import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-public class AllayEntity extends PathAwareEntity implements InventoryOwner, GameEventListener {
+public class AllayEntity extends PathAwareEntity implements InventoryOwner, SculkSensorListener.Callback {
+    private static final Logger field_39405 = LogUtils.getLogger();
     private static final int field_38405 = 16;
     private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
     private static final int field_38934 = 5;
-    protected static final ImmutableList<SensorType<? extends Sensor<? super AllayEntity>>> SENSORS;
-    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES;
-    public static final ImmutableList<Float> field_38937;
-    private final EntityPositionSource positionSource = new EntityPositionSource(this, this.getStandingEyeHeight());
-    private final EntityGameEventHandler gameEventHandler;
+    protected static final ImmutableList<SensorType<? extends Sensor<? super AllayEntity>>> SENSORS = ImmutableList.of(
+            SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS
+    );
+    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES = ImmutableList.of(
+            MemoryModuleType.PATH,
+            MemoryModuleType.LOOK_TARGET,
+            MemoryModuleType.VISIBLE_MOBS,
+            MemoryModuleType.WALK_TARGET,
+            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+            MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
+            RegisterEntities.LIKED_PLAYER,
+            RegisterEntities.LIKED_NOTEBLOCK,
+            RegisterEntities.LIKED_NOTEBLOCK_COOLDOWN_TICKS,
+            RegisterEntities.ITEM_PICKUP_COOLDOWN_TICKS
+    );
+    public static final ImmutableList<Float> THROW_SOUND_PITCHES = ImmutableList.of(
+            0.5625F, 0.625F, 0.75F, 0.9375F, 1.0F, 1.0F, 1.125F, 1.25F, 1.5F, 1.875F, 2.0F, 2.25F, new Float[]{2.5F, 3.0F, 3.75F, 4.0F}
+    );
+    private final net.frozenblock.wildmod.event.EntityGameEventHandler<SculkSensorListener> gameEventHandler;
     private final SimpleInventory inventory = new SimpleInventory(1);
     private float field_38935;
     private float field_38936;
@@ -62,7 +75,9 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
         super(entityType, world);
         this.moveControl = new FlightMoveControl(this, 20, true);
         this.setCanPickUpLoot(this.canPickUpLoot());
-        this.gameEventHandler = new EntityGameEventHandler(this);
+        this.gameEventHandler = new net.frozenblock.wildmod.event.EntityGameEventHandler<>(
+                new SculkSensorListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0,0)
+        );
     }
 
     protected Brain.Profile<AllayEntity> createBrainProfile() {
@@ -78,7 +93,12 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
     }
 
     public static DefaultAttributeContainer.Builder createAllayAttributes() {
-        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.10000000149011612D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.10000000149011612D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
+        return MobEntity.createMobAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0)
+                .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.1F)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.1F)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0);
     }
 
     protected EntityNavigation createNavigation(World world) {
@@ -94,15 +114,15 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
             if (this.isTouchingWater()) {
                 this.updateVelocity(0.02F, movementInput);
                 this.move(MovementType.SELF, this.getVelocity());
-                this.setVelocity(this.getVelocity().multiply(0.800000011920929D));
+                this.setVelocity(this.getVelocity().multiply(0.8F));
             } else if (this.isInLava()) {
                 this.updateVelocity(0.02F, movementInput);
                 this.move(MovementType.SELF, this.getVelocity());
-                this.setVelocity(this.getVelocity().multiply(0.5D));
+                this.setVelocity(this.getVelocity().multiply(0.5));
             } else {
                 this.updateVelocity(this.getMovementSpeed(), movementInput);
                 this.move(MovementType.SELF, this.getVelocity());
-                this.setVelocity(this.getVelocity().multiply(0.9100000262260437D));
+                this.setVelocity(this.getVelocity().multiply(0.91F));
             }
         }
 
@@ -119,8 +139,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
 
     public boolean damage(DamageSource source, float amount) {
         Entity var4 = source.getAttacker();
-        if (var4 instanceof PlayerEntity) {
-            PlayerEntity playerEntity = (PlayerEntity)var4;
+        if (var4 instanceof PlayerEntity playerEntity) {
             Optional<UUID> optional = this.getBrain().getOptionalMemory(RegisterEntities.LIKED_PLAYER);
             if (optional.isPresent() && playerEntity.getUuid().equals(optional.get())) {
                 return false;
@@ -179,6 +198,8 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
             } else {
                 this.field_38935 = MathHelper.clamp(this.field_38935 - 1.0F, 0.0F, 5.0F);
             }
+        } else {
+            this.gameEventHandler.getListener().tick(this.world);
         }
 
     }
@@ -189,6 +210,10 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
 
     public boolean isHoldingItem() {
         return !this.getStackInHand(Hand.MAIN_HAND).isEmpty();
+    }
+
+    public boolean canEquip(ItemStack stack) {
+        return false;
     }
 
     private boolean isItemPickupCoolingDown() {
@@ -213,10 +238,8 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
             this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
             this.world.playSoundFromEntity(player, this, RegisterSounds.ENTITY_ALLAY_ITEM_TAKEN, SoundCategory.NEUTRAL, 2.0F, 1.0F);
             this.swingHand(Hand.MAIN_HAND);
-            Iterator<ItemStack> var5 = this.getInventory().clearToList().iterator();
 
-            while(var5.hasNext()) {
-                ItemStack itemStack4 = var5.next();
+            for(ItemStack itemStack4 : this.getInventory().clearToList()) {
                 LookTargetUtil.give(this, itemStack4, this.getPos());
             }
 
@@ -251,8 +274,9 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
             }
 
             this.triggerItemPickedUpByEntityCriteria(item);
-            this.sendPickup(item, itemStack.getCount());
+            int i = itemStack.getCount();
             ItemStack itemStack2 = simpleInventory.addStack(itemStack);
+            this.sendPickup(item, i - itemStack2.getCount());
             if (itemStack2.isEmpty()) {
                 item.discard();
             } else {
@@ -271,36 +295,13 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
         return !this.isOnGround();
     }
 
-    public PositionSource getPositionSource() {
-        return (PositionSource) this.positionSource;
-    }
-
-    public int getRange() {
-        return 16;
-    }
-
-    @Override
-    public boolean listen(World world, GameEvent event, @Nullable Entity entity, BlockPos pos) {
-        return false;
-    }
-
-    public void updateEventHandler(BiConsumer<EntityGameEventHandler, ServerWorld> biConsumer) {
+    public void updateEventHandler(BiConsumer<EntityGameEventHandler<SculkSensorListener>, ServerWorld> biConsumer) {
         World var3 = this.world;
         if (var3 instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld)var3;
             biConsumer.accept(this.gameEventHandler, serverWorld);
         }
 
-    }
-
-
-    public boolean listen(ServerWorld world, GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter, Vec3d pos) {
-        if (event != WildMod.NOTE_BLOCK_PLAY) {
-            return false;
-        } else {
-            AllayBrain.rememberNoteBlock(this, new BlockPos(pos));
-            return true;
-        }
     }
 
     public boolean method_43395() {
@@ -326,9 +327,29 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Game
         return false;
     }
 
-    static {
-        SENSORS = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS);
-        MEMORY_MODULES = ImmutableList.of(MemoryModuleType.PATH, MemoryModuleType.LOOK_TARGET, MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM, RegisterEntities.LIKED_PLAYER, RegisterEntities.LIKED_NOTEBLOCK, RegisterEntities.LIKED_NOTEBLOCK_COOLDOWN_TICKS, RegisterEntities.ITEM_PICKUP_COOLDOWN_TICKS);
-        field_38937 = ImmutableList.of(0.5625F, 0.625F, 0.75F, 0.9375F, 1.0F, 1.0F, 1.125F, 1.25F, 1.5F, 1.875F, 2.0F, 2.25F, new Float[]{2.5F, 3.0F, 3.75F, 4.0F});
+    public boolean accepts(ServerWorld world, net.frozenblock.wildmod.event.GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter) {
+        if (this.isAiDisabled()) {
+            return false;
+        } else if (!this.brain.hasMemoryModule(RegisterEntities.LIKED_NOTEBLOCK)) {
+            return true;
+        } else {
+            Optional<GlobalPos> optional = this.brain.getOptionalMemory(RegisterEntities.LIKED_NOTEBLOCK);
+            return optional.isPresent()
+                    && ((GlobalPos)optional.get()).getDimension() == world.getRegistryKey()
+                    && ((GlobalPos)optional.get()).getPos().equals(pos);
+        }
+    }
+
+    public void accept(
+            ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
+    ) {
+        if (event == net.frozenblock.wildmod.event.GameEvent.NOTE_BLOCK_PLAY) {
+            AllayBrain.rememberNoteBlock(this, new BlockPos(pos));
+        }
+
+    }
+
+    public TagKey<net.minecraft.world.event.GameEvent> getTag() {
+        return WildEventTags.ALLAY_CAN_LISTEN;
     }
 }

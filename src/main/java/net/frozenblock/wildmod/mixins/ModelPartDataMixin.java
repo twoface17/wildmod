@@ -21,7 +21,7 @@ public abstract class ModelPartDataMixin implements ExpandedModelPart {
     //private final ModelTransform rotationData;
     private final Map<String, ModelPartData> children = Maps.newHashMap();
 
-    @Inject(method = "createPart", at = @At("TAIL"))
+    /*@Inject(method = "createPart", at = @At("TAIL"))
     public ModelPart createPart(int textureWidth, int textureHeight, CallbackInfoReturnable<ModelPart> cir) {
         List<ModelCuboidData> cuboidData = Collections.singletonList(ModelCuboidData.class.cast(this));
         Object2ObjectArrayMap<String, ModelPart> object2ObjectArrayMap = this.children
@@ -44,7 +44,7 @@ public abstract class ModelPartDataMixin implements ExpandedModelPart {
         return modelPart;
     }
 
-    @Inject(method = "getChild", at = @At("HEAD"))
+    */@Inject(method = "getChild", at = @At("HEAD"))
     public ModelPartData getChild(String name, CallbackInfoReturnable<ModelPartData> cir) {
         return this.children.get(name);
     }
