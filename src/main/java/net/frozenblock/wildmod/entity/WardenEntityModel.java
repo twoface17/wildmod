@@ -78,7 +78,7 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
     }
 
     public void setAngles(T wardenEntity, float f, float g, float h, float i, float j) {
-        this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetModelTransform());
+        this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetTransform());
         float k = h - (float)wardenEntity.age;
         long l = Util.getMeasuringTimeMs();
         this.setHeadAngle(i, j);

@@ -1,41 +1,15 @@
 {
-  "credit": "Made by FrozenBlockStudios",
   "ambientocclusion": false,
   "textures": {
     "particle": "twm:block/sculk_vein",
     "sculk_vein": "twm:block/sculk_vein"
   },
   "elements": [
-    {
-      "from": [
-        0,
-        0,
-        0.1
-      ],
-      "to": [
-        16,
-        16,
-        0.1
-      ],
+    {   "from": [ 0, 0, 0.1 ],
+      "to": [ 16, 16, 0.1 ],
       "faces": {
-        "north": {
-          "uv": [
-            16,
-            0,
-            0,
-            16
-          ],
-          "texture": "#sculk_vein"
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#sculk_vein"
-        }
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#sculk_vein" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#sculk_vein" }
       }
     }
   ]

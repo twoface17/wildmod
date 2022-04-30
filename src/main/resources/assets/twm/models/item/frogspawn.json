@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "twm:block/frog_spawn"
+    "layer0": "twm:block/frogspawn"
   }
 }

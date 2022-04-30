@@ -9,9 +9,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.Arm;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
@@ -54,7 +52,7 @@ public class AllayEntityModel extends SinglePartEntityModel<AllayEntity> impleme
 	}
 
 	public void setAngles(AllayEntity allayEntity, float f, float g, float h, float i, float j) {
-		this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetModelTransform());
+		this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetTransform());
 		float k = h * 20.0F * 0.017453292F + g;
 		float l = MathHelper.cos(k) * 3.1415927F * 0.15F;
 		float m = h - (float)allayEntity.age;

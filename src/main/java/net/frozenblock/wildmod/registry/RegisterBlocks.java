@@ -18,6 +18,16 @@ public abstract class RegisterBlocks {
 
     public static final Material FROGSPAWNMATERIAL = new Material.Builder(MapColor.WATER_BLUE).allowsMovement()/*.lightPassesThrough()*/.notSolid().allowsMovement().build();
 
+    public static final BlockSoundGroup SCULKSOUNDS = new BlockSoundGroup(
+            1.0F,
+            1.0F,
+            RegisterSounds.BLOCK_SCULK_BREAK,
+            RegisterSounds.BLOCK_SCULK_STEP,
+            RegisterSounds.BLOCK_SCULK_PLACE,
+            RegisterSounds.BLOCK_SCULK_HIT,
+            RegisterSounds.BLOCK_SCULK_FALL
+    );
+
     public static final AbstractBlock.Settings REINFORCED_DEEPSLATE_SETTINGS = FabricBlockSettings
             .of(Material.STONE, MapColor.DEEPSLATE_GRAY)
             .requiresTool()
@@ -78,7 +88,13 @@ public abstract class RegisterBlocks {
     public static final Block SCULK_CATALYST = SculkCatalystBlock.SCULK_CATALYST_BLOCK;
 
     public static final Block SCULK = SculkBlock.SCULK_BLOCK;
-
+    public static final SculkShriekerBlock SCULK_SHRIEKER = new SculkShriekerBlock(AbstractBlock.Settings.of(Material.SCULK).strength(3.0F, 3.0F).sounds(new BlockSoundGroup(0.8f, 1.0f,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_BREAK,
+            RegisterSounds.BLOCK_SCULK_STEP,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_PLACE,
+            RegisterSounds.BLOCK_SCULK_HIT,
+            RegisterSounds.BLOCK_SCULK_FALL
+    )), 8);
     public static final Block OCHRE_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block PEARLESCENT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block VERDANT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
@@ -109,18 +125,18 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mud_brick_stairs"), new BlockItem(MUD_BRICKS_STAIRS, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk"), SCULK);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk"), new BlockItem(SCULK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk"), new BlockItem(SCULK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_vein"), SCULK_VEIN);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_vein"), new BlockItem(SCULK_VEIN, new FabricItemSettings().group(ItemGroup.REDSTONE)));
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_vein"), new BlockItem(SCULK_VEIN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_sensor"), new BlockItem(Blocks.SCULK_SENSOR, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), SCULK_CATALYST);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), new BlockItem(SCULK_CATALYST, new FabricItemSettings().group(ItemGroup.REDSTONE)));
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_catalyst"), new BlockItem(SCULK_CATALYST, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
-        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem( SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), RegisterBlocks.SCULK_SHRIEKER);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "sculk_shrieker"), new BlockItem(RegisterBlocks.SCULK_SHRIEKER, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "reinforced_deepslate"), REINFORCED_DEEPSLATE);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "reinforced_deepslate"), new BlockItem(REINFORCED_DEEPSLATE, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
