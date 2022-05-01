@@ -1,6 +1,8 @@
 package net.frozenblock.wildmod.block;
 
+import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterSounds;
+import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -13,19 +15,66 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.gen.random.AbstractRandom;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.function.ToIntFunction;
 
-public class SculkVeinBlock extends GlowLichenBlock implements Waterloggable {
+public class SculkVeinBlock extends GlowLichenBlock/*AbstractLichenBlock */implements /*SculkSpreadable, */Waterloggable {
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    //private final LichenGrower allGrowTypeGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GROW_TYPES));
+    //private final LichenGrower samePositionOnlyGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GrowType.SAME_POSITION));
 
     public SculkVeinBlock(AbstractBlock.Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(WATERLOGGED, false).with(Properties.DOWN, true).with(Properties.UP, false));
     }
 
-    public static ToIntFunction<BlockState> getLuminanceSupplier(int i) {
+    /*public LichenGrower getGrower() {
+        return allGrowTypeGrower;
+    }
+
+    public LichenGrower getSamePositionOnlyGrower() {
+        return this.samePositionOnlyGrower;
+    }
+
+    public static boolean place(WorldAccess world, BlockPos pos, BlockState state, Collection<Direction> directions) {
+        boolean bl = false;
+        BlockState blockState = RegisterBlocks.SCULK_VEIN.getDefaultState();
+
+        for(Direction direction : directions) {
+            BlockPos blockPos = pos.offset(direction);
+            if (canGrowOn(world, direction, blockPos, world.getBlockState(blockPos))) {
+                blockState = (BlockState)blockState.with(getProperty(direction), true);
+                bl = true;
+            }
+        }
+
+        if (!bl) {
+            return false;
+        } else {
+            if (!state.getFluidState().isEmpty()) {
+                blockState = blockState.with(WATERLOGGED, true);
+            }
+
+            world.setBlockState(pos, blockState, 3);
+            return true;
+        }
+    }
+
+    public void spreadAtSamePosition(WorldAccess world, BlockState state, BlockPos pos, WildAbstractRandom random) {
+        if (state.isOf(this)) {
+            for(Direction direction : DIRECTIONS) {
+                BooleanProperty booleanProperty = getProperty(direction);
+                if (state.get(booleanProperty) && world.getBlockState(pos.offset(direction)).isOf(RegisterBlocks.SCULK)) {
+                    state = state.with(booleanProperty, false);
+                }
+            }
+        }
+    }
+
+    */public static ToIntFunction<BlockState> getLuminanceSupplier(int i) {
         return blockState -> AbstractLichenBlock.hasAnyDirection(blockState) ? i : 0;
     }
     @Nullable

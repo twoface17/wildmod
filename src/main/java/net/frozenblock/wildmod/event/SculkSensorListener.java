@@ -163,11 +163,11 @@ public class SculkSensorListener implements GameEventListener {
             return GameEventTags.VIBRATIONS;
         }
 
-        default boolean canAccept(net.minecraft.world.event.GameEvent gameEvent, GameEvent.Emitter arg) {
+        default boolean canAccept(net.minecraft.world.event.GameEvent gameEvent, GameEvent.Emitter emitter) {
             if (!gameEvent.isIn(this.getTag())) {
                 return false;
             } else {
-                Entity entity = arg.sourceEntity();
+                Entity entity = emitter.sourceEntity();
                 if (entity != null) {
                     if (entity.isSpectator()) {
                         return false;
@@ -185,13 +185,13 @@ public class SculkSensorListener implements GameEventListener {
                         return false;
                     }
 
-                    if (gameEvent.isIn(WildEventTags.DAMPENABLE_VIBRATIONS)) {
+                    if (emitter.affectedState() != null) {
                         return !entity.getBlockStateAtPos().isIn(SculkTags.DAMPENS_VIBRATIONS);
                     }
                 }
 
-                if (arg.affectedState() != null) {
-                    return !arg.affectedState().isIn(SculkTags.DAMPENS_VIBRATIONS);
+                if (emitter.affectedState() != null) {
+                    return !emitter.affectedState().isIn(SculkTags.DAMPENS_VIBRATIONS);
                 } else {
                     return true;
                 }

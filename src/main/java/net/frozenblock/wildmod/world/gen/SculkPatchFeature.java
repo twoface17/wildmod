@@ -1,9 +1,13 @@
 package net.frozenblock.wildmod.world.gen;
 
 import com.mojang.serialization.Codec;
+import net.frozenblock.wildmod.block.SculkShriekerBlock;
 import net.frozenblock.wildmod.block.SculkVeinBlock;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
+import net.frozenblock.wildmod.world.Direction;
+import net.frozenblock.wildmod.world.gen.block.SculkSpreadable;
+import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -13,11 +17,12 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.world.gen.random.AbstractRandom;
 import net.minecraft.world.gen.random.SimpleRandom;
 
 import java.util.ArrayList;
@@ -39,7 +44,7 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
 
     @Override
     public boolean generate(FeatureContext<SculkPatchFeatureConfig> context) {
-        /*StructureWorldAccess structureWorldAccess = context.getWorld();
+        StructureWorldAccess structureWorldAccess = context.getWorld();
         BlockPos blockPos = context.getOrigin();
         if (!this.canGenerate(structureWorldAccess, blockPos)) {
             return false;
@@ -57,7 +62,7 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
                 boolean bl = j < sculkPatchFeatureConfig.spreadRounds();
 
                 for(int l = 0; l < sculkPatchFeatureConfig.spreadAttempts(); ++l) {
-                    sculkSpreadManager.tick(structureWorldAccess, blockPos, abstractRandom, bl);
+                    sculkSpreadManager.tick((WorldAccess) structureWorldAccess, blockPos, (WildAbstractRandom) abstractRandom, bl);
                 }
 
                 sculkSpreadManager.clearCursors();
@@ -76,14 +81,14 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
                 if (structureWorldAccess.getBlockState(blockPos3).isAir()
                         && structureWorldAccess.getBlockState(blockPos3.down()).isSideSolidFullSquare(structureWorldAccess, blockPos3.down(), Direction.UP)) {
                     structureWorldAccess.setBlockState(
-                            blockPos3, (BlockState)SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(SculkShriekerBlock.CAN_SUMMON, true), 3
+                            blockPos3, (BlockState)RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.CAN_SUMMON, true), 3
                     );
                 }
             }
 
             return true;
         }
-        */if (seed!=context.getWorld().getSeed()) {
+        if (seed!=context.getWorld().getSeed()) {
             seed=context.getWorld().getSeed();
             sample = new PerlinNoiseSampler(new SimpleRandom(seed));
         }
@@ -98,8 +103,8 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
         } return false;
     }
 
-    /*private boolean canGenerate(WorldAccess world, BlockPos pos) {
-        BlockState  blockState = world.getBlockState(pos);
+    private boolean canGenerate(WorldAccess world, BlockPos pos) {
+        BlockState blockState = world.getBlockState(pos);
         if (blockState.getBlock() instanceof SculkSpreadable) {
             return true;
         } else {
@@ -110,7 +115,7 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
     }
 
 
-    */public void placePatch(FeatureContext<SculkPatchFeatureConfig> context, BlockPos pos, double average) {
+    public void placePatch(FeatureContext<SculkPatchFeatureConfig> context, BlockPos pos, double average) {
         StructureWorldAccess world = context.getWorld();
 
         double otherSculkChance = Math.cos(((average)*Math.PI)/12);

@@ -12,6 +12,7 @@ import net.frozenblock.wildmod.liukrastapi.AnimationState;
 import net.frozenblock.wildmod.liukrastapi.MathAddon;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
 import net.frozenblock.wildmod.registry.RegisterEntities;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.frozenblock.wildmod.event.*;
@@ -336,7 +337,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
 
     public static void addDarknessToClosePlayers(ServerWorld world, Vec3d pos, @Nullable Entity entity, int range) {
         StatusEffectInstance statusEffectInstance = new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 260, 0, false, false);
-        WardenEntity.addEffectToPlayersWithinDistance(world, entity, pos, (double)range, statusEffectInstance, 200);
+        WardenEntity.addEffectToPlayersWithinDistance(world, entity, pos, range, statusEffectInstance, 200);
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
@@ -432,10 +433,10 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
 
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        this.getBrain().remember(RegisterEntities.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
-        if (spawnReason == SpawnReason.TRIGGERED || spawnReason == SpawnReason.SPAWN_EGG) {
+        this.getBrain().remember(RegisterMemoryModules.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
+        if (spawnReason == SpawnReason.TRIGGERED) {
             this.setPose(EMERGING);
-            this.getBrain().remember(RegisterEntities.IS_EMERGING, Unit.INSTANCE, (long)WardenBrain.EMERGE_DURATION);
+            this.getBrain().remember(RegisterMemoryModules.IS_EMERGING, Unit.INSTANCE, (long)WardenBrain.EMERGE_DURATION);
             this.setPersistent();
         }
 
@@ -477,8 +478,8 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     }
 
     protected void pushAway(Entity entity) {
-        if (!this.isAiDisabled() && !this.getBrain().hasMemoryModule(RegisterEntities.TOUCH_COOLDOWN)) {
-            this.getBrain().remember(RegisterEntities.TOUCH_COOLDOWN, Unit.INSTANCE, 20L);
+        if (!this.isAiDisabled() && !this.getBrain().hasMemoryModule(RegisterMemoryModules.TOUCH_COOLDOWN)) {
+            this.getBrain().remember(RegisterMemoryModules.TOUCH_COOLDOWN, Unit.INSTANCE, 20L);
             this.increaseAngerAt(entity);
             WardenBrain.lookAtDisturbance(this, entity.getBlockPos());
         }
@@ -488,7 +489,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
 
     @Override
     public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, GameEvent.Emitter emitter) {
-        if (!this.isAiDisabled() && !this.getBrain().hasMemoryModule(RegisterEntities.VIBRATION_COOLDOWN) && !this.isDiggingOrEmerging() && world.getWorldBorder().contains(pos)) {
+        if (!this.isAiDisabled() && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN) && !this.isDiggingOrEmerging() && world.getWorldBorder().contains(pos)) {
             Entity var7 = emitter.sourceEntity();
             boolean var10000;
             if (var7 instanceof LivingEntity) {
@@ -508,13 +509,13 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
 
     @Override
     public void accept(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay) {
-        this.brain.remember(RegisterEntities.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
+        this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
         world.sendEntityStatus(this, (byte)61);
         this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
         BlockPos blockPos = pos;
         if (sourceEntity != null) {
             if (this.isInRange(sourceEntity, 30.0)) {
-                if (this.getBrain().hasMemoryModule(RegisterEntities.RECENT_PROJECTILE)) {
+                if (this.getBrain().hasMemoryModule(RegisterMemoryModules.RECENT_PROJECTILE)) {
                     if (this.isValidTarget(sourceEntity)) {
                         blockPos = sourceEntity.getBlockPos();
                     }
@@ -525,7 +526,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
                 }
             }
 
-            this.getBrain().remember(RegisterEntities.RECENT_PROJECTILE, Unit.INSTANCE, 100L);
+            this.getBrain().remember(RegisterMemoryModules.RECENT_PROJECTILE, Unit.INSTANCE, 100L);
         } else {
             this.increaseAngerAt(entity);
         }
@@ -607,5 +608,5 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         return MathHelper.squaredHypot(d, f) < MathHelper.square(horizontalRadius) && MathHelper.square(e) < MathHelper.square(verticalRadius);
     }
 
-    private final EntityGameEventHandler<SculkSensorListener> gameEventHandler = new EntityGameEventHandler<>(new SculkSensorListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, (SculkSensorListener.Callback) this, null, 0, 0));
+    private final EntityGameEventHandler<SculkSensorListener> gameEventHandler = new EntityGameEventHandler<>(new SculkSensorListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0));
 }

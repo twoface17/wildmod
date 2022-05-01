@@ -3,8 +3,6 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.block.entity.SculkShriekerWarningManager;
 import net.frozenblock.wildmod.entity.WardenBrain;
 import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
-import net.frozenblock.wildmod.fromAccurateSculk.BrokenSculkGrower;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
@@ -61,7 +59,7 @@ public class PlayerEntityMixin {
 			if (names.contains(player.getName().asString().toLowerCase()) || stinkyThiefMode) {
 				player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 300, 3, true, false, false));
 				BlockPos pos = entity.getBlockPos();
-				BrokenSculkGrower.sculk(pos, world, entity, 24);
+				BrokenSculkGrower.sculk(pos, world, entity);
 				ActivatorGrower.startGrowing(24, 24, pos, world);
 				player.sendMessage(Text.of("THIEF"),false);
 				player.sendMessage(Text.of(" STINKY THIEF"),false);

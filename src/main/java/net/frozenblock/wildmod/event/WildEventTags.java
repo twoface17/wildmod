@@ -9,7 +9,7 @@ import net.minecraft.world.event.GameEvent;
 public class WildEventTags {
     public static final TagKey<GameEvent> WARDEN_CAN_LISTEN = of("warden_can_listen");
     public static final TagKey<GameEvent> SHRIEKER_CAN_LISTEN = of("shrieker_can_listen");
-    public static final TagKey<GameEvent> DAMPENABLE_VIBRATIONS = of("dampenable_vibrations");
+    public static final TagKey<GameEvent> ALLAY_CAN_LISTEN = of("allay_can_listen");
 
     private WildEventTags() {
     }

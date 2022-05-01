@@ -6,6 +6,7 @@ package net.frozenblock.wildmod.block;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.WardenBrain;
 import net.frozenblock.wildmod.entity.WardenEntity;
+import net.frozenblock.wildmod.entity.util.LargeEntitySpawnHelper;
 import net.frozenblock.wildmod.fromAccurateSculk.*;
 import net.frozenblock.wildmod.registry.*;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -18,6 +19,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -59,8 +61,8 @@ public class SculkShriekerBlock
     public static final int field_31240 = 1;
     public static final EnumProperty<SculkShriekerPhase> SCULK_SHRIEKER_PHASE = WildProperties.SCULK_SHRIEKER_PHASE;
     public static final IntProperty POWER = Properties.POWER;
-    private static final VoxelShape SHAPE = VoxelShapes.union(Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.createCuboidShape(1.0D, 8.0D, 1.0D, 15.0D, 16D, 15.0D));
-    private static final VoxelShape COLLISION = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
+    private static final VoxelShape SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
+    public static final BooleanProperty CAN_SUMMON = WildProperties.CAN_SUMMON;
     private final int range;
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public int getRange() {
@@ -154,8 +156,8 @@ public class SculkShriekerBlock
     }
 
     private static void updateNeighbors(World world, BlockPos blockPos) {
-        world.updateNeighborsAlways(blockPos, SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
-        world.updateNeighborsAlways(blockPos.offset(Direction.UP.getOpposite()), SculkShriekerBlock.SCULK_SHRIEKER_BLOCK);
+        world.updateNeighborsAlways(blockPos, RegisterBlocks.SCULK_SHRIEKER);
+        world.updateNeighborsAlways(blockPos.offset(Direction.UP.getOpposite()), RegisterBlocks.SCULK_SHRIEKER);
     }
 
     @Override
@@ -201,7 +203,7 @@ public class SculkShriekerBlock
 
     @Override
     public VoxelShape getCollisionShape(BlockState blockState, BlockView blockView, BlockPos blockPos, ShapeContext shapeContext) {
-        return COLLISION;
+        return SHAPE;
     }
 
     @Override
@@ -461,14 +463,6 @@ public class SculkShriekerBlock
         return true;
     }
 
-    public static final SculkShriekerBlock SCULK_SHRIEKER_BLOCK = new SculkShriekerBlock(AbstractBlock.Settings.of(Material.SCULK, MapColor.CYAN).strength(1.5f).sounds(new BlockSoundGroup(0.8f, 1.0f,
-            RegisterSounds.BLOCK_SCULK_SHRIEKER_BREAK,
-            RegisterSounds.BLOCK_SCULK_STEP,
-            RegisterSounds.BLOCK_SCULK_SHRIEKER_PLACE,
-            RegisterSounds.BLOCK_SCULK_HIT,
-            RegisterSounds.BLOCK_SCULK_FALL
-    )).nonOpaque(), 8);
-
     public static void setCooldown(World world, BlockPos blockPos, BlockState blockState) {
         if (!world.isClient) {
             world.setBlockState(blockPos, (blockState.with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.COOLDOWN)), 3);
@@ -512,47 +506,26 @@ public class SculkShriekerBlock
     }
 
     public static void addShriek(BlockPos pos, World world, int i) {
-        if (world instanceof ServerWorld) {
+        if (world instanceof ServerWorld serverWorld) {
             if (world.getTime() - timer < -90) {
                 timer = 0;
                 shrieks = 0;
             }
-            if (/*world.getGameRules().getBoolean(WildMod.DO_WARDEN_SPAWNING) && */ world.getTime() > timer) {
+            if (world.getGameRules().getBoolean(WildMod.DO_WARDEN_SPAWNING) && world.getTime() > timer) {
                 timer = world.getTime() + 30;
-                if (!findWarden(world, pos) || world.getGameRules().getBoolean(WildMod.NO_WARDEN_COOLDOWN)) {
-                    shrieks = shrieks + i;
-                        ArrayList<BlockPos> candidates = findBlock(pos, 9, false, world);
-                        if (!candidates.isEmpty()) {
-                            timer = world.getTime() + 30;
-                                if (shrieks >= 3) {
-                                    Iterator<BlockPos> var11 = candidates.iterator();
-                                    BlockPos currentCheck;
-                                    while(var11.hasNext()) {
-                                        currentCheck = var11.next();
-                                        if (world.isSkyVisible(currentCheck.up()) && !world.isNight()) {
-                                            world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 0.4F, 0.8F);
-                                        }
-                                    }
-                                    currentCheck=getRandomSpawnable(candidates,world,new Random());
-                                    if (currentCheck!=null) {
-                                        shrieks = 0;
-                                        WardenEntity warden = RegisterEntities.WARDEN.create(world);
-                                        assert warden != null;
-                                        warden.refreshPositionAndAngles(currentCheck.getX() + 0.5D, currentCheck.up(1).getY(), currentCheck.getZ() + 0.5D, 0.0F, 0.0F);
-                                        world.spawnEntity(warden);
-                                        warden.handleStatus((byte) 5);
-                                        WardenBrain.resetDigCooldown(warden);
-                                        warden.setPersistent();
-                                        world.playSound(null, currentCheck, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.HOSTILE, 1F, 1F);
-                                    }
-                                }
-                            }
-                        }
-                } else if (findWarden(world, pos)) {
-                    shrieks = 0;
+                shrieks = shrieks + i;
+                if (world.isSkyVisible(pos.up()) && !world.isNight()) {
+                    world.playSound(null, pos, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 5.0F, 0.8F);
                 }
+
+                shrieks = 0;
+                if (!world.isSkyVisible(pos.up()) || world.isNight())
+                    LargeEntitySpawnHelper.trySpawnAt(
+                            RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, pos, 20, 5, 6);
             }
+
         }
+    }
 
     public static boolean findWarden(World world, BlockPos pos) {
         double x1 = pos.getX();
@@ -573,30 +546,6 @@ public class SculkShriekerBlock
             }
         }
         return false;
-    }
-
-    public static ArrayList<BlockPos> findBlock(BlockPos centerBlock, int radius, boolean hollow, World world) {
-        int bx = centerBlock.getX();
-        int by = centerBlock.getY();
-        int bz = centerBlock.getZ();
-        ArrayList<BlockPos> candidates = new ArrayList<>();
-        for (int x = bx - radius; x <= bx + radius; x++) {
-            for (int y = by - radius; y <= by + radius; y++) {
-                for (int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
-                    if (distance < radius * radius && !(hollow && distance < ((radius - 1) * (radius - 1)))) {
-                        BlockPos l = new BlockPos(x, y, z);
-                        if (l.getY()>world.getBottomY()) {
-                            if (verifyWardenSpawn(l, world)) {
-                                candidates.add(l);
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-        return candidates;
     }
 
     public static boolean verifyWardenSpawn(BlockPos p, World world) {

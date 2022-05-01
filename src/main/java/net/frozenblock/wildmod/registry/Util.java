@@ -751,7 +751,7 @@ public class Util {
 
         public void open(URL url) {
             try {
-                Process process = (Process) AccessController.doPrivileged((PrivilegedAction<Process>) () -> {
+                Process process = AccessController.doPrivileged((PrivilegedAction<Process>) () -> {
                     try {
                         return Runtime.getRuntime().exec(this.getURLOpenCommand(url));
                     } catch (IOException e) {

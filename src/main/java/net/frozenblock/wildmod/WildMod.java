@@ -3,6 +3,7 @@ package net.frozenblock.wildmod;
 import com.chocohead.mm.api.ClassTinkerers;
 import net.frozenblock.wildmod.entity.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
+import net.frozenblock.wildmod.event.GameEvent;
 import net.frozenblock.wildmod.mixins.ActivityInvoker;
 import net.frozenblock.wildmod.mixins.SensorTypeInvoker;
 import net.fabricmc.api.ModInitializer;
@@ -21,7 +22,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.event.GameEvent;
 
 import java.util.OptionalInt;
 
@@ -35,14 +35,13 @@ public class WildMod implements ModInitializer {
     public static final EntityPose EMERGING = ClassTinkerers.getEnum(EntityPose.class, "EMERGING");
     public static final EntityPose DIGGING = ClassTinkerers.getEnum(EntityPose.class, "DIGGING");
 
-    public static final GameEvent WARDEN_CAN_LISTEN = new GameEvent("warden_can_listen", 16);
-    public static final GameEvent NOTE_BLOCK_PLAY = new GameEvent("note_block_play", 16);
-
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier("allay_drop_item_on_block"));
 
 
     @Override
     public void onInitialize() {
+        RegisterMemoryModules.RegisterMemoryModules();
+        Criteria.RegisterCriterions();
         RegisterBlocks.RegisterBlocks();
         RegisterItems.RegisterItems();
         RegisterEntities.RegisterEntities();
@@ -66,9 +65,7 @@ public class WildMod implements ModInitializer {
         AnimationChannel.Interpolations.init();
 
         RegisterAccurateSculk.RegisterAccurateSculk();
-
-        Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "warden_can_listen"), WARDEN_CAN_LISTEN);
-        Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "note_block_play"), NOTE_BLOCK_PLAY);
+        GameEvent.RegisterGameEvents();
     }
 
     public static void registerData(TrackedDataHandler<?> handler) {
@@ -116,22 +113,8 @@ public class WildMod implements ModInitializer {
 
     public static final GameRules.Key<GameRules.BooleanRule> DARKNESS_ENABLED =
             GameRuleRegistry.register("doDarkness", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
-    public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_NEEDS_SCULK =
-            GameRuleRegistry.register("shriekerNeedsSculk", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
-    public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_SHRIEKS =
-            GameRuleRegistry.register("shriekerShrieks", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
-    public static final GameRules.Key<GameRules.BooleanRule> DO_CATALYST_POLLUTION =
-            GameRuleRegistry.register("catalystPollution", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
-    public static final GameRules.Key<GameRules.BooleanRule> DO_CATALYST_VIBRATIONS =
-            GameRuleRegistry.register("catalystVibrations", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
     public static final GameRules.Key<GameRules.BooleanRule> SHRIEKER_GARGLES =
             GameRuleRegistry.register("shriekerGargles", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
-    public static final GameRules.Key<GameRules.IntRule> SCULK_MULTIPLIER =
-            GameRuleRegistry.register("spreadMultiplier", GameRules.Category.MISC, GameRuleFactory.createIntRule(1, 1, 20));
-    public static final GameRules.Key<GameRules.IntRule> UPWARD_SPREAD =
-            GameRuleRegistry.register("upwardSpread", GameRules.Category.MISC, GameRuleFactory.createIntRule(12, 1, 100));
-    public static final GameRules.Key<GameRules.IntRule> DOWNWARD_SPREAD =
-            GameRuleRegistry.register("downwardSpread", GameRules.Category.MISC, GameRuleFactory.createIntRule(12, 1, 100));
     public static final GameRules.Key<GameRules.BooleanRule> SCULK_STOPS_SCULKCHECK = //PERFORMANCE GAMERULE, STOPS SCULKCHECK SEARCHING IF THE CURRENT BLOCK IS SCULK
             GameRuleRegistry.register("sculkStopsSculkCheck", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
 

@@ -4,9 +4,9 @@ import net.minecraft.client.model.ModelTransform;
 import net.minecraft.util.math.Vec3f;
 
 public interface ExpandedModelPart {
-	ModelTransform getInitialModelTransform();
-	void setInitialModelTransform(ModelTransform modelTransform);
-	void resetModelTransform();
+	ModelTransform getDefaultTransform();
+	void setDefaultTransform(ModelTransform modelTransform);
+	void resetTransform();
 
 	boolean hasChild(String string);
 

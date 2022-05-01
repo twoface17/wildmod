@@ -1,0 +1,50 @@
+{
+  "config": {
+    "start_pool": "twm:ancient_city/city_center",
+    "height": -51,
+    "size": 7
+  },
+  "start_height": {
+    "absolute": -51
+  },
+  "use_expansion_hack": false,
+  "max_distance_from_center": 100,
+  "biomes": "#twm:has_structure/ancient_city",
+  "spawn_overrides": {
+    "creature": {
+      "bounding_box": "full",
+      "spawns": []
+    },
+    "water_creature": {
+      "bounding_box": "full",
+      "spawns": []
+    },
+    "monster": {
+      "bounding_box": "full",
+      "spawns": []
+    },
+    "axolotls": {
+      "bounding_box": "full",
+      "spawns": []
+    },
+    "underground_water_creature": {
+      "bounding_box": "full",
+      "spawns": []
+    },
+    "water_ambient": {
+      "bounding_box": "full",
+      "spawns": []
+    },
+    "ambient": {
+      "bounding_box": "full",
+      "spawns": []
+    },
+    "misc": {
+      "bounding_box": "full",
+      "spawns": []
+    }
+  },
+  "step": "underground_decoration",
+  "terrain_adaptation": "beard_box",
+  "type": "minecraft:village"
+}

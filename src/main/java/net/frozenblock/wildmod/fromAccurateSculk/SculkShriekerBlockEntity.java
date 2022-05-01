@@ -179,7 +179,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     @Override
     public void accept(World world, GameEventListener gameEventListener, GameEvent gameEvent, int i) {
         BlockState blockState = this.getCachedState();
-        if (!world.isClient() && SculkShriekerBlock.isInactive(blockState) && gameEvent== RegisterAccurateSculk.CLICK) {
+        if (!world.isClient() && SculkShriekerBlock.isInactive(blockState) && gameEvent== net.frozenblock.wildmod.event.GameEvent.SCULK_SENSOR_TENDRILS_CLICKING) {
             SculkShriekerBlock.setActive(world, this.pos, blockState);
         }
     }

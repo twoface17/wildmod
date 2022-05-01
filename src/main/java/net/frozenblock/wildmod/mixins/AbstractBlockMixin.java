@@ -99,7 +99,7 @@ public class AbstractBlockMixin {
                 SculkSensorBlock.setActive(world, pos, state, 15);
             }
             assert entity != null;
-            if (entity.getType() != RegisterEntities.WARDEN && world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState() || world.getBlockState(pos) == SculkShriekerBlock.SCULK_SHRIEKER_BLOCK.getDefaultState().with(Properties.WATERLOGGED, true)) {
+            if (entity.getType() != RegisterEntities.WARDEN && world.getBlockState(pos) == RegisterBlocks.SCULK_SHRIEKER.getDefaultState() || world.getBlockState(pos) == RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(Properties.WATERLOGGED, true)) {
                 if (!SculkShriekerBlock.findWarden(world, pos)) {
                     ((SculkShriekerBlock) Objects.requireNonNull(world.getBlockState(pos)).getBlock()).writeDir(world, pos, entity.getBlockPos());
                     SculkShriekerBlock.setStepActive(world, pos, state);

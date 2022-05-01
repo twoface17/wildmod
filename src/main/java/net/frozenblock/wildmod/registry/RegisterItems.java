@@ -41,6 +41,9 @@ public abstract class RegisterItems {
     public static final Item FIREFLY_SPAWN_EGG = new SpawnEggItem(RegisterEntities.FIREFLY, Integer.parseInt("000000", 16), Integer.parseInt("cfff00", 16), new FabricItemSettings().group(ItemGroup.MISC));
     public static final EntityBucketItem TADPOLE_BUCKET = new EntityBucketItem(RegisterEntities.TADPOLE, Fluids.WATER, RegisterSounds.ITEM_BUCKET_EMPTY_TADPOLE, new FabricItemSettings().group(ItemGroup.MISC).maxCount(1));
 
+    public static final Item RECOVERY_COMPASS = new Item(new Item.Settings().maxCount(1).group(ItemGroup.TOOLS));
+    public static final Item ECHO_SHARD = new Item(new Item.Settings().group(ItemGroup.TOOLS));
+
     public static float getSwiftSneakSpeedBoost(LivingEntity livingEntity) {
         return (float)getEquipmentLevel(SWIFT_SNEAK, livingEntity) * 0.15F;
     }
@@ -60,6 +63,8 @@ public abstract class RegisterItems {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "acacia_chest_boat"), ACACIA_CHEST_BOAT);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "dark_oak_chest_boat"), DARK_OAK_CHEST_BOAT);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_chest_boat"), MANGROVE_CHEST_BOAT);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "recovery_compass"), RECOVERY_COMPASS);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "echo_shard"), ECHO_SHARD);
         Registry.register(Registry.ENCHANTMENT, new Identifier(WildMod.MOD_ID, "swift_sneak"), SWIFT_SNEAK);
 
     }

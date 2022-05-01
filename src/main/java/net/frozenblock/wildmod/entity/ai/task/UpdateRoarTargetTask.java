@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.entity.ai.task;
 
 import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.registry.RegisterEntities;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.UpdateAttackTargetTask;
@@ -18,7 +18,7 @@ public class UpdateRoarTargetTask extends UpdateAttackTargetTask<WardenEntity> {
     }
 
     protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
-        LookTargetUtil.lookAt(wardenEntity, (LivingEntity)wardenEntity.getBrain().getOptionalMemory(RegisterEntities.ROAR_TARGET).get());
+        LookTargetUtil.lookAt(wardenEntity, (LivingEntity)wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.ROAR_TARGET).get());
     }
 
     protected void finishRunning(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
@@ -27,11 +27,11 @@ public class UpdateRoarTargetTask extends UpdateAttackTargetTask<WardenEntity> {
 
     private void runAndForget(ServerWorld world, WardenEntity warden, long time) {
         super.run(world, warden, time);
-        warden.getBrain().forget(RegisterEntities.ROAR_TARGET);
+        warden.getBrain().forget(RegisterMemoryModules.ROAR_TARGET);
     }
 
     protected boolean shouldKeepRunning(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
-        Optional<LivingEntity> optional = wardenEntity.getBrain().getOptionalMemory(RegisterEntities.ROAR_TARGET);
+        Optional<LivingEntity> optional = wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.ROAR_TARGET);
         return optional.filter(EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR).isPresent();
     }
 }
