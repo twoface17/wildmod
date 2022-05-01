@@ -187,4 +187,16 @@ public class MathAddon {
             return m;
         }
     }
+
+    public static int nextInt(AbstractRandom random, int min, int max) {
+        return min >= max ? min : random.nextInt(max - min + 1) + min;
+    }
+
+    public static float nextFloat(AbstractRandom random, float min, float max) {
+        return min >= max ? min : random.nextFloat() * (max - min) + min;
+    }
+
+    public static double nextDouble(AbstractRandom random, double min, double max) {
+        return min >= max ? min : random.nextDouble() * (max - min) + min;
+    }
 }

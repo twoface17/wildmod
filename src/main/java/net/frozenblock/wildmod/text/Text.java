@@ -1,36 +1,42 @@
-/*package frozenblock.wild.mod.text;
+package net.frozenblock.wildmod.text;
 
 import com.google.common.collect.Lists;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.stream.JsonReader;
 import com.mojang.brigadier.Message;
-import net.minecraft.client.gui.screen.ScreenTexts;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.StringVisitable;
-import net.minecraft.text.Style;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
-import net.minecraft.util.Util;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Map.Entry;
 
-public interface Text extends net.minecraft.text.Text {
+import net.minecraft.text.OrderedText;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
+import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
+import net.minecraft.util.Util;
+import org.jetbrains.annotations.Nullable;
+
+public interface Text extends Message, StringVisitable {
     Style getStyle();
 
-    String getContent();
+    TextContent getContent();
 
     default String getString() {
-        return net.minecraft.text.Text.super.getString();
+        return StringVisitable.super.getString();
     }
 
     default String asTruncatedString(int length) {
@@ -47,54 +53,14 @@ public interface Text extends net.minecraft.text.Text {
         return stringBuilder.toString();
     }
 
-    List<net.minecraft.text.Text> getSiblings();
+    List<Text> getSiblings();
 
     default MutableText copy() {
-        return (MutableText) net.minecraft.text.Text.of(this.getContent());
+        return MutableText.of(this.getContent());
     }
 
     default MutableText shallowCopy() {
-        return new MutableText(this.getContent(), new ArrayList<>(this.getSiblings()), this.getStyle()) {
-            @Override
-            public Style getStyle() {
-                return null;
-            }
-
-            @Override
-            public String asString() {
-                return null;
-            }
-
-            @Override
-            public List<net.minecraft.text.Text> getSiblings() {
-                return null;
-            }
-
-            @Override
-            public MutableText copy() {
-                return null;
-            }
-
-            @Override
-            public MutableText shallowCopy() {
-                return null;
-            }
-
-            @Override
-            public OrderedText asOrderedText() {
-                return null;
-            }
-
-            @Override
-            public MutableText setStyle(Style style) {
-                return null;
-            }
-
-            @Override
-            public MutableText append(net.minecraft.text.Text text) {
-                return null;
-            }
-        };
+        return new MutableText(this.getContent(), new ArrayList<>(this.getSiblings()), this.getStyle());
     }
 
     OrderedText asOrderedText();
@@ -105,7 +71,7 @@ public interface Text extends net.minecraft.text.Text {
         if (optional.isPresent()) {
             return optional;
         } else {
-            for(net.minecraft.text.Text text : this.getSiblings()) {
+            for(Text text : this.getSiblings()) {
                 Optional<T> optional2 = text.visit(styledVisitor, style2);
                 if (optional2.isPresent()) {
                     return optional2;
@@ -121,7 +87,7 @@ public interface Text extends net.minecraft.text.Text {
         if (optional.isPresent()) {
             return optional;
         } else {
-            for(net.minecraft.text.Text text : this.getSiblings()) {
+            for(Text text : this.getSiblings()) {
                 Optional<T> optional2 = text.visit(visitor);
                 if (optional2.isPresent()) {
                     return optional2;
@@ -132,8 +98,8 @@ public interface Text extends net.minecraft.text.Text {
         }
     }
 
-    default List<net.minecraft.text.Text> getWithStyle(Style style) {
-        List<net.minecraft.text.Text> list = Lists.newArrayList();
+    default List<Text> getWithStyle(Style style) {
+        List<Text> list = Lists.newArrayList();
         this.visit((styleOverride, text) -> {
             if (!text.isEmpty()) {
                 list.add(literal(text).fillStyle(styleOverride));
@@ -144,8 +110,8 @@ public interface Text extends net.minecraft.text.Text {
         return list;
     }
 
-    static net.minecraft.text.Text of(@Nullable String string) {
-        return (net.minecraft.text.Text)(string != null ? literal(string) : ScreenTexts.EMPTY);
+    static Text of(@Nullable String string) {
+        return (Text)(string != null ? literal(string) : ScreenTexts.EMPTY);
     }
 
     static MutableText literal(String string) {
@@ -168,7 +134,7 @@ public interface Text extends net.minecraft.text.Text {
         return MutableText.of(new KeybindTextContent(string));
     }
 
-    static MutableText nbt(String rawPath, boolean interpret, Optional<net.minecraft.text.Text> separator, NbtDataSource nbtDataSource) {
+    static MutableText nbt(String rawPath, boolean interpret, Optional<Text> separator, NbtDataSource nbtDataSource) {
         return MutableText.of(new NbtTextContent(rawPath, interpret, separator, nbtDataSource));
     }
 
@@ -176,16 +142,16 @@ public interface Text extends net.minecraft.text.Text {
         return MutableText.of(new ScoreTextContent(name, objective));
     }
 
-    static MutableText selector(String pattern, Optional<net.minecraft.text.Text> separator) {
+    static MutableText selector(String pattern, Optional<Text> separator) {
         return MutableText.of(new SelectorTextContent(pattern, separator));
     }
 
-    public static class Serializer implements JsonDeserializer<MutableText>, JsonSerializer<net.minecraft.text.Text> {
-        private static final Gson GSON = (Gson) Util.make(() -> {
+    public static class Serializer implements JsonDeserializer<MutableText>, JsonSerializer<Text> {
+        private static final Gson GSON = (Gson)Util.make(() -> {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.disableHtmlEscaping();
-            gsonBuilder.registerTypeHierarchyAdapter(net.minecraft.text.Text.class, new net.minecraft.text.Text.Serializer());
-            gsonBuilder.registerTypeHierarchyAdapter(Style.class, new net.minecraft.text.Style.Serializer());
+            gsonBuilder.registerTypeHierarchyAdapter(Text.class, new Text.Serializer());
+            gsonBuilder.registerTypeHierarchyAdapter(Style.class, new Style.Serializer());
             gsonBuilder.registerTypeAdapterFactory(new LowercaseEnumTypeAdapterFactory());
             return gsonBuilder.create();
         });
@@ -215,7 +181,7 @@ public interface Text extends net.minecraft.text.Text {
 
         public MutableText deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             if (jsonElement.isJsonPrimitive()) {
-                return net.minecraft.text.Text.literal(jsonElement.getAsString());
+                return Text.literal(jsonElement.getAsString());
             } else if (!jsonElement.isJsonObject()) {
                 if (jsonElement.isJsonArray()) {
                     JsonArray jsonArray3 = jsonElement.getAsJsonArray();
@@ -239,7 +205,7 @@ public interface Text extends net.minecraft.text.Text {
                 MutableText mutableText;
                 if (jsonObject.has("text")) {
                     String string = JsonHelper.getString(jsonObject, "text");
-                    mutableText = string.isEmpty() ? net.minecraft.text.Text.empty() : net.minecraft.text.Text.literal(string);
+                    mutableText = string.isEmpty() ? Text.empty() : Text.literal(string);
                 } else if (jsonObject.has("translate")) {
                     String string = JsonHelper.getString(jsonObject, "translate");
                     if (jsonObject.has("with")) {
@@ -250,9 +216,9 @@ public interface Text extends net.minecraft.text.Text {
                             objects[i] = method_43474(this.deserialize(jsonArray.get(i), type, jsonDeserializationContext));
                         }
 
-                        mutableText = net.minecraft.text.Text.translatable(string, objects);
+                        mutableText = Text.translatable(string, objects);
                     } else {
-                        mutableText = net.minecraft.text.Text.translatable(string);
+                        mutableText = Text.translatable(string);
                     }
                 } else if (jsonObject.has("score")) {
                     JsonObject jsonObject2 = JsonHelper.getObject(jsonObject, "score");
@@ -260,19 +226,19 @@ public interface Text extends net.minecraft.text.Text {
                         throw new JsonParseException("A score component needs a least a name and an objective");
                     }
 
-                    mutableText = net.minecraft.text.Text.score(JsonHelper.getString(jsonObject2, "name"), JsonHelper.getString(jsonObject2, "objective"));
+                    mutableText = Text.score(JsonHelper.getString(jsonObject2, "name"), JsonHelper.getString(jsonObject2, "objective"));
                 } else if (jsonObject.has("selector")) {
-                    Optional<net.minecraft.text.Text> optional = this.getSeparator(type, jsonDeserializationContext, jsonObject);
-                    mutableText = net.minecraft.text.Text.selector(JsonHelper.getString(jsonObject, "selector"), optional);
+                    Optional<Text> optional = this.getSeparator(type, jsonDeserializationContext, jsonObject);
+                    mutableText = Text.selector(JsonHelper.getString(jsonObject, "selector"), optional);
                 } else if (jsonObject.has("keybind")) {
-                    mutableText = net.minecraft.text.Text.keybind(JsonHelper.getString(jsonObject, "keybind"));
+                    mutableText = Text.keybind(JsonHelper.getString(jsonObject, "keybind"));
                 } else {
                     if (!jsonObject.has("nbt")) {
                         throw new JsonParseException("Don't know how to turn " + jsonElement + " into a Component");
                     }
 
                     String string = JsonHelper.getString(jsonObject, "nbt");
-                    Optional<net.minecraft.text.Text> optional2 = this.getSeparator(type, jsonDeserializationContext, jsonObject);
+                    Optional<Text> optional2 = this.getSeparator(type, jsonDeserializationContext, jsonObject);
                     boolean bl = JsonHelper.getBoolean(jsonObject, "interpret", false);
                     NbtDataSource nbtDataSource;
                     if (jsonObject.has("block")) {
@@ -287,7 +253,7 @@ public interface Text extends net.minecraft.text.Text {
                         nbtDataSource = new StorageNbtDataSource(new Identifier(JsonHelper.getString(jsonObject, "storage")));
                     }
 
-                    mutableText = net.minecraft.text.Text.nbt(string, bl, optional2, nbtDataSource);
+                    mutableText = Text.nbt(string, bl, optional2, nbtDataSource);
                 }
 
                 if (jsonObject.has("extra")) {
@@ -307,7 +273,7 @@ public interface Text extends net.minecraft.text.Text {
         }
 
         private static Object method_43474(Object object) {
-            if (object instanceof net.minecraft.text.Text text && text.getStyle().isEmpty() && text.getSiblings().isEmpty()) {
+            if (object instanceof Text text && text.getStyle().isEmpty() && text.getSiblings().isEmpty()) {
                 TextContent textContent = text.getContent();
                 if (textContent instanceof LiteralTextContent literalTextContent) {
                     return literalTextContent.string();
@@ -317,7 +283,7 @@ public interface Text extends net.minecraft.text.Text {
             return object;
         }
 
-        private Optional<net.minecraft.text.Text> getSeparator(Type type, JsonDeserializationContext context, JsonObject json) {
+        private Optional<Text> getSeparator(Type type, JsonDeserializationContext context, JsonObject json) {
             return json.has("separator") ? Optional.of(this.deserialize(json.get("separator"), type, context)) : Optional.empty();
         }
 
@@ -326,14 +292,14 @@ public interface Text extends net.minecraft.text.Text {
             if (jsonElement.isJsonObject()) {
                 JsonObject jsonObject = (JsonObject)jsonElement;
 
-                for(Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+                for(Entry<String, JsonElement> entry : jsonObject.entrySet()) {
                     json.add((String)entry.getKey(), (JsonElement)entry.getValue());
                 }
             }
 
         }
 
-        public JsonElement serialize(net.minecraft.text.Text text, Type type, JsonSerializationContext jsonSerializationContext) {
+        public JsonElement serialize(Text text, Type type, JsonSerializationContext jsonSerializationContext) {
             JsonObject jsonObject = new JsonObject();
             if (!text.getStyle().isEmpty()) {
                 this.addStyle(text.getStyle(), jsonObject, jsonSerializationContext);
@@ -342,8 +308,8 @@ public interface Text extends net.minecraft.text.Text {
             if (!text.getSiblings().isEmpty()) {
                 JsonArray jsonArray = new JsonArray();
 
-                for(net.minecraft.text.Text text2 : text.getSiblings()) {
-                    jsonArray.add(this.serialize(text2, net.minecraft.text.Text.class, jsonSerializationContext));
+                for(Text text2 : text.getSiblings()) {
+                    jsonArray.add(this.serialize(text2, Text.class, jsonSerializationContext));
                 }
 
                 jsonObject.add("extra", jsonArray);
@@ -360,8 +326,8 @@ public interface Text extends net.minecraft.text.Text {
                     JsonArray jsonArray2 = new JsonArray();
 
                     for(Object object : translatableTextContent.getArgs()) {
-                        if (object instanceof net.minecraft.text.Text) {
-                            jsonArray2.add(this.serialize((net.minecraft.text.Text)object, object.getClass(), jsonSerializationContext));
+                        if (object instanceof Text) {
+                            jsonArray2.add(this.serialize((Text)object, object.getClass(), jsonSerializationContext));
                         } else {
                             jsonArray2.add(new JsonPrimitive(String.valueOf(object)));
                         }
@@ -406,15 +372,15 @@ public interface Text extends net.minecraft.text.Text {
             return jsonObject;
         }
 
-        private void addSeparator(JsonSerializationContext context, JsonObject json, Optional<net.minecraft.text.Text> separator) {
+        private void addSeparator(JsonSerializationContext context, JsonObject json, Optional<Text> separator) {
             separator.ifPresent(separatorx -> json.add("separator", this.serialize(separatorx, separatorx.getClass(), context)));
         }
 
-        public static String toJson(net.minecraft.text.Text text) {
+        public static String toJson(Text text) {
             return GSON.toJson(text);
         }
 
-        public static JsonElement toJsonTree(net.minecraft.text.Text text) {
+        public static JsonElement toJsonTree(Text text) {
             return GSON.toJsonTree(text);
         }
 
@@ -454,4 +420,3 @@ public interface Text extends net.minecraft.text.Text {
         }
     }
 }
-*/

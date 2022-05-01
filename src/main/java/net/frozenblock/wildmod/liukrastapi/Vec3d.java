@@ -13,6 +13,8 @@ public class Vec3d extends net.minecraft.util.math.Vec3d {
         super(x, y, z);
     }
 
+    public static final Vec3d ZERO = new Vec3d(0.0, 0.0, 0.0);
+
     public static Object ofCenter(net.minecraft.util.math.Vec3d vec3d) {
         return new Vec3d((double)vec3d.getX() + 0.5, vec3d.getY() + 0.5, vec3d.getZ() + 0.5);
     }
