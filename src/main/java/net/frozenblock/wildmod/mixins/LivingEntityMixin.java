@@ -2,6 +2,7 @@ package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
+import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
