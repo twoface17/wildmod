@@ -1,4 +1,8 @@
-/*package net.frozenblock.wildmod.text;
+//
+// Source code recreated from a .class file by Quiltflower
+//
+
+package net.frozenblock.wildmod.text;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -537,4 +541,3 @@ public class Style {
         }
     }
 }
-*/

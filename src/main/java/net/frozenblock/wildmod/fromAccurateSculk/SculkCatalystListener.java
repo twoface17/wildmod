@@ -1,7 +1,6 @@
-package net.frozenblock.wildmod.block.entity;
+package net.frozenblock.wildmod.fromAccurateSculk;
 
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;

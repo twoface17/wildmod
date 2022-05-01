@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.text;
+package net.frozenblock.wildmod.text;
 
 import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Style;
@@ -18,4 +18,3 @@ public record LiteralTextContent(String string) implements TextContent {
         return "literal{" + this.string + "}";
     }
 }
-*/

@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.text;
+package net.frozenblock.wildmod.text;
 
 
 import java.util.Arrays;
@@ -45,4 +45,3 @@ public class ScreenTexts {
         return Texts.join(texts, LINE_BREAK);
     }
 }
-*/

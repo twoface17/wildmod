@@ -2,7 +2,8 @@ package net.frozenblock.wildmod.block;
 
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.fromAccurateSculk.WildProperties;
-import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
+import net.frozenblock.wildmod.fromAccurateSculk.SculkCatalystBlockEntity;
+import net.frozenblock.wildmod.fromAccurateSculk.SculkCatalystPhase;
 import net.frozenblock.wildmod.registry.RegisterParticles;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -12,15 +13,22 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.intprovider.IntProvider;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.event.listener.GameEventListener;
 import net.minecraft.world.gen.random.AbstractRandom;
@@ -62,7 +70,7 @@ public class SculkCatalystBlock extends BlockWithEntity {
 
     @Nullable
     public <T extends BlockEntity> GameEventListener getGameEventListener(World world, T blockEntity) {
-        return blockEntity instanceof SculkCatalystBlockEntity ? (GameEventListener) blockEntity : null;
+        return blockEntity instanceof SculkCatalystBlockEntity ? (SculkCatalystBlockEntity)blockEntity : null;
     }
 
     @Nullable

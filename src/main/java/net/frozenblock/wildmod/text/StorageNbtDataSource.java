@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.text;
+package net.frozenblock.wildmod.text;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
@@ -16,4 +16,3 @@ public record StorageNbtDataSource(Identifier id) implements NbtDataSource {
         return "storage=" + this.id;
     }
 }
-*/

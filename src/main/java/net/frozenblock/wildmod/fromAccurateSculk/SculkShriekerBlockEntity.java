@@ -1,8 +1,6 @@
-package net.frozenblock.wildmod.block.entity;
+package net.frozenblock.wildmod.fromAccurateSculk;
 
 import net.frozenblock.wildmod.block.SculkShriekerBlock;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkShriekerListener;
-import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

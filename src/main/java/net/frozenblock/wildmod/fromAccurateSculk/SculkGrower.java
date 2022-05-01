@@ -4,7 +4,6 @@ import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.SculkBlock;
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
 import net.frozenblock.wildmod.block.SculkVeinBlock;
-import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.liukrastapi.Sphere;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.block.Block;

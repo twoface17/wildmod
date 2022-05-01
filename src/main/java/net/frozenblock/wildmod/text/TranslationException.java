@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.text;
+package net.frozenblock.wildmod.text;
 
 public class TranslationException extends IllegalArgumentException {
     public TranslationException(TranslatableTextContent text, String message) {
@@ -13,4 +13,3 @@ public class TranslationException extends IllegalArgumentException {
         super(String.format("Error while parsing: %s", text), cause);
     }
 }
- */

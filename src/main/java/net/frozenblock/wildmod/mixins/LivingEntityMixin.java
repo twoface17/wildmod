@@ -1,8 +1,10 @@
 package net.frozenblock.wildmod.mixins;
 
+import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
-import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
+import net.frozenblock.wildmod.fromAccurateSculk.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkGrower;
+import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.liukrastapi.Sphere;
 import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
 import net.minecraft.block.entity.BlockEntity;
@@ -40,6 +42,7 @@ public class LivingEntityMixin {
 		if (entity.deathTime == 19 && !entity.world.isClient()) {
 			BlockPos pos = entity.getBlockPos();
 			World world = entity.world;
+			if (SculkTags.entityTagContains(entity.getType(), SculkTags.DROPSXP) && world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
 				int numCatalysts= Sphere.blocksInSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world);
 				if (numCatalysts>0) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
@@ -47,6 +50,7 @@ public class LivingEntityMixin {
 					int rVal2 = getHighestRadius(world, pos);
 					ActivatorGrower.startGrowing(rVal2, rVal2, pos, world);
 				}
+			}
 		}
 	}
 

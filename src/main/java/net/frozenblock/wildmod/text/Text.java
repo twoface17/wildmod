@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.text;
+package net.frozenblock.wildmod.text;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -420,4 +420,3 @@ public interface Text extends Message, StringVisitable {
         }
     }
 }
-*/

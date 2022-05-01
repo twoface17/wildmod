@@ -1,9 +1,8 @@
 package net.frozenblock.wildmod.fromAccurateSculk;
 
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
+import net.frozenblock.wildmod.block.SculkShriekerBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
-import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;

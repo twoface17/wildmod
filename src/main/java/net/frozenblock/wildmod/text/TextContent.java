@@ -1,7 +1,7 @@
-/*package net.frozenblock.wildmod.text;
+package net.frozenblock.wildmod.text;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.entity.Entity;
+import net.frozenblock.wildmod.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,4 +26,3 @@ public interface TextContent {
         return (MutableText) Text.of(String.valueOf(this));
     }
 }
-*/

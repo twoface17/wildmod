@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.text;
+package net.frozenblock.wildmod.text;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -193,4 +193,3 @@ public class TranslatableTextContent implements TextContent {
         return this.args;
     }
 }
-*/

@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.text;
+package net.frozenblock.wildmod.text;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -13,4 +13,3 @@ public class KeybindTranslations {
         FACTORY = factory;
     }
 }
- */
