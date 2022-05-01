@@ -160,7 +160,7 @@
 			{
 			  "function": "minecraft:enchant_randomly",
 			  "enchantments": [
-				"minecraft:swift_sneak"
+				"twm:swift_sneak"
 			  ]
 			}
 		  ],
@@ -292,7 +292,7 @@
 			  "add": false
 			}
 		  ],
-		  "name": "minecraft:echo_shard"
+		  "name": "twm:echo_shard"
 		},
 		{
 		  "type": "minecraft:item",
@@ -308,7 +308,7 @@
 			  "add": false
 			}
 		  ],
-		  "name": "minecraft:disc_fragment_5"
+		  "name": "twm:disc_fragment_5"
 		},
 		{
 		  "type": "minecraft:item",
