@@ -41,7 +41,6 @@ public class WildMod implements ModInitializer {
     @Override
     public void onInitialize() {
         RegisterMemoryModules.RegisterMemoryModules();
-        Criteria.RegisterCriterions();
         RegisterBlocks.RegisterBlocks();
         RegisterItems.RegisterItems();
         RegisterEntities.RegisterEntities();

@@ -1,8 +1,6 @@
-package net.frozenblock.wildmod.world.gen.block;
+/*package frozenblock.wild.mod.worldgen.block;
 
-import net.frozenblock.wildmod.block.SculkVeinBlock;
-import net.frozenblock.wildmod.registry.RegisterBlocks;
-import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
+import frozenblock.wild.mod.registry.RegisterBlocks;
 import net.minecraft.block.AbstractLichenBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -21,7 +19,7 @@ public interface SculkSpreadable {
         @Override
         public boolean spread(WorldAccess world, BlockPos pos, BlockState state, @Nullable Collection<Direction> directions, boolean markForPostProcessing) {
             if (directions == null) {
-                return ((SculkVeinBlock) RegisterBlocks.SCULK_VEIN).getSamePositionOnlyGrower().grow(world.getBlockState(pos), world, pos, markForPostProcessing) > 0L;
+                return ((SculkVeinBlock) Blocks.SCULK_VEIN).getSamePositionOnlyGrower().grow(world.getBlockState(pos), world, pos, markForPostProcessing) > 0L;
             } else if (!directions.isEmpty()) {
                 return !state.isAir() && !state.getFluidState().isOf(Fluids.WATER) ? false : SculkVeinBlock.place(world, pos, state, directions);
             } else {
@@ -31,7 +29,7 @@ public interface SculkSpreadable {
 
         @Override
         public int spread(
-                SculkSpreadManager.Cursor cursor, WorldAccess world, BlockPos catalystPos, AbstractRandom random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock
+                Cursor cursor, WorldAccess world, BlockPos catalystPos, AbstractRandom random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock
         ) {
             return cursor.getDecay() > 0 ? cursor.getCharge() : 0;
         }
@@ -65,5 +63,6 @@ public interface SculkSpreadable {
         return 1;
     }
 
-    int spread(SculkSpreadManager.Cursor cursor, WorldAccess world, BlockPos catalystPos, AbstractRandom random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock);
+    int spread(Cursor cursor, WorldAccess world, BlockPos catalystPos, AbstractRandom random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock);
 }
+*/
