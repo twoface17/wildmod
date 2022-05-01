@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.text;
+/*package net.frozenblock.wildmod.text;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.Unit;
@@ -101,3 +101,4 @@ public interface StringVisitable {
         Optional<T> accept(String asString);
     }
 }
+*/

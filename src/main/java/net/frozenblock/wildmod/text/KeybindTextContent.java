@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.text;
+/*package net.frozenblock.wildmod.text;
 
 import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Style;
@@ -57,3 +57,4 @@ public class KeybindTextContent implements TextContent {
         return this.key;
     }
 }
+*/

@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.text;
+/*package net.frozenblock.wildmod.text;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -123,3 +123,4 @@ public class NbtTextContent implements TextContent {
         }
     }
 }
+*/

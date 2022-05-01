@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.text;
+/*package net.frozenblock.wildmod.text;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -336,3 +336,4 @@ public class HoverEvent {
         }
     }
 }
+*/

@@ -1,11 +1,11 @@
-package net.frozenblock.wildmod.text;
+/*package net.frozenblock.wildmod.text;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.logging.LogUtils;
-import net.frozenblock.wildmod.entity.Entity;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.command.EntitySelectorReader;
+import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -55,7 +55,7 @@ public class SelectorTextContent implements TextContent {
     public MutableText parse(@Nullable ServerCommandSource source, @Nullable Entity sender, int depth) throws CommandSyntaxException {
         if (source != null && this.selector != null) {
             Optional<? extends Text> optional = Texts.parse(source, this.separator, sender, depth);
-            return Texts.join(this.selector.getEntities(source), optional, net.frozenblock.wildmod.entity.Entity::getDisplayName);
+            return Texts.join(this.selector.getEntities(source), optional, Entity::getDisplayName());
         } else {
             return Text.empty();
         }
@@ -92,3 +92,4 @@ public class SelectorTextContent implements TextContent {
         return "pattern{" + this.pattern + "}";
     }
 }
+*/

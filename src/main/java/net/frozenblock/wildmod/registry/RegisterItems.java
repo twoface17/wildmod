@@ -43,6 +43,7 @@ public abstract class RegisterItems {
 
     public static final Item RECOVERY_COMPASS = new Item(new Item.Settings().maxCount(1).group(ItemGroup.TOOLS));
     public static final Item ECHO_SHARD = new Item(new Item.Settings().group(ItemGroup.TOOLS));
+    //public static final Item DISC_FRAGMENT_5 = new DiscFra
 
     public static float getSwiftSneakSpeedBoost(LivingEntity livingEntity) {
         return (float)getEquipmentLevel(SWIFT_SNEAK, livingEntity) * 0.15F;

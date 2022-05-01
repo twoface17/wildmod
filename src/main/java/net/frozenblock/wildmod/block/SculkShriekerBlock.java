@@ -4,7 +4,7 @@
 package net.frozenblock.wildmod.block;
 
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.WardenBrain;
+import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.entity.util.LargeEntitySpawnHelper;
 import net.frozenblock.wildmod.fromAccurateSculk.*;
@@ -30,7 +30,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -43,7 +42,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -242,16 +240,14 @@ public class SculkShriekerBlock
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                     (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                     world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
-                    if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
-                        world.playSound(
-                                null,
-                                blockPos,
-                                RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
-                                SoundCategory.BLOCKS,
-                                1f,
-                                world.random.nextFloat() * 0.1F + 0.9F
-                        );
-                    }
+                    world.playSound(
+                            null,
+                            blockPos,
+                            RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
+                            SoundCategory.BLOCKS,
+                            1.0F,
+                            world.random.nextFloat() * 0.1F + 0.9F
+                    );
                 } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setPrevTick(85);
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(80);
@@ -265,7 +261,7 @@ public class SculkShriekerBlock
                             1f,
                             1f
                     );
-                } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
+                } else {
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                     (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                     world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
@@ -290,16 +286,14 @@ public class SculkShriekerBlock
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                 (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                 world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
-                if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
-                    world.playSound(
-                            null,
-                            blockPos,
-                            RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
-                            SoundCategory.BLOCKS,
-                            1f,
-                            world.random.nextFloat() * 0.1F + 0.9F
+                world.playSound(
+                        null,
+                        blockPos,
+                        RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
+                        SoundCategory.BLOCKS,
+                        1F,
+                        world.random.nextFloat() * 0.1F + 0.9F
                     );
-                }
             } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setPrevTick(85);
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(80);
@@ -313,7 +307,7 @@ public class SculkShriekerBlock
                         1f,
                         1f
                 );
-            } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
+            } else {
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                 (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                 world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
@@ -471,11 +465,9 @@ public class SculkShriekerBlock
             } else {
                 world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
             }
-            if (world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK) && world.getBlockState(blockPos.down()).getBlock() == RegisterBlocks.SCULK) {
-                sendDarkness(24, blockPos, world);
-            } else if (!world.getGameRules().getBoolean(WildMod.SHRIEKER_NEEDS_SCULK)) {
-                sendDarkness(24, blockPos, world);
-            }
+
+            sendDarkness(24, blockPos, world);
+
             addShriek(blockPos, world, 1);
 
             SculkShriekerBlock.updateNeighbors(world, blockPos);
@@ -517,13 +509,13 @@ public class SculkShriekerBlock
                 if (world.isSkyVisible(pos.up()) && !world.isNight()) {
                     world.playSound(null, pos, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 5.0F, 0.8F);
                 }
-
-                shrieks = 0;
-                if (!world.isSkyVisible(pos.up()) || world.isNight())
+                if (shrieks >= 3 && (!world.isSkyVisible(pos.up()) || world.isNight())) {
+                    shrieks = 0;
                     LargeEntitySpawnHelper.trySpawnAt(
                             RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, pos, 20, 5, 6);
-            }
+                }
 
+            }
         }
     }
 

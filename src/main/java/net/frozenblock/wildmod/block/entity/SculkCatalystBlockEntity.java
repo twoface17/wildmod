@@ -1,7 +1,8 @@
-package net.frozenblock.wildmod.fromAccurateSculk;
+package net.frozenblock.wildmod.block.entity;
 
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
 import net.frozenblock.wildmod.event.PositionSource;
+import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.liukrastapi.Criteria;
 import net.frozenblock.wildmod.liukrastapi.Vec3d;
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
@@ -16,16 +17,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.listener.GameEventListener;
 import net.minecraft.world.gen.random.AbstractRandom;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
-
-import java.util.Random;
 
 public class SculkCatalystBlockEntity extends BlockEntity implements net.frozenblock.wildmod.event.GameEventListener {
     private final net.frozenblock.wildmod.event.BlockPositionSource positionSource = new net.frozenblock.wildmod.event.BlockPositionSource(this.pos);

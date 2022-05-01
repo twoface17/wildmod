@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.text;
+/*package net.frozenblock.wildmod.text;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -62,3 +62,4 @@ public record BlockNbtDataSource(String rawPos, @Nullable PosArgument pos) imple
         return this.rawPos.hashCode();
     }
 }
+*/
