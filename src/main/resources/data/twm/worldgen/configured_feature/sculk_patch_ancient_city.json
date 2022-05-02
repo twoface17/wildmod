@@ -14,5 +14,5 @@
     "amount_per_charge": 32,
     "spread_attempts": 64
   },
-  "type": "minecraft:sculk_patch"
+  "type": "twm:sculk_patch"
 }

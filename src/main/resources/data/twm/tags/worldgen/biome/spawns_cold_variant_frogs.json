@@ -13,10 +13,6 @@
 	"minecraft:frozen_river",
 	"minecraft:snowy_taiga",
 	"minecraft:snowy_beach",
-	"minecraft:the_end",
-	"minecraft:end_highlands",
-	"minecraft:end_midlands",
-	"minecraft:small_end_islands",
-	"minecraft:end_barrens"
+	"#twm:is_end"
   ]
 }

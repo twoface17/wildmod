@@ -10,11 +10,13 @@ import net.minecraft.world.gen.surfacebuilder.MaterialRules;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(net.minecraft.world.gen.surfacebuilder.VanillaSurfaceRules.class)
 public class VanillaSurfaceRulesInjector {
+    @Shadow @Final private static MaterialRules.MaterialRule DIRT;
     @Mutable
     @Final private static MaterialRules.MaterialRule MUD;
     static {MUD = block(RegisterBlocks.MUD);}
@@ -33,7 +35,7 @@ public class VanillaSurfaceRulesInjector {
                                 VanillaSurfaceRulesBlockInvoker.invokeBlock(
                                         RegisterBlocks.MUD
                                 )
-                        ),
+                        ), DIRT,
                         MaterialRules.condition(
                                 MaterialRules.biome(
                                         RegisterWorldgen.MANGROVE_SWAMP),

@@ -1,6 +1,9 @@
 package net.frozenblock.wildmod.world.gen;
 
+import net.frozenblock.wildmod.WildMod;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
 
@@ -10,8 +13,8 @@ public class WildFeatures<FC extends FeatureConfig> {
             "multiface_growth", new MultifaceGrowthFeature(MultifaceGrowthFeatureConfig.CODEC)
     );
 
-    private static <C extends FeatureConfig, F extends Feature<C>> F register(final String name, final F feature) {
-        return Registry.register(Registry.FEATURE, name, feature);
+    private static <C extends FeatureConfig, F extends Feature<C>> F register(String name, final F feature) {
+        return Registry.register(Registry.FEATURE, new Identifier(WildMod.MOD_ID, name), feature);
     }
 
     static {

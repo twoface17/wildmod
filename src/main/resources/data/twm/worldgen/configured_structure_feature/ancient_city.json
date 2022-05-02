@@ -2,9 +2,18 @@
   "config": {
     "start_pool": "twm:ancient_city/city_center",
     "height": -51,
+    "start_height": {
+      "absolute": -51
+    },
     "size": 7
   },
   "start_height": {
+    "absolute": -51
+  },
+  "end_height": {
+    "absolute": -51
+  },
+  "stop_height": {
     "absolute": -51
   },
   "use_expansion_hack": false,
@@ -46,5 +55,6 @@
   },
   "step": "underground_decoration",
   "terrain_adaptation": "beard_box",
-  "type": "minecraft:village"
+  "adapt_noise": true,
+  "type": "minecraft:bastion_remnant"
 }

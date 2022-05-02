@@ -22,6 +22,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.gen.feature.StructureFeature;
 
 import java.util.OptionalInt;
 
@@ -131,9 +132,6 @@ public class WildMod implements ModInitializer {
     public static final GameRules.Key<GameRules.BooleanRule> SCULK_STOPS_SCULKCHECK = //PERFORMANCE GAMERULE, STOPS SCULKCHECK SEARCHING IF THE CURRENT BLOCK IS SCULK
             GameRuleRegistry.register("sculkStopsSculkCheck", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
 
-    //TESTING GAMERULES. TODO: DELETE THESE AT 1.0. DO NOT WRITE TOO MUCH CODE THAT DEPENDS ON THESE.
-    public static final GameRules.Key<GameRules.BooleanRule> NO_WARDEN_COOLDOWN =
-            GameRuleRegistry.register("noWardenCooldown", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
     public static final GameRules.Key<GameRules.BooleanRule> DO_WARDEN_SPAWNING =
             GameRuleRegistry.register("doWardenSpawning", GameRules.Category.SPAWNING, GameRuleFactory.createBooleanRule(true));
 }
