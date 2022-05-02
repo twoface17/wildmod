@@ -2,17 +2,19 @@ package net.frozenblock.wildmod.world.gen;
 
 import com.mojang.serialization.Lifecycle;
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.registry.RegisterBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.*;
+import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.MiscConfiguredFeatures;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.PlacedFeatures;
-import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
-import net.minecraft.world.gen.placementmodifier.CountPlacementModifier;
-import net.minecraft.world.gen.placementmodifier.PlacementModifier;
-import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
+import net.minecraft.world.gen.placementmodifier.*;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class WildPlacedFeatures {
     public static final RegistryEntry<PlacedFeature> SCULK_PATCH_DEEP_DARK;
     public static final RegistryEntry<PlacedFeature> SCULK_PATCH_ANCIENT_CITY;
     public static final RegistryEntry<PlacedFeature> SCULK_VEIN;
+    public static final RegistryEntry<PlacedFeature> DISK_GRASS;
 
     static {
 
@@ -27,7 +30,15 @@ public class WildPlacedFeatures {
         SCULK_PATCH_DEEP_DARK = register("sculk_patch_deep_dark", WildConfiguredFeatures.SCULK_PATCH_DEEP_DARK, CountPlacementModifier.of(ConstantIntProvider.create(256)), SquarePlacementModifier.of(), PlacedFeatures.BOTTOM_TO_120_RANGE, BiomePlacementModifier.of());
         SCULK_PATCH_ANCIENT_CITY =register("sculk_patch_ancient_city", WildConfiguredFeatures.SCULK_PATCH_ANCIENT_CITY);
         SCULK_VEIN = register("sculk_vein", WildConfiguredFeatures.SCULK_VEIN, CountPlacementModifier.of(UniformIntProvider.create(204, 250)), SquarePlacementModifier.of(), PlacedFeatures.BOTTOM_TO_120_RANGE, BiomePlacementModifier.of());
-
+        DISK_GRASS = register(
+                "disk_grass",
+                WildConfiguredFeatures.DISK_GRASS,
+                CountPlacementModifier.of(1),
+                SquarePlacementModifier.of(),
+                PlacedFeatures.OCEAN_FLOOR_WG_HEIGHTMAP,
+                RandomOffsetPlacementModifier.vertically(ConstantIntProvider.create(-1)),
+                BlockFilterPlacementModifier.of(BlockPredicate.matchingBlocks(List.of(new Block[]{RegisterBlocks.MUD}))),
+                BiomePlacementModifier.of());
 
     }
 

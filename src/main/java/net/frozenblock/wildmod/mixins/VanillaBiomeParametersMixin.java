@@ -21,7 +21,7 @@ public final class VanillaBiomeParametersMixin {
     @Shadow @Final private MultiNoiseUtil.ParameterRange farInlandContinentalness;
     @Shadow @Final private MultiNoiseUtil.ParameterRange[] erosionParameters;
     @Shadow @Final private MultiNoiseUtil.ParameterRange nearInlandContinentalness;
-    @Shadow @Final private MultiNoiseUtil.ParameterRange nonFrozenTemperatureParameters;
+    @Shadow @Final private MultiNoiseUtil.ParameterRange[] temperatureParameters;
     @Shadow @Final private MultiNoiseUtil.ParameterRange defaultParameter;
     @Shadow @Final private RegistryKey<Biome>[][] uncommonBiomes;
 
@@ -39,24 +39,81 @@ public final class VanillaBiomeParametersMixin {
 //        uncommonBiomes[2][0] = RegisterWorldgen.DEEP_DARK;
     }
 
+
+
+    private void method_41419(
+            Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> consumer,
+            MultiNoiseUtil.ParameterRange parameterRange,
+            MultiNoiseUtil.ParameterRange parameterRange2,
+            MultiNoiseUtil.ParameterRange parameterRange3,
+            MultiNoiseUtil.ParameterRange parameterRange4,
+            MultiNoiseUtil.ParameterRange parameterRange5,
+            float f,
+            RegistryKey<Biome> registryKey
+    ) {
+        consumer.accept(
+            Pair.of(
+                MultiNoiseUtil.createNoiseHypercube(
+                    parameterRange, parameterRange2, parameterRange3, parameterRange4, MultiNoiseUtil.ParameterRange.of(1.1F), parameterRange5, f
+                ),
+                registryKey
+            )
+        );
+    }
+
     @Inject(method = "writeBiomesNearRivers", at = @At("TAIL"))
-    private void injectMangroveNearRivers(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange weirdness, CallbackInfo ci) {
-        this.writeBiomeParameters(parameters, nonFrozenTemperatureParameters, this.defaultParameter, MultiNoiseUtil.ParameterRange.combine(this.nearInlandContinentalness, this.farInlandContinentalness), this.erosionParameters[6], weirdness, 0.0F, RegisterWorldgen.MANGROVE_SWAMP);
+    private void writeBiomesNearRivers(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange weirdness, CallbackInfo ci) {
+        this.writeBiomeParameters(
+                parameters,
+                MultiNoiseUtil.ParameterRange.combine(this.temperatureParameters[3], this.temperatureParameters[4]),
+                this.defaultParameter,
+                MultiNoiseUtil.ParameterRange.combine(this.nearInlandContinentalness, this.farInlandContinentalness),
+                this.erosionParameters[6],
+                weirdness,
+                0.0F,
+                RegisterWorldgen.MANGROVE_SWAMP
+        );
     }
 
     @Inject(method = "writeRiverBiomes", at = @At("TAIL"))
     private void injectMangroveRiverBiomes(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange weirdness, CallbackInfo ci) {
-        this.writeBiomeParameters(parameters, this.nonFrozenTemperatureParameters, this.defaultParameter, MultiNoiseUtil.ParameterRange.combine(this.riverContinentalness, this.farInlandContinentalness), this.erosionParameters[6], weirdness, 0.0F, RegisterWorldgen.MANGROVE_SWAMP);
+        this.writeBiomeParameters(
+                parameters,
+                MultiNoiseUtil.ParameterRange.combine(this.temperatureParameters[3], this.temperatureParameters[4]),
+                this.defaultParameter,
+                MultiNoiseUtil.ParameterRange.combine(this.riverContinentalness, this.farInlandContinentalness),
+                this.erosionParameters[6],
+                weirdness,
+                0.0F,
+                RegisterWorldgen.MANGROVE_SWAMP
+        );
     }
 
     @Inject(method = "writeMixedBiomes", at = @At("TAIL"))
     private void injectMangroveMixedBiomes(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange weirdness, CallbackInfo ci) {
-        this.writeBiomeParameters(parameters, this.nonFrozenTemperatureParameters, this.defaultParameter, MultiNoiseUtil.ParameterRange.combine(this.nearInlandContinentalness, this.farInlandContinentalness), this.erosionParameters[6], weirdness, 0.0F, RegisterWorldgen.MANGROVE_SWAMP);
+        this.writeBiomeParameters(
+                parameters,
+                MultiNoiseUtil.ParameterRange.combine(this.temperatureParameters[3], this.temperatureParameters[4]),
+                this.defaultParameter,
+                MultiNoiseUtil.ParameterRange.combine(this.nearInlandContinentalness, this.farInlandContinentalness),
+                this.erosionParameters[6],
+                weirdness,
+                0.0F,
+                RegisterWorldgen.MANGROVE_SWAMP
+        );
     }
 
-    @Inject(method = "writeCaveBiomes", at = @At("RETURN"))
+    @Inject(method = "writeCaveBiomes", at = @At("TAIL"))
     private void injectDeepDark(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, CallbackInfo ci) {
-        parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(this.defaultParameter, MultiNoiseUtil.ParameterRange.of(0.4F, 1.0F), MultiNoiseUtil.ParameterRange.of(0.4F, 0.45F), this.defaultParameter, MultiNoiseUtil.ParameterRange.of(0.825F, 1.5F), this.defaultParameter, 0.0F), RegisterWorldgen.DEEP_DARK));
-//        this.writeCaveBiomeParameters(parameters, this.defaultParameter, this.defaultParameter, MultiNoiseUtil.ParameterRange.of(0.8f, 1.0F), MultiNoiseUtil.ParameterRange.of(0.0F, 1.0F), MultiNoiseUtil.ParameterRange.of(0.0F, 1.0F), 0.0f, RegisterWorldgen.DEEP_DARK);
+        this.method_41419(
+                parameters,
+                this.defaultParameter,
+                this.defaultParameter,
+                this.defaultParameter,
+                MultiNoiseUtil.ParameterRange.combine(this.erosionParameters[0], this.erosionParameters[1]),
+                this.defaultParameter,
+                0.0F,
+                RegisterWorldgen.DEEP_DARK
+        );
     }
 }

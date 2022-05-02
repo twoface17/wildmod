@@ -12,6 +12,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.sound.BiomeAdditionsSound;
 import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.sound.MusicSound;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -44,6 +45,7 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraft.world.gen.trunk.BendingTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -66,10 +68,9 @@ public class RegisterWorldgen {
     public static Biome createDeepDark() {
         SpawnSettings.Builder builder = new SpawnSettings.Builder();
         GenerationSettings.Builder builder2 = new GenerationSettings.Builder();
-        builder2
-                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE)
-                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE_EXTRA_UNDERGROUND)
-                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CANYON);
+        builder2.carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE);
+        builder2.carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE_EXTRA_UNDERGROUND);
+        builder2.carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CANYON);
         DefaultBiomeFeatures.addAmethystGeodes(builder2);
         DefaultBiomeFeatures.addDungeons(builder2);
         DefaultBiomeFeatures.addMineables(builder2);
@@ -96,7 +97,7 @@ public class RegisterWorldgen {
                         .grassColorModifier(BiomeEffects.GrassColorModifier.NONE)
                         .moodSound(BiomeMoodSound.CAVE)
                         .music(musicSound)
-                        .loopSound(RegisterSounds.AMBIENT_DEEP_DARK_LOOP)
+                        //.loopSound(RegisterSounds.AMBIENT_DEEP_DARK_LOOP)
                         //.additionsSound(new BiomeAdditionsSound(RegisterSounds.AMBIENT_DEEP_DARK_ADDITIONS, 0.0072D))
                         .moodSound(BiomeMoodSound.CAVE).build())
                 .spawnSettings(builder.build())
@@ -116,6 +117,7 @@ public class RegisterWorldgen {
         addGrassAndClayDisks(builder2);
         addMangroveSwampFeatures(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, OceanPlacedFeatures.SEAGRASS_SWAMP);
+        MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_SWAMP);
         return (
                 new Biome.Builder())
                 .precipitation(Biome.Precipitation.RAIN)
@@ -128,10 +130,13 @@ public class RegisterWorldgen {
                         .skyColor(getSkyColor(0.8F))
                         .foliageColor(9285927)
                         .grassColorModifier(BiomeEffects.GrassColorModifier.SWAMP)
-                        .moodSound(BiomeMoodSound.CAVE).build())
+                        .moodSound(BiomeMoodSound.CAVE)
+                        .music(musicSound)
+                        .build()
+                )
                 .spawnSettings(builder.build())
-                .generationSettings(builder2.build()).build();
-
+                .generationSettings(builder2.build())
+                .build();
     }
     private static void addBasicFeatures(GenerationSettings.Builder generationSettings) {
         DefaultBiomeFeatures.addLandCarvers(generationSettings);
@@ -142,7 +147,7 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
     }
     private static void addGrassAndClayDisks(GenerationSettings.Builder builder) {
-        //builder.feature(GenerationStep.Feature.UNDERGROUND_ORES, DISK_GRASS);
+        builder.feature(GenerationStep.Feature.UNDERGROUND_ORES, WildPlacedFeatures.DISK_GRASS);
         builder.feature(GenerationStep.Feature.UNDERGROUND_ORES, MiscPlacedFeatures.DISK_CLAY);
     }
     private static void addMangroveSwampFeatures(GenerationSettings.Builder builder) {
