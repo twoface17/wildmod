@@ -1,11 +1,11 @@
 package net.frozenblock.wildmod.registry;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.enchantments.SwiftSneakEnchantment;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
 import net.frozenblock.wildmod.items.ChestBoatItem;
 import net.frozenblock.wildmod.items.MangroveBoatItem;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -14,7 +14,6 @@ import net.minecraft.item.EntityBucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 

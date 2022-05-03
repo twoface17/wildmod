@@ -1,7 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.event.GameEvent;
-import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.server.world.ServerWorld;

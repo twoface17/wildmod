@@ -1,12 +1,12 @@
 package net.frozenblock.wildmod.registry;
 
-import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.*;
-import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.entity.*;
+import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;

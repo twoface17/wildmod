@@ -6,7 +6,6 @@ import net.fabricmc.api.Environment;
 import net.frozenblock.wildmod.entity.MangroveBoatEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.CompositeEntityModel;
-import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)

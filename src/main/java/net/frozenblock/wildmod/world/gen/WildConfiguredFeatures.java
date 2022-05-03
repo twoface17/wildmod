@@ -16,7 +16,9 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
-import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.List;
@@ -71,9 +73,62 @@ public class WildConfiguredFeatures {
         )
     );
 
+    /*public static final RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> TALL_MANGROVE = register(
+            "tall_mangrove",
+            Feature.TREE,
+            new TreeFeatureConfig.Builder(
+                    BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
+                    new UpwardsBranchingTrunkPlacer(
+                            4,
+                            1,
+                            9,
+                            UniformIntProvider.create(1, 6),
+                            0.5F,
+                            UniformIntProvider.create(0, 1),
+                            Registry.BLOCK.getOrCreateEntryList(RegisterTags.MANGROVE_LOGS_CAN_GROW_THROUGH)
+                    ),
+                    BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
+                    new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 70),
+                    Optional.of(
+                            new MangroveRootPlacer(
+                                    UniformIntProvider.create(3, 7),
+                                    BlockStateProvider.of(Blocks.MANGROVE_ROOTS),
+                                    Optional.of(new AboveRootPlacement(BlockStateProvider.of(Blocks.MOSS_CARPET), 0.5F)),
+                                    new MangroveRootPlacement(
+                                            Registry.BLOCK.getOrCreateEntryList(BlockTags.MANGROVE_ROOTS_CAN_GROW_THROUGH),
+                                            RegistryEntryList.of(Block::getRegistryEntry, new Block[]{Blocks.MUD, Blocks.MUDDY_MANGROVE_ROOTS}),
+                                            BlockStateProvider.of(Blocks.MUDDY_MANGROVE_ROOTS),
+                                            8,
+                                            15,
+                                            0.2F
+                                    )
+                            )
+                    ),
+                    new TwoLayersFeatureSize(3, 0, 2)
+            )
+                    .decorators(
+                            List.of(
+                                    new LeavesVineTreeDecorator(0.125F),
+                                    new AttachedToLeavesTreeDecorator(
+                                            0.14F,
+                                            1,
+                                            0,
+                                            new RandomizedIntBlockStateProvider(
+                                                    BlockStateProvider.of((BlockState)Blocks.MANGROVE_PROPAGULE.getDefaultState().with(PropaguleBlock.HANGING, true)),
+                                                    PropaguleBlock.AGE,
+                                                    UniformIntProvider.create(0, 4)
+                                            ),
+                                            2,
+                                            List.of(Direction.DOWN)
+                                    ),
+                                    BEES_001
+                            )
+                    )
+                    .ignoreVines()
+                    .build()
+    );
 
-
-    public static <V extends T, T> RegistryEntry<V> method_40360(Registry<T> registry, String id, V value) {
+    */public static <V extends T, T> RegistryEntry<V> method_40360(Registry<T> registry, String id, V value) {
         return (RegistryEntry<V>) BuiltinRegistries.add(registry, new Identifier(WildMod.MOD_ID, id), value);
     }
 

@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.block;
 
-import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.Thickness;
 import net.minecraft.item.ItemStack;

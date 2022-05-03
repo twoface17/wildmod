@@ -1,8 +1,8 @@
 package net.frozenblock.wildmod.status_effects;
 
-import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.client.render.FogShape;
 import net.minecraft.entity.LivingEntity;

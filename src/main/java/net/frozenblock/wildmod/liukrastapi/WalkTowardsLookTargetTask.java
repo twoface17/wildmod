@@ -29,7 +29,7 @@ public class WalkTowardsLookTargetTask<E extends LivingEntity> extends Task<E> {
     }
 
     protected boolean shouldRun(ServerWorld world, E entity) {
-        Optional<LookTarget> optional = (Optional)this.lookTargetFunction.apply(entity);
+        Optional<LookTarget> optional = this.lookTargetFunction.apply(entity);
         if (optional.isEmpty()) {
             return false;
         } else {
@@ -40,6 +40,6 @@ public class WalkTowardsLookTargetTask<E extends LivingEntity> extends Task<E> {
 
     @Nullable
     protected void run(ServerWorld world, E entity, long time) {
-        //LookTargetUtil.walkTowards((LivingEntity) entity, (Entity) ((Optional)this.lookTargetFunction.apply(entity)).get(), this.speed, this.completionRange);
+        LookTargetUtil.walkTowards((LivingEntity) entity, (Entity) ((Optional)this.lookTargetFunction.apply(entity)).get(), this.speed, this.completionRange);
     }
 }

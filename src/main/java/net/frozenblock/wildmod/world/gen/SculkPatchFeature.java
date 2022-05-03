@@ -16,8 +16,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.world.gen.random.AbstractRandom;
 import net.minecraft.world.gen.random.SimpleRandom;
 
 import java.util.ArrayList;
@@ -39,19 +41,42 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
 
     @Override
     public boolean generate(FeatureContext<SculkPatchFeatureConfig> context) {
-        if (seed!=context.getWorld().getSeed()) {
-            seed=context.getWorld().getSeed();
+        if (seed != context.getWorld().getSeed()) {
+            seed = context.getWorld().getSeed();
             sample = new PerlinNoiseSampler(new SimpleRandom(seed));
         }
-        if (!blockInSphere(context.getOrigin(), 8, RegisterBlocks.SCULK_CATALYST, context.getWorld())) {
-            context.getWorld().setBlockState(context.getOrigin().up(), RegisterBlocks.SCULK_CATALYST.getDefaultState(), 0);
-            if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {
-                context.getWorld().setBlockState(context.getOrigin(), RegisterBlocks.SCULK.getDefaultState(), 0);
+        StructureWorldAccess structureWorldAccess = context.getWorld();
+        BlockPos blockPos = context.getOrigin();
+        if (!this.canGenerate(structureWorldAccess, blockPos)) {
+            return false;
+        } else {
+            SculkPatchFeatureConfig sculkPatchFeatureConfig = context.getConfig();
+            AbstractRandom abstractRandom = (AbstractRandom) context.getRandom();
+            BlockPos blockPos2 = blockPos.down();
+            if (abstractRandom.nextFloat() <= sculkPatchFeatureConfig.catalystChance()
+                && structureWorldAccess.getBlockState(blockPos2).isFullCube(structureWorldAccess, blockPos2)) {
+                structureWorldAccess.setBlockState(blockPos, RegisterBlocks.SCULK_CATALYST.getDefaultState(), 3);
+                double average = (context.getOrigin().getX() + context.getOrigin().getZ()) * 0.5;
+                placePatch(context, context.getOrigin(), average);
+                if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {
+                    context.getWorld().setBlockState(context.getOrigin(), RegisterBlocks.SCULK.getDefaultState(), 0);
+                }
+                return true;
+
             }
-            double average = (context.getOrigin().getX() + context.getOrigin().getZ()) * 0.5;
-            placePatch(context, context.getOrigin(), average);
+            return false;
+        }
+    }
+
+    private boolean canGenerate(WorldAccess world, BlockPos pos) {
+        BlockState blockState = world.getBlockState(pos);
+        /*if (blockState.getBlock() instanceof SculkSpreadable) {
             return true;
-        } return false;
+        } else {
+            */return !blockState.isAir() && (!blockState.isOf(Blocks.WATER) || !blockState.getFluidState().isStill());
+                    //? false
+                    //: Direction.stream().map(pos::offset).anyMatch(pos2 -> world.getBlockState(pos2).isFullCube(world, pos2));
+        //}
     }
 
 

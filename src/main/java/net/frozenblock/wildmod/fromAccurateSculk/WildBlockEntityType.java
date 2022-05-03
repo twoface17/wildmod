@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.fromAccurateSculk;
 
-import net.frozenblock.wildmod.block.SculkCatalystBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.frozenblock.wildmod.block.SculkCatalystBlock;
 import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.frozenblock.wildmod.registry.RegisterBlocks;

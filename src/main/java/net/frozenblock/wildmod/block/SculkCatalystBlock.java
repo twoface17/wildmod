@@ -1,11 +1,11 @@
 package net.frozenblock.wildmod.block;
 
-import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
-import net.frozenblock.wildmod.fromAccurateSculk.WildProperties;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.block.entity.SculkCatalystPhase;
+import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
+import net.frozenblock.wildmod.fromAccurateSculk.WildProperties;
 import net.frozenblock.wildmod.registry.RegisterSounds;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;

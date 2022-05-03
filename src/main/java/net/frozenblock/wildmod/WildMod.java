@@ -1,16 +1,16 @@
 package net.frozenblock.wildmod;
 
 import com.chocohead.mm.api.ClassTinkerers;
-import net.frozenblock.wildmod.entity.FrogBrain;
-import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
-import net.frozenblock.wildmod.event.GameEvent;
-import net.frozenblock.wildmod.mixins.ActivityInvoker;
-import net.frozenblock.wildmod.mixins.SensorTypeInvoker;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.frozenblock.wildmod.entity.FrogBrain;
+import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
+import net.frozenblock.wildmod.event.GameEvent;
 import net.frozenblock.wildmod.liukrastapi.*;
+import net.frozenblock.wildmod.mixins.ActivityInvoker;
+import net.frozenblock.wildmod.mixins.SensorTypeInvoker;
 import net.frozenblock.wildmod.registry.*;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ai.brain.Activity;
@@ -22,7 +22,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.gen.feature.StructureFeature;
 
 import java.util.OptionalInt;
 

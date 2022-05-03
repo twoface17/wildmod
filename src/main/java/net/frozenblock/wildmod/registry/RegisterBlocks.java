@@ -1,11 +1,11 @@
 package net.frozenblock.wildmod.registry;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.*;
 import net.frozenblock.wildmod.block.mangrove.MuddyMangroveRootsBlock;
 import net.frozenblock.wildmod.items.FrogSpawnItem;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;

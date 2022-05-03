@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.block.mangrove;
 
-import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;

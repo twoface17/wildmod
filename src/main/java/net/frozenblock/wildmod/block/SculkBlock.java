@@ -1,20 +1,13 @@
 package net.frozenblock.wildmod.block;
 
-import net.frozenblock.wildmod.registry.RegisterBlocks;
-import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
-import net.minecraft.fluid.Fluids;
+import net.frozenblock.wildmod.registry.RegisterBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.intprovider.ConstantIntProvider;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
-import net.minecraft.world.WorldAccess;
 
 public class SculkBlock extends /*Ore*/Block/* implements SculkSpreadable*/ {
 

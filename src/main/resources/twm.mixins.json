@@ -24,6 +24,7 @@
 	"SimpleGameEventDispatcherMixin",
 	"SinglePartEntityModelMixin",
 	"TreeDecoratorTypeInvoker",
+	"TrunkPlacerTypeInvoker",
 	"UndergroundPlacedFeaturesMixin",
 	"VanillaBiomeParametersMixin",
 	"VanillaSurfaceRulesBlockInvoker",

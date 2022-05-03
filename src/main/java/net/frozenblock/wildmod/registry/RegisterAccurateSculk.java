@@ -1,14 +1,13 @@
 package net.frozenblock.wildmod.registry;
 
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.PositionSourceType;
 
 public abstract class RegisterAccurateSculk {
     //FROM LUNADE'S MOD ACCURATE SCULK
