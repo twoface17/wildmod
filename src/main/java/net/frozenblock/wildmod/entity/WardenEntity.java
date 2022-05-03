@@ -313,7 +313,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         DebugInfoSender.sendBrainDebugData(this);
     }
 
-    public void updateEventHandler(BiConsumer<EntityGameEventHandler, ServerWorld> biConsumer) {
+    public void updateEventHandler(BiConsumer<EntityGameEventHandler<SculkSensorListener>, ServerWorld> biConsumer) {
         World var3 = this.world;
         if (var3 instanceof ServerWorld serverWorld) {
             biConsumer.accept(this.gameEventHandler, serverWorld);

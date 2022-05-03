@@ -9,9 +9,9 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPartData;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,21 +24,25 @@ public abstract class ModelPartDataMixin implements ExpandedModelPart {
 	private List<ModelCuboidData> cuboidData;
 	@Shadow
 	@Final
-	private Map<String, ModelPartData> children = Maps.newHashMap();
+	private Map<String, ModelPartData> children;
 
-	@Override
+	/**
+	 * @author FrozenBlock
+	 * @reason modelparts
+	 */
+	@Overwrite
 	public ModelPart createPart(int textureWidth, int textureHeight) {
-		Object2ObjectArrayMap object2ObjectArrayMap = (Object2ObjectArrayMap)this.children.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, (entry) -> {
-			return ((ModelPartData)entry.getValue()).createPart(textureWidth, textureHeight);
+		Object2ObjectArrayMap<String, ModelPart> object2ObjectArrayMap = this.children.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, (entry) -> {
+			return (entry.getValue()).createPart(textureWidth, textureHeight);
 		}, (modelPartx, modelPart2) -> {
 			return modelPartx;
 		}, Object2ObjectArrayMap::new));
-		List list = (List)this.cuboidData.stream().map((modelCuboidData) -> {
+		List<ModelPart.Cuboid> list = this.cuboidData.stream().map((modelCuboidData) -> {
 			return modelCuboidData.createCuboid(textureWidth, textureHeight);
 		}).collect(ImmutableList.toImmutableList());
 		ModelPart modelPart = new ModelPart(list, object2ObjectArrayMap);
-			modelPart.traverse().forEach(modelPart1 -> ((ExpandedModelPart)modelPart1).resetTransform());
-			return modelPart;
+		modelPart.traverse().forEach(modelPart1 -> ((ExpandedModelPart)modelPart1).resetTransform());
+		return modelPart;
 	}
 
 	public abstract ModelPart traverse();

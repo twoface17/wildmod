@@ -10,7 +10,7 @@
 	  "item": "minecraft:compass"
 	},
 	"S": {
-	  "item": "minecraft:echo_shard"
+	  "item": "twm:echo_shard"
 	}
   },
   "result": {
