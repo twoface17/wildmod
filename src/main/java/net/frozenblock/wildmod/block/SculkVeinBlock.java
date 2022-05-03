@@ -117,7 +117,7 @@ public class SculkVeinBlock extends GlowLichenBlock/*AbstractLichenBlock */imple
         return blockState.getFluidState().isEmpty();
     }
 
-    public static final GlowLichenBlock SCULK_VEIN = new GlowLichenBlock(GlowLichenBlock.Settings.of(Material.REPLACEABLE_PLANT, MapColor.CYAN).ticksRandomly().nonOpaque().noCollision().strength(0.2f).sounds(new BlockSoundGroup(0.8f, 1.0f,
+    public static final GlowLichenBlock SCULK_VEIN = new GlowLichenBlock(GlowLichenBlock.Settings.of(Material.SCULK).noCollision().strength(0.2F).sounds(new BlockSoundGroup(1.0F, 1.0F,
             RegisterSounds.BLOCK_SCULK_VEIN_BREAK,
             RegisterSounds.BLOCK_SCULK_STEP,
             RegisterSounds.BLOCK_SCULK_VEIN_PLACE,

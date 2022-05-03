@@ -24,7 +24,7 @@ import java.util.List;
 public class WildConfiguredFeatures {
 
     public static final Feature<DiskFeatureConfig> DISK = register("disk", new DiskFeature(DiskFeatureConfig.CODEC));
-    public static final RegistryEntry<ConfiguredFeature<SculkPatchFeatureConfig, ?>> SCULK_PATCH_DEEP_DARK = ConfiguredFeatures.register(
+    public static final RegistryEntry<ConfiguredFeature<SculkPatchFeatureConfig, ?>> SCULK_PATCH_DEEP_DARK = register(
             "sculk_patch_deep_dark", WildFeatures.SCULK_PATCH, new SculkPatchFeatureConfig(10, 32, 64, 0, 1, ConstantIntProvider.create(0), 0.5F)
     );
     public static final RegistryEntry<ConfiguredFeature<SculkPatchFeatureConfig, ?>> SCULK_PATCH_ANCIENT_CITY = register(
@@ -45,31 +45,30 @@ public class WildConfiguredFeatures {
                             Block::getRegistryEntry,
                             Blocks.STONE, Blocks.ANDESITE, Blocks.DIORITE, Blocks.GRANITE, Blocks.DRIPSTONE_BLOCK, Blocks.CALCITE, Blocks.TUFF, Blocks.DEEPSLATE)
             )
-
     );
 
     public static final RegistryEntry<ConfiguredFeature<DiskFeatureConfig, ?>> DISK_GRASS = register(
         "disk_grass",
-            DISK,
-            new DiskFeatureConfig(
-                new PredicatedStateProvider(
-                    BlockStateProvider.of(Blocks.DIRT),
-                        List.of(
-                            new PredicatedStateProvider.Rule(
-                                BlockPredicate.not(
-                                    BlockPredicate.eitherOf(
-                                        BlockPredicate.solid(Direction.UP.getVector()),
-                                        BlockPredicate.matchingFluids(List.of(new Fluid[]{Fluids.WATER}), Direction.UP.getVector())
-                                    )
-                                ),
-                                BlockStateProvider.of(Blocks.GRASS_BLOCK)
+        DISK,
+        new DiskFeatureConfig(
+            new PredicatedStateProvider(
+                BlockStateProvider.of(Blocks.DIRT),
+                List.of(
+                    new PredicatedStateProvider.Rule(
+                        BlockPredicate.not(
+                            BlockPredicate.eitherOf(
+                                BlockPredicate.solid(Direction.UP.getVector()),
+                                BlockPredicate.matchingFluids(List.of(new Fluid[]{Fluids.WATER}), Direction.UP.getVector())
                             )
-                        )
-                    ),
-                    BlockPredicate.matchingBlocks(List.of(Blocks.DIRT, RegisterBlocks.MUD)),
-                    UniformIntProvider.create(2, 6),
-                    2
-            )
+                        ),
+                        BlockStateProvider.of(Blocks.GRASS_BLOCK)
+                    )
+                )
+            ),
+            BlockPredicate.matchingBlocks(List.of(Blocks.DIRT, RegisterBlocks.MUD)),
+            UniformIntProvider.create(2, 6),
+            2
+        )
     );
 
 
