@@ -4,7 +4,7 @@
 package net.frozenblock.wildmod.block;
 
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.WardenBrain;
+import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.entity.util.LargeEntitySpawnHelper;
 import net.frozenblock.wildmod.fromAccurateSculk.*;
@@ -30,7 +30,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -43,7 +42,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -517,12 +515,14 @@ public class SculkShriekerBlock
                     world.playSound(null, pos, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 5.0F, 0.8F);
                 }
 
-                shrieks = 0;
-                if (!world.isSkyVisible(pos.up()) || world.isNight())
-                    LargeEntitySpawnHelper.trySpawnAt(
-                            RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, pos, 20, 5, 6);
-            }
+                if (shrieks >= 3) {
+                    shrieks = 0;
+                    if (!world.isSkyVisible(pos.up()) || world.isNight())
+                        LargeEntitySpawnHelper.trySpawnAt(
+                                RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, pos, 20, 5, 6);
+                }
 
+            }
         }
     }
 

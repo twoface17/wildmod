@@ -1,6 +1,7 @@
-package net.frozenblock.wildmod.fromAccurateSculk;
+package net.frozenblock.wildmod.block.entity;
 
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
+import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;

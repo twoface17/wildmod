@@ -1,5 +1,6 @@
 package net.frozenblock.wildmod.fromAccurateSculk;
 
+import net.frozenblock.wildmod.block.entity.SculkCatalystPhase;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;

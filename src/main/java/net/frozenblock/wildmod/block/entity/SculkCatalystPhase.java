@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.fromAccurateSculk;
+package net.frozenblock.wildmod.block.entity;
 
 import net.minecraft.util.StringIdentifiable;
 
