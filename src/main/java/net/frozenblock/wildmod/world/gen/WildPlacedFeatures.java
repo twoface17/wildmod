@@ -73,7 +73,7 @@ public class WildPlacedFeatures {
     public static RegistryEntry<PlacedFeature> register(
             String id, RegistryEntry<? extends ConfiguredFeature<?, ?>> registryEntry, List<PlacementModifier> modifiers
     ) {
-        return BuiltinRegistries.add(BuiltinRegistries.PLACED_FEATURE, id, new PlacedFeature(RegistryEntry.upcast(registryEntry), List.copyOf(modifiers)));
+        return BuiltinRegistries.add(BuiltinRegistries.PLACED_FEATURE, new Identifier(WildMod.MOD_ID, id), new PlacedFeature(RegistryEntry.upcast(registryEntry), List.copyOf(modifiers)));
     }
 
     public static RegistryEntry<PlacedFeature> register(

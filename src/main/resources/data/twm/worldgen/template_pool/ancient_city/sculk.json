@@ -5,7 +5,7 @@
     {
       "weight": 6,
       "element": {
-        "feature": "minecraft:sculk_patch_ancient_city",
+        "feature": "twm:sculk_patch_ancient_city",
         "projection": "rigid",
         "element_type": "minecraft:feature_pool_element"
       }

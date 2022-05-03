@@ -57,22 +57,16 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
             if (abstractRandom.nextFloat() <= sculkPatchFeatureConfig.catalystChance()
                 && structureWorldAccess.getBlockState(blockPos2).isFullCube(structureWorldAccess, blockPos2)) {
                 structureWorldAccess.setBlockState(blockPos, RegisterBlocks.SCULK_CATALYST.getDefaultState(), 3);
-                double average = (context.getOrigin().getX() + context.getOrigin().getZ()) * 0.5;
-                placePatch(context, context.getOrigin(), average);
-                if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {
-                    context.getWorld().setBlockState(context.getOrigin(), RegisterBlocks.SCULK.getDefaultState(), 0);
-                }
-
-                for (int k = sculkPatchFeatureConfig.extraRareGrowths().get((Random) abstractRandom), l = 0; l < k; ++l) {
-                    final BlockPos blockPos3 = blockPos.add(abstractRandom.nextInt(5) - 2, 0, abstractRandom.nextInt(5) - 2);
-                    if (structureWorldAccess.getBlockState(blockPos3).isAir() && structureWorldAccess.getBlockState(blockPos3.down()).isSideSolidFullSquare(structureWorldAccess, blockPos3.down(), Direction.UP)) {
-                        structureWorldAccess.setBlockState(blockPos3, (RegisterBlocks.SCULK_SHRIEKER.getDefaultState()).with(SculkShriekerBlock.POWER, 0), 3);
-                    }
-                }
-                return true;
-
             }
-            return false;
+            double average = (context.getOrigin().getX() + context.getOrigin().getZ()) * 0.5;
+            placePatch(context, context.getOrigin(), average);
+            for (int k = sculkPatchFeatureConfig.extraRareGrowths().get((Random) abstractRandom), l = 0; l < k; ++l) {
+                final BlockPos blockPos3 = blockPos.add(abstractRandom.nextInt(5) - 2, 0, abstractRandom.nextInt(5) - 2);
+                if (structureWorldAccess.getBlockState(blockPos3).isAir() && structureWorldAccess.getBlockState(blockPos3.down()).isSideSolidFullSquare(structureWorldAccess, blockPos3.down(), Direction.UP)) {
+                    structureWorldAccess.setBlockState(blockPos3, (RegisterBlocks.SCULK_SHRIEKER.getDefaultState()).with(SculkShriekerBlock.POWER, 0), 3);
+                }
+            }
+            return true;
         }
     }
 
@@ -208,12 +202,15 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
 
     public static void placeSculkOptim(BlockPos blockPos, StructureWorldAccess world) { //Place Sculk & Remove Veins
         if (world.isChunkLoaded(blockPos)) {
-            world.setBlockState(blockPos, RegisterBlocks.SCULK.getDefaultState(), 0);
             for (Direction direction : Direction.values()) {
                 BlockPos pos = blockPos.offset(direction);
                 if (world.isChunkLoaded(pos)) {
                     BlockState state = world.getBlockState(pos);
                     Block block = state.getBlock();
+                    if (!(block instanceof SculkShriekerBlock)) {
+                        world.setBlockState(blockPos, RegisterBlocks.SCULK.getDefaultState(), 0);
+                    }
+
                     if (block == veinBlock) {
                         if (state.get(waterLogged)) { //If Vein Is Waterlogged
                             if (state.with(getOpposite(direction), false) == brokenWaterVein) {
@@ -268,7 +265,7 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
                     } else if (block != waterBlock) {
                         if (block == veinBlock) {
                             world.setBlockState(pos1, state.with(getOpposite(direction), true), 0);
-                        } else if (SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) || state.isAir()) {
+                        } else if (!(block instanceof SculkShriekerBlock) && (SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) || state.isAir())) {
                             world.setBlockState(pos1, RegisterBlocks.SCULK_VEIN.getDefaultState().with(getOpposite(direction), true), 0);
                         }
                     }
