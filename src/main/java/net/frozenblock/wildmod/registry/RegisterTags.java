@@ -13,8 +13,8 @@ public class RegisterTags {
     public static final TagKey<Block> FROG_PREFER_JUMP_TO = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "frog_prefer_jump_to"));
     public static final TagKey<Block> MANGROVE_LOGS_CAN_GROW_THROUGH = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "mangrove_logs_can_grow_through"));
     public static final TagKey<Block> MANGROVE_ROOTS_CAN_GROW_THROUGH = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "mangrove_roots_can_grow_through"));
-    public static final TagKey<FrogEntity.Variant> TEMPERATE = TagKey.of(net.frozenblock.wildmod.registry.Registry.FROG_VARIANT_KEY, new Identifier(WildMod.MOD_ID, "textures/entity/frog/temperate_frog.png"));
-    public static final TagKey<FrogEntity.Variant> WARM = TagKey.of(net.frozenblock.wildmod.registry.Registry.FROG_VARIANT_KEY, new Identifier(WildMod.MOD_ID, "textures/entity/frog/warm_frog.png"));
-    public static final TagKey<FrogEntity.Variant> COLD = TagKey.of(net.frozenblock.wildmod.registry.Registry.FROG_VARIANT_KEY, new Identifier(WildMod.MOD_ID, "textures/entity/frog/cold_frog.png"));
+    public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> TEMPERATE = net.frozenblock.wildmod.registry.TagKey.of(net.frozenblock.wildmod.registry.Registry.FROG_VARIANT_KEY, new Identifier(WildMod.MOD_ID, "textures/entity/frog/temperate_frog.png"));
+    public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> WARM = net.frozenblock.wildmod.registry.TagKey.of(net.frozenblock.wildmod.registry.Registry.FROG_VARIANT_KEY, new Identifier(WildMod.MOD_ID, "textures/entity/frog/warm_frog.png"));
+    public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> COLD = net.frozenblock.wildmod.registry.TagKey.of(net.frozenblock.wildmod.registry.Registry.FROG_VARIANT_KEY, new Identifier(WildMod.MOD_ID, "textures/entity/frog/cold_frog.png"));
     public static final TagKey<EntityType<?>> FROG_FOOD = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, "frog_food"));
 }
