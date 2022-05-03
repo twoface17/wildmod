@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.world.gen;
 
 import com.mojang.serialization.Codec;
+import net.frozenblock.wildmod.block.SculkShriekerBlock;
 import net.frozenblock.wildmod.block.SculkVeinBlock;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
@@ -62,10 +63,10 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
                     context.getWorld().setBlockState(context.getOrigin(), RegisterBlocks.SCULK.getDefaultState(), 0);
                 }
 
-                for (int k = sculkPatchFeatureConfig.extraRareGrowths().get(abstractRandom), 1 = 0; 1 < k; ++1) {
+                for (int k = sculkPatchFeatureConfig.extraRareGrowths().get((Random) abstractRandom), l = 0; l < k; ++l) {
                     final BlockPos blockPos3 = blockPos.add(abstractRandom.nextInt(5) - 2, 0, abstractRandom.nextInt(5) - 2);
                     if (structureWorldAccess.getBlockState(blockPos3).isAir() && structureWorldAccess.getBlockState(blockPos3.down()).isSideSolidFullSquare(structureWorldAccess, blockPos3.down(), Direction.UP)) {
-                        structureWorldAccess.setBlockState(blockPos3, RegisterBlocks.SCULK_SHRIEKER.getDefaultState());
+                        structureWorldAccess.setBlockState(blockPos3, (RegisterBlocks.SCULK_SHRIEKER.getDefaultState()).with(SculkShriekerBlock.POWER, 0), 3);
                     }
                 }
                 return true;
