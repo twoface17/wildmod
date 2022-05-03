@@ -40,6 +40,6 @@ public class WalkTowardsLookTargetTask<E extends LivingEntity> extends Task<E> {
 
     @Nullable
     protected void run(ServerWorld world, E entity, long time) {
-        LookTargetUtil.walkTowards((LivingEntity) entity, (Entity) ((Optional)this.lookTargetFunction.apply(entity)).get(), this.speed, this.completionRange);
+        //LookTargetUtil.walkTowards((LivingEntity) entity, (Entity) ((Optional)this.lookTargetFunction.apply(entity)).get(), this.speed, this.completionRange);
     }
 }
