@@ -61,6 +61,13 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
                 if (context.getWorld().getBlockEntity(context.getOrigin()) == null) {
                     context.getWorld().setBlockState(context.getOrigin(), RegisterBlocks.SCULK.getDefaultState(), 0);
                 }
+
+                for (int k = sculkPatchFeatureConfig.extraRareGrowths().get(abstractRandom), 1 = 0; 1 < k; ++1) {
+                    final BlockPos blockPos3 = blockPos.add(abstractRandom.nextInt(5) - 2, 0, abstractRandom.nextInt(5) - 2);
+                    if (structureWorldAccess.getBlockState(blockPos3).isAir() && structureWorldAccess.getBlockState(blockPos3.down()).isSideSolidFullSquare(structureWorldAccess, blockPos3.down(), Direction.UP)) {
+                        structureWorldAccess.setBlockState(blockPos3, RegisterBlocks.SCULK_SHRIEKER.getDefaultState());
+                    }
+                }
                 return true;
 
             }
