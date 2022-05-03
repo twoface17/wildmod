@@ -126,6 +126,9 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent MUSIC_OVERWORLD_DEEP_DARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deep_dark"));
         public static final SoundEvent MUSIC_OVERWORLD_SWAMP = new SoundEvent(new Identifier(WildMod.MOD_ID, "music.overworld.swamp"));
 
+    /** MUSIC DISCS **/
+        public static final SoundEvent MUSIC_DISC_5 = new SoundEvent(new Identifier(WildMod.MOD_ID, "music_disc.5"));
+
     /** AMBIENT **/
         public static final SoundEvent AMBIENT_DEEP_DARK_ADDITIONS = new SoundEvent(new Identifier(WildMod.MOD_ID, "ambient.deep_dark.additions"));
         public static final SoundEvent AMBIENT_DEEP_DARK_LOOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "ambient.deep_dark.loop"));

@@ -1808,6 +1808,14 @@
 		],
 		"subtitle": "subtitles.entity.allay.item_thrown"
 	},
+	"music_disc.5": {
+		"sounds": [
+			{
+				"name": "twm:records/5",
+				"stream": true
+			}
+		]
+	},
   "music.overworld.deep_dark": {
 	"sounds": [
 	  {
