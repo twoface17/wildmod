@@ -3,9 +3,13 @@ package net.frozenblock.wildmod.registry;
 import com.google.common.collect.ImmutableList;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.mixins.TreeDecoratorTypeInvoker;
+import net.frozenblock.wildmod.tags.BiomeTags;
+import net.frozenblock.wildmod.world.gen.structure.BlockRotStructureProcessor;
 import net.frozenblock.wildmod.world.gen.MangroveTreeDecorator;
 import net.frozenblock.wildmod.world.gen.WildConfiguredFeatures;
 import net.frozenblock.wildmod.world.gen.WildPlacedFeatures;
+import net.frozenblock.wildmod.world.gen.structure.StructureTerrainAdaptation;
+import net.frozenblock.wildmod.world.gen.structure.ancientcity.AncientCityGenerator;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.sound.MusicType;
@@ -13,7 +17,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.sound.MusicSound;
+import net.minecraft.structure.processor.*;
+import net.minecraft.structure.rule.AlwaysTrueRuleTest;
+import net.minecraft.structure.rule.RandomBlockMatchRuleTest;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
@@ -22,17 +31,20 @@ import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.StructureSpawns;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.GenerationSettings;
 import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.YOffset;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.carver.ConfiguredCarvers;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
+import net.minecraft.world.gen.heightprovider.ConstantHeightProvider;
 import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
 import net.minecraft.world.gen.placementmodifier.BlockFilterPlacementModifier;
 import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
@@ -42,7 +54,11 @@ import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraft.world.gen.trunk.BendingTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class RegisterWorldgen {
 
@@ -56,6 +72,28 @@ public class RegisterWorldgen {
     public static RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> BIRCH_NEW;
 
     public static final TreeDecoratorType<MangroveTreeDecorator> MANGROVE_TREE_DECORATOR = TreeDecoratorTypeInvoker.callRegister("rich_tree_decorator", MangroveTreeDecorator.CODEC);
+
+    private static RegistryEntry<StructureProcessorList> registerList(String id, ImmutableList<StructureProcessor> processorList) {
+        Identifier identifier = new Identifier(WildMod.MOD_ID, id);
+        StructureProcessorList structureProcessorList = new StructureProcessorList(processorList);
+        return BuiltinRegistries.add(BuiltinRegistries.STRUCTURE_PROCESSOR_LIST, identifier, structureProcessorList);
+    }
+
+    /*private static RegistryEntry<StructureType> register(RegistryKey<StructureType> key, StructureType configuredStructureFeature) {
+        return BuiltinRegistries.add(BuiltinRegistries.STRUCTURE, key, configuredStructureFeature);
+    }
+
+    private static Config createConfig(
+        TagKey<Biome> biomeTag, Map<SpawnGroup, StructureSpawns> spawns, Feature featureStep, StructureTerrainAdaptation terrainAdaptation
+    ) {
+        return new Config(getOrCreateBiomeTag(biomeTag), spawns, featureStep, terrainAdaptation);
+    }
+
+    */public static RegistryEntry<StructureProcessorList> ANCIENT_CITY_START_DEGRADATION;
+    public static RegistryEntry<StructureProcessorList> ANCIENT_CITY_GENERIC_DEGRADATION;
+    public static RegistryEntry<StructureProcessorList> ANCIENT_CITY_WALLS_DEGRADATION;
+
+    //public static final RegistryEntry<StructureType> ANCIENT_CITY;
 
     private static RegistryKey<Biome> register(String name) {
         return RegistryKey.of(Registry.BIOME_KEY, new Identifier(WildMod.MOD_ID, name));
@@ -181,7 +219,102 @@ public class RegisterWorldgen {
         TREES_MANGROVE = WildPlacedFeatures.register("trees_mangrove", MANGROVE, List.of(PlacedFeatures.createCountExtraModifier(8, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(6), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
         //MANGROVE_VEGETATION = WildConfiguredFeatures.register("mangrove_vegetation", Feature.RANDOM_SELECTOR, new RandomFeatureConfig(List.of(new RandomFeatureEntry(WildPlacedFeatures.TALL_MANGROVE_CHECKED, 0.85F)), WildPlacedFeatures.MANGROVE_CHECKED));
 
-        BuiltinRegistries.add(BuiltinRegistries.BIOME, MANGROVE_SWAMP, createMangroveSwamp());
+        ANCIENT_CITY_START_DEGRADATION = registerList(
+                "ancient_city_start_degradation",
+                ImmutableList.of(
+                        new RuleStructureProcessor(
+                                ImmutableList.of(
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.DEEPSLATE_BRICKS, 0.3F),
+                                                AlwaysTrueRuleTest.INSTANCE,
+                                                Blocks.CRACKED_DEEPSLATE_BRICKS.getDefaultState()
+                                        ),
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.DEEPSLATE_TILES, 0.3F),
+                                                AlwaysTrueRuleTest.INSTANCE,
+                                                Blocks.CRACKED_DEEPSLATE_TILES.getDefaultState()
+                                        ),
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.SOUL_LANTERN, 0.05F), AlwaysTrueRuleTest.INSTANCE, Blocks.AIR.getDefaultState()
+                                        )
+                                )
+                        ),
+                        new ProtectedBlocksStructureProcessor(BlockTags.FEATURES_CANNOT_REPLACE)
+                )
+        );
+        ANCIENT_CITY_GENERIC_DEGRADATION = registerList(
+                "ancient_city_generic_degradation",
+                ImmutableList.of(
+                        new BlockRotStructureProcessor(RegisterTags.ANCIENT_CITY_REPLACEABLE, 0.95F),
+                        new RuleStructureProcessor(
+                                ImmutableList.of(
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.DEEPSLATE_BRICKS, 0.3F),
+                                                AlwaysTrueRuleTest.INSTANCE,
+                                                Blocks.CRACKED_DEEPSLATE_BRICKS.getDefaultState()
+                                        ),
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.DEEPSLATE_TILES, 0.3F),
+                                                AlwaysTrueRuleTest.INSTANCE,
+                                                Blocks.CRACKED_DEEPSLATE_TILES.getDefaultState()
+                                        ),
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.SOUL_LANTERN, 0.05F), AlwaysTrueRuleTest.INSTANCE, Blocks.AIR.getDefaultState()
+                                        )
+                                )
+                        ),
+                        new ProtectedBlocksStructureProcessor(BlockTags.FEATURES_CANNOT_REPLACE)
+                )
+        );
+        ANCIENT_CITY_WALLS_DEGRADATION = registerList(
+                "ancient_city_walls_degradation",
+                ImmutableList.of(
+                        new BlockRotStructureProcessor(RegisterTags.ANCIENT_CITY_REPLACEABLE, 0.95F),
+                        new RuleStructureProcessor(
+                                ImmutableList.of(
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.DEEPSLATE_BRICKS, 0.3F),
+                                                AlwaysTrueRuleTest.INSTANCE,
+                                                Blocks.CRACKED_DEEPSLATE_BRICKS.getDefaultState()
+                                        ),
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.DEEPSLATE_TILES, 0.3F),
+                                                AlwaysTrueRuleTest.INSTANCE,
+                                                Blocks.CRACKED_DEEPSLATE_TILES.getDefaultState()
+                                        ),
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.DEEPSLATE_TILE_SLAB, 0.3F), AlwaysTrueRuleTest.INSTANCE, Blocks.AIR.getDefaultState()
+                                        ),
+                                        new StructureProcessorRule(
+                                                new RandomBlockMatchRuleTest(Blocks.SOUL_LANTERN, 0.05F), AlwaysTrueRuleTest.INSTANCE, Blocks.AIR.getDefaultState()
+                                        )
+                                )
+                        ),
+                        new ProtectedBlocksStructureProcessor(BlockTags.FEATURES_CANNOT_REPLACE)
+                )
+        );
+
+        /*ANCIENT_CITY = register(
+                StructureTypeKeys.ANCIENT_CITY,
+                new JigsawStructure(
+                        createConfig(
+                                BiomeTags.ANCIENT_CITY_HAS_STRUCTURE,
+                                (Map<SpawnGroup, StructureSpawns>) Arrays.stream(SpawnGroup.values())
+                                        .collect(Collectors.toMap(spawnGroup -> spawnGroup, spawnGroup -> new StructureSpawns(StructureSpawns.BoundingBox.STRUCTURE, Pool.empty()))),
+                                GenerationStep.Feature.UNDERGROUND_DECORATION,
+                                StructureTerrainAdaptation.BEARD_BOX
+                        ),
+                        AncientCityGenerator.CITY_CENTER,
+                        Optional.of(new Identifier("city_anchor")),
+                        7,
+                        ConstantHeightProvider.create(YOffset.fixed(-27)),
+                        false,
+                        Optional.empty(),
+                        116
+                )
+        );
+
+        */BuiltinRegistries.add(BuiltinRegistries.BIOME, MANGROVE_SWAMP, createMangroveSwamp());
         BuiltinRegistries.add(BuiltinRegistries.BIOME, DEEP_DARK, createDeepDark());
     }
 }

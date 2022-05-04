@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.collection.IndexedIterable;
 import net.minecraft.util.dynamic.Codecs;
+import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
 import net.minecraft.util.registry.BuiltinRegistries;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,12 @@ public abstract class Registry<T> implements Keyable, IndexedIterable<T> {
     public static final RegistryKey<Registry<FrogEntity.Variant>> FROG_VARIANT_KEY = createRegistryKey("frog_variant");
 
     public static final Registry<FrogEntity.Variant> FROG_VARIANT = create(FROG_VARIANT_KEY, registry -> FrogEntity.Variant.TEMPERATE);
+
+    //public static final RegistryKey<Registry<net.frozenblock.wildmod.world.gen.structure.StructureType<?>>> STRUCTURE_TYPE_KEY = createRegistryKey("worldgen/structure_type");
+    //public static final Registry<StructureType<?>> STRUCTURE_TYPE = create(STRUCTURE_TYPE_KEY, registry -> net.frozenblock.wildmod.world.gen.structure.StructureType.JIGSAW);
+
+    //public static final RegistryKey<Registry<StructureType<?>>> STRUCTURE_KEY = createRegistryKey("worldgen/structure");
+    public static final RegistryKey<Registry<DoublePerlinNoiseSampler.NoiseParameters>> NOISE_KEY = createRegistryKey("worldgen/noise");
 
     protected Registry(RegistryKey<? extends Registry<T>> key, Lifecycle lifecycle) {
         super();

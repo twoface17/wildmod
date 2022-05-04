@@ -1,3 +1,6 @@
 accessWidener v1 named
-extendable class net/minecraft/client/model/ModelPart
-extendable class net/minecraft/server/world/ServerWorld$ServerEntityHandler
+extendable  class   net/minecraft/client/model/ModelPart
+extendable  class   net/minecraft/server/world/ServerWorld$ServerEntityHandler
+extendable  class   net/minecraft/structure/pool/SinglePoolElement
+extendable  class   net/minecraft/structure/pool/LegacySinglePoolElement
+extendable  class  net/minecraft/world/biome/Biome$Weather
