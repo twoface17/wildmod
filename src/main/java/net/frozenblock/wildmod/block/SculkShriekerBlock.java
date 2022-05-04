@@ -61,7 +61,7 @@ public class SculkShriekerBlock
     public static final int field_31239 = 40;
     public static final int field_31240 = 1;
     public static final EnumProperty<SculkShriekerPhase> SCULK_SHRIEKER_PHASE = WildProperties.SCULK_SHRIEKER_PHASE;
-    private static final BooleanProperty WATERLOGGED = Properties.WATERLOOGGED;
+    private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public static final BooleanProperty SHRIEKING = WildProperties.SHRIEKING;
     public static final BooleanProperty CAN_SUMMON = WildProperties.CAN_SUMMON;
     public static final IntProperty POWER = Properties.POWER;
