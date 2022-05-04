@@ -61,17 +61,20 @@ public class SculkShriekerBlock
     public static final int field_31239 = 40;
     public static final int field_31240 = 1;
     public static final EnumProperty<SculkShriekerPhase> SCULK_SHRIEKER_PHASE = WildProperties.SCULK_SHRIEKER_PHASE;
+    public static final BooleanProperty WATERLOGGED = Properties.WATERLOOGGED;
+    public static final BooleanProperty SHRIEKING = WildProperties.SHRIEKING;
+    public static final BooleanProperty CAN_SUMMON = WildProperties.CAN_SUMMON;
     public static final IntProperty POWER = Properties.POWER;
     private static final VoxelShape SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
     private final int range;
-    private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public int getRange() {
         return this.range;
     }
 
     public SculkShriekerBlock(Settings settings, int i) {
         super(settings);
-        this.setDefaultState(((this.stateManager.getDefaultState()).with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.INACTIVE)).with(WATERLOGGED, false));
+        // will soon switch to the SHRIEKING BooleanProperty
+        this.setDefaultState(((this.stateManager.getDefaultState()).with(SCULK_SHRIEKER_PHASE, SculkShriekerPhase.INACTIVE)).with(SHRIEKING, false).with(CAN_SUMMON, false).with(WATERLOGGED, false));
         this.range = i;
     }
 
@@ -206,11 +209,6 @@ public class SculkShriekerBlock
         return SHAPE;
     }
 
-    @Override
-    public int getWeakRedstonePower(BlockState blockState, BlockView blockView, BlockPos blockPos, Direction direction) {
-        return blockState.get(POWER);
-    }
-
     public static SculkShriekerPhase getPhase(BlockState blockState) {
         return blockState.get(SCULK_SHRIEKER_PHASE);
     }
@@ -274,7 +272,7 @@ public class SculkShriekerBlock
                             blockPos,
                             RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                             SoundCategory.BLOCKS,
-                            1f,
+                            1.0F,
                             world.random.nextFloat() * 0.1F + 0.9F
                     );
                 }
@@ -296,7 +294,7 @@ public class SculkShriekerBlock
                             blockPos,
                             RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                             SoundCategory.BLOCKS,
-                            1f,
+                            1.0F,
                             world.random.nextFloat() * 0.1F + 0.9F
                     );
                 }
@@ -310,8 +308,8 @@ public class SculkShriekerBlock
                         blockPos,
                         RegisterAccurateSculk.GARGLE_EVENT,
                         SoundCategory.BLOCKS,
-                        1f,
-                        1f
+                        1.0F,
+                        1.0F
                 );
             } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
@@ -322,7 +320,7 @@ public class SculkShriekerBlock
                         blockPos,
                         RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
                         SoundCategory.BLOCKS,
-                        1f,
+                        1.0F,
                         world.random.nextFloat() * 0.1F + 0.9F
                 );
             }
@@ -359,16 +357,14 @@ public class SculkShriekerBlock
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(SCULK_SHRIEKER_PHASE, POWER);
         builder.add(WATERLOGGED);
+        builder.add(CAN_SUMMON);
+        builder.add(SHRIEKING);
     }
 
     @Override
     public boolean hasComparatorOutput(BlockState blockState) {
-        return true;
+        return false;
     }
-
-    @Override
-    public int getComparatorOutput(BlockState blockState, World world, BlockPos blockPos) {
-        return 0;
     }
 
     @Override
