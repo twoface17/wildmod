@@ -26,7 +26,7 @@ public class RegisterTags {
         return TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, id));
     }
 
-    private static TagKey<EntityType> ofEntity(String id) {
+    private static TagKey<EntityType<?>> ofEntity(String id) {
         return TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, id));
     }
 
