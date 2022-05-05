@@ -30,7 +30,7 @@ public abstract class ModelPartDataMixin implements ExpandedModelPart {
 	 * @author FrozenBlock
 	 * @reason modelparts
 	 */
-	@Overwrite
+	/*@Overwrite
 	public ModelPart createPart(int textureWidth, int textureHeight) {
 		Object2ObjectArrayMap<String, ModelPart> object2ObjectArrayMap = this.children.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, (entry) -> {
 			return (entry.getValue()).createPart(textureWidth, textureHeight);
@@ -43,7 +43,7 @@ public abstract class ModelPartDataMixin implements ExpandedModelPart {
 		ModelPart modelPart = new ModelPart(list, object2ObjectArrayMap);
 		modelPart.traverse().forEach(modelPart1 -> ((ExpandedModelPart)modelPart1).resetTransform());
 		return modelPart;
-	}
+	}*/
 
 	public abstract ModelPart traverse();
 }
