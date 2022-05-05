@@ -38,7 +38,7 @@
   "accessWidener" : "twm.accesswidener",
   
   "depends": {
-    "fabricloader": ">=0.13.3",
+    "fabricloader": ">=0.14.4",
     "fabric": "*",
     "minecraft": "1.18.2",
     "java": ">=17",

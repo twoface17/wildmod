@@ -4,7 +4,7 @@
 package net.frozenblock.wildmod.fromAccurateSculk;
 
 import net.frozenblock.wildmod.block.SculkShriekerBlock;
-import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
+import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.SculkSensorBlockEntity;
 import net.minecraft.entity.Entity;
@@ -85,14 +85,13 @@ implements GameEventListener {
     }
 
     private boolean shouldActivate(GameEvent gameEvent) {
-        if (gameEvent.equals(RegisterAccurateSculk.CLICK)) { return true; }
-        return false;
+        return gameEvent.equals(net.frozenblock.wildmod.event.GameEvent.SCULK_SENSOR_TENDRILS_CLICKING);
     }
 
     private void listen(World world, GameEvent gameEvent, BlockPos blockPos, BlockPos blockPos2) {
         this.event = Optional.of(gameEvent);
         if (world instanceof ServerWorld) {
-            if (gameEvent==RegisterAccurateSculk.CLICK) {
+            if (gameEvent==net.frozenblock.wildmod.event.GameEvent.SCULK_SENSOR_TENDRILS_CLICKING) {
                 this.delay = this.distance = MathHelper.floor(Math.sqrt(blockPos.getSquaredDistance(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ()))) * 2;
                 ((ServerWorld) world).sendVibrationPacket(new Vibration(blockPos, this.positionSource, this.delay));
                 BlockEntity sensor = world.getBlockEntity(blockPos);

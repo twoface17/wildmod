@@ -1,5 +1,6 @@
 package net.frozenblock.wildmod.tags;
 
+import net.frozenblock.wildmod.WildMod;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -43,7 +44,7 @@ public class BiomeTags {
     }
 
     private static TagKey<Biome> of(final String id) {
-        return TagKey.of(Registry.BIOME_KEY, new Identifier(id));
+        return TagKey.of(Registry.BIOME_KEY, new Identifier(WildMod.MOD_ID, id));
     }
 
     static {
@@ -72,7 +73,7 @@ public class BiomeTags {
         PRODUCES_CORALS_FROM_BONEMEAL = of("produces_corals_from_bonemeal");
         REDUCE_WATER_AMBIENT_SPAWNS = of("reduce_water_ambient_spawns");
         REQUIRED_OCEAN_MONUMENT_SURROUNDING = of("required_ocean_monument_surrounding");
-        SPAWNS_COLD_VARIANT_FROGS = of("spawns_cold_variant_frogs");
+        SPAWNS_COLD_VARIANT_FROGS = of("spawns_cold_variant_frogs.json");
         SPAWNS_WARM_VARIANT_FROGS = of("spawns_warm_variant_frogs");
         STRONGHOLD_BIASED_TO = of("stronghold_biased_to");
         WATER_ON_MAP_OUTLINES = of("water_on_map_outlines");

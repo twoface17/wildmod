@@ -41,9 +41,7 @@ public class EntityPositionSource implements PositionSource {
             this.findEntityInWorld(world);
         }
 
-        return this.source.left().map((entity) -> {
-            return entity.getPos().add(0.0, this.yOffset, 0.0);
-        });
+        return this.source.left().map((entity) -> entity.getPos().add(0.0, this.yOffset, 0.0));
     }
 
     private void findEntityInWorld(World world) {
@@ -66,19 +64,15 @@ public class EntityPositionSource implements PositionSource {
     }
 
     private UUID getUuid() {
-        return (UUID)this.source.map(Entity::getUuid, (either) -> {
-            return (UUID)either.map(Function.identity(), (integer) -> {
-                throw new RuntimeException("Unable to get entityId from uuid");
-            });
-        });
+        return this.source.map(Entity::getUuid, (either) -> either.map(Function.identity(), (integer) -> {
+            throw new RuntimeException("Unable to get entityId from uuid");
+        }));
     }
 
     int getEntityId() {
-        return (Integer)this.source.map(Entity::getId, (either) -> {
-            return (Integer)either.map((uUID) -> {
-                throw new IllegalStateException("Unable to get entityId from uuid");
-            }, Function.identity());
-        });
+        return this.source.map(Entity::getId, (either) -> either.map((uUID) -> {
+            throw new IllegalStateException("Unable to get entityId from uuid");
+        }, Function.identity()));
     }
 
     public PositionSourceType<?> getType() {

@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
+import net.frozenblock.wildmod.event.GameEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.server.world.ServerWorld;
@@ -22,6 +22,6 @@ public class SculkSensorBlockMixin {
 
     @Inject(method = "setActive", at = @At("TAIL"))
     private static void setActive(World world, BlockPos pos, BlockState state, int power, CallbackInfo info) {
-        world.emitGameEvent(RegisterAccurateSculk.CLICK, pos.add(0.5, 0, 0.5));
+        world.emitGameEvent(GameEvent.SCULK_SENSOR_TENDRILS_CLICKING, pos.add(0.5, 0, 0.5));
     }
 }

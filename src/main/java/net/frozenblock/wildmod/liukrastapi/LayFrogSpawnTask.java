@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.liukrastapi;
 
 import com.google.common.collect.ImmutableMap;
 import net.frozenblock.wildmod.entity.FrogEntity;
-import net.frozenblock.wildmod.registry.RegisterEntities;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -19,7 +19,7 @@ public class LayFrogSpawnTask extends Task<FrogEntity> {
     private final MemoryModuleType<?> field_37441;
 
     public LayFrogSpawnTask(Block frogSpawn, MemoryModuleType<?> memoryModuleType) {
-        super(ImmutableMap.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_PRESENT, RegisterEntities.IS_PREGNANT, MemoryModuleState.VALUE_PRESENT));
+        super(ImmutableMap.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_PRESENT, RegisterMemoryModules.IS_PREGNANT, MemoryModuleState.VALUE_PRESENT));
         this.frogSpawn = frogSpawn;
         this.field_37441 = memoryModuleType;
     }

@@ -11,6 +11,8 @@ import net.minecraft.util.Util;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
+import static net.frozenblock.wildmod.render.RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_SHADER;
+
 public class RenderLayer extends net.minecraft.client.render.RenderLayer {
     public RenderLayer(String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
         super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);
@@ -36,15 +38,15 @@ public class RenderLayer extends net.minecraft.client.render.RenderLayer {
 
     private static final BiFunction<Identifier, Boolean, RenderLayer> ENTITY_TRANSLUCENT_EMISSIVE = Util.memoize(
             (texture, affectsOutline) -> {
-                MultiPhaseParameters multiPhaseParameters = MultiPhaseParameters.builder()
-                        .shader(RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_SHADER)
-                        .texture(new RenderPhase.Texture(texture, false ,false))
+                RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
+                        .shader(ENTITY_TRANSLUCENT_EMISSIVE_SHADER)
+                        .texture(new RenderPhase.Texture(texture, false, false))
                         .transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY)
                         .cull(RenderPhase.DISABLE_CULLING)
                         .writeMaskState(RenderPhase.COLOR_MASK)
                         .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
                         .build(affectsOutline);
-                return RenderLayer.of(
+                return of(
                         "entity_translucent_emissive", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, VertexFormat.DrawMode.QUADS, 256, true, true, multiPhaseParameters
                 );
             }

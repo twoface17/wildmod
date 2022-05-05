@@ -16,7 +16,8 @@ import java.util.Random;
 
 public class SculkTags {
     public static final TagKey<Block> SCULK_VEIN_REPLACEABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_vein_replaceable"));
-    public static final TagKey<Block> SCULK_REPLACEABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_block_replaceable"));
+    public static final TagKey<Block> SCULK_REPLACEABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_replaceable"));
+    public static final TagKey<Block> SCULK_REPLACEABLE_WORLD_GEN = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_replaceable_world_gen"));
     public static final TagKey<Block> SCULK_UNTOUCHABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk_untouchable"));
     public static final TagKey<Block> SCULK = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "sculk"));
     public static final TagKey<EntityType<?>> THREE = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, "3xp"));

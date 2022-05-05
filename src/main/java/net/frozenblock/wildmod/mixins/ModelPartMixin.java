@@ -29,21 +29,21 @@ public abstract class ModelPartMixin implements ExpandedModelPart {
 	public float xScale = 1.0F;
 	public float yScale = 1.0F;
 	public float zScale = 1.0F;
-	private ModelTransform initialModelTransform = ModelTransform.NONE;
+	private ModelTransform defaultTransform = ModelTransform.NONE;
 
 	@Override
-	public ModelTransform getInitialModelTransform() {
-		return initialModelTransform;
+	public ModelTransform getDefaultTransform() {
+		return defaultTransform;
 	}
 
 	@Override
-	public void setInitialModelTransform(ModelTransform modelTransform) {
-		this.initialModelTransform = modelTransform;
+	public void setDefaultTransform(ModelTransform modelTransform) {
+		this.defaultTransform = modelTransform;
 	}
 
 	@Override
-	public void resetModelTransform() {
-		this.setTransform(initialModelTransform);
+	public void resetTransform() {
+		this.setTransform(defaultTransform);
 	}
 
 	@Override

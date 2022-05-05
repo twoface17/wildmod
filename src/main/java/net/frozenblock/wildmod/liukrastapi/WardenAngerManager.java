@@ -5,11 +5,11 @@ import com.google.common.collect.Streams;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 public class WardenAngerManager {
@@ -53,11 +52,11 @@ public class WardenAngerManager {
     }
 
     private List<Pair<UUID, Integer>> getSuspects() {
-        return (List)Streams.concat(new Stream[]{this.suspects.stream().map((suspect) -> {
+        return Streams.concat(this.suspects.stream().map((suspect) -> {
             return Pair.of(suspect.getUuid(), this.suspectsToAngerLevel.getInt(suspect));
         }), this.suspectUuidsToAngerLevel.object2IntEntrySet().stream().map((entry) -> {
             return Pair.of(entry.getKey(), entry.getIntValue());
-        })}).collect(Collectors.toList());
+        })).collect(Collectors.toList());
     }
 
     public void tick(ServerWorld world, Predicate<Entity> suspectPredicate) {

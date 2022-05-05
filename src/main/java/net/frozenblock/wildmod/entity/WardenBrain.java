@@ -6,11 +6,11 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.ai.task.GoToCelebrateTask;
-import net.frozenblock.wildmod.liukrastapi.Angriness;
-import net.frozenblock.wildmod.registry.RegisterEntities;
-import net.frozenblock.wildmod.entity.ai.task.*;
 import net.frozenblock.wildmod.entity.ai.task.ForgetAttackTargetTask;
+import net.frozenblock.wildmod.entity.ai.task.GoToCelebrateTask;
+import net.frozenblock.wildmod.entity.ai.task.*;
+import net.frozenblock.wildmod.liukrastapi.Angriness;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.*;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
@@ -49,23 +49,23 @@ public class WardenBrain {
             MemoryModuleType.ATTACK_TARGET,
             MemoryModuleType.ATTACK_COOLING_DOWN,
             MemoryModuleType.NEAREST_ATTACKABLE,
-            RegisterEntities.ROAR_TARGET,
-            RegisterEntities.DISTURBANCE_LOCATION,
-            RegisterEntities.RECENT_PROJECTILE,
-            RegisterEntities.IS_SNIFFING,
-            RegisterEntities.IS_EMERGING,
-            RegisterEntities.ROAR_SOUND_DELAY,
-            RegisterEntities.DIG_COOLDOWN,
-            RegisterEntities.ROAR_SOUND_COOLDOWN,
-            RegisterEntities.SNIFF_COOLDOWN,
-            RegisterEntities.TOUCH_COOLDOWN,
-            RegisterEntities.VIBRATION_COOLDOWN,
-            RegisterEntities.SONIC_BOOM_COOLDOWN,
-            RegisterEntities.SONIC_BOOM_SOUND_COOLDOWN,
-            RegisterEntities.SONIC_BOOM_SOUND_DELAY
+            RegisterMemoryModules.ROAR_TARGET,
+            RegisterMemoryModules.DISTURBANCE_LOCATION,
+            RegisterMemoryModules.RECENT_PROJECTILE,
+            RegisterMemoryModules.IS_SNIFFING,
+            RegisterMemoryModules.IS_EMERGING,
+            RegisterMemoryModules.ROAR_SOUND_DELAY,
+            RegisterMemoryModules.DIG_COOLDOWN,
+            RegisterMemoryModules.ROAR_SOUND_COOLDOWN,
+            RegisterMemoryModules.SNIFF_COOLDOWN,
+            RegisterMemoryModules.TOUCH_COOLDOWN,
+            RegisterMemoryModules.VIBRATION_COOLDOWN,
+            RegisterMemoryModules.SONIC_BOOM_COOLDOWN,
+            RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN,
+            RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY
     );
     private static final Task<WardenEntity> RESET_DIG_COOLDOWN_TASK = new Task<>(
-            ImmutableMap.of(RegisterEntities.DIG_COOLDOWN, MemoryModuleState.REGISTERED)
+            ImmutableMap.of(RegisterMemoryModules.DIG_COOLDOWN, MemoryModuleState.REGISTERED)
     ) {
         protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
             WardenBrain.resetDigCooldown(wardenEntity);
@@ -103,7 +103,7 @@ public class WardenBrain {
     }
 
     private static void addEmergeActivities(Brain<WardenEntity> brain) {
-        brain.setTaskList(WildMod.EMERGE, 5, ImmutableList.of(new EmergeTask<>(EMERGE_DURATION)), RegisterEntities.IS_EMERGING);
+        brain.setTaskList(WildMod.EMERGE, 5, ImmutableList.of(new EmergeTask<>(EMERGE_DURATION)), RegisterMemoryModules.IS_EMERGING);
     }
 
     private static void addDigActivities(Brain<WardenEntity> brain) {
@@ -111,7 +111,7 @@ public class WardenBrain {
                 WildMod.DIG,
                 ImmutableList.of(Pair.of(0, new DigTask<>(DIG_DURATION))),
                 ImmutableSet.of(
-                        Pair.of(RegisterEntities.ROAR_TARGET, MemoryModuleState.VALUE_ABSENT), Pair.of(RegisterEntities.DIG_COOLDOWN, MemoryModuleState.VALUE_ABSENT)
+                        Pair.of(RegisterMemoryModules.ROAR_TARGET, MemoryModuleState.VALUE_ABSENT), Pair.of(RegisterMemoryModules.DIG_COOLDOWN, MemoryModuleState.VALUE_ABSENT)
                 )
         );
     }
@@ -124,7 +124,7 @@ public class WardenBrain {
                         new FindRoarTargetTask<>(WardenEntity::getPrimeSuspect),
                         new StartSniffingTask(),
                         new RandomTask<>(
-                                ImmutableMap.of(RegisterEntities.IS_SNIFFING, MemoryModuleState.VALUE_ABSENT),
+                                ImmutableMap.of(RegisterMemoryModules.IS_SNIFFING, MemoryModuleState.VALUE_ABSENT),
                                 ImmutableList.of(Pair.of(new StrollTask(0.5F), 2), Pair.of(new WaitTask(30, 60), 1))
                         )
                 )
@@ -137,10 +137,10 @@ public class WardenBrain {
                 5,
                 ImmutableList.of(
                         new FindRoarTargetTask<>(WardenEntity::getPrimeSuspect),
-                        new GoToCelebrateTask<>(RegisterEntities.DISTURBANCE_LOCATION, 2, 0.7F),
+                        new GoToCelebrateTask<>(RegisterMemoryModules.DISTURBANCE_LOCATION, 2, 0.7F),
                         new WaitTask(10, 20)
                 ),
-                RegisterEntities.DISTURBANCE_LOCATION
+                RegisterMemoryModules.DISTURBANCE_LOCATION
         );
     }
 
@@ -149,12 +149,12 @@ public class WardenBrain {
                 WildMod.SNIFF,
                 5,
                 ImmutableList.of(new FindRoarTargetTask<>(WardenEntity::getPrimeSuspect), new SniffTask<>(SNIFF_DURATION)),
-                RegisterEntities.IS_SNIFFING
+                RegisterMemoryModules.IS_SNIFFING
         );
     }
 
     private static void addRoarActivities(Brain<WardenEntity> brain) {
-        brain.setTaskList(WildMod.ROAR, 10, ImmutableList.of(new RoarTask()), RegisterEntities.ROAR_TARGET);
+        brain.setTaskList(WildMod.ROAR, 10, ImmutableList.of(new RoarTask()), RegisterMemoryModules.ROAR_TARGET);
     }
 
     private static void addFightActivities(WardenEntity warden, Brain<WardenEntity> brain) {
@@ -188,8 +188,8 @@ public class WardenBrain {
     }
 
     public static void resetDigCooldown(LivingEntity warden) {
-        if (warden.getBrain().hasMemoryModule(RegisterEntities.DIG_COOLDOWN)) {
-            warden.getBrain().remember(RegisterEntities.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
+        if (warden.getBrain().hasMemoryModule(RegisterMemoryModules.DIG_COOLDOWN)) {
+            warden.getBrain().remember(RegisterMemoryModules.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
         }
 
     }
@@ -199,9 +199,9 @@ public class WardenBrain {
                 && warden.getPrimeSuspect().isEmpty()
                 && warden.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty()) {
             resetDigCooldown(warden);
-            warden.getBrain().remember(RegisterEntities.SNIFF_COOLDOWN, Unit.INSTANCE, 100L);
+            warden.getBrain().remember(RegisterMemoryModules.SNIFF_COOLDOWN, Unit.INSTANCE, 100L);
             warden.getBrain().remember(MemoryModuleType.LOOK_TARGET, new BlockPosLookTarget(pos), 100L);
-            warden.getBrain().remember(RegisterEntities.DISTURBANCE_LOCATION, pos, 100L);
+            warden.getBrain().remember(RegisterMemoryModules.DISTURBANCE_LOCATION, pos, 100L);
             warden.getBrain().forget(MemoryModuleType.WALK_TARGET);
         }
     }

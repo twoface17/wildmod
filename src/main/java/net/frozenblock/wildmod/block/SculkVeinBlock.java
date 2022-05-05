@@ -17,15 +17,60 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.ToIntFunction;
 
-public class SculkVeinBlock extends GlowLichenBlock implements Waterloggable {
+public class SculkVeinBlock extends GlowLichenBlock/*AbstractLichenBlock */implements /*SculkSpreadable, */Waterloggable {
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    //private final LichenGrower allGrowTypeGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GROW_TYPES));
+    //private final LichenGrower samePositionOnlyGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GrowType.SAME_POSITION));
 
     public SculkVeinBlock(AbstractBlock.Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(WATERLOGGED, false).with(Properties.DOWN, true).with(Properties.UP, false));
     }
 
-    public static ToIntFunction<BlockState> getLuminanceSupplier(int i) {
+    /*public LichenGrower getGrower() {
+        return allGrowTypeGrower;
+    }
+
+    public LichenGrower getSamePositionOnlyGrower() {
+        return this.samePositionOnlyGrower;
+    }
+
+    public static boolean place(WorldAccess world, BlockPos pos, BlockState state, Collection<Direction> directions) {
+        boolean bl = false;
+        BlockState blockState = RegisterBlocks.SCULK_VEIN.getDefaultState();
+
+        for(Direction direction : directions) {
+            BlockPos blockPos = pos.offset(direction);
+            if (canGrowOn(world, direction, blockPos, world.getBlockState(blockPos))) {
+                blockState = (BlockState)blockState.with(getProperty(direction), true);
+                bl = true;
+            }
+        }
+
+        if (!bl) {
+            return false;
+        } else {
+            if (!state.getFluidState().isEmpty()) {
+                blockState = blockState.with(WATERLOGGED, true);
+            }
+
+            world.setBlockState(pos, blockState, 3);
+            return true;
+        }
+    }
+
+    public void spreadAtSamePosition(WorldAccess world, BlockState state, BlockPos pos, WildAbstractRandom random) {
+        if (state.isOf(this)) {
+            for(Direction direction : DIRECTIONS) {
+                BooleanProperty booleanProperty = getProperty(direction);
+                if (state.get(booleanProperty) && world.getBlockState(pos.offset(direction)).isOf(RegisterBlocks.SCULK)) {
+                    state = state.with(booleanProperty, false);
+                }
+            }
+        }
+    }
+
+    */public static ToIntFunction<BlockState> getLuminanceSupplier(int i) {
         return blockState -> AbstractLichenBlock.hasAnyDirection(blockState) ? i : 0;
     }
     @Nullable
@@ -68,7 +113,7 @@ public class SculkVeinBlock extends GlowLichenBlock implements Waterloggable {
         return blockState.getFluidState().isEmpty();
     }
 
-    public static final GlowLichenBlock SCULK_VEIN = new GlowLichenBlock(GlowLichenBlock.Settings.of(Material.REPLACEABLE_PLANT, MapColor.CYAN).ticksRandomly().nonOpaque().noCollision().strength(0.2f).sounds(new BlockSoundGroup(0.8f, 1.0f,
+    public static final GlowLichenBlock SCULK_VEIN = new GlowLichenBlock(GlowLichenBlock.Settings.of(Material.SCULK).noCollision().strength(0.2F).sounds(new BlockSoundGroup(1.0F, 1.0F,
             RegisterSounds.BLOCK_SCULK_VEIN_BREAK,
             RegisterSounds.BLOCK_SCULK_STEP,
             RegisterSounds.BLOCK_SCULK_VEIN_PLACE,

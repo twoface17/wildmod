@@ -5,8 +5,6 @@ import net.frozenblock.wildmod.registry.Registry;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
-import java.nio.charset.StandardCharsets;
-
 public interface PositionSourceType<T extends PositionSource> {
 
     PositionSourceType<BlockPositionSource> BLOCK = register("block", new BlockPositionSource.Type());

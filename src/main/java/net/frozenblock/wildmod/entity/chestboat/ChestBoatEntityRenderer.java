@@ -2,10 +2,10 @@ package net.frozenblock.wildmod.entity.chestboat;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
-import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.WildModClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.WildModClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

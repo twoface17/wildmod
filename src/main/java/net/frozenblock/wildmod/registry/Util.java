@@ -20,7 +20,6 @@ import net.minecraft.client.util.CharPredicate;
 import net.minecraft.datafixer.Schemas;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.logging.UncaughtExceptionLogger;
 import net.minecraft.util.math.MathHelper;
@@ -42,7 +41,6 @@ import java.nio.file.Path;
 import java.nio.file.spi.FileSystemProvider;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -751,7 +749,7 @@ public class Util {
 
         public void open(URL url) {
             try {
-                Process process = (Process) AccessController.doPrivileged((PrivilegedAction<Process>) () -> {
+                Process process = AccessController.doPrivileged((PrivilegedAction<Process>) () -> {
                     try {
                         return Runtime.getRuntime().exec(this.getURLOpenCommand(url));
                     } catch (IOException e) {
