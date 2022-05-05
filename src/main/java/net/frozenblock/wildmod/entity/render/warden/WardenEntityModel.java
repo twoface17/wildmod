@@ -59,17 +59,17 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-        ModelPartData modelPartData2 = modelPartData.addChild("bone", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
-        ModelPartData modelPartData3 = modelPartData2.addChild("body", ModelPartBuilder.create().uv(0, 0).cuboid(-9.0F, -13.0F, -4.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(0.0F, -21.0F, 0.0F));
-        modelPartData3.addChild("right_ribcage", ModelPartBuilder.create().uv(90, 11).cuboid(-2.0F, -11.0F, -0.1F, 9.0F, 21.0F, 0.0F), ModelTransform.pivot(-7.0F, -2.0F, -4.0F));
-        modelPartData3.addChild("left_ribcage", ModelPartBuilder.create().uv(90, 11).mirrored().cuboid(-7.0F, -11.0F, -0.1F, 9.0F, 21.0F, 0.0F).mirrored(false), ModelTransform.pivot(7.0F, -2.0F, -4.0F));
-        ModelPartData modelPartData4 = modelPartData3.addChild("head", ModelPartBuilder.create().uv(0, 32).cuboid(-8.0F, -16.0F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(0.0F, -13.0F, 0.0F));
-        modelPartData4.addChild("right_tendril", ModelPartBuilder.create().uv(52, 32).cuboid(-16.0F, -13.0F, 0.0F, 16.0F, 16.0F, 0.0F), ModelTransform.pivot(-8.0F, -12.0F, 0.0F));
-        modelPartData4.addChild("left_tendril", ModelPartBuilder.create().uv(58, 0).cuboid(0.0F, -13.0F, 0.0F, 16.0F, 16.0F, 0.0F), ModelTransform.pivot(8.0F, -12.0F, 0.0F));
-        modelPartData3.addChild("right_arm", ModelPartBuilder.create().uv(44, 50).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(-13.0F, -13.0F, 1.0F));
-        modelPartData3.addChild("left_arm", ModelPartBuilder.create().uv(0, 58).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(13.0F, -13.0F, 1.0F));
-        modelPartData2.addChild("right_leg", ModelPartBuilder.create().uv(76, 48).cuboid(-3.1F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(-5.9F, -13.0F, 0.0F));
-        modelPartData2.addChild("left_leg", ModelPartBuilder.create().uv(76, 76).cuboid(-2.9F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(5.9F, -13.0F, 0.0F));
+        ModelPartData modelPartData1 = modelPartData.addChild("bone", ModelPartBuilder.create(), ModelTransform.pivot(0.0F,24.0F,0.0F));
+        ModelPartData modelPartData2 = modelPartData1.addChild("body", ModelPartBuilder.create().uv(0,0).cuboid(-9.0F, -13.0F, -4.0F, 18.0F, 21.0F, 11.0F), ModelTransform.pivot(0.0F,-21.0F,0.0F));
+        modelPartData2.addChild("right_ribcage", ModelPartBuilder.create().uv(90,11).cuboid(-2.0F, -11.0F, -0.1F, 9.0F, 21.0F, 0.0F), ModelTransform.pivot(-7.0F,-2.0F,-4.0F));
+        modelPartData2.addChild("left_ribcage", ModelPartBuilder.create().uv(90,11).cuboid(-7.0F, -11.0F, -0.1F, 9.0F, 21.0F, 0.0F, true), ModelTransform.pivot(7.0F,-2.0F,-4.0F));
+        ModelPartData modelPartData3 = modelPartData2.addChild("head", ModelPartBuilder.create().uv(0,32).cuboid(-8.0F, -16.0F, -5.0F, 16.0F, 16.0F, 10.0F), ModelTransform.pivot(0.0F,-26.0F,0.0F));
+        modelPartData3.addChild("right_tendril", ModelPartBuilder.create().uv(52,32).cuboid(-16.0F, -13.0F, 0.0F, 16.0F, 16.0F, 0.0F), ModelTransform.pivot(-8.0F,-12.0F,0.0F));
+        modelPartData3.addChild("left_tendril", ModelPartBuilder.create().uv(58,0).cuboid(0.0F, -13.0F, 0.0F, 16.0F, 16.0F, 0.0F), ModelTransform.pivot(8.0F,-12.0F,0.0F));
+        modelPartData2.addChild("right_arm", ModelPartBuilder.create().uv(44,50).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(-13.0F,-13.0F,1.0F));
+        modelPartData2.addChild("left_arm", ModelPartBuilder.create().uv(0,58).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 28.0F, 8.0F), ModelTransform.pivot(13.0F,-13.0F,1.0F));
+        modelPartData1.addChild("right_leg", ModelPartBuilder.create().uv(76,48).cuboid(-3.1F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(-11.9F,-8.0F,0.0F));
+        modelPartData1.addChild("left_leg", ModelPartBuilder.create().uv(76,76).cuboid(-2.9F, 0.0F, -3.0F, 6.0F, 13.0F, 6.0F), ModelTransform.pivot(11.9F,-8.0F,0.0F));
         return TexturedModelData.of(modelData, 128, 128);
     }
 
@@ -126,20 +126,51 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
         this.leftArm.roll = 0.0F;
         this.rightArm.pitch = -(0.8F * i * f);
         this.rightArm.roll = 0.0F;
-        this.setArmPivots();
+        this.setPivots();
     }
 
-    private void setArmPivots() {
+    private void setPivots() {
+        this.head.pivotX = 0.0F;
+        this.head.pivotY = -13.0F;
+        this.head.pivotZ = 0.0F;
+
+        this.bone.pivotY = 3.0F;
+
+        this.leftTendril.pivotX = 8.0F;
+        this.leftTendril.pivotY = -12.0F;
+        this.leftTendril.pivotZ = 0.0F;
+
+        this.rightTendril.pivotX = -8.0F;
+        this.rightTendril.pivotY = -12.0F;
+        this.rightTendril.pivotZ = 0.0F;
+
+        this.leftRibcage.pivotX = 7.0F;
+        this.leftRibcage.pivotY = -2.0F;
+        this.leftRibcage.pivotZ = -4.0F;
+
+        this.rightRibcage.pivotX = -7.0F;
+        this.rightRibcage.pivotY = -2.0F;
+        this.rightRibcage.pivotZ = -4.0F;
+
         this.leftArm.yaw = 0.0F;
         this.leftArm.pivotZ = 1.0F;
         this.leftArm.pivotX = 13.0F;
         this.leftArm.pivotY = -13.0F;
+
         this.rightArm.yaw = 0.0F;
         this.rightArm.pivotZ = 1.0F;
         this.rightArm.pivotX = -13.0F;
         this.rightArm.pivotY = -13.0F;
-    }
 
+        this.leftLeg.pivotX = 5.9F;
+        this.leftLeg.pivotY = 8.0F;
+        this.leftLeg.pivotZ = 0.0F;
+
+        this.rightLeg.pivotX = -5.9F;
+        this.rightLeg.pivotY = 8.0F;
+        this.rightLeg.pivotZ = 0.0F;
+
+    }
     private void setTendrilPitches(T warden, float animationProgress, float tickDelta) {
         float f = warden.getTendrilPitch(tickDelta) * (float)(Math.cos((double)animationProgress * 2.25D) * 3.141592653589793D * 0.10000000149011612D);
         this.leftTendril.pitch = f;
