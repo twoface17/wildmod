@@ -130,18 +130,50 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
         this.leftArm.roll = 0.0F;
         this.rightArm.pitch = -(0.8F * i * f);
         this.rightArm.roll = 0.0F;
-        this.setArmPivots();
+        this.setPivots();
     }
 
-    private void setArmPivots() {
+    private void setPivots() {
+        this.head.pivotX = 0.0F;
+        this.head.pivotY = -13.0F;
+        this.head.pivotZ = 0.0F;
+
+        this.bone.pivotY = 4.0F;
+
+        this.leftTendril.pivotX = 8.0F;
+        this.leftTendril.pivotY = -12.0F;
+        this.leftTendril.pivotZ = 0.0F;
+
+        this.rightTendril.pivotX = -8.0F;
+        this.rightTendril.pivotY = -12.0F;
+        this.rightTendril.pivotZ = 0.0F;
+
+        this.leftRibcage.pivotX = 7.0F;
+        this.leftRibcage.pivotY = -2.0F;
+        this.leftRibcage.pivotZ = -4.0F;
+
+        this.rightRibcage.pivotX = -7.0F;
+        this.rightRibcage.pivotY = -2.0F;
+        this.rightRibcage.pivotZ = -4.0F;
+
         this.leftArm.yaw = 0.0F;
         this.leftArm.pivotZ = 1.0F;
         this.leftArm.pivotX = 13.0F;
         this.leftArm.pivotY = -13.0F;
+
         this.rightArm.yaw = 0.0F;
         this.rightArm.pivotZ = 1.0F;
         this.rightArm.pivotX = -13.0F;
         this.rightArm.pivotY = -13.0F;
+
+        this.leftLeg.pivotX = 5.9F;
+        this.leftLeg.pivotY = 7.0F;
+        this.leftLeg.pivotZ = 0.0F;
+
+        this.rightLeg.pivotX = -5.9F;
+        this.rightLeg.pivotY = 7.0F;
+        this.rightLeg.pivotZ = 0.0F;
+
     }
 
     private void setTendrilPitches(T warden, float animationProgress, float tickDelta) {
@@ -161,18 +193,18 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
     }
 
     public List<ModelPart> getTendrils() {
-        return ImmutableList.of(this.leftTendril, this.rightTendril);
+        return this.tendrils;
     }
 
     public List<ModelPart> getBody() {
-        return ImmutableList.of(this.body);
+        return this.justBody;
     }
 
     public List<ModelPart> getHeadAndLimbs() {
-        return ImmutableList.of(this.head, this.leftArm, this.rightArm, this.leftLeg, this.rightLeg);
+        return this.headAndLimbs;
     }
 
     public List<ModelPart> getBodyHeadAndLimbs() {
-        return ImmutableList.of(this.body, this.head, this.leftArm, this.rightArm, this.leftLeg, this.rightLeg);
+        return this.bodyHeadAndLimbs;
     }
 }
