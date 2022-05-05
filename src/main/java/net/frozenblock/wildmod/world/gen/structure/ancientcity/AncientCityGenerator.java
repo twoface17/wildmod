@@ -19,7 +19,7 @@ public class AncientCityGenerator
 {
     public static final RegistryEntry<StructurePool> CITY_CENTER = StructurePools.register(
             new StructurePool(
-                    new Identifier("ancient_city/city_center"),
+                    new Identifier(WildMod.MOD_ID, "ancient_city/city_center"),
                     new Identifier("empty"),
                     ImmutableList.of(
                             Pair.of(
@@ -41,9 +41,5 @@ public class AncientCityGenerator
 
     public static void init() {
         AncientCityOutskirtsGenerator.init();
-    }
-
-    public static Function<StructurePool.Projection, SinglePoolElement> ofProcessedSingle(String id, RegistryEntry<StructureProcessorList> registryEntry) {
-        return projection -> new net.frozenblock.wildmod.world.gen.structure.SinglePoolElement(Either.left(new Identifier(WildMod.MOD_ID, id)), registryEntry, projection);
     }
 }

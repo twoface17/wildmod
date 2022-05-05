@@ -414,8 +414,4 @@ public class AncientCityOutskirtsGenerator {
                 )
         );
     }
-
-    public static Function<StructurePool.Projection, SinglePoolElement> ofProcessedSingle(String id, RegistryEntry<StructureProcessorList> registryEntry) {
-        return projection -> new net.frozenblock.wildmod.world.gen.structure.SinglePoolElement(Either.left(new Identifier(WildMod.MOD_ID, id)), registryEntry, projection);
-    }
 }

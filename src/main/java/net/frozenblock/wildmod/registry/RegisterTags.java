@@ -14,9 +14,11 @@ public class RegisterTags {
     public static final TagKey<Block> FROG_PREFER_JUMP_TO = of("frog_prefer_jump_to");
     public static final TagKey<Block> MANGROVE_LOGS_CAN_GROW_THROUGH = of("mangrove_logs_can_grow_through");
     public static final TagKey<Block> MANGROVE_ROOTS_CAN_GROW_THROUGH = of("mangrove_roots_can_grow_through");
+    
     public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> TEMPERATE = ofVariant("textures/entity/frog/temperate_frog.png");
     public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> WARM = ofVariant("textures/entity/frog/warm_frog.png");
     public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> COLD = ofVariant("textures/entity/frog/cold_frog.png");
+    
     public static final TagKey<EntityType<?>> FROG_FOOD = ofEntity("frog_food");
 
     private RegisterTags() {
