@@ -138,7 +138,7 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
         this.head.pivotY = -13.0F;
         this.head.pivotZ = 0.0F;
 
-        this.bone.pivotY = 4.0F;
+        this.bone.pivotY = 3.0F;
 
         this.leftTendril.pivotX = 8.0F;
         this.leftTendril.pivotY = -12.0F;
@@ -167,11 +167,11 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
         this.rightArm.pivotY = -13.0F;
 
         this.leftLeg.pivotX = 5.9F;
-        this.leftLeg.pivotY = 7.0F;
+        this.leftLeg.pivotY = 8.0F;
         this.leftLeg.pivotZ = 0.0F;
 
         this.rightLeg.pivotX = -5.9F;
-        this.rightLeg.pivotY = 7.0F;
+        this.rightLeg.pivotY = 8.0F;
         this.rightLeg.pivotZ = 0.0F;
 
     }

@@ -79,6 +79,11 @@ public class AllayEntityModel extends SinglePartEntityModel<AllayEntity> impleme
 		this.rightArm.roll = u;
 		this.rightArm.yaw = 0.27925268F * q;
 		this.leftArm.yaw = -0.27925268F * q;
+
+		this.leftArm.pivotX = 1.75F;
+		this.rightArm.pivotX = -1.75F;
+
+		this.root.pivotY = 16.0F;
 	}
 
 	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
