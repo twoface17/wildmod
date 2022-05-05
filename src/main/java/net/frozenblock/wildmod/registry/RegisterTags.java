@@ -17,13 +17,17 @@ public class RegisterTags {
     public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> TEMPERATE = ofVariant("textures/entity/frog/temperate_frog.png");
     public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> WARM = ofVariant("textures/entity/frog/warm_frog.png");
     public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> COLD = ofVariant("textures/entity/frog/cold_frog.png");
-    public static final TagKey<EntityType<?>> FROG_FOOD = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, "frog_food"));
+    public static final TagKey<EntityType<?>> FROG_FOOD = ofEntity("frog_food");
 
     private RegisterTags() {
     }
 
     private static TagKey<Block> of(String id) {
         return TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, id));
+    }
+
+    private static TagKey<EntityType> ofEntity(String id) {
+        return TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, id));
     }
 
     private static net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> ofVariant(String id) {
