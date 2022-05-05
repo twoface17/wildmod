@@ -231,105 +231,100 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
         }
 
 
+        int lightvalue;
+
+        double dark;
+
         assert this.client.player != null;
         if (this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
+            dark = MathAddon.cutCos(time, 0, true) * 1.6;
+        } else {
+            dark = 0;
+        }
 
-            int lightvalue;
-
-            double dark;
-
-            assert this.client.player != null;
-            if (this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-                dark = MathAddon.cutCos(time, 0, true) * 1.6;
-            } else {
-                dark = 0;
-            }
-
-            if (this.dirty) {
-                this.dirty = false;
-                this.client.getProfiler().push("lightTex");
-                ClientWorld clientWorld = this.client.world;
-                if (clientWorld != null) {
-                    float f = clientWorld.getStarBrightness(1.0F);
-                    float h;
-                    if (clientWorld.getLightningTicksLeft() > 0) {
-                        h = 1.0F;
-                    } else {
-                        h = f * 0.95F + 0.05F;
-                    }
-
-                    assert this.client.player != null;
-                    float i = this.client.player.getUnderwaterVisibility();
-                    float l;
-                    if (this.client.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
-                        l = GameRenderer.getNightVisionStrength(this.client.player, delta);
-                    } else if (i > 0.0F && this.client.player.hasStatusEffect(StatusEffects.CONDUIT_POWER)) {
-                        l = i;
-                    } else {
-                        l = 0.0F;
-                    }
-
-                    Vec3f vec3f = new Vec3f(f, f, 1.0F);
-                    vec3f.lerp(new Vec3f(1.0F, 1.0F, 1.0F), 0.35F);
-                    float m = this.flickerIntensity + 1.5F;
-                    Vec3f vec3f2 = new Vec3f();
-
-                    for (int n = 0; n < 16; ++n) {
-                        for (int o = 0; o < 16; ++o) {
-                            float p = this.getBrightness(clientWorld, n) * h;
-                            float q = this.getBrightness(clientWorld, o) * m;
-                            float s = q * ((q * 0.6F + 0.4F) * 0.6F + 0.4F);
-                            float t = q * (q * q * 0.6F + 0.4F);
-                            vec3f2.set(q, s, t);
-                            float w;
-                            Vec3f vec3f5;
-                            if (clientWorld.getDimensionEffects().shouldBrightenLighting()) {
-                                vec3f2.lerp(new Vec3f(0.99F, 1.12F, 1.0F), 0.25F);
-                            } else {
-                                Vec3f vec3f3 = vec3f.copy();
-                                vec3f3.scale(p);
-                                vec3f2.add(vec3f3);
-                                vec3f2.lerp(new Vec3f(0.75F, 0.75F, 0.75F), 0.04F);
-                                if (this.renderer.getSkyDarkness(delta) > 0.0F) {
-                                    w = this.renderer.getSkyDarkness(delta);
-                                    vec3f5 = vec3f2.copy();
-                                    vec3f5.multiplyComponentwise(0.7F, 0.6F, 0.6F);
-                                    vec3f2.lerp(vec3f5, w);
-                                }
-                            }
-
-                            vec3f2.clamp(0.0F, 1.0F);
-                            float y;
-                            if (l > 0.0F) {
-                                y = Math.max(vec3f2.getX(), Math.max(vec3f2.getY(), vec3f2.getZ()));
-                                if (y < 1.0F) {
-                                    w = 1.0F / y;
-                                    vec3f5 = vec3f2.copy();
-                                    vec3f5.scale(w);
-                                    vec3f2.lerp(vec3f5, l);
-                                }
-                            }
-
-                            y = (float) this.client.options.gamma;
-                            Vec3f vec3f6 = vec3f2.copy();
-                            vec3f6.modify(this::easeOutQuart);
-                            vec3f2.lerp(vec3f6, Math.max(0.0F, y - (float) dark));
-                            vec3f2.lerp(new Vec3f(0.75F, 0.75F, 0.75F), 0.04F);
-                            vec3f2.clamp(0.0F, 1.0F);
-                            vec3f2.scale(255.0F);
-                            int x = (int) vec3f2.getX();
-                            int y1 = (int) vec3f2.getY();
-                            int z = (int) vec3f2.getZ();
-                            lightvalue = -16777216 | z << 16 | y1 << 8 | x;
-                            this.image.setColor(o, n, lightvalue);
-                        }
-                    }
-
-                    this.texture.upload();
-                    this.client.getProfiler().pop();
+        if (this.dirty) {
+            this.dirty = false;
+            this.client.getProfiler().push("lightTex");
+            ClientWorld clientWorld = this.client.world;
+            if (clientWorld != null) {
+                float f = clientWorld.getStarBrightness(1.0F);
+                float h;
+                if (clientWorld.getLightningTicksLeft() > 0) {
+                    h = 1.0F;
+                } else {
+                    h = f * 0.95F + 0.05F;
                 }
-            }
 
+                assert this.client.player != null;
+                float i = this.client.player.getUnderwaterVisibility();
+                float l;
+                if (this.client.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
+                    l = GameRenderer.getNightVisionStrength(this.client.player, delta);
+                } else if (i > 0.0F && this.client.player.hasStatusEffect(StatusEffects.CONDUIT_POWER)) {
+                    l = i;
+                } else {
+                    l = 0.0F;
+                }
+
+                Vec3f vec3f = new Vec3f(f, f, 1.0F);
+                vec3f.lerp(new Vec3f(1.0F, 1.0F, 1.0F), 0.35F);
+                float m = this.flickerIntensity + 1.5F;
+                Vec3f vec3f2 = new Vec3f();
+
+                for (int n = 0; n < 16; ++n) {
+                    for (int o = 0; o < 16; ++o) {
+                        float p = this.getBrightness(clientWorld, n) * h;
+                        float q = this.getBrightness(clientWorld, o) * m;
+                        float s = q * ((q * 0.6F + 0.4F) * 0.6F + 0.4F);
+                        float t = q * (q * q * 0.6F + 0.4F);
+                        vec3f2.set(q, s, t);
+                        float w;
+                        Vec3f vec3f5;
+                        if (clientWorld.getDimensionEffects().shouldBrightenLighting()) {
+                            vec3f2.lerp(new Vec3f(0.99F, 1.12F, 1.0F), 0.25F);
+                        } else {
+                            Vec3f vec3f3 = vec3f.copy();
+                            vec3f3.scale(p);
+                            vec3f2.add(vec3f3);
+                            vec3f2.lerp(new Vec3f(0.75F, 0.75F, 0.75F), 0.04F);
+                            if (this.renderer.getSkyDarkness(delta) > 0.0F) {
+                                w = this.renderer.getSkyDarkness(delta);
+                                vec3f5 = vec3f2.copy();
+                                vec3f5.multiplyComponentwise(0.7F, 0.6F, 0.6F);
+                                vec3f2.lerp(vec3f5, w);
+                            }
+                        }
+
+                        vec3f2.clamp(0.0F, 1.0F);
+                        float y;
+                        if (l > 0.0F) {
+                            y = Math.max(vec3f2.getX(), Math.max(vec3f2.getY(), vec3f2.getZ()));
+                            if (y < 1.0F) {
+                                w = 1.0F / y;
+                                vec3f5 = vec3f2.copy();
+                                vec3f5.scale(w);
+                                vec3f2.lerp(vec3f5, l);
+                            }
+                        }
+
+                        y = (float) this.client.options.gamma;
+                        Vec3f vec3f6 = vec3f2.copy();
+                        vec3f6.modify(this::easeOutQuart);
+                        vec3f2.lerp(vec3f6, Math.max(0.0F, y - (float) dark));
+                        vec3f2.lerp(new Vec3f(0.75F, 0.75F, 0.75F), 0.04F);
+                        vec3f2.clamp(0.0F, 1.0F);
+                        vec3f2.scale(255.0F);
+                        int x = (int) vec3f2.getX();
+                        int y1 = (int) vec3f2.getY();
+                        int z = (int) vec3f2.getZ();
+                        lightvalue = -16777216 | z << 16 | y1 << 8 | x;
+                        this.image.setColor(o, n, lightvalue);
+                    }
+                }
+
+                this.texture.upload();
+                this.client.getProfiler().pop();
+            }
         }
     }
 

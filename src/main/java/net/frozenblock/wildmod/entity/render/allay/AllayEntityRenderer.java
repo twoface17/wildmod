@@ -1,11 +1,11 @@
 package net.frozenblock.wildmod.entity.render.allay;
 
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.WildModClient;
 import net.frozenblock.wildmod.entity.AllayEntity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;

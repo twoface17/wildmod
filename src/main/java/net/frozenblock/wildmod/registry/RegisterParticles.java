@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.registry;
 
-import net.frozenblock.wildmod.WildMod;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+import net.frozenblock.wildmod.WildMod;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

@@ -103,7 +103,7 @@ public class GameEventTagProvider extends AbstractTagProvider<GameEvent> {
         this.getOrCreateTagBuilder(GameEventTags.VIBRATIONS).add(wildVibrations).add(GameEvent.FLAP);
         this.getOrCreateTagBuilder(WildEventTags.SHRIEKER_CAN_LISTEN).add(net.frozenblock.wildmod.event.GameEvent.SCULK_SENSOR_TENDRILS_CLICKING);
         this.getOrCreateTagBuilder(WildEventTags.WARDEN_CAN_LISTEN).add(wildVibrations).add(net.frozenblock.wildmod.event.GameEvent.SHRIEK).addTag(WildEventTags.SHRIEKER_CAN_LISTEN);
-        this.getOrCreateTagBuilder(WildEventTags.DAMPENABLE_VIBRATIONS).add(GameEvent.HIT_GROUND, GameEvent.STEP);
+        this.getOrCreateTagBuilder(WildEventTags.ALLAY_CAN_LISTEN).add(net.frozenblock.wildmod.event.GameEvent.NOTE_BLOCK_PLAY);
     }
 
     @Override

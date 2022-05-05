@@ -3,8 +3,7 @@ package net.frozenblock.wildmod.liukrastapi;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.AllayBrain;
 import net.frozenblock.wildmod.entity.AllayEntity;
-import net.frozenblock.wildmod.registry.RegisterEntities;
-import net.minecraft.entity.Entity;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.entity.InventoryOwner;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.LookTarget;
@@ -29,7 +28,7 @@ public class GiveInventoryToLookTargetTask<E extends LivingEntity & InventoryOwn
     private final float speed;
 
     public GiveInventoryToLookTargetTask(Function<LivingEntity, Optional<LookTarget>> lookTargetFunction, float speed) {
-        super(Map.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED, RegisterEntities.ITEM_PICKUP_COOLDOWN_TICKS, MemoryModuleState.REGISTERED));
+        super(Map.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED, RegisterMemoryModules.ITEM_PICKUP_COOLDOWN_TICKS, MemoryModuleState.REGISTERED));
         this.lookTargetFunction = lookTargetFunction;
         this.speed = speed;
     }
@@ -62,7 +61,7 @@ public class GiveInventoryToLookTargetTask<E extends LivingEntity & InventoryOwn
                         });
                     }
 
-                    entity.getBrain().remember(RegisterEntities.ITEM_PICKUP_COOLDOWN_TICKS, 100);
+                    entity.getBrain().remember(RegisterMemoryModules.ITEM_PICKUP_COOLDOWN_TICKS, 100);
                 }
             }
 

@@ -1,9 +1,9 @@
 package net.frozenblock.wildmod.liukrastapi;
 
 import com.mojang.serialization.Codec;
-import net.frozenblock.wildmod.WildMod;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.frozenblock.wildmod.WildMod;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;

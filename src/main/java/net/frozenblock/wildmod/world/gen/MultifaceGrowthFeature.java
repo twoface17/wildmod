@@ -21,7 +21,7 @@ public class MultifaceGrowthFeature extends Feature<MultifaceGrowthFeatureConfig
         StructureWorldAccess structureWorldAccess = context.getWorld();
         BlockPos blockPos = context.getOrigin();
         AbstractRandom abstractRandom = (AbstractRandom) context.getRandom();
-        MultifaceGrowthFeatureConfig multifaceGrowthFeatureConfig = (MultifaceGrowthFeatureConfig)context.getConfig();
+        MultifaceGrowthFeatureConfig multifaceGrowthFeatureConfig = context.getConfig();
         if (!isAirOrWater(structureWorldAccess.getBlockState(blockPos))) {
             return false;
         } else {

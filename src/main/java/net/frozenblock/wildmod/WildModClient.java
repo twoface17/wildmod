@@ -1,19 +1,6 @@
 package net.frozenblock.wildmod;
 
 import com.google.common.collect.ImmutableMap;
-import net.frozenblock.wildmod.block.SculkShriekerBlock;
-import net.frozenblock.wildmod.block.SculkVeinBlock;
-import net.frozenblock.wildmod.data.DataGenerator;
-import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityModel;
-import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityRenderer;
-import net.frozenblock.wildmod.entity.render.allay.AllayEntityModel;
-import net.frozenblock.wildmod.entity.render.allay.AllayEntityRenderer;
-import net.frozenblock.wildmod.entity.render.firefly.FireflyEntityRenderer;
-import net.frozenblock.wildmod.entity.render.frog.FrogEntityModel;
-import net.frozenblock.wildmod.entity.render.frog.FrogEntityRenderer;
-import net.frozenblock.wildmod.entity.render.tadpole.TadpoleEntityModel;
-import net.frozenblock.wildmod.entity.render.tadpole.TadpoleEntityRenderer;
-import net.frozenblock.wildmod.event.GameEventTagProvider;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,7 +11,22 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.frozenblock.wildmod.entity.*;
+import net.frozenblock.wildmod.block.SculkVeinBlock;
+import net.frozenblock.wildmod.data.DataGenerator;
+import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityModel;
+import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityRenderer;
+import net.frozenblock.wildmod.entity.render.allay.AllayEntityModel;
+import net.frozenblock.wildmod.entity.render.allay.AllayEntityRenderer;
+import net.frozenblock.wildmod.entity.render.boat.MangroveBoatEntityModel;
+import net.frozenblock.wildmod.entity.render.boat.MangroveBoatEntityRenderer;
+import net.frozenblock.wildmod.entity.render.firefly.FireflyEntityRenderer;
+import net.frozenblock.wildmod.entity.render.frog.FrogEntityModel;
+import net.frozenblock.wildmod.entity.render.frog.FrogEntityRenderer;
+import net.frozenblock.wildmod.entity.render.tadpole.TadpoleEntityModel;
+import net.frozenblock.wildmod.entity.render.tadpole.TadpoleEntityRenderer;
+import net.frozenblock.wildmod.entity.render.warden.WardenEntityModel;
+import net.frozenblock.wildmod.entity.render.warden.WardenEntityRenderer;
+import net.frozenblock.wildmod.event.GameEventTagProvider;
 import net.frozenblock.wildmod.fromAccurateSculk.*;
 import net.frozenblock.wildmod.registry.*;
 import net.minecraft.GameVersion;
@@ -90,6 +92,7 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_PROPAGULE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(SculkVeinBlock.SCULK_VEIN, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.FROGSPAWN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_SHRIEKER, RenderLayer.getCutout());
 
         EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(WARDEN, WardenEntityModel::getTexturedModelData);
@@ -125,8 +128,6 @@ public class WildModClient implements ClientModInitializer {
         }), MangroveWoods.MANGROVE_LEAVES);
 
         ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> FoliageColors.getDefaultColor()), MangroveWoods.MANGROVE_LEAVES);
-
-        BlockRenderLayerMap.INSTANCE.putBlock(SculkShriekerBlock.SCULK_SHRIEKER_BLOCK, RenderLayer.getCutout());
 
         ClientPlayNetworking.registerGlobalReceiver(CATALYST_PARTICLE_PACKET, (client, handler, buf, responseSender) -> {
             BlockPos catalyst = buf.readBlockPos();
