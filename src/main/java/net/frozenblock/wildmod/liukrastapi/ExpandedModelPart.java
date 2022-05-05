@@ -20,4 +20,5 @@ public interface ExpandedModelPart {
 	void offsetScale(Vec3f vector3f);
 
 	ModelPart createPart(int textureWidth, int textureHeight);
+
 }
