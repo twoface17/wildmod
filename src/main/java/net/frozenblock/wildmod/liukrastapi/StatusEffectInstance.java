@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class StatusEffectInstance {
+public class StatusEffectInstance extends net.minecraft.entity.effect.StatusEffectInstance {
     private Supplier<FactorCalculationData> factorCalculationDataSupplier = () -> {
         return null;
     };
@@ -56,6 +56,7 @@ public class StatusEffectInstance {
     }
 
     public StatusEffectInstance(StatusEffectInstance type, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, @Nullable StatusEffectInstance hiddenEffect, Optional<FactorCalculationData> factorCalculationData) {
+        super(type.getEffectType(), duration, amplifier, ambient, showParticles, showIcon);
         this.type = type;
         this.duration = duration;
         this.amplifier = amplifier;
@@ -67,6 +68,7 @@ public class StatusEffectInstance {
     }
 
     public StatusEffectInstance(StatusEffectInstance statusEffectInstance) {
+        super(statusEffectInstance);
         this.type = statusEffectInstance.type;
         this.factorCalculationData = this.getFactorCalculationDataSupplier();
         this.copyFrom(statusEffectInstance);

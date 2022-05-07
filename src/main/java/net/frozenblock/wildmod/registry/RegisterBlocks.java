@@ -18,7 +18,7 @@ public abstract class RegisterBlocks {
 
     public static final Material FROGSPAWNMATERIAL = new Material.Builder(MapColor.WATER_BLUE).allowsMovement()/*.lightPassesThrough()*/.notSolid().allowsMovement().build();
 
-    public static final BlockSoundGroup SCULKSOUNDS = new BlockSoundGroup(
+    public static final BlockSoundGroup SCULK_SOUNDS = new BlockSoundGroup(
             1.0F,
             1.0F,
             RegisterSounds.BLOCK_SCULK_BREAK,
@@ -26,6 +26,36 @@ public abstract class RegisterBlocks {
             RegisterSounds.BLOCK_SCULK_PLACE,
             RegisterSounds.BLOCK_SCULK_HIT,
             RegisterSounds.BLOCK_SCULK_FALL
+    );
+
+    public static final BlockSoundGroup SCULK_VEIN_SOUNDS = new BlockSoundGroup(
+            1.0F,
+            1.0F,
+            RegisterSounds.BLOCK_SCULK_VEIN_BREAK,
+            RegisterSounds.BLOCK_SCULK_VEIN_STEP,
+            RegisterSounds.BLOCK_SCULK_VEIN_PLACE,
+            RegisterSounds.BLOCK_SCULK_VEIN_HIT,
+            RegisterSounds.BLOCK_SCULK_VEIN_FALL
+    );
+
+    public static final BlockSoundGroup SCULK_CATALYST_SOUNDS = new BlockSoundGroup(
+            1.0F,
+            1.0F,
+            RegisterSounds.BLOCK_SCULK_CATALYST_BREAK,
+            RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
+            RegisterSounds.BLOCK_SCULK_CATALYST_PLACE,
+            RegisterSounds.BLOCK_SCULK_CATALYST_HIT,
+            RegisterSounds.BLOCK_SCULK_CATALYST_FALL
+    );
+
+    public static final BlockSoundGroup SCULK_SHRIEKER_SOUNDS = new BlockSoundGroup(
+            1.0F,
+            1.0F,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_BREAK,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_STEP,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_PLACE,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_HIT,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_FALL
     );
 
     public static final AbstractBlock.Settings REINFORCED_DEEPSLATE_SETTINGS = FabricBlockSettings
@@ -85,16 +115,10 @@ public abstract class RegisterBlocks {
     public static final SlabBlock MUD_BRICKS_SLAB = new MudBricksSlab(MUD_BRICKS_SETTINGS);
     public static final StairsBlock MUD_BRICKS_STAIRS = new CustomStairs(Blocks.OAK_STAIRS.getDefaultState(), MUD_BRICKS_SETTINGS);
 
-    public static final Block SCULK_CATALYST = SculkCatalystBlock.SCULK_CATALYST_BLOCK;
+    public static final Block SCULK_CATALYST = new SculkCatalystBlock(AbstractBlock.Settings.of(Material.SCULK).strength(3.0F, 3.0F).sounds(SCULK_CATALYST_SOUNDS).luminance(state -> 6));
 
-    public static final Block SCULK = SculkBlock.SCULK_BLOCK;
-    public static final SculkShriekerBlock SCULK_SHRIEKER = new SculkShriekerBlock(AbstractBlock.Settings.of(Material.SCULK).strength(3.0F, 3.0F).sounds(new BlockSoundGroup(0.8f, 1.0f,
-            RegisterSounds.BLOCK_SCULK_SHRIEKER_BREAK,
-            RegisterSounds.BLOCK_SCULK_STEP,
-            RegisterSounds.BLOCK_SCULK_SHRIEKER_PLACE,
-            RegisterSounds.BLOCK_SCULK_HIT,
-            RegisterSounds.BLOCK_SCULK_FALL
-    )), 8);
+    public static final Block SCULK = new SculkBlock(AbstractBlock.Settings.of(Material.SCULK).strength(0.2F).sounds(SCULK_SOUNDS));
+    public static final SculkShriekerBlock SCULK_SHRIEKER = new SculkShriekerBlock(AbstractBlock.Settings.of(Material.SCULK, MapColor.BLACK).strength(3.0F, 3.0F).sounds(SCULK_SHRIEKER_SOUNDS), 8);
     public static final Block OCHRE_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block PEARLESCENT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block VERDANT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
@@ -102,7 +126,7 @@ public abstract class RegisterBlocks {
 
     // ALL BLOCKS HERE HAVE NO COLLISION
     public static final Block FROGSPAWN = new FrogspawnBlock(FROGSPAWN_PROPERTIES.nonOpaque().noCollision());
-    public static final Block SCULK_VEIN = SculkVeinBlock.SCULK_VEIN;
+    public static final Block SCULK_VEIN = new SculkVeinBlock(AbstractBlock.Settings.of(Material.SCULK).noCollision().strength(0.2F).sounds(SCULK_VEIN_SOUNDS));
 
     public static void RegisterBlocks() {
 

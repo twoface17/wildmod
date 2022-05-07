@@ -1,11 +1,9 @@
-/*package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.gen;
 
+import net.frozenblock.wildmod.block.AbstractLichenBlock;
 import net.frozenblock.wildmod.block.SculkVeinBlock;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
-import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
-import net.minecraft.block.AbstractLichenBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -13,6 +11,9 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Random;
+
+import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
 
 public interface SculkSpreadable {
     SculkSpreadable VEIN_ONLY_SPREADER = new SculkSpreadable() {
@@ -29,7 +30,7 @@ public interface SculkSpreadable {
 
         @Override
         public int spread(
-                Cursor cursor, WorldAccess world, BlockPos catalystPos, WildAbstractRandom random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock
+                Cursor cursor, WorldAccess world, BlockPos catalystPos, Random random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock
         ) {
             return cursor.getDecay() > 0 ? cursor.getCharge() : 0;
         }
@@ -44,10 +45,10 @@ public interface SculkSpreadable {
         return 1;
     }
 
-    default void spreadAtSamePosition(WorldAccess world, BlockState state, BlockPos pos, WildAbstractRandom random) {
+    default void spreadAtSamePosition(WorldAccess world, BlockState state, BlockPos pos, Random random) {
     }
 
-    default boolean method_41470(WorldAccess worldAccess, BlockPos blockPos, WildAbstractRandom abstractRandom) {
+    default boolean method_41470(WorldAccess worldAccess, BlockPos blockPos, Random abstractRandom) {
         return false;
     }
 
@@ -63,6 +64,5 @@ public interface SculkSpreadable {
         return 1;
     }
 
-    int spread(Cursor cursor, WorldAccess world, BlockPos catalystPos, WildAbstractRandom random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock);
+    int spread(Cursor cursor, WorldAccess world, BlockPos catalystPos, Random random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock);
 }
-*/

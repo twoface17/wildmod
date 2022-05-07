@@ -41,8 +41,9 @@ public class EntityPositionSource implements PositionSource {
             this.findEntityInWorld(world);
         }
 
-        return this.source.left().map((entity) -> entity.getPos().add(0.0, this.yOffset, 0.0));
+        return this.source.left().map(entity -> entity.getPos().add(0.0, (double)this.yOffset, 0.0));
     }
+
 
     private void findEntityInWorld(World world) {
         (this.source.map(Optional::of, (either) -> {

@@ -46,7 +46,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-public class AllayEntity extends PathAwareEntity implements InventoryOwner, SculkSensorListener.Callback {
+public class AllayEntity extends PathAwareEntity implements InventoryOwner, VibrationListener.Callback {
     private static final Logger field_39405 = LogUtils.getLogger();
     private static final int field_38405 = 16;
     private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
@@ -69,7 +69,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Scul
     public static final ImmutableList<Float> THROW_SOUND_PITCHES = ImmutableList.of(
             0.5625F, 0.625F, 0.75F, 0.9375F, 1.0F, 1.0F, 1.125F, 1.25F, 1.5F, 1.875F, 2.0F, 2.25F, new Float[]{2.5F, 3.0F, 3.75F, 4.0F}
     );
-    private final EntityGameEventHandler<SculkSensorListener> gameEventHandler;
+    private final EntityGameEventHandler<VibrationListener> gameEventHandler;
     private final SimpleInventory inventory = new SimpleInventory(1);
     private float field_38935;
     private float field_38936;
@@ -79,7 +79,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Scul
         this.moveControl = new FlightMoveControl(this, 20, true);
         this.setCanPickUpLoot(this.canPickUpLoot());
         this.gameEventHandler = new EntityGameEventHandler<>(
-                new SculkSensorListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0,0)
+                new VibrationListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0,0)
         );
     }
 
@@ -298,7 +298,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Scul
         return !this.isOnGround();
     }
 
-    public void updateEventHandler(BiConsumer<EntityGameEventHandler<SculkSensorListener>, ServerWorld> biConsumer) {
+    public void updateEventHandler(BiConsumer<EntityGameEventHandler<VibrationListener>, ServerWorld> biConsumer) {
         World var3 = this.world;
         if (var3 instanceof ServerWorld serverWorld) {
             biConsumer.accept(this.gameEventHandler, serverWorld);

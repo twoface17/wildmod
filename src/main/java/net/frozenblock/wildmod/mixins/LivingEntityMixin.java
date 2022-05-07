@@ -3,11 +3,10 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
 import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
-import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.liukrastapi.Sphere;
 import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
+import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -44,12 +43,12 @@ public class LivingEntityMixin {
 			BlockPos pos = entity.getBlockPos();
 			World world = entity.world;
 			if (SculkTags.entityTagContains(entity.getType(), SculkTags.DROPSXP) && world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
-				int numCatalysts= Sphere.blocksInSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world);
+				int numCatalysts= Sphere.blocksInSphere(pos, 9, RegisterBlocks.SCULK_CATALYST, world);
 				if (numCatalysts>0) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
-					SculkGrower.sculk(pos, world, entity, numCatalysts);
+					//SculkGrower.sculk(pos, world, entity, numCatalysts);
 					int rVal2 = getHighestRadius(world, pos);
-					ActivatorGrower.startGrowing(rVal2, rVal2, pos, world);
+					//ActivatorGrower.startGrowing(rVal2, rVal2, pos, world);
 				}
 			}
 		}
@@ -57,10 +56,10 @@ public class LivingEntityMixin {
 
 	public int getHighestRadius(World world, BlockPos pos) {
 		int current = 3;
-		for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, SculkCatalystBlock.SCULK_CATALYST_BLOCK, world)) {
+		for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, RegisterBlocks.SCULK_CATALYST, world)) {
 			BlockEntity catalyst = world.getBlockEntity(blockPos);
 			if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-				current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);
+				//current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);
 			}
 		}
 		return current;

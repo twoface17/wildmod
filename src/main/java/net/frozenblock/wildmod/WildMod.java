@@ -61,7 +61,7 @@ public class WildMod implements ModInitializer {
         EMERGE = ActivityInvoker.callRegister("emerge");
         DIG = ActivityInvoker.callRegister("dig");
 
-        AnimationChannel.Interpolations.init();
+        new Transformation.Interpolations();
 
         RegisterAccurateSculk.RegisterAccurateSculk();
         GameEvent.RegisterGameEvents();
@@ -77,9 +77,9 @@ public class WildMod implements ModInitializer {
         return Registry.register(registry, identifier, values);
     }
 
-    public static Registry<AnimationDefinition> ANIMATION_DEFINITIONS = FabricRegistryBuilder.createSimple(AnimationDefinition.class, new Identifier(WildMod.MOD_ID, "animation_definitions")).buildAndRegister();
-    public static Registry<AnimationChannel.Interpolation> ANIMATION_CHANNEL_INTERPOLATIONS = FabricRegistryBuilder.createSimple(AnimationChannel.Interpolation.class, new Identifier(WildMod.MOD_ID, "animation_channel_interpolations")).buildAndRegister();
-    public static Registry<AnimationChannel.Target> ANIMATION_CHANNEL_TARGETS = FabricRegistryBuilder.createSimple(AnimationChannel.Target.class, new Identifier(WildMod.MOD_ID, "animation_channel_targets")).buildAndRegister();
+    public static Registry<Animation> ANIMATION_DEFINITIONS = FabricRegistryBuilder.createSimple(Animation.class, new Identifier(WildMod.MOD_ID, "animation_definitions")).buildAndRegister();
+    public static Registry<Transformation.Interpolation> ANIMATION_CHANNEL_INTERPOLATIONS = FabricRegistryBuilder.createSimple(Transformation.Interpolation.class, new Identifier(WildMod.MOD_ID, "animation_channel_interpolations")).buildAndRegister();
+    public static Registry<Transformation.Target> ANIMATION_CHANNEL_TARGETS = FabricRegistryBuilder.createSimple(Transformation.Target.class, new Identifier(WildMod.MOD_ID, "animation_channel_targets")).buildAndRegister();
 
     public static final SensorType<TemptationsSensor> FROG_TEMPTATIONS = SensorTypeInvoker.callRegister("frog_temptations", () -> new TemptationsSensor(FrogBrain.getTemptItems()));
     public static final SensorType<FrogAttackablesSensor> FROG_ATTACKABLES = SensorTypeInvoker.callRegister("frog_attackables", FrogAttackablesSensor::new);

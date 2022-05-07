@@ -16,54 +16,65 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.dynamic.DynamicSerializableUuid;
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class WardenAngerManager {
     public static final Codec<UUID> UUID = DynamicSerializableUuid.CODEC;
     @VisibleForTesting
-    protected static final int field_38733 = 40;
+    protected static final int field_38733 = 2;
     @VisibleForTesting
     protected static final int maxAnger = 150;
     private static final int angerDecreasePerTick = 1;
-    private int updateTimer = MathAddon.nextBetween(WildAbstractRandom.createAtomic(), 0, 40);
-    private static final Codec<Pair<UUID, Integer>> SUSPECT_CODEC = RecordCodecBuilder.create((instance) -> {
-        return instance.group(UUID.fieldOf("uuid").forGetter(Pair::getFirst), Codecs.NONNEGATIVE_INT.fieldOf("anger").forGetter(Pair::getSecond)).apply(instance, Pair::of);
-    });
-    public static final Codec<WardenAngerManager> CODEC = RecordCodecBuilder.create((instance) -> {
-        return instance.group(SUSPECT_CODEC.listOf().fieldOf("suspects").orElse(Collections.emptyList()).forGetter(WardenAngerManager::getSuspects)).apply(instance, WardenAngerManager::new);
-    });
+    private int updateTimer = MathAddon.nextBetween(WildAbstractRandom.createAtomic(), 0, 2);
+    private static final Codec<Pair<UUID, Integer>> SUSPECT_CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(UUID.fieldOf("uuid").forGetter(Pair::getFirst), Codecs.NONNEGATIVE_INT.fieldOf("anger").forGetter(Pair::getSecond))
+                    .apply(instance, Pair::of)
+    );
+    private final Predicate<Entity> field_39114;
     @VisibleForTesting
-    protected final SortedSet<Entity> suspects = new ObjectAVLTreeSet<>(new SuspectComparator(this));
+    protected final ArrayList<Entity> suspects;
+    private final WardenAngerManager.SuspectComparator field_39115;
     @VisibleForTesting
-    protected final Object2IntMap<Entity> suspectsToAngerLevel = new Object2IntOpenHashMap<>();
+    protected final Object2IntMap<Entity> suspectsToAngerLevel;
     @VisibleForTesting
     protected final Object2IntMap<UUID> suspectUuidsToAngerLevel;
 
-    public WardenAngerManager(List<Pair<UUID, Integer>> suspects) {
-        this.suspectUuidsToAngerLevel = new Object2IntOpenHashMap<>(suspects.size());
-        suspects.forEach((pair) -> {
-            this.suspectUuidsToAngerLevel.put(pair.getFirst(), pair.getSecond());
-        });
+    public static Codec<WardenAngerManager> method_43692(Predicate<Entity> predicate) {
+        return RecordCodecBuilder.create(
+                instance -> instance.group(SUSPECT_CODEC.listOf().fieldOf("suspects").orElse(Collections.emptyList()).forGetter(WardenAngerManager::getSuspects))
+                        .apply(instance, list -> new WardenAngerManager(predicate, list))
+        );
+    }
+
+    public WardenAngerManager(Predicate<Entity> predicate, List<Pair<UUID, Integer>> list) {
+        this.field_39114 = predicate;
+        this.suspects = new ArrayList<>();
+        this.field_39115 = new WardenAngerManager.SuspectComparator(this);
+        this.suspectsToAngerLevel = new Object2IntOpenHashMap<>();
+        this.suspectUuidsToAngerLevel = new Object2IntOpenHashMap<>(list.size());
+        list.forEach(pair -> this.suspectUuidsToAngerLevel.put(pair.getFirst(), pair.getSecond()));
     }
 
     private List<Pair<UUID, Integer>> getSuspects() {
-        return Streams.concat(this.suspects.stream().map((suspect) -> {
-            return Pair.of(suspect.getUuid(), this.suspectsToAngerLevel.getInt(suspect));
-        }), this.suspectUuidsToAngerLevel.object2IntEntrySet().stream().map((entry) -> {
-            return Pair.of(entry.getKey(), entry.getIntValue());
-        })).collect(Collectors.toList());
+        return Streams.concat(
+            this.suspects.stream().map(suspect -> Pair.of(suspect.getUuid(), this.suspectsToAngerLevel.getInt(suspect))),
+            this.suspectUuidsToAngerLevel.object2IntEntrySet().stream().map(entry -> Pair.of(entry.getKey(), entry.getIntValue()))
+        )
+        .collect(Collectors.toList());
     }
 
     public void tick(ServerWorld world, Predicate<Entity> suspectPredicate) {
         --this.updateTimer;
         if (this.updateTimer <= 0) {
             this.updateSuspectsMap(world);
-            this.updateTimer = 40;
+            this.updateTimer = 2;
         }
 
         ObjectIterator<Object2IntMap.Entry<UUID>> objectIterator = this.suspectUuidsToAngerLevel.object2IntEntrySet().iterator();
@@ -80,21 +91,28 @@ public class WardenAngerManager {
 
         ObjectIterator<Object2IntMap.Entry<Entity>> objectIterator2 = this.suspectsToAngerLevel.object2IntEntrySet().iterator();
 
-        while(true) {
-            while(objectIterator2.hasNext()) {
-                Object2IntMap.Entry<Entity> entry2 = objectIterator2.next();
-                int j = entry2.getIntValue();
-                Entity entity = entry2.getKey();
-                if (j > 1 && suspectPredicate.test(entity)) {
-                    entry2.setValue(j - 1);
-                } else {
-                    this.suspects.remove(entity);
-                    objectIterator2.remove();
+        while(objectIterator2.hasNext()) {
+            Object2IntMap.Entry<Entity> entry2 = objectIterator2.next();
+            int j = entry2.getIntValue();
+            Entity entity = entry2.getKey();
+            Entity.RemovalReason removalReason = entity.getRemovalReason();
+            if (j > 1 && suspectPredicate.test(entity) && removalReason == null) {
+                entry2.setValue(j - 1);
+            } else {
+                this.suspects.remove(entity);
+                objectIterator2.remove();
+                if (j > 1 && removalReason != null) {
+                    switch(removalReason) {
+                        case CHANGED_DIMENSION:
+                        case UNLOADED_TO_CHUNK:
+                        case UNLOADED_WITH_PLAYER:
+                            this.suspectUuidsToAngerLevel.put(entity.getUuid(), j - 1);
+                    }
                 }
             }
-
-            return;
         }
+
+        this.suspects.sort(this.field_39115);
     }
 
     private void updateSuspectsMap(ServerWorld world) {
@@ -111,20 +129,20 @@ public class WardenAngerManager {
             }
         }
 
+        this.suspects.sort(this.field_39115);
     }
 
     public int increaseAngerAt(Entity entity, int amount) {
-        boolean bl = !this.suspects.remove(entity);
-        int i = this.suspectsToAngerLevel.computeInt(entity, (suspect, anger) -> {
-            return Math.min(150, (anger == null ? 0 : anger) + amount);
-        });
+        boolean bl = !this.suspectsToAngerLevel.containsKey(entity);
+        int i = this.suspectsToAngerLevel.computeInt(entity, (suspect, anger) -> Math.min(150, (anger == null ? 0 : anger) + amount));
         if (bl) {
             int j = this.suspectUuidsToAngerLevel.removeInt(entity.getUuid());
             i += j;
             this.suspectsToAngerLevel.put(entity, i);
+            this.suspects.add(entity);
         }
 
-        this.suspects.add(entity);
+        this.suspects.sort(this.field_39115);
         return i;
     }
 
@@ -135,7 +153,7 @@ public class WardenAngerManager {
 
     @Nullable
     private Entity getPrimeSuspect1() {
-        return this.suspects.isEmpty() ? null : this.suspects.first();
+        return this.suspects.stream().filter(this.field_39114).findFirst().orElse(null);
     }
 
     public int getPrimeSuspectAnger() {
@@ -143,27 +161,19 @@ public class WardenAngerManager {
     }
 
     public Optional<LivingEntity> getPrimeSuspect() {
-        return Optional.ofNullable(this.getPrimeSuspect1()).filter((suspect) -> {
-            return suspect instanceof LivingEntity;
-        }).map((suspect) -> {
-            return (LivingEntity)suspect;
-        });
+        return Optional.ofNullable(this.getPrimeSuspect1()).filter(suspect -> suspect instanceof LivingEntity).map(suspect -> (LivingEntity)suspect);
     }
 
     @VisibleForTesting
     protected static record SuspectComparator(WardenAngerManager angerManagement) implements Comparator<Entity> {
-        protected SuspectComparator(WardenAngerManager angerManagement) {
-            this.angerManagement = angerManagement;
-        }
-
         public int compare(Entity entity, Entity entity2) {
             if (entity.equals(entity2)) {
                 return 0;
             } else {
                 int i = this.angerManagement.suspectsToAngerLevel.getOrDefault(entity, 0);
                 int j = this.angerManagement.suspectsToAngerLevel.getOrDefault(entity2, 0);
-                boolean bl = i >= Angriness.ANGRY.getThreshold();
-                boolean bl2 = j >= Angriness.ANGRY.getThreshold();
+                boolean bl = Angriness.getForAnger(i).method_43691();
+                boolean bl2 = Angriness.getForAnger(j).method_43691();
                 if (bl != bl2) {
                     return bl ? -1 : 1;
                 } else {
@@ -178,10 +188,6 @@ public class WardenAngerManager {
                     return i > j ? -1 : 1;
                 }
             }
-        }
-
-        public WardenAngerManager angerManagement() {
-            return this.angerManagement;
         }
     }
 }

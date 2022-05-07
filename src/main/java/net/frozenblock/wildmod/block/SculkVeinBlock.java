@@ -1,34 +1,47 @@
 package net.frozenblock.wildmod.block;
 
+import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
+import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterSounds;
+import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
+import net.frozenblock.wildmod.world.gen.SculkSpreadable;
 import net.minecraft.block.*;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.item.Items;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.Property;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.function.ToIntFunction;
+import java.util.Collection;
+import java.util.Random;
 
-public class SculkVeinBlock extends GlowLichenBlock/*AbstractLichenBlock */implements /*SculkSpreadable, */Waterloggable {
+import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
+
+public class SculkVeinBlock extends AbstractLichenBlock implements SculkSpreadable, Waterloggable {
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    //private final LichenGrower allGrowTypeGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GROW_TYPES));
-    //private final LichenGrower samePositionOnlyGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GrowType.SAME_POSITION));
+    private final LichenGrower allGrowTypeGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GROW_TYPES));
+    private final LichenGrower samePositionOnlyGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GrowType.SAME_POSITION));
 
-    public SculkVeinBlock(AbstractBlock.Settings settings) {
+    public SculkVeinBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(WATERLOGGED, false).with(Properties.DOWN, true).with(Properties.UP, false));
+        this.setDefaultState((BlockState)this.getDefaultState().with(WATERLOGGED, false));
     }
 
-    /*public LichenGrower getGrower() {
-        return allGrowTypeGrower;
+    public LichenGrower getGrower() {
+        return this.allGrowTypeGrower;
     }
 
     public LichenGrower getSamePositionOnlyGrower() {
@@ -42,7 +55,7 @@ public class SculkVeinBlock extends GlowLichenBlock/*AbstractLichenBlock */imple
         for(Direction direction : directions) {
             BlockPos blockPos = pos.offset(direction);
             if (canGrowOn(world, direction, blockPos, world.getBlockState(blockPos))) {
-                blockState = (BlockState)blockState.with(getProperty(direction), true);
+                blockState = blockState.with(getProperty(direction), true);
                 bl = true;
             }
         }
@@ -59,7 +72,7 @@ public class SculkVeinBlock extends GlowLichenBlock/*AbstractLichenBlock */imple
         }
     }
 
-    public void spreadAtSamePosition(WorldAccess world, BlockState state, BlockPos pos, WildAbstractRandom random) {
+    public void spreadAtSamePosition(WorldAccess world, BlockState state, BlockPos pos, Random random) {
         if (state.isOf(this)) {
             for(Direction direction : DIRECTIONS) {
                 BooleanProperty booleanProperty = getProperty(direction);
@@ -67,58 +80,141 @@ public class SculkVeinBlock extends GlowLichenBlock/*AbstractLichenBlock */imple
                     state = state.with(booleanProperty, false);
                 }
             }
+
+            if (!hasAnyDirection(state)) {
+                FluidState fluidState = world.getFluidState(pos);
+                state = (fluidState.isEmpty() ? Blocks.AIR : Blocks.WATER).getDefaultState();
+            }
+
+            world.setBlockState(pos, state, 3);
+            SculkSpreadable.super.spreadAtSamePosition(world, state, pos, random);
         }
     }
 
-    */public static ToIntFunction<BlockState> getLuminanceSupplier(int i) {
-        return blockState -> AbstractLichenBlock.hasAnyDirection(blockState) ? i : 0;
-    }
-    @Nullable
-    public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
-        BlockPos blockPos = itemPlacementContext.getBlockPos();
-        FluidState fluidState = itemPlacementContext.getWorld().getFluidState(blockPos);
-        return this.getDefaultState().with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+    public int spread(
+            Cursor cursor, WorldAccess world, BlockPos catalystPos, Random random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock
+    ) {
+        if (shouldConvertToBlock && this.convertToBlock(spreadManager, world, cursor.getPos(), random)) {
+            return cursor.getCharge() - 1;
+        } else {
+            return random.nextInt(spreadManager.getSpreadChance()) == 0 ? MathHelper.floor((float)cursor.getCharge() * 0.5F) : cursor.getCharge();
+        }
     }
 
-    @Override
+    private boolean convertToBlock(SculkSpreadManager spreadManager, WorldAccess world, BlockPos pos, Random random) {
+        BlockState blockState = world.getBlockState(pos);
+        TagKey<Block> tagKey = spreadManager.getReplaceableTag();
+
+        for(Direction direction : LichenGrower.shuffle(random)) {
+            if (hasDirection(blockState, direction)) {
+                BlockPos blockPos = pos.offset(direction);
+                if (world.getBlockState(blockPos).isIn(tagKey)) {
+                    BlockState blockState2 = RegisterBlocks.SCULK.getDefaultState();
+                    world.setBlockState(blockPos, blockState2, 3);
+                    world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_SPREAD, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    this.allGrowTypeGrower.grow(blockState2, world, blockPos, spreadManager.isWorldGen());
+                    Direction direction2 = direction.getOpposite();
+
+                    for(Direction direction3 : DIRECTIONS) {
+                        if (direction3 != direction2) {
+                            BlockPos blockPos2 = blockPos.offset(direction3);
+                            BlockState blockState3 = world.getBlockState(blockPos2);
+                            if (blockState3.isOf(this)) {
+                                this.spreadAtSamePosition(world, blockState3, blockPos2, random);
+                            }
+                        }
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean veinCoversSculkReplaceable(WorldAccess world, BlockState state, BlockPos pos) {
+        if (!state.isOf(RegisterBlocks.SCULK_VEIN)) {
+            return false;
+        } else {
+            for(Direction direction : DIRECTIONS) {
+                if (hasDirection(state, direction) && world.getBlockState(pos.offset(direction)).isIn(SculkTags.SCULK_REPLACEABLE)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    public BlockState getStateForNeighborUpdate(
+            BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos
+    ) {
+        if (state.get(WATERLOGGED)) {
+            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(WATERLOGGED);
+        builder.add(new Property[]{WATERLOGGED});
     }
 
-    @Override
-    public BlockState getStateForNeighborUpdate(BlockState blockState, Direction direction, BlockState blockState2, WorldAccess worldAccess, BlockPos blockPos, BlockPos blockPos2) {
-        if (blockState.get(WATERLOGGED)) {
-            worldAccess.createAndScheduleFluidTick(blockPos, Fluids.WATER, Fluids.WATER.getTickRate(worldAccess));
+    public boolean canReplace(BlockState state, ItemPlacementContext context) {
+        return !context.getStack().isOf(RegisterBlocks.SCULK_VEIN.asItem()) || super.canReplace(state, context);
+    }
+
+    public FluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+    }
+
+    public PistonBehavior getPistonBehavior(BlockState state) {
+        return PistonBehavior.DESTROY;
+    }
+
+    public class SculkVeinGrowChecker extends LichenGrower.LichenGrowChecker {
+        private final LichenGrower.GrowType[] growTypes;
+
+        public SculkVeinGrowChecker(LichenGrower.GrowType... growTypes) {
+            super(SculkVeinBlock.this);
+            this.growTypes = growTypes;
         }
-        return super.getStateForNeighborUpdate(blockState, direction, blockState2, worldAccess, blockPos, blockPos2);
-    }
 
-    @Override
-    public boolean canReplace(BlockState blockState, ItemPlacementContext itemPlacementContext) {
-        return !itemPlacementContext.getStack().isOf(SCULK_VEIN.asItem()) || super.canReplace(blockState, itemPlacementContext);
-    }
+        public boolean canGrow(BlockView world, BlockPos pos, BlockPos growPos, Direction direction, BlockState state) {
+            BlockState blockState = world.getBlockState(growPos.offset(direction));
+            if (!blockState.isOf(RegisterBlocks.SCULK) && !blockState.isOf(RegisterBlocks.SCULK_CATALYST) && !blockState.isOf(Blocks.MOVING_PISTON)) {
+                if (pos.getManhattanDistance(growPos) == 2) {
+                    BlockPos blockPos = pos.offset(direction.getOpposite());
+                    if (world.getBlockState(blockPos).isSideSolidFullSquare(world, blockPos, direction)) {
+                        return false;
+                    }
+                }
 
-
-    @Override
-    public FluidState getFluidState(BlockState blockState) {
-        if (blockState.get(WATERLOGGED)) {
-            return Fluids.WATER.getStill(false);
+                FluidState fluidState = state.getFluidState();
+                if (!fluidState.isEmpty() && !fluidState.isOf(Fluids.WATER)) {
+                    return false;
+                } else {
+                    Material material = state.getMaterial();
+                    if (material == Material.FIRE) {
+                        return false;
+                    } else {
+                        return material.isReplaceable() || super.canGrow(world, pos, growPos, direction, state);
+                    }
+                }
+            } else {
+                return false;
+            }
         }
-        return super.getFluidState(blockState);
-    }
 
-    @Override
-    public boolean isTranslucent(BlockState blockState, BlockView blockView, BlockPos blockPos) {
-        return blockState.getFluidState().isEmpty();
-    }
+        public LichenGrower.GrowType[] getGrowTypes() {
+            return this.growTypes;
+        }
 
-    public static final GlowLichenBlock SCULK_VEIN = new GlowLichenBlock(GlowLichenBlock.Settings.of(Material.SCULK).noCollision().strength(0.2F).sounds(new BlockSoundGroup(1.0F, 1.0F,
-            RegisterSounds.BLOCK_SCULK_VEIN_BREAK,
-            RegisterSounds.BLOCK_SCULK_STEP,
-            RegisterSounds.BLOCK_SCULK_VEIN_PLACE,
-            RegisterSounds.BLOCK_SCULK_HIT,
-            RegisterSounds.BLOCK_SCULK_FALL
-    )));
+        public boolean canGrow(BlockState state) {
+            return !state.isOf(RegisterBlocks.SCULK_VEIN);
+        }
+    }
 }
 

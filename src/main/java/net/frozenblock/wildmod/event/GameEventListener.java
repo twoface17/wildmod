@@ -1,12 +1,12 @@
 package net.frozenblock.wildmod.event;
 
-import net.frozenblock.wildmod.liukrastapi.Vec3d;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.event.PositionSource;
 
-public interface GameEventListener {
+public interface GameEventListener extends net.minecraft.world.event.listener.GameEventListener {
     PositionSource getPositionSource();
 
     int getRange();
 
-    boolean listen(ServerWorld world, GameEvent event, GameEvent.Emitter emitter, Vec3d pos);
+    boolean listen(ServerWorld world, GameEvent.class_7447 arg);
 }

@@ -44,13 +44,15 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent BLOCK_MANGROVE_ROOTS_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.hit"));
         public static final SoundEvent BLOCK_MANGROVE_ROOTS_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.fall"));
     //Sculk
-        public static final SoundEvent BLOCK_SCULK_STEP = new SoundEvent(new Identifier("accuratesculk", "block.sculk.step"));
-        public static final SoundEvent BLOCK_SCULK_HIT = new SoundEvent(new Identifier("accuratesculk", "block.sculk.hit"));
-        public static final SoundEvent BLOCK_SCULK_FALL = new SoundEvent(new Identifier("accuratesculk", "block.sculk.fall"));
-        public static final SoundEvent BLOCK_SCULK_BREAK = new SoundEvent(new Identifier("accuratesculk", "block.sculk.break"));
-        public static final SoundEvent BLOCK_SCULK_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk.place"));
+        public static final SoundEvent BLOCK_SCULK_SPREAD = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.spread"));
+        public static final SoundEvent BLOCK_SCULK_CHARGE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.charge"));
+        public static final SoundEvent BLOCK_SCULK_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.break"));
+        public static final SoundEvent BLOCK_SCULK_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.fall"));
+        public static final SoundEvent BLOCK_SCULK_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.hit"));
+        public static final SoundEvent BLOCK_SCULK_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.place"));
+        public static final SoundEvent BLOCK_SCULK_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.step"));
     //Sculk Catalyst
-    public static final SoundEvent BLOCK_SCULK_CATALYST_BLOOM = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.bloom"));
+        public static final SoundEvent BLOCK_SCULK_CATALYST_BLOOM = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.bloom"));
         public static final SoundEvent BLOCK_SCULK_CATALYST_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.break"));
         public static final SoundEvent BLOCK_SCULK_CATALYST_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.fall"));
         public static final SoundEvent BLOCK_SCULK_CATALYST_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.hit"));
@@ -59,13 +61,18 @@ public class RegisterSounds { //Register sound definitions
     //Sculk Sensor
         public static final SoundEvent BLOCK_SCULK_SENSOR_RECEIVE_RF = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_sensor.receive_rf"));
     //Sculk Shrieker
-        public static final SoundEvent BLOCK_SCULK_SHRIEKER_BREAK = new SoundEvent(new Identifier("accuratesculk", "block.sculk_shrieker.break"));
-        public static final SoundEvent BLOCK_SCULK_SHRIEKER_PLACE = new SoundEvent(new Identifier("accuratesculk", "block.sculk_shrieker.place"));
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.break"));
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.fall"));
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.hit"));
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.place"));
         public static final SoundEvent BLOCK_SCULK_SHRIEKER_SHRIEK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.shriek"));
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.step"));
     //Sculk Vein
-        public static final SoundEvent BLOCK_SCULK_VEIN_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.place"));
         public static final SoundEvent BLOCK_SCULK_VEIN_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.break"));
-
+        public static final SoundEvent BLOCK_SCULK_VEIN_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.fall"));
+        public static final SoundEvent BLOCK_SCULK_VEIN_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.hit"));
+        public static final SoundEvent BLOCK_SCULK_VEIN_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.place"));
+        public static final SoundEvent BLOCK_SCULK_VEIN_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.step"));
     /** ENTITIES **/
     //Chest Boat
         public static final SoundEvent ENTITY_CHEST_BOAT_PADDLE_WATER = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.chest_boat.paddle_water"));

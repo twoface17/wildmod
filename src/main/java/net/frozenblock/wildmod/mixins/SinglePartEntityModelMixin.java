@@ -12,7 +12,7 @@ import java.util.Optional;
 @Mixin(SinglePartEntityModel.class)
 public abstract class SinglePartEntityModelMixin implements ExpandedSinglePartEntityModel {
 	@Override
-	public Optional<ModelPart> getAnyDescendantWithName(String string) {
+	public Optional<ModelPart> getChild(String string) {
 		return this.getPart().traverse().filter(modelPart -> ((ExpandedModelPart)modelPart).hasChild(string)).findFirst().map(modelPart -> modelPart.getChild(string));
 	}
 

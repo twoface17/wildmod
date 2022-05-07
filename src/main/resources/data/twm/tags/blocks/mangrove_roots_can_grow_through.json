@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-	"minecraft:mud",
+	"twm:mud",
 	"twm:muddy_mangrove_roots",
 	"twm:mangrove_roots",
 	"minecraft:moss_carpet",

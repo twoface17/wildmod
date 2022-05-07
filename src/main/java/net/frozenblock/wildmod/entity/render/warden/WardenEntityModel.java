@@ -11,6 +11,7 @@ import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPartData;
 import net.minecraft.client.model.ModelTransform;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.util.Util;
@@ -23,7 +24,7 @@ import java.util.List;
 public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityModel<T> {
     private static final float field_38324 = 13.0F;
     private static final float field_38325 = 1.0F;
-    private static final Vec3f field_38326 = new Vec3f();
+    private static final Vec3f field_39195 = new Vec3f();
     private final ModelPart root;
     protected final ModelPart bone;
     protected final ModelPart body;
@@ -41,7 +42,7 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
     private final List<ModelPart> headAndLimbs;
     private final List<ModelPart> bodyHeadAndLimbs;
 
-     public WardenEntityModel(ModelPart root) {
+    public WardenEntityModel(ModelPart root) {
         super(RenderLayer::getEntityCutoutNoCull);
         this.root = root;
         this.bone = root.getChild("bone");
@@ -81,36 +82,31 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
     public void setAngles(T wardenEntity, float f, float g, float h, float i, float j) {
         this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetTransform());
         float k = h - (float)wardenEntity.age;
-        long l = Util.getMeasuringTimeMs();
         this.setHeadAngle(i, j);
         this.setLimbAngles(f, g);
         this.setHeadAndBodyAngles(h);
         this.setTendrilPitches(wardenEntity, h, k);
-        this.runAnimation(wardenEntity.attackingAnimationState, WardenAnimations.ATTACKING, l);
-        this.runAnimation(wardenEntity.chargingSonicBoomAnimationState, WardenAnimations.CHARGING_SONIC_BOOM, l);
-        this.runAnimation(wardenEntity.diggingAnimationState, WardenAnimations.DIGGING, l);
-        this.runAnimation(wardenEntity.emergingAnimationState, WardenAnimations.EMERGING, l);
-        this.runAnimation(wardenEntity.roaringAnimationState, WardenAnimations.ROARING, l);
-        this.runAnimation(wardenEntity.sniffingAnimationState, WardenAnimations.SNIFFING, l);
+        this.method_43781(wardenEntity.attackingAnimationState, WardenAnimations.ATTACKING);
+        this.method_43781(wardenEntity.chargingSonicBoomAnimationState, WardenAnimations.CHARGING_SONIC_BOOM);
+        this.method_43781(wardenEntity.diggingAnimationState, WardenAnimations.DIGGING);
+        this.method_43781(wardenEntity.emergingAnimationState, WardenAnimations.EMERGING);
+        this.method_43781(wardenEntity.roaringAnimationState, WardenAnimations.ROARING);
+        this.method_43781(wardenEntity.sniffingAnimationState, WardenAnimations.SNIFFING);
     }
 
     private void setHeadAngle(float yaw, float pitch) {
-        this.head.pitch = pitch * 0.017453292F;
-        this.head.yaw = yaw * 0.017453292F;
+        this.head.pitch = pitch * (float) (Math.PI / 180.0);
+        this.head.yaw = yaw * (float) (Math.PI / 180.0);
     }
 
     private void setHeadAndBodyAngles(float animationProgress) {
         float f = animationProgress * 0.1F;
         float g = MathHelper.cos(f);
         float h = MathHelper.sin(f);
-        ModelPart var10000 = this.head;
-        var10000.roll += 0.06F * g;
-        var10000 = this.head;
-        var10000.pitch += 0.06F * h;
-        var10000 = this.body;
-        var10000.roll += 0.025F * h;
-        var10000 = this.body;
-        var10000.pitch += 0.025F * g;
+        this.head.roll += 0.06F * g;
+        this.head.pitch += 0.06F * h;
+        this.body.roll += 0.025F * h;
+        this.body.pitch += 0.025F * g;
     }
 
     private void setLimbAngles(float angle, float distance) {
@@ -119,14 +115,12 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
         float h = MathHelper.cos(g);
         float i = MathHelper.sin(g);
         float j = Math.min(0.35F, f);
-        ModelPart var10000 = this.head;
-        var10000.roll += 0.3F * i * f;
-        var10000 = this.head;
-        var10000.pitch += 1.2F * MathHelper.cos(g + 1.5707964F) * j;
+        this.head.roll += 0.3F * i * f;
+        this.head.pitch += 1.2F * MathHelper.cos(g + (float) (Math.PI / 2)) * j;
         this.body.roll = 0.1F * i * f;
         this.body.pitch = 1.0F * h * j;
         this.leftLeg.pitch = 1.0F * h * f;
-        this.rightLeg.pitch = 1.0F * MathHelper.cos(g + 3.1415927F) * f;
+        this.rightLeg.pitch = 1.0F * MathHelper.cos(g + (float) Math.PI) * f;
         this.leftArm.pitch = -(0.8F * h * f);
         this.leftArm.roll = 0.0F;
         this.rightArm.pitch = -(0.8F * i * f);
@@ -178,15 +172,9 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
     }
 
     private void setTendrilPitches(T warden, float animationProgress, float tickDelta) {
-        float f = warden.getTendrilPitch(tickDelta) * (float)(Math.cos((double)animationProgress * 2.25D) * 3.141592653589793D * 0.10000000149011612D);
+        float f = warden.getTendrilPitch(tickDelta) * (float)(Math.cos((double)animationProgress * 2.25) * Math.PI * 0.1F);
         this.leftTendril.pitch = f;
         this.rightTendril.pitch = -f;
-    }
-
-    public void runAnimation(AnimationState animationState, AnimationDefinition animation, long time) {
-        animationState.run((state) -> {
-            KeyframeAnimations.animate(this, animation, time - state.getStartTime(), 1.0F, field_38326);
-        });
     }
 
     public ModelPart getPart() {
@@ -207,5 +195,14 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
 
     public List<ModelPart> getBodyHeadAndLimbs() {
         return this.bodyHeadAndLimbs;
+    }
+
+    protected void method_43781(AnimationState animationState, Animation animation) {
+        this.method_43782(animationState, animation, 1.0F);
+    }
+
+    protected void method_43782(AnimationState animationState, Animation animation, float f) {
+        animationState.method_43686(MinecraftClient.getInstance().isPaused(), f);
+        animationState.run(animationStatex -> AnimationHelper.animate(this, animation, animationStatex.method_43687(), 1.0F, field_39195));
     }
 }

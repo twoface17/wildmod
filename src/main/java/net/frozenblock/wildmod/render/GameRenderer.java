@@ -7,14 +7,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Program;
-import net.minecraft.client.render.BufferBuilderStorage;
-import net.minecraft.client.render.Shader;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.gl.ShaderEffect;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.render.*;
+import net.minecraft.client.render.item.HeldItemRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.resource.ResourceFactory;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.gen.random.AbstractRandom;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -24,7 +28,7 @@ import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
 public class GameRenderer extends net.minecraft.client.render.GameRenderer {
-    private final Map<String, Shader> shaders;
+    private final Map<String, Shader> shaders = Maps.newHashMap();
     private static Shader renderTypeEntityTranslucentEmissiveShader;
 
     @Nullable
@@ -40,9 +44,38 @@ public class GameRenderer extends net.minecraft.client.render.GameRenderer {
     @Nullable
     private static Shader renderTypeTextShader;
 
-    public GameRenderer(MinecraftClient client, ResourceManager resourceManager, BufferBuilderStorage buffers) {
+    private float skyDarkness;
+    private float lastSkyDarkness;
+    @Nullable
+    private ShaderEffect shader;
+    private final MinecraftClient client;
+    private final ResourceManager resourceManager;
+    private final AbstractRandom random = WildAbstractRandom.createAtomic();
+    private float viewDistance;
+    public final HeldItemRenderer firstPersonRenderer;
+    private final MapRenderer mapRenderer;
+    private final BufferBuilderStorage buffers;
+    private int ticks;
+    private float fovMultiplier;
+    private float lastFovMultiplier;
+    private boolean renderHand = true;
+    private final LightmapTextureManager lightmapTextureManager;
+    private final Camera camera = new Camera();
+    @Nullable
+    private ItemStack floatingItem;
+    private int floatingItemTimeLeft;
+    private float floatingItemWidth;
+    private float floatingItemHeight;
+
+    public GameRenderer(MinecraftClient client, HeldItemRenderer heldItemRenderer, ResourceManager resourceManager, BufferBuilderStorage buffers) {
         super(client, resourceManager, buffers);
-        this.shaders = Maps.newHashMap();
+        this.client = client;
+        this.resourceManager = resourceManager;
+        this.firstPersonRenderer = heldItemRenderer;
+        this.mapRenderer = new MapRenderer(client.getTextureManager());
+        this.lightmapTextureManager = new LightmapTextureManager(this, client);
+        this.buffers = buffers;
+        this.shader = null;
     }
 
     public void preloadShaders(ResourceFactory factory) {
@@ -99,6 +132,73 @@ public class GameRenderer extends net.minecraft.client.render.GameRenderer {
         }
 
         super.loadShaders(manager);
+    }
+
+    private void clearShaders() {
+        RenderSystem.assertOnRenderThread();
+        this.shaders.values().forEach(Shader::close);
+        this.shaders.clear();
+    }
+
+    @Nullable
+    public Shader getShader(@Nullable String name) {
+        return name == null ? null : this.shaders.get(name);
+    }
+
+    public void tick() {
+        this.updateFovMultiplier();
+        this.lightmapTextureManager.tick();
+        if (this.client.getCameraEntity() == null) {
+            this.client.setCameraEntity(this.client.player);
+        }
+
+        this.camera.updateEyeHeight();
+        ++this.ticks;
+        this.firstPersonRenderer.updateHeldItems();
+        this.client.worldRenderer.tickRainSplashing(this.camera);
+        this.lastSkyDarkness = this.skyDarkness;
+        if (this.client.inGameHud.getBossBarHud().shouldDarkenSky()) {
+            this.skyDarkness += 0.05F;
+            if (this.skyDarkness > 1.0F) {
+                this.skyDarkness = 1.0F;
+            }
+        } else if (this.skyDarkness > 0.0F) {
+            this.skyDarkness -= 0.0125F;
+        }
+
+        if (this.floatingItemTimeLeft > 0) {
+            --this.floatingItemTimeLeft;
+            if (this.floatingItemTimeLeft == 0) {
+                this.floatingItem = null;
+            }
+        }
+
+    }
+
+    @Nullable
+    public ShaderEffect getShader() {
+        return this.shader;
+    }
+
+    private void updateFovMultiplier() {
+        float f = 1.0F;
+        if (this.client.getCameraEntity() instanceof AbstractClientPlayerEntity abstractClientPlayerEntity) {
+            f = abstractClientPlayerEntity.getFovMultiplier();
+        }
+
+        this.lastFovMultiplier = this.fovMultiplier;
+        this.fovMultiplier += (f - this.fovMultiplier) * 0.5F;
+        if (this.fovMultiplier > 1.5F) {
+            this.fovMultiplier = 1.5F;
+        }
+
+        if (this.fovMultiplier < 0.1F) {
+            this.fovMultiplier = 0.1F;
+        }
+    }
+
+    public float getSkyDarkness(float tickDelta) {
+        return MathHelper.lerp(tickDelta, this.lastSkyDarkness, this.skyDarkness);
     }
 
     public static Shader getRenderTypeEntityTranslucentEmissiveShader() {
