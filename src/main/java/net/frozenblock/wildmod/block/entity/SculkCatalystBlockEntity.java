@@ -45,20 +45,6 @@ public class SculkCatalystBlockEntity extends BlockEntity implements GameEventLi
         return 8;
     }
 
-    public boolean listen(World world, GameEvent event, @Nullable Entity entity, BlockPos pos) {
-        if (this.isRemoved()) {
-            return false;
-        } else {
-            if (event == GameEvent.ENTITY_KILLED) {
-                if (entity instanceof LivingEntity livingEntity) {
-                    return true;
-                }
-            }
-
-            return true;
-        }
-    }
-
     @Override
     public boolean listen(ServerWorld world, net.frozenblock.wildmod.event.GameEvent.class_7447 arg) {
         if (this.isRemoved()) {

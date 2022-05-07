@@ -1,6 +1,8 @@
 package net.frozenblock.wildmod.block;
 
+import net.frozenblock.wildmod.block.entity.WildBlockWithEntity;
 import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
+import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.fromAccurateSculk.WildProperties;
 import net.frozenblock.wildmod.registry.RegisterParticles;
@@ -21,12 +23,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.World;
-import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class SculkCatalystBlock extends BlockWithEntity {
+public class SculkCatalystBlock extends WildBlockWithEntity {
     public static final int BLOOM_DURATION = 8;
     public static final BooleanProperty BLOOM = WildProperties.BLOOM;
     private final IntProvider experience = ConstantIntProvider.create(20);
