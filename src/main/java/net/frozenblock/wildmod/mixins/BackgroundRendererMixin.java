@@ -232,7 +232,7 @@ public class BackgroundRendererMixin {
                 y *= Math.max(0.25F, clientPlayerEntity.getUnderwaterVisibility());
                 RegistryEntry<Biome> biome = clientPlayerEntity.world.getBiome(clientPlayerEntity.getBlockPos());
                 Biome.Category category = Biome.getCategory(biome);
-                if (biome.getKeyOrValue().right().equals(Biome.Category.SWAMP)) {
+                if (category==Biome.Category.SWAMP) {
                     y *= 0.85F;
                 }
             }
