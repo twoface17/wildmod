@@ -33,7 +33,8 @@
 	"VanillaBiomeParametersMixin",
 	"VanillaSurfaceRulesBlockInvoker",
 	"VanillaSurfaceRulesInjector",
-	"VillagerTypeMixin"
+	"VillagerTypeMixin",
+	"WorldChunkMixin"
   ],
   "client": [
   ],
