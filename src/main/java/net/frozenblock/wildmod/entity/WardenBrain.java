@@ -9,7 +9,6 @@ import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.task.*;
 import net.frozenblock.wildmod.entity.ai.task.ForgetAttackTargetTask;
 import net.frozenblock.wildmod.entity.ai.task.GoToCelebrateTask;
-import net.frozenblock.wildmod.liukrastapi.Angriness;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.*;

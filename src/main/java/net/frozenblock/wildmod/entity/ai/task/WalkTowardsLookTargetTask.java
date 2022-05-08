@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.entity.ai.task;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

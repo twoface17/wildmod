@@ -13,12 +13,9 @@ public class RegisterTags {
     public static final TagKey<Block> CONVERTABLE_TO_MUD = of("convertable_to_mud");
     public static final TagKey<Block> DAMPENS_VIBRATIONS = of("dampens_vibrations");
     public static final TagKey<Block> FROG_PREFER_JUMP_TO = of("frog_prefer_jump_to");
+    public static final TagKey<Block> FROGS_SPAWNABLE_ON = of("frogs_spawnable_on");
     public static final TagKey<Block> MANGROVE_LOGS_CAN_GROW_THROUGH = of("mangrove_logs_can_grow_through");
     public static final TagKey<Block> MANGROVE_ROOTS_CAN_GROW_THROUGH = of("mangrove_roots_can_grow_through");
-
-    public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> TEMPERATE = ofVariant("textures/entity/frog/temperate_frog.png");
-    public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> WARM = ofVariant("textures/entity/frog/warm_frog.png");
-    public static final net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> COLD = ofVariant("textures/entity/frog/cold_frog.png");
 
     public static final TagKey<EntityType<?>> FROG_FOOD = ofEntityType("frog_food");
 
@@ -30,9 +27,5 @@ public class RegisterTags {
     }
     private static TagKey<EntityType<?>> ofEntityType(String id) {
         return TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, id));
-    }
-
-    private static net.frozenblock.wildmod.registry.TagKey<FrogEntity.Variant> ofVariant(String id) {
-        return net.frozenblock.wildmod.registry.TagKey.of(net.frozenblock.wildmod.registry.Registry.FROG_VARIANT_KEY, new Identifier(WildMod.MOD_ID, id));
     }
 }

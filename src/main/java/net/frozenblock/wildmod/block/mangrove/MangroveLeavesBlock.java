@@ -16,15 +16,10 @@ import net.minecraft.world.WorldAccess;
 import java.util.Iterator;
 import java.util.Random;
 
-public class MangroveLeaves extends LeavesBlock implements Fertilizable {
+public class MangroveLeavesBlock extends LeavesBlock implements Fertilizable {
     public static final int GROWTH_CHANCE = 5;
-    public MangroveLeaves() {
-        super(FabricBlockSettings
-                .of(Material.LEAVES)
-                .sounds(BlockSoundGroup.AZALEA_LEAVES)
-                .nonOpaque()
-                .strength(0.2f)
-        );
+    public MangroveLeavesBlock(Settings settings) {
+        super(settings);
     }
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {

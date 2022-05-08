@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+	"minecraft:grass_block",
+	"twm:mud",
+	"twm:mangrove_roots",
+	"twm:muddy_mangrove_roots",
+	"minecraft:moss_carpet"
+  ]
+}

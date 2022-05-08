@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.entity.ai.task;
 
 import com.google.common.collect.ImmutableMap;
 import net.frozenblock.wildmod.entity.FrogEntity;

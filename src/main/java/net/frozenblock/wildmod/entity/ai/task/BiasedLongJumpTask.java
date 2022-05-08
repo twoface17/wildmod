@@ -1,6 +1,5 @@
-package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.entity.ai.task;
 
-import net.frozenblock.wildmod.entity.FrogEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.mob.MobEntity;
@@ -17,14 +16,23 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class BiasedLongJumpTask<E extends MobEntity> extends WildModLongJumpTask<E> {
+public class BiasedLongJumpTask<E extends MobEntity> extends WildLongJumpTask<E> {
     private final TagKey<Block> favoredBlocks;
     private final float biasChance;
     private final List<Target> unfavoredTargets = new ArrayList<>();
     private boolean useBias;
 
-    public BiasedLongJumpTask(UniformIntProvider cooldownRange, int verticalRange, int horizontalRange, float maxRange, Function<FrogEntity, SoundEvent> entityToSound, TagKey<Block> favoredBlocks, float biasChance, Predicate<BlockState> jumpToPredicate) {
-        super(cooldownRange, verticalRange, horizontalRange, maxRange, (Function<E, SoundEvent>) entityToSound, jumpToPredicate);
+    public BiasedLongJumpTask(
+            UniformIntProvider cooldownRange,
+            int verticalRange,
+            int horizontalRange,
+            float maxRange,
+            Function<E, SoundEvent> entityToSound,
+            TagKey<Block> favoredBlocks,
+            float biasChance,
+            Predicate<BlockState> jumpToPredicate
+    ) {
+        super(cooldownRange, verticalRange, horizontalRange, maxRange, entityToSound, jumpToPredicate);
         this.favoredBlocks = favoredBlocks;
         this.biasChance = biasChance;
     }
@@ -44,7 +52,7 @@ public class BiasedLongJumpTask<E extends MobEntity> extends WildModLongJumpTask
             while(!this.targets.isEmpty()) {
                 Optional<Target> optional = super.getTarget(world);
                 if (optional.isPresent()) {
-                    Target target = optional.get();
+                    Target target = (Target)optional.get();
                     if (world.getBlockState(mutable.set(target.getPos(), Direction.DOWN)).isIn(this.favoredBlocks)) {
                         return optional;
                     }
@@ -53,11 +61,7 @@ public class BiasedLongJumpTask<E extends MobEntity> extends WildModLongJumpTask
                 }
             }
 
-            if (!this.unfavoredTargets.isEmpty()) {
-                return Optional.of(this.unfavoredTargets.remove(0));
-            } else {
-                return Optional.empty();
-            }
+            return !this.unfavoredTargets.isEmpty() ? Optional.of((Target)this.unfavoredTargets.remove(0)) : Optional.empty();
         }
     }
 

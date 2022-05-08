@@ -3,9 +3,13 @@ package net.frozenblock.wildmod.registry;
 import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.*;
+import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.FrogEntity;
+import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.event.PositionSourceType;
 import net.minecraft.Bootstrap;
+import net.minecraft.entity.data.TrackedDataHandler;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.collection.IndexedIterable;
@@ -21,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -31,9 +36,12 @@ public abstract class Registry<T> implements Keyable, IndexedIterable<T> {
     public static final Identifier ROOT_KEY = new Identifier("root");
     private final RegistryKey<? extends Registry<T>> registryKey;
     private final Lifecycle lifecycle;
-    public static final RegistryKey<Registry<FrogEntity.Variant>> FROG_VARIANT_KEY = createRegistryKey("frog_variant");
+    public static final RegistryKey<Registry<FrogVariant>> FROG_VARIANT_KEY = createRegistryKey("frog_variant");
 
-    public static final Registry<FrogEntity.Variant> FROG_VARIANT = create(FROG_VARIANT_KEY, registry -> FrogEntity.Variant.TEMPERATE);
+    public static final Registry<FrogVariant> FROG_VARIANT = create(FROG_VARIANT_KEY, registry -> FrogVariant.TEMPERATE);
+
+    public static final TrackedDataHandler<FrogVariant> FROG_VARIANT_DATA = net.frozenblock.wildmod.entity.TrackedDataHandler.of(FROG_VARIANT);
+
 
     //public static final RegistryKey<Registry<net.frozenblock.wildmod.world.gen.structure.StructureType<?>>> STRUCTURE_TYPE_KEY = createRegistryKey("worldgen/structure_type");
     //public static final Registry<StructureType<?>> STRUCTURE_TYPE = create(STRUCTURE_TYPE_KEY, registry -> net.frozenblock.wildmod.world.gen.structure.StructureType.JIGSAW);
@@ -51,11 +59,16 @@ public abstract class Registry<T> implements Keyable, IndexedIterable<T> {
     protected static final MutableRegistry<MutableRegistry<?>> ROOT = new SimpleRegistry(createRegistryKey("root"), Lifecycle.experimental(), null);
 
     private static <T> RegistryKey<Registry<T>> createRegistryKey(String registryId) {
-        return RegistryKey.ofRegistry(new Identifier(registryId));
+        return RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, registryId));
     }
 
+    private static <T> net.minecraft.util.registry.RegistryKey<net.minecraft.util.registry.Registry<T>> createVanillaRegistryKey(String registryId) {
+        return net.minecraft.util.registry.RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, registryId));
+    }
+
+
     public static <T> T register(Registry<? super T> registry, String id, T entry) {
-        return register((Registry<T>) registry, new Identifier(id), entry);
+        return register(registry, new Identifier(WildMod.MOD_ID, id), entry);
     }
 
     public static <V, T extends V> T register(Registry<V> registry, Identifier id, T entry) {
@@ -68,7 +81,7 @@ public abstract class Registry<T> implements Keyable, IndexedIterable<T> {
     }
 
     public static <V, T extends V> T register(Registry<V> registry, int rawId, String id, T entry) {
-        ((MutableRegistry)registry).set(rawId, RegistryKey.of(registry.registryKey, new Identifier(id)), entry, Lifecycle.stable());
+        ((MutableRegistry)registry).set(rawId, RegistryKey.of(registry.registryKey, new Identifier(WildMod.MOD_ID, id)), entry, Lifecycle.stable());
         return entry;
     }
 

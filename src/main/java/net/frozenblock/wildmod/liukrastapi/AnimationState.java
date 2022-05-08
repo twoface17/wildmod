@@ -48,7 +48,7 @@ public class AnimationState {
 		return this.field_39112;
 	}
 
-	private boolean isRunning() {
+	public boolean isRunning() {
 		return this.startedAt != Long.MAX_VALUE;
 	}
 }

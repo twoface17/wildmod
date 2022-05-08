@@ -43,6 +43,12 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent BLOCK_MANGROVE_ROOTS_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.step"));
         public static final SoundEvent BLOCK_MANGROVE_ROOTS_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.hit"));
         public static final SoundEvent BLOCK_MANGROVE_ROOTS_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.fall"));
+    //Muddy Mangrove Roots
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.break"));
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.step"));
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.place"));
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.hit"));
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.fall"));
     //Sculk
         public static final SoundEvent BLOCK_SCULK_SPREAD = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.spread"));
         public static final SoundEvent BLOCK_SCULK_CHARGE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.charge"));
@@ -89,7 +95,7 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent ENTITY_FROG_LAY_SPAWN = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.lay_spawn"));
         public static final SoundEvent ENTITY_FROG_LONG_JUMP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.long_jump"));
         public static final SoundEvent ENTITY_FROG_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.step"));
-        public static final SoundEvent ENTITY_FROG_TONGUE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
+        public static final SoundEvent ENTITY_FROG_TOUNGE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
     //Tadpole
         public static final SoundEvent ENTITY_TADPOLE_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.death"));
         public static final SoundEvent ENTITY_TADPOLE_FLOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.flop"));

@@ -3,41 +3,49 @@ package net.frozenblock.wildmod.registry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.block.WildSignType;
 import net.frozenblock.wildmod.block.mangrove.*;
+import net.frozenblock.wildmod.mixins.SignTypeInvoker;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.SignType;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 
 public abstract class MangroveWoods {
+
+    protected static final SignType MANGROVE_SIGN_TYPE = SignTypeInvoker.callRegister(new WildSignType("mangrove"));
 
     // THIS VARIABLE DEFINES ALL PROPERTIES FOR WOOD
     public static final AbstractBlock.Settings WOOD_PROPERTIES = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS);
 
     // DEFINES ALL BLOCKS AS VARIABLES
-    public static final Block MANGROVE_LOG = new MangroveLog(WOOD_PROPERTIES);
-    public static final Block MANGROVE_PLANKS = new MangrovePlanks(WOOD_PROPERTIES);
-    public static final StairsBlock MANGROVE_STAIRS = new MangroveStairs(Blocks.OAK_STAIRS.getDefaultState(), WOOD_PROPERTIES);
-    public static final Block MANGROVE_DOOR = new MangroveDoor(WOOD_PROPERTIES);
-    public static final Block STRIPPED_MANGROVE_LOG = new StrippedMangroveLog(WOOD_PROPERTIES);
-    public static final Block STRIPPED_MANGROVE_WOOD = new StrippedMangroveWood(WOOD_PROPERTIES);
-    public static final Block MANGROVE_WOOD = new MangroveWood(WOOD_PROPERTIES);
-    public static final Block MANGROVE_FENCE = new MangroveFence(WOOD_PROPERTIES);
-    public static final Block MANGROVE_SLAB = new MangroveSlab(WOOD_PROPERTIES);
-    public static final Block MANGROVE_FENCE_GATE = new MangroveFenceGate(WOOD_PROPERTIES);
-    public static final PressurePlateBlock MANGROVE_PRESSURE_PLATE = new MangrovePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, WOOD_PROPERTIES);
-    public static final Block MANGROVE_TRAPDOOR = new MangroveTrapdoor(WOOD_PROPERTIES.nonOpaque());
-    public static final Block MANGROVE_LEAVES = new MangroveLeaves();
-    public static final Block MANGROVE_ROOTS = new MangroveRoots(WOOD_PROPERTIES.nonOpaque().strength(0.5f, 0.5f).sounds(new BlockSoundGroup(1.0f, 1.0f,
-             RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
-             RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
-             RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
-             RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
-             RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
-    )));
+    public static final Block MANGROVE_LOG = new PillarBlock(
+            AbstractBlock.Settings.of(Material.WOOD, state -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? MapColor.RED : MapColor.SPRUCE_BROWN).strength(2.0F).sounds(BlockSoundGroup.WOOD)
+    );
+    public static final Block MANGROVE_PLANKS = new Block(AbstractBlock.Settings.of(Material.WOOD, MapColor.RED).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+    public static final StairsBlock MANGROVE_STAIRS = new StairsBlock(MANGROVE_PLANKS.getDefaultState(), AbstractBlock.Settings.copy(MANGROVE_PLANKS));
+    public static final Block MANGROVE_DOOR = new DoorBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_PLANKS.getDefaultMapColor()).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque());
+    public static final Block STRIPPED_MANGROVE_LOG = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, state -> MapColor.RED).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block STRIPPED_MANGROVE_WOOD = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, state -> MapColor.RED).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block MANGROVE_WOOD = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.RED).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block MANGROVE_FENCE = new FenceBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_PLANKS.getDefaultMapColor()).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block MANGROVE_SLAB = new SlabBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.RED).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block MANGROVE_FENCE_GATE = new FenceGateBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_PLANKS.getDefaultMapColor()).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+    public static final PressurePlateBlock MANGROVE_PRESSURE_PLATE = new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.of(Material.WOOD, MANGROVE_PLANKS.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.WOOD));
+    public static final Block MANGROVE_TRAPDOOR = new TrapdoorBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.RED).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning(RegisterBlocks::never));
+    public static final Block MANGROVE_LEAVES = new MangroveLeavesBlock(AbstractBlock.Settings.of(Material.LEAVES).strength(0.2F).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(RegisterBlocks::canSpawnOnLeaves).suffocates(RegisterBlocks::never).blockVision(RegisterBlocks::never));
+    public static final Block MANGROVE_ROOTS = new MangroveRootsBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.SPRUCE_BROWN).strength(0.7F).ticksRandomly().sounds(new BlockSoundGroup(1.0F, 1.0F,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_BREAK,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_STEP,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_PLACE,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
+            RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
+    )).nonOpaque().allowsSpawning(RegisterBlocks::canSpawnOnLeaves).suffocates(RegisterBlocks::never).blockVision(RegisterBlocks::never).nonOpaque());
     public static final Block MANGROVE_PROPAGULE = new PropaguleBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(new BlockSoundGroup(1.0f, 1.0f,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_BREAK,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_STEP,
@@ -52,6 +60,7 @@ public abstract class MangroveWoods {
             SoundEvents.BLOCK_WOOD_HIT,
             SoundEvents.BLOCK_WOOD_FALL
     )));
+    public static final Block MANGROVE_SIGN = new SignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), MANGROVE_SIGN_TYPE);
 
     public static void RegisterMangrove() {
             
@@ -97,6 +106,10 @@ public abstract class MangroveWoods {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_fence"), MANGROVE_FENCE);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_fence"),
                 new BlockItem(MANGROVE_FENCE, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_sign"), MANGROVE_SIGN);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_sign"),
+                new BlockItem(MANGROVE_SIGN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_stairs"), MANGROVE_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_stairs"),

@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.entity.ai.task;
 
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.AllayBrain;
