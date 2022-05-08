@@ -1,11 +1,13 @@
 package net.frozenblock.wildmod.event;
 
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.liukrastapi.Vec3d;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
 public class GameEvent extends net.minecraft.world.event.GameEvent {
@@ -33,11 +35,10 @@ public class GameEvent extends net.minecraft.world.event.GameEvent {
     public static final int DEFAULT_RANGE = 16;
     private final String id;
     private final int range;
-    private final RegistryEntry.Reference<net.minecraft.world.event.GameEvent> registryEntry;
+    private final RegistryEntry.Reference<net.minecraft.world.event.GameEvent> registryEntry = Registry.GAME_EVENT.createEntry(this);
 
     public GameEvent(String id, int range) {
         super(id, range);
-        this.registryEntry = Registry.GAME_EVENT.createEntry(this);
         this.id = id;
         this.range = range;
     }
@@ -73,31 +74,52 @@ public class GameEvent extends net.minecraft.world.event.GameEvent {
 
 
     public static record Emitter(@Nullable Entity sourceEntity, @Nullable BlockState affectedState) {
-        public Emitter(@Nullable Entity sourceEntity, @Nullable BlockState affectedState) {
-            this.sourceEntity = sourceEntity;
-            this.affectedState = affectedState;
+        public static GameEvent.Emitter of(@Nullable Entity sourceEntity) {
+            return new GameEvent.Emitter(sourceEntity, null);
         }
 
-        public static Emitter of(@Nullable Entity sourceEntity) {
-            return new Emitter(sourceEntity, (BlockState)null);
+        public static GameEvent.Emitter of(@Nullable BlockState affectedState) {
+            return new GameEvent.Emitter(null, affectedState);
         }
 
-        public static Emitter of(@Nullable BlockState affectedState) {
-            return new Emitter((Entity)null, affectedState);
+        public static GameEvent.Emitter of(@Nullable Entity sourceEntity, @Nullable BlockState affectedState) {
+            return new GameEvent.Emitter(sourceEntity, affectedState);
+        }
+    }
+
+    public static final class class_7447 implements Comparable<GameEvent.class_7447> {
+        private final GameEvent field_39177;
+        private final net.frozenblock.wildmod.liukrastapi.Vec3d field_39178;
+        private final Emitter field_39179;
+        private final GameEventListener field_39180;
+        private final double field_39181;
+
+        public class_7447(GameEvent gameEvent, Vec3d vec3d, GameEvent.Emitter emitter, GameEventListener gameEventListener, net.frozenblock.wildmod.liukrastapi.Vec3d vec3d2) {
+            this.field_39177 = gameEvent;
+            this.field_39178 = vec3d;
+            this.field_39179 = emitter;
+            this.field_39180 = gameEventListener;
+            this.field_39181 = vec3d.squaredDistanceTo(vec3d2);
         }
 
-        public static Emitter of(@Nullable Entity sourceEntity, @Nullable BlockState affectedState) {
-            return new Emitter(sourceEntity, affectedState);
+        public int compareTo(GameEvent.class_7447 arg) {
+            return Double.compare(this.field_39181, arg.field_39181);
         }
 
-        @Nullable
-        public Entity sourceEntity() {
-            return this.sourceEntity;
+        public GameEvent method_43724() {
+            return this.field_39177;
         }
 
-        @Nullable
-        public BlockState affectedState() {
-            return this.affectedState;
+        public net.frozenblock.wildmod.liukrastapi.Vec3d method_43726() {
+            return this.field_39178;
+        }
+
+        public Emitter method_43727() {
+            return this.field_39179;
+        }
+
+        public GameEventListener method_43728() {
+            return this.field_39180;
         }
     }
 }

@@ -19,12 +19,12 @@ import java.util.Optional;
 @Mixin(SculkSensorListener.class)
 public class SculkSensorListenerMixin {
 
-    @Inject(method = "listen", at = @At("TAIL"))
+    @Inject(method = "listen*", at = @At("TAIL"))
     public boolean listen(World world, GameEvent event, @Nullable Entity entity, BlockPos pos, CallbackInfoReturnable<Boolean> info) {
         SculkSensorListener listener = SculkSensorListener.class.cast(this);
         Optional<BlockPos> optional = listener.getPositionSource().getPos(world);
         if (optional.isPresent() && entity!=null && SculkSensorBlock.FREQUENCIES.containsKey(event)) {
-            BlockPos thisPos = (BlockPos) optional.get();
+            BlockPos thisPos = optional.get();
             if (entity != null) {
                 if (entity instanceof LivingEntity) {
                     SensorLastEntity.addEntity(entity, thisPos, pos, event);

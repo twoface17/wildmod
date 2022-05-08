@@ -1,22 +1,19 @@
-/*package net.frozenblock.wildmod.block;
+package net.frozenblock.wildmod.block;
 
 import com.google.common.annotations.VisibleForTesting;
 import net.frozenblock.wildmod.registry.Util;
 import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
-import net.minecraft.block.AbstractLichenBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.world.gen.random.AbstractRandom;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Stream;
 
 public class LichenGrower {
@@ -37,8 +34,8 @@ public class LichenGrower {
         return stream().anyMatch(direction2 -> this.getGrowPos(state, world, pos, direction, direction2, this.growChecker::canGrow).isPresent());
     }
 
-    public Optional<GrowPos> grow(BlockState state, WorldAccess world, BlockPos pos, WildAbstractRandom random) {
-        return (Optional<LichenGrower.GrowPos>)shuffle(random)
+    public Optional<LichenGrower.GrowPos> grow(BlockState state, WorldAccess world, BlockPos pos, Random random) {
+        return shuffle(random)
                 .stream()
                 .filter(direction -> this.growChecker.canGrow(state, direction))
                 .map(direction -> this.grow(state, world, pos, direction, random, false))
@@ -55,9 +52,9 @@ public class LichenGrower {
     }
 
     public Optional<LichenGrower.GrowPos> grow(
-            BlockState state, WorldAccess world, BlockPos pos, Direction direction, WildAbstractRandom random, boolean markForPostProcessing
+            BlockState state, WorldAccess world, BlockPos pos, Direction direction, Random random, boolean markForPostProcessing
     ) {
-        return (Optional<LichenGrower.GrowPos>)shuffle(random)
+        return shuffle(random)
                 .stream()
                 .map(direction2 -> this.grow(state, world, pos, direction, direction2, markForPostProcessing))
                 .filter(Optional::isPresent)
@@ -117,7 +114,7 @@ public class LichenGrower {
         }
 
         default boolean hasDirection(BlockState state, Direction direction) {
-            return hasDirection(state, direction);
+            return AbstractLichenBlock.hasDirection(state, direction);
         }
 
         default boolean canGrow(BlockState state) {
@@ -176,7 +173,7 @@ public class LichenGrower {
         public abstract LichenGrower.GrowPos getGrowPos(BlockPos pos, Direction newDirection, Direction oldDirection);
     }
 
-    public static class LichenGrowChecker extends Block implements LichenGrower.GrowChecker {
+    public static class LichenGrowChecker implements LichenGrower.GrowChecker {
         protected AbstractLichenBlock lichen;
 
         public LichenGrowChecker(AbstractLichenBlock lichen) {
@@ -197,39 +194,15 @@ public class LichenGrower {
         public boolean canGrow(BlockView world, BlockPos pos, LichenGrower.GrowPos growPos) {
             BlockState blockState = world.getBlockState(growPos.pos());
             return this.canGrow(world, pos, growPos.pos(), growPos.face(), blockState)
-                    && this.canGrowWithDirection(world, blockState, growPos.pos(), growPos.face());
-        }
-
-        @Override
-        public GrowType[] getGrowTypes() {
-            return GrowChecker.super.getGrowTypes();
-        }
-
-        public boolean canGrowWithDirection(BlockView world, BlockState state, BlockPos pos, Direction direction) {
-            if (this.lichen.canHaveDirection(direction) && (!state.isOf(this) || !hasDirection(state, direction))) {
-                BlockPos blockPos = pos.offset(direction);
-                return AbstractLichenBlock.canGrowOn(world, direction, blockPos, world.getBlockState(blockPos));
-            } else {
-                return false;
-            }
+                    && this.lichen.canGrowWithDirection(world, blockState, growPos.pos(), growPos.face());
         }
     }
-
-    public static Collection<Direction> shuffle(WildAbstractRandom random) {
-        return Util.copyShuffled(Direction.values(), random);
-    }
-
-    private static final Direction[] ALL = Direction.values();
 
     public static Stream<Direction> stream() {
-        return Stream.of(ALL);
+        return Stream.of(Direction.values());
     }
 
-    public static boolean hasDirection(BlockState state, Direction direction) {
-        BooleanProperty booleanProperty = AbstractLichenBlock.getProperty(direction);
-        return state.contains(booleanProperty) && state.get(booleanProperty);
+    public static Collection<Direction> shuffle(Random random) {
+        return Util.copyShuffled(Direction.values(), random);
     }
-
-
 }
-*/

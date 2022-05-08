@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.world.gen;
 
 import com.mojang.serialization.Codec;
-import net.frozenblock.wildmod.block.mangrove.MangroveRoots;
+import net.frozenblock.wildmod.block.mangrove.MangroveRootsBlock;
 import net.frozenblock.wildmod.block.mangrove.PropaguleBlock;
 import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.frozenblock.wildmod.registry.RegisterWorldgen;
@@ -159,7 +159,7 @@ public class MangroveTreeDecorator extends TreeDecorator {
         if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.CAVE_AIR.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.DANDELION.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.GRASS.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.TALL_GRASS.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.FERN.getDefaultState())) || world.testBlockState(currentPosition, Predicate.isEqual(Blocks.BLUE_ORCHID.getDefaultState()))) {
             replacer.accept(currentPosition, MangroveWoods.MANGROVE_ROOTS.getDefaultState());
         } else if (world.testBlockState(currentPosition, Predicate.isEqual(Blocks.WATER.getDefaultState()))) {
-            replacer.accept(currentPosition, MangroveWoods.MANGROVE_ROOTS.getDefaultState().with(MangroveRoots.WATERLOGGED, true));
+            replacer.accept(currentPosition, MangroveWoods.MANGROVE_ROOTS.getDefaultState().with(MangroveRootsBlock.WATERLOGGED, true));
         }
         if (world.testBlockState(currentPosition.up(), Predicate.isEqual(Blocks.LILY_PAD.getDefaultState()))) {
             replacer.accept(currentPosition.up(), Blocks.AIR.getDefaultState());

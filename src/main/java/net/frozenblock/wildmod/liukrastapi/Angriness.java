@@ -2,6 +2,7 @@ package net.frozenblock.wildmod.liukrastapi;
 
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Util;
 
 import java.util.Arrays;
@@ -11,11 +12,9 @@ public enum Angriness {
     AGITATED(40, RegisterSounds.ENTITY_WARDEN_AGITATED, RegisterSounds.ENTITY_WARDEN_LISTENING_ANGRY),
     ANGRY(80, RegisterSounds.ENTITY_WARDEN_ANGRY, RegisterSounds.ENTITY_WARDEN_LISTENING_ANGRY);
 
-    private static final Angriness[] VALUES = (Angriness[])Util.make(values(), (values) -> {
-        Arrays.sort(values, (a, b) -> {
-            return Integer.compare(b.threshold, a.threshold);
-        });
-    });
+    private static final Angriness[] VALUES = Util.make(
+            values(), values -> Arrays.sort(values, (a, b) -> Integer.compare(b.threshold, a.threshold))
+    );
     private final int threshold;
     private final SoundEvent sound;
     private final SoundEvent listeningSound;
@@ -39,16 +38,16 @@ public enum Angriness {
     }
 
     public static Angriness getForAnger(int anger) {
-        Angriness[] var1 = VALUES;
-        int var2 = var1.length;
-
-        for (int var3 = 0; var3 < var2; ++var3) {
-            Angriness angriness = var1[var3];
+        for(Angriness angriness : VALUES) {
             if (anger >= angriness.threshold) {
                 return angriness;
             }
         }
 
         return CALM;
+    }
+
+    public boolean method_43691() {
+        return this == ANGRY;
     }
 }

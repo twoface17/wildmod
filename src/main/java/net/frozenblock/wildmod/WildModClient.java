@@ -28,6 +28,8 @@ import net.frozenblock.wildmod.entity.render.warden.WardenEntityModel;
 import net.frozenblock.wildmod.entity.render.warden.WardenEntityRenderer;
 import net.frozenblock.wildmod.event.GameEventTagProvider;
 import net.frozenblock.wildmod.fromAccurateSculk.*;
+import net.frozenblock.wildmod.particle.SculkChargeParticle;
+import net.frozenblock.wildmod.particle.SculkChargePopParticle;
 import net.frozenblock.wildmod.registry.*;
 import net.minecraft.GameVersion;
 import net.minecraft.client.color.world.BiomeColors;
@@ -68,11 +70,10 @@ public class WildModClient implements ClientModInitializer {
         ImmutableMap.Builder<EntityModelLayer, TexturedModelData> builder = ImmutableMap.builder();
 
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((spriteAtlasTexture, registry) -> {
+            //registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_charge"));
+            //registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_charge_pop"));
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriek"));
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_soul"));
-//            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_rf_0"));
-//            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_rf_1"));
-//            registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_rf_0"));
         }));
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK, ShriekParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK2, ShriekParticle2.Factory::new);
@@ -82,6 +83,8 @@ public class WildModClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKNX2, ShriekParticleNX2.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX, ShriekParticleX.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX2, ShriekParticleX2.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_CHARGE, SculkChargeParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_CHARGE_POP, SculkChargePopParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_SOUL, SculkSoul.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SONIC_BOOM, ExplosionLargeParticle.Factory::new);
 
@@ -90,7 +93,8 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_TRAPDOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_PROPAGULE, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(SculkVeinBlock.SCULK_VEIN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_SIGN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_VEIN, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.FROGSPAWN, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_SHRIEKER, RenderLayer.getCutout());
 

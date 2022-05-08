@@ -17,9 +17,9 @@ public class Vec3d extends net.minecraft.util.math.Vec3d {
         return new Vec3d((double)vec3d.getX() + 0.5, vec3d.getY() + 0.5, vec3d.getZ() + 0.5);
     }
 
-    public net.minecraft.util.math.Vec3d withBias(Direction direction, double value) {
+    public Vec3d withBias(Direction direction, double value) {
         Vec3i vec3i = direction.getVector();
-        return new net.minecraft.util.math.Vec3d(this.x + value * (double)vec3i.getX(), this.y + value * (double)vec3i.getY(), this.z + value * (double)vec3i.getZ());
+        return new Vec3d(this.x + value * (double)vec3i.getX(), this.y + value * (double)vec3i.getY(), this.z + value * (double)vec3i.getZ());
     }
 
     public static final Codec<Vec3d> CODEC = Codec.DOUBLE.listOf().comapFlatMap((list -> {

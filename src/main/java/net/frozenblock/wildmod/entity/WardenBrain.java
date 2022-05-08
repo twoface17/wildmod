@@ -6,10 +6,9 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.entity.ai.task.*;
 import net.frozenblock.wildmod.entity.ai.task.ForgetAttackTargetTask;
 import net.frozenblock.wildmod.entity.ai.task.GoToCelebrateTask;
-import net.frozenblock.wildmod.entity.ai.task.*;
-import net.frozenblock.wildmod.liukrastapi.Angriness;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.*;
@@ -75,8 +74,11 @@ public class WardenBrain {
     public WardenBrain() {
     }
 
-    public static void tick(WardenEntity warden) {
-        warden.getBrain().resetPossibleActivities(ImmutableList.of(WildMod.EMERGE, WildMod.DIG, WildMod.ROAR, Activity.FIGHT, WildMod.INVESTIGATE, WildMod.SNIFF, Activity.IDLE));
+    public static void updateActivities(WardenEntity warden) {
+        warden.getBrain()
+            .resetPossibleActivities(
+                ImmutableList.of(WildMod.EMERGE, WildMod.DIG, WildMod.ROAR, Activity.FIGHT, WildMod.INVESTIGATE, WildMod.SNIFF, Activity.IDLE)
+            );
     }
 
     protected static Brain<?> create(WardenEntity warden, Dynamic<?> dynamic) {
@@ -135,11 +137,7 @@ public class WardenBrain {
         brain.setTaskList(
                 WildMod.INVESTIGATE,
                 5,
-                ImmutableList.of(
-                        new FindRoarTargetTask<>(WardenEntity::getPrimeSuspect),
-                        new GoToCelebrateTask<>(RegisterMemoryModules.DISTURBANCE_LOCATION, 2, 0.7F),
-                        new WaitTask(10, 20)
-                ),
+                ImmutableList.of(new FindRoarTargetTask<>(WardenEntity::getPrimeSuspect), new GoToCelebrateTask<>(RegisterMemoryModules.DISTURBANCE_LOCATION, 2, 0.7F)),
                 RegisterMemoryModules.DISTURBANCE_LOCATION
         );
     }
@@ -164,7 +162,7 @@ public class WardenBrain {
                 ImmutableList.of(
                         RESET_DIG_COOLDOWN_TASK,
                         new ForgetAttackTargetTask<>(
-                                entity -> warden.getAngriness() != Angriness.ANGRY || !warden.isValidTarget(entity), WardenBrain::removeDeadSuspect, false
+                                entity -> !warden.getAngriness().method_43691() || !warden.isValidTarget(entity), WardenBrain::removeDeadSuspect, false
                         ),
                         new FollowMobTask(entity -> isTargeting(warden, entity), (float)warden.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)),
                         new RangedApproachTask(1.2F),
@@ -196,8 +194,8 @@ public class WardenBrain {
 
     public static void lookAtDisturbance(WardenEntity warden, BlockPos pos) {
         if (warden.world.getWorldBorder().contains(pos)
-                && warden.getPrimeSuspect().isEmpty()
-                && warden.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty()) {
+                && !warden.getPrimeSuspect().isPresent()
+                && !warden.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent()) {
             resetDigCooldown(warden);
             warden.getBrain().remember(RegisterMemoryModules.SNIFF_COOLDOWN, Unit.INSTANCE, 100L);
             warden.getBrain().remember(MemoryModuleType.LOOK_TARGET, new BlockPosLookTarget(pos), 100L);

@@ -517,7 +517,7 @@ public class SculkShriekerBlock
                     shrieks = 0;
                     if (!world.isSkyVisible(pos.up()) || world.isNight())
                         LargeEntitySpawnHelper.trySpawnAt(
-                                RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, pos, 20, 5, 6);
+                            RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, pos, 20, 5, 6);
                 }
 
             }

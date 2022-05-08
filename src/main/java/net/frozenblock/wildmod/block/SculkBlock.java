@@ -2,21 +2,31 @@ package net.frozenblock.wildmod.block;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
+import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
+import net.frozenblock.wildmod.world.gen.SculkSpreadable;
+import net.minecraft.block.*;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.ConstantIntProvider;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.world.WorldAccess;
 
-public class SculkBlock extends /*Ore*/Block/* implements SculkSpreadable*/ {
+import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
 
+import java.util.Random;
+
+public class SculkBlock extends OreBlock implements SculkSpreadable {
     public SculkBlock(Settings settings) {
-        super(settings/*, UniformIntProvider.create(1, 1)*/);
+        super(settings, UniformIntProvider.create(1, 1));
     }
 
-    /*public int spread(
-            Cursor cursor, WorldAccess world, BlockPos catalystPos, AbstractRandom random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock
+    public int spread(
+            Cursor cursor, WorldAccess world, BlockPos catalystPos, Random random, SculkSpreadManager spreadManager, boolean shouldConvertToBlock
     ) {
         int i = cursor.getCharge();
         if (i != 0 && random.nextInt(spreadManager.getSpreadChance()) == 0) {
@@ -48,10 +58,10 @@ public class SculkBlock extends /*Ore*/Block/* implements SculkSpreadable*/ {
         return Math.max(1, (int)((float)charge * g * 0.5F));
     }
 
-    private BlockState getExtraBlockState(WorldAccess world, BlockPos pos, AbstractRandom random, boolean allowShrieker) {
+    private BlockState getExtraBlockState(WorldAccess world, BlockPos pos, Random random, boolean allowShrieker) {
         BlockState blockState;
         if (random.nextInt(11) == 0) {
-            blockState = (BlockState)Blocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.CAN_SUMMON, allowShrieker);
+            blockState = (BlockState) RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.CAN_SUMMON, allowShrieker);
         } else {
             blockState = Blocks.SCULK_SENSOR.getDefaultState();
         }
@@ -86,14 +96,4 @@ public class SculkBlock extends /*Ore*/Block/* implements SculkSpreadable*/ {
     public boolean shouldConvertToSpreadable() {
         return false;
     }
-
-    */public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack) {
-        super.onStacksDropped(state, world, pos, stack);
-        int i = 1;
-        this.dropExperience(world, pos, i);
-    }
-    public static final Block SCULK_BLOCK = new SculkBlock(FabricBlockSettings.of(
-            Material.SCULK)
-            .strength(0.2F)
-            .sounds(RegisterBlocks.SCULKSOUNDS));
 }

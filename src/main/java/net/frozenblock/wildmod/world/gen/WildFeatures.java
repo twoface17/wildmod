@@ -15,6 +15,7 @@ public class WildFeatures<FC extends FeatureConfig> {
     );
 
     public static Feature<SculkPatchFeatureConfig> SCULK_PATCH;
+    public static final Feature<DiskFeatureConfig> DISK = register("disk", new DiskFeature(DiskFeatureConfig.CODEC));
     public static final Feature<MultifaceGrowthFeatureConfig> MULTIFACE_GROWTH = register(
             "multiface_growth", new MultifaceGrowthFeature(MultifaceGrowthFeatureConfig.CODEC)
     );

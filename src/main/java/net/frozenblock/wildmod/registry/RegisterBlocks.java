@@ -4,21 +4,33 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.*;
-import net.frozenblock.wildmod.block.mangrove.MuddyMangroveRootsBlock;
 import net.frozenblock.wildmod.items.FrogSpawnItem;
 import net.minecraft.block.*;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.BlockView;
 
 public abstract class RegisterBlocks {
 
-    public static final Material FROGSPAWNMATERIAL = new Material.Builder(MapColor.WATER_BLUE).allowsMovement()/*.lightPassesThrough()*/.notSolid().allowsMovement().build();
+    public static final WildMaterial FROGSPAWNMATERIAL = new WildMaterial.WildBuilder(MapColor.WATER_BLUE).allowsMovement().lightPassesThrough().notSolid().allowsMovement().build();
 
-    public static final BlockSoundGroup SCULKSOUNDS = new BlockSoundGroup(
+    private static final BlockSoundGroup MUDDY_MANGROVE_ROOTS_SOUNDS = new BlockSoundGroup(
+            1.0F,
+            1.0F,
+            RegisterSounds.BLOCK_MUDDY_MANGROVE_ROOTS_BREAK,
+            RegisterSounds.BLOCK_MUDDY_MANGROVE_ROOTS_STEP,
+            RegisterSounds.BLOCK_MUDDY_MANGROVE_ROOTS_PLACE,
+            RegisterSounds.BLOCK_MUDDY_MANGROVE_ROOTS_HIT,
+            RegisterSounds.BLOCK_MUDDY_MANGROVE_ROOTS_FALL
+    );
+
+    private static final BlockSoundGroup SCULK_SOUNDS = new BlockSoundGroup(
             1.0F,
             1.0F,
             RegisterSounds.BLOCK_SCULK_BREAK,
@@ -28,7 +40,37 @@ public abstract class RegisterBlocks {
             RegisterSounds.BLOCK_SCULK_FALL
     );
 
-    public static final AbstractBlock.Settings REINFORCED_DEEPSLATE_SETTINGS = FabricBlockSettings
+    private static final BlockSoundGroup SCULK_VEIN_SOUNDS = new BlockSoundGroup(
+            1.0F,
+            1.0F,
+            RegisterSounds.BLOCK_SCULK_VEIN_BREAK,
+            RegisterSounds.BLOCK_SCULK_VEIN_STEP,
+            RegisterSounds.BLOCK_SCULK_VEIN_PLACE,
+            RegisterSounds.BLOCK_SCULK_VEIN_HIT,
+            RegisterSounds.BLOCK_SCULK_VEIN_FALL
+    );
+
+    private static final BlockSoundGroup SCULK_CATALYST_SOUNDS = new BlockSoundGroup(
+            1.0F,
+            1.0F,
+            RegisterSounds.BLOCK_SCULK_CATALYST_BREAK,
+            RegisterSounds.BLOCK_SCULK_CATALYST_STEP,
+            RegisterSounds.BLOCK_SCULK_CATALYST_PLACE,
+            RegisterSounds.BLOCK_SCULK_CATALYST_HIT,
+            RegisterSounds.BLOCK_SCULK_CATALYST_FALL
+    );
+
+    private static final BlockSoundGroup SCULK_SHRIEKER_SOUNDS = new BlockSoundGroup(
+            1.0F,
+            1.0F,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_BREAK,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_STEP,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_PLACE,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_HIT,
+            RegisterSounds.BLOCK_SCULK_SHRIEKER_FALL
+    );
+
+    private static final AbstractBlock.Settings REINFORCED_DEEPSLATE_SETTINGS = FabricBlockSettings
             .of(Material.STONE, MapColor.DEEPSLATE_GRAY)
             .requiresTool()
             .strength(3.0F, 6.0F)
@@ -40,7 +82,7 @@ public abstract class RegisterBlocks {
                     RegisterSounds.BLOCK_REINFORCED_DEEPSLATE_STEP
             ));
 
-    public static final AbstractBlock.Settings FROGSPAWN_PROPERTIES = FabricBlockSettings
+    private static final AbstractBlock.Settings FROGSPAWN_PROPERTIES = FabricBlockSettings
             .of(FROGSPAWNMATERIAL).breakInstantly().nonOpaque().noCollision()
             .sounds(new BlockSoundGroup(1.0F, 1.0F,
                     RegisterSounds.BLOCK_FROGSPAWN_BREAK,
@@ -50,7 +92,7 @@ public abstract class RegisterBlocks {
                     RegisterSounds.BLOCK_FROGSPAWN_FALL
             ));
 
-    public static final FabricBlockSettings MUD_BRICKS_SETTINGS = FabricBlockSettings
+    private static final FabricBlockSettings MUD_BRICKS_SETTINGS = FabricBlockSettings
             .of(Material.STONE)
             .strength(0.5f, 1.0f)
             .requiresTool()
@@ -62,7 +104,7 @@ public abstract class RegisterBlocks {
                     RegisterSounds.BLOCK_MUD_BRICKS_STEP
             ));
 
-    public static final FabricBlockSettings FROGLIGHT_SETTINGS = FabricBlockSettings
+    private static final FabricBlockSettings FROGLIGHT_SETTINGS = FabricBlockSettings
             .of(Material.PLANT)
             .strength(0.1f, 1f)
             .requiresTool()
@@ -75,26 +117,20 @@ public abstract class RegisterBlocks {
                     SoundEvents.BLOCK_CORAL_BLOCK_STEP
             ));
 
-    public static final Block REINFORCED_DEEPSLATE = new PillarBlock(REINFORCED_DEEPSLATE_SETTINGS);
+    private static final Block REINFORCED_DEEPSLATE = new PillarBlock(REINFORCED_DEEPSLATE_SETTINGS);
 
     public static final Block MUD = new MudBlock();
     public static final Block PACKED_MUD = new PackedMudBlock(MUD_BRICKS_SETTINGS);
-    public static final Block MUDDY_MANGROVE_ROOTS = new MuddyMangroveRootsBlock();
+    public static final Block MUDDY_MANGROVE_ROOTS = new PillarBlock(AbstractBlock.Settings.of(Material.SOIL, MapColor.SPRUCE_BROWN).strength(0.7F).sounds(MUDDY_MANGROVE_ROOTS_SOUNDS).nonOpaque().allowsSpawning(RegisterBlocks::canSpawnOnLeaves).suffocates(RegisterBlocks::never).blockVision(RegisterBlocks::never).nonOpaque());
     public static final Block MUD_BRICKS = new MudBricks(MUD_BRICKS_SETTINGS);
     public static final WallBlock MUD_BRICKS_WALL = new MudBricksWall(MUD_BRICKS_SETTINGS);
     public static final SlabBlock MUD_BRICKS_SLAB = new MudBricksSlab(MUD_BRICKS_SETTINGS);
     public static final StairsBlock MUD_BRICKS_STAIRS = new CustomStairs(Blocks.OAK_STAIRS.getDefaultState(), MUD_BRICKS_SETTINGS);
 
-    public static final Block SCULK_CATALYST = SculkCatalystBlock.SCULK_CATALYST_BLOCK;
+    public static final Block SCULK_CATALYST = new SculkCatalystBlock(AbstractBlock.Settings.of(Material.SCULK).strength(3.0F, 3.0F).sounds(SCULK_CATALYST_SOUNDS).luminance(state -> 6));
 
-    public static final Block SCULK = SculkBlock.SCULK_BLOCK;
-    public static final SculkShriekerBlock SCULK_SHRIEKER = new SculkShriekerBlock(AbstractBlock.Settings.of(Material.SCULK).strength(3.0F, 3.0F).sounds(new BlockSoundGroup(0.8f, 1.0f,
-            RegisterSounds.BLOCK_SCULK_SHRIEKER_BREAK,
-            RegisterSounds.BLOCK_SCULK_STEP,
-            RegisterSounds.BLOCK_SCULK_SHRIEKER_PLACE,
-            RegisterSounds.BLOCK_SCULK_HIT,
-            RegisterSounds.BLOCK_SCULK_FALL
-    )), 8);
+    public static final Block SCULK = new SculkBlock(AbstractBlock.Settings.of(Material.SCULK).strength(0.2F).sounds(SCULK_SOUNDS));
+    public static final SculkShriekerBlock SCULK_SHRIEKER = new SculkShriekerBlock(AbstractBlock.Settings.of(Material.SCULK, MapColor.BLACK).strength(3.0F, 3.0F).sounds(SCULK_SHRIEKER_SOUNDS), 8);
     public static final Block OCHRE_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block PEARLESCENT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block VERDANT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
@@ -102,7 +138,7 @@ public abstract class RegisterBlocks {
 
     // ALL BLOCKS HERE HAVE NO COLLISION
     public static final Block FROGSPAWN = new FrogspawnBlock(FROGSPAWN_PROPERTIES.nonOpaque().noCollision());
-    public static final Block SCULK_VEIN = SculkVeinBlock.SCULK_VEIN;
+    public static final Block SCULK_VEIN = new SculkVeinBlock(AbstractBlock.Settings.of(Material.SCULK).noCollision().strength(0.2F).sounds(SCULK_VEIN_SOUNDS));
 
     public static void RegisterBlocks() {
 
@@ -158,5 +194,18 @@ public abstract class RegisterBlocks {
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "muddy_mangrove_roots"), MUDDY_MANGROVE_ROOTS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "muddy_mangrove_roots"), new BlockItem(MUDDY_MANGROVE_ROOTS, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
+    }
+
+
+    protected static Boolean never(BlockState state, BlockView world, BlockPos pos, EntityType<?> type) {
+        return false;
+    }
+
+    protected static boolean never(BlockState state, BlockView world, BlockPos pos) {
+        return false;
+    }
+
+    protected static Boolean canSpawnOnLeaves(BlockState state, BlockView world, BlockPos pos, EntityType<?> type) {
+        return type == EntityType.OCELOT || type == EntityType.PARROT;
     }
 }

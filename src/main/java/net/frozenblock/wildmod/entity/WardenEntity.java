@@ -2,7 +2,6 @@ package net.frozenblock.wildmod.entity;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.mojang.logging.LogUtils;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.task.SonicBoomTask;
@@ -10,13 +9,11 @@ import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
 import net.frozenblock.wildmod.event.*;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
 import net.frozenblock.wildmod.liukrastapi.AnimationState;
-import net.frozenblock.wildmod.liukrastapi.MathAddon;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
-import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -36,7 +33,6 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
@@ -49,7 +45,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Unit;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -57,20 +52,13 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.gen.random.AbstractRandom;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiConsumer;
 
-import static net.frozenblock.wildmod.WildMod.DIGGING;
-import static net.frozenblock.wildmod.WildMod.EMERGING;
-
-public class WardenEntity extends HostileEntity implements SculkSensorListener.Callback {
+public class WardenEntity extends HostileEntity implements VibrationListener.Callback {
 
     /*
 
@@ -88,6 +76,9 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
+        this.gameEventHandler = new EntityGameEventHandler<>(
+                new VibrationListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0)
+        );
         this.experiencePoints = 5;
         this.disablesShield(); // Allows the Warden to disable shields
         this.getNavigation().setCanSwim(true);
@@ -100,14 +91,15 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     }
 
     public Packet<?> createSpawnPacket() {
-        return new EntitySpawnS2CPacket(this, this.isInPose(EMERGING) ? 1 : 0);
+        return new EntitySpawnS2CPacket(this, this.isInPose(WildMod.EMERGING) ? 1 : 0);
     }
 
     public void onSpawnPacket(EntitySpawnS2CPacket packet) {
         super.onSpawnPacket(packet);
         if (packet.getEntityData() == 1) {
-            this.setPose(EMERGING);
+            this.setPose(WildMod.EMERGING);
         }
+
     }
 
     public boolean canSpawn(WorldView world) {
@@ -119,11 +111,11 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     }
 
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return this.isDiggingOrEmerging() && !damageSource.isOutOfWorld() || super.isInvulnerableTo(damageSource);
+        return this.isDiggingOrEmerging() && !damageSource.isOutOfWorld() ? true : super.isInvulnerableTo(damageSource);
     }
 
     private boolean isDiggingOrEmerging() {
-        return this.isInPose(DIGGING) || this.isInPose(EMERGING);
+        return this.isInPose(WildMod.DIGGING) || this.isInPose(WildMod.EMERGING);
     }
 
     protected boolean canStartRiding(Entity entity) {
@@ -139,7 +131,12 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     }
 
     public static DefaultAttributeContainer.Builder addAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.30000001192092896).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.5).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 30.0);
+        return HostileEntity.createHostileAttributes()
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0)
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3F)
+            .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.5)
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 30.0);
     }
 
     public boolean occludeVibrationSignals() {
@@ -150,6 +147,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         return 4.0F;
     }
 
+    @Nullable
     protected SoundEvent getAmbientSound() {
         return !this.isInPose(WildMod.ROARING) && !this.isDiggingOrEmerging() ? this.getAngriness().getSound() : null;
     }
@@ -169,7 +167,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     public boolean tryAttack(Entity target) {
         this.world.sendEntityStatus(this, (byte)4);
         this.playSound(RegisterSounds.ENTITY_WARDEN_ATTACK_IMPACT, 10.0F, this.getSoundPitch());
-        SonicBoomTask.cooldown(this, 100);
+        SonicBoomTask.cooldown(this, 40);
         return super.tryAttack(target);
     }
 
@@ -189,7 +187,7 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     public void tick() {
         World var2 = this.world;
         if (var2 instanceof ServerWorld serverWorld) {
-            this.gameEventHandler.getListener().tick(serverWorld);
+            ((VibrationListener)this.gameEventHandler.getListener()).tick(serverWorld);
             if (this.hasCustomName()) {
                 WardenBrain.resetDigCooldown(this);
             }
@@ -200,7 +198,17 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
             if (this.age % this.getHeartRate() == 0) {
                 this.field_38164 = 10;
                 if (!this.isSilent()) {
-                    this.world.playSound(this.getX(), this.getY(), this.getZ(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, this.getSoundCategory(), 5.0F, this.getSoundPitch(), false);
+                    this.world
+                            .playSound(
+                                    this.getX(),
+                                    this.getY(),
+                                    this.getZ(),
+                                    RegisterSounds.ENTITY_WARDEN_HEARTBEAT,
+                                    this.getSoundCategory(),
+                                    5.0F,
+                                    this.getSoundPitch(),
+                                    false
+                            );
                 }
             }
 
@@ -214,10 +222,10 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
                 --this.field_38164;
             }
 
-            if (this.isInPose(EMERGING)) {
+            if (this.isInPose(WildMod.EMERGING)) {
                 this.addDigParticles(this.emergingAnimationState);
             }
-            if (this.isInPose(DIGGING)) {
+            if (this.isInPose(WildMod.DIGGING)) {
                 this.addDigParticles(this.diggingAnimationState);
             }
         }
@@ -239,23 +247,24 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         }
 
         this.updateAnger();
-        WardenBrain.tick(this);
+        WardenBrain.updateActivities(this);
     }
 
     public void handleStatus(byte status) {
         if (status == 4) {
             this.attackingAnimationState.start();
         } else if (status == 61) {
-            this.field_38162 = 160;
+            this.field_38162 = 10;
         } else if (status == 62) {
             this.chargingSonicBoomAnimationState.start();
         } else {
             super.handleStatus(status);
         }
+
     }
 
     private int getHeartRate() {
-        float f = (float)this.getAnger() / (float) Angriness.ANGRY.getThreshold();
+        float f = (float)this.getAnger() / (float)Angriness.ANGRY.getThreshold();
         return 40 - MathHelper.floor(MathHelper.clamp(f, 0.0F, 1.0F) * 30.0F);
     }
 
@@ -268,14 +277,14 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     }
 
     private void addDigParticles(AnimationState animationState) {
-        if ((float)(Util.getMeasuringTimeMs() - animationState.getStartTime()) < 4500.0F) {
-            AbstractRandom abstractRandom = WildAbstractRandom.createAtomic();
+        if ((float)animationState.method_43687() < 4500.0F) {
+            Random random = this.getRandom();
             BlockState blockState = this.world.getBlockState(this.getBlockPos().down());
             if (blockState.getRenderType() != BlockRenderType.INVISIBLE) {
                 for(int i = 0; i < 30; ++i) {
-                    double d = this.getX() + (double)MathAddon.nextBetween(abstractRandom, -0.7F, 0.7F);
+                    double d = this.getX() + (double)MathHelper.nextBetween(random, -0.7F, 0.7F);
                     double e = this.getY();
-                    double f = this.getZ() + (double)MathAddon.nextBetween(abstractRandom, -0.7F, 0.7F);
+                    double f = this.getZ() + (double)MathHelper.nextBetween(random, -0.7F, 0.7F);
                     this.world.addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState), d, e, f, 0.0, 0.0, 0.0);
                 }
             }
@@ -290,9 +299,9 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
                 this.roaringAnimationState.start();
             } if (this.getPose()==WildMod.SNIFFING) {
                 this.sniffingAnimationState.start();
-            } if (this.getPose()== EMERGING) {
+            } if (this.getPose()==WildMod.EMERGING) {
                 this.emergingAnimationState.start();
-            } if (this.getPose()== DIGGING) {
+            } if (this.getPose()==WildMod.DIGGING) {
                 this.diggingAnimationState.start();
             }
         }
@@ -313,10 +322,10 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         DebugInfoSender.sendBrainDebugData(this);
     }
 
-    public void updateEventHandler(BiConsumer<EntityGameEventHandler<SculkSensorListener>, ServerWorld> biConsumer) {
+    public void updateEventHandler(BiConsumer<EntityGameEventHandler<VibrationListener>, ServerWorld> callback) {
         World var3 = this.world;
         if (var3 instanceof ServerWorld serverWorld) {
-            biConsumer.accept(this.gameEventHandler, serverWorld);
+            callback.accept(this.gameEventHandler, serverWorld);
         }
 
     }
@@ -326,59 +335,53 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     }
 
     public boolean isValidTarget(@Nullable Entity entity) {
-        boolean var10000;
-        if (entity!=null) {
-            if (EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(entity) && !this.isTeammate(entity) && entity.getType() != EntityType.ARMOR_STAND && entity.getType() != RegisterEntities.WARDEN && !entity.isInvulnerable() && entity.isAlive()) {
-                var10000 = true;
-                return var10000;
-            }
+        if (entity instanceof LivingEntity livingEntity
+                && this.world == entity.world
+                && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(entity)
+                && !this.isTeammate(entity)
+                && livingEntity.getType() != EntityType.ARMOR_STAND
+                && livingEntity.getType() != RegisterEntities.WARDEN
+                && !livingEntity.isInvulnerable()
+                && !livingEntity.isDead()
+                && this.world.getWorldBorder().contains(livingEntity.getBoundingBox())) {
+            return true;
         }
 
-        var10000 = false;
-        return var10000;
+        return false;
     }
 
     public static void addDarknessToClosePlayers(ServerWorld world, Vec3d pos, @Nullable Entity entity, int range) {
         StatusEffectInstance statusEffectInstance = new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 260, 0, false, false);
-        WardenEntity.addEffectToPlayersWithinDistance(world, entity, pos, range, statusEffectInstance, 200);
+        addEffectToPlayersWithinDistance(world, entity, pos, range, statusEffectInstance, 200);
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        DataResult<NbtElement> var10000 = WardenAngerManager.CODEC.encodeStart(NbtOps.INSTANCE, this.angerManager);
-        Logger var10001 = field_38138;
-        Objects.requireNonNull(var10001);
-        var10000.resultOrPartial(var10001::error).ifPresent((angerNbt) -> {
-            nbt.put("anger", angerNbt);
-        });
-        var10000 = SculkSensorListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.gameEventHandler.getListener());
-        var10001 = field_38138;
-        Objects.requireNonNull(var10001);
-        var10000.resultOrPartial(var10001::error).ifPresent((nbtElement) -> {
-            nbt.put("listener", nbtElement);
-        });
+        WardenAngerManager.method_43692(this::isValidTarget)
+                .encodeStart(NbtOps.INSTANCE, this.angerManager)
+                .resultOrPartial(field_38138::error)
+                .ifPresent(angerNbt -> nbt.put("anger", angerNbt));
+        VibrationListener.createCodec(this)
+                .encodeStart(NbtOps.INSTANCE, (VibrationListener)this.gameEventHandler.getListener())
+                .resultOrPartial(field_38138::error)
+                .ifPresent(nbtElement -> nbt.put("listener", nbtElement));
     }
+
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        DataResult<?> var10000;
-        Logger var10001;
         if (nbt.contains("anger")) {
-            var10000 = WardenAngerManager.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, nbt.get("anger")));
-            var10001 = field_38138;
-            Objects.requireNonNull(var10001);
-            var10000.resultOrPartial(var10001::error).ifPresent((angerManager) -> {
-                this.angerManager = (WardenAngerManager) angerManager;
-            });
+            WardenAngerManager.method_43692(this::isValidTarget)
+                    .parse(new Dynamic<>(NbtOps.INSTANCE, nbt.get("anger")))
+                    .resultOrPartial(field_38138::error)
+                    .ifPresent(angerManager -> this.angerManager = angerManager);
             this.updateAnger();
         }
 
         if (nbt.contains("listener", 10)) {
-            var10000 = SculkSensorListener.createCodec(this).parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener")));
-            var10001 = field_38138;
-            Objects.requireNonNull(var10001);
-            var10000.resultOrPartial(var10001::error).ifPresent((sculkSensorListener) -> {
-                this.gameEventHandler.setListener((SculkSensorListener) sculkSensorListener, this.world);
-            });
+            VibrationListener.createCodec(this)
+                    .parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener")))
+                    .resultOrPartial(field_38138::error)
+                    .ifPresent(vibrationListener -> this.gameEventHandler.setListener(vibrationListener, this.world));
         }
 
     }
@@ -406,11 +409,9 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     public void increaseAngerAt(@Nullable Entity entity, int amount, boolean listening) {
         if (!this.isAiDisabled() && this.isValidTarget(entity)) {
             WardenBrain.resetDigCooldown(this);
-            boolean bl = this.getPrimeSuspect().filter((entityx) -> {
-                return !(entityx instanceof PlayerEntity);
-            }).isPresent();
+            boolean bl = !(this.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null) instanceof PlayerEntity);
             int i = this.angerManager.increaseAngerAt(entity, amount);
-            if (entity instanceof PlayerEntity && bl && Angriness.getForAnger(i) == Angriness.ANGRY) {
+            if (entity instanceof PlayerEntity && bl && Angriness.getForAnger(i).method_43691()) {
                 this.getBrain().forget(MemoryModuleType.ATTACK_TARGET);
             }
 
@@ -420,9 +421,8 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         }
 
     }
-
     public Optional<LivingEntity> getPrimeSuspect() {
-        return this.getAngriness() == Angriness.ANGRY ? this.angerManager.getPrimeSuspect() : Optional.empty();
+        return this.getAngriness().method_43691() ? this.angerManager.getPrimeSuspect() : Optional.empty();
     }
 
     @Nullable
@@ -435,10 +435,12 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     }
 
     @Nullable
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+    public EntityData initialize(
+            ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt
+    ) {
         this.getBrain().remember(RegisterMemoryModules.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
         if (spawnReason == SpawnReason.TRIGGERED) {
-            this.setPose(EMERGING);
+            this.setPose(WildMod.EMERGING);
             this.getBrain().remember(RegisterMemoryModules.IS_EMERGING, Unit.INSTANCE, (long)WardenBrain.EMERGE_DURATION);
             this.setPersistent();
         }
@@ -454,11 +456,10 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
             if (bl && !this.isAiDisabled()) {
                 Entity entity = source.getAttacker();
                 this.increaseAngerAt(entity, Angriness.ANGRY.getThreshold() + 20, false);
-                if (this.brain.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty() && entity instanceof LivingEntity) {
-                    LivingEntity livingEntity = (LivingEntity)entity;
-                    if (!(source instanceof ProjectileDamageSource) || this.isInRange(livingEntity, 5.0)) {
-                        this.updateAttackTarget(livingEntity);
-                    }
+                if (this.brain.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty()
+                        && entity instanceof LivingEntity livingEntity
+                        && (!(source instanceof ProjectileDamageSource) || this.isInRange(livingEntity, 5.0))) {
+                    this.updateAttackTarget(livingEntity);
                 }
             }
 
@@ -490,28 +491,28 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         super.pushAway(entity);
     }
 
-    @Override
     public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, GameEvent.Emitter emitter) {
-        if (!this.isAiDisabled() && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN) && !this.isDiggingOrEmerging() && world.getWorldBorder().contains(pos)) {
+        if (!this.isAiDisabled()
+                && !this.isDead()
+                && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN)
+                && !this.isDiggingOrEmerging()
+                && world.getWorldBorder().contains(pos)
+                && !this.isRemoved()
+                && this.world == world) {
             Entity var7 = emitter.sourceEntity();
-            boolean var10000;
-            if (var7 instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity)var7;
-                if (!this.isValidTarget(livingEntity)) {
-                    var10000 = false;
-                    return var10000;
-                }
+            if (var7 instanceof LivingEntity livingEntity && !this.isValidTarget(livingEntity)) {
+                return false;
             }
 
-            var10000 = true;
-            return var10000;
+            return true;
         } else {
             return false;
         }
     }
 
-    @Override
-    public void accept(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay) {
+    public void accept(
+            ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
+    ) {
         this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
         world.sendEntityStatus(this, (byte)61);
         this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
@@ -534,11 +535,13 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
             this.increaseAngerAt(entity);
         }
 
-        if (this.getAngriness() != Angriness.ANGRY && (sourceEntity != null || (Boolean)this.angerManager.getPrimeSuspect().map((suspect) -> {
-            return suspect == entity;
-        }).orElse(true))) {
-            WardenBrain.lookAtDisturbance(this, blockPos);
+        if (!this.getAngriness().method_43691()) {
+            Optional<LivingEntity> optional = this.angerManager.getPrimeSuspect();
+            if (sourceEntity != null || optional.isEmpty() || optional.get() == entity) {
+                WardenBrain.lookAtDisturbance(this, blockPos);
+            }
         }
+
     }
 
     public boolean isInPose(EntityPose pose) {
@@ -546,24 +549,28 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
     }
 
     /** TICKMOVEMENT METHODS */
-    public static List<ServerPlayerEntity> addEffectToPlayersWithinDistance(ServerWorld world, @Nullable Entity entity, Vec3d origin, double range, StatusEffectInstance statusEffectInstance, int duration) {
+    public static List<ServerPlayerEntity> addEffectToPlayersWithinDistance(
+            ServerWorld world, @Nullable Entity entity, Vec3d origin, double range, StatusEffectInstance statusEffectInstance, int duration
+    ) {
         StatusEffect statusEffect = statusEffectInstance.getEffectType();
-        List<ServerPlayerEntity> list = world.getPlayers((player) -> {
-            return player.interactionManager.isSurvivalLike() && origin.isInRange(player.getPos(), range) && (!player.hasStatusEffect(statusEffect) || Objects.requireNonNull(player.getStatusEffect(statusEffect)).getAmplifier() < statusEffectInstance.getAmplifier() || Objects.requireNonNull(player.getStatusEffect(statusEffect)).getDuration() < duration);
-        });
-        list.forEach((player) -> {
-            player.addStatusEffect(new StatusEffectInstance(statusEffectInstance), entity);
-        });
+        List<ServerPlayerEntity> list = world.getPlayers(
+                player -> player.interactionManager.isSurvivalLike()
+                        && origin.isInRange(player.getPos(), range)
+                        && (
+                        !player.hasStatusEffect(statusEffect)
+                                || Objects.requireNonNull(player.getStatusEffect(statusEffect)).getAmplifier() < statusEffectInstance.getAmplifier()
+                                || Objects.requireNonNull(player.getStatusEffect(statusEffect)).getDuration() < duration
+                )
+        );
+        list.forEach(player -> player.addStatusEffect(new StatusEffectInstance(statusEffectInstance), entity));
         return list;
     }
 
     //Movement
 
     private static final TrackedData<Integer> ANGER = DataTracker.registerData(WardenEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private WardenAngerManager angerManager = new WardenAngerManager(Collections.emptyList());
+    private WardenAngerManager angerManager = new WardenAngerManager(this::isValidTarget, Collections.emptyList());
     //Emerging & Digging
-
-    private static final double speed = 0.375D;
 
     //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
     public boolean shouldRender=true; //Status 17 (False) Status 18 (True)
@@ -611,5 +618,5 @@ public class WardenEntity extends HostileEntity implements SculkSensorListener.C
         return MathHelper.squaredHypot(d, f) < MathHelper.square(horizontalRadius) && MathHelper.square(e) < MathHelper.square(verticalRadius);
     }
 
-    private final EntityGameEventHandler<SculkSensorListener> gameEventHandler = new EntityGameEventHandler<>(new SculkSensorListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0));
+    private final EntityGameEventHandler<VibrationListener> gameEventHandler;
 }

@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 public class AnimationEasing {
 
-	public static AnimationChannel.Interpolation interpolation(EasingCategories easingCategory, Type type) {
+	public static Transformation.Interpolation interpolation(EasingCategories easingCategory, Type type) {
 		EasingTypes easing = easingCategory.getEasingType(type);
 		return WildMod.registerInRegistryVanilla(WildMod.ANIMATION_CHANNEL_INTERPOLATIONS, new Identifier(WildMod.MOD_ID, easing.getName()),
 				(vector3f, f, keyframes, i, j, g) -> easing(vector3f, easing.apply(f), keyframes, i, j, g));
