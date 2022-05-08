@@ -16,10 +16,10 @@ public class ServerEntityHandlerMixin {
     @Inject(method = "startTracking(Lnet/minecraft/entity/Entity;)V", at = @At("TAIL"))
     public void startTracking(Entity entity, CallbackInfo ci) {
         if (entity instanceof WardenEntity warden) {
-            //warden.updateEventHandler(EntityGameEventHandler::onEntitySetPosCallback);
+            warden.updateEventHandler(EntityGameEventHandler::onEntitySetPosCallback);
             // my brain cant understand this aaa
         } else if (entity instanceof AllayEntity allay) {
-            //allay.updateEventHandler(EntityGameEventHandler::onEntitySetPosCallback);
+            allay.updateEventHandler(EntityGameEventHandler::onEntitySetPosCallback);
             // my brain cant understand this aaa
         }
     }
@@ -27,10 +27,10 @@ public class ServerEntityHandlerMixin {
     @Inject(method = "stopTracking(Lnet/minecraft/entity/Entity;)V", at = @At("TAIL"))
     public void stopTracking(Entity entity, CallbackInfo ci) {
         if (entity instanceof WardenEntity warden) {
-            //warden.updateEventHandler(EntityGameEventHandler::onEntityRemoval);
+            warden.updateEventHandler(EntityGameEventHandler::onEntityRemoval);
             // my brain cant understand this aaa
         } else if (entity instanceof AllayEntity allay) {
-            //allay.updateEventHandler(EntityGameEventHandler::onEntityRemoval);
+            allay.updateEventHandler(EntityGameEventHandler::onEntityRemoval);
             // my brain cant understand this aaa
         }
     }
