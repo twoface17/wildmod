@@ -24,8 +24,6 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import java.util.List;
 
 public class WildConfiguredFeatures {
-
-    public static final Feature<DiskFeatureConfig> DISK = register("disk", new DiskFeature(DiskFeatureConfig.CODEC));
     public static final RegistryEntry<ConfiguredFeature<SculkPatchFeatureConfig, ?>> SCULK_PATCH_DEEP_DARK = register(
             "sculk_patch_deep_dark", WildFeatures.SCULK_PATCH, new SculkPatchFeatureConfig(10, 32, 64, 0, 1, ConstantIntProvider.create(0), 0.5F)
     );
@@ -51,7 +49,7 @@ public class WildConfiguredFeatures {
 
     public static final RegistryEntry<ConfiguredFeature<DiskFeatureConfig, ?>> DISK_GRASS = register(
         "disk_grass",
-        DISK,
+        WildFeatures.DISK,
         new DiskFeatureConfig(
             new PredicatedStateProvider(
                 BlockStateProvider.of(Blocks.DIRT),
