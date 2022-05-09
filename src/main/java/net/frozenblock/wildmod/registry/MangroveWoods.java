@@ -112,8 +112,9 @@ public abstract class MangroveWoods {
                 new BlockItem(MANGROVE_FENCE, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_sign"), MANGROVE_SIGN);
+        Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_wall_sign"), MANGROVE_WALL_SIGN);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_sign"),
-                new SignItem(new Item.Settings().maxCount(16).group(ItemGroup.DECORATIONS), MangroveWoods.MANGROVE_SIGN, MangroveWoods.MANGROVE_WALL_SIGN));
+                new SignItem(new Item.Settings().maxCount(16).group(ItemGroup.DECORATIONS), MANGROVE_SIGN, MANGROVE_WALL_SIGN));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_stairs"), MANGROVE_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_stairs"),
