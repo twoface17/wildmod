@@ -63,7 +63,7 @@ public class WardenBrain {
             RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN,
             RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY
     );
-    private static final Task<WardenEntity> RESET_DIG_COOLDOWN_TASK = new Task<>(
+    private static final Task<WardenEntity> RESET_DIG_COOLDOWN_TASK = new Task<WardenEntity>(
             ImmutableMap.of(RegisterMemoryModules.DIG_COOLDOWN, MemoryModuleState.REGISTERED)
     ) {
         protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {

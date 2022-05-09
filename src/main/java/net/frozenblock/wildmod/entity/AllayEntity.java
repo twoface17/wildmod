@@ -25,6 +25,8 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -46,12 +48,12 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 
 public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, VibrationListener.Callback {
-    private static final Logger field_39405 = LogUtils.getLogger();
+    private static final Logger field_39045 = LogUtils.getLogger();
     private static final int field_38405 = 16;
     private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
     private static final int field_38934 = 5;
     protected static final ImmutableList<SensorType<? extends Sensor<? super AllayEntity>>> SENSORS = ImmutableList.of(
-            SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS
+            SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, SensorType.NEAREST_ITEMS
     );
     protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES = ImmutableList.of(
             MemoryModuleType.PATH,
@@ -59,6 +61,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
             MemoryModuleType.VISIBLE_MOBS,
             MemoryModuleType.WALK_TARGET,
             MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+            MemoryModuleType.HURT_BY,
             MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
             RegisterMemoryModules.LIKED_PLAYER,
             RegisterMemoryModules.LIKED_NOTEBLOCK,
@@ -77,8 +80,8 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
         super(entityType, world);
         this.moveControl = new FlightMoveControl(this, 20, true);
         this.setCanPickUpLoot(this.canPickUpLoot());
-        this.gameEventHandler = new EntityGameEventHandler<>(
-                new VibrationListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0,0)
+        this.gameEventHandler = new EntityGameEventHandler(
+            new VibrationListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0)
         );
     }
 
@@ -140,10 +143,10 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
     }
 
     public boolean damage(DamageSource source, float amount) {
-        Entity var4 = source.getAttacker();
-        if (var4 instanceof PlayerEntity playerEntity) {
-            Optional<UUID> optional = this.getBrain().getOptionalMemory(RegisterMemoryModules.LIKED_PLAYER);
-            if (optional.isPresent() && playerEntity.getUuid().equals(optional.get())) {
+        Entity optional = source.getAttacker();
+        if (optional instanceof PlayerEntity playerEntity) {
+            Optional<UUID> optionalUUID = this.getBrain().getOptionalMemory(RegisterMemoryModules.LIKED_PLAYER);
+            if (optionalUUID.isPresent() && playerEntity.getUuid().equals(optionalUUID.get())) {
                 return false;
             }
         }
@@ -263,22 +266,26 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
 
     public boolean canGather(ItemStack stack) {
         ItemStack itemStack = this.getStackInHand(Hand.MAIN_HAND);
-        return !itemStack.isEmpty() && itemStack.isItemEqual(stack) && this.inventory.canInsert(itemStack);
+        return !itemStack.isEmpty() && itemStack.isItemEqual(stack) && this.inventory.canInsert(stack);
     }
 
     protected void loot(ItemEntity item) {
+        pickUpItem(this, this, item);
+    }
+
+    static void pickUpItem(MobEntity entity, InventoryOwner inventoryOwner, ItemEntity item) {
         ItemStack itemStack = item.getStack();
-        if (this.canGather(itemStack)) {
-            SimpleInventory simpleInventory = this.getInventory();
+        if (entity.canGather(itemStack)) {
+            SimpleInventory simpleInventory = (SimpleInventory) inventoryOwner.getInventory();
             boolean bl = simpleInventory.canInsert(itemStack);
             if (!bl) {
                 return;
             }
 
-            this.triggerItemPickedUpByEntityCriteria(item);
+            entity.triggerItemPickedUpByEntityCriteria(item);
             int i = itemStack.getCount();
             ItemStack itemStack2 = simpleInventory.addStack(itemStack);
-            this.sendPickup(item, i - itemStack2.getCount());
+            entity.sendPickup(item, i - itemStack2.getCount());
             if (itemStack2.isEmpty()) {
                 item.discard();
             } else {
@@ -297,10 +304,10 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
         return !this.isOnGround();
     }
 
-    public void updateEventHandler(BiConsumer<EntityGameEventHandler<?>, ServerWorld> biConsumer) {
+    public void updateEventHandler(BiConsumer<EntityGameEventHandler<?>, ServerWorld> callback) {
         World var3 = this.world;
         if (var3 instanceof ServerWorld serverWorld) {
-            biConsumer.accept(this.gameEventHandler, serverWorld);
+            callback.accept(this.gameEventHandler, serverWorld);
         }
 
     }
@@ -329,7 +336,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
     }
 
     public boolean accepts(ServerWorld world, net.frozenblock.wildmod.event.GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter) {
-        if (this.isAiDisabled()) {
+        if (this.world != world || this.isRemoved() || this.isAiDisabled()) {
             return false;
         } else if (!this.brain.hasMemoryModule(RegisterMemoryModules.LIKED_NOTEBLOCK)) {
             return true;
@@ -342,7 +349,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
     }
 
     public void accept(
-            ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
+            ServerWorld world, GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
     ) {
         if (event == net.frozenblock.wildmod.event.GameEvent.NOTE_BLOCK_PLAY) {
             AllayBrain.rememberNoteBlock(this, new BlockPos(pos));
@@ -352,5 +359,30 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
 
     public TagKey<net.minecraft.world.event.GameEvent> getTag() {
         return WildEventTags.ALLAY_CAN_LISTEN;
+    }
+
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.put("Inventory", this.inventory.toNbtList());
+        VibrationListener.createCodec(this)
+                .encodeStart(NbtOps.INSTANCE, (VibrationListener)this.gameEventHandler.getListener())
+                .resultOrPartial(field_39045::error)
+                .ifPresent(nbtElement -> nbt.put("listener", nbtElement));
+    }
+
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.inventory.readNbtList(nbt.getList("Inventory", 10));
+        if (nbt.contains("listener", 10)) {
+            VibrationListener.createCodec(this)
+                    .parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener")))
+                    .resultOrPartial(field_39045::error)
+                    .ifPresent(vibrationListener -> this.gameEventHandler.setListener(vibrationListener, this.world));
+        }
+
+    }
+
+    protected boolean method_43689() {
+        return false;
     }
 }

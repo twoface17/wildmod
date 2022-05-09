@@ -155,7 +155,7 @@ public class VibrationListener implements GameEventListener {
             return GameEventTags.VIBRATIONS;
         }
 
-        default boolean method_43695() {
+        default boolean canAvoidVibrations() {
             return false;
         }
 
@@ -170,7 +170,7 @@ public class VibrationListener implements GameEventListener {
                     }
 
                     if (entity.bypassesSteppingEffects() && gameEvent.isIn(GameEventTags.IGNORE_VIBRATIONS_SNEAKING)) {
-                        if (this.method_43695() && entity instanceof ServerPlayerEntity serverPlayerEntity) {
+                        if (this.canAvoidVibrations() && entity instanceof ServerPlayerEntity serverPlayerEntity) {
                             TickCriterion.AVOID_VIBRATION.trigger(serverPlayerEntity);
                         }
 

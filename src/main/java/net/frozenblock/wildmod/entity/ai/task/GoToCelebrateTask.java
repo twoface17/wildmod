@@ -17,7 +17,18 @@ public class GoToCelebrateTask<E extends MobEntity> extends Task<E> {
     private final float speed;
 
     public GoToCelebrateTask(MemoryModuleType<BlockPos> memoryModuleType, int i, float f) {
-        super(ImmutableMap.of(memoryModuleType, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED));
+        super(
+            ImmutableMap.of(
+                memoryModuleType,
+                MemoryModuleState.VALUE_PRESENT,
+                MemoryModuleType.ATTACK_TARGET,
+                MemoryModuleState.VALUE_ABSENT,
+                MemoryModuleType.WALK_TARGET,
+                MemoryModuleState.VALUE_ABSENT,
+                MemoryModuleType.LOOK_TARGET,
+                MemoryModuleState.REGISTERED
+            )
+        );
         this.memoryModuleType = memoryModuleType;
         this.completionRange = i;
         this.speed = f;
@@ -42,6 +53,6 @@ public class GoToCelebrateTask<E extends MobEntity> extends Task<E> {
     }
 
     private BlockPos getCelebrateLocation(MobEntity mobEntity) {
-        return (BlockPos)mobEntity.getBrain().getOptionalMemory(this.memoryModuleType).get();
+        return mobEntity.getBrain().getOptionalMemory(this.memoryModuleType).get();
     }
 }

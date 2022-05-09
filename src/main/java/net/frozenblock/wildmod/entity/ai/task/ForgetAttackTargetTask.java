@@ -19,7 +19,11 @@ public class ForgetAttackTargetTask<E extends MobEntity> extends Task<E> {
     private final boolean shouldForgetIfTargetUnreachable;
 
     public ForgetAttackTargetTask(Predicate<LivingEntity> condition, BiConsumer<E, LivingEntity> biConsumer, boolean shouldForgetIfTargetUnreachable) {
-        super(ImmutableMap.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleState.REGISTERED));
+        super(
+            ImmutableMap.of(
+                MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleState.REGISTERED
+            )
+        );
         this.alternativeCondition = condition;
         this.forgetCallback = biConsumer;
         this.shouldForgetIfTargetUnreachable = shouldForgetIfTargetUnreachable;
@@ -35,15 +39,11 @@ public class ForgetAttackTargetTask<E extends MobEntity> extends Task<E> {
     }
 
     public ForgetAttackTargetTask(BiConsumer<E, LivingEntity> biConsumer) {
-        this((target) -> {
-            return false;
-        }, biConsumer);
+        this(target -> false, biConsumer);
     }
 
     public ForgetAttackTargetTask() {
-        this((target) -> {
-            return false;
-        }, (mobEntity, livingEntity) -> {
+        this(target -> false, (mobEntity, livingEntity) -> {
         });
     }
 
@@ -67,17 +67,17 @@ public class ForgetAttackTargetTask<E extends MobEntity> extends Task<E> {
     }
 
     private LivingEntity getAttackTarget(E entity) {
-        return (LivingEntity)entity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
+        return entity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
     }
 
     private static <E extends LivingEntity> boolean cannotReachTarget(E entity) {
         Optional<Long> optional = entity.getBrain().getOptionalMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-        return optional.isPresent() && entity.world.getTime() - (Long)optional.get() > 200L;
+        return optional.isPresent() && entity.world.getTime() - optional.get() > 200L;
     }
 
     private boolean isAttackTargetDead(E entity) {
         Optional<LivingEntity> optional = entity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
-        return optional.isPresent() && !((LivingEntity)optional.get()).isAlive();
+        return optional.isPresent() && !optional.get().isAlive();
     }
 
     protected void forgetAttackTarget(E entity) {

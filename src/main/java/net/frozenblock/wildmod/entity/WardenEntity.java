@@ -29,6 +29,9 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffectUtil;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.nbt.NbtCompound;
@@ -42,6 +45,8 @@ import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.GameEventTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.BlockPos;
@@ -51,6 +56,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -58,22 +64,43 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 public class WardenEntity extends WildHostileEntity implements VibrationListener.Callback {
+    private static final Logger field_38138 = LogUtils.getLogger();
+    private static final int field_38139 = 16;
+    private static final int field_38142 = 40;
+    private static final int field_38860 = 200;
+    private static final int field_38143 = 500;
+    private static final float field_38144 = 0.3F;
+    private static final float field_38145 = 1.0F;
+    private static final float field_38146 = 1.5F;
+    private static final int field_38147 = 30;
+    private static final TrackedData<Integer> ANGER = DataTracker.registerData(WardenEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final int field_38149 = 200;
+    private static final int field_38150 = 260;
+    private static final int field_38151 = 20;
+    private static final int field_38152 = 120;
+    private static final int field_38153 = 20;
+    private static final int field_38155 = 35;
+    private static final int field_38156 = 10;
+    private static final int field_39117 = 20;
+    private static final int field_38157 = 100;
+    private static final int field_38158 = 20;
+    private static final int field_38159 = 30;
+    private static final float field_38160 = 4.5F;
+    private static final float field_38161 = 0.7F;
+    private int field_38162;
+    private int field_38163;
+    private int field_38164;
+    private int field_38165;
+    public AnimationState roaringAnimationState = new AnimationState();
+    public AnimationState sniffingAnimationState = new AnimationState();
+    public AnimationState emergingAnimationState = new AnimationState();
+    public AnimationState diggingAnimationState = new AnimationState();
+    public AnimationState attackingAnimationState = new AnimationState();
+    public AnimationState chargingSonicBoomAnimationState = new AnimationState();
+    private final EntityGameEventHandler<VibrationListener> gameEventHandler;
+    private WardenAngerManager angerManager = new WardenAngerManager(this::isValidTarget, Collections.emptyList());
 
-    /*
-
-    /** WELCOME TO THE WARDEN MUSEUM
-     * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
-     * SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}
-     * SNIFFING & VIBRATIONS {@link WardenEntity#getSniffEntity()}
-     * ATTACKING & ROARING {@link WardenEntity#roar()}
-     * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
-     * OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
-     * VISUAlS {@link WardenEntity#createVibration(World, WardenEntity, BlockPos)}
-     * TICKMOVEMENT METHODS {@link WardenEntity#tickEmerge()}
-     * ALL VALUES ARE STORED AT THE END OF THIS MUSEUM.
-     * */
-
-    public WardenEntity(EntityType<? extends WildHostileEntity> entityType, World world) {
+    public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
         this.gameEventHandler = new EntityGameEventHandler<>(
                 new VibrationListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0)
@@ -186,7 +213,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     public void tick() {
         World var2 = this.world;
         if (var2 instanceof ServerWorld serverWorld) {
-            ((VibrationListener)this.gameEventHandler.getListener()).tick(serverWorld);
+            this.gameEventHandler.getListener().tick(serverWorld);
             if (this.hasCustomName()) {
                 WardenBrain.resetDigCooldown(this);
             }
@@ -268,11 +295,11 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     }
 
     public float getTendrilPitch(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.field_38163, this.field_38162) / 10.0F;
+        return MathHelper.lerp(tickDelta, (float)this.field_38163, (float)this.field_38162) / 10.0F;
     }
 
     public float getHeartPitch(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.field_38165, this.field_38164) / 10.0F;
+        return MathHelper.lerp(tickDelta, (float)this.field_38165, (float)this.field_38164) / 10.0F;
     }
 
     private void addDigParticles(AnimationState animationState) {
@@ -291,7 +318,6 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
 
     }
 
-    @Override
     public void onTrackedDataSet(TrackedData<?> data) {
         if (POSE.equals(data)) {
             if(this.getPose()==WildMod.ROARING) {
@@ -306,7 +332,6 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         }
         super.onTrackedDataSet(data);
     }
-
 
     protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
         return WardenBrain.create(this, dynamic);
@@ -331,6 +356,10 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
 
     public TagKey<net.minecraft.world.event.GameEvent> getTag() {
         return WildEventTags.WARDEN_CAN_LISTEN;
+    }
+
+    public boolean canAvoidVibrations() {
+        return true;
     }
 
     public boolean isValidTarget(@Nullable Entity entity) {
@@ -420,6 +449,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         }
 
     }
+
     public Optional<LivingEntity> getPrimeSuspect() {
         return this.getAngriness().method_43691() ? this.angerManager.getPrimeSuspect() : Optional.empty();
     }
@@ -490,7 +520,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         super.pushAway(entity);
     }
 
-    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, GameEvent.Emitter emitter) {
+    public boolean accepts(ServerWorld world, net.frozenblock.wildmod.event.GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter) {
         if (!this.isAiDisabled()
                 && !this.isDead()
                 && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN)
@@ -510,7 +540,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     }
 
     public void accept(
-            ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
+            ServerWorld world, GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
     ) {
         this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
         world.sendEntityStatus(this, (byte)61);
@@ -543,11 +573,15 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
 
     }
 
+    @VisibleForTesting
+    public WardenAngerManager getAngerManager() {
+        return this.angerManager;
+    }
+
     public boolean isInPose(EntityPose pose) {
         return this.getPose() == pose;
     }
 
-    /** TICKMOVEMENT METHODS */
     public static List<ServerPlayerEntity> addEffectToPlayersWithinDistance(
             ServerWorld world, @Nullable Entity entity, Vec3d origin, double range, StatusEffectInstance statusEffectInstance, int duration
     ) {
@@ -557,58 +591,13 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
                         && origin.isInRange(player.getPos(), range)
                         && (
                         !player.hasStatusEffect(statusEffect)
-                                || Objects.requireNonNull(player.getStatusEffect(statusEffect)).getAmplifier() < statusEffectInstance.getAmplifier()
-                                || Objects.requireNonNull(player.getStatusEffect(statusEffect)).getDuration() < duration
+                                || player.getStatusEffect(statusEffect).getAmplifier() < statusEffectInstance.getAmplifier()
+                                || player.getStatusEffect(statusEffect).getDuration() < duration
                 )
         );
         list.forEach(player -> player.addStatusEffect(new StatusEffectInstance(statusEffectInstance), entity));
         return list;
     }
-
-    //Movement
-
-    private static final TrackedData<Integer> ANGER = DataTracker.registerData(WardenEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private WardenAngerManager angerManager = new WardenAngerManager(this::isValidTarget, Collections.emptyList());
-    //Emerging & Digging
-
-    //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
-    public boolean shouldRender=true; //Status 17 (False) Status 18 (True)
-
-    //ANIMATION
-    public AnimationState emergingAnimationState = new AnimationState(); //Status 9 start, Status 12 stop
-    public AnimationState sniffingAnimationState = new AnimationState(); //Status 10 start, Status 15 stop
-    public AnimationState diggingAnimationState = new AnimationState(); //Status 11 start, Status 13 stop
-    public AnimationState roaringAnimationState = new AnimationState(); //Status 3 start, Status 14 stop
-    public AnimationState attackingAnimationState = new AnimationState(); //Status 4 start, Status 16 stop
-    public AnimationState chargingSonicBoomAnimationState = new AnimationState(); //Status 62 start
-
-    //NO IDEA WHAT THESE ARE.
-    private float field_38162;
-    private float field_38163;
-    private float field_38164;
-    private float field_38165;
-
-    private static final Logger field_38138 = LogUtils.getLogger();
-    private static final int field_38139 = 16;
-    private static final int field_38142 = 40;
-    private static final int field_38860 = 200;
-    private static final int field_38143 = 500;
-    private static final float field_38144 = 0.3F;
-    private static final float field_38145 = 1.0F;
-    private static final float field_38146 = 1.5F;
-    private static final int field_38147 = 30;
-    private static final int field_38149 = 200;
-    private static final int field_38150 = 260;
-    private static final int field_38151 = 20;
-    private static final int field_38152 = 120;
-    private static final int field_38153 = 20;
-    private static final int field_38155 = 35;
-    private static final int field_38156 = 10;
-    private static final int field_38157 = 100;
-    private static final int field_38158 = 20;
-    private static final int field_38159 = 30;
-    private static final float field_38160 = 4.5F;
-    private static final float field_38161 = 0.7F;
 
     public boolean isInRange(Entity entity, double horizontalRadius, double verticalRadius) {
         double d = entity.getX() - this.getX();
@@ -616,6 +605,4 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         double f = entity.getZ() - this.getZ();
         return MathHelper.squaredHypot(d, f) < MathHelper.square(horizontalRadius) && MathHelper.square(e) < MathHelper.square(verticalRadius);
     }
-
-    private final EntityGameEventHandler<VibrationListener> gameEventHandler;
 }

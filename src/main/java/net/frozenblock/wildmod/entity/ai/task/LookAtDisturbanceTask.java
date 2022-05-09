@@ -14,14 +14,14 @@ import net.minecraft.util.math.BlockPos;
 public class LookAtDisturbanceTask extends Task<WardenEntity> {
     public LookAtDisturbanceTask() {
         super(
-                ImmutableMap.of(
-                        RegisterMemoryModules.DISTURBANCE_LOCATION,
-                        MemoryModuleState.REGISTERED,
-                        RegisterMemoryModules.ROAR_TARGET,
-                        MemoryModuleState.REGISTERED,
-                        MemoryModuleType.ATTACK_TARGET,
-                        MemoryModuleState.VALUE_ABSENT
-                )
+            ImmutableMap.of(
+                RegisterMemoryModules.DISTURBANCE_LOCATION,
+                MemoryModuleState.REGISTERED,
+                RegisterMemoryModules.ROAR_TARGET,
+                MemoryModuleState.REGISTERED,
+                MemoryModuleType.ATTACK_TARGET,
+                MemoryModuleState.VALUE_ABSENT
+            )
         );
     }
 

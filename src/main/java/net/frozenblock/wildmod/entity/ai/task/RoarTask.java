@@ -14,6 +14,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Unit;
 
 import java.util.Objects;
@@ -23,7 +24,19 @@ public class RoarTask extends Task<WardenEntity> {
     private static final int SOUND_DELAY = 25;
 
     public RoarTask() {
-        super(ImmutableMap.of(RegisterMemoryModules.ROAR_TARGET, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT, RegisterMemoryModules.ROAR_SOUND_COOLDOWN, MemoryModuleState.REGISTERED, RegisterMemoryModules.ROAR_SOUND_DELAY, MemoryModuleState.REGISTERED), WardenBrain.ROAR_DURATION);
+        super(
+            ImmutableMap.of(
+                RegisterMemoryModules.ROAR_TARGET,
+                MemoryModuleState.VALUE_PRESENT,
+                MemoryModuleType.ATTACK_TARGET,
+                MemoryModuleState.VALUE_ABSENT,
+                RegisterMemoryModules.ROAR_SOUND_COOLDOWN,
+                MemoryModuleState.REGISTERED,
+                RegisterMemoryModules.ROAR_SOUND_DELAY,
+                MemoryModuleState.REGISTERED
+            ),
+            WardenBrain.ROAR_DURATION
+        );
     }
 
     protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
@@ -35,23 +48,13 @@ public class RoarTask extends Task<WardenEntity> {
     }
 
     protected boolean shouldKeepRunning(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
-        Brain<WardenEntity> brain = wardenEntity.getBrain();
-        Optional<LivingEntity> optional = brain.getOptionalMemory(RegisterMemoryModules.ROAR_TARGET);
-        if (optional.isPresent()) {
-            LivingEntity livingEntity = (LivingEntity)optional.get();
-            if (wardenEntity.isValidTarget(livingEntity)) {
-                return true;
-            }
-
-            brain.forget(RegisterMemoryModules.ROAR_TARGET);
-        }
-
-        return false;
+        return true;
     }
 
     protected void keepRunning(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
-        if (!wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.ROAR_SOUND_DELAY) && !wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.ROAR_SOUND_COOLDOWN)) {
-            wardenEntity.getBrain().remember(RegisterMemoryModules.ROAR_SOUND_COOLDOWN, Unit.INSTANCE, (long)(WardenBrain.ROAR_DURATION - 25));
+        if (!wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.ROAR_SOUND_DELAY)
+            && !wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.ROAR_SOUND_COOLDOWN)) {
+            wardenEntity.getBrain().remember(RegisterMemoryModules.ROAR_SOUND_COOLDOWN, Unit.INSTANCE, WardenBrain.ROAR_DURATION - 25);
             wardenEntity.playSound(RegisterSounds.ENTITY_WARDEN_ROAR, 3.0F, 1.0F);
         }
     }
@@ -61,9 +64,7 @@ public class RoarTask extends Task<WardenEntity> {
             wardenEntity.setPose(EntityPose.STANDING);
         }
 
-        Optional<? extends LivingEntity> var10000 = wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.ROAR_TARGET);
-        Objects.requireNonNull(wardenEntity);
-        var10000.ifPresent(wardenEntity::updateAttackTarget);
+        wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.ROAR_TARGET).ifPresent(wardenEntity::updateAttackTarget);
         wardenEntity.getBrain().forget(RegisterMemoryModules.ROAR_TARGET);
     }
 }

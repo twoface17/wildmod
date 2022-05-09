@@ -55,19 +55,21 @@ public class WardenAngerManager {
 
     public WardenAngerManager(Predicate<Entity> predicate, List<Pair<UUID, Integer>> list) {
         this.field_39114 = predicate;
-        this.suspects = new ArrayList<>();
+        this.suspects = new ArrayList();
         this.field_39115 = new WardenAngerManager.SuspectComparator(this);
-        this.suspectsToAngerLevel = new Object2IntOpenHashMap<>();
-        this.suspectUuidsToAngerLevel = new Object2IntOpenHashMap<>(list.size());
-        list.forEach(pair -> this.suspectUuidsToAngerLevel.put(pair.getFirst(), pair.getSecond()));
+        this.suspectsToAngerLevel = new Object2IntOpenHashMap();
+        this.suspectUuidsToAngerLevel = new Object2IntOpenHashMap(list.size());
+        list.forEach(pair -> this.suspectUuidsToAngerLevel.put((UUID)pair.getFirst(), (Integer)pair.getSecond()));
     }
 
     private List<Pair<UUID, Integer>> getSuspects() {
-        return Streams.concat(
-            this.suspects.stream().map(suspect -> Pair.of(suspect.getUuid(), this.suspectsToAngerLevel.getInt(suspect))),
-            this.suspectUuidsToAngerLevel.object2IntEntrySet().stream().map(entry -> Pair.of(entry.getKey(), entry.getIntValue()))
-        )
-        .collect(Collectors.toList());
+        return (List<Pair<UUID, Integer>>)Streams.concat(
+                        new Stream[]{
+                                this.suspects.stream().map(suspect -> Pair.of(suspect.getUuid(), this.suspectsToAngerLevel.getInt(suspect))),
+                                this.suspectUuidsToAngerLevel.object2IntEntrySet().stream().map(entry -> Pair.of((UUID)entry.getKey(), entry.getIntValue()))
+                        }
+                )
+                .collect(Collectors.toList());
     }
 
     public void tick(ServerWorld world, Predicate<Entity> suspectPredicate) {
@@ -80,7 +82,7 @@ public class WardenAngerManager {
         ObjectIterator<Object2IntMap.Entry<UUID>> objectIterator = this.suspectUuidsToAngerLevel.object2IntEntrySet().iterator();
 
         while(objectIterator.hasNext()) {
-            Object2IntMap.Entry<UUID> entry = objectIterator.next();
+            Object2IntMap.Entry<UUID> entry = (Object2IntMap.Entry)objectIterator.next();
             int i = entry.getIntValue();
             if (i <= 1) {
                 objectIterator.remove();
@@ -92,9 +94,9 @@ public class WardenAngerManager {
         ObjectIterator<Object2IntMap.Entry<Entity>> objectIterator2 = this.suspectsToAngerLevel.object2IntEntrySet().iterator();
 
         while(objectIterator2.hasNext()) {
-            Object2IntMap.Entry<Entity> entry2 = objectIterator2.next();
+            Object2IntMap.Entry<Entity> entry2 = (Object2IntMap.Entry)objectIterator2.next();
             int j = entry2.getIntValue();
-            Entity entity = entry2.getKey();
+            Entity entity = (Entity)entry2.getKey();
             Entity.RemovalReason removalReason = entity.getRemovalReason();
             if (j > 1 && suspectPredicate.test(entity) && removalReason == null) {
                 entry2.setValue(j - 1);
@@ -119,9 +121,9 @@ public class WardenAngerManager {
         ObjectIterator<Object2IntMap.Entry<UUID>> objectIterator = this.suspectUuidsToAngerLevel.object2IntEntrySet().iterator();
 
         while(objectIterator.hasNext()) {
-            Object2IntMap.Entry<UUID> entry = objectIterator.next();
+            Object2IntMap.Entry<UUID> entry = (Object2IntMap.Entry)objectIterator.next();
             int i = entry.getIntValue();
-            Entity entity = world.getEntity(entry.getKey());
+            Entity entity = world.getEntity((UUID)entry.getKey());
             if (entity != null) {
                 this.suspectsToAngerLevel.put(entity, i);
                 this.suspects.add(entity);

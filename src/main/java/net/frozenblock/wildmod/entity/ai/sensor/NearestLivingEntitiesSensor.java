@@ -15,7 +15,6 @@ import java.util.Set;
 
 public class NearestLivingEntitiesSensor<T extends LivingEntity> extends Sensor<T> {
     public NearestLivingEntitiesSensor() {
-
     }
 
     protected void sense(ServerWorld world, T entity) {
