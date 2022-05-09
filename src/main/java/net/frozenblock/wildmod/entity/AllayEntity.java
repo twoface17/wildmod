@@ -22,7 +22,6 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
@@ -46,7 +45,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-public class AllayEntity extends PathAwareEntity implements InventoryOwner, VibrationListener.Callback {
+public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, VibrationListener.Callback {
     private static final Logger field_39405 = LogUtils.getLogger();
     private static final int field_38405 = 16;
     private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
@@ -298,7 +297,7 @@ public class AllayEntity extends PathAwareEntity implements InventoryOwner, Vibr
         return !this.isOnGround();
     }
 
-    public void updateEventHandler(BiConsumer<EntityGameEventHandler<VibrationListener>, ServerWorld> biConsumer) {
+    public void updateEventHandler(BiConsumer<EntityGameEventHandler<?>, ServerWorld> biConsumer) {
         World var3 = this.world;
         if (var3 instanceof ServerWorld serverWorld) {
             biConsumer.accept(this.gameEventHandler, serverWorld);

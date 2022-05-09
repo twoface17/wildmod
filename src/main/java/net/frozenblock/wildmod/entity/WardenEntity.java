@@ -29,7 +29,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.nbt.NbtCompound;
@@ -58,7 +57,7 @@ import org.slf4j.Logger;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-public class WardenEntity extends HostileEntity implements VibrationListener.Callback {
+public class WardenEntity extends WildHostileEntity implements VibrationListener.Callback {
 
     /*
 
@@ -74,7 +73,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
      * ALL VALUES ARE STORED AT THE END OF THIS MUSEUM.
      * */
 
-    public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
+    public WardenEntity(EntityType<? extends WildHostileEntity> entityType, World world) {
         super(entityType, world);
         this.gameEventHandler = new EntityGameEventHandler<>(
                 new VibrationListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0)
@@ -131,7 +130,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
     }
 
     public static DefaultAttributeContainer.Builder addAttributes() {
-        return HostileEntity.createHostileAttributes()
+        return WildHostileEntity.createHostileAttributes()
             .add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0)
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3F)
             .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0)
@@ -322,7 +321,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
         DebugInfoSender.sendBrainDebugData(this);
     }
 
-    public void updateEventHandler(BiConsumer<EntityGameEventHandler<VibrationListener>, ServerWorld> callback) {
+    public void updateEventHandler(BiConsumer<EntityGameEventHandler<?>, ServerWorld> callback) {
         World var3 = this.world;
         if (var3 instanceof ServerWorld serverWorld) {
             callback.accept(this.gameEventHandler, serverWorld);
