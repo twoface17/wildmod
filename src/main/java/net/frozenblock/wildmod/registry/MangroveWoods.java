@@ -8,7 +8,9 @@ import net.frozenblock.wildmod.block.mangrove.*;
 import net.frozenblock.wildmod.mixins.SignTypeInvoker;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.SignItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -61,6 +63,8 @@ public abstract class MangroveWoods {
             SoundEvents.BLOCK_WOOD_FALL
     )));
     public static final Block MANGROVE_SIGN = new SignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), MANGROVE_SIGN_TYPE);
+    public static final Block MANGROVE_WALL_SIGN = new WallSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), MANGROVE_SIGN_TYPE);
+
 
     public static void RegisterMangrove() {
             
@@ -109,7 +113,7 @@ public abstract class MangroveWoods {
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_sign"), MANGROVE_SIGN);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_sign"),
-                new BlockItem(MANGROVE_SIGN, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+                new SignItem(new Item.Settings().maxCount(16).group(ItemGroup.DECORATIONS), MangroveWoods.MANGROVE_SIGN, MangroveWoods.MANGROVE_WALL_SIGN));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_stairs"), MANGROVE_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_stairs"),
