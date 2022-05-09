@@ -25,7 +25,6 @@ import java.util.stream.Stream;
 
 public abstract class MangroveWoods {
 
-    protected static final SignType MANGROVE_SIGN_TYPE = SignTypeInvoker.callRegister(new WildSignType("mangrove"));
 
     // THIS VARIABLE DEFINES ALL PROPERTIES FOR WOOD
     public static final AbstractBlock.Settings WOOD_PROPERTIES = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS);
@@ -67,8 +66,8 @@ public abstract class MangroveWoods {
             SoundEvents.BLOCK_WOOD_HIT,
             SoundEvents.BLOCK_WOOD_FALL
     )));
-    public static final Block MANGROVE_SIGN = new SignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), MANGROVE_SIGN_TYPE);
-    public static final Block MANGROVE_WALL_SIGN = new WallSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), MANGROVE_SIGN_TYPE);
+    public static final Block MANGROVE_SIGN = new SignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), WildSignType.MANGROVE);
+    public static final Block MANGROVE_WALL_SIGN = new WallSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), WildSignType.MANGROVE);
 
     private static final Map<Block, BlockFamily> BASE_BLOCKS_TO_FAMILIES = Maps.newHashMap();
 
