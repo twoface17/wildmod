@@ -1,5 +1,6 @@
 package net.frozenblock.wildmod.registry;
 
+import com.google.common.collect.Maps;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.frozenblock.wildmod.WildMod;
@@ -7,6 +8,7 @@ import net.frozenblock.wildmod.block.WildSignType;
 import net.frozenblock.wildmod.block.mangrove.*;
 import net.frozenblock.wildmod.mixins.SignTypeInvoker;
 import net.minecraft.block.*;
+import net.minecraft.data.family.BlockFamily;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -17,6 +19,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
+
+import java.util.Map;
+import java.util.stream.Stream;
 
 public abstract class MangroveWoods {
 
@@ -64,6 +69,36 @@ public abstract class MangroveWoods {
     )));
     public static final Block MANGROVE_SIGN = new SignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), MANGROVE_SIGN_TYPE);
     public static final Block MANGROVE_WALL_SIGN = new WallSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), MANGROVE_SIGN_TYPE);
+
+    private static final Map<Block, BlockFamily> BASE_BLOCKS_TO_FAMILIES = Maps.newHashMap();
+
+    public static final BlockFamily MANGROVE = register(MANGROVE_PLANKS)
+            .button(MANGROVE_BUTTON)
+            .slab(MANGROVE_SLAB)
+            .stairs(MANGROVE_STAIRS)
+            .fence(MANGROVE_FENCE)
+            .fenceGate(MANGROVE_FENCE_GATE)
+            .pressurePlate(MANGROVE_PRESSURE_PLATE)
+            .sign(MANGROVE_SIGN, MANGROVE_WALL_SIGN)
+            .door(MANGROVE_DOOR)
+            .trapdoor(MANGROVE_TRAPDOOR)
+            .group("wooden")
+            .unlockCriterionName("has_planks")
+            .build();
+
+    public static Stream<BlockFamily> getFamilies() {
+        return BASE_BLOCKS_TO_FAMILIES.values().stream();
+    }
+
+    public static BlockFamily.Builder register(Block baseBlock) {
+        BlockFamily.Builder builder = new BlockFamily.Builder(baseBlock);
+        BlockFamily blockFamily = BASE_BLOCKS_TO_FAMILIES.put(baseBlock, builder.build());
+        if (blockFamily != null) {
+            throw new IllegalStateException("Duplicate family definition for " + Registry.BLOCK.getId(baseBlock));
+        } else {
+            return builder;
+        }
+    }
 
 
     public static void RegisterMangrove() {

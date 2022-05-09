@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+	"twm:oak_chest_boat",
+	"twm:spruce_chest_boat",
+	"twm:birch_chest_boat",
+	"twm:jungle_chest_boat",
+	"twm:acacia_chest_boat",
+	"twm:dark_oak_chest_boat",
+	"twm:mangrove_chest_boat"
+  ]
+}
