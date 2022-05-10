@@ -1,20 +1,32 @@
 package net.frozenblock.wildmod.liukrastapi;
 
 import com.google.gson.JsonObject;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementsProvider;
 import net.frozenblock.wildmod.WildMod;
+import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.AdvancementFrame;
+import net.minecraft.advancement.CriterionMerger;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.OnKilledCriterion;
+import net.minecraft.item.Items;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
+import net.minecraft.predicate.entity.DamageSourcePredicate;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 public class TickCriterion extends AbstractCriterion<TickCriterion.Conditions> {
     final Identifier id;
     public static final TickCriterion AVOID_VIBRATION = Criteria.register(new TickCriterion(new Identifier(WildMod.MOD_ID, "avoid_vibrations")));
     public static final OnKilledCriterion KILL_MOB_NEAR_SCULK_CATALYST = Criteria.register(new OnKilledCriterion(new Identifier(WildMod.MOD_ID, "kill_mob_near_sculk_catalyst")));
+
+    public static OnKilledCriterion.Conditions createKillMobNearSculkCatalyst() {
+        return new OnKilledCriterion.Conditions(TickCriterion.KILL_MOB_NEAR_SCULK_CATALYST.getId(), EntityPredicate.Extended.EMPTY, EntityPredicate.Extended.EMPTY, DamageSourcePredicate.EMPTY);
+    }
 
     public TickCriterion(Identifier id) {
         this.id = id;

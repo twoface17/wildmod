@@ -1,5 +1,5 @@
 {
-  "parent": "twm:adventure/root",
+  "parent": "adventure/root",
   "criteria": {
 	"kill_mob_near_sculk_catalyst": {
 	  "conditions": {},
@@ -9,7 +9,7 @@
   "display": {
 	"announce_to_chat": true,
 	"description": {
-	  "translate": "advancements.adventure.kill_mob_near_sculk_catalyst.description"
+	  "translate": "twm:advancements.adventure.kill_mob_near_sculk_catalyst.description"
 	},
 	"frame": "challenge",
 	"hidden": false,
@@ -18,12 +18,12 @@
 	},
 	"show_toast": true,
 	"title": {
-	  "translate": "advancements.adventure.kill_mob_near_sculk_catalyst.title"
+	  "translate": "twm:advancements.adventure.kill_mob_near_sculk_catalyst.title"
 	}
   },
   "requirements": [
 	[
-	  "kill_mob_near_sculk_catalyst"
+	  "twm:kill_mob_near_sculk_catalyst"
 	]
   ]
 }

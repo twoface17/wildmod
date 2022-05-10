@@ -5,8 +5,6 @@ import net.frozenblock.wildmod.block.SculkCatalystBlock;
 import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.liukrastapi.TickCriterion;
-import net.frozenblock.wildmod.liukrastapi.Vec3d;
-import net.frozenblock.wildmod.mixins.LivingEntityInvoker;
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -53,14 +51,14 @@ public class SculkCatalystBlockEntity extends BlockEntity implements GameEventLi
             net.frozenblock.wildmod.event.GameEvent.Emitter emitter = arg.method_43727();
             if (arg.method_43724() == GameEvent.ENTITY_KILLED) {
                 Entity i = emitter.sourceEntity();
-                if (i instanceof LivingEntity livingEntity) {
-                    //if (!livingEntity.isExperienceDroppingDisabled()) {
-                        int sus = LivingEntityInvoker.callGetXpToDrop((PlayerEntity) livingEntity);
-                        if (shouldDropXp(livingEntity) && sus > 0) {
+                if (i instanceof WildLivingEntity livingEntity) {
+                    if (!livingEntity.isExperienceDroppingDisabled()) {
+                        int sus = livingEntity.getXpToDrop();
+                        if (livingEntity.shouldDropXp() && sus > 0) {
                             this.spreadManager.spread(new BlockPos(arg.method_43726().withBias(Direction.UP, 0.5)), sus);
                         }
 
-                        //livingEntity.disableExperienceDropping();
+                        livingEntity.disableExperienceDropping();
                         LivingEntity livingEntity2 = livingEntity.getAttacker();
                         if (livingEntity2 instanceof ServerPlayerEntity serverPlayerEntity) {
                             DamageSource damageSource = livingEntity.getRecentDamageSource() == null
@@ -70,7 +68,7 @@ public class SculkCatalystBlockEntity extends BlockEntity implements GameEventLi
                         }
 
                         SculkCatalystBlock.bloom(world, this.pos, this.getCachedState(), world.getRandom());
-                   //}
+                   }
 
                     return true;
                 }
@@ -78,10 +76,6 @@ public class SculkCatalystBlockEntity extends BlockEntity implements GameEventLi
 
             return false;
         }
-    }
-
-    public boolean shouldDropXp(LivingEntity livingEntity) {
-        return !livingEntity.isBaby();
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, SculkCatalystBlockEntity blockEntity) {

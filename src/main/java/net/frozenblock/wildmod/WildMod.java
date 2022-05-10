@@ -35,7 +35,7 @@ public class WildMod implements ModInitializer {
     public static final EntityPose EMERGING = ClassTinkerers.getEnum(EntityPose.class, "EMERGING");
     public static final EntityPose DIGGING = ClassTinkerers.getEnum(EntityPose.class, "DIGGING");
 
-    public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier("allay_drop_item_on_block"));
+    public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
 
 
     @Override

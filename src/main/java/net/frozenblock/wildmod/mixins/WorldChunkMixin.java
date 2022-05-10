@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,24 +21,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WorldChunk.class)
 public abstract class WorldChunkMixin {
 
-    @Shadow @Final private World world;
+    @Shadow
+    @Final
+    World world;
 
-    @Shadow public abstract net.minecraft.world.event.listener.GameEventDispatcher getGameEventDispatcher(int ySectionCoord);
+    @Shadow
+    public abstract net.minecraft.world.event.listener.GameEventDispatcher getGameEventDispatcher(int ySectionCoord);
 
-    @Shadow @Final private Int2ObjectMap<net.minecraft.world.event.listener.GameEventDispatcher> gameEventDispatchers;
+    @Shadow
+    @Final
+    private Int2ObjectMap<net.minecraft.world.event.listener.GameEventDispatcher> gameEventDispatchers;
 
     @Inject(method = "removeGameEventListener", at = @At("TAIL"))
     private <T extends BlockEntity> void removeGameEventListener(T blockEntity, CallbackInfo ci) {
         Block block = blockEntity.getCachedState().getBlock();
-        if (block instanceof WildBlockEntityProvider) {
-            World world = blockEntity.getWorld();
+        if (block instanceof WildBlockEntityProvider wildBlockEntityProvider) {
+            World world = this.world;
             if (world instanceof ServerWorld serverWorld) {
-                GameEventListener gameEventListener = ((WildBlockEntityProvider) block).getWildGameEventListener(serverWorld, blockEntity);
-                if (gameEventListener != null) {
-                    int i = ChunkSectionPos.getSectionCoord(blockEntity.getPos().getY());
-                    GameEventDispatcher gameEventDispatcher = (GameEventDispatcher) this.getGameEventDispatcher(i);
-                    gameEventDispatcher.removeListener(gameEventListener);
-                    if (gameEventDispatcher.isEmpty()) {
+                GameEventListener gameEventListener = wildBlockEntityProvider.getWildGameEventListener(serverWorld, blockEntity);
+                int i = ChunkSectionPos.getSectionCoord(blockEntity.getPos().getY());
+                net.minecraft.world.event.listener.GameEventDispatcher gameEventDispatcher = this.getGameEventDispatcher(i);
+                if (gameEventListener != null && gameEventDispatcher instanceof GameEventDispatcher gameEventDispatcher1) {
+                    gameEventDispatcher1.removeListener(gameEventListener);
+                    if (gameEventDispatcher1.isEmpty()) {
                         this.gameEventDispatchers.remove(i);
                     }
                 }
@@ -48,15 +54,16 @@ public abstract class WorldChunkMixin {
     @Inject(method = "updateGameEventListener", at = @At("TAIL"))
     private <T extends BlockEntity> void updateGameEventListener(T blockEntity, CallbackInfo ci) {
         Block block = blockEntity.getCachedState().getBlock();
-        if (block instanceof WildBlockEntityProvider) {
-            World world = blockEntity.getWorld();
+        if (block instanceof WildBlockEntityProvider wildBlockEntityProvider) {
+            World world = this.world;
             if (world instanceof ServerWorld serverWorld) {
-                GameEventListener gameEventListener = ((WildBlockEntityProvider) block).getWildGameEventListener(serverWorld, blockEntity);
-                if (gameEventListener != null) {
-                    GameEventDispatcher gameEventDispatcher = (GameEventDispatcher) this.getGameEventDispatcher(ChunkSectionPos.getSectionCoord(blockEntity.getPos().getY()));
-                    gameEventDispatcher.addListener(gameEventListener);
+                GameEventListener gameEventListener = wildBlockEntityProvider.getWildGameEventListener(serverWorld, blockEntity);
+                net.minecraft.world.event.listener.GameEventDispatcher gameEventDispatcher = this.getGameEventDispatcher(ChunkSectionPos.getSectionCoord(blockEntity.getPos().getY()));
+                if (gameEventListener != null && gameEventDispatcher instanceof GameEventDispatcher gameEventDispatcher1) {
+                    gameEventDispatcher1.addListener(gameEventListener);
                 }
             }
         }
     }
+
 }

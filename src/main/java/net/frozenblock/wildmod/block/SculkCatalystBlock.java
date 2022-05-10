@@ -61,7 +61,7 @@ public class SculkCatalystBlock extends WildBlockWithEntity {
     }
 
     @Nullable
-    public <T extends BlockEntity> GameEventListener getWildGameEventListener(World world, T blockEntity) {
+    public <T extends BlockEntity> GameEventListener getWildGameEventListener(ServerWorld world, T blockEntity) {
         return blockEntity instanceof SculkCatalystBlockEntity ? (SculkCatalystBlockEntity)blockEntity : null;
     }
 
