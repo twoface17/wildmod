@@ -49,6 +49,7 @@ public class WildMod implements ModInitializer {
         RegisterParticles.RegisterParticles();
         RegisterStatusEffects.RegisterStatusEffects();
         RegisterWorldgen.RegisterWorldgen();
+        RegisterFlammability.register();
 
         registerData(OPTIONAL_INT);
 
