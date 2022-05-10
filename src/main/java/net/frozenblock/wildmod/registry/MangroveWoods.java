@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.registry;
 import com.google.common.collect.Maps;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.WildSignType;
 import net.frozenblock.wildmod.block.mangrove.*;
@@ -174,5 +175,7 @@ public abstract class MangroveWoods {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_fence_gate"),
                 new BlockItem(MANGROVE_FENCE_GATE, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
+        
+        StrippableBlockRegistry.register(MANGROVE_LOG, STRIPPED_MANGROVE_LOG);
     }
 }
