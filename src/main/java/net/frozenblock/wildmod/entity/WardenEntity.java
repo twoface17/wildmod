@@ -87,10 +87,10 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     private static final int field_38159 = 30;
     private static final float field_38160 = 4.5F;
     private static final float field_38161 = 0.7F;
-    private int field_38162;
-    private int field_38163;
-    private int field_38164;
-    private int field_38165;
+    private int tendril_animation_ticks;
+    private int previous_tendril_animation_ticks;
+    private int heartbeat_animation_ticks;
+    private int previous_heartbeat_animation_ticks;
     public AnimationState roaringAnimationState = new AnimationState();
     public AnimationState sniffingAnimationState = new AnimationState();
     public AnimationState emergingAnimationState = new AnimationState();
@@ -222,7 +222,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         super.tick();
         if (this.world.isClient()) {
             if (this.age % this.getHeartRate() == 0) {
-                this.field_38164 = 10;
+                this.heartbeat_animation_ticks = 10;
                 if (!this.isSilent()) {
                     this.world
                             .playSound(
@@ -238,14 +238,14 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
                 }
             }
 
-            this.field_38163 = this.field_38162;
-            if (this.field_38162 > 0) {
-                --this.field_38162;
+            this.previous_tendril_animation_ticks = this.tendril_animation_ticks;
+            if (this.tendril_animation_ticks > 0) {
+                --this.tendril_animation_ticks;
             }
 
-            this.field_38165 = this.field_38164;
-            if (this.field_38164 > 0) {
-                --this.field_38164;
+            this.previous_heartbeat_animation_ticks = this.heartbeat_animation_ticks;
+            if (this.heartbeat_animation_ticks > 0) {
+                --this.heartbeat_animation_ticks;
             }
 
             if (this.isInPose(WildMod.EMERGING)) {
@@ -280,7 +280,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         if (status == 4) {
             this.attackingAnimationState.start();
         } else if (status == 61) {
-            this.field_38162 = 10;
+            this.tendril_animation_ticks = 10;
         } else if (status == 62) {
             this.chargingSonicBoomAnimationState.start();
         } else {
@@ -295,11 +295,11 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     }
 
     public float getTendrilPitch(float tickDelta) {
-        return MathHelper.lerp(tickDelta, (float)this.field_38163, (float)this.field_38162) / 10.0F;
+        return MathHelper.lerp(tickDelta, (float)this.previous_tendril_animation_ticks, (float)this.tendril_animation_ticks) / 10.0F;
     }
 
     public float getHeartPitch(float tickDelta) {
-        return MathHelper.lerp(tickDelta, (float)this.field_38165, (float)this.field_38164) / 10.0F;
+        return MathHelper.lerp(tickDelta, (float)this.previous_heartbeat_animation_ticks, (float)this.heartbeat_animation_ticks) / 10.0F;
     }
 
     private void addDigParticles(AnimationState animationState) {
