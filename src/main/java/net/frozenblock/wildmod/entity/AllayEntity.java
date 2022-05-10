@@ -260,7 +260,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
         return this.inventory;
     }
 
-    protected Vec3i getItemPickUpRangeExpander() {
+    public Vec3i getItemPickUpRangeExpander() {
         return ITEM_PICKUP_RANGE_EXPANDER;
     }
 
