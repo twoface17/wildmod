@@ -60,18 +60,17 @@ public abstract class MobEntityMixin extends LivingEntity {
         this.world.getProfiler().push("looting");
         if (!this.world.isClient && this.canPickUpLoot() && this.isAlive() && !this.dead && this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
             MobEntity mobEntity = (MobEntity) ((ServerWorld)this.world).getEntity(uuid);
-            WildPathAwareEntity wildPathAwareEntity = (WildPathAwareEntity)mobEntity;
-            assert wildPathAwareEntity != null;
-            Vec3i vec3i = wildPathAwareEntity.getItemPickUpRangeExpander();
+            if (mobEntity instanceof WildPathAwareEntity wildPathAwareEntity) {
+                Vec3i vec3i = wildPathAwareEntity.getItemPickUpRangeExpander();
 
-            for(ItemEntity itemEntity : this.world
-                    .getNonSpectatingEntities(ItemEntity.class, this.getBoundingBox().expand((double)vec3i.getX(), (double)vec3i.getY(), (double)vec3i.getZ()))) {
-                if (!itemEntity.isRemoved() && !itemEntity.getStack().isEmpty() && !itemEntity.cannotPickup() && this.canGather(itemEntity.getStack())) {
-                    this.loot(itemEntity);
+                for(ItemEntity itemEntity : this.world
+                        .getNonSpectatingEntities(ItemEntity.class, this.getBoundingBox().expand((double)vec3i.getX(), (double)vec3i.getY(), (double)vec3i.getZ()))) {
+                    if (!itemEntity.isRemoved() && !itemEntity.getStack().isEmpty() && !itemEntity.cannotPickup() && this.canGather(itemEntity.getStack())) {
+                        this.loot(itemEntity);
+                    }
                 }
             }
         }
-
         this.world.getProfiler().pop();
     }
 
