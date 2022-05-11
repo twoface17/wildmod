@@ -18,20 +18,20 @@ jobs:
         os: [ubuntu-latest] #, windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: checkout repository
+      - name: Checking Out the Repository
         uses: actions/checkout@v3
-      - name: validate gradle wrapper
+      - name: Validating the Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: setup jdk ${{ matrix.java }}
+      - name: Setting up Java ${{ matrix.java }}
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
           java-package: jdk
-      - name: make gradle wrapper executable
+      - name: Setting Up the Gradle Wrapper
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
-      - name: Cache
+      - name: Caching Dependencies
         uses: actions/cache@v3
         with:
           path: |
@@ -41,9 +41,9 @@ jobs:
           key: ${{ runner.os }}-gradle-#{{ hashFiles('**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: build
+      - name: Building
         run: ./gradlew build
-      - name: capture build artifacts
+      - name: Uploading the Build Artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts from Linux
         uses: actions/upload-artifact@v3
         with:
