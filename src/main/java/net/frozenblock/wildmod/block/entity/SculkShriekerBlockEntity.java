@@ -6,6 +6,7 @@ import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -103,7 +104,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
         boolean bl = gameEvent == GameEvent.BLOCK_DESTROY && blockPos.equals(this.getPos());
         boolean bl2 = gameEvent == GameEvent.BLOCK_PLACE && blockPos.equals(this.getPos());
         getDir(world, this.getPos(), blockPos);
-        return !bl && !bl2 && SculkShriekerBlock.isInactive(this.getCachedState());
+        return !bl && !bl2 && entity instanceof PlayerEntity && SculkShriekerBlock.isInactive(this.getCachedState());
     }
 
     public void getDir(World world, BlockPos blockPos, BlockPos blockPos2) {
