@@ -66,7 +66,7 @@ public class WildPlacedFeatures {
         SquarePlacementModifier.of(),
         SurfaceWaterDepthFilterPlacementModifier.of(5),
         PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP,
-        PlacementModifier.of(),
+        BiomePlacementModifier.of(),
         BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))
     );
 
