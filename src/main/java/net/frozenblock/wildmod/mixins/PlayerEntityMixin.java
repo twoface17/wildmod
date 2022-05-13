@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.block.entity.SculkShriekerWarningManager;
 import net.frozenblock.wildmod.entity.WardenBrain;
 import net.frozenblock.wildmod.entity.WardenEntity;
+import net.frozenblock.wildmod.liukrastapi.PlayerEntityAccess;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
@@ -31,7 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Mixin(PlayerEntity.class)
-public class PlayerEntityMixin {
+public class PlayerEntityMixin implements PlayerEntityAccess {
 
 	protected SculkShriekerWarningManager sculkShriekerWarningManager = new SculkShriekerWarningManager(0, 0, 0);
 
@@ -42,6 +43,7 @@ public class PlayerEntityMixin {
 	//ALWAYS SET TO FALSE BEFORE COMMITTING AND RELEASING THE WILD MOD
 
 
+	@Override
 	public SculkShriekerWarningManager getSculkShriekerWarningManager() {
 		return this.sculkShriekerWarningManager;
 	}

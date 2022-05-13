@@ -2,7 +2,9 @@ package net.frozenblock.wildmod.world.gen;
 
 import com.mojang.serialization.Lifecycle;
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
+import net.frozenblock.wildmod.registry.RegisterWorldgen;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
@@ -21,7 +23,8 @@ public class WildPlacedFeatures {
     public static final RegistryEntry<PlacedFeature> SCULK_PATCH_ANCIENT_CITY;
     public static final RegistryEntry<PlacedFeature> SCULK_VEIN;
     public static final RegistryEntry<PlacedFeature> DISK_GRASS;
-    //public static final RegistryEntry<PlacedFeature> TALL_MANGROVE_CHECKED;
+    public static final RegistryEntry<PlacedFeature> MANGROVE_CHECKED = register("mangrove_checked", WildConfiguredFeatures.MANGROVE, PlacedFeatures.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE));
+    public static final RegistryEntry<PlacedFeature> TALL_MANGROVE_CHECKED = register("tall_mangrove_checked", WildConfiguredFeatures.TALL_MANGROVE, PlacedFeatures.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE));
 
     static {
 

@@ -16,10 +16,29 @@ repositories {
 			includeGroup "com.github.Chocohead"
 		}
 	}
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
 }
 
 loom {
 	accessWidenerPath = file("src/main/resources/twm.accesswidener")
+}
+
+configurations {
+	includeModImplementation
+	includeImplementation
+
+	include.extendsFrom includeImplementation
+	include.extendsFrom includeModImplementation
+
+	implementation.extendsFrom includeImplementation
+	implementation.extendsFrom includeModImplementation
 }
 
 dependencies {
@@ -32,6 +51,14 @@ dependencies {
 	// Fabric-ASM
 	modImplementation "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 	include "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
+
+	if (findProperty("twm.use_third_party_mods") != "false") {
+		includeModImplementation "maven.modrinth:lazydfu:0.1.2"
+	}
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = "UTF-8"
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -50,13 +77,17 @@ java {
 }
 
 jar {
-	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
-	}
+	from "${rootProject.projectDir}/LICENSE.txt"
 }
 
 String getVersion() {
 	String version = "${project.mod_version}+[${project.minecraft_version}]"
+
+	if (findProperty("releaseType") != "stable") {
+		version += "-unstable"
+	}
+
+	return version
 }
 
 publishing {

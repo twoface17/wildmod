@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableList;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.mixins.TreeDecoratorTypeInvoker;
 import net.frozenblock.wildmod.tags.BiomeTags;
+import net.frozenblock.wildmod.world.gen.UpwardsBranchingTrunkPlacer;
 import net.frozenblock.wildmod.world.gen.structure.BlockRotStructureProcessor;
-import net.frozenblock.wildmod.world.gen.MangroveTreeDecorator;
 import net.frozenblock.wildmod.world.gen.WildConfiguredFeatures;
 import net.frozenblock.wildmod.world.gen.WildPlacedFeatures;
 import net.frozenblock.wildmod.world.gen.structure.StructureTerrainAdaptation;
@@ -45,10 +45,7 @@ import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
 import net.minecraft.world.gen.heightprovider.ConstantHeightProvider;
-import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
-import net.minecraft.world.gen.placementmodifier.BlockFilterPlacementModifier;
-import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
-import net.minecraft.world.gen.placementmodifier.SurfaceWaterDepthFilterPlacementModifier;
+import net.minecraft.world.gen.placementmodifier.*;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraft.world.gen.trunk.BendingTrunkPlacer;
@@ -68,10 +65,10 @@ public class RegisterWorldgen {
     public static RegistryEntry<PlacedFeature> TREES_MANGROVE;
     //public static RegistryEntry<ConfiguredFeature<RandomFeatureConfig, ?>> MANGROVE_VEGETATION;
 
-    public static RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> MANGROVE;
+    //public static RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> MANGROVE;
     public static RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> BIRCH_NEW;
 
-    public static final TreeDecoratorType<MangroveTreeDecorator> MANGROVE_TREE_DECORATOR = TreeDecoratorTypeInvoker.callRegister("rich_tree_decorator", MangroveTreeDecorator.CODEC);
+    //public static final TreeDecoratorType<MangroveTreeDecorator> MANGROVE_TREE_DECORATOR = TreeDecoratorTypeInvoker.callRegister("rich_tree_decorator", MangroveTreeDecorator.CODEC);
 
     private static RegistryEntry<StructureProcessorList> registerList(String id, ImmutableList<StructureProcessor> processorList) {
         Identifier identifier = new Identifier(WildMod.MOD_ID, id);
@@ -201,13 +198,7 @@ public class RegisterWorldgen {
     }
 
     public static void RegisterWorldgen() {
-        MANGROVE = WildConfiguredFeatures.register("mangrove", Feature.TREE, new TreeFeatureConfig.Builder(
-                        BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
-                        new BendingTrunkPlacer(8, 2, 0, 8, UniformIntProvider.create(1, 2)), BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
-                        new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(3), 100),
-                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
-                        .decorators(ImmutableList.of(MangroveTreeDecorator.INSTANCE))
-                        .build());
+
 
         BIRCH_NEW = WildConfiguredFeatures.register("birch", Feature.TREE, new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
@@ -216,8 +207,7 @@ public class RegisterWorldgen {
                         new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
                         .build());
 
-        TREES_MANGROVE = WildPlacedFeatures.register("trees_mangrove", MANGROVE, List.of(PlacedFeatures.createCountExtraModifier(8, 0.1f, 1), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(6), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN))));
-        //MANGROVE_VEGETATION = WildConfiguredFeatures.register("mangrove_vegetation", Feature.RANDOM_SELECTOR, new RandomFeatureConfig(List.of(new RandomFeatureEntry(WildPlacedFeatures.TALL_MANGROVE_CHECKED, 0.85F)), WildPlacedFeatures.MANGROVE_CHECKED));
+        TREES_MANGROVE = WildPlacedFeatures.register("trees_mangrove", WildConfiguredFeatures.MANGROVE_VEGETATION, CountPlacementModifier.of(30), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(5), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN)));
 
         ANCIENT_CITY_START_DEGRADATION = registerList(
                 "ancient_city_start_degradation",

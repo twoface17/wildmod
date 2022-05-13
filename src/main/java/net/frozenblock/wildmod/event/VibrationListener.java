@@ -82,8 +82,8 @@ public class VibrationListener implements GameEventListener {
                                 this,
                                 new BlockPos(this.vibration.pos),
                                 this.vibration.gameEvent,
-                                (Entity)this.vibration.getEntity(serverWorld).orElse(null),
-                                (Entity)this.vibration.getOwner(serverWorld).orElse(null),
+                                this.vibration.getEntity(serverWorld).orElse(null),
+                                this.vibration.getOwner(serverWorld).orElse(null),
                                 this.distance
                         );
                 this.vibration = null;
@@ -98,6 +98,11 @@ public class VibrationListener implements GameEventListener {
 
     public int getRange() {
         return this.range;
+    }
+
+    @Override
+    public boolean listen(World world, net.minecraft.world.event.GameEvent event, @Nullable Entity entity, BlockPos pos) {
+        return false;
     }
 
     public boolean listen(ServerWorld world, GameEvent.class_7447 arg) {

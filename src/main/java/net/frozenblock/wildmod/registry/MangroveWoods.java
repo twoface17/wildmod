@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.WildSignType;
 import net.frozenblock.wildmod.block.mangrove.*;
-import net.frozenblock.wildmod.mixins.SignTypeInvoker;
 import net.minecraft.block.*;
 import net.minecraft.data.family.BlockFamily;
 import net.minecraft.item.BlockItem;
@@ -17,7 +16,6 @@ import net.minecraft.item.SignItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 

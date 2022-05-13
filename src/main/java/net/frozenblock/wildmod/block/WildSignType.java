@@ -1,7 +1,6 @@
 package net.frozenblock.wildmod.block;
 
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
-import net.frozenblock.wildmod.mixins.SignTypeInvoker;
 import net.minecraft.util.SignType;
 
 import java.util.Set;

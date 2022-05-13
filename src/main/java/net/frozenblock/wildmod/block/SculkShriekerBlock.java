@@ -479,8 +479,8 @@ public class SculkShriekerBlock
 
     /**SHRIEK COUNTER */
 
-    public static int shrieks;
-    private static long timer;
+    public static int shrieks = 0;
+    private static long timer = 0;
 
     public static BlockPos getRandomSpawnable(ArrayList<BlockPos> poses, World world, Random random) {
         ArrayList<BlockPos> finals = new ArrayList<>();
