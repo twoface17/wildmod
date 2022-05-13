@@ -6,15 +6,8 @@ import net.frozenblock.wildmod.entity.FrogEntity;
 import net.frozenblock.wildmod.liukrastapi.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
-import org.jetbrains.annotations.NotNull;
-
-import static java.lang.Math.PI;
 
 @Environment(EnvType.CLIENT)
 public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel<T> {
@@ -103,24 +96,26 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
     public void setAngles(T frogEntity, float f, float g, float h, float i, float j) {
         this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetTransform());
         float k = Math.min((float)frogEntity.getVelocity().lengthSquared() * 200.0F, 8.0F);
-        this.method_43781(frogEntity.longJumpingAnimationState, FrogAnimations.LONG_JUMPING);
-        this.method_43781(frogEntity.croakingAnimationState, FrogAnimations.CROAKING);
-        this.method_43781(frogEntity.usingTongueAnimationState, FrogAnimations.USING_TONGUE);
-        this.method_43782(frogEntity.walkingAnimationState, FrogAnimations.WALKING, k);
-        this.method_43781(frogEntity.swimmingAnimationState, FrogAnimations.SWIMMING);
-        this.method_43781(frogEntity.idlingInWaterAnimationState, FrogAnimations.IDLING_IN_WATER);
+        this.updateAnimation(frogEntity.longJumpingAnimationState, FrogAnimations.LONG_JUMPING, h);
+        this.updateAnimation(frogEntity.croakingAnimationState, FrogAnimations.CROAKING, h);
+        this.updateAnimation(frogEntity.usingTongueAnimationState, FrogAnimations.USING_TONGUE, h);
+        this.updateAnimation(frogEntity.walkingAnimationState, FrogAnimations.WALKING, h, k);
+        this.updateAnimation(frogEntity.swimmingAnimationState, FrogAnimations.SWIMMING, h);
+        this.updateAnimation(frogEntity.idlingInWaterAnimationState, FrogAnimations.IDLING_IN_WATER, h);
         this.croakingBody.visible = frogEntity.croakingAnimationState.isRunning();
-    }
-
-    protected void method_43781(AnimationState animationState, Animation animation) {
-        this.method_43782(animationState, animation, 1.0F);
     }
 
     private static final Vec3f field_39195 = new Vec3f();
 
-    protected void method_43782(AnimationState animationState, Animation animation, float f) {
-        animationState.method_43686(MinecraftClient.getInstance().isPaused(), f);
-        animationState.run(animationStatex -> AnimationHelper.animate(this, animation, animationStatex.method_43687(), 1.0F, field_39195));
+    protected void updateAnimation(AnimationState animationState, Animation animation, float f) {
+        this.updateAnimation(animationState, animation, f, 1.0F);
+    }
+
+    protected void updateAnimation(AnimationState animationState, Animation animation, float f, float g) {
+        animationState.update(f, g);
+        animationState.run((animationStatex) -> {
+            AnimationHelper.animate(this, animation, animationStatex.getTimeRunning(), 1.0F, field_39195);
+        });
     }
 
     public ModelPart getPart() {

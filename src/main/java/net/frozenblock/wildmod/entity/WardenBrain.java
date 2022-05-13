@@ -31,7 +31,7 @@ public class WardenBrain {
     private static final int DIG_DURATION = MathHelper.ceil(100.0F);
     public static final int EMERGE_DURATION = MathHelper.ceil(133.59999F);
     public static final int ROAR_DURATION = MathHelper.ceil(84.0F);
-    private static final int SNIFF_DURATION = MathHelper.ceil(83.2F);
+    public static final int SNIFF_DURATION = MathHelper.ceil(83.2F);
     public static final int DIG_COOLDOWN = 1200;
     private static final int field_38181 = 100;
     private static final List<SensorType<? extends Sensor<? super WardenEntity>>> SENSORS = List.of(SensorType.NEAREST_PLAYERS, WildMod.WARDEN_ENTITY_SENSOR);
@@ -162,7 +162,7 @@ public class WardenBrain {
                 ImmutableList.of(
                         RESET_DIG_COOLDOWN_TASK,
                         new ForgetAttackTargetTask<>(
-                                entity -> !warden.getAngriness().method_43691() || !warden.isValidTarget(entity), WardenBrain::removeDeadSuspect, false
+                                entity -> !warden.getAngriness().isAngry() || !warden.isValidTarget(entity), WardenBrain::removeDeadSuspect, false
                         ),
                         new FollowMobTask(entity -> isTargeting(warden, entity), (float)warden.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)),
                         new RangedApproachTask(1.2F),

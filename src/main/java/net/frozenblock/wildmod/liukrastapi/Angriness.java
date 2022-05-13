@@ -2,7 +2,6 @@ package net.frozenblock.wildmod.liukrastapi;
 
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -45,7 +44,7 @@ public enum Angriness {
         return CALM;
     }
 
-    public boolean method_43691() {
+    public boolean isAngry() {
         return this == ANGRY;
     }
 
