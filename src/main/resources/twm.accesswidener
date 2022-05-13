@@ -6,4 +6,5 @@ extendable    class    net/minecraft/structure/pool/LegacySinglePoolElement
 extendable    class    net/minecraft/world/biome/Biome$Weather
 extendable    class    net/minecraft/block/Material
 accessible    method    net/minecraft/util/SignType stream ()Ljava/util/stream/Stream;
+accessible    method    net/minecraft/util/SignType register (Lnet/minecraft/class_4719;)Lnet/minecraft/class_4719;
 accessible    method    net/minecraft/util/SignType <init> (Ljava/lang/String;)V
