@@ -62,7 +62,6 @@ public class RegisterWorldgen {
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
     public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
 
-    public static RegistryEntry<PlacedFeature> TREES_MANGROVE;
     //public static RegistryEntry<ConfiguredFeature<RandomFeatureConfig, ?>> MANGROVE_VEGETATION;
 
     //public static RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> MANGROVE;
@@ -182,7 +181,7 @@ public class RegisterWorldgen {
         builder.feature(GenerationStep.Feature.UNDERGROUND_ORES, MiscPlacedFeatures.DISK_CLAY);
     }
     private static void addMangroveSwampFeatures(GenerationSettings.Builder builder) {
-        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, TREES_MANGROVE);
+        builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, WildPlacedFeatures.TREES_MANGROVE);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_GRASS_NORMAL);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_DEAD_BUSH);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY);
@@ -199,15 +198,16 @@ public class RegisterWorldgen {
 
     public static void RegisterWorldgen() {
 
-
-        BIRCH_NEW = WildConfiguredFeatures.register("birch", Feature.TREE, new TreeFeatureConfig.Builder(
-                        BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
-                        new StraightTrunkPlacer(7, 3, 9), BlockStateProvider.of(Blocks.BIRCH_LEAVES),
-                        new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), 10),
-                        new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
-                        .build());
-
-        TREES_MANGROVE = WildPlacedFeatures.register("trees_mangrove", WildConfiguredFeatures.MANGROVE_VEGETATION, CountPlacementModifier.of(30), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(5), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN)));
+        BIRCH_NEW = WildConfiguredFeatures.register(
+            "birch",
+            Feature.TREE,
+            new TreeFeatureConfig.Builder(
+            BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
+            new StraightTrunkPlacer(7, 3, 9), BlockStateProvider.of(Blocks.BIRCH_LEAVES),
+            new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), 10),
+            new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
+            .build()
+        );
 
         ANCIENT_CITY_START_DEGRADATION = registerList(
                 "ancient_city_start_degradation",
