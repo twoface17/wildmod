@@ -1,6 +1,8 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.block.SculkShriekerBlock;
+import net.frozenblock.wildmod.entity.WardenEntity;
+import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterTags;
@@ -12,6 +14,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -27,6 +30,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -36,6 +40,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -96,6 +102,24 @@ public class AbstractBlockMixin {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci) {
         if (!world.isClient) {
             if (world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState() && entity != null && entity.getType() != RegisterEntities.WARDEN) {
+                if (entity instanceof LivingEntity) {
+                    SensorLastEntity.addEntity(entity, pos, entity.getBlockPos(), null);
+                    int lastEntity = SensorLastEntity.getLastEntity(pos);
+                    LivingEntity target = (LivingEntity)world.getEntityById(lastEntity);
+                    BlockPos lastEventPos = SensorLastEntity.getLastPos(pos);
+                    if (lastEventPos != null) {
+                        Box box = new Box(pos.getX() - 18, pos.getY() - 18, pos.getZ() - 18, pos.getX() + 18, pos.getY() + 18, pos.getZ() + 18);
+                        List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
+                        Iterator<WardenEntity> var11 = list.iterator();
+                        WardenEntity wardenEntity;
+                        while (var11.hasNext()) {
+                            wardenEntity = var11.next();
+                            if (wardenEntity.getBlockPos().isWithinDistance(pos, 16)) {
+                                wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), target, 10, pos);
+                            }
+                        }
+                    }
+                }
                 SculkSensorBlock.setActive(world, pos, state, 15);
             }
             assert entity != null;

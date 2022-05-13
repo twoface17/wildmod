@@ -85,7 +85,7 @@ public class PlayerEntityMixin implements PlayerEntityAccess {
 				WardenEntity wardie;
 				while(var11.hasNext()) {
 					wardie = var11.next();
-					wardie.setTarget(player);
+					wardie.listen(player.getBlockPos(), world, player, 48, null);
 				}
 				if (wardens.isEmpty()) {
 					player.emitGameEvent(GameEvent.BLOCK_DESTROY, player, pos);

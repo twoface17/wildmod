@@ -14,7 +14,6 @@ import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
@@ -86,12 +85,12 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
         this.setLimbAngles(f, g);
         this.setHeadAndBodyAngles(h);
         this.setTendrilPitches(wardenEntity, h, k);
-        this.method_43781(wardenEntity.attackingAnimationState, WardenAnimations.ATTACKING);
-        this.method_43781(wardenEntity.chargingSonicBoomAnimationState, WardenAnimations.CHARGING_SONIC_BOOM);
-        this.method_43781(wardenEntity.diggingAnimationState, WardenAnimations.DIGGING);
-        this.method_43781(wardenEntity.emergingAnimationState, WardenAnimations.EMERGING);
-        this.method_43781(wardenEntity.roaringAnimationState, WardenAnimations.ROARING);
-        this.method_43781(wardenEntity.sniffingAnimationState, WardenAnimations.SNIFFING);
+        this.updateAnimation(wardenEntity.attackingAnimationState, WardenAnimations.ATTACKING, h);
+        this.updateAnimation(wardenEntity.chargingSonicBoomAnimationState, WardenAnimations.CHARGING_SONIC_BOOM, h);
+        this.updateAnimation(wardenEntity.diggingAnimationState, WardenAnimations.DIGGING, h);
+        this.updateAnimation(wardenEntity.emergingAnimationState, WardenAnimations.EMERGING, h);
+        this.updateAnimation(wardenEntity.roaringAnimationState, WardenAnimations.ROARING, h);
+        this.updateAnimation(wardenEntity.sniffingAnimationState, WardenAnimations.SNIFFING, h);
     }
 
     private void setHeadAngle(float yaw, float pitch) {
@@ -197,12 +196,14 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
         return this.bodyHeadAndLimbs;
     }
 
-    protected void method_43781(AnimationState animationState, Animation animation) {
-        this.method_43782(animationState, animation, 1.0F);
+    protected void updateAnimation(AnimationState animationState, Animation animation, float f) {
+        this.updateAnimation(animationState, animation, f, 1.0F);
     }
 
-    protected void method_43782(AnimationState animationState, Animation animation, float f) {
-        animationState.method_43686(MinecraftClient.getInstance().isPaused(), f);
-        animationState.run(animationStatex -> AnimationHelper.animate(this, animation, animationStatex.method_43687(), 1.0F, field_39195));
+    protected void updateAnimation(AnimationState animationState, Animation animation, float f, float g) {
+        animationState.update(f, g);
+        animationState.run((animationStatex) -> {
+            AnimationHelper.animate(this, animation, animationStatex.getTimeRunning(), 1.0F, field_39195);
+        });
     }
 }

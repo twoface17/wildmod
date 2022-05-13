@@ -7,7 +7,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.entity.Entity;
@@ -16,7 +15,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.dynamic.DynamicSerializableUuid;
-import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -33,14 +31,15 @@ public class WardenAngerManager {
     protected static final int maxAnger = 150;
     private static final int angerDecreasePerTick = 1;
     private int updateTimer = MathAddon.nextBetween(WildAbstractRandom.createAtomic(), 0, 2);
+    int field_39304;
     private static final Codec<Pair<UUID, Integer>> SUSPECT_CODEC = RecordCodecBuilder.create(
             instance -> instance.group(UUID.fieldOf("uuid").forGetter(Pair::getFirst), Codecs.NONNEGATIVE_INT.fieldOf("anger").forGetter(Pair::getSecond))
                     .apply(instance, Pair::of)
     );
-    private final Predicate<Entity> field_39114;
+    private final Predicate<Entity> suspectPredicate;
     @VisibleForTesting
     protected final ArrayList<Entity> suspects;
-    private final WardenAngerManager.SuspectComparator field_39115;
+    private final SuspectComparator suspectComparator;
     @VisibleForTesting
     protected final Object2IntMap<Entity> suspectsToAngerLevel;
     @VisibleForTesting
@@ -54,9 +53,9 @@ public class WardenAngerManager {
     }
 
     public WardenAngerManager(Predicate<Entity> predicate, List<Pair<UUID, Integer>> list) {
-        this.field_39114 = predicate;
+        this.suspectPredicate = predicate;
         this.suspects = new ArrayList();
-        this.field_39115 = new WardenAngerManager.SuspectComparator(this);
+        this.suspectComparator = new WardenAngerManager.SuspectComparator(this);
         this.suspectsToAngerLevel = new Object2IntOpenHashMap();
         this.suspectUuidsToAngerLevel = new Object2IntOpenHashMap(list.size());
         list.forEach(pair -> this.suspectUuidsToAngerLevel.put((UUID)pair.getFirst(), (Integer)pair.getSecond()));
@@ -114,7 +113,16 @@ public class WardenAngerManager {
             }
         }
 
-        this.suspects.sort(this.field_39115);
+        this.suspects.sort(this.suspectComparator);
+    }
+
+    private void method_43998() {
+        this.field_39304 = 0;
+        this.suspects.sort(this.suspectComparator);
+        if (this.suspects.size() == 1) {
+            this.field_39304 = this.suspectsToAngerLevel.getInt(this.suspects.get(0));
+        }
+
     }
 
     private void updateSuspectsMap(ServerWorld world) {
@@ -131,7 +139,7 @@ public class WardenAngerManager {
             }
         }
 
-        this.suspects.sort(this.field_39115);
+        this.suspects.sort(this.suspectComparator);
     }
 
     public int increaseAngerAt(Entity entity, int amount) {
@@ -144,7 +152,7 @@ public class WardenAngerManager {
             this.suspects.add(entity);
         }
 
-        this.suspects.sort(this.field_39115);
+        this.suspects.sort(this.suspectComparator);
         return i;
     }
 
@@ -155,11 +163,11 @@ public class WardenAngerManager {
 
     @Nullable
     private Entity getPrimeSuspect1() {
-        return this.suspects.stream().filter(this.field_39114).findFirst().orElse(null);
+        return this.suspects.stream().filter(this.suspectPredicate).findFirst().orElse(null);
     }
 
-    public int getPrimeSuspectAnger() {
-        return this.suspectsToAngerLevel.getInt(this.getPrimeSuspect());
+    public int getPrimeSuspectAnger(@Nullable Entity entity) {
+        return entity == null ? this.field_39304 : this.suspectsToAngerLevel.getInt(entity);
     }
 
     public Optional<LivingEntity> getPrimeSuspect() {
@@ -174,8 +182,8 @@ public class WardenAngerManager {
             } else {
                 int i = this.angerManagement.suspectsToAngerLevel.getOrDefault(entity, 0);
                 int j = this.angerManagement.suspectsToAngerLevel.getOrDefault(entity2, 0);
-                boolean bl = Angriness.getForAnger(i).method_43691();
-                boolean bl2 = Angriness.getForAnger(j).method_43691();
+                boolean bl = Angriness.getForAnger(i).isAngry();
+                boolean bl2 = Angriness.getForAnger(j).isAngry();
                 if (bl != bl2) {
                     return bl ? -1 : 1;
                 } else {
