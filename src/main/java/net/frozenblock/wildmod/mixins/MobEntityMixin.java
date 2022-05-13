@@ -56,7 +56,6 @@ public abstract class MobEntityMixin extends LivingEntity {
 
     @Inject(method = "tickMovement", at = @At("TAIL"))
     public void tickMovement(CallbackInfo ci) {
-        super.tickMovement();
         this.world.getProfiler().push("looting");
         if (!this.world.isClient && this.canPickUpLoot() && this.isAlive() && !this.dead && this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
             MobEntity mobEntity = (MobEntity) ((ServerWorld)this.world).getEntity(uuid);
@@ -64,7 +63,7 @@ public abstract class MobEntityMixin extends LivingEntity {
                 Vec3i vec3i = wildPathAwareEntity.getItemPickUpRangeExpander();
 
                 for(ItemEntity itemEntity : this.world
-                        .getNonSpectatingEntities(ItemEntity.class, this.getBoundingBox().expand((double)vec3i.getX(), (double)vec3i.getY(), (double)vec3i.getZ()))) {
+                        .getNonSpectatingEntities(ItemEntity.class, this.getBoundingBox().expand(vec3i.getX(), vec3i.getY(), vec3i.getZ()))) {
                     if (!itemEntity.isRemoved() && !itemEntity.getStack().isEmpty() && !itemEntity.cannotPickup() && this.canGather(itemEntity.getStack())) {
                         this.loot(itemEntity);
                     }
