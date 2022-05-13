@@ -17,10 +17,10 @@ import java.util.function.Function;
 public class WalkTowardsLookTargetTask<E extends LivingEntity> extends Task<E> {
     private final Function<LivingEntity, Optional<LookTarget>> lookTargetFunction;
     private final int completionRange;
-    private int searchRange;
+    private final int searchRange;
     private final float speed;
 
-    public WalkTowardsLookTargetTask(Function<LivingEntity, Optional<LookTarget>> lookTargetFunction, int completionRange, float speed) {
+    public WalkTowardsLookTargetTask(Function<LivingEntity, Optional<LookTarget>> lookTargetFunction, int completionRange, int searchRange, float speed) {
         super(Map.of(MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT));
         this.lookTargetFunction = lookTargetFunction;
         this.completionRange = completionRange;
@@ -28,18 +28,18 @@ public class WalkTowardsLookTargetTask<E extends LivingEntity> extends Task<E> {
         this.speed = speed;
     }
 
+    @Override
     protected boolean shouldRun(ServerWorld world, E entity) {
-        Optional<LookTarget> optional = this.lookTargetFunction.apply(entity);
+        Optional<LookTarget> optional = this.lookTargetFunction.apply((LivingEntity)entity);
         if (optional.isEmpty()) {
             return false;
-        } else {
-            LookTarget lookTarget = (LookTarget)optional.get();
-            return lookTarget.isSeenBy(entity) && !entity.getPos().isInRange(lookTarget.getPos(), (double)this.searchRange);
         }
+        LookTarget lookTarget = optional.get();
+        return !((Entity)entity).getPos().isInRange(lookTarget.getPos(), this.searchRange);
     }
 
-    @Nullable
+    @Override
     protected void run(ServerWorld world, E entity, long time) {
-        //LookTargetUtil.walkTowards((LivingEntity) entity, (Entity) ((Optional)this.lookTargetFunction.apply(entity)).get(), this.speed, this.completionRange);
+        LookTargetUtil.walkTowards(entity, (Entity) (this.lookTargetFunction.apply(entity)).get(), this.speed, this.completionRange);
     }
 }

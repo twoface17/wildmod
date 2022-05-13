@@ -29,19 +29,19 @@ public abstract class MobEntityMixin extends LivingEntity {
 
     @Final
     @Shadow
-    private static final TrackedData<Byte> MOB_FLAGS = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BYTE);
+    private static TrackedData<Byte> MOB_FLAGS = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BYTE);
     @Final
-    @Shadow private final DefaultedList<ItemStack> armorItems = DefaultedList.ofSize(4, ItemStack.EMPTY);
+    @Shadow private DefaultedList<ItemStack> armorItems = DefaultedList.ofSize(4, ItemStack.EMPTY);
     @Final
     @Shadow
-    private final DefaultedList<ItemStack> handItems = DefaultedList.ofSize(2, ItemStack.EMPTY);
+    private DefaultedList<ItemStack> handItems = DefaultedList.ofSize(2, ItemStack.EMPTY);
     @Shadow private boolean canPickUpLoot;
 
     @Final
-    @Shadow protected final float[] handDropChances = new float[2];
+    @Shadow protected float[] handDropChances = new float[2];
     @Final
     @Shadow
-    protected final float[] armorDropChances = new float[4];
+    protected float[] armorDropChances = new float[4];
 
     @Shadow private boolean persistent;
 

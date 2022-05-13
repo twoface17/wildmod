@@ -47,6 +47,7 @@ import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 
 public class FrogEntity extends AnimalEntity {
@@ -118,6 +119,9 @@ public class FrogEntity extends AnimalEntity {
     }
 
     public Optional<Entity> getFrogTarget() {
+        IntStream var10000 = ((OptionalInt)this.dataTracker.get(TARGET)).stream();
+        World var10001 = this.world;
+        Objects.requireNonNull(var10001);
         return this.dataTracker.get(TARGET).stream().mapToObj(this.world::getEntityById).filter(Objects::nonNull).findFirst();
     }
 
@@ -265,9 +269,7 @@ public class FrogEntity extends AnimalEntity {
 
     }
 
-    public EntityData initialize(
-            ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt
-    ) {
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         RegistryEntry<Biome> registryEntry = world.getBiome(this.getBlockPos());
         if (registryEntry.isIn(net.frozenblock.wildmod.tags.BiomeTags.SPAWNS_COLD_VARIANT_FROGS)) {
             this.setVariant(FrogVariant.COLD);
@@ -332,8 +334,11 @@ public class FrogEntity extends AnimalEntity {
     }
 
     public static boolean isValidFrogFood(LivingEntity entity) {
-        if (entity instanceof SlimeEntity slimeEntity && slimeEntity.getSize() != 1) {
-            return false;
+        if (entity instanceof SlimeEntity) {
+            SlimeEntity slimeEntity = (SlimeEntity)entity;
+            if (slimeEntity.getSize() != 1) {
+                return false;
+            }
         }
 
         return entity.getType().isIn(RegisterTags.FROG_FOOD);
