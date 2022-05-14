@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.liukrastapi;
+/*package net.frozenblock.wildmod.liukrastapi;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -53,3 +53,4 @@ public class AnimationHelper {
 		return new Vec3f((float)(d - 1.0), (float)(e - 1.0), (float)(f - 1.0));
 	}
 }
+*/

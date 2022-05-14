@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.liukrastapi;
+/*package net.frozenblock.wildmod.liukrastapi;
 
 import com.google.common.collect.Maps;
 import net.fabricmc.api.EnvType;
@@ -14,7 +14,7 @@ import java.util.Map;
  * 
  * Mouse coordinate is bounded by the size of the window in
  * pixels.
- */
+ *//*
 @Environment(EnvType.CLIENT)
 public record Animation(float lengthInSeconds, boolean looping, Map<String, List<Transformation>> boneAnimations) {
 	@Environment(EnvType.CLIENT)
@@ -46,3 +46,4 @@ public record Animation(float lengthInSeconds, boolean looping, Map<String, List
 		}
 	}
 }
+*/

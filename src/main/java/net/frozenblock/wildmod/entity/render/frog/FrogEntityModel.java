@@ -96,18 +96,18 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
     public void setAngles(T frogEntity, float f, float g, float h, float i, float j) {
         this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetTransform());
         float k = Math.min((float)frogEntity.getVelocity().lengthSquared() * 200.0F, 8.0F);
-        this.updateAnimation(frogEntity.longJumpingAnimationState, FrogAnimations.LONG_JUMPING, h);
-        this.updateAnimation(frogEntity.croakingAnimationState, FrogAnimations.CROAKING, h);
-        this.updateAnimation(frogEntity.usingTongueAnimationState, FrogAnimations.USING_TONGUE, h);
-        this.updateAnimation(frogEntity.walkingAnimationState, FrogAnimations.WALKING, h, k);
-        this.updateAnimation(frogEntity.swimmingAnimationState, FrogAnimations.SWIMMING, h);
-        this.updateAnimation(frogEntity.idlingInWaterAnimationState, FrogAnimations.IDLING_IN_WATER, h);
+        //this.updateAnimation(frogEntity.longJumpingAnimationState, FrogAnimations.LONG_JUMPING, h);
+        //this.updateAnimation(frogEntity.croakingAnimationState, FrogAnimations.CROAKING, h);
+        //this.updateAnimation(frogEntity.usingTongueAnimationState, FrogAnimations.USING_TONGUE, h);
+        //this.updateAnimation(frogEntity.walkingAnimationState, FrogAnimations.WALKING, h, k);
+        //this.updateAnimation(frogEntity.swimmingAnimationState, FrogAnimations.SWIMMING, h);
+        //this.updateAnimation(frogEntity.idlingInWaterAnimationState, FrogAnimations.IDLING_IN_WATER, h);
         this.croakingBody.visible = frogEntity.croakingAnimationState.isRunning();
     }
 
     private static final Vec3f field_39195 = new Vec3f();
 
-    protected void updateAnimation(AnimationState animationState, Animation animation, float f) {
+    /*protected void updateAnimation(AnimationState animationState, Animation animation, float f) {
         this.updateAnimation(animationState, animation, f, 1.0F);
     }
 
@@ -118,7 +118,7 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
         });
     }
 
-    public ModelPart getPart() {
+    */public ModelPart getPart() {
         return this.root;
     }
 }
