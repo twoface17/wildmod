@@ -47,7 +47,7 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
     }
 
     public static DefaultAttributeContainer.Builder createFireflyAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 1D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.5);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 1D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.05).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.05);
     }
 
     @Nullable
@@ -104,7 +104,7 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
         Vec3d vec3d2 = NoWaterTargeting.find(this, k, l, i, vec3d, 0.3141592741012573D);
         if (vec3d2 != null) {
             this.navigation.setRangeMultiplier(0.5F);
-            this.navigation.startMovingTo(vec3d2.x, vec3d2.y, vec3d2.z, 1.0D);
+            this.navigation.startMovingTo(vec3d2.x, vec3d2.y, vec3d2.z, 0.05D);
         }
     }
 
