@@ -9,10 +9,10 @@ import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.*;
 import net.frozenblock.wildmod.entity.ai.task.SonicBoomTask;
 import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
+import net.frozenblock.wildmod.event.*;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
 import net.frozenblock.wildmod.liukrastapi.AnimationState;
-import net.frozenblock.wildmod.liukrastapi.MathAddon;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
@@ -34,29 +34,28 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffectUtil;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.*;
 import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.GameEvent;
@@ -66,22 +65,22 @@ import org.slf4j.Logger;
 
 import java.util.*;
 
-public class WardenEntity extends HostileEntity {
+public class WardenEntity extends HostileEntity implements VibrationListener.Callback {
 
     /** WELCOME TO THE WARDEN MUSEUM
      * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
-     * SUSPICION {@link WardenEntity#addSuspicion(LivingEntity, int)}
-     * SNIFFING & VIBRATIONS {@link WardenEntity#getVibrationEntity()}
+     * SUSPICION {@link WardenEntity#increaseAngerAt(Entity)}
+     * SNIFFING & VIBRATIONS {@link WardenEntity#listen(BlockPos, World, LivingEntity, int, BlockPos)}
      * ATTACKING {@link WardenEntity#tryAttack(Entity)}
      * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
      * OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
      * VISUAlS {@link WardenEntity#createVibration(World, WardenEntity, BlockPos)}
-     * TICKMOVEMENT METHODS {@link WardenEntity#tickEmerge()}
+     * TICKMOVEMENT METHODS {@link WardenEntity#tickVibration()}
      * ALL VALUES ARE STORED AT THE END OF THIS MUSEUM.
      * */
 
     private static final Logger field_38138 = LogUtils.getLogger();
-    protected void initGoals() {
+    /*protected void initGoals() {
         //this.goalSelector.add(1, new WardenSwimGoal(this));
         this.goalSelector.add(3, new WardenGoal(this, speed));
         //this.goalSelector.add(2, new SniffGoal(this, speed));
@@ -89,7 +88,7 @@ public class WardenEntity extends HostileEntity {
         //this.goalSelector.add(1, new WardenWanderGoal(this, 0.4));
     }
 
-    public boolean isInRange(Entity entity, double horizontalRadius, double verticalRadius) {
+    */public boolean isInRange(Entity entity, double horizontalRadius, double verticalRadius) {
         double d = entity.getX() - this.getX();
         double e = entity.getY() - this.getY();
         double f = entity.getZ() - this.getZ();
@@ -98,41 +97,29 @@ public class WardenEntity extends HostileEntity {
 
     public void tickMovement() {
         if (!this.isAiDisabled()) {
-            if (this.leaveTime-this.world.getTime() >= 1040) {this.getLookControl().lookAt(this.lookX, this.lookY, this.lookZ);}
-            if (this.world.getTime() - this.vibrationTimer <= 100 && this.roarOtherCooldown <= 0 && this.movementPriority<=2) {
+            if (this.world.getTime() - this.vibrationTimer <= 100 && !this.isDiggingOrEmerging() && !this.isInPose(WildMod.ROARING) && this.movementPriority<=2) {
                 LivingEntity lastEvent = this.getVibrationEntity();
                 if (lastEvent!=null) {
-                    if (this.getSuspicion(lastEvent)>30 && this.world.getTime() - this.vibrationTimer <= 19) {
-                        this.getNavigation().stop();
+                    /*if (this.getAnger()>40 && this.world.getTime() - this.vibrationTimer <= 19) {
                         BlockPos entityPos = lastEvent.getBlockPos();
-                        this.getNavigation().startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(lastEvent), 0, 50) * 0.01) + (this.trueOverallAnger() * 0.0045)));
+                        //this.getNavigation().startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), (speed + (MathHelper.clamp(this.getAnger(), 0, 50) * 0.01) + (this.trueOverallAnger() * 0.0045)));
                         WardenBrain.lookAtDisturbance(this, entityPos);
                         this.movementPriority = 2;
                     }
-                    if (this.getSuspicion(lastEvent)>44) {
-                        this.getNavigation().stop();
+                    if (this.getAnger()>80) {
                         BlockPos entityPos = lastEvent.getBlockPos();
-                        this.getNavigation().startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), (speed + (MathHelper.clamp(this.getSuspicion(lastEvent), 0, 50) * 0.01) + (this.trueOverallAnger() * 0.0045)));
-                        this.getLookControl().lookAt(lastEvent);
+                        //this.getNavigation().startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), (speed + (MathHelper.clamp(this.getAnger(), 0, 50) * 0.01) + (this.trueOverallAnger() * 0.0045)));
+                        WardenBrain.lookAtDisturbance(this, entityPos);
                         this.movementPriority = 2;
                     }
-                } else {this.movementPriority=0;}
+                */} else {this.movementPriority=0;}
             }
-            if (this.roarOtherCooldown > 0) { --this.roarOtherCooldown; }
-            this.tickEmerge();
             this.tickVibration();
-            if (this.attackNearCooldown>0) { --this.attackNearCooldown; }
         }
         //Movement
         if (this.ticksToWander>0) {--this.ticksToWander;}
-        if (this.getNavigation().isIdle()) {this.movementPriority=0;}
+        //if (this.getNavigation().isIdle()) {this.movementPriority=0;}
         //Heartbeat & Anger
-        this.heartbeatTime = getHeartRate();
-        if (this.world.getTime()>=this.nextHeartBeat && !isAiDisabled()) {
-            this.nextHeartBeat=this.world.getTime()+heartbeatTime;
-            this.lastHeartBeat=this.world.getTime();
-            this.world.sendEntityStatus(this, (byte)8);
-        }
         if (this.world.getTime()-this.timeSinceNonEntity>300 && this.nonEntityAnger>0) { --this.nonEntityAnger; }
         //Client-Side Things
         if (world.isClient) {
@@ -171,30 +158,82 @@ public class WardenEntity extends HostileEntity {
         }
     }
 
+    public boolean canListen(ServerWorld world, BlockPos pos, Entity entity) {
+        if (!this.isAiDisabled() && !this.isDead() && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN) && !this.isDiggingOrEmerging() && world.getWorldBorder().contains(pos) && !this.isRemoved() && this.world == world) {
+            boolean var10000;
+            if (entity instanceof LivingEntity livingEntity) {
+                if (!this.isValidTarget(livingEntity)) {
+                    var10000 = false;
+                    return var10000;
+                }
+            }
+
+            var10000 = true;
+            return var10000;
+        } else {
+            return false;
+        }
+    }
+
     public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion, BlockPos vibrationPos) {
-        boolean shouldListen = true;
-        if (eventEntity instanceof PlayerEntity) { shouldListen = !((PlayerEntity)eventEntity).getAbilities().creativeMode; }
-        if (!this.isAiDisabled() && shouldListen && this.roarOtherCooldown<=0 && !(this.emergeTicksLeft > 0) && this.world.getTime() - this.vibrationTimer >= 20 && this.vibrationTicks==-1 && this.emergeTicksLeft!=-5) {
+        if (eventWorld instanceof ServerWorld serverWorld && canListen(serverWorld, vibrationPos, eventEntity)) {
+            this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
+            world.sendEntityStatus(this, EARS_TWITCH);
+            this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
+            BlockPos blockPos = eventPos;
+            if (eventEntity != null) {
+                if (this.isInRange(eventEntity, 30.0)) {
+                    if (this.getBrain().hasMemoryModule(RegisterMemoryModules.RECENT_PROJECTILE)) {
+                        if (this.isValidTarget(eventEntity)) {
+                            blockPos = eventEntity.getBlockPos();
+                        }
+
+                        this.increaseAngerAt(eventEntity);
+                    } else {
+                        this.increaseAngerAt(eventEntity, 10, true);
+                    }
+                }
+
+                this.getBrain().remember(RegisterMemoryModules.RECENT_PROJECTILE, Unit.INSTANCE, 100L);
+            } else {
+                this.increaseAngerAt(eventEntity);
+            }
+
+            if (!this.getAngriness().isAngry()) {
+                Optional<LivingEntity> optional = this.angerManager.getPrimeSuspect();
+                if (eventEntity != null || optional.isEmpty() || optional.get() == eventEntity) {
+                    WardenBrain.lookAtDisturbance(this, blockPos);
+                }
+            }
             this.vibX = eventPos.getX();
             this.vibY = eventPos.getY();
             this.vibZ = eventPos.getZ();
             this.lasteventworld = eventWorld;
-            if (eventEntity!=null) {
-                this.vibrationEntity = eventEntity.getUuidAsString();
-            } else { this.vibrationEntity = "null"; }
-            this.hasDetected = true;
-            this.leaveTime = this.world.getTime() + 1200;
             this.queuedSuspicion=suspicion;
-            if (vibrationPos != null) { createVibration(this.world, this, vibrationPos);
-                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos.getX(), vibrationPos.getY(), vibrationPos.getZ()))) * this.vibrationDelayAnger());}
-            else { createVibration(this.world, this, eventPos);
-                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos.getX(), eventPos.getY(), eventPos.getZ()))) * this.vibrationDelayAnger());}
-        } else if (!this.isAiDisabled() && shouldListen && this.roarOtherCooldown<=0 && this.emergeTicksLeft==-5  && this.world.getTime() - this.vibrationTimer >= 20 && this.vibrationTicks==-1 && this.emergeTicksLeft==-5) {
-            this.leaveTime = this.world.getTime() + 1200;
+            if (vibrationPos != null) {
+                createVibration(this.world, this, vibrationPos);
+                Vec3d start = Vec3d.ofCenter(vibrationPos);
+                Vec3d end = Vec3d.ofCenter(this.getBlockPos());
+                this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
+            } else {
+                createVibration(this.world, this, eventPos);
+                Vec3d start = Vec3d.ofCenter(eventPos);
+                Vec3d end = Vec3d.ofCenter(this.getBlockPos());
+                this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
+            }
+        } else if (eventWorld instanceof ServerWorld serverworld && canListen(serverworld, eventPos, eventEntity)) {
+            WardenBrain.resetDigCooldown(this);
             if (vibrationPos != null) { createFloorVibration(this.world, this, vibrationPos);
-                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(vibrationPos.getX(), vibrationPos.getY(), vibrationPos.getZ()))) * 2);}
-            else { createFloorVibration(this.world, this, eventPos);
-                this.vibrationTicks=(int)(Math.floor(Math.sqrt(this.getBlockPos().getSquaredDistance(eventPos.getX(), eventPos.getY(), eventPos.getZ()))) * 2);}
+                Vec3d start = Vec3d.ofCenter(vibrationPos);
+                Vec3d end = Vec3d.ofCenter(this.getBlockPos());
+                this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
+            }
+            else {
+                createFloorVibration(this.world, this, eventPos);
+                Vec3d start = Vec3d.ofCenter(eventPos);
+                Vec3d end = Vec3d.ofCenter(this.getBlockPos());
+                this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
+            }
         }
     }
 
@@ -213,8 +252,8 @@ public class WardenEntity extends HostileEntity {
 
     public void tick() {
         World var2 = this.world;
-        if (var2 instanceof ServerWorld) {
-            //this.gameEventHandler.getListener().tick(serverWorld);
+        if (var2 instanceof ServerWorld serverWorld) {
+            this.gameEventHandler.getListener().tick(serverWorld);
             if (this.hasCustomName()) {
                 WardenBrain.resetDigCooldown(this);
             }
@@ -224,6 +263,7 @@ public class WardenEntity extends HostileEntity {
         if (this.world.isClient()) {
             if (this.age % this.getHeartRate() == 0) {
                 this.field_38164 = 10;
+                this.world.sendEntityStatus(this, (byte)8);
                 if (!this.isSilent()) {
                     this.world.playSound(this.getX(), this.getY(), this.getZ(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, this.getSoundCategory(), 5.0F, this.getSoundPitch(), false);
                 }
@@ -265,39 +305,14 @@ public class WardenEntity extends HostileEntity {
         WardenBrain.updateActivities(this);
     }
 
-    /** SUSPICION */
-    public void addSuspicion(LivingEntity entity, int suspicion) {
-        if (this.world.getDifficulty().getId() != 0 && entity != null && !(entity instanceof WardenEntity)) {
-            if (!this.entityList.isEmpty()) {
-                if (this.entityList.contains(entity.getUuid().hashCode())) {
-                    int slot = this.entityList.indexOf(entity.getUuid().hashCode());
-                    this.susList.set(slot, this.susList.getInt(slot) + suspicion);
-                    if (this.susList.getInt(slot) >= 45 && this.getTrackingEntity() == null) {
-                        this.trackingEntity = entity.getUuidAsString();
-                    }
-                } else { this.entityList.add(entity.getUuid().hashCode());
-                    this.susList.add(suspicion);
-                }
-            } else { this.entityList.add(entity.getUuid().hashCode());
-                this.susList.add(suspicion);
-            }
-        }
-    }
-    public int getSuspicion(Entity entity) {
-        if (!this.entityList.isEmpty() && entity!=null && !(entity instanceof WardenEntity)) {
-            if (this.entityList.contains(entity.getUuid().hashCode())) {
-                return this.susList.getInt(this.entityList.indexOf(entity.getUuid().hashCode()));
-            }
-        } return 0;
-    }
     public int eventSuspicionValue(GameEvent event, LivingEntity livingEntity) {
         int total=1;
         if (event==GameEvent.PROJECTILE_LAND) { return 0; }
         if (SculkSensorBlock.FREQUENCIES.containsKey(event)) { total=total + SculkSensorBlock.FREQUENCIES.getInt(event); }
         if (livingEntity instanceof PlayerEntity) {
-            return MathHelper.clamp(total, 3,15);
+            return MathHelper.clamp(total, 35,35);
         }
-        return MathHelper.clamp(total, 2,15);
+        return MathHelper.clamp(total, 35,35);
     }
     public int trueOverallAnger() {
         int anger=0;
@@ -305,7 +320,7 @@ public class WardenEntity extends HostileEntity {
             Box box = new Box(this.getBlockPos().add(-24, -24, -24), this.getBlockPos().add(24, 24, 24));
             List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
             if (!entities.isEmpty()) {
-                for (LivingEntity target : entities) {anger = anger + this.getSuspicion(target); }
+                for (LivingEntity target : entities) {anger = anger + this.getAnger(); }
             }
             anger = anger + nonEntityAnger;
             anger = MathHelper.clamp(anger, 0, 50);
@@ -315,29 +330,6 @@ public class WardenEntity extends HostileEntity {
         */} return anger;
     }
 
-    public double vibrationDelayAnger() {
-        int a = this.trueOverallAnger();
-        a = a/27;
-        return MathHelper.clamp(2-a,0.1,2);
-    }
-    public LivingEntity getTrackingEntity() {
-        Box box = new Box(this.getBlockPos().add(-24,-24,-24), this.getBlockPos().add(24,24,24));
-        List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
-        if (!entities.isEmpty()) {
-            for (LivingEntity target : entities) {
-                if (Objects.equals(this.trackingEntity, target.getUuidAsString()) && !(target instanceof WardenEntity) && MathAddon.distance(target.getX(), target.getY(), target.getZ(), this.getX(), this.getY(), this.getZ()) <= 24) { return target; }
-            }
-        } return null;
-    }
-    public LivingEntity getTrackingEntityForRoarNavigation() {
-        Box box = new Box(this.getBlockPos().add(-32,-32,-32), this.getBlockPos().add(32,32,32));
-        List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, box);
-        if (!entities.isEmpty()) {
-            for (LivingEntity target : entities) {
-                if (Objects.equals(this.trackingEntity, target.getUuidAsString()) && !(target instanceof WardenEntity)) { return target; }
-            }
-        } return null;
-    }
     public LivingEntity mostSuspiciousAround() {
         int highest = 0;
         LivingEntity most = null;
@@ -345,8 +337,8 @@ public class WardenEntity extends HostileEntity {
         List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
         if (!entities.isEmpty()) {
             for (LivingEntity target : entities) {
-                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=16 && this.getSuspicion(target)>highest && !(target instanceof WardenEntity)) {
-                    highest = this.getSuspicion(target);
+                if (this.getBlockPos().getSquaredDistance(target.getBlockPos())<=16 && this.getAnger()>highest && !(target instanceof WardenEntity)) {
+                    highest = this.getAnger();
                     most = target;
                 }
             }
@@ -402,6 +394,14 @@ public class WardenEntity extends HostileEntity {
         } return chosen;
     }
 
+    public TagKey<GameEvent> getTag() {
+        return WildEventTags.WARDEN_CAN_LISTEN;
+    }
+
+    public boolean triggersAvoidCriterion() {
+        return true;
+    }
+
     @Contract("null->false")
     public boolean isValidTarget(@Nullable Entity entity) {
         boolean var10000;
@@ -439,10 +439,11 @@ public class WardenEntity extends HostileEntity {
                 .encodeStart(NbtOps.INSTANCE, this.angerManager)
                 .resultOrPartial(field_38138::error)
                 .ifPresent(angerNbt -> nbt.put("anger", angerNbt));
+
+        VibrationListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.gameEventHandler.getListener()).resultOrPartial(field_38138::error).ifPresent((nbtElement) -> {
+            nbt.put("listener", nbtElement);
+        });
         nbt.putLong("vibrationTimer", this.vibrationTimer);
-        nbt.putLong("leaveTime", this.leaveTime);
-        nbt.putInt("emergeTicksLeft", this.emergeTicksLeft);
-        nbt.putBoolean("hasEmerged", this.hasEmerged);
         nbt.putBoolean("hasSentStatusStart", this.hasSentStatusStart);
         nbt.putIntArray("entityList", this.entityList);
         nbt.putIntArray("susList", this.susList);
@@ -455,10 +456,6 @@ public class WardenEntity extends HostileEntity {
         nbt.putInt("vibY", this.vibY);
         nbt.putInt("vibZ", this.vibZ);
         nbt.putInt("queuedSuspicion", this.queuedSuspicion);
-        nbt.putInt("attackNearCooldown", this.attackNearCooldown);
-        nbt.putInt("roarOtherCooldown", this.roarOtherCooldown);
-        nbt.putBoolean("ableToDig", this.ableToDig);
-        nbt.putBoolean("hasDug", this.hasDug);
         nbt.putInt("movementPriority", this.movementPriority);
         nbt.putInt("ticksToWander", this.ticksToWander);
         nbt.putDouble("lookX", this.lookX);
@@ -474,10 +471,13 @@ public class WardenEntity extends HostileEntity {
                     .ifPresent(angerManager -> this.angerManager = angerManager);
             this.updateAnger();
         }
+
+        if (nbt.contains("listener", NbtElement.COMPOUND_TYPE)) {
+            VibrationListener.createCodec(this).parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener"))).resultOrPartial(field_38138::error).ifPresent((vibrationListener) -> {
+                this.gameEventHandler.setListener(vibrationListener, this.world);
+            });
+        }
         this.vibrationTimer = nbt.getLong("vibrationTimer");
-        this.leaveTime = nbt.getLong("leaveTime");
-        this.emergeTicksLeft = nbt.getInt("emergeTicksLeft");
-        this.hasEmerged = nbt.getBoolean("hasEmerged");
         this.hasSentStatusStart = nbt.getBoolean("hasSentStatusStart");
         this.entityList = IntArrayList.wrap(nbt.getIntArray("entityList"));
         this.susList = IntArrayList.wrap(nbt.getIntArray("susList"));
@@ -490,10 +490,6 @@ public class WardenEntity extends HostileEntity {
         this.vibY = nbt.getInt("vibY");
         this.vibZ = nbt.getInt("vibZ");
         this.queuedSuspicion = nbt.getInt("queuedSuspicion");
-        this.attackNearCooldown = nbt.getInt("attackNearCooldown");
-        this.roarOtherCooldown = nbt.getInt("roarOtherCooldown");
-        this.ableToDig = nbt.getBoolean("ableToDig");
-        this.hasDug = nbt.getBoolean("hasDug");
         this.movementPriority = nbt.getInt("movementPriority");
         this.ticksToWander = nbt.getInt("ticksToWander");
         this.lookX = nbt.getDouble("lookX");
@@ -501,46 +497,8 @@ public class WardenEntity extends HostileEntity {
         this.lookZ = nbt.getDouble("lookZ");
     }
 
-    @Deprecated
-    public boolean canFollow(Entity entity, boolean mustBeTracking) {
-        Box box = new Box(this.getBlockPos().add(-20,-20,-20), this.getBlockPos().add(20,20,20));
-        List<Entity> entities = world.getNonSpectatingEntities(Entity.class, box);
-        if (!entities.isEmpty() && entities.contains(entity)) {
-            if (MathAddon.distance(entity.getX(), entity.getY(), entity.getZ(), this.getX(), this.getY(), this.getZ()) <= 18) {
-                if (mustBeTracking) {
-                    return entity == this.getTrackingEntity();
-                } else {
-                    return true;
-                }
-            }
-        } return false;
-    }
-    @Deprecated
-    public int mostSuspiciousAroundInt() {
-        int value=0;
-        if (mostSuspiciousAround()!=null) {value=this.getSuspicion(mostSuspiciousAround());}
-        return value;
-    }
-    @Deprecated
-    public int getHighestSuspicionInt() {
-        int highest = 0;
-        if (!this.susList.isEmpty()) {
-            for (int i=0; i<this.susList.size(); i++) {
-                if (this.susList.getInt(i)>highest) {highest=this.susList.getInt(i);}
-            }
-        } return highest;
-    }
-
     /** OVERRIDES & NON-WARDEN-SPECIFIC */
-    public void onPlayerCollision(PlayerEntity player) {
-        if (this.age % 20 == 0) {
-            if (!player.getAbilities().creativeMode) {this.addSuspicion(player,10);}
-            this.leaveTime=this.world.getTime()+1200;
-            this.lookX=player.getX();
-            this.lookY=player.getY();
-            this.lookZ=player.getZ();
-        }
-    }
+
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(RegisterSounds.ENTITY_WARDEN_STEP, 10.0F, 1.0F);
     }
@@ -698,32 +656,26 @@ public class WardenEntity extends HostileEntity {
             this.getBrain().remember(RegisterMemoryModules.IS_EMERGING, Unit.INSTANCE, WardenBrain.EMERGE_DURATION);
             this.playSound(RegisterSounds.ENTITY_WARDEN_AGITATED, 5.0F, 1.0F);
         }
-        this.leaveTime=this.world.getTime()+1200;
+
         this.setPersistent();
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-    }
-
-    @Override
-    public void onKilledOther(ServerWorld world, LivingEntity other) {
-        super.onKilledOther(world, other);
-        if (this.getSuspicion(other)!=0) {
-            this.susList.removeInt(this.entityList.indexOf(other.getUuid().hashCode()));
-            this.entityList.removeInt(this.entityList.indexOf(other.getUuid().hashCode()));
-            if (this.getTrackingEntityForRoarNavigation()!=null && other==this.getTrackingEntityForRoarNavigation()) {
-                this.trackingEntity="null";
-            }
-        }
     }
 
     /** VISUALS */
         public void createVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
-        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ()))) * this.vibrationDelayAnger());
+        Vec3d start = Vec3d.ofCenter(blockPos2);
+        Vec3d end = Vec3d.ofCenter(this.getBlockPos());
+        this.distance = MathHelper.floor(start.distanceTo(end));
+        this.delay = this.distance;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
     public void createFloorVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         BlockPositionSource blockSource = new BlockPositionSource(this.getBlockPos().down());
-        this.delay = this.distance = (int)(Math.floor(Math.sqrt(warden.getBlockPos().getSquaredDistance(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ()))) * 2);
+        Vec3d start = Vec3d.ofCenter(blockPos2);
+        Vec3d end = Vec3d.ofCenter(this.getBlockPos().down());
+        this.distance = MathHelper.floor(start.distanceTo(end));
+        this.delay = this.distance;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, blockSource, this.delay));
     }
     public void addDigParticles(AnimationState animationState) {
@@ -770,13 +722,17 @@ public class WardenEntity extends HostileEntity {
             return (Brain<WardenEntity>) super.getBrain();
     }
 
+    protected void sendAiDebugData() {
+        super.sendAiDebugData();
+        DebugInfoSender.sendBrainDebugData(this);
+    }
+
     public boolean damage(DamageSource source, float amount) {
         boolean bl = super.damage(source, amount);
         if (!this.world.isClient && !this.isAiDisabled() && amount > 0.0F) {
             Entity entity = source.getAttacker();
-            LivingEntity livingEntity = (LivingEntity)entity;
-            this.addSuspicion(livingEntity, Angriness.ANGRY.getThreshold() + 20);
-            if (this.brain.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty()) {
+            this.increaseAngerAt(entity, Angriness.ANGRY.getThreshold() + 20, false);
+            if (this.brain.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty() && entity instanceof LivingEntity livingEntity) {
                 if (!(source instanceof ProjectileDamageSource) || this.isInRange(livingEntity, 5.0)) {
                     this.updateAttackTarget(livingEntity);
                 }
@@ -787,7 +743,7 @@ public class WardenEntity extends HostileEntity {
     }
 
     public void updateAttackTarget(LivingEntity livingEntity) {
-        this.getBrain().forget(RegisterMemoryModules.ROAR_TARGET);
+        //this.getBrain().forget(RegisterMemoryModules.ROAR_TARGET);
         UpdateAttackTargetTask.updateAttackTarget(this, livingEntity);
         SonicBoomTask.cooldown(this, 200);
     }
@@ -836,54 +792,6 @@ public class WardenEntity extends HostileEntity {
     }
 
     /** TICKMOVEMENT METHODS */
-    public void tickEmerge() {
-        if (!this.hasSentStatusStart) { //Set Client EmergeTicks To 160
-            this.world.sendEntityStatus(this, (byte)9);
-            this.hasSentStatusStart=true;
-        }
-        if (this.emergeTicksLeft > 0 && !this.hasEmerged) { //Tick Down Emerging
-            this.setVelocity(0, 0, 0);
-            this.emergeTicksLeft--;
-        }
-        if (this.emergeTicksLeft == 0 && !this.hasEmerged) { //Stop Emerging
-            this.world.sendEntityStatus(this, (byte)12);
-            this.hasEmerged = true;
-            this.sniffCooldown = random.nextInt(5,110);
-            this.emergeTicksLeft = -1;
-        }
-        if (world.getTime()==this.leaveTime) { this.ableToDig=true; }
-        if (this.digAttemptCooldown>0) { --this.digAttemptCooldown; }
-        if (this.ableToDig && this.digAttemptCooldown == 0 && this.emergeTicksLeft == -1) { //Start Digging
-            if (!SculkTags.blockTagContains(world.getBlockState(this.getBlockPos().down()).getBlock(), SculkTags.WARDEN_UNSPAWNABLE) && !world.getBlockState(this.getBlockPos().down()).isAir()) {
-                this.world.sendEntityStatus(this, (byte) 11);
-                this.handleStatus((byte) 6);
-                this.hasDug=true;
-                this.susList.clear();
-                this.entityList.clear();
-            } else this.digAttemptCooldown = 240;
-        }
-        if (this.emergeTicksLeft > 0 && this.hasEmerged) { //Tick Down While Digging
-            this.setVelocity(0, 0, 0);
-            --this.emergeTicksLeft;
-        }
-        if (this.emergeTicksLeft == 0 && this.hasEmerged && this.ableToDig) { //Handle Finish Digging
-            if (!this.hasCustomName()) {
-                this.remove(RemovalReason.DISCARDED);
-            } else {
-                this.setInvisible(true);
-                this.emergeTicksLeft=-5;
-                this.world.sendEntityStatus(this, (byte)17);
-            }
-        }
-        if (this.sendRenderBooleanCooldown>0) { --this.sendRenderBooleanCooldown; }
-        if (this.sendRenderBooleanCooldown == 0 && this.hasEmerged && this.ableToDig) { //Sync shouldRender With Clients
-            if (this.hasCustomName() && this.emergeTicksLeft==-5) {
-                this.world.sendEntityStatus(this, (byte)17);
-                this.setInvisible(true);
-                this.sendRenderBooleanCooldown=120;
-            }
-        }
-    }
 
     public void tickVibration() {
         if (this.vibrationTicks>0) {
@@ -895,49 +803,44 @@ public class WardenEntity extends HostileEntity {
         }
     }
     public void listenVibration() {
-        this.world.sendEntityStatus(this, (byte)7);
-        this.world.sendEntityStatus(this, (byte)15);
-        this.vibrationTimer=this.world.getTime();
-        this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, this.getSoundCategory(), 5.0F, world.random.nextFloat() * 0.2F + 0.8F);
-        this.ableToDig=false;
-        this.hasDug=false;
-        if (this.emergeTicksLeft != -5) {
-            LivingEntity eventEntity = this.getVibrationEntity();
-            this.lasteventpos = new BlockPos(this.vibX, this.vibY, this.vibZ);
-            this.lookX=this.vibX;
-            this.lookY=this.vibY;
-            this.lookZ=this.vibZ;
-            int suspicion = this.queuedSuspicion;
-            if (eventEntity != null) {
-                this.lastevententity = eventEntity;
-                addSuspicion(eventEntity, suspicion);
-                if (this.world.getTime() - reactionSoundTimer > 40) {
-                    this.reactionSoundTimer = this.world.getTime();
-                    if (getSuspicion(eventEntity) < 25) {
-                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else if (getSuspicion(eventEntity) > 25) {
-                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING_ANGRY, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
+        if (this.world instanceof ServerWorld serverWorld) {
+            this.world.sendEntityStatus(this, (byte) 7);
+            this.world.sendEntityStatus(this, (byte) 15);
+            this.vibrationTimer = this.world.getTime();
+            this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, this.getSoundCategory(), 5.0F, world.random.nextFloat() * 0.2F + 0.8F);
+            if (this.canListen(serverWorld, this.getVibrationEntity().getBlockPos(), this.getVibrationEntity())) {
+                LivingEntity eventEntity = this.getVibrationEntity();
+                this.lasteventpos = new BlockPos(this.vibX, this.vibY, this.vibZ);
+                this.lookX = this.vibX;
+                this.lookY = this.vibY;
+                this.lookZ = this.vibZ;
+                int suspicion = this.queuedSuspicion;
+                if (eventEntity != null) {
+                    this.lastevententity = eventEntity;
+                    increaseAngerAt(eventEntity, suspicion, true);
+                    if (this.world.getTime() - reactionSoundTimer > 40) {
+                        this.reactionSoundTimer = this.world.getTime();
+                    }
+                } else {
+                    this.timeSinceNonEntity = this.world.getTime();
+                    this.nonEntityAnger = this.nonEntityAnger + 3;
+                    if (this.world.getTime() - reactionSoundTimer > 40) {
+                        this.reactionSoundTimer = this.world.getTime();
+                        if (this.trueOverallAnger() < 25) {
+                            this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                        } else {
+                            this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                        }
                     }
                 }
             } else {
-                this.timeSinceNonEntity = this.world.getTime();
-                this.nonEntityAnger = this.nonEntityAnger + 3;
-                if (this.world.getTime() - reactionSoundTimer > 40) {
-                    this.reactionSoundTimer = this.world.getTime();
-                    if (this.trueOverallAnger() < 25) {
-                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    } else {
-                        this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                    }
-                }
+                this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
+                this.reactionSoundTimer = this.world.getTime();
+                this.world.sendEntityStatus(this, (byte) 9);
+                this.world.sendEntityStatus(this, (byte) 18);
+                this.handleStatus((byte) 5);
+                this.setInvisible(false);
             }
-        } else {
-            this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
-            this.reactionSoundTimer = this.world.getTime();
-            this.world.sendEntityStatus(this, (byte)9);
-            this.world.sendEntityStatus(this, (byte)18);
-            this.handleStatus((byte)5);
-            this.setInvisible(false);
         }
     }
 
@@ -964,7 +867,6 @@ public class WardenEntity extends HostileEntity {
     public String vibrationEntity = "null";
     public int queuedSuspicion;
     //Anger & Heartbeat
-    public int heartbeatTime = getHeartRate();
     public int nonEntityAnger;
     public long nextHeartBeat;
     public long lastHeartBeat;
@@ -972,19 +874,11 @@ public class WardenEntity extends HostileEntity {
     private WardenAngerManager angerManager = new WardenAngerManager(this::isValidTarget, Collections.emptyList());
     //Emerging & Digging
     public boolean hasDetected=false;
-    public boolean hasEmerged;
     public boolean hasSentStatusStart;
-    public int emergeTicksLeft;
-    public int digAttemptCooldown;
-    public boolean ableToDig;
-    public boolean hasDug;
     public int sendRenderBooleanCooldown;
     //Timers
-    public long leaveTime;
     public long vibrationTimer;
     public long reactionSoundTimer;
-    public int attackNearCooldown;
-    public int roarOtherCooldown;
     public int vibrationTicks=-1;
     //Stopwatches
     public long timeSinceNonEntity;
@@ -1019,4 +913,59 @@ public class WardenEntity extends HostileEntity {
 
     public static final byte EARS_TWITCH = 61;
     public static final byte SONIC_BOOM = 62;
+
+    private final EntityGameEventHandler<VibrationListener> gameEventHandler = new EntityGameEventHandler<>(new VibrationListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0));
+
+    @Override
+    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter) {
+        if (!this.isAiDisabled() && !this.isDead() && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN) && !this.isDiggingOrEmerging() && world.getWorldBorder().contains(pos) && !this.isRemoved() && this.world == world) {
+            Entity var7 = emitter.sourceEntity();
+            boolean var10000;
+            if (var7 instanceof LivingEntity) {
+                LivingEntity livingEntity = (LivingEntity)var7;
+                if (!this.isValidTarget(livingEntity)) {
+                    var10000 = false;
+                    return var10000;
+                }
+            }
+
+            var10000 = true;
+            return var10000;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void accept(ServerWorld world, GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay) {
+        this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
+        world.sendEntityStatus(this, EARS_TWITCH);
+        this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
+        BlockPos blockPos = pos;
+        if (sourceEntity != null) {
+            if (this.isInRange(sourceEntity, 30.0)) {
+                if (this.getBrain().hasMemoryModule(RegisterMemoryModules.RECENT_PROJECTILE)) {
+                    if (this.isValidTarget(sourceEntity)) {
+                        blockPos = sourceEntity.getBlockPos();
+                    }
+
+                    this.increaseAngerAt(sourceEntity);
+                } else {
+                    this.increaseAngerAt(sourceEntity, 10, true);
+                }
+            }
+
+            this.getBrain().remember(RegisterMemoryModules.RECENT_PROJECTILE, Unit.INSTANCE, 100L);
+        } else {
+            this.increaseAngerAt(entity);
+        }
+
+        if (!this.getAngriness().isAngry()) {
+            Optional<LivingEntity> optional = this.angerManager.getPrimeSuspect();
+            if (sourceEntity != null || optional.isEmpty() || optional.get() == entity) {
+                WardenBrain.lookAtDisturbance(this, blockPos);
+            }
+        }
+
+    }
 }

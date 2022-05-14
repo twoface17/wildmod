@@ -502,15 +502,15 @@ public class SculkShriekerBlock
 
     public static void addShriek(BlockPos pos, World world, int i) {
         if (world instanceof ServerWorld serverWorld) {
-            if (timer <= world.getTime() - 12000) {
-                --shrieks;
-                timer = world.getTime();
+            if (world.getTime() - timer <= -90) {
+                shrieks = 0;
+                timer = 0;
             }
             if (shrieks < 0) {
                 shrieks = 0;
             }
             if (world.getGameRules().getBoolean(WildMod.DO_WARDEN_SPAWNING) && world.getTime() > timer) {
-                timer = world.getTime() + 200;
+                timer = world.getTime() + 30;
                 shrieks = shrieks + i;
                 if (world.isSkyVisible(pos.up()) && !world.isNight()) {
                     world.playSound(null, pos, RegisterSounds.ENTITY_WARDEN_AMBIENT, SoundCategory.HOSTILE, 5.0F, 0.8F);

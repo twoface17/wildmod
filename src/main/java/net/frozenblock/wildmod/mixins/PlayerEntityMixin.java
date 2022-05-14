@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.block.entity.SculkShriekerWarningManager;
 import net.frozenblock.wildmod.entity.WardenBrain;
 import net.frozenblock.wildmod.entity.WardenEntity;
+import net.frozenblock.wildmod.liukrastapi.Angriness;
 import net.frozenblock.wildmod.liukrastapi.PlayerEntityAccess;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterEntities;
@@ -85,7 +86,7 @@ public class PlayerEntityMixin implements PlayerEntityAccess {
 				WardenEntity wardie;
 				while(var11.hasNext()) {
 					wardie = var11.next();
-					wardie.listen(player.getBlockPos(), world, player, 48, null);
+					wardie.listen(player.getBlockPos(), world, player, Angriness.ANGRY.getThreshold()  + 20,null);
 				}
 				if (wardens.isEmpty()) {
 					player.emitGameEvent(GameEvent.BLOCK_DESTROY, player, pos);
