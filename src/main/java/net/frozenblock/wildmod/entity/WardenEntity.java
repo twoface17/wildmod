@@ -159,7 +159,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
     }
 
     public boolean canListen(ServerWorld world, BlockPos pos, Entity entity) {
-        if (!this.isAiDisabled() && !this.isDead() && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN) && !this.isDiggingOrEmerging() && world.getWorldBorder().contains(pos) && !this.isRemoved() && this.world == world) {
+        if (!this.isAiDisabled() && !this.isDead() && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN) && !this.isDiggingOrEmerging() /*&& world.getWorldBorder().contains(pos) */&& !this.isRemoved() && this.world == world) {
             boolean var10000;
             if (entity instanceof LivingEntity livingEntity) {
                 if (!this.isValidTarget(livingEntity)) {
@@ -209,6 +209,9 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
             this.vibY = eventPos.getY();
             this.vibZ = eventPos.getZ();
             this.lasteventworld = eventWorld;
+            if (eventEntity!=null) {
+                this.vibrationEntity = eventEntity.getUuidAsString();
+            } else { this.vibrationEntity = "null"; }
             this.queuedSuspicion=suspicion;
             if (vibrationPos != null) {
                 createVibration(this.world, this, vibrationPos);
@@ -356,7 +359,8 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
                     }
                 }
             }
-        }return null;
+        }
+        return null;
     }
     /** ATTACKING */
     public boolean tryAttack(Entity target) {
@@ -527,6 +531,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
     public void emitGameEvent(GameEvent event) {}
 
     private void playListeningSound() {
+        tickVibration();
         if (!this.isInPose(WildMod.ROARING)) {
             this.playSound(this.getAngriness().getListeningSound(), 10.0F, this.getSoundPitch());
         }
@@ -826,11 +831,6 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
                     this.nonEntityAnger = this.nonEntityAnger + 3;
                     if (this.world.getTime() - reactionSoundTimer > 40) {
                         this.reactionSoundTimer = this.world.getTime();
-                        if (this.trueOverallAnger() < 25) {
-                            this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                        } else {
-                            this.world.playSound(null, this.getCameraBlockPos(), RegisterSounds.ENTITY_WARDEN_LISTENING, this.getSoundCategory(), 10.0F, world.random.nextFloat() * 0.2F + 0.8F);
-                        }
                     }
                 }
             } else {
