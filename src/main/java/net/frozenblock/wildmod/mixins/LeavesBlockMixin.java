@@ -33,6 +33,16 @@ public class LeavesBlockMixin extends Block implements Waterloggable {
 
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
+    public LeavesBlockMixin(AbstractBlock.Settings settings) {
+        super(settings);
+        this.setDefaultState(this.stateManager.getDefaultState().with(DISTANCE, 7).with(PERSISTENT, false).with(WATERLOGGED, false));
+    }
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    public void LeavesBlock(Settings settings, CallbackInfo ci) {
+        this.setDefaultState(this.stateManager.getDefaultState().with(DISTANCE, 7).with(PERSISTENT, false).with(WATERLOGGED, false));
+    }
+
 
     /**
      * @author FrozenBlock
@@ -77,11 +87,6 @@ public class LeavesBlockMixin extends Block implements Waterloggable {
         } else {
             return state.getBlock() instanceof LeavesBlock ? state.get(DISTANCE) : 7;
         }
-    }
-
-    public LeavesBlockMixin(AbstractBlock.Settings settings) {
-        super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(DISTANCE, 7).with(PERSISTENT, false).with(WATERLOGGED, false));
     }
 
     @Inject(method = "getStateForNeighborUpdate", at = @At("HEAD"))
