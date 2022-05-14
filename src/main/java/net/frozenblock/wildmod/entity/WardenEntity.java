@@ -153,7 +153,6 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
             this.chargingSonicBoomAnimationState.start();
         } else if (!this.isAiDisabled() && status == 7) { //Set Last Vibration Time
             this.vibrationTimer=this.world.getTime();
-            this.canTendrilAnim=true;
         } else {
             super.handleStatus(status);
         }
@@ -180,7 +179,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
         if (eventWorld instanceof ServerWorld serverWorld && canListen(serverWorld, vibrationPos, eventEntity)) {
             this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
             world.sendEntityStatus(this, EARS_TWITCH);
-            this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
+            //this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
             BlockPos blockPos = eventPos;
             if (eventEntity != null) {
                 if (this.isInRange(eventEntity, 30.0)) {
@@ -695,7 +694,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
     }
 
     public void updateAttackTarget(LivingEntity livingEntity) {
-        //this.getBrain().forget(RegisterMemoryModules.ROAR_TARGET);
+        this.getBrain().forget(RegisterMemoryModules.ROAR_TARGET);
         UpdateAttackTargetTask.updateAttackTarget(this, livingEntity);
         SonicBoomTask.cooldown(this, 200);
     }
@@ -757,7 +756,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
     public void listenVibration() {
         if (this.world instanceof ServerWorld serverWorld) {
             this.world.sendEntityStatus(this, (byte) 7);
-            this.world.sendEntityStatus(this, (byte) 15);
+            //this.world.sendEntityStatus(this, (byte) 15);
             this.vibrationTimer = this.world.getTime();
             this.world.playSound(null, this.getBlockPos().up(2), RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, this.getSoundCategory(), 5.0F, world.random.nextFloat() * 0.2F + 0.8F);
             if (this.canListen(serverWorld, this.getVibrationEntity().getBlockPos(), this.getVibrationEntity())) {
@@ -788,10 +787,6 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
         }
     }
 
-    //Movement
-    public int timeStuck=0;
-    public BlockPos stuckPos;
-    public long timeSinceLastRecalculation;
     public BlockPos lasteventpos;
     public World lasteventworld;
     public LivingEntity lastevententity;
@@ -830,8 +825,6 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
     public AnimationState diggingAnimationState = new AnimationState();
     public AnimationState attackingAnimationState = new AnimationState();
     public AnimationState chargingSonicBoomAnimationState = new AnimationState();
-    public boolean canTendrilAnim; //Status 7
-    public float tendrilAnimStartTime=-200;
 
     //NO IDEA WHAT THESE ARE.
     private float field_38162;
