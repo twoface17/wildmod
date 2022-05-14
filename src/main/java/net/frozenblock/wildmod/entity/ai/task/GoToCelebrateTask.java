@@ -17,18 +17,7 @@ public class GoToCelebrateTask<E extends MobEntity> extends Task<E> {
     private final float speed;
 
     public GoToCelebrateTask(MemoryModuleType<BlockPos> memoryModuleType, int i, float f) {
-        super(
-            ImmutableMap.of(
-                memoryModuleType,
-                MemoryModuleState.VALUE_PRESENT,
-                MemoryModuleType.ATTACK_TARGET,
-                MemoryModuleState.VALUE_ABSENT,
-                MemoryModuleType.WALK_TARGET,
-                MemoryModuleState.VALUE_ABSENT,
-                MemoryModuleType.LOOK_TARGET,
-                MemoryModuleState.REGISTERED
-            )
-        );
+        super(ImmutableMap.of(memoryModuleType, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED));
         this.memoryModuleType = memoryModuleType;
         this.completionRange = i;
         this.speed = f;
@@ -36,7 +25,7 @@ public class GoToCelebrateTask<E extends MobEntity> extends Task<E> {
 
     protected void run(ServerWorld serverWorld, MobEntity mobEntity, long l) {
         BlockPos blockPos = this.getCelebrateLocation(mobEntity);
-        boolean bl = blockPos.isWithinDistance(mobEntity.getBlockPos(), (double)this.completionRange);
+        boolean bl = blockPos.isWithinDistance(mobEntity.getBlockPos(), this.completionRange);
         if (!bl) {
             LookTargetUtil.walkTowards(mobEntity, fuzz(mobEntity, blockPos), this.speed, this.completionRange);
         }

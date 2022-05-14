@@ -18,16 +18,7 @@ public class StartSniffingTask extends Task<WardenEntity> {
     private static final IntProvider COOLDOWN = UniformIntProvider.create(100, 200);
 
     public StartSniffingTask() {
-        super(
-                ImmutableMap.of(
-                        RegisterMemoryModules.SNIFF_COOLDOWN,
-                        MemoryModuleState.VALUE_ABSENT,
-                        MemoryModuleType.NEAREST_ATTACKABLE,
-                        MemoryModuleState.VALUE_PRESENT,
-                        RegisterMemoryModules.DISTURBANCE_LOCATION,
-                        MemoryModuleState.VALUE_ABSENT
-                )
-        );
+        super(ImmutableMap.of(RegisterMemoryModules.SNIFF_COOLDOWN, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.NEAREST_ATTACKABLE, MemoryModuleState.VALUE_PRESENT, RegisterMemoryModules.DISTURBANCE_LOCATION, MemoryModuleState.VALUE_ABSENT));
     }
 
     protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {

@@ -117,7 +117,6 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
             this.tickVibration();
         }
         //Movement
-        if (this.ticksToWander>0) {--this.ticksToWander;}
         //if (this.getNavigation().isIdle()) {this.movementPriority=0;}
         //Heartbeat & Anger
         if (this.world.getTime()-this.timeSinceNonEntity>300 && this.nonEntityAnger>0) { --this.nonEntityAnger; }
@@ -449,10 +448,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
         });
         nbt.putLong("vibrationTimer", this.vibrationTimer);
         nbt.putBoolean("hasSentStatusStart", this.hasSentStatusStart);
-        nbt.putIntArray("entityList", this.entityList);
-        nbt.putIntArray("susList", this.susList);
         nbt.putString("trackingEntity", this.trackingEntity);
-        nbt.putInt("sniffCooldown", this.sniffCooldown);
         nbt.putInt("nonEntityAnger", this.nonEntityAnger);
         nbt.putLong("timeSinceNonEntity", this.timeSinceNonEntity);
         nbt.putString("vibrationEntity", this.vibrationEntity);
@@ -461,7 +457,6 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
         nbt.putInt("vibZ", this.vibZ);
         nbt.putInt("queuedSuspicion", this.queuedSuspicion);
         nbt.putInt("movementPriority", this.movementPriority);
-        nbt.putInt("ticksToWander", this.ticksToWander);
         nbt.putDouble("lookX", this.lookX);
         nbt.putDouble("lookY", this.lookY);
         nbt.putDouble("lookZ", this.lookZ);
@@ -483,10 +478,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
         }
         this.vibrationTimer = nbt.getLong("vibrationTimer");
         this.hasSentStatusStart = nbt.getBoolean("hasSentStatusStart");
-        this.entityList = IntArrayList.wrap(nbt.getIntArray("entityList"));
-        this.susList = IntArrayList.wrap(nbt.getIntArray("susList"));
         this.trackingEntity = nbt.getString("trackingEntity");
-        this.sniffCooldown = nbt.getInt("sniffCooldown");
         this.nonEntityAnger = nbt.getInt("nonEntityAnger");
         this.timeSinceNonEntity = nbt.getLong("timeSinceNonEntity");
         this.vibrationEntity = nbt.getString("vibrationEntity");
@@ -495,7 +487,6 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
         this.vibZ = nbt.getInt("vibZ");
         this.queuedSuspicion = nbt.getInt("queuedSuspicion");
         this.movementPriority = nbt.getInt("movementPriority");
-        this.ticksToWander = nbt.getInt("ticksToWander");
         this.lookX = nbt.getDouble("lookX");
         this.lookY = nbt.getDouble("lookY");
         this.lookZ = nbt.getDouble("lookZ");
@@ -816,9 +807,6 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
             if (this.canListen(serverWorld, this.getVibrationEntity().getBlockPos(), this.getVibrationEntity())) {
                 LivingEntity eventEntity = this.getVibrationEntity();
                 this.lasteventpos = new BlockPos(this.vibX, this.vibY, this.vibZ);
-                this.lookX = this.vibX;
-                this.lookY = this.vibY;
-                this.lookZ = this.vibZ;
                 int suspicion = this.queuedSuspicion;
                 if (eventEntity != null) {
                     this.lastevententity = eventEntity;
@@ -856,13 +844,10 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
     public int vibY;
     public int vibZ;
     public int movementPriority;
-    public int ticksToWander;
     public double lookX;
     public double lookY;
     public double lookZ;
     //Lists & Entity Tracking
-    public IntArrayList entityList = new IntArrayList();
-    public IntArrayList susList = new IntArrayList();
     public String trackingEntity = "null";
     public String vibrationEntity = "null";
     public int queuedSuspicion;
@@ -882,7 +867,6 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
     public int vibrationTicks=-1;
     //Stopwatches
     public long timeSinceNonEntity;
-    public int sniffCooldown;
 
     public int delay = 0;
     protected int distance;

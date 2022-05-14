@@ -19,11 +19,7 @@ public class ForgetAttackTargetTask<E extends MobEntity> extends Task<E> {
     private final boolean shouldForgetIfTargetUnreachable;
 
     public ForgetAttackTargetTask(Predicate<LivingEntity> condition, BiConsumer<E, LivingEntity> biConsumer, boolean shouldForgetIfTargetUnreachable) {
-        super(
-            ImmutableMap.of(
-                MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleState.REGISTERED
-            )
-        );
+        super(ImmutableMap.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleState.REGISTERED));
         this.alternativeCondition = condition;
         this.forgetCallback = biConsumer;
         this.shouldForgetIfTargetUnreachable = shouldForgetIfTargetUnreachable;
@@ -39,11 +35,15 @@ public class ForgetAttackTargetTask<E extends MobEntity> extends Task<E> {
     }
 
     public ForgetAttackTargetTask(BiConsumer<E, LivingEntity> biConsumer) {
-        this(target -> false, biConsumer);
+        this((target) -> {
+            return false;
+        }, biConsumer);
     }
 
     public ForgetAttackTargetTask() {
-        this(target -> false, (mobEntity, livingEntity) -> {
+        this((target) -> {
+            return false;
+        }, (mobEntity, livingEntity) -> {
         });
     }
 

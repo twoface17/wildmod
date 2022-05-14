@@ -13,29 +13,17 @@ import net.minecraft.util.math.BlockPos;
 
 public class LookAtDisturbanceTask extends Task<WardenEntity> {
     public LookAtDisturbanceTask() {
-        super(
-            ImmutableMap.of(
-                RegisterMemoryModules.DISTURBANCE_LOCATION,
-                MemoryModuleState.REGISTERED,
-                RegisterMemoryModules.ROAR_TARGET,
-                MemoryModuleState.REGISTERED,
-                MemoryModuleType.ATTACK_TARGET,
-                MemoryModuleState.VALUE_ABSENT
-            )
-        );
+        super(ImmutableMap.of(RegisterMemoryModules.DISTURBANCE_LOCATION, MemoryModuleState.REGISTERED, RegisterMemoryModules.ROAR_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT));
     }
 
     protected boolean shouldRun(ServerWorld serverWorld, WardenEntity wardenEntity) {
-        return wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.DISTURBANCE_LOCATION)
-                || wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.ROAR_TARGET);
+        return wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.DISTURBANCE_LOCATION) || wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.ROAR_TARGET);
     }
 
     protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
-        BlockPos blockPos = (BlockPos)wardenEntity.getBrain()
-                .getOptionalMemory(RegisterMemoryModules.ROAR_TARGET)
-                .map(Entity::getBlockPos)
-                .or(() -> wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.DISTURBANCE_LOCATION))
-                .get();
-        wardenEntity.getBrain().remember(MemoryModuleType.LOOK_TARGET, new BlockPosLookTarget(blockPos));
+        BlockPos blockPos = (BlockPos)wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.ROAR_TARGET).map(Entity::getBlockPos).or(() -> {
+            return wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.DISTURBANCE_LOCATION);
+        }).get();
+        wardenEntity.getBrain().remember(MemoryModuleType.LOOK_TARGET, (new BlockPosLookTarget(blockPos)));
     }
 }
