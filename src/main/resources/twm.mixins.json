@@ -9,6 +9,7 @@
 	"BackgroundRendererMixin",
 	"ClientPlayerEntityMixin",
 	"FeatureInvoker",
+	"LeavesBlockMixin",
 	"LightmapTextureManagerMixin",
 	"LivingEntityMixin",
 	"MemoryModuleTypeInvoker",

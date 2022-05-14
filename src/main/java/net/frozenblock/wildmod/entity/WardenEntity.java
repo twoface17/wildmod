@@ -482,14 +482,6 @@ public class WardenEntity extends HostileEntity {
 
     }
 
-    @Override
-    public void playSound(SoundEvent sound, float volume, float pitch) {
-        if (!this.isSilent()) {
-            this.world.playSound(this.getX(), this.getY(), this.getZ(), sound, this.getSoundCategory(), volume, pitch, false);
-        }
-
-    }
-
     public Angriness getAngriness() {
         return Angriness.getForAnger(this.method_43999());
     }

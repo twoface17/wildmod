@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Util {
+public class Util extends net.minecraft.util.Util {
     static final Logger LOGGER = LogUtils.getLogger();
     private static final int MAX_PARALLELISM = 255;
     private static final String MAX_BG_THREADS_PROPERTY = "max.bg.threads";
@@ -267,20 +267,20 @@ public class Util {
         } : supplier;
     }
 
-    public static Util.OperatingSystem getOperatingSystem() {
+    public static net.minecraft.util.Util.OperatingSystem getOperatingSystem() {
         String string = System.getProperty("os.name").toLowerCase(Locale.ROOT);
         if (string.contains("win")) {
-            return Util.OperatingSystem.WINDOWS;
+            return net.minecraft.util.Util.OperatingSystem.WINDOWS;
         } else if (string.contains("mac")) {
-            return Util.OperatingSystem.OSX;
+            return net.minecraft.util.Util.OperatingSystem.OSX;
         } else if (string.contains("solaris")) {
-            return Util.OperatingSystem.SOLARIS;
+            return net.minecraft.util.Util.OperatingSystem.SOLARIS;
         } else if (string.contains("sunos")) {
-            return Util.OperatingSystem.SOLARIS;
+            return net.minecraft.util.Util.OperatingSystem.SOLARIS;
         } else if (string.contains("linux")) {
-            return Util.OperatingSystem.LINUX;
+            return net.minecraft.util.Util.OperatingSystem.LINUX;
         } else {
-            return string.contains("unix") ? Util.OperatingSystem.LINUX : Util.OperatingSystem.UNKNOWN;
+            return string.contains("unix") ? net.minecraft.util.Util.OperatingSystem.LINUX : net.minecraft.util.Util.OperatingSystem.UNKNOWN;
         }
     }
 
