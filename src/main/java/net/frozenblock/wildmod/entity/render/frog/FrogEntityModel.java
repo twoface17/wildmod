@@ -102,7 +102,7 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
         //this.updateAnimation(frogEntity.walkingAnimationState, FrogAnimations.WALKING, h, k);
         //this.updateAnimation(frogEntity.swimmingAnimationState, FrogAnimations.SWIMMING, h);
         //this.updateAnimation(frogEntity.idlingInWaterAnimationState, FrogAnimations.IDLING_IN_WATER, h);
-        this.croakingBody.visible = frogEntity.croakingAnimationState.isRunning();
+        //this.croakingBody.visible = frogEntity.croakingAnimationState.isRunning();
     }
 
     private static final Vec3f field_39195 = new Vec3f();

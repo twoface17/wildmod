@@ -12,7 +12,7 @@ import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
 import net.frozenblock.wildmod.event.*;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
-import net.frozenblock.wildmod.liukrastapi.AnimationState;
+//import net.frozenblock.wildmod.liukrastapi.AnimationState;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
@@ -145,12 +145,12 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
 
     public void handleStatus(byte status) {
         if (status == EntityStatuses.PLAY_ATTACK_SOUND) {
-            this.roaringAnimationState.stop();
-            this.attackingAnimationState.start();
+            //this.roaringAnimationState.stop();
+            //this.attackingAnimationState.start();
         } else if (status == EARS_TWITCH) {
             this.field_38162 = 10;
         } else if (status == SONIC_BOOM) {
-            this.chargingSonicBoomAnimationState.start();
+            //this.chargingSonicBoomAnimationState.start();
         } else if (!this.isAiDisabled() && status == 7) { //Set Last Vibration Time
             this.vibrationTimer=this.world.getTime();
         } else {
@@ -282,9 +282,9 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
             }
 
             if (this.getPose()==WildMod.EMERGING) {
-                this.addDigParticles(this.emergingAnimationState);
+                //this.addDigParticles(this.emergingAnimationState);
             } else if (this.getPose()==WildMod.DIGGING) {
-                this.addDigParticles(this.diggingAnimationState);
+                //this.addDigParticles(this.diggingAnimationState);
             }
         }
     }
@@ -629,7 +629,7 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
         this.delay = this.distance;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, blockSource, this.delay));
     }
-    public void addDigParticles(AnimationState animationState) {
+    /*ublic void addDigParticles(AnimationState animationState) {
         if ((float)animationState.getTimeRunning() < 4500.0F) {
             Random random = this.getRandom();
             BlockState blockState = this.world.getBlockState(this.getBlockPos().down());
@@ -645,16 +645,16 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
 
     }
 
-    public void onTrackedDataSet(TrackedData<?> data) {
+    */public void onTrackedDataSet(TrackedData<?> data) {
         if (POSE.equals(data)) {
             if (this.isInPose(WildMod.EMERGING)) {
-                this.emergingAnimationState.start();
+                //this.emergingAnimationState.start();
             } else if (this.isInPose(WildMod.DIGGING)) {
-                this.diggingAnimationState.start();
+                //this.diggingAnimationState.start();
             } else if (this.isInPose(WildMod.ROARING)) {
-                this.roaringAnimationState.start();
+                //this.roaringAnimationState.start();
             } else if (this.isInPose(WildMod.SNIFFING)) {
-                this.sniffingAnimationState.start();
+                //this.sniffingAnimationState.start();
             }
         }
 
@@ -819,12 +819,12 @@ public class WardenEntity extends HostileEntity implements VibrationListener.Cal
     public boolean isLightHigher;
 
     //ANIMATION
-    public AnimationState roaringAnimationState = new AnimationState();
-    public AnimationState sniffingAnimationState = new AnimationState();
-    public AnimationState emergingAnimationState = new AnimationState();
-    public AnimationState diggingAnimationState = new AnimationState();
-    public AnimationState attackingAnimationState = new AnimationState();
-    public AnimationState chargingSonicBoomAnimationState = new AnimationState();
+    //public AnimationState roaringAnimationState = new AnimationState();
+    //public AnimationState sniffingAnimationState = new AnimationState();
+    //public AnimationState emergingAnimationState = new AnimationState();
+    //public AnimationState diggingAnimationState = new AnimationState();
+    //public AnimationState attackingAnimationState = new AnimationState();
+    //public AnimationState chargingSonicBoomAnimationState = new AnimationState();
 
     //NO IDEA WHAT THESE ARE.
     private float field_38162;

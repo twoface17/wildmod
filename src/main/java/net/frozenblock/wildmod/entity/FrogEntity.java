@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.task.AxolotlSwimNavigation;
-import net.frozenblock.wildmod.liukrastapi.AnimationState;
+//import net.frozenblock.wildmod.liukrastapi.AnimationState;
 import net.frozenblock.wildmod.registry.*;
 import net.frozenblock.wildmod.tags.BiomeTags;
 import net.minecraft.advancement.criterion.Criteria;
@@ -81,12 +81,12 @@ public class FrogEntity extends AnimalEntity {
     private static final TrackedData<OptionalInt> TARGET = DataTracker.registerData(FrogEntity.class, WildMod.OPTIONAL_INT);
     private static final int field_37459 = 5;
     public static final String VARIANT_KEY = "variant";
-    public final AnimationState longJumpingAnimationState = new AnimationState();
-    public final AnimationState croakingAnimationState = new AnimationState();
-    public final AnimationState usingTongueAnimationState = new AnimationState();
-    public final AnimationState walkingAnimationState = new AnimationState();
-    public final AnimationState swimmingAnimationState = new AnimationState();
-    public final AnimationState idlingInWaterAnimationState = new AnimationState();
+    //public final AnimationState longJumpingAnimationState = new AnimationState();
+    //public final AnimationState croakingAnimationState = new AnimationState();
+    //public final AnimationState usingTongueAnimationState = new AnimationState();
+    //public final AnimationState walkingAnimationState = new AnimationState();
+    //public final AnimationState swimmingAnimationState = new AnimationState();
+    //public final AnimationState idlingInWaterAnimationState = new AnimationState();
 
     public FrogEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
@@ -184,20 +184,20 @@ public class FrogEntity extends AnimalEntity {
     public void tick() {
         if (this.world.isClient()) {
             if (this.shouldWalk()) {
-                this.walkingAnimationState.startIfNotRunning();
+                //this.walkingAnimationState.startIfNotRunning();
             } else {
-                this.walkingAnimationState.stop();
+                //this.walkingAnimationState.stop();
             }
 
             if (this.shouldSwim()) {
-                this.idlingInWaterAnimationState.stop();
-                this.swimmingAnimationState.startIfNotRunning();
+                //this.idlingInWaterAnimationState.stop();
+                //this.swimmingAnimationState.startIfNotRunning();
             } else if (this.isInsideWaterOrBubbleColumn()) {
-                this.swimmingAnimationState.stop();
-                this.idlingInWaterAnimationState.startIfNotRunning();
+                //this.swimmingAnimationState.stop();
+                //this.idlingInWaterAnimationState.startIfNotRunning();
             } else {
-                this.swimmingAnimationState.stop();
-                this.idlingInWaterAnimationState.stop();
+                //this.swimmingAnimationState.stop();
+                //this.idlingInWaterAnimationState.stop();
             }
         }
 
@@ -208,21 +208,21 @@ public class FrogEntity extends AnimalEntity {
         if (POSE.equals(data)) {
             EntityPose entityPose = this.getPose();
             if (entityPose == EntityPose.LONG_JUMPING) {
-                this.longJumpingAnimationState.start();
+                //this.longJumpingAnimationState.start();
             } else {
-                this.longJumpingAnimationState.stop();
+                //this.longJumpingAnimationState.stop();
             }
 
             if (entityPose == WildMod.CROAKING) {
-                this.croakingAnimationState.start();
+                //this.croakingAnimationState.start();
             } else {
-                this.croakingAnimationState.stop();
+                //this.croakingAnimationState.stop();
             }
 
             if (entityPose == WildMod.USING_TONGUE) {
-                this.usingTongueAnimationState.start();
+                //this.usingTongueAnimationState.start();
             } else {
-                this.usingTongueAnimationState.stop();
+                //this.usingTongueAnimationState.stop();
             }
         }
 
