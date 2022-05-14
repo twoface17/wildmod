@@ -5,6 +5,6 @@
     "side": "twm:block/sculk_shrieker_side",
     "top": "twm:block/sculk_shrieker_top",
     "particle": "twm:block/sculk_shrieker_bottom",
-    "inner_top": "twm:block/sculk_shrieker_inner_top"
+    "inner_top": "twm:block/sculk_shrieker_can_summon_inner_top"
   }
 }

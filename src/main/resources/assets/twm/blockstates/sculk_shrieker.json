@@ -1,7 +1,10 @@
 {
   "variants": {
-    "sculk_shrieker_phase=active": { "model":  "twm:block/sculk_shrieker" },
-    "sculk_shrieker_phase=cooldown": { "model":  "twm:block/sculk_shrieker" },
-    "sculk_shrieker_phase=inactive": { "model":  "twm:block/sculk_shrieker" }
+    "can_summon=false": {
+      "model": "twm:block/sculk_shrieker"
+    },
+    "can_summon=true": {
+      "model": "twm:block/sculk_shrieker_can_summon"
+    }
   }
 }
