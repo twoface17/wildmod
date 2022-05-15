@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.entity;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
+import net.frozenblock.wildmod.entity.ai.TadpoleBrain;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterItems;
 import net.frozenblock.wildmod.registry.RegisterSounds;

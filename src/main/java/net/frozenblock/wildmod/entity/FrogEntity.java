@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.entity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.task.AxolotlSwimNavigation;
 //import net.frozenblock.wildmod.liukrastapi.AnimationState;
 import net.frozenblock.wildmod.registry.*;

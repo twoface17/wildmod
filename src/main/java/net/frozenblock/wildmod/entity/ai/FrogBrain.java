@@ -1,10 +1,11 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.ai;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.entity.FrogEntity;
 import net.frozenblock.wildmod.entity.ai.task.*;
 import net.frozenblock.wildmod.registry.*;
 import net.minecraft.block.Blocks;
@@ -37,11 +38,11 @@ public class FrogBrain {
     public FrogBrain() {
     }
 
-    protected static void coolDownLongJump(FrogEntity frog, Random random) {
+    public static void coolDownLongJump(FrogEntity frog, Random random) {
         frog.getBrain().remember(MemoryModuleType.LONG_JUMP_COOLING_DOWN, longJumpCooldownRange.get(random));
     }
 
-    protected static Brain<?> create(Brain<FrogEntity> brain) {
+    public static Brain<?> create(Brain<FrogEntity> brain) {
         addCoreActivities(brain);
         addIdleActivities(brain);
         addSwimActivities(brain);

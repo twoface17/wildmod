@@ -40,9 +40,10 @@ interface StatusEffectFogModifier {
         public final BackgroundRenderer.FogType fogType;
         public float fogStart;
         public float fogEnd;
-        //public FogShape fogShape = FogShape.SPHERE;
+        public FogShape fogShape;
 
         public FogData(BackgroundRenderer.FogType fogType) {
+            this.fogShape = FogShape.SPHERE;
             this.fogType = fogType;
         }
     }

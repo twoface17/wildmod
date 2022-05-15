@@ -9,7 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.util.dynamic.Codecs;
-import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -372,12 +371,12 @@ public class StatusEffectInstance extends net.minecraft.entity.effect.StatusEffe
                 this.factorTarget = bl ? 1.0F : 0.0F;
             }
 
-            float f = MathHelper.clamp(((float)this.effectChangedTimestamp - (float)instance.duration) / (float)this.paddingDuration, 0.0F, 1.0F);
-            this.factorCurrent = MathHelper.lerp(f, this.field_39111, this.factorTarget);
+            float f = MathAddon.clamp(((float)this.effectChangedTimestamp - (float)instance.duration) / (float)this.paddingDuration, 0.0F, 1.0F);
+            this.factorCurrent = MathAddon.lerp(f, this.field_39111, this.factorTarget);
         }
 
         public float lerp(float factor) {
-            return MathHelper.lerp(factor, this.factorPreviousFrame, this.factorCurrent);
+            return MathAddon.lerp(factor, this.factorPreviousFrame, this.factorCurrent);
         }
     }
 }

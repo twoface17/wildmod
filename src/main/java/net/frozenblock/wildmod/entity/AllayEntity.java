@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.entity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Dynamic;
+import net.frozenblock.wildmod.entity.ai.AllayBrain;
 import net.frozenblock.wildmod.event.*;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;

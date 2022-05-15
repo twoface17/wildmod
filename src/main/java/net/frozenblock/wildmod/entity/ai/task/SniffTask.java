@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.entity.ai.task;
 
 import com.google.common.collect.ImmutableMap;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.WardenBrain;
+import net.frozenblock.wildmod.entity.ai.WardenBrain;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;

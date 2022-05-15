@@ -1,8 +1,9 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.ai;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
+import net.frozenblock.wildmod.entity.AllayEntity;
 import net.frozenblock.wildmod.entity.ai.task.GiveInventoryToLookTargetTask;
 import net.frozenblock.wildmod.liukrastapi.NoPenaltyStrollTask;
 import net.frozenblock.wildmod.entity.ai.task.WalkTowardsLookTargetTask;
@@ -35,7 +36,7 @@ public class AllayBrain {
     private static final int field_38413 = 600;
     private static final int field_38940 = 32;
 
-    protected static Brain<?> create(Brain<AllayEntity> brain) {
+    public static Brain<?> create(Brain<AllayEntity> brain) {
         AllayBrain.addCoreActivities(brain);
         AllayBrain.addIdleActivities(brain);
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));

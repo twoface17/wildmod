@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.ai;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -22,7 +22,7 @@ public class TadpoleBrain {
     public TadpoleBrain() {
     }
 
-    protected static Brain<?> create(Brain<TadpoleEntity> brain) {
+    public static Brain<?> create(Brain<TadpoleEntity> brain) {
         addCoreActivities(brain);
         addIdleActivities(brain);
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));

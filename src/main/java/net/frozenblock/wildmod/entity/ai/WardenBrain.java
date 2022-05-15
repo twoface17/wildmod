@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.entity;
+package net.frozenblock.wildmod.entity.ai;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.entity.ai.task.*;
 import net.frozenblock.wildmod.entity.ai.task.ForgetAttackTargetTask;
 import net.frozenblock.wildmod.entity.ai.task.GoToCelebrateTask;
@@ -81,7 +82,7 @@ public class WardenBrain {
             );
     }
 
-    protected static Brain<?> create(WardenEntity warden, Dynamic<?> dynamic) {
+    public static Brain<?> create(WardenEntity warden, Dynamic<?> dynamic) {
         Brain.Profile<WardenEntity> profile = Brain.createProfile(MEMORY_MODULES, SENSORS);
         Brain<WardenEntity> brain = profile.deserialize(dynamic);
         addCoreActivities(brain);

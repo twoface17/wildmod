@@ -2,11 +2,12 @@ package net.frozenblock.wildmod.liukrastapi;
 
 import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.gen.random.AbstractRandom;
 
 import java.util.UUID;
 
-public class MathAddon {
+public class MathAddon extends MathHelper {
     public static double time;
     private static final int field_29850 = 1024;
     private static final float field_29851 = 1024.0F;

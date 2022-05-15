@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.entity.ai.task;
 
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.AllayBrain;
+import net.frozenblock.wildmod.entity.ai.AllayBrain;
 import net.frozenblock.wildmod.entity.AllayEntity;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.entity.InventoryOwner;
