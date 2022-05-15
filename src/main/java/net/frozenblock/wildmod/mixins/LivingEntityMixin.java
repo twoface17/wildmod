@@ -42,10 +42,12 @@ public class LivingEntityMixin {
 		if (entity.deathTime == 19 && !entity.world.isClient()) {
 			BlockPos pos = entity.getBlockPos();
 			World world = entity.world;
-			if (SculkTags.entityTagContains(entity.getType(), SculkTags.DROPSXP) && world.getGameRules().getBoolean(WildMod.DO_CATALYST_POLLUTION)) {
-				int numCatalysts= Sphere.blocksInSphere(pos, 9, RegisterBlocks.SCULK_CATALYST, world);
+			if (SculkTags.entityTagContains(entity.getType(), SculkTags.DROPSXP)) {
+				//SculkSpreadManager sculkSpreadManager = SculkSpreadManager.create();
+				int numCatalysts = Sphere.blocksInSphere(pos, 9, RegisterBlocks.SCULK_CATALYST, world);
 				if (numCatalysts>0) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
+					//sculkSpreadManager.spread(new BlockPos((Vec3d.ofCenter(pos).withBias(Direction.UP, 0.5))), 5);
 					//SculkGrower.sculk(pos, world, entity, numCatalysts);
 					int rVal2 = getHighestRadius(world, pos);
 					//ActivatorGrower.startGrowing(rVal2, rVal2, pos, world);

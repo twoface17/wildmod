@@ -254,7 +254,7 @@ public class SculkShriekerBlock
                             1f,
                             1f
                     );
-                } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
+                } else {
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                     (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                     world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
@@ -284,7 +284,7 @@ public class SculkShriekerBlock
                         1.0F,
                         1.0F
                 );
-            } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
+            } else {
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                 (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                 world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);

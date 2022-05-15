@@ -106,7 +106,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
     public void method_44017(ServerWorld serverWorld) {
         BlockPos blockPos = this.getPos();
         BlockState blockState = this.getCachedState();
-        serverWorld.setBlockState(blockPos, blockState.with(SculkShriekerBlock.SHRIEKING, true), Block.NOTIFY_LISTENERS);
+        //serverWorld.setBlockState(blockPos, blockState.with(SculkShriekerBlock.SHRIEKING, true), Block.NOTIFY_LISTENERS);
         serverWorld.createAndScheduleBlockTick(blockPos, blockState.getBlock(), 90);
         serverWorld.syncWorldEvent(WildWorldEvents.SCULK_SHRIEKS, blockPos, 0);
         serverWorld.emitGameEvent(net.frozenblock.wildmod.event.GameEvent.SHRIEK, blockPos);

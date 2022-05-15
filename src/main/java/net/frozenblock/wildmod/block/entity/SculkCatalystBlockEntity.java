@@ -5,6 +5,7 @@ import net.frozenblock.wildmod.block.SculkCatalystBlock;
 import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.liukrastapi.TickCriterion;
+import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -54,7 +55,7 @@ public class SculkCatalystBlockEntity extends BlockEntity implements GameEventLi
             return false;
         } else {
             net.frozenblock.wildmod.event.GameEvent.Emitter emitter = arg.method_43727();
-            if (arg.method_43724() == GameEvent.ENTITY_KILLED) {
+            if (arg.method_43724() == RegisterAccurateSculk.DEATH) {
                 Entity i = emitter.sourceEntity();
                 if (i instanceof WildLivingEntity livingEntity) {
                     if (!livingEntity.isExperienceDroppingDisabled()) {
