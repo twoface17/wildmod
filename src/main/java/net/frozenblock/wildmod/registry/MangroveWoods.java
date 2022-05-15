@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.block.MangroveSignBlock;
 import net.frozenblock.wildmod.block.WildSignType;
 import net.frozenblock.wildmod.block.mangrove.*;
 import net.minecraft.block.*;
@@ -66,8 +67,8 @@ public abstract class MangroveWoods {
             SoundEvents.BLOCK_WOOD_HIT,
             SoundEvents.BLOCK_WOOD_FALL
     )));
-    public static final Block MANGROVE_SIGN = new SignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), WildSignType.MANGROVE);
-    public static final Block MANGROVE_WALL_SIGN = new WallSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), WildSignType.MANGROVE);
+    public static final Block MANGROVE_SIGN = new MangroveSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), WildSignType.MANGROVE);
+    public static final Block MANGROVE_WALL_SIGN = new MangroveSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), WildSignType.MANGROVE);
 
     private static final Map<Block, BlockFamily> BASE_BLOCKS_TO_FAMILIES = Maps.newHashMap();
 
@@ -147,8 +148,7 @@ public abstract class MangroveWoods {
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_sign"), MANGROVE_SIGN);
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_wall_sign"), MANGROVE_WALL_SIGN);
-        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_sign"),
-                new SignItem(new Item.Settings().maxCount(16).group(ItemGroup.DECORATIONS), MANGROVE_SIGN, MANGROVE_WALL_SIGN));
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_sign"), new SignItem(new Item.Settings().maxCount(16).group(ItemGroup.DECORATIONS), MANGROVE_SIGN, MANGROVE_WALL_SIGN));
 
         Registry.register(Registry.BLOCK, new Identifier(WildMod.MOD_ID, "mangrove_stairs"), MANGROVE_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_stairs"),

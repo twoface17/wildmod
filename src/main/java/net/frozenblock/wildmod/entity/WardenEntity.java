@@ -2,15 +2,12 @@ package net.frozenblock.wildmod.entity;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.mojang.logging.LogUtils;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.*;
 import net.frozenblock.wildmod.entity.ai.task.SonicBoomTask;
 import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
 import net.frozenblock.wildmod.event.*;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
 //import net.frozenblock.wildmod.liukrastapi.AnimationState;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
@@ -18,7 +15,6 @@ import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.*;
@@ -38,12 +34,9 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -65,7 +58,7 @@ import org.slf4j.Logger;
 
 import java.util.*;
 
-public class WardenEntity extends HostileEntity {
+public class WardenEntity extends WildHostileEntity {
 
     /** WELCOME TO THE WARDEN MUSEUM
      * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
@@ -475,7 +468,6 @@ public class WardenEntity extends HostileEntity {
     public void emitGameEvent(GameEvent event) {}
 
     private void playListeningSound() {
-        tickVibration();
         if (!this.isInPose(WildMod.ROARING)) {
             this.playSound(this.getAngriness().getListeningSound(), 10.0F, this.getSoundPitch());
         }
@@ -532,7 +524,6 @@ public class WardenEntity extends HostileEntity {
         super(entityType, world);
         this.experiencePoints = 5;
         this.getNavigation().setCanSwim(true);
-        this.disablesShield();
         this.setPathfindingPenalty(PathNodeType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingPenalty(PathNodeType.DAMAGE_OTHER, 8.0F);
         this.setPathfindingPenalty(PathNodeType.POWDER_SNOW, 8.0F);
@@ -577,17 +568,13 @@ public class WardenEntity extends HostileEntity {
         return false;
     }
 
+    @Override
     public boolean disablesShield() {
-        return this.getMainHandStack().getItem() instanceof AxeItem;
+        return true;
     }
 
     protected float calculateNextStepSoundDistance() {
         return this.distanceTraveled + 0.55F;
-    }
-
-    @Override
-    public int getSafeFallDistance() {
-        return 16;
     }
 
     public static DefaultAttributeContainer.Builder addAttributes() {
@@ -598,7 +585,6 @@ public class WardenEntity extends HostileEntity {
         return true;
     }
 
-    @Override
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         this.getBrain().remember(RegisterMemoryModules.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
@@ -683,7 +669,8 @@ public class WardenEntity extends HostileEntity {
         if (!this.world.isClient && !this.isAiDisabled() && amount > 0.0F) {
             Entity entity = source.getAttacker();
             this.increaseAngerAt(entity, Angriness.ANGRY.getThreshold() + 20, false);
-            if (this.brain.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty() && entity instanceof LivingEntity livingEntity) {
+            if (this.brain.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty() && entity instanceof LivingEntity) {
+                LivingEntity livingEntity = (LivingEntity)entity;
                 if (!(source instanceof ProjectileDamageSource) || this.isInRange(livingEntity, 5.0)) {
                     this.updateAttackTarget(livingEntity);
                 }
@@ -723,18 +710,30 @@ public class WardenEntity extends HostileEntity {
             return this.angerManager;
     }
 
-    protected EntityNavigation createNavigation(World world) {
+    /*protected EntityNavigation createNavigation(World world) {
         return new MobNavigation(this, world) {
             protected PathNodeNavigator createPathNodeNavigator(int range) {
                 this.nodeMaker = new LandPathNodeMaker();
                 this.nodeMaker.setCanEnterOpenDoors(true);
-                return new PathNodeNavigator(this.nodeMaker, range) {
-                    //protected float method_44000(WildPathNode pathNode, PathNode pathNode2) {
-                        //return pathNode.method_44022(pathNode2);
-                    //}
+                return new WildPathNodeNavigator(this.nodeMaker, range) {
+                    public float method_44000(WildPathNode pathNode, WildPathNode pathNode2) {
+                        return pathNode.method_44022(pathNode2);
+                    }
                 };
             }
         };
+    }*/
+
+    public static class WildPathNode extends PathNode {
+        public WildPathNode(int x, int y, int z) {
+            super(x, y, z);
+        }
+
+        public float method_44022(WildPathNode pathNode) {
+            float f = (float)(pathNode.x - this.x);
+            float g = (float)(pathNode.z - this.z);
+            return MathHelper.sqrt(f * f + g * g);
+        }
     }
 
     @Override

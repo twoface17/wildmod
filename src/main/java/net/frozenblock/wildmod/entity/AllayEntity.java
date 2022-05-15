@@ -343,8 +343,8 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
         } else {
             Optional<GlobalPos> optional = this.brain.getOptionalMemory(RegisterMemoryModules.LIKED_NOTEBLOCK);
             return optional.isPresent()
-                    && ((GlobalPos)optional.get()).getDimension() == world.getRegistryKey()
-                    && ((GlobalPos)optional.get()).getPos().equals(pos);
+                    && optional.get().getDimension() == world.getRegistryKey()
+                    && optional.get().getPos().equals(pos);
         }
     }
 

@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.block.mangrove;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;

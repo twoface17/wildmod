@@ -5,7 +5,13 @@ extendable    class    net/minecraft/structure/pool/SinglePoolElement
 extendable    class    net/minecraft/structure/pool/LegacySinglePoolElement
 extendable    class    net/minecraft/world/biome/Biome$Weather
 extendable    class    net/minecraft/block/Material
-accessible    method    net/minecraft/util/SignType stream ()Ljava/util/stream/Stream;
-accessible    method    net/minecraft/util/SignType register (Lnet/minecraft/util/SignType;)Lnet/minecraft/util/SignType;
-accessible    method    net/minecraft/util/SignType <init> (Ljava/lang/String;)V
+extendable    method    net/minecraft/block/AbstractBlock    getLootTableId    ()Lnet/minecraft/util/Identifier;
 accessible    method    net/minecraft/entity/damage/DamageSource    setBypassesArmor    ()Lnet/minecraft/entity/damage/DamageSource;
+accessible    field    net/minecraft/entity/ai/pathing/PathNodeNavigator    minHeap    Lnet/minecraft/entity/ai/pathing/PathMinHeap;
+accessible    field    net/minecraft/entity/ai/pathing/PathNodeNavigator    range    I
+accessible    method    net/minecraft/entity/ai/pathing/PathNodeNavigator    calculateDistances    (Lnet/minecraft/entity/ai/pathing/PathNode;Ljava/util/Set;)F
+accessible    field    net/minecraft/entity/ai/pathing/PathNodeNavigator    pathNodeMaker    Lnet/minecraft/entity/ai/pathing/PathNodeMaker;
+accessible    field    net/minecraft/entity/ai/pathing/PathNodeNavigator    successors    [Lnet/minecraft/entity/ai/pathing/PathNode;
+accessible    method    net/minecraft/entity/ai/pathing/PathNodeNavigator    createPath    (Lnet/minecraft/entity/ai/pathing/PathNode;Lnet/minecraft/util/math/BlockPos;Z)Lnet/minecraft/entity/ai/pathing/Path;
+accessible    method    net/minecraft/entity/ai/pathing/PathNodeNavigator    findPathToAny    (Lnet/minecraft/util/profiler/Profiler;Lnet/minecraft/entity/ai/pathing/PathNode;Ljava/util/Map;FIF)Lnet/minecraft/entity/ai/pathing/Path;
+extendable    method    net/minecraft/entity/ai/pathing/PathNodeNavigator    findPathToAny    (Lnet/minecraft/util/profiler/Profiler;Lnet/minecraft/entity/ai/pathing/PathNode;Ljava/util/Map;FIF)Lnet/minecraft/entity/ai/pathing/Path;
