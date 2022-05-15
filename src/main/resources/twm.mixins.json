@@ -36,7 +36,8 @@
 	"VanillaSurfaceRulesBlockInvoker",
 	"VanillaSurfaceRulesInjector",
 	"VillagerTypeMixin",
-	"WorldChunkMixin"
+	"WorldChunkMixin",
+	"WorldRendererMixin"
   ],
   "client": [
   ],

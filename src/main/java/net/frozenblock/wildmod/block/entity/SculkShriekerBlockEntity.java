@@ -3,15 +3,18 @@ package net.frozenblock.wildmod.block.entity;
 import net.frozenblock.wildmod.block.SculkShriekerBlock;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkShriekerListener;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.GameEventListener;
@@ -97,6 +100,17 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
 
     public void setLastVibrationFrequency(int i) {
         this.lastVibrationFrequency=i;
+    }
+
+    public static final int SCULK_SHRIEKS = 3007;
+
+    public void method_44017(ServerWorld serverWorld) {
+        BlockPos blockPos = this.getPos();
+        BlockState blockState = this.getCachedState();
+        serverWorld.setBlockState(blockPos, blockState.with(SculkShriekerBlock.SHRIEKING, true), Block.NOTIFY_LISTENERS);
+        serverWorld.createAndScheduleBlockTick(blockPos, blockState.getBlock(), 90);
+        serverWorld.syncWorldEvent(SCULK_SHRIEKS, blockPos, 0);
+        serverWorld.emitGameEvent(net.frozenblock.wildmod.event.GameEvent.SHRIEK, blockPos);
     }
 
     @Override

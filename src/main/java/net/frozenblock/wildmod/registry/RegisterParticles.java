@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.particle.SculkChargeParticleEffect;
+import net.frozenblock.wildmod.particle.ShriekParticleEffect;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
@@ -17,6 +18,9 @@ public abstract class RegisterParticles {
     public static final ParticleType<SculkChargeParticleEffect> SCULK_CHARGE = register("sculk_charge", true, SculkChargeParticleEffect.FACTORY, particleType -> SculkChargeParticleEffect.CODEC);
     public static final DefaultParticleType SCULK_CHARGE_POP = FabricParticleTypes.simple(true);
     public static final DefaultParticleType SCULK_SOUL = FabricParticleTypes.simple();
+    public static final ParticleType<ShriekParticleEffect> SHRIEK = register("shriek", false, ShriekParticleEffect.FACTORY, (type) -> {
+        return ShriekParticleEffect.CODEC;
+    });
     public static final DefaultParticleType SONIC_BOOM = FabricParticleTypes.simple();
 
     public static void RegisterParticles() {

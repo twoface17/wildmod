@@ -66,6 +66,7 @@ public class SculkShriekerBlock
     public static final BooleanProperty CAN_SUMMON = WildProperties.CAN_SUMMON;
     public static final IntProperty POWER = Properties.POWER;
     private static final VoxelShape SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
+    public static final double TOP = SHAPE.getMax(Direction.Axis.Y);
     private final int range;
     public int getRange() {
         return this.range;
@@ -102,12 +103,12 @@ public class SculkShriekerBlock
             ((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).setTicks(((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).getTicks()-1);
             serverWorld.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
             if (((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).getTicks() <= ((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).getPrevTick()-5) {
-                sendParticles(serverWorld, blockPos, ((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).getDirection());
+                ((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).method_44017(serverWorld);
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).setPrevTick(((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).getTicks());
                 (Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).markDirty();
             }
         } else if (((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).getTicks() > 0 && SculkShriekerBlock.getPhase(blockState) == SculkShriekerPhase.ACTIVE) {
-            sendParticles(serverWorld, blockPos, ((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).getDirection());
+            ((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).method_44017(serverWorld);
             ((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).setTicks(((SculkShriekerBlockEntity) Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).getTicks()-1);
             (Objects.requireNonNull(serverWorld.getBlockEntity(blockPos))).markDirty();
             serverWorld.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
@@ -240,16 +241,6 @@ public class SculkShriekerBlock
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                     (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                     world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
-                    if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
-                        world.playSound(
-                                null,
-                                blockPos,
-                                RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
-                                SoundCategory.BLOCKS,
-                                1f,
-                                world.random.nextFloat() * 0.1F + 0.9F
-                        );
-                    }
                 } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setPrevTick(85);
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(80);
@@ -267,14 +258,6 @@ public class SculkShriekerBlock
                     ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                     (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                     world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
-                    world.playSound(
-                            null,
-                            blockPos,
-                            RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
-                            SoundCategory.BLOCKS,
-                            1.0F,
-                            world.random.nextFloat() * 0.1F + 0.9F
-                    );
                 }
             }
         }
@@ -288,16 +271,6 @@ public class SculkShriekerBlock
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                 (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                 world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
-                if (world.getGameRules().getBoolean(WildMod.SHRIEKER_SHRIEKS)) {
-                    world.playSound(
-                            null,
-                            blockPos,
-                            RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
-                            SoundCategory.BLOCKS,
-                            1.0F,
-                            world.random.nextFloat() * 0.1F + 0.9F
-                    );
-                }
             } else if (world.getGameRules().getBoolean(WildMod.SHRIEKER_GARGLES) && world.getBlockState(blockPos).get(Properties.WATERLOGGED)) {
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setPrevTick(85);
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(80);
@@ -315,28 +288,10 @@ public class SculkShriekerBlock
                 ((SculkShriekerBlockEntity) Objects.requireNonNull(world.getBlockEntity(blockPos))).setTicks(10);
                 (Objects.requireNonNull(world.getBlockEntity(blockPos))).markDirty();
                 world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 5);
-                world.playSound(
-                        null,
-                        blockPos,
-                        RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK,
-                        SoundCategory.BLOCKS,
-                        1.0F,
-                        world.random.nextFloat() * 0.1F + 0.9F
-                );
             }
         }
     }
 
-    public static void sendParticles(World world, BlockPos blockPos, int direction) {
-        if (!world.isClient) {
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            buf.writeInt(direction);
-            for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) world, blockPos, 32)) {
-                ServerPlayNetworking.send(player, RegisterAccurateSculk.SHRIEKER_SHRIEK_PACKET, buf);
-            }
-        }
-    }
     public static void sendGargleParticles(World world, BlockPos blockPos) {
         if (!world.isClient) {
             PacketByteBuf buf = PacketByteBufs.create();
@@ -368,7 +323,7 @@ public class SculkShriekerBlock
 
     @Override
     public void neighborUpdate(BlockState blockState, World world, BlockPos blockPos, Block block, BlockPos blockPos2, boolean bl) {
-        if (!world.isClient) {
+        if (!world.isClient && world instanceof ServerWorld serverWorld) {
             Direction[] var4 = Direction.values();
             int var5 = var4.length;
             int var6;

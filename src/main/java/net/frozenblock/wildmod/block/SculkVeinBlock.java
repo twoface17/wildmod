@@ -10,14 +10,11 @@ import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -30,7 +27,7 @@ import java.util.Random;
 
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
 
-public class SculkVeinBlock extends AbstractLichenBlock implements SculkSpreadable, Waterloggable {
+public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreadable, Waterloggable {
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     private final LichenGrower allGrowTypeGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GROW_TYPES));
     private final LichenGrower samePositionOnlyGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GrowType.SAME_POSITION));

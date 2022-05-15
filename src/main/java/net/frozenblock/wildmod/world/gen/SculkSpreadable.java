@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.world.gen;
 
-import net.frozenblock.wildmod.block.AbstractLichenBlock;
+import net.frozenblock.wildmod.block.MultifaceGrowthBlock;
 import net.frozenblock.wildmod.block.SculkVeinBlock;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.minecraft.block.BlockState;
@@ -53,7 +53,7 @@ public interface SculkSpreadable {
     }
 
     default boolean spread(WorldAccess world, BlockPos pos, BlockState state, @Nullable Collection<Direction> directions, boolean markForPostProcessing) {
-        return ((AbstractLichenBlock)RegisterBlocks.SCULK_VEIN).getGrower().grow(state, world, pos, markForPostProcessing) > 0L;
+        return ((MultifaceGrowthBlock)RegisterBlocks.SCULK_VEIN).getGrower().grow(state, world, pos, markForPostProcessing) > 0L;
     }
 
     default boolean shouldConvertToSpreadable() {

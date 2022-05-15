@@ -11,22 +11,26 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
-import net.frozenblock.wildmod.block.AbstractLichenBlock;
+import net.frozenblock.wildmod.block.MultifaceGrowthBlock;
 import net.frozenblock.wildmod.block.SculkVeinBlock;
+import net.frozenblock.wildmod.block.WildWorldEvents;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -139,48 +143,56 @@ public class SculkSpreadManager {
 
     public void tick(WorldAccess world, BlockPos pos, Random random, boolean shouldConvertToBlock) {
         if (!this.cursors.isEmpty()) {
-            List<SculkSpreadManager.Cursor> list = new ArrayList<>();
-            Map<BlockPos, SculkSpreadManager.Cursor> map = new HashMap<>();
+            List<Cursor> list = new ArrayList<>();
+            Map<BlockPos, Cursor> map = new HashMap<>();
             Object2IntMap<BlockPos> object2IntMap = new Object2IntOpenHashMap<>();
+            Iterator<Cursor> var8 = this.cursors.iterator();
 
-            for(SculkSpreadManager.Cursor cursor : this.cursors) {
-                cursor.spread(world, pos, random, this, shouldConvertToBlock);
-                if (cursor.charge <= 0) {
-                    world.syncWorldEvent(3006, cursor.getPos(), 0);
-                } else {
-                    BlockPos blockPos = cursor.getPos();
-                    object2IntMap.computeInt(blockPos, (posx, charge) -> (charge == null ? 0 : charge) + cursor.charge);
-                    SculkSpreadManager.Cursor cursor2 = (SculkSpreadManager.Cursor)map.get(blockPos);
-                    if (cursor2 == null) {
-                        map.put(blockPos, cursor);
-                        list.add(cursor);
-                    } else if (!this.isWorldGen() && cursor.charge + cursor2.charge <= 1000) {
-                        cursor2.merge(cursor);
+            while(true) {
+                BlockPos blockPos;
+                while(var8.hasNext()) {
+                    Cursor cursor = var8.next();
+                    cursor.spread(world, pos, random, this, shouldConvertToBlock);
+                    if (cursor.charge <= 0) {
+                        world.syncWorldEvent(WildWorldEvents.SCULK_CHARGE, cursor.getPos(), 0);
                     } else {
-                        list.add(cursor);
-                        if (cursor.charge < cursor2.charge) {
+                        blockPos = cursor.getPos();
+                        object2IntMap.computeInt(blockPos, (posx, charge) -> {
+                            return (charge == null ? 0 : charge) + cursor.charge;
+                        });
+                        Cursor cursor2 = (Cursor)map.get(blockPos);
+                        if (cursor2 == null) {
                             map.put(blockPos, cursor);
+                            list.add(cursor);
+                        } else if (!this.isWorldGen() && cursor.charge + cursor2.charge <= 1000) {
+                            cursor2.merge(cursor);
+                        } else {
+                            list.add(cursor);
+                            if (cursor.charge < cursor2.charge) {
+                                map.put(blockPos, cursor);
+                            }
                         }
                     }
                 }
-            }
 
-            ObjectIterator<Object2IntMap.Entry<BlockPos>> var16 = object2IntMap.object2IntEntrySet().iterator();
+                ObjectIterator<Object2IntMap.Entry<BlockPos>> var16 = object2IntMap.object2IntEntrySet().iterator();
 
-            while(var16.hasNext()) {
-                Object2IntMap.Entry<BlockPos> entry = var16.next();
-                BlockPos blockPos = entry.getKey();
-                int i = entry.getIntValue();
-                SculkSpreadManager.Cursor cursor3 = map.get(blockPos);
-                Collection<Direction> collection = cursor3 == null ? null : cursor3.getFaces();
-                if (i > 0 && collection != null) {
-                    int j = (int)(Math.log1p(i) / 2.3F) + 1;
-                    int k = (j << 6) + AbstractLichenBlock.directionsToFlag(collection);
-                    world.syncWorldEvent(3006, blockPos, k);
+                while(var16.hasNext()) {
+                    Object2IntMap.Entry<BlockPos> entry = var16.next();
+                    blockPos = entry.getKey();
+                    int i = entry.getIntValue();
+                    Cursor cursor3 = map.get(blockPos);
+                    Collection<Direction> collection = cursor3 == null ? null : cursor3.getFaces();
+                    if (i > 0 && collection != null) {
+                        int j = (int)(Math.log1p(i) / 2.299999952316284) + 1;
+                        int k = (j << 6) + MultifaceGrowthBlock.directionsToFlag(collection);
+                        world.syncWorldEvent(WildWorldEvents.SCULK_CHARGE, blockPos, k);
+                    }
                 }
-            }
 
-            this.cursors = list;
+                this.cursors = list;
+                return;
+            }
         }
     }
 
@@ -285,7 +297,7 @@ public class SculkSpreadManager {
                         }
 
                         if (blockState.getBlock() instanceof SculkSpreadable) {
-                            this.faces = AbstractLichenBlock.collectDirections(blockState);
+                            this.faces = MultifaceGrowthBlock.collectDirections(blockState);
                         }
 
                         this.decay = sculkSpreadable.getDecay(this.decay);

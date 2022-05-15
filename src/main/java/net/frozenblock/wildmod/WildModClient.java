@@ -30,6 +30,7 @@ import net.frozenblock.wildmod.event.GameEventTagProvider;
 import net.frozenblock.wildmod.fromAccurateSculk.*;
 import net.frozenblock.wildmod.particle.SculkChargeParticle;
 import net.frozenblock.wildmod.particle.SculkChargePopParticle;
+import net.frozenblock.wildmod.particle.ShriekParticle;
 import net.frozenblock.wildmod.registry.*;
 import net.minecraft.GameVersion;
 import net.minecraft.client.color.world.BiomeColors;
@@ -58,12 +59,9 @@ public class WildModClient implements ClientModInitializer {
     public static final EntityModelLayer MODEL_TADPOLE_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "tadpole"), "main");
     public static final EntityModelLayer MODEL_MANGROVE_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "mangrove_boat"), "main");
     public static final EntityModelLayer MODEL_CHEST_BOAT_LAYER = new EntityModelLayer(new Identifier(WildMod.MOD_ID, "chest_boat"), "main");
-
-    public static final Identifier SHRIEKER_SHRIEK_PACKET = new Identifier("shriek_packet");
     public static final Identifier SHRIEKER_GARGLE1_PACKET = new Identifier("gargle1_packet");
     public static final Identifier SHRIEKER_GARGLE2_PACKET = new Identifier("gargle2_packet");
     public static final Identifier CATALYST_PARTICLE_PACKET = new Identifier("catalyst_packet");
-    public static final Identifier WARDEN_DIG_PACKET = new Identifier("warden_dig_packet");
 
     @Override
     public void onInitializeClient() {
@@ -75,17 +73,10 @@ public class WildModClient implements ClientModInitializer {
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_shriek"));
             registry.register(new Identifier(WildMod.MOD_ID, "particle/sculk_soul"));
         }));
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK, ShriekParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEK2, ShriekParticle2.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKZ, ShriekParticlePosZ.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKZ2, ShriekParticle2PosZ.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKNX, ShriekParticleNX.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKNX2, ShriekParticleNX2.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX, ShriekParticleX.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(RegisterAccurateSculk.SCULK_SHRIEKX2, ShriekParticleX2.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_CHARGE, SculkChargeParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_CHARGE_POP, SculkChargePopParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_SOUL, SculkSoul.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(RegisterParticles.SHRIEK, ShriekParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SONIC_BOOM, ExplosionLargeParticle.Factory::new);
 
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_LEAVES, RenderLayer.getCutout());
@@ -139,11 +130,6 @@ public class WildModClient implements ClientModInitializer {
                 SculkParticleHandler.catalystSouls(client.world, catalyst);
             });
         });
-        ClientPlayNetworking.registerGlobalReceiver(SHRIEKER_SHRIEK_PACKET, (client, handler, buf, responseSender) -> {
-            BlockPos shrieker = buf.readBlockPos();
-            int direction = buf.readInt();
-            client.execute(() -> SculkParticleHandler.shriekerShriek(client.world, shrieker, direction));
-        });
         ClientPlayNetworking.registerGlobalReceiver(SHRIEKER_GARGLE1_PACKET, (client, handler, buf, responseSender) -> {
             BlockPos shrieker = buf.readBlockPos();
             client.execute(() -> {
@@ -156,14 +142,6 @@ public class WildModClient implements ClientModInitializer {
             client.execute(() -> {
                 assert client.world != null;
                 SculkParticleHandler.shriekerGargle2(client.world, shrieker);
-            });
-        });
-        ClientPlayNetworking.registerGlobalReceiver(WARDEN_DIG_PACKET, (client, handler, buf, responseSender) -> {
-            BlockPos pos = buf.readBlockPos();
-            int ticks = buf.readInt();
-            client.execute(() -> {
-                assert client.world != null;
-                SculkParticleHandler.wardenDig(client.world, pos, (160-ticks));
             });
         });
     }
