@@ -8,7 +8,6 @@ import net.minecraft.world.WorldAccess;
 import java.util.Random;
 
 public class WildWorldEvents {
-    public static final int BLOCK_SCRAPED = 3005;
     /**
      * Sculk... charges? Sculk is weird.
      * <br>Spawns sculk charge particles.

@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.block.entity;
 
 import net.frozenblock.wildmod.block.SculkShriekerBlock;
+import net.frozenblock.wildmod.block.WildWorldEvents;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkShriekerListener;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.minecraft.block.Block;
@@ -102,14 +103,12 @@ public class SculkShriekerBlockEntity extends BlockEntity implements SculkSensor
         this.lastVibrationFrequency=i;
     }
 
-    public static final int SCULK_SHRIEKS = 3007;
-
     public void method_44017(ServerWorld serverWorld) {
         BlockPos blockPos = this.getPos();
         BlockState blockState = this.getCachedState();
         serverWorld.setBlockState(blockPos, blockState.with(SculkShriekerBlock.SHRIEKING, true), Block.NOTIFY_LISTENERS);
         serverWorld.createAndScheduleBlockTick(blockPos, blockState.getBlock(), 90);
-        serverWorld.syncWorldEvent(SCULK_SHRIEKS, blockPos, 0);
+        serverWorld.syncWorldEvent(WildWorldEvents.SCULK_SHRIEKS, blockPos, 0);
         serverWorld.emitGameEvent(net.frozenblock.wildmod.event.GameEvent.SHRIEK, blockPos);
     }
 
