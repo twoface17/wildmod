@@ -4,13 +4,16 @@ import com.chocohead.mm.api.ClassTinkerers;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
 import net.frozenblock.wildmod.event.GameEvent;
+import net.frozenblock.wildmod.event.PositionSourceType;
 import net.frozenblock.wildmod.liukrastapi.*;
 import net.frozenblock.wildmod.mixins.ActivityInvoker;
 import net.frozenblock.wildmod.mixins.SensorTypeInvoker;
 import net.frozenblock.wildmod.registry.*;
+import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
@@ -19,7 +22,9 @@ import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Int2ObjectBiMap;
+import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.GameRules;
 
 import java.util.OptionalInt;
@@ -36,9 +41,9 @@ public class WildMod implements ModInitializer {
 
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
 
-
     @Override
     public void onInitialize() {
+        RegisterRegistries.register();
         RegisterMemoryModules.RegisterMemoryModules();
         RegisterBlocks.RegisterBlocks();
         RegisterItems.RegisterItems();

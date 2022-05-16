@@ -78,7 +78,7 @@ public class FrogEntity extends AnimalEntity {
                     RegisterMemoryModules.IS_PREGNANT
             }
     );
-    private static final TrackedData<FrogVariant> VARIANT = DataTracker.registerData(FrogEntity.class, net.frozenblock.wildmod.registry.Registry.FROG_VARIANT_DATA);
+    private static final TrackedData<FrogVariant> VARIANT = DataTracker.registerData(FrogEntity.class, RegisterRegistries.FROG_VARIANT_DATA);
     private static final TrackedData<OptionalInt> TARGET = DataTracker.registerData(FrogEntity.class, WildMod.OPTIONAL_INT);
     private static final int field_37459 = 5;
     public static final String VARIANT_KEY = "variant";
@@ -148,12 +148,12 @@ public class FrogEntity extends AnimalEntity {
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putString("variant", net.frozenblock.wildmod.registry.Registry.FROG_VARIANT.getId(this.getVariant()).toString());
+        nbt.putString("variant", RegisterRegistries.FROG_VARIANT.getId(this.getVariant()).toString());
     }
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        FrogVariant frogVariant = (FrogVariant) Registry.FROG_VARIANT.get(Identifier.tryParse(nbt.getString("variant")));
+        FrogVariant frogVariant = RegisterRegistries.FROG_VARIANT.get(Identifier.tryParse(nbt.getString("variant")));
         if (frogVariant != null) {
             this.setVariant(frogVariant);
         }

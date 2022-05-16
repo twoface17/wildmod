@@ -114,12 +114,12 @@ public class VibrationListener implements GameEventListener {
             if (!this.callback.canAccept(gameEvent, emitter)) {
                 return false;
             } else {
-                Optional<net.minecraft.util.math.Vec3d> optional = this.positionSource.getPos(world);
+                Optional<BlockPos> optional = this.positionSource.getPos(world);
                 if (optional.isEmpty()) {
                     return false;
                 } else {
                     Vec3d vec3d = arg.method_43726();
-                    net.minecraft.util.math.Vec3d vec3d2 = optional.get();
+                    net.minecraft.util.math.Vec3d vec3d2 = net.minecraft.util.math.Vec3d.ofCenter(optional.get());
                     if (!this.callback.accepts(world, this, new BlockPos(vec3d), gameEvent, emitter)) {
                         return false;
                     } else if (isOccluded( world, vec3d, (Vec3d) vec3d2)) {

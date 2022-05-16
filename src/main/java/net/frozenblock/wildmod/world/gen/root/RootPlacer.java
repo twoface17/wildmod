@@ -3,7 +3,9 @@ package net.frozenblock.wildmod.world.gen.root;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.frozenblock.wildmod.registry.Registry;
+import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.registry.RegisterRegistries;
+import net.frozenblock.wildmod.registry.WildRegistry;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.property.Properties;
@@ -20,7 +22,7 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 
 public abstract class RootPlacer {
-    public static final Codec<RootPlacer> TYPE_CODEC = Registry.ROOT_PLACER_TYPE.getCodec().dispatch(RootPlacer::getType, RootPlacerType::getCodec);
+    public static final Codec<RootPlacer> TYPE_CODEC = RegisterRegistries.ROOT_PLACER_TYPE.getCodec().dispatch(RootPlacer::getType, RootPlacerType::getCodec);
     protected final IntProvider trunkOffsetY;
     protected final BlockStateProvider rootProvider;
     protected final Optional<AboveRootPlacement> aboveRootPlacement;

@@ -21,8 +21,8 @@ public class BlockPositionSource implements PositionSource {
         this.pos = pos;
     }
 
-    public Optional<net.minecraft.util.math.Vec3d> getPos(World world) {
-        return Optional.of(Vec3d.ofCenter(this.pos));
+    public Optional<BlockPos> getPos(World world) {
+        return Optional.ofNullable(this.pos);
     }
 
     public PositionSourceType<?> getType() {

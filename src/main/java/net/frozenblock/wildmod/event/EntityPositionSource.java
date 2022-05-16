@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.DynamicSerializableUuid;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Objects;
@@ -36,12 +36,12 @@ public class EntityPositionSource implements PositionSource {
         this.yOffset = yOffset;
     }
 
-    public Optional<Vec3d> getPos(World world) {
+    public Optional<BlockPos> getPos(World world) {
         if (this.source.left().isEmpty()) {
             this.findEntityInWorld(world);
         }
 
-        return this.source.left().map(entity -> entity.getPos().add(0.0, (double)this.yOffset, 0.0));
+        return this.source.left().map(entity -> entity.getBlockPos().add(0.0, this.yOffset, 0.0));
     }
 
 

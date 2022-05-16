@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntityModel<FrogEntity>> {
     public FrogEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new FrogEntityModel(context.getPart(WildModClient.MODEL_FROG_LAYER)), 0.3F);
+        super(context, new FrogEntityModel<>(context.getPart(WildModClient.MODEL_FROG_LAYER)), 0.3F);
     }
 
     public Identifier getTexture(FrogEntity frogEntity) {
