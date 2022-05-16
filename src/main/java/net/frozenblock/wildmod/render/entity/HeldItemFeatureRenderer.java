@@ -31,7 +31,7 @@ public class HeldItemFeatureRenderer<T extends LivingEntity, M extends EntityMod
             matrixStack.push();
             if (this.getContextModel().child) {
                 float m = 0.5F;
-                matrixStack.translate(0.0, 0.75, 0.0);
+                matrixStack.translate(0.0F, -1.5F, 0.0F);
                 matrixStack.scale(0.5F, 0.5F, 0.5F);
             }
 
