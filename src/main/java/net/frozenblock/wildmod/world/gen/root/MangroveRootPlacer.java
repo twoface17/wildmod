@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.gen.root;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -13,6 +13,7 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.BiConsumer;
 
 public class MangroveRootPlacer extends RootPlacer {
@@ -33,7 +34,7 @@ public class MangroveRootPlacer extends RootPlacer {
     }
 
     public boolean generate(
-            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, AbstractRandom random, BlockPos pos, BlockPos trunkPos, TreeFeatureConfig config
+            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos pos, BlockPos trunkPos, TreeFeatureConfig config
     ) {
         List<BlockPos> list = Lists.newArrayList();
         BlockPos.Mutable mutable = pos.mutableCopy();
@@ -67,7 +68,7 @@ public class MangroveRootPlacer extends RootPlacer {
     }
 
     private boolean canGrow(
-            TestableWorld world, AbstractRandom random, BlockPos pos, Direction direction, BlockPos origin, List<BlockPos> offshootPositions, int rootLength
+            TestableWorld world, Random random, BlockPos pos, Direction direction, BlockPos origin, List<BlockPos> offshootPositions, int rootLength
     ) {
         int i = this.mangroveRootPlacement.maxRootLength();
         if (rootLength != i && offshootPositions.size() <= i) {
@@ -86,7 +87,7 @@ public class MangroveRootPlacer extends RootPlacer {
         }
     }
 
-    protected List<BlockPos> getOffshootPositions(BlockPos pos, Direction direction, AbstractRandom random, BlockPos origin) {
+    protected List<BlockPos> getOffshootPositions(BlockPos pos, Direction direction, Random random, BlockPos origin) {
         BlockPos blockPos = pos.down();
         BlockPos blockPos2 = pos.offset(direction);
         int i = pos.getManhattanDistance(origin);
@@ -109,7 +110,7 @@ public class MangroveRootPlacer extends RootPlacer {
     }
 
     protected void placeRoots(
-            TestableWorld testableWorld, BiConsumer<BlockPos, BlockState> biConsumer, AbstractRandom random, BlockPos blockPos, TreeFeatureConfig config
+            TestableWorld testableWorld, BiConsumer<BlockPos, BlockState> biConsumer, Random random, BlockPos blockPos, TreeFeatureConfig config
     ) {
         if (testableWorld.testBlockState(blockPos, state -> state.isIn(this.mangroveRootPlacement.muddyRootsIn()))) {
             BlockState blockState = this.mangroveRootPlacement.muddyRootsProvider().getBlockState(random, blockPos);
@@ -124,4 +125,3 @@ public class MangroveRootPlacer extends RootPlacer {
         return RootPlacerType.MANGROVE_ROOT_PLACER;
     }
 }
-*/

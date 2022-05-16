@@ -1,21 +1,22 @@
-/*package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.gen.root;
 
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.frozenblock.wildmod.registry.Registry;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.IntProvider;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.TreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.BiConsumer;
 
 public abstract class RootPlacer {
@@ -41,7 +42,7 @@ public abstract class RootPlacer {
     protected abstract RootPlacerType<?> getType();
 
     public abstract boolean generate(
-            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, AbstractRandom random, BlockPos pos, BlockPos trunkPos, TreeFeatureConfig config
+            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos pos, BlockPos trunkPos, TreeFeatureConfig config
     );
 
     protected boolean canGrowThrough(TestableWorld testableWorld, BlockPos blockPos) {
@@ -49,7 +50,7 @@ public abstract class RootPlacer {
     }
 
     protected void placeRoots(
-            TestableWorld testableWorld, BiConsumer<BlockPos, BlockState> biConsumer, AbstractRandom random, BlockPos blockPos, TreeFeatureConfig config
+            TestableWorld testableWorld, BiConsumer<BlockPos, BlockState> biConsumer, Random random, BlockPos blockPos, TreeFeatureConfig config
     ) {
         if (this.canGrowThrough(testableWorld, blockPos)) {
             biConsumer.accept(blockPos, this.applyWaterlogging(testableWorld, blockPos, this.rootProvider.getBlockState(random, blockPos)));
@@ -75,8 +76,7 @@ public abstract class RootPlacer {
         }
     }
 
-    public BlockPos trunkOffset(BlockPos pos, AbstractRandom random) {
+    public BlockPos trunkOffset(BlockPos pos, Random random) {
         return pos.up(this.trunkOffsetY.get(random));
     }
 }
-*/

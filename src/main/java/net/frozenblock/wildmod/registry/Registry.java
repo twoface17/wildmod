@@ -4,12 +4,11 @@ import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.*;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.FrogEntity;
 import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.event.PositionSourceType;
+import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.Bootstrap;
 import net.minecraft.entity.data.TrackedDataHandler;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.collection.IndexedIterable;
@@ -25,7 +24,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -43,6 +41,8 @@ public abstract class Registry<T> implements Keyable, IndexedIterable<T> {
     public static final TrackedDataHandler<FrogVariant> FROG_VARIANT_DATA = net.frozenblock.wildmod.entity.TrackedDataHandler.of(FROG_VARIANT);
 
 
+    public static final RegistryKey<Registry<RootPlacerType<?>>> ROOT_PLACER_TYPE_KEY = createRegistryKey("worldgen/root_placer_type");
+    public static final Registry<RootPlacerType<?>> ROOT_PLACER_TYPE = create(ROOT_PLACER_TYPE_KEY, registry -> RootPlacerType.MANGROVE_ROOT_PLACER);
     //public static final RegistryKey<Registry<net.frozenblock.wildmod.world.gen.structure.StructureType<?>>> STRUCTURE_TYPE_KEY = createRegistryKey("worldgen/structure_type");
     //public static final Registry<StructureType<?>> STRUCTURE_TYPE = create(STRUCTURE_TYPE_KEY, registry -> net.frozenblock.wildmod.world.gen.structure.StructureType.JIGSAW);
 
@@ -56,7 +56,7 @@ public abstract class Registry<T> implements Keyable, IndexedIterable<T> {
         this.lifecycle = lifecycle;
     }
 
-    protected static final MutableRegistry<MutableRegistry<?>> ROOT = new SimpleRegistry(createRegistryKey("root"), Lifecycle.experimental(), null);
+    protected static final MutableRegistry<MutableRegistry<?>> ROOT = new SimpleRegistry<>(createRegistryKey("root"), Lifecycle.experimental(), null);
 
     private static <T> RegistryKey<Registry<T>> createRegistryKey(String registryId) {
         return RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, registryId));
