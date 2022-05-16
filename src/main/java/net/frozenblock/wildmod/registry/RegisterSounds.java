@@ -31,6 +31,12 @@ public class RegisterSounds { //Register sound definitions
         public static final SoundEvent BLOCK_MUD_BRICKS_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.place"));
         public static final SoundEvent BLOCK_MUD_BRICKS_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.hit"));
         public static final SoundEvent BLOCK_MUD_BRICKS_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.fall"));
+    //Packed Mud
+        public static final SoundEvent BLOCK_PACKED_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.step"));
+        public static final SoundEvent BLOCK_PACKED_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.break"));
+        public static final SoundEvent BLOCK_PACKED_MUD_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.place"));
+        public static final SoundEvent BLOCK_PACKED_MUD_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.hit"));
+        public static final SoundEvent BLOCK_PACKED_MUD_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.fall"));
     //Mangrove Propagule
         public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.break"));
         public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.place"));
