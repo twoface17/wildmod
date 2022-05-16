@@ -103,6 +103,18 @@ public abstract class RegisterBlocks {
                     RegisterSounds.BLOCK_MUD_BRICKS_HIT,
                     RegisterSounds.BLOCK_MUD_BRICKS_STEP
             ));
+    
+    private static final FabricBlockSettings PACKED_MUD_SETTINGS = FabricBlockSettings
+            .of(Material.STONE)
+            .strength(0.5f, 1.0f)
+            .requiresTool()
+            .sounds(new BlockSoundGroup(1.0f, 1.1f,
+                    RegisterSounds.BLOCK_PACKED_MUD_BREAK,
+                    RegisterSounds.BLOCK_PACKED_MUD_STEP,
+                    RegisterSounds.BLOCK_PACKED_MUD_PLACE,
+                    RegisterSounds.BLOCK_PACKED_MUD_HIT,
+                    RegisterSounds.BLOCK_PACKED_MUD_STEP
+            ));
 
     private static final FabricBlockSettings FROGLIGHT_SETTINGS = FabricBlockSettings
             .of(Material.PLANT)
@@ -120,7 +132,7 @@ public abstract class RegisterBlocks {
     private static final Block REINFORCED_DEEPSLATE = new PillarBlock(REINFORCED_DEEPSLATE_SETTINGS);
 
     public static final Block MUD = new MudBlock();
-    public static final Block PACKED_MUD = new PackedMudBlock(MUD_BRICKS_SETTINGS);
+    public static final Block PACKED_MUD = new PackedMudBlock(PACKED_MUD_SETTINGS);
     public static final Block MUDDY_MANGROVE_ROOTS = new PillarBlock(AbstractBlock.Settings.of(Material.SOIL, MapColor.SPRUCE_BROWN).strength(0.7F).sounds(MUDDY_MANGROVE_ROOTS_SOUNDS).nonOpaque().allowsSpawning(RegisterBlocks::canSpawnOnLeaves).suffocates(RegisterBlocks::never).blockVision(RegisterBlocks::never).nonOpaque());
     public static final Block MUD_BRICKS = new MudBricks(MUD_BRICKS_SETTINGS);
     public static final WallBlock MUD_BRICKS_WALL = new MudBricksWall(MUD_BRICKS_SETTINGS);
