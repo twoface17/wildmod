@@ -98,9 +98,9 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
     }
 
     public void setAngles(T frogEntity, float f, float g, float h, float i, float j) {
-        this.setPivots();
         this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetTransform());
         float k = Math.min((float)frogEntity.getVelocity().lengthSquared() * 200.0F, 8.0F);
+        this.setPivots();
         ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.longJumpingAnimationState, FrogAnimations.LONG_JUMPING, h);
         ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.croakingAnimationState, FrogAnimations.CROAKING, h);
         ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.usingTongueAnimationState, FrogAnimations.USING_TONGUE, h);
