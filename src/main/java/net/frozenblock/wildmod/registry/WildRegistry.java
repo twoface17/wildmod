@@ -38,7 +38,7 @@ public class WildRegistry {
         ROOT_PLACER_TYPE = Registry.create(ROOT_PLACER_TYPE_KEY, registry -> RootPlacerType.MANGROVE_ROOT_PLACER);
         NOISE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/noise"));
         WILD_POSITION_SOURCE_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "wild_position_source_type"));
-        WILD_POSITION_SOURCE_TYPE = Registry.create(WILD_POSITION_SOURCE_TYPE_KEY, registry -> PositionSourceType.BLOCK);
+        WILD_POSITION_SOURCE_TYPE = Registry.create(WILD_POSITION_SOURCE_TYPE_KEY, registry -> WildMod.BLOCK);
     }
 
     public static <T> TrackedDataHandler<T> of(WildPacketByteBuf.class_7462<T> arg, WildPacketByteBuf.class_7461<T> arg2) {

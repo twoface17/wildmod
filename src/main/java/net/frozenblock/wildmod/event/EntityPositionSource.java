@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.event;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.frozenblock.wildmod.WildMod;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.world.ServerWorld;
@@ -77,7 +78,7 @@ public class EntityPositionSource implements PositionSource {
     }
 
     public PositionSourceType<?> getType() {
-        return PositionSourceType.ENTITY;
+        return WildMod.ENTITY;
     }
 
     public static class Type implements PositionSourceType<EntityPositionSource> {

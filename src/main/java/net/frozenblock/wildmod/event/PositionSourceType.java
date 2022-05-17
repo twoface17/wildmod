@@ -1,15 +1,13 @@
 package net.frozenblock.wildmod.event;
 
 import com.mojang.serialization.Codec;
+import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.registry.WildRegistry;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public interface PositionSourceType<T extends PositionSource> extends net.minecraft.world.event.PositionSourceType<T> {
-
-    PositionSourceType<BlockPositionSource> BLOCK = register("block", new BlockPositionSource.Type());
-    PositionSourceType<EntityPositionSource> ENTITY = register("entity", new EntityPositionSource.Type());
 
     T readFromBuf(PacketByteBuf buf);
 

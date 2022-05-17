@@ -7,7 +7,10 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
+import net.frozenblock.wildmod.event.BlockPositionSource;
+import net.frozenblock.wildmod.event.EntityPositionSource;
 import net.frozenblock.wildmod.event.GameEvent;
+import net.frozenblock.wildmod.event.PositionSourceType;
 import net.frozenblock.wildmod.liukrastapi.*;
 import net.frozenblock.wildmod.mixins.ActivityInvoker;
 import net.frozenblock.wildmod.mixins.SensorTypeInvoker;
@@ -38,6 +41,9 @@ public class WildMod implements ModInitializer {
 
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
 
+    public static PositionSourceType<BlockPositionSource> BLOCK;
+    public static PositionSourceType<EntityPositionSource> ENTITY;
+
     @Override
     public void onInitialize() {
         WildRegistry.register();
@@ -67,6 +73,9 @@ public class WildMod implements ModInitializer {
 
         RegisterAccurateSculk.RegisterAccurateSculk();
         GameEvent.RegisterGameEvents();
+
+        BLOCK = PositionSourceType.register("block", new BlockPositionSource.Type());
+        ENTITY = PositionSourceType.register("entity", new EntityPositionSource.Type());
     }
 
     public static void registerData(TrackedDataHandler<?> handler) {
