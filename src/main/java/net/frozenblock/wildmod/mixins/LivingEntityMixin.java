@@ -3,6 +3,8 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
 import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
+import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
+import net.frozenblock.wildmod.fromAccurateSculk.SculkGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.liukrastapi.Sphere;
 import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
@@ -48,9 +50,9 @@ public class LivingEntityMixin {
 				if (numCatalysts>0) {
 					entity.emitGameEvent(RegisterAccurateSculk.DEATH, entity, pos);
 					//sculkSpreadManager.spread(new BlockPos((Vec3d.ofCenter(pos).withBias(Direction.UP, 0.5))), 5);
-					//SculkGrower.sculk(pos, world, entity, numCatalysts);
+					SculkGrower.sculk(pos, world, entity, numCatalysts);
 					int rVal2 = getHighestRadius(world, pos);
-					//ActivatorGrower.startGrowing(rVal2, rVal2, pos, world);
+					ActivatorGrower.startGrowing(rVal2, rVal2, pos, world);
 				}
 			}
 		}
@@ -61,7 +63,7 @@ public class LivingEntityMixin {
 		for (BlockPos blockPos : Sphere.blockPosSphere(pos, 9, RegisterBlocks.SCULK_CATALYST, world)) {
 			BlockEntity catalyst = world.getBlockEntity(blockPos);
 			if (catalyst instanceof SculkCatalystBlockEntity sculkCatalystBlockEntity) {
-				//current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);
+				current=Math.max(current, sculkCatalystBlockEntity.lastSculkRange);
 			}
 		}
 		return current;

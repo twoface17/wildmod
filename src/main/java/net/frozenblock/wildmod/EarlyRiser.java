@@ -9,6 +9,7 @@ public class EarlyRiser implements Runnable {
     public void run() {
         MappingResolver remapper = FabricLoader.getInstance().getMappingResolver();
 
+        // EntityPose
         String entityPose = remapper.mapClassName("intermediary","net.minecraft.class_4050");
         ClassTinkerers.enumBuilder(entityPose).addEnum("CROAKING").build();
         ClassTinkerers.enumBuilder(entityPose).addEnum("USING_TONGUE").build();

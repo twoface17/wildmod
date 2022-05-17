@@ -1,105 +1,73 @@
 package net.frozenblock.wildmod.block.entity;
 
-import com.google.common.annotations.VisibleForTesting;
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
-import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
-import net.frozenblock.wildmod.liukrastapi.TickCriterion;
-import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
-import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.PositionSource;
+import net.minecraft.world.event.listener.GameEventListener;
+import net.minecraft.world.event.listener.SculkSensorListener;
 import org.jetbrains.annotations.Nullable;
 
-public class SculkCatalystBlockEntity extends BlockEntity implements GameEventListener {
-    private final BlockPositionSource positionSource = new BlockPositionSource(this.pos);
-    private final SculkSpreadManager spreadManager = SculkSpreadManager.create();
+import java.util.Random;
 
-    public SculkCatalystBlockEntity(BlockPos pos, BlockState state) {
-        super(WildBlockEntityType.SCULK_CATALYST, pos, state);
-    }
+public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensorListener.Callback {
+    private final SculkCatalystListener listener;
+    private int lastVibrationFrequency;
+    public int lastSculkRange;
 
-    public boolean method_43723() {
-        return true;
-    }
-
-    public PositionSource getPositionSource() {
-        return this.positionSource;
-    }
-
-    public int getRange() {
-        return 8;
+    public SculkCatalystBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(WildBlockEntityType.SCULK_CATALYST, blockPos, blockState);
+        this.listener = new SculkCatalystListener(new BlockPositionSource(this.pos), ((SculkCatalystBlock)blockState.getBlock()).getRange(), this);
     }
 
     @Override
-    public boolean listen(World world, GameEvent event, @Nullable Entity entity, BlockPos pos) {
-        return false;
+    public void readNbt(NbtCompound nbtCompound) {
+        super.readNbt(nbtCompound);
+        this.lastVibrationFrequency = nbtCompound.getInt("last_vibration_frequency");
+        this.lastSculkRange = nbtCompound.getInt("lastSculkRange");
     }
 
     @Override
-    public boolean listen(ServerWorld world, net.frozenblock.wildmod.event.GameEvent.class_7447 arg) {
-        if (this.isRemoved()) {
-            return false;
-        } else {
-            net.frozenblock.wildmod.event.GameEvent.Emitter emitter = arg.method_43727();
-            if (arg.method_43724() == RegisterAccurateSculk.DEATH) {
-                Entity i = emitter.sourceEntity();
-                if (i instanceof WildLivingEntity livingEntity) {
-                    if (!livingEntity.isExperienceDroppingDisabled()) {
-                        int sus = livingEntity.getXpToDrop();
-                        if (livingEntity.shouldDropXp() && sus > 0) {
-                            this.spreadManager.spread(new BlockPos(arg.method_43726().withBias(Direction.UP, 0.5)), sus);
-                        }
+    protected void writeNbt(NbtCompound nbtCompound) {
+        super.writeNbt(nbtCompound);
+        nbtCompound.putInt("last_vibration_frequency", this.lastVibrationFrequency);
+        nbtCompound.putInt("lastSculkRange", this.lastSculkRange);
+    }
 
-                        livingEntity.disableExperienceDropping();
-                        LivingEntity livingEntity2 = livingEntity.getAttacker();
-                        if (livingEntity2 instanceof ServerPlayerEntity serverPlayerEntity) {
-                            DamageSource damageSource = livingEntity.getRecentDamageSource() == null
-                                    ? DamageSource.player(serverPlayerEntity)
-                                    : livingEntity.getRecentDamageSource();
-                            TickCriterion.KILL_MOB_NEAR_SCULK_CATALYST.trigger(serverPlayerEntity, emitter.sourceEntity(), damageSource);
-                        }
+    public SculkCatalystListener getEventListener() {
+        return this.listener;
+    }
 
-                        SculkCatalystBlock.bloom(world, this.pos, this.getCachedState(), world.getRandom());
-                   }
 
-                    return true;
-                }
-            }
+    @Override
+    public boolean accepts(World world, GameEventListener gameEventListener, BlockPos blockPos, GameEvent gameEvent, @Nullable Entity entity) {
+        boolean bl = gameEvent == GameEvent.BLOCK_DESTROY && blockPos.equals(this.getPos());
+        boolean bl2 = gameEvent == GameEvent.BLOCK_PLACE && blockPos.equals(this.getPos());
+        return !bl && !bl2 && SculkCatalystBlock.isInactive(this.getCachedState());
+    }
 
-            return false;
+    @Override
+    public void accept(World world, GameEventListener gameEventListener, GameEvent gameEvent, int i) {
+        BlockState blockState = this.getCachedState();
+        if (!world.isClient() && SculkCatalystBlock.isInactive(blockState)) {
+            SculkCatalystBlock.setActive(world, this.pos, blockState);
+            double d = (double)this.pos.getX() + 0.5;
+            double e = (double)this.pos.getY() +1;
+            double f = (double)this.pos.getZ() + 0.5;
+            Random random = new Random();
+            BlockPos target = this.getPos();
         }
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, SculkCatalystBlockEntity blockEntity) {
-        blockEntity.spreadManager.tick(world, pos, world.getRandom(), true);
-    }
-
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        this.spreadManager.readNbt(nbt);
-    }
-
-    protected void writeNbt(NbtCompound nbt) {
-        this.spreadManager.writeNbt(nbt);
-        super.writeNbt(nbt);
-    }
-
-    @VisibleForTesting
-    public SculkSpreadManager getSpreadManager() {
-        return this.spreadManager;
+    public static int getPower(int i, int j) {
+        double d = (double)i / (double)j;
+        return Math.max(1, 15 - MathHelper.floor(d * 15.0));
     }
 }

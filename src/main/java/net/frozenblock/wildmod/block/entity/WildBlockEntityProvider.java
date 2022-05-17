@@ -16,11 +16,6 @@ public interface WildBlockEntityProvider extends BlockEntityProvider {
     BlockEntity createBlockEntity(BlockPos pos, BlockState state);
 
     @Nullable
-    default <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return null;
-    }
-
-    @Nullable
     default <T extends BlockEntity> GameEventListener getWildGameEventListener(ServerWorld world, T blockEntity) {
         return null;
     }

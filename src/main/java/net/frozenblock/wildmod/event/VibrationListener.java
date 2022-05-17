@@ -100,11 +100,6 @@ public class VibrationListener implements GameEventListener {
         return this.range;
     }
 
-    @Override
-    public boolean listen(World world, net.minecraft.world.event.GameEvent event, @Nullable Entity entity, BlockPos pos) {
-        return false;
-    }
-
     public boolean listen(ServerWorld world, GameEvent.class_7447 arg) {
         if (this.vibration != null) {
             return false;

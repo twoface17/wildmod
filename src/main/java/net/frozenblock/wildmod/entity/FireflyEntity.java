@@ -14,6 +14,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -24,14 +25,14 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class FireflyEntity extends AnimalEntity implements Flutterer {
+public class FireflyEntity extends PathAwareEntity implements Flutterer {
     public boolean spawnSet;
     public int spawnX;
     public int spawnY;
     public int spawnZ;
     public long lastClientFlash;
 
-    public FireflyEntity(EntityType<? extends AnimalEntity> entityType, World world) {
+    public FireflyEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
         this.moveControl = new FlightMoveControl(this, 20, true);
         this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
@@ -48,12 +49,6 @@ public class FireflyEntity extends AnimalEntity implements Flutterer {
 
     public static DefaultAttributeContainer.Builder createFireflyAttributes() {
         return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 1D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.05).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.05);
-    }
-
-    @Nullable
-    @Override
-    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return null;
     }
 
     @Override

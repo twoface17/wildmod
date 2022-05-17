@@ -29,3 +29,4 @@ accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/
 accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Ljava/lang/String;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;)Lnet/minecraft/util/registry/DefaultedRegistry;
 accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Ljava/lang/String;Lcom/mojang/serialization/Lifecycle;Ljava/util/function/Function;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;)Lnet/minecraft/util/registry/DefaultedRegistry;
 accessible    field    net/minecraft/entity/data/TrackedDataHandlerRegistry    DATA_HANDLERS    Lnet/minecraft/util/collection/Int2ObjectBiMap;
+accessible    method    net/minecraft/entity/LivingEntity    getXpToDrop    (Lnet/minecraft/entity/player/PlayerEntity;)I
