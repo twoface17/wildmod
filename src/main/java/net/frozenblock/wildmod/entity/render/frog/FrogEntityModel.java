@@ -106,7 +106,56 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
         this.setPivots();
     }
     
-        private void setPivots() { //fix for model part offsets
+        private void setPivots() {
+            
+            this.root.pivotX = 0.0F;
+            this.root.pivotY = 0.0F; //may need tweaking (remember that y values are inverse)
+            this.root.pivotZ = 0.0F;
+            
+            this.body.pivotX = 0.0F;
+            this.body.pivotY = -2.0F;
+            this.body.pivotZ = 4.0F;
+            
+            this.head.pivotX = 0.0F;
+            this.head.pivotY = -2.0F;
+            this.head.pivotZ = -1.0F;
+            
+            this.eyes.pivotX = 0.5F;
+            this.eyes.pivotY = 0.0F;
+            this.eyes.pivotZ = 2.0F;
+            
+            this.right_eye.pivotX = 1.5F;
+            this.right_eye.pivotY = -3.0F;
+            this.right_eye.pivotZ = -6.5F;
+            
+            this.left_eye.pivotX = -2.0F;
+            this.left_eye.pivotY = -3.0F;
+            this.left_eye.pivotZ = -6.5F;
+            
+            this.croaking_body.pivotX = 0.0F;
+            this.croaking_body.pivotY = 1.0F;
+            this.croaking_body.pivotZ = -5.0F;
+            
+            this.tongue.pivotX = 0.0F;
+            this.tongue.pivotY = -1.1F;
+            this.tongue.pivotZ = 1.0F;
+            
+            this.left_arm.pivotX = -4.0F;
+            this.left_arm.pivotY = -1.0F;
+            this.left_arm.pivotZ = -6.5F;
+            
+            this.right_arm.pivotX = 4.0F;
+            this.right_arm.pivotY = -1.0F;
+            this.right_arm.pivotZ = -6.5F;
+            
+            this.left_leg.pivotX = -3.5F;
+            this.left_leg.pivotY = -3.0F;
+            this.left_leg.pivotZ = -4.0F;
+            
+            this.right_leg.pivotX = 3.5F;
+            this.right_leg.pivotY = -3.0F;
+            this.right_leg.pivotZ = -4.0F;
+            
     }
 
     public ModelPart getPart() {
