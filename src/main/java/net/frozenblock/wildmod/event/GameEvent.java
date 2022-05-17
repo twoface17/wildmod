@@ -87,14 +87,14 @@ public class GameEvent extends net.minecraft.world.event.GameEvent {
         }
     }
 
-    public static final class class_7447 implements Comparable<GameEvent.class_7447> {
+    public static final class Message implements Comparable<Message> {
         private final GameEvent field_39177;
         private final net.frozenblock.wildmod.liukrastapi.Vec3d field_39178;
         private final Emitter field_39179;
         private final GameEventListener field_39180;
         private final double field_39181;
 
-        public class_7447(GameEvent gameEvent, Vec3d vec3d, GameEvent.Emitter emitter, GameEventListener gameEventListener, net.frozenblock.wildmod.liukrastapi.Vec3d vec3d2) {
+        public Message(GameEvent gameEvent, Vec3d vec3d, GameEvent.Emitter emitter, GameEventListener gameEventListener, net.frozenblock.wildmod.liukrastapi.Vec3d vec3d2) {
             this.field_39177 = gameEvent;
             this.field_39178 = vec3d;
             this.field_39179 = emitter;
@@ -102,7 +102,7 @@ public class GameEvent extends net.minecraft.world.event.GameEvent {
             this.field_39181 = vec3d.squaredDistanceTo(vec3d2);
         }
 
-        public int compareTo(GameEvent.class_7447 arg) {
+        public int compareTo(Message arg) {
             return Double.compare(this.field_39181, arg.field_39181);
         }
 

@@ -100,7 +100,7 @@ public class VibrationListener implements GameEventListener {
         return this.range;
     }
 
-    public boolean listen(ServerWorld world, GameEvent.class_7447 arg) {
+    public boolean listen(ServerWorld world, GameEvent.Message arg) {
         if (this.vibration != null) {
             return false;
         } else {
