@@ -103,6 +103,10 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
         ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.swimmingAnimationState, FrogAnimations.SWIMMING, h);
         ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.idlingInWaterAnimationState, FrogAnimations.IDLING_IN_WATER, h);
         this.croakingBody.visible = frogEntity.croakingAnimationState.isRunning();
+        this.setPivots();
+    }
+    
+        private void setPivots() { //fix for model part offsets
     }
 
     public ModelPart getPart() {
