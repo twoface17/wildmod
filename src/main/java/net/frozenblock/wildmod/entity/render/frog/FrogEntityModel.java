@@ -112,9 +112,7 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
     
         private void setPivots() {
             
-            this.root.pivotX = 0.0F;
-            this.root.pivotY = 0.0F; //may need tweaking (remember that y values are inverse)
-            this.root.pivotZ = 0.0F;
+            this.root.pivotY = -24.0F;
             
             this.body.pivotX = 0.0F;
             this.body.pivotY = -2.0F;
@@ -154,11 +152,11 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
             
             this.rightLeg.pivotX = -3.5F;
             this.rightLeg.pivotY = -3.0F;
-            this.rightLeg.pivotZ = 1.5F;
+            this.rightLeg.pivotZ = 4.0F;
             
             this.leftLeg.pivotX = 3.5F;
             this.leftLeg.pivotY = -3.0F;
-            this.leftLeg.pivotZ = 1.5F;
+            this.leftLeg.pivotZ = 4.0F;
             
     }
 
