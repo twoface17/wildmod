@@ -17,6 +17,8 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
     private final ModelPart body;
     private final ModelPart head;
     private final ModelPart eyes;
+    private final ModelPart leftEye;
+    private final ModelPart rightEye;
     private final ModelPart tongue;
     private final ModelPart leftArm;
     private final ModelPart rightArm;
@@ -29,6 +31,8 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
         this.body = this.root.getChild("body");
         this.head = this.body.getChild("head");
         this.eyes = this.head.getChild("eyes");
+        this.leftEye = this.eyes.getChild("left_eye");
+        this.rightEye = this.eyes.getChild("right_eye");
         this.tongue = this.body.getChild("tongue");
         this.leftArm = this.body.getChild("left_arm");
         this.rightArm = this.body.getChild("right_arm");
@@ -124,13 +128,13 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
             this.eyes.pivotY = 0.0F;
             this.eyes.pivotZ = 2.0F;
             
-            /*this.rightEye.pivotX = 1.5F;
+            this.rightEye.pivotX = 1.5F;
             this.rightEye.pivotY = -3.0F;
             this.rightEye.pivotZ = -6.5F;
             
             this.leftEye.pivotX = -2.0F;
             this.leftEye.pivotY = -3.0F;
-            this.leftEye.pivotZ = -6.5F;*/
+            this.leftEye.pivotZ = -6.5F;
             
             this.croakingBody.pivotX = 0.0F;
             this.croakingBody.pivotY = 1.0F;
