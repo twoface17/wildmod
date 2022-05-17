@@ -28,6 +28,7 @@ import net.frozenblock.wildmod.entity.render.warden.WardenEntityModel;
 import net.frozenblock.wildmod.entity.render.warden.WardenEntityRenderer;
 import net.frozenblock.wildmod.event.GameEventTagProvider;
 import net.frozenblock.wildmod.fromAccurateSculk.*;
+import net.frozenblock.wildmod.liukrastapi.Transformation;
 import net.frozenblock.wildmod.particle.SculkChargeParticle;
 import net.frozenblock.wildmod.particle.SculkChargePopParticle;
 import net.frozenblock.wildmod.particle.ShriekParticle;
@@ -65,6 +66,7 @@ public class WildModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        Transformation.Interpolations.registerInterpolations();
         ImmutableMap.Builder<EntityModelLayer, TexturedModelData> builder = ImmutableMap.builder();
 
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((spriteAtlasTexture, registry) -> {

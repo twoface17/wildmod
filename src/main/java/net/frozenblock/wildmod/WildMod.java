@@ -65,8 +65,6 @@ public class WildMod implements ModInitializer {
         EMERGE = ActivityInvoker.callRegister("emerge");
         DIG = ActivityInvoker.callRegister("dig");
 
-        RegisterAnimations.register();
-
         RegisterAccurateSculk.RegisterAccurateSculk();
         GameEvent.RegisterGameEvents();
     }
