@@ -124,13 +124,13 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
             this.eyes.pivotY = 0.0F;
             this.eyes.pivotZ = 2.0F;
             
-            this.rightEye.pivotX = 1.5F;
+            /*this.rightEye.pivotX = 1.5F;
             this.rightEye.pivotY = -3.0F;
             this.rightEye.pivotZ = -6.5F;
             
             this.leftEye.pivotX = -2.0F;
             this.leftEye.pivotY = -3.0F;
-            this.leftEye.pivotZ = -6.5F;
+            this.leftEye.pivotZ = -6.5F;*/
             
             this.croakingBody.pivotX = 0.0F;
             this.croakingBody.pivotY = 1.0F;
