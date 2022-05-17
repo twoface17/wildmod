@@ -50,7 +50,7 @@ public class HeldItemFeatureRenderer<T extends LivingEntity, M extends EntityMod
             matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90.0F));
             matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
             boolean bl = arm == Arm.LEFT;
-            matrices.translate((double)((float)(bl ? -1 : 1) / 16.0F), 0.125, -0.625);
+            matrices.translate((double)((float)(bl ? -1 : 1) / 16.0F), 1.5, -0.625);
             this.field_38901.renderItem(entity, stack, transformationMode, bl, matrices, vertexConsumers, light);
             matrices.pop();
         }
