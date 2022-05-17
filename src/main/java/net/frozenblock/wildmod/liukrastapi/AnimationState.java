@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.liukrastapi;
 
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
@@ -54,4 +54,3 @@ public class AnimationState {
 		return this.updatedAt != Long.MAX_VALUE;
 	}
 }
-*/

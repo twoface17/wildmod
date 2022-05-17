@@ -79,9 +79,9 @@ public class WildConfiguredFeatures {
             )
     );
 
-    public static final RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> MANGROVE = register(
+    public static final RegistryEntry<ConfiguredFeature<WildTreeFeatureConfig, ?>> MANGROVE = register(
             "mangrove",
-            Feature.TREE,
+            WildFeatures.TREE,
             new WildTreeFeatureConfig.Builder(
                 BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
                 new UpwardsBranchingTrunkPlacer(

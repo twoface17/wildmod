@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.liukrastapi;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -556,4 +556,3 @@ public class FrogAnimations {
     public FrogAnimations() {
     }
 }
-*/

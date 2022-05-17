@@ -69,7 +69,7 @@ public abstract class WorldRendererMixin {
         }
     }
 
-    @Inject(method = "renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/util/math/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V", at = @At("HEAD"))
+    /*@Inject(method = "renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/util/math/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V", at = @At("HEAD"))
     public void renderSky(MatrixStack matrices, Matrix4f projectionMatrix, float tickDelta, Camera camera, boolean bl, Runnable runnable, CallbackInfo ci) {
         runnable.run();
         if (!bl) {
@@ -201,7 +201,7 @@ public abstract class WorldRendererMixin {
         }
     }
 
-    @Inject(method = "processWorldEvent", at = @At("TAIL"))
+    */@Inject(method = "processWorldEvent", at = @At("TAIL"))
     public void processWorldEvent(PlayerEntity source, int eventId, BlockPos pos, int data, CallbackInfo ci) {
         Random random = this.world.random;
         int i;

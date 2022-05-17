@@ -1,4 +1,4 @@
-/*package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.liukrastapi;
 
 import com.mojang.serialization.Codec;
 import net.fabricmc.api.EnvType;
@@ -12,7 +12,7 @@ import net.minecraft.util.math.Vec3f;
 /**
  * A GUI interface which handles keyboard and mouse callbacks for child GUI elements.
  * The implementation of a parent element can decide whether a child element receives keyboard and mouse callbacks.
- *//*
+ */
 @Environment(EnvType.CLIENT)
 public record Transformation(Transformation.Target target, Keyframe... keyframes) {
 	@Environment(EnvType.CLIENT)
@@ -79,4 +79,3 @@ public record Transformation(Transformation.Target target, Keyframe... keyframes
 		}
 	}
 }
-*/

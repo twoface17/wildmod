@@ -8,7 +8,6 @@ import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
 import net.frozenblock.wildmod.event.GameEvent;
-import net.frozenblock.wildmod.event.PositionSourceType;
 import net.frozenblock.wildmod.liukrastapi.*;
 import net.frozenblock.wildmod.mixins.ActivityInvoker;
 import net.frozenblock.wildmod.mixins.SensorTypeInvoker;
@@ -19,12 +18,10 @@ import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.sensor.TemptationsSensor;
 import net.minecraft.entity.data.TrackedDataHandler;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.Int2ObjectBiMap;
-import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.GameRules;
 
 import java.util.OptionalInt;
@@ -43,18 +40,21 @@ public class WildMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        RegisterRegistries.register();
+        WildRegistry.register();
         RegisterMemoryModules.RegisterMemoryModules();
         RegisterBlocks.RegisterBlocks();
         RegisterItems.RegisterItems();
         RegisterEntities.RegisterEntities();
+        FrogVariant.registerFrogVariants();
 
         RegisterDispenser.RegisterDispenser();
         RegisterParticles.RegisterParticles();
         RegisterStatusEffects.RegisterStatusEffects();
         RegisterWorldgen.RegisterWorldgen();
+        RootPlacerType.registerRootTypes();
 
         registerData(OPTIONAL_INT);
+        registerData(WildRegistry.FROG_VARIANT_DATA);
 
         TONGUE = ActivityInvoker.callRegister( "tongue");
         SWIM = ActivityInvoker.callRegister( "swim");
@@ -65,17 +65,15 @@ public class WildMod implements ModInitializer {
         EMERGE = ActivityInvoker.callRegister("emerge");
         DIG = ActivityInvoker.callRegister("dig");
 
-        //Transformation.Interpolations.registerInterpolations();
+        RegisterAnimations.register();
 
         RegisterAccurateSculk.RegisterAccurateSculk();
         GameEvent.RegisterGameEvents();
     }
 
     public static void registerData(TrackedDataHandler<?> handler) {
-        DATA_HANDLERS.add(handler);
+        TrackedDataHandlerRegistry.DATA_HANDLERS.add(handler);
     }
-
-    private static final Int2ObjectBiMap<TrackedDataHandler<?>> DATA_HANDLERS = Int2ObjectBiMap.create(16);
 
     public static <T> T registerInRegistryVanilla(Registry<T> registry, Identifier identifier, T values) {
         return Registry.register(registry, identifier, values);

@@ -15,7 +15,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3f;
 
 import java.util.List;
 
@@ -23,7 +22,6 @@ import java.util.List;
 public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityModel<T> {
     private static final float field_38324 = 13.0F;
     private static final float field_38325 = 1.0F;
-    private static final Vec3f field_39195 = new Vec3f();
     private final ModelPart root;
     protected final ModelPart bone;
     protected final ModelPart body;
@@ -85,12 +83,12 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
         this.setLimbAngles(f, g);
         this.setHeadAndBodyAngles(h);
         this.setTendrilPitches(wardenEntity, h, k);
-        //this.updateAnimation(wardenEntity.attackingAnimationState, WardenAnimations.ATTACKING, h);
-        //this.updateAnimation(wardenEntity.chargingSonicBoomAnimationState, WardenAnimations.CHARGING_SONIC_BOOM, h);
-        //this.updateAnimation(wardenEntity.diggingAnimationState, WardenAnimations.DIGGING, h);
-        //this.updateAnimation(wardenEntity.emergingAnimationState, WardenAnimations.EMERGING, h);
-        //this.updateAnimation(wardenEntity.roaringAnimationState, WardenAnimations.ROARING, h);
-        //this.updateAnimation(wardenEntity.sniffingAnimationState, WardenAnimations.SNIFFING, h);
+        ((ExpandedSinglePartEntityModel)this).updateAnimation(wardenEntity.attackingAnimationState, WardenAnimations.ATTACKING, h);
+        ((ExpandedSinglePartEntityModel)this).updateAnimation(wardenEntity.chargingSonicBoomAnimationState, WardenAnimations.CHARGING_SONIC_BOOM, h);
+        ((ExpandedSinglePartEntityModel)this).updateAnimation(wardenEntity.diggingAnimationState, WardenAnimations.DIGGING, h);
+        ((ExpandedSinglePartEntityModel)this).updateAnimation(wardenEntity.emergingAnimationState, WardenAnimations.EMERGING, h);
+        ((ExpandedSinglePartEntityModel)this).updateAnimation(wardenEntity.roaringAnimationState, WardenAnimations.ROARING, h);
+        ((ExpandedSinglePartEntityModel)this).updateAnimation(wardenEntity.sniffingAnimationState, WardenAnimations.SNIFFING, h);
     }
 
     private void setHeadAngle(float yaw, float pitch) {
@@ -195,15 +193,4 @@ public class WardenEntityModel<T extends WardenEntity> extends SinglePartEntityM
     public List<ModelPart> getBodyHeadAndLimbs() {
         return this.bodyHeadAndLimbs;
     }
-
-    /*protected void updateAnimation(AnimationState animationState, Animation animation, float f) {
-        this.updateAnimation(animationState, animation, f, 1.0F);
-    }
-
-    protected void updateAnimation(AnimationState animationState, Animation animation, float f, float g) {
-        animationState.update(f, g);
-        animationState.run((animationStatex) -> {
-            AnimationHelper.animate(this, animation, animationStatex.getTimeRunning(), 1.0F, field_39195);
-        });
-    }
-*/}
+}
