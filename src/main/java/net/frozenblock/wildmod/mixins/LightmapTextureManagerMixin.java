@@ -43,78 +43,10 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
     @Shadow @Final private GameRenderer renderer;
 
     public double time;
-    public double soundTime;
-    public boolean shouldPlay=true;
-    public int lastDark;
-    public int lastDarkTime;
 
     @Override
     public void close() throws Exception {
         this.texture.close();
-    }
-
-    @Inject(at = @At("HEAD"), method = "tick")
-    public void tick(CallbackInfo ci) {
-        assert this.client.player != null;
-        if(this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            time = time + 0.075/2;
-            ++soundTime;
-            MathAddon.time = time;
-            int darkTime = Objects.requireNonNull(this.client.player.getStatusEffect(RegisterStatusEffects.DARKNESS)).getDuration();
-            int angerLevel = Objects.requireNonNull(this.client.player.getStatusEffect(RegisterStatusEffects.DARKNESS)).getAmplifier();
-            if (angerLevel!=lastDark) {
-                lastDark=angerLevel;
-                shouldPlay=true;
-            }
-            if (lastDarkTime<darkTime || angerLevel==3) {
-                shouldPlay=true;
-            }
-            double soundTimer = Math.cos(((soundTime+40)*PI)/80);
-            if (soundTimer == -1 && shouldPlay) {
-                if (angerLevel == 0) {
-                    shouldPlay=false;
-                    double a = random() * 2 * PI;
-                    double r = sqrt(16) * sqrt(random());
-                    int x = (int) (r * cos(a));
-                    int z = (int) (r * sin(a));
-                    BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
-                    assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_NEARBY_CLOSE, SoundCategory.AMBIENT, 0.2F, 1F);
-                } else if (angerLevel == 1) {
-                    shouldPlay=false;
-                    double a = random() * 2 * PI;
-                    double r = sqrt(12) * sqrt(random());
-                    int x = (int) (r * cos(a));
-                    int z = (int) (r * sin(a));
-                    BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
-                    assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_NEARBY_CLOSER, SoundCategory.AMBIENT, 0.4F, 1F);
-                } else if (angerLevel == 2) {
-                    shouldPlay=false;
-                    double a = random() * 2 * PI;
-                    double r = sqrt(8) * sqrt(random());
-                    int x = (int) (r * cos(a));
-                    int z = (int) (r * sin(a));
-                    BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
-                    assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_NEARBY_CLOSEST, SoundCategory.AMBIENT, 0.6F, 1F);
-                } else if (angerLevel == 3) { //WARDEN DARKNESS
-                    shouldPlay=false;
-                    /*double a = random() * 2 * PI;
-                    double r = sqrt(16) * sqrt(random());
-                    int x = (int) (r * cos(a));
-                    int z = (int) (r * sin(a));
-                    BlockPos play = this.client.player.getBlockPos().add(x, 0, z);
-                    assert this.client.world != null;
-                    this.client.world.playSound(this.client.player, play, RegisterSounds.ENTITY_WARDEN_CLOSER, SoundCategory.AMBIENT, 0.1F, 1F);*/
-                }
-            }
-            lastDarkTime=darkTime;
-        } else {
-            time = 0;
-            soundTime=0;
-            shouldPlay=true;
-        }
     }
 
     private float getDarknessFactor(float f) {
