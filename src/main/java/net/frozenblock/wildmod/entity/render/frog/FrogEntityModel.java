@@ -124,37 +124,37 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
             this.eyes.pivotY = 0.0F;
             this.eyes.pivotZ = 2.0F;
             
-            this.right_eye.pivotX = 1.5F;
-            this.right_eye.pivotY = -3.0F;
-            this.right_eye.pivotZ = -6.5F;
+            this.rightEye.pivotX = 1.5F;
+            this.rightEye.pivotY = -3.0F;
+            this.rightEye.pivotZ = -6.5F;
             
-            this.left_eye.pivotX = -2.0F;
-            this.left_eye.pivotY = -3.0F;
-            this.left_eye.pivotZ = -6.5F;
+            this.leftEye.pivotX = -2.0F;
+            this.leftEye.pivotY = -3.0F;
+            this.leftEye.pivotZ = -6.5F;
             
-            this.croaking_body.pivotX = 0.0F;
-            this.croaking_body.pivotY = 1.0F;
-            this.croaking_body.pivotZ = -5.0F;
+            this.croakingBody.pivotX = 0.0F;
+            this.croakingBody.pivotY = 1.0F;
+            this.croakingBody.pivotZ = -5.0F;
             
             this.tongue.pivotX = 0.0F;
             this.tongue.pivotY = -1.1F;
             this.tongue.pivotZ = 1.0F;
             
-            this.left_arm.pivotX = -4.0F;
-            this.left_arm.pivotY = -1.0F;
-            this.left_arm.pivotZ = -6.5F;
+            this.leftArm.pivotX = -4.0F;
+            this.leftArm.pivotY = -1.0F;
+            this.leftArm.pivotZ = -6.5F;
             
-            this.right_arm.pivotX = 4.0F;
-            this.right_arm.pivotY = -1.0F;
-            this.right_arm.pivotZ = -6.5F;
+            this.rightArm.pivotX = 4.0F;
+            this.rightArm.pivotY = -1.0F;
+            this.rightArm.pivotZ = -6.5F;
             
-            this.left_leg.pivotX = -3.5F;
-            this.left_leg.pivotY = -3.0F;
-            this.left_leg.pivotZ = -4.0F;
+            this.leftLeg.pivotX = -3.5F;
+            this.leftLeg.pivotY = -3.0F;
+            this.leftLeg.pivotZ = -4.0F;
             
-            this.right_leg.pivotX = 3.5F;
-            this.right_leg.pivotY = -3.0F;
-            this.right_leg.pivotZ = -4.0F;
+            this.rightLeg.pivotX = 3.5F;
+            this.rightLeg.pivotY = -3.0F;
+            this.rightLeg.pivotZ = -4.0F;
             
     }
 
