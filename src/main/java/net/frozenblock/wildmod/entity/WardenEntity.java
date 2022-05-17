@@ -607,7 +607,7 @@ public class WardenEntity extends WildHostileEntity {
         Vec3d end = Vec3d.ofCenter(this.getBlockPos());
         this.distance = MathHelper.floor(start.distanceTo(end));
         this.delay = this.distance;
-        //((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
+        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
     }
     public void createFloorVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         BlockPositionSource blockSource = new BlockPositionSource(this.getBlockPos().down());
@@ -615,7 +615,7 @@ public class WardenEntity extends WildHostileEntity {
         Vec3d end = Vec3d.ofCenter(this.getBlockPos().down());
         this.distance = MathHelper.floor(start.distanceTo(end));
         this.delay = this.distance;
-        //((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, blockSource, this.delay));
+        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, blockSource, this.delay));
     }
     public void addDigParticles(AnimationState animationState) {
         if ((float)animationState.getTimeRunning() < 4500.0F) {

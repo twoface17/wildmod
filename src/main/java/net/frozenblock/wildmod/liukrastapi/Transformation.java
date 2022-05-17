@@ -1,11 +1,8 @@
 package net.frozenblock.wildmod.liukrastapi;
 
-import com.mojang.serialization.Codec;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.frozenblock.wildmod.WildMod;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
@@ -22,21 +19,12 @@ public record Transformation(Transformation.Target target, Keyframe... keyframes
 
 	@Environment(EnvType.CLIENT)
 	public static class Interpolations {
-		public static Transformation.Interpolation field_37884 = (vec3f, delta, keyframes, start, end, f) -> {
-			Vec3f vec3f2 = keyframes[start].target();
-			Vec3f vec3f3 = keyframes[end].target();
-			vec3f.set(
-					MathHelper.lerp(delta, vec3f2.getX(), vec3f3.getX()) * f,
-					MathHelper.lerp(delta, vec3f2.getY(), vec3f3.getY()) * f,
-					MathHelper.lerp(delta, vec3f2.getZ(), vec3f3.getZ()) * f
-			);
-			return vec3f;
-		};
-		public static Transformation.Interpolation field_37885;
+		public static Transformation.Interpolation LINEAR;
+		public static Transformation.Interpolation CATMULLROM;
 
 		public static void registerInterpolations() {
 
-			field_37884 = (vec3f, delta, keyframes, start, end, f) -> {
+			LINEAR = (vec3f, delta, keyframes, start, end, f) -> {
 				Vec3f vec3f2 = keyframes[start].target();
 				Vec3f vec3f3 = keyframes[end].target();
 				vec3f.set(
@@ -47,7 +35,7 @@ public record Transformation(Transformation.Target target, Keyframe... keyframes
 				return vec3f;
 			};
 
-			field_37885 = (vec3f, delta, keyframes, start, end, f) -> {
+			CATMULLROM = (vec3f, delta, keyframes, start, end, f) -> {
 				Vec3f vec3f2 = keyframes[Math.max(0, start - 1)].target();
 				Vec3f vec3f3 = keyframes[start].target();
 				Vec3f vec3f4 = keyframes[end].target();
