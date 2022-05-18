@@ -132,7 +132,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
 				WardenEntity wardie;
 				while(var11.hasNext()) {
 					wardie = var11.next();
-					wardie.listen(player.getBlockPos(), world, player, Angriness.ANGRY.getThreshold()  + 20,null);
+					wardie.listen(player.getBlockPos(), world, player, null,Angriness.ANGRY.getThreshold()  + 20,null);
 				}
 				if (wardens.isEmpty()) {
 					player.emitGameEvent(GameEvent.BLOCK_DESTROY, player, pos);

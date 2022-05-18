@@ -9,6 +9,7 @@ import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.event.GameEvent;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -37,6 +38,8 @@ public class SculkTags {
     public static final TagKey<Block> RARE_ACTIVATORS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "rare_activators"));
     public static final TagKey<Block> GROUND_ACTIVATORS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "ground_activators"));
     public static final TagKey<Block> OCCLUDES_VIBRATION_SIGNALS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "occludes_vibration_signals"));
+
+    public static final TagKey<GameEvent> WARDEN_CAN_LISTEN = TagKey.of(Registry.GAME_EVENT_KEY, new Identifier(WildMod.MOD_ID, "warden_can_listen"));
 
     public static boolean blockTagContains(Block block1, TagKey<Block> tag) {
         for (RegistryEntry<Block> block : Registry.BLOCK.iterateEntries(tag)) {

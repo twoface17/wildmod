@@ -115,7 +115,7 @@ public class AbstractBlockMixin {
                         while (var11.hasNext()) {
                             wardenEntity = var11.next();
                             if (wardenEntity.getBlockPos().isWithinDistance(pos, 16)) {
-                                wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), target, 35, pos);
+                                wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), target, null, 35, pos);
                             }
                         }
                     }

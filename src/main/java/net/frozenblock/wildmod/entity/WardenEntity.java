@@ -65,7 +65,7 @@ public class WardenEntity extends WildHostileEntity {
     /** WELCOME TO THE WARDEN MUSEUM
      * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
      * SUSPICION {@link WardenEntity#increaseAngerAt(Entity)}
-     * SNIFFING & VIBRATIONS {@link WardenEntity#listen(BlockPos, World, LivingEntity, int, BlockPos)}
+     * SNIFFING & VIBRATIONS {@link WardenEntity#listen(BlockPos, World, Entity, Entity, int, BlockPos)}
      * ATTACKING {@link WardenEntity#tryAttack(Entity)}
      * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
      * OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
@@ -173,18 +173,22 @@ public class WardenEntity extends WildHostileEntity {
         }
     }
 
-    public void listen(BlockPos eventPos, World eventWorld, LivingEntity eventEntity, int suspicion, BlockPos vibrationPos) {
+    public void listen(BlockPos pos, World eventWorld, @Nullable Entity eventEntity, @Nullable Entity sourceEntity, int suspicion, BlockPos vibrationPos) { //TODO: RENAME TO "ACCEPT" TO MATCH 1.19 MAPPINGS
         if (eventWorld instanceof ServerWorld serverWorld && canListen(serverWorld, vibrationPos, eventEntity)) {
             this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
             world.sendEntityStatus(this, EARS_TWITCH);
             //this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
-            BlockPos blockPos = eventPos;
+            BlockPos blockPos = pos;
             if (eventEntity != null) {
                 if (this.isInRange(eventEntity, 30.0)) {
                     if (this.getBrain().hasMemoryModule(RegisterMemoryModules.RECENT_PROJECTILE)) {
                         if (this.isValidTarget(eventEntity)) {
                             blockPos = eventEntity.getBlockPos();
                         }
+
+                        this.increaseAngerAt(sourceEntity);
+                    } else {
+                        this.increaseAngerAt(sourceEntity, 10, true);
                     }
                 }
 
@@ -199,9 +203,9 @@ public class WardenEntity extends WildHostileEntity {
                     WardenBrain.lookAtDisturbance(this, blockPos);
                 }
             }
-            this.vibX = eventPos.getX();
-            this.vibY = eventPos.getY();
-            this.vibZ = eventPos.getZ();
+            this.vibX = pos.getX();
+            this.vibY = pos.getY();
+            this.vibZ = pos.getZ();
             this.lasteventworld = eventWorld;
             if (eventEntity!=null) {
                 this.vibrationEntity = eventEntity.getUuidAsString();
@@ -213,12 +217,12 @@ public class WardenEntity extends WildHostileEntity {
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
             } else {
-                createVibration(this.world, this, eventPos);
-                Vec3d start = Vec3d.ofCenter(eventPos);
+                createVibration(this.world, this, pos);
+                Vec3d start = Vec3d.ofCenter(pos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
             }
-        } else if (eventWorld instanceof ServerWorld serverworld && canListen(serverworld, eventPos, eventEntity)) {
+        } else if (eventWorld instanceof ServerWorld serverworld && canListen(serverworld, pos, eventEntity)) {
             WardenBrain.resetDigCooldown(this);
             if (vibrationPos != null) { createFloorVibration(this.world, this, vibrationPos);
                 Vec3d start = Vec3d.ofCenter(vibrationPos);
@@ -226,8 +230,8 @@ public class WardenEntity extends WildHostileEntity {
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
             }
             else {
-                createFloorVibration(this.world, this, eventPos);
-                Vec3d start = Vec3d.ofCenter(eventPos);
+                createFloorVibration(this.world, this, pos);
+                Vec3d start = Vec3d.ofCenter(pos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
             }
