@@ -25,7 +25,7 @@ public class AllayHeldItemFeatureRenderer extends FeatureRenderer<AllayEntity, A
 
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90.0F));
         matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
-        matrices.translate(0.0, 0.0, -1.0);
+        matrices.translate(0.0, 0.0, -1.25);
         
         matrices.push();
 
