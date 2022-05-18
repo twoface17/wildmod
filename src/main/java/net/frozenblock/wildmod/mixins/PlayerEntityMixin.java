@@ -1,5 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
+import com.mojang.logging.LogUtils;
+import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.block.entity.SculkShriekerWarningManager;
 import net.frozenblock.wildmod.entity.ai.WardenBrain;
 import net.frozenblock.wildmod.entity.WardenEntity;
@@ -18,6 +20,9 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -25,7 +30,9 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,11 +44,16 @@ import java.util.Iterator;
 import java.util.List;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin implements PlayerEntityAccess {
+public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccess {
+	private static final Logger LOGGER = LogUtils.getLogger();
+
+	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+		super(entityType, world);
+	}
 
 	@Shadow public abstract void disableShield(boolean sprinting);
 
-	protected SculkShriekerWarningManager sculkShriekerWarningManager = new SculkShriekerWarningManager(0, 0, 0);
+	public SculkShriekerWarningManager sculkShriekerWarningManager = new SculkShriekerWarningManager(0, 0, 0);
 
 	private static final ArrayList<String> names = new ArrayList<>();
 
@@ -61,6 +73,25 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccess {
 			if (wildHostileEntity.disablesShield()) {
 				this.disableShield(true);
 			}
+		}
+	}
+
+	@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
+	private void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+		if (nbt.contains("warden_spawn_tracker", NbtElement.COMPOUND_TYPE)) {
+			SculkShriekerWarningManager.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, nbt.get("warden_spawn_tracker"))).resultOrPartial(LOGGER::error).ifPresent(sculkShriekerWarningManager -> this.sculkShriekerWarningManager = sculkShriekerWarningManager);
+		}
+	}
+
+	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
+	private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+		SculkShriekerWarningManager.CODEC.encodeStart(NbtOps.INSTANCE, this.sculkShriekerWarningManager).resultOrPartial(LOGGER::error).ifPresent(nbtElement -> nbt.put("warden_spawn_tracker", nbtElement));
+	}
+
+	@Inject(method = "tick", at = @At("TAIL"))
+	private void tick(CallbackInfo ci) {
+		if (!this.world.isClient) {
+			this.sculkShriekerWarningManager.tick();
 		}
 	}
 

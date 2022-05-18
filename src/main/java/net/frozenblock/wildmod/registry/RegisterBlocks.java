@@ -142,7 +142,7 @@ public abstract class RegisterBlocks {
     public static final Block SCULK_CATALYST = new SculkCatalystBlock(AbstractBlock.Settings.of(Material.SCULK).strength(3.0F, 3.0F).sounds(SCULK_CATALYST_SOUNDS).luminance(state -> 6));
 
     public static final Block SCULK = new SculkBlock(AbstractBlock.Settings.of(Material.SCULK).strength(0.2F).sounds(SCULK_SOUNDS));
-    public static final SculkShriekerBlock SCULK_SHRIEKER = new SculkShriekerBlock(AbstractBlock.Settings.of(Material.SCULK, MapColor.BLACK).strength(3.0F, 3.0F).sounds(SCULK_SHRIEKER_SOUNDS), 8);
+    public static final SculkShriekerBlock SCULK_SHRIEKER = new SculkShriekerBlock(AbstractBlock.Settings.of(Material.SCULK, MapColor.BLACK).strength(3.0F, 3.0F).sounds(SCULK_SHRIEKER_SOUNDS));
     public static final Block OCHRE_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block PEARLESCENT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);
     public static final Block VERDANT_FROGLIGHT = new PillarBlock(FROGLIGHT_SETTINGS);

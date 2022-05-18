@@ -1,7 +1,4 @@
-/*
- * Decompiled with CFR 0.0.9 (FabricMC cc05e23f).
- */
-package net.frozenblock.wildmod.fromAccurateSculk;
+/*package net.frozenblock.wildmod.fromAccurateSculk;
 
 import net.frozenblock.wildmod.block.SculkShriekerBlock;
 import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
@@ -121,3 +118,4 @@ implements GameEventListener {
     }
 }
 
+*/

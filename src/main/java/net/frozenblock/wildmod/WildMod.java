@@ -32,6 +32,11 @@ import java.util.OptionalInt;
 public class WildMod implements ModInitializer {
 
     public static final String MOD_ID = "twm";
+
+    // This will allow more things to write to the logs to provide more info for development
+    public static boolean debugMode = false;
+
+
     public static final EntityPose CROAKING = ClassTinkerers.getEnum(EntityPose.class, "CROAKING");
     public static final EntityPose USING_TONGUE = ClassTinkerers.getEnum(EntityPose.class, "USING_TONGUE");
     public static final EntityPose ROARING = ClassTinkerers.getEnum(EntityPose.class, "ROARING");

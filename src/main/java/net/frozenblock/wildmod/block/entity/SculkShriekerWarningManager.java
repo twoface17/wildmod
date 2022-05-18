@@ -1,9 +1,13 @@
 package net.frozenblock.wildmod.block.entity;
 
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.entity.WardenEntity;
+import net.frozenblock.wildmod.liukrastapi.WildPlayerEntity;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.Codecs;
@@ -13,7 +17,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.function.Predicate;
 
 public class SculkShriekerWarningManager {
@@ -60,33 +67,36 @@ public class SculkShriekerWarningManager {
         this.cooldownTicks = 0;
     }
 
-    /*public boolean warnNearbyPlayers(ServerWorld world, BlockPos pos) {
-        if (!this.canIncreaseWarningLevel(world, pos)) {
-            return false;
+    public static OptionalInt warnNearbyPlayers(ServerWorld serverWorld, BlockPos blockPos, ServerPlayerEntity serverPlayerEntity) {
+        if (canIncreaseWarningLevel(serverWorld, blockPos)) {
+            return OptionalInt.empty();
         } else {
-            List<ServerPlayerEntity> list = getPlayersInRange(world, pos);
-            if (list.isEmpty()) {
-                return false;
+            List<ServerPlayerEntity> list = getPlayersInRange(serverWorld, blockPos);
+            if (!list.contains(serverPlayerEntity)) {
+                list.add(serverPlayerEntity);
+            }
+
+            if (list.stream().anyMatch(serverPlayerEntityx -> ((WildPlayerEntity)serverPlayerEntityx).getSculkShriekerWarningManager().method_44003())) {
+                return OptionalInt.empty();
             } else {
                 Optional<SculkShriekerWarningManager> optional = list.stream()
-                        .map(PlayerEntity::getSculkShriekerWarningManager)
+                        .map(manager -> ((WildPlayerEntity)manager).getSculkShriekerWarningManager())
                         .max(Comparator.comparingInt(manager -> manager.warningLevel));
-                optional.ifPresent(manager -> {
-                    manager.increaseWarningLevel();
-                    list.forEach(player -> player.getSculkShriekerWarningManager().copy(manager));
-                });
-                return true;
+                SculkShriekerWarningManager sculkShriekerWarningManager = (SculkShriekerWarningManager)optional.get();
+                sculkShriekerWarningManager.increaseWarningLevel();
+                list.forEach(serverPlayerEntityx -> ((WildPlayerEntity)serverPlayerEntityx).getSculkShriekerWarningManager().copy(sculkShriekerWarningManager));
+                return OptionalInt.of(sculkShriekerWarningManager.warningLevel);
             }
         }
     }
 
-    */public boolean canIncreaseWarningLevel(ServerWorld world, BlockPos pos) {
-        if (this.cooldownTicks <= 0 && world.getDifficulty() != Difficulty.PEACEFUL) {
-            Box box = Box.of(Vec3d.ofCenter(pos), 48.0, 48.0, 48.0);
-            return world.getNonSpectatingEntities(WardenEntity.class, box).isEmpty();
-        } else {
-            return false;
-        }
+    private boolean method_44003() {
+        return this.cooldownTicks > 0;
+    }
+
+    private static boolean canIncreaseWarningLevel(ServerWorld serverWorld, BlockPos blockPos) {
+        Box box = Box.of(Vec3d.ofCenter(blockPos), 48.0, 48.0, 48.0);
+        return !serverWorld.getNonSpectatingEntities(WardenEntity.class, box).isEmpty();
     }
 
     private static List<ServerPlayerEntity> getPlayersInRange(ServerWorld world, BlockPos pos) {
