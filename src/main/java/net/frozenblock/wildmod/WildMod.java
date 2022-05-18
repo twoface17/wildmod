@@ -33,7 +33,7 @@ public class WildMod implements ModInitializer {
 
     public static final String MOD_ID = "twm";
 
-    // This will allow more things to write to the logs to provide more info for development
+    // This will allow more things to write to the logs to provide more info for development. DISABLE BEFORE RELEASE UNLESS IT IS FOR FEEDBACK
     public static boolean debugMode = true;
 
 

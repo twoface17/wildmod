@@ -74,7 +74,7 @@ public class WardenEntity extends WildHostileEntity {
      * ALL VALUES ARE STORED AT THE END OF THIS MUSEUM.
      * */
 
-    private static final Logger field_38138 = LogUtils.getLogger();
+    private static final Logger LOGGER = LogUtils.getLogger();
     /*protected void initGoals() {
         //this.goalSelector.add(1, new WardenSwimGoal(this));
         this.goalSelector.add(3, new WardenGoal(this, speed));
@@ -146,6 +146,9 @@ public class WardenEntity extends WildHostileEntity {
             this.field_38162 = 10;
         } else if (status == SONIC_BOOM) {
             this.chargingSonicBoomAnimationState.start();
+            if (WildMod.debugMode) {
+                LOGGER.info("A Warden is charging a Sonic Boom");
+            }
         } else if (!this.isAiDisabled() && status == 7) { //Set Last Vibration Time
             this.vibrationTimer=this.world.getTime();
         } else {
@@ -182,10 +185,6 @@ public class WardenEntity extends WildHostileEntity {
                         if (this.isValidTarget(eventEntity)) {
                             blockPos = eventEntity.getBlockPos();
                         }
-
-                        this.increaseAngerAt(eventEntity);
-                    } else {
-                        this.increaseAngerAt(eventEntity, 10, true);
                     }
                 }
 
@@ -332,6 +331,14 @@ public class WardenEntity extends WildHostileEntity {
         this.world.sendEntityStatus(this, EntityStatuses.PLAY_ATTACK_SOUND);
         this.playSound(RegisterSounds.ENTITY_WARDEN_ATTACK_IMPACT, 10.0F, this.getSoundPitch());
         SonicBoomTask.cooldown(this, 40);
+        if (WildMod.debugMode) {
+            if (target instanceof PlayerEntity player) {
+                LOGGER.info("A Warden has attacked " + player.getEntityName());
+            } else {
+                LOGGER.info("A Warden has attacked " + target.getName().getString());
+            }
+        }
+
         return super.tryAttack(target);
     }
 
@@ -391,7 +398,7 @@ public class WardenEntity extends WildHostileEntity {
         super.writeCustomDataToNbt(nbt);
         WardenAngerManager.method_43692(this::isValidTarget)
                 .encodeStart(NbtOps.INSTANCE, this.angerManager)
-                .resultOrPartial(field_38138::error)
+                .resultOrPartial(LOGGER::error)
                 .ifPresent(angerNbt -> nbt.put("anger", angerNbt));
 
         /*VibrationListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.gameEventHandler.getListener()).resultOrPartial(field_38138::error).ifPresent((nbtElement) -> {
@@ -413,7 +420,7 @@ public class WardenEntity extends WildHostileEntity {
         if (nbt.contains("anger")) {
             WardenAngerManager.method_43692(this::isValidTarget)
                     .parse(new Dynamic<>(NbtOps.INSTANCE, nbt.get("anger")))
-                    .resultOrPartial(field_38138::error)
+                    .resultOrPartial(LOGGER::error)
                     .ifPresent(angerManager -> this.angerManager = angerManager);
             this.updateAnger();
         }
@@ -504,6 +511,10 @@ public class WardenEntity extends WildHostileEntity {
 
             if (listening) {
                 this.playListeningSound();
+            }
+
+            if (WildMod.debugMode) {
+                LOGGER.info("A Warden's anger has been increased");
             }
         }
 
@@ -608,6 +619,9 @@ public class WardenEntity extends WildHostileEntity {
         this.distance = MathHelper.floor(start.distanceTo(end));
         this.delay = this.distance;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
+        if (WildMod.debugMode) {
+            LOGGER.info("A Warden has created a Vibration");
+        }
     }
     public void createFloorVibration(World world, WardenEntity warden, BlockPos blockPos2) {
         BlockPositionSource blockSource = new BlockPositionSource(this.getBlockPos().down());
@@ -616,6 +630,9 @@ public class WardenEntity extends WildHostileEntity {
         this.distance = MathHelper.floor(start.distanceTo(end));
         this.delay = this.distance;
         ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, blockSource, this.delay));
+        if (WildMod.debugMode) {
+            LOGGER.info("A Warden has created a Floor Vibration");
+        }
     }
     public void addDigParticles(AnimationState animationState) {
         if ((float)animationState.getTimeRunning() < 4500.0F) {
@@ -637,12 +654,24 @@ public class WardenEntity extends WildHostileEntity {
         if (POSE.equals(data)) {
             if (this.isInPose(WildMod.EMERGING)) {
                 this.emergingAnimationState.start();
+                if (WildMod.debugMode) {
+                    LOGGER.info("A Warden is emerging");
+                }
             } else if (this.isInPose(WildMod.DIGGING)) {
                 this.diggingAnimationState.start();
+                if (WildMod.debugMode) {
+                    LOGGER.info("A Warden is digging");
+                }
             } else if (this.isInPose(WildMod.ROARING)) {
                 this.roaringAnimationState.start();
+                if (WildMod.debugMode) {
+                    LOGGER.info("A Warden is roaring");
+                }
             } else if (this.isInPose(WildMod.SNIFFING)) {
                 this.sniffingAnimationState.start();
+                if (WildMod.debugMode) {
+                    LOGGER.info("A Warden is sniffing");
+                }
             }
         }
 
@@ -676,6 +705,10 @@ public class WardenEntity extends WildHostileEntity {
                 if (!(source instanceof ProjectileDamageSource) || this.isInRange(livingEntity, 5.0)) {
                     this.updateAttackTarget(livingEntity);
                 }
+            }
+
+            if (WildMod.debugMode) {
+                LOGGER.info("A warden has taken damage from an entity");
             }
         }
 

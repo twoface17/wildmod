@@ -1,5 +1,7 @@
 package net.frozenblock.wildmod.block.entity;
 
+import com.mojang.logging.LogUtils;
+import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.SculkCatalystBlock;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.minecraft.block.BlockState;
@@ -14,10 +16,12 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.GameEventListener;
 import net.minecraft.world.event.listener.SculkSensorListener;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.util.Random;
 
 public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensorListener.Callback {
+    private static final Logger LOGGER = LogUtils.getLogger();
     private final SculkCatalystListener listener;
     private int lastVibrationFrequency;
     public int lastSculkRange;
@@ -63,6 +67,10 @@ public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensor
             double f = (double)this.pos.getZ() + 0.5;
             Random random = new Random();
             BlockPos target = this.getPos();
+
+            if (WildMod.debugMode) {
+                LOGGER.info("A Sculk Catalyst has been activated");
+            }
         }
     }
 
