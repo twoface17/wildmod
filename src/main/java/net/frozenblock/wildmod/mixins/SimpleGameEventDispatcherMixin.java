@@ -110,7 +110,7 @@ public class SimpleGameEventDispatcherMixin {
                         if (evententity instanceof ProjectileEntity projectile) {
                             wardie.listen(eventpos, eventworld, projectile, projectile.getOwner(), 10, null);
                         } else {
-                            wardie.listen(eventpos, eventworld, evententity, null, 0, null);
+                            wardie.listen(eventpos, eventworld, evententity, null, 35, null);
                         }
                     }
                 }
