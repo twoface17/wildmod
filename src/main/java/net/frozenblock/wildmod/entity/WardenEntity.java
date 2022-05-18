@@ -356,7 +356,7 @@ public class WardenEntity extends WildHostileEntity {
     }
 
     private void updateAnger() {
-        this.dataTracker.set(ANGER, this.method_43999());
+        this.dataTracker.set(ANGER, this.getAngerAtTarget());
     }
 
     public TagKey<GameEvent> getTag() {
@@ -488,11 +488,11 @@ public class WardenEntity extends WildHostileEntity {
     }
 
     public Angriness getAngriness() {
-        return Angriness.getForAnger(this.method_43999());
+        return Angriness.getForAnger(this.getAngerAtTarget());
     }
 
-    private int method_43999() {
-        return this.angerManager.getPrimeSuspectAnger(this.getTarget());
+    private int getAngerAtTarget() {
+        return this.angerManager.getAngerFor(this.getTarget());
     }
 
     public void removeSuspect(Entity entity) {
@@ -509,7 +509,7 @@ public class WardenEntity extends WildHostileEntity {
             WardenBrain.resetDigCooldown(this);
             boolean bl = !(this.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null) instanceof PlayerEntity);
             int i = this.angerManager.increaseAngerAt(entity, amount);
-            if (entity instanceof PlayerEntity && bl && Angriness.getForAnger(i).isAngry()) {
+            if (entity instanceof PlayerEntity && bl && Angriness.getForAnger(this.angerManager.increaseAngerAt(entity, amount)).isAngry()) {
                 this.getBrain().forget(MemoryModuleType.ATTACK_TARGET);
             }
 

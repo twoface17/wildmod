@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.dynamic.DynamicSerializableUuid;
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -31,7 +32,7 @@ public class WardenAngerManager {
     protected static final int maxAnger = 150;
     private static final int angerDecreasePerTick = 1;
     private int updateTimer = MathAddon.nextBetween(WildAbstractRandom.createAtomic(), 0, 2);
-    int field_39304;
+    int primeAnger;
     private static final Codec<Pair<UUID, Integer>> SUSPECT_CODEC = RecordCodecBuilder.create(
             instance -> instance.group(UUID.fieldOf("uuid").forGetter(Pair::getFirst), Codecs.NONNEGATIVE_INT.fieldOf("anger").forGetter(Pair::getSecond))
                     .apply(instance, Pair::of)
@@ -39,7 +40,7 @@ public class WardenAngerManager {
     private final Predicate<Entity> suspectPredicate;
     @VisibleForTesting
     protected final ArrayList<Entity> suspects;
-    private final SuspectComparator suspectComparator;
+    private final WardenAngerManager.SuspectComparator suspectComparator;
     @VisibleForTesting
     protected final Object2IntMap<Entity> suspectsToAngerLevel;
     @VisibleForTesting
@@ -52,21 +53,19 @@ public class WardenAngerManager {
         );
     }
 
-    public WardenAngerManager(Predicate<Entity> predicate, List<Pair<UUID, Integer>> list) {
-        this.suspectPredicate = predicate;
-        this.suspects = new ArrayList();
+    public WardenAngerManager(Predicate<Entity> suspectPredicate, List<Pair<UUID, Integer>> suspectUuidsToAngerLevel) {
+        this.suspectPredicate = suspectPredicate;
+        this.suspects = new ArrayList<>();
         this.suspectComparator = new WardenAngerManager.SuspectComparator(this);
-        this.suspectsToAngerLevel = new Object2IntOpenHashMap();
-        this.suspectUuidsToAngerLevel = new Object2IntOpenHashMap(list.size());
-        list.forEach(pair -> this.suspectUuidsToAngerLevel.put((UUID)pair.getFirst(), (Integer)pair.getSecond()));
+        this.suspectsToAngerLevel = new Object2IntOpenHashMap<>();
+        this.suspectUuidsToAngerLevel = new Object2IntOpenHashMap<>(suspectUuidsToAngerLevel.size());
+        suspectUuidsToAngerLevel.forEach(pair -> this.suspectUuidsToAngerLevel.put((UUID)pair.getFirst(), (Integer)pair.getSecond()));
     }
 
     private List<Pair<UUID, Integer>> getSuspects() {
-        return (List<Pair<UUID, Integer>>)Streams.concat(
-                        new Stream[]{
-                                this.suspects.stream().map(suspect -> Pair.of(suspect.getUuid(), this.suspectsToAngerLevel.getInt(suspect))),
-                                this.suspectUuidsToAngerLevel.object2IntEntrySet().stream().map(entry -> Pair.of((UUID)entry.getKey(), entry.getIntValue()))
-                        }
+        return Streams.concat(
+                        this.suspects.stream().map(suspect -> Pair.of(suspect.getUuid(), this.suspectsToAngerLevel.getInt(suspect))),
+                        this.suspectUuidsToAngerLevel.object2IntEntrySet().stream().map(entry -> Pair.of((UUID)entry.getKey(), entry.getIntValue()))
                 )
                 .collect(Collectors.toList());
     }
@@ -81,7 +80,7 @@ public class WardenAngerManager {
         ObjectIterator<Object2IntMap.Entry<UUID>> objectIterator = this.suspectUuidsToAngerLevel.object2IntEntrySet().iterator();
 
         while(objectIterator.hasNext()) {
-            Object2IntMap.Entry<UUID> entry = (Object2IntMap.Entry)objectIterator.next();
+            Object2IntMap.Entry<UUID> entry = objectIterator.next();
             int i = entry.getIntValue();
             if (i <= 1) {
                 objectIterator.remove();
@@ -93,7 +92,7 @@ public class WardenAngerManager {
         ObjectIterator<Object2IntMap.Entry<Entity>> objectIterator2 = this.suspectsToAngerLevel.object2IntEntrySet().iterator();
 
         while(objectIterator2.hasNext()) {
-            Object2IntMap.Entry<Entity> entry2 = (Object2IntMap.Entry)objectIterator2.next();
+            Object2IntMap.Entry<Entity> entry2 = objectIterator2.next();
             int j = entry2.getIntValue();
             Entity entity = (Entity)entry2.getKey();
             Entity.RemovalReason removalReason = entity.getRemovalReason();
@@ -113,14 +112,14 @@ public class WardenAngerManager {
             }
         }
 
-        this.suspects.sort(this.suspectComparator);
+        this.updatePrimeAnger();
     }
 
-    private void method_43998() {
-        this.field_39304 = 0;
+    private void updatePrimeAnger() {
+        this.primeAnger = 0;
         this.suspects.sort(this.suspectComparator);
         if (this.suspects.size() == 1) {
-            this.field_39304 = this.suspectsToAngerLevel.getInt(this.suspects.get(0));
+            this.primeAnger = this.suspectsToAngerLevel.getInt(this.suspects.get(0));
         }
 
     }
@@ -129,9 +128,9 @@ public class WardenAngerManager {
         ObjectIterator<Object2IntMap.Entry<UUID>> objectIterator = this.suspectUuidsToAngerLevel.object2IntEntrySet().iterator();
 
         while(objectIterator.hasNext()) {
-            Object2IntMap.Entry<UUID> entry = (Object2IntMap.Entry)objectIterator.next();
+            Object2IntMap.Entry<UUID> entry = objectIterator.next();
             int i = entry.getIntValue();
-            Entity entity = world.getEntity((UUID)entry.getKey());
+            Entity entity = world.getEntity(entry.getKey());
             if (entity != null) {
                 this.suspectsToAngerLevel.put(entity, i);
                 this.suspects.add(entity);
@@ -139,7 +138,6 @@ public class WardenAngerManager {
             }
         }
 
-        this.suspects.sort(this.suspectComparator);
     }
 
     public int increaseAngerAt(Entity entity, int amount) {
@@ -152,22 +150,23 @@ public class WardenAngerManager {
             this.suspects.add(entity);
         }
 
-        this.suspects.sort(this.suspectComparator);
+        this.updatePrimeAnger();
         return i;
     }
 
     public void removeSuspect(Entity entity) {
         this.suspectsToAngerLevel.removeInt(entity);
         this.suspects.remove(entity);
+        this.updatePrimeAnger();
     }
 
     @Nullable
     private Entity getPrimeSuspect1() {
-        return this.suspects.stream().filter(this.suspectPredicate).findFirst().orElse(null);
+        return (Entity)this.suspects.stream().filter(this.suspectPredicate).findFirst().orElse(null);
     }
 
-    public int getPrimeSuspectAnger(@Nullable Entity entity) {
-        return entity == null ? this.field_39304 : this.suspectsToAngerLevel.getInt(entity);
+    public int getAngerFor(@Nullable Entity entity) {
+        return entity == null ? this.primeAnger : this.suspectsToAngerLevel.getInt(entity);
     }
 
     public Optional<LivingEntity> getPrimeSuspect() {
@@ -182,20 +181,19 @@ public class WardenAngerManager {
             } else {
                 int i = this.angerManagement.suspectsToAngerLevel.getOrDefault(entity, 0);
                 int j = this.angerManagement.suspectsToAngerLevel.getOrDefault(entity2, 0);
+                this.angerManagement.primeAnger = Math.max(this.angerManagement.primeAnger, Math.max(i, j));
                 boolean bl = Angriness.getForAnger(i).isAngry();
                 boolean bl2 = Angriness.getForAnger(j).isAngry();
                 if (bl != bl2) {
                     return bl ? -1 : 1;
                 } else {
-                    if (bl) {
-                        boolean bl3 = entity instanceof PlayerEntity;
-                        boolean bl4 = entity2 instanceof PlayerEntity;
-                        if (bl3 != bl4) {
-                            return bl3 ? -1 : 1;
-                        }
+                    boolean bl3 = entity instanceof PlayerEntity;
+                    boolean bl4 = entity2 instanceof PlayerEntity;
+                    if (bl3 != bl4) {
+                        return bl3 ? -1 : 1;
+                    } else {
+                        return Integer.compare(j, i);
                     }
-
-                    return i > j ? -1 : 1;
                 }
             }
         }

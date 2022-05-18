@@ -15,6 +15,7 @@ import java.util.Optional;
 public class AnimationHelper {
 	public AnimationHelper() {
 	}
+
 	public static void animate(SinglePartEntityModel<?> model, Animation animation, long runningTime, float f, Vec3f vec3f) {
 		float g = getRunningSeconds(animation, runningTime);
 
@@ -23,7 +24,7 @@ public class AnimationHelper {
 			List<Transformation> list = entry.getValue();
 			optional.ifPresent(part -> list.forEach(transformation -> {
 				Keyframe[] keyframes = transformation.keyframes();
-				int i = Math.max(0, MathHelper.binarySearch(0, keyframes.length, ix -> g <= keyframes[ix].timestamp()) - 1);
+				int i = Math.max(0, MathHelper.binarySearch(0, keyframes.length, index -> g <= keyframes[index].timestamp()) - 1);
 				int j = Math.min(keyframes.length - 1, i + 1);
 				Keyframe keyframe = keyframes[i];
 				Keyframe keyframe2 = keyframes[j];

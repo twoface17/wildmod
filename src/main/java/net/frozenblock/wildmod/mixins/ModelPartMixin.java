@@ -67,21 +67,21 @@ public abstract class ModelPartMixin implements ExpandedModelPart {
 	}
 
 	@Override
-	public void offsetPos(Vec3f vector3f) {
+	public void translate(Vec3f vector3f) {
 		this.pivotX += vector3f.getX();
 		this.pivotY += vector3f.getY();
 		this.pivotZ += vector3f.getZ();
 	}
 
 	@Override
-	public void offsetRotation(Vec3f vector3f) {
+	public void rotate(Vec3f vector3f) {
 		this.pitch += vector3f.getX();
 		this.yaw += vector3f.getY();
 		this.roll += vector3f.getZ();
 	}
 
 	@Override
-	public void offsetScale(Vec3f vector3f) {
+	public void scale(Vec3f vector3f) {
 		this.xScale += vector3f.getX();
 		this.yScale += vector3f.getY();
 		this.zScale += vector3f.getZ();

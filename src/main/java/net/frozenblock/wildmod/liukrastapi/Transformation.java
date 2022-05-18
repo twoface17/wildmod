@@ -6,10 +6,6 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
-/**
- * A GUI interface which handles keyboard and mouse callbacks for child GUI elements.
- * The implementation of a parent element can decide whether a child element receives keyboard and mouse callbacks.
- */
 @Environment(EnvType.CLIENT)
 public record Transformation(Transformation.Target target, Keyframe... keyframes) {
 	@Environment(EnvType.CLIENT)
@@ -19,12 +15,12 @@ public record Transformation(Transformation.Target target, Keyframe... keyframes
 
 	@Environment(EnvType.CLIENT)
 	public static class Interpolations {
-		public static Transformation.Interpolation LINEAR;
-		public static Transformation.Interpolation CATMULLROM;
+		public static Transformation.Interpolation field_37884;
+		public static Transformation.Interpolation field_37885;
 
 		public static void registerInterpolations() {
 
-			LINEAR = (vec3f, delta, keyframes, start, end, f) -> {
+			field_37884 = (vec3f, delta, keyframes, start, end, f) -> {
 				Vec3f vec3f2 = keyframes[start].target();
 				Vec3f vec3f3 = keyframes[end].target();
 				vec3f.set(
@@ -35,7 +31,7 @@ public record Transformation(Transformation.Target target, Keyframe... keyframes
 				return vec3f;
 			};
 
-			CATMULLROM = (vec3f, delta, keyframes, start, end, f) -> {
+			field_37885 = (vec3f, delta, keyframes, start, end, f) -> {
 				Vec3f vec3f2 = keyframes[Math.max(0, start - 1)].target();
 				Vec3f vec3f3 = keyframes[start].target();
 				Vec3f vec3f4 = keyframes[end].target();
@@ -59,9 +55,9 @@ public record Transformation(Transformation.Target target, Keyframe... keyframes
 
 	@Environment(EnvType.CLIENT)
 	public static class Targets {
-		public static final Transformation.Target TRANSLATE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetPos(vector3f);
-		public static final Transformation.Target ROTATE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetRotation(vector3f);
-		public static final Transformation.Target SCALE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).offsetScale(vector3f);
+		public static final Transformation.Target TRANSLATE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).translate(vector3f);
+		public static final Transformation.Target ROTATE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).rotate(vector3f);
+		public static final Transformation.Target SCALE = (modelPart, vector3f) -> ((ExpandedModelPart)modelPart).scale(vector3f);
 
 		public Targets() {
 		}
