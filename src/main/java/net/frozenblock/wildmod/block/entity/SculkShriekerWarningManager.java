@@ -82,7 +82,7 @@ public class SculkShriekerWarningManager {
                 Optional<SculkShriekerWarningManager> optional = list.stream()
                         .map(manager -> ((WildPlayerEntity)manager).getSculkShriekerWarningManager())
                         .max(Comparator.comparingInt(manager -> manager.warningLevel));
-                SculkShriekerWarningManager sculkShriekerWarningManager = (SculkShriekerWarningManager)optional.get();
+                SculkShriekerWarningManager sculkShriekerWarningManager = optional.get();
                 sculkShriekerWarningManager.increaseWarningLevel();
                 list.forEach(serverPlayerEntityx -> ((WildPlayerEntity)serverPlayerEntityx).getSculkShriekerWarningManager().copy(sculkShriekerWarningManager));
                 return OptionalInt.of(sculkShriekerWarningManager.warningLevel);

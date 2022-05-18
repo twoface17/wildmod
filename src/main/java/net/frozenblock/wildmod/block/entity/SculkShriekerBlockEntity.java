@@ -133,11 +133,11 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
                 if (!this.canWarn(serverWorld) || this.trySyncWarningLevel(serverWorld, serverPlayerEntity)) {
                     this.method_44017(serverWorld, serverPlayerEntity);
                 }
-            }
-        }
 
-        if (WildMod.debugMode) {
-            LOGGER.info("A sculk shrieker has shrieked");
+                if (WildMod.debugMode) {
+                    LOGGER.info("A Sculk Shrieker has shrieked");
+                }
+            }
         }
     }
 
@@ -172,7 +172,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
         }
 
         if (WildMod.debugMode) {
-            LOGGER.info("A sculk shrieker has warned a player");
+            LOGGER.info("A Sculk Shrieker has warned a player");
         }
     }
 
