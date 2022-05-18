@@ -34,7 +34,7 @@ public class WildMod implements ModInitializer {
     public static final String MOD_ID = "twm";
 
     // This will allow more things to write to the logs to provide more info for development
-    public static boolean debugMode = false;
+    public static boolean debugMode = true;
 
 
     public static final EntityPose CROAKING = ClassTinkerers.getEnum(EntityPose.class, "CROAKING");

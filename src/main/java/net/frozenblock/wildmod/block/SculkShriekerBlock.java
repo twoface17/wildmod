@@ -86,7 +86,7 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (state.get(SHRIEKING)) {
-            world.setBlockState(pos, state.with(SHRIEKING, Boolean.valueOf(false)), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(SHRIEKING, false), Block.NOTIFY_ALL);
             world.getBlockEntity(pos, WildBlockEntityType.SCULK_SHRIEKER).ifPresent(blockEntity -> blockEntity.warn(world));
         }
 
@@ -132,7 +132,7 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(WATERLOGGED, Boolean.valueOf(ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER));
+        return this.getDefaultState().with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
     }
 
     @Override

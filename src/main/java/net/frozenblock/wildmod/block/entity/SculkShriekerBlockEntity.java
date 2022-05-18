@@ -21,7 +21,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -37,11 +36,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.util.OptionalInt;
 
 
 public class SculkShriekerBlockEntity extends BlockEntity implements VibrationListener.Callback {
+    private static final Logger LOGGER = LogUtils.getLogger();
     private static final int RANGE = 8;
     private static final int field_38750 = 10;
     private static final int field_38751 = 20;
@@ -75,7 +76,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
         }
 
         if (nbt.contains("listener", NbtElement.COMPOUND_TYPE)) {
-            VibrationListener.createCodec(this).parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener"))).resultOrPartial(LogUtils.getLogger()::error).ifPresent(vibrationListener -> this.vibrationListener = vibrationListener);
+            VibrationListener.createCodec(this).parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener"))).resultOrPartial(LOGGER::error).ifPresent(vibrationListener -> this.vibrationListener = vibrationListener);
         }
     }
 
@@ -83,7 +84,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         nbt.putInt("warning_level", this.warningLevel);
-        VibrationListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.vibrationListener).resultOrPartial(LogUtils.getLogger()::error).ifPresent(nbtElement -> nbt.put("listener", nbtElement));
+        VibrationListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.vibrationListener).resultOrPartial(LOGGER::error).ifPresent(nbtElement -> nbt.put("listener", nbtElement));
     }
 
     @Override
@@ -134,6 +135,10 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
                 }
             }
         }
+
+        if (WildMod.debugMode) {
+            LOGGER.info("A sculk shrieker has shrieked");
+        }
     }
 
     private boolean trySyncWarningLevel(ServerWorld serverWorld, ServerPlayerEntity serverPlayerEntity) {
@@ -164,6 +169,10 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
             }
 
             WardenEntity.addDarknessToClosePlayers(serverWorld, Vec3d.ofCenter(this.getPos()), null, 40);
+        }
+
+        if (WildMod.debugMode) {
+            LOGGER.info("A sculk shrieker has warned a player");
         }
     }
 
