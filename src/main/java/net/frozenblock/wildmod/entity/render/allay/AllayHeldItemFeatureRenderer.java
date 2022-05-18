@@ -22,6 +22,10 @@ public class AllayHeldItemFeatureRenderer extends FeatureRenderer<AllayEntity, A
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AllayEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         ItemStack itemStack = entity.getEquippedStack(EquipmentSlot.MAINHAND);
 
+        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90.0F));
+        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
+        matrices.translate(0.0, 1.5, -0.625);
+        
         matrices.push();
 
         MinecraftClient.getInstance().getHeldItemRenderer().renderItem(entity, itemStack, ModelTransformation.Mode.GROUND, false, matrices, vertexConsumers, light);
