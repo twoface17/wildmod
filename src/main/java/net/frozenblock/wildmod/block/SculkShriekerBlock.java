@@ -49,9 +49,9 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
         this.setDefaultState(
                 this.stateManager
                         .getDefaultState()
-                        .with(SHRIEKING, Boolean.valueOf(false))
-                        .with(WATERLOGGED, Boolean.valueOf(false))
-                        .with(CAN_SUMMON, Boolean.valueOf(false))
+                        .with(SHRIEKING, false)
+                        .with(WATERLOGGED, false)
+                        .with(CAN_SUMMON, false)
         );
     }
 
