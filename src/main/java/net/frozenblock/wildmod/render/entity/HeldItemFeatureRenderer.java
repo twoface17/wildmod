@@ -31,9 +31,7 @@ public class HeldItemFeatureRenderer<T extends LivingEntity, M extends EntityMod
             matrixStack.push();
             if (this.getContextModel().child) {
                 float m = 0.5F;
-                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90.0F));
-                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
-                matrixStack.translate(0.0F, 1.5F, 0.0F);
+                matrixStack.translate(0.0, 0.75, 0.0);
                 matrixStack.scale(0.5F, 0.5F, 0.5F);
             }
 
@@ -42,7 +40,6 @@ public class HeldItemFeatureRenderer<T extends LivingEntity, M extends EntityMod
             matrixStack.pop();
         }
     }
-
     protected void renderItem(
             LivingEntity entity, ItemStack stack, ModelTransformation.Mode transformationMode, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light
     ) {
@@ -52,7 +49,7 @@ public class HeldItemFeatureRenderer<T extends LivingEntity, M extends EntityMod
             matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90.0F));
             matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
             boolean bl = arm == Arm.LEFT;
-            matrices.translate((double)((float)(bl ? -1 : 1) / 16.0F), 1.5, -0.625);
+            matrices.translate((double)((float)(bl ? -1 : 1) / 16.0F), 0.125, -0.625);
             this.field_38901.renderItem(entity, stack, transformationMode, bl, matrices, vertexConsumers, light);
             matrices.pop();
         }
