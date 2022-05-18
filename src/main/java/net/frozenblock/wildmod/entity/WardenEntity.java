@@ -179,7 +179,7 @@ public class WardenEntity extends WildHostileEntity {
             world.sendEntityStatus(this, EARS_TWITCH);
             //this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
             BlockPos blockPos = pos;
-            if (eventEntity != null) {
+            if (sourceEntity != null) {
                 if (this.isInRange(eventEntity, 30.0)) {
                     if (this.getBrain().hasMemoryModule(RegisterMemoryModules.RECENT_PROJECTILE)) {
                         if (this.isValidTarget(eventEntity)) {
