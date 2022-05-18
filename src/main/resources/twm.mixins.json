@@ -21,6 +21,7 @@
 	"MusicDiscItemInvoker",
 	"NoteBlockMixin",
 	"PlayerEntityMixin",
+	"SculkSensorBlockEntityMixin",
 	"SculkSensorBlockMixin",
 	"SculkSensorListenerMixin",
 	"SensorTypeInvoker",
