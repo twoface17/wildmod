@@ -191,7 +191,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
     private boolean trySpawnWarden(ServerWorld serverWorld) {
         return this.warningLevel < 4
                 ? false
-                : LargeEntitySpawnHelper.trySpawnAt(RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, this.getPos(), 20, 5, 6).isPresent();
+                : LargeEntitySpawnHelper.trySpawnAt(RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, this.getPos(), 20, 5, 6, LargeEntitySpawnHelper.class_7502.field_39401).isPresent();
     }
 
     @Override

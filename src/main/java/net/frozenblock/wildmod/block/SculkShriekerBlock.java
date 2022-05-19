@@ -44,13 +44,10 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
     public static final double TOP = SHAPE.getMax(Direction.Axis.Y);
 
-    public SculkShriekerBlock(AbstractBlock.Settings settings) {
+    public SculkShriekerBlock(Settings settings) {
         super(settings);
         this.setDefaultState(
-                this.stateManager
-                        .getDefaultState()
-                        .with(SHRIEKING, false)
-                        .with(WATERLOGGED, false)
+                this.stateManager.getDefaultState().with(SHRIEKING, false).with(WATERLOGGED, false)
                         .with(CAN_SUMMON, false)
         );
     }
@@ -156,10 +153,11 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     }
 
     @Nullable
-    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return !world.isClient
-                ? BlockWithEntity.checkType(type, WildBlockEntityType.SCULK_SHRIEKER, (worldx, pos, statex, blockEntity) -> blockEntity.getVibrationListener().tick(worldx))
+                ? BlockWithEntity.checkType(
+                type, WildBlockEntityType.SCULK_SHRIEKER, (worldx, pos, statex, blockEntity) -> blockEntity.getVibrationListener().tick(worldx)
+        )
                 : null;
     }
 }

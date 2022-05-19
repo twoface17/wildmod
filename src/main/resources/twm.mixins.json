@@ -26,6 +26,7 @@
 	"SculkSensorListenerMixin",
 	"SensorTypeInvoker",
 	"ServerEntityHandlerMixin",
+	"ServerPlayerEntityMixin",
 	"SignTypeAccessor",
 	"SimpleGameEventDispatcherMixin",
 	"SinglePartEntityModelMixin",
@@ -36,6 +37,7 @@
 	"VanillaBiomeParametersMixin",
 	"VanillaSurfaceRulesBlockInvoker",
 	"VanillaSurfaceRulesInjector",
+	"VillagerEntityMixin",
 	"VillagerTypeMixin",
 	"WorldChunkMixin",
 	"WorldRendererMixin"

@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.liukrastapi.WildPlayerEntity;
+import net.frozenblock.wildmod.liukrastapi.WildServerPlayerEntity;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -76,15 +76,15 @@ public class SculkShriekerWarningManager {
                 list.add(serverPlayerEntity);
             }
 
-            if (list.stream().anyMatch(serverPlayerEntityx -> ((WildPlayerEntity)serverPlayerEntityx).getSculkShriekerWarningManager().method_44003())) {
+            if (list.stream().anyMatch(serverPlayerEntityx -> ((WildServerPlayerEntity)serverPlayerEntityx).getSculkShriekerWarningManager().method_44003())) {
                 return OptionalInt.empty();
             } else {
                 Optional<SculkShriekerWarningManager> optional = list.stream()
-                        .map(manager -> ((WildPlayerEntity)manager).getSculkShriekerWarningManager())
+                        .map(manager -> ((WildServerPlayerEntity)manager).getSculkShriekerWarningManager())
                         .max(Comparator.comparingInt(manager -> manager.warningLevel));
                 SculkShriekerWarningManager sculkShriekerWarningManager = optional.get();
                 sculkShriekerWarningManager.increaseWarningLevel();
-                list.forEach(serverPlayerEntityx -> ((WildPlayerEntity)serverPlayerEntityx).getSculkShriekerWarningManager().copy(sculkShriekerWarningManager));
+                list.forEach(serverPlayerEntityx -> ((WildServerPlayerEntity)serverPlayerEntityx).getSculkShriekerWarningManager().copy(sculkShriekerWarningManager));
                 return OptionalInt.of(sculkShriekerWarningManager.warningLevel);
             }
         }

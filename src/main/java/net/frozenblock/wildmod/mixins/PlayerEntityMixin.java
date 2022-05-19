@@ -10,6 +10,7 @@ import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.BrokenSculkGrower;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
 import net.frozenblock.wildmod.liukrastapi.PlayerEntityAccess;
+import net.frozenblock.wildmod.liukrastapi.WildServerPlayerEntity;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
@@ -44,7 +45,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccess {
+public abstract class PlayerEntityMixin extends LivingEntity implements WildServerPlayerEntity {
 	private static final Logger LOGGER = LogUtils.getLogger();
 
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
