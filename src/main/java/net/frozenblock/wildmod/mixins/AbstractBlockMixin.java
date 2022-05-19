@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.block.SculkShriekerBlock;
+import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
@@ -120,6 +121,7 @@ public class AbstractBlockMixin {
                         }
                     }
                 }
+                SculkSensorBlock.setActive(world, pos, state, 15);
             }
         }
     }
