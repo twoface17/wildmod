@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;

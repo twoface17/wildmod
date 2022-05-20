@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.entity.AllayEntity;
 import net.frozenblock.wildmod.entity.WildPathAwareEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;

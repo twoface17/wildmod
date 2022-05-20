@@ -1,8 +1,5 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.block.entity.SculkShriekerWarningManager;
-import net.frozenblock.wildmod.liukrastapi.WildServerPlayerEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 

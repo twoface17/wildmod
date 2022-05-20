@@ -1,20 +1,14 @@
 package net.frozenblock.wildmod.world.gen.structure.ancientcity;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.registry.RegisterWorldgen;
 import net.frozenblock.wildmod.world.gen.WildPlacedFeatures;
 import net.frozenblock.wildmod.world.gen.structure.StructurePoolElement;
-import net.minecraft.structure.pool.SinglePoolElement;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePools;
-import net.minecraft.structure.processor.StructureProcessorList;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.RegistryEntry;
-
-import java.util.function.Function;
 
 public class AncientCityOutskirtsGenerator {
     public AncientCityOutskirtsGenerator() {

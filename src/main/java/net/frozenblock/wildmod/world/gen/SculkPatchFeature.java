@@ -3,31 +3,17 @@ package net.frozenblock.wildmod.world.gen;
 import com.mojang.serialization.Codec;
 import net.frozenblock.wildmod.block.LichenGrower;
 import net.frozenblock.wildmod.block.SculkShriekerBlock;
-import net.frozenblock.wildmod.block.SculkVeinBlock;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.random.AbstractRandom;
-import net.minecraft.world.gen.random.SimpleRandom;
 
-import java.util.ArrayList;
 import java.util.Random;
-
-import static java.lang.Math.*;
 
 public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
     public SculkPatchFeature(Codec<SculkPatchFeatureConfig> codec) {

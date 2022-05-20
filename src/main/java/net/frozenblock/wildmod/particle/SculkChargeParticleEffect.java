@@ -8,7 +8,6 @@ import net.frozenblock.wildmod.registry.RegisterParticles;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.registry.Registry;
 
 import java.util.Locale;

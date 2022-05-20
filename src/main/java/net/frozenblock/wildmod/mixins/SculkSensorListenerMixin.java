@@ -1,13 +1,9 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
-import net.frozenblock.wildmod.liukrastapi.Vec3d;
-import net.frozenblock.wildmod.liukrastapi.VibrationAccess;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;

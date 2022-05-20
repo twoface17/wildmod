@@ -13,8 +13,6 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import java.util.Iterator;
-
 public class WalkTowardsWaterTask extends Task<PathAwareEntity> {
     private final int range;
     private final float speed;

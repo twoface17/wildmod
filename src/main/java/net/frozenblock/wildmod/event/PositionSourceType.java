@@ -1,7 +1,6 @@
 package net.frozenblock.wildmod.event;
 
 import com.mojang.serialization.Codec;
-import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.registry.WildRegistry;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;

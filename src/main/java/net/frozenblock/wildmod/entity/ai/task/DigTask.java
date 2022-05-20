@@ -5,12 +5,10 @@ import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
 
 public class DigTask<E extends WardenEntity> extends Task<E> {
     public DigTask(int duration) {

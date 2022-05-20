@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.world.gen;
 import net.frozenblock.wildmod.block.MultifaceGrowthBlock;
 import net.frozenblock.wildmod.block.SculkVeinBlock;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
+import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
@@ -12,8 +13,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Random;
-
-import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
 
 public interface SculkSpreadable {
     SculkSpreadable VEIN_ONLY_SPREADER = new SculkSpreadable() {

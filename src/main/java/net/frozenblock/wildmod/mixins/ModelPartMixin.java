@@ -47,6 +47,10 @@ public abstract class ModelPartMixin implements ExpandedModelPart {
 		return this.hidden;
 	}
 
+	/**
+	 * @author FrozenBlock
+	 * @reason New Warden Rendering
+	 */
 	@Overwrite
 	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
 		if (this.visible) {

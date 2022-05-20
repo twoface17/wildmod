@@ -2,14 +2,9 @@ package net.frozenblock.wildmod.registry;
 
 import com.google.common.collect.ImmutableList;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.mixins.TreeDecoratorTypeInvoker;
-import net.frozenblock.wildmod.tags.BiomeTags;
-import net.frozenblock.wildmod.world.gen.UpwardsBranchingTrunkPlacer;
-import net.frozenblock.wildmod.world.gen.structure.BlockRotStructureProcessor;
 import net.frozenblock.wildmod.world.gen.WildConfiguredFeatures;
 import net.frozenblock.wildmod.world.gen.WildPlacedFeatures;
-import net.frozenblock.wildmod.world.gen.structure.StructureTerrainAdaptation;
-import net.frozenblock.wildmod.world.gen.structure.ancientcity.AncientCityGenerator;
+import net.frozenblock.wildmod.world.gen.structure.BlockRotStructureProcessor;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.sound.MusicType;
@@ -22,40 +17,26 @@ import net.minecraft.structure.rule.AlwaysTrueRuleTest;
 import net.minecraft.structure.rule.RandomBlockMatchRuleTest;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.StructureSpawns;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.GenerationSettings;
 import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.YOffset;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.carver.ConfiguredCarvers;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
-import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
-import net.minecraft.world.gen.heightprovider.ConstantHeightProvider;
 import net.minecraft.world.gen.placementmodifier.*;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
-import net.minecraft.world.gen.trunk.BendingTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class RegisterWorldgen {
 

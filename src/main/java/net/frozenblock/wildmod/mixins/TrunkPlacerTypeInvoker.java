@@ -1,8 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.world.gen.treedecorator.TreeDecorator;
-import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraft.world.gen.trunk.TrunkPlacer;
 import net.minecraft.world.gen.trunk.TrunkPlacerType;
 import org.spongepowered.asm.mixin.Mixin;

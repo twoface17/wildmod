@@ -5,7 +5,6 @@ import net.fabricmc.api.Environment;
 import net.frozenblock.wildmod.liukrastapi.StatusEffectInstance;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.minecraft.client.render.BackgroundRenderer;
-import net.minecraft.client.render.FogShape;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;

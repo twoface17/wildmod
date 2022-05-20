@@ -4,6 +4,7 @@ import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
+import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
 import net.frozenblock.wildmod.world.gen.SculkSpreadable;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
@@ -24,8 +25,6 @@ import net.minecraft.world.WorldAccess;
 
 import java.util.Collection;
 import java.util.Random;
-
-import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
 
 public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreadable, Waterloggable {
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;

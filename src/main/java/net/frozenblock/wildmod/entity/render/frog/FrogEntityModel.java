@@ -3,11 +3,11 @@ package net.frozenblock.wildmod.entity.render.frog;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.wildmod.entity.FrogEntity;
-import net.frozenblock.wildmod.liukrastapi.*;
-import net.minecraft.client.MinecraftClient;
+import net.frozenblock.wildmod.liukrastapi.ExpandedModelPart;
+import net.frozenblock.wildmod.liukrastapi.ExpandedSinglePartEntityModel;
+import net.frozenblock.wildmod.liukrastapi.FrogAnimations;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
-import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
 public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel<T> {

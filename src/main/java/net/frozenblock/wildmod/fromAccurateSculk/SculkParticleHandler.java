@@ -1,7 +1,5 @@
 package net.frozenblock.wildmod.fromAccurateSculk;
 
-import net.frozenblock.wildmod.particle.ShriekParticle;
-import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
 import net.frozenblock.wildmod.registry.RegisterParticles;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;

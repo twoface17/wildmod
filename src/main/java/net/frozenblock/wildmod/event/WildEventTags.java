@@ -14,7 +14,7 @@ public class WildEventTags {
     private WildEventTags() {
     }
 
-    private static TagKey<net.minecraft.world.event.GameEvent> of(String id) {
+    private static TagKey<GameEvent> of(String id) {
         return TagKey.of(Registry.GAME_EVENT_KEY, new Identifier(WildMod.MOD_ID, id));
     }
 }

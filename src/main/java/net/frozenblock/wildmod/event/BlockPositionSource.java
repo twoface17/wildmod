@@ -3,7 +3,6 @@ package net.frozenblock.wildmod.event;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.liukrastapi.Vec3d;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

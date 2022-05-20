@@ -5,7 +5,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.world.gen.root.RootPlacer;
 import net.minecraft.block.Blocks;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.size.FeatureSize;
@@ -16,7 +15,6 @@ import net.minecraft.world.gen.trunk.TrunkPlacer;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class WildTreeFeatureConfig extends TreeFeatureConfig implements FeatureConfig {
     public static final Codec<WildTreeFeatureConfig> CODEC = RecordCodecBuilder.create(

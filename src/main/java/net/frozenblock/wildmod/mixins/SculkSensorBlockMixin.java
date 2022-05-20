@@ -2,12 +2,11 @@ package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.event.GameEvent;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -47,7 +46,7 @@ public class SculkSensorBlockMixin {
                 while (var11.hasNext()) {
                     wardenEntity = var11.next();
                     if (wardenEntity.getBlockPos().isWithinDistance(pos, 16)) {
-                        if (event.isIn(SculkTags.WARDEN_CAN_LISTEN)) {
+                        if (event.isIn(RegisterTags.WARDEN_CAN_LISTEN)) {
                             if (target instanceof ProjectileEntity projectile) {
                                 wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), projectile, projectile.getOwner(), 50, pos);
                             } else {

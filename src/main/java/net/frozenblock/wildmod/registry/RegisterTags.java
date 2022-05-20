@@ -1,12 +1,12 @@
 package net.frozenblock.wildmod.registry;
 
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.FrogEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.event.GameEvent;
 
 public class RegisterTags {
     public static final TagKey<Block> ANCIENT_CITY_REPLACEABLE = of("ancient_city_replaceable");
@@ -18,6 +18,9 @@ public class RegisterTags {
     public static final TagKey<Block> MANGROVE_ROOTS_CAN_GROW_THROUGH = of("mangrove_roots_can_grow_through");
 
     public static final TagKey<EntityType<?>> FROG_FOOD = ofEntityType("frog_food");
+    public static final TagKey<GameEvent> WARDEN_CAN_LISTEN = ofEvent("warden_can_listen");
+    public static final TagKey<GameEvent> SHRIEKER_CAN_LISTEN = ofEvent("shrieker_can_listen");
+    public static final TagKey<GameEvent> ALLAY_CAN_LISTEN = ofEvent("allay_can_listen");
 
     private RegisterTags() {
     }
@@ -27,5 +30,9 @@ public class RegisterTags {
     }
     private static TagKey<EntityType<?>> ofEntityType(String id) {
         return TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(WildMod.MOD_ID, id));
+    }
+
+    private static TagKey<GameEvent> ofEvent(String id) {
+        return TagKey.of(Registry.GAME_EVENT_KEY, new Identifier(WildMod.MOD_ID, id));
     }
 }

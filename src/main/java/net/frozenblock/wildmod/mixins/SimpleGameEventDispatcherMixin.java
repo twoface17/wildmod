@@ -1,13 +1,11 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.registry.RegisterEntities;
-import net.minecraft.block.SculkSensorBlock;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
@@ -106,7 +104,7 @@ public class SimpleGameEventDispatcherMixin {
                 wardie = var11.next();
                 //System.out.println(Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos, false))));
                 if (wardie.getEntityWorld() == eventworld && Math.floor(Math.sqrt(wardie.getBlockPos().getSquaredDistance(eventpos))) <= 16) {
-                    if (event.isIn(SculkTags.WARDEN_CAN_LISTEN)) {
+                    if (event.isIn(RegisterTags.WARDEN_CAN_LISTEN)) {
                         if (evententity instanceof ProjectileEntity projectile) {
                             wardie.listen(eventpos, eventworld, projectile, projectile.getOwner(), 10, null);
                         } else {

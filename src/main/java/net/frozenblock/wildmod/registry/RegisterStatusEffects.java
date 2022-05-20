@@ -3,7 +3,6 @@ package net.frozenblock.wildmod.registry;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.liukrastapi.StatusEffect;
 import net.frozenblock.wildmod.liukrastapi.StatusEffectInstance;
-import net.frozenblock.wildmod.status_effects.DarknessStatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

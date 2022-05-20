@@ -1,7 +1,5 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.block.SculkShriekerBlock;
-import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
@@ -26,7 +24,6 @@ import net.minecraft.potion.Potions;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -43,7 +40,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 @Mixin(AbstractBlock.class)

@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.fromAccurateSculk;
 
-import net.frozenblock.wildmod.block.SculkBlock;
 import net.frozenblock.wildmod.liukrastapi.Sphere;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterSounds;

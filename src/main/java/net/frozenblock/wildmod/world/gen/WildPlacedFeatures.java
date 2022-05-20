@@ -4,7 +4,6 @@ import com.mojang.serialization.Lifecycle;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
-import net.frozenblock.wildmod.registry.RegisterWorldgen;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
