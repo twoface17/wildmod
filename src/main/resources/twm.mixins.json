@@ -24,7 +24,6 @@
 	"SculkSensorBlockEntityMixin",
 	"SculkSensorBlockMixin",
 	"SculkSensorListenerMixin",
-	"SensorTypeInvoker",
 	"ServerEntityHandlerMixin",
 	"ServerPlayerEntityMixin",
 	"SignTypeAccessor",

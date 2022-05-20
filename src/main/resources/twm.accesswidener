@@ -33,4 +33,4 @@ accessible    method    net/minecraft/entity/LivingEntity    getXpToDrop    (Lne
 accessible    method    net/minecraft/block/BlockWithEntity    checkType    (Lnet/minecraft/block/entity/BlockEntityType;Lnet/minecraft/block/entity/BlockEntityType;Lnet/minecraft/block/entity/BlockEntityTicker;)Lnet/minecraft/block/entity/BlockEntityTicker;
 accessible    field    net/minecraft/client/model/ModelPart    cuboids    Ljava/util/List;
 accessible    field    net/minecraft/client/model/ModelPart    children    Ljava/util/Map;
-
+accessible    method    net/minecraft/entity/ai/brain/sensor/SensorType    <init>    (Ljava/util/function/Supplier;)V

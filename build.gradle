@@ -51,10 +51,6 @@ dependencies {
 	// Fabric-ASM
 	modImplementation "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 	include "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
-
-	if (findProperty("twm.use_third_party_mods") != "false") {
-		includeModImplementation "maven.modrinth:lazydfu:0.1.2"
-	}
 }
 
 tasks.withType(JavaCompile) {

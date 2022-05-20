@@ -16,11 +16,11 @@ import net.frozenblock.wildmod.liukrastapi.FrogAttackablesSensor;
 import net.frozenblock.wildmod.liukrastapi.IsInWaterSensor;
 import net.frozenblock.wildmod.liukrastapi.ItemCriterion;
 import net.frozenblock.wildmod.mixins.ActivityInvoker;
-import net.frozenblock.wildmod.mixins.SensorTypeInvoker;
 import net.frozenblock.wildmod.registry.*;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.sensor.TemptationsSensor;
 import net.minecraft.entity.data.TrackedDataHandler;
@@ -33,6 +33,7 @@ import net.minecraft.world.GameRules;
 
 import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.function.Supplier;
 
 public class WildMod implements ModInitializer {
 
@@ -54,11 +55,19 @@ public class WildMod implements ModInitializer {
     public static PositionSourceType<BlockPositionSource> BLOCK;
     public static PositionSourceType<EntityPositionSource> ENTITY;
 
+    static <T> TrackedDataHandler<Optional<T>> ofOptional(WildPacketByteBuf.PacketWriter<T> packetWriter, WildPacketByteBuf.PacketReader<T> packetReader) {
+        return WildRegistry.of(packetWriter.asOptional(), packetReader.asOptional());
+    }
+
+    public static TrackedDataHandler<Optional<GlobalPos>> OPTIONAL_GLOBAL_POS;
+
     @Override
     public void onInitialize() {
         WildRegistry.register();
         RegisterMemoryModules.RegisterMemoryModules();
         RegisterBlocks.RegisterBlocks();
+        OPTIONAL_GLOBAL_POS = ofOptional(WildPacketByteBuf::writeGlobalPos, WildPacketByteBuf::readGlobalPos);
+        registerData(OPTIONAL_GLOBAL_POS);
         RegisterItems.RegisterItems();
         RegisterEntities.RegisterEntities();
         FrogVariant.registerFrogVariants();
@@ -71,7 +80,6 @@ public class WildMod implements ModInitializer {
 
         registerData(OPTIONAL_INT);
         registerData(WildRegistry.FROG_VARIANT_DATA);
-        registerData(OPTIONAL_GLOBAL_POS);
 
         TONGUE = ActivityInvoker.callRegister( "tongue");
         SWIM = ActivityInvoker.callRegister( "swim");
@@ -101,10 +109,14 @@ public class WildMod implements ModInitializer {
     //public static Registry<Transformation.Interpolations> ANIMATION_CHANNEL_INTERPOLATIONS = FabricRegistryBuilder.createSimple(Transformation.Interpolations.class, new Identifier(WildMod.MOD_ID, "animation_channel_interpolations")).buildAndRegister();
     //public static Registry<Transformation.Target> ANIMATION_CHANNEL_TARGETS = FabricRegistryBuilder.createSimple(Transformation.Target.class, new Identifier(WildMod.MOD_ID, "animation_channel_targets")).buildAndRegister();
 
-    public static final SensorType<TemptationsSensor> FROG_TEMPTATIONS = SensorTypeInvoker.callRegister("frog_temptations", () -> new TemptationsSensor(FrogBrain.getTemptItems()));
-    public static final SensorType<FrogAttackablesSensor> FROG_ATTACKABLES = SensorTypeInvoker.callRegister("frog_attackables", FrogAttackablesSensor::new);
-    public static final SensorType<IsInWaterSensor> IS_IN_WATER = SensorTypeInvoker.callRegister("is_in_water", IsInWaterSensor::new);
-    public static final SensorType<WardenAttackablesSensor> WARDEN_ENTITY_SENSOR = SensorTypeInvoker.callRegister("warden_entity_sensor", WardenAttackablesSensor::new);
+    private static <U extends Sensor<?>> SensorType<U> registerSensorType(String id, Supplier<U> factory) {
+        return Registry.register(Registry.SENSOR_TYPE, new Identifier(WildMod.MOD_ID, id), new SensorType<>(factory));
+    }
+
+    public static final SensorType<TemptationsSensor> FROG_TEMPTATIONS = registerSensorType("frog_temptations", () -> new TemptationsSensor(FrogBrain.getTemptItems()));
+    public static final SensorType<FrogAttackablesSensor> FROG_ATTACKABLES = registerSensorType("frog_attackables", FrogAttackablesSensor::new);
+    public static final SensorType<IsInWaterSensor> IS_IN_WATER = registerSensorType("is_in_water", IsInWaterSensor::new);
+    public static final SensorType<WardenAttackablesSensor> WARDEN_ENTITY_SENSOR = registerSensorType("warden_entity_sensor", WardenAttackablesSensor::new);
 
     public static Activity TONGUE;
     public static Activity SWIM;
@@ -129,14 +141,6 @@ public class WildMod implements ModInitializer {
             return optionalInt;
         }
     };
-
-    public static final TrackedDataHandler<Optional<GlobalPos>> OPTIONAL_GLOBAL_POS = ofOptional(
-            WildPacketByteBuf::writeGlobalPos, WildPacketByteBuf::readGlobalPos
-    );
-
-    static <T> TrackedDataHandler<Optional<T>> ofOptional(WildPacketByteBuf.PacketWriter<T> packetWriter, WildPacketByteBuf.PacketReader<T> packetReader) {
-        return WildRegistry.of(packetWriter.asOptional(), packetReader.asOptional());
-    }
 
     public static final GameRules.Key<GameRules.BooleanRule> DARKNESS_ENABLED =
             GameRuleRegistry.register("doDarkness", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
