@@ -31,3 +31,6 @@ accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/
 accessible    field    net/minecraft/entity/data/TrackedDataHandlerRegistry    DATA_HANDLERS    Lnet/minecraft/util/collection/Int2ObjectBiMap;
 accessible    method    net/minecraft/entity/LivingEntity    getXpToDrop    (Lnet/minecraft/entity/player/PlayerEntity;)I
 accessible    method    net/minecraft/block/BlockWithEntity    checkType    (Lnet/minecraft/block/entity/BlockEntityType;Lnet/minecraft/block/entity/BlockEntityType;Lnet/minecraft/block/entity/BlockEntityTicker;)Lnet/minecraft/block/entity/BlockEntityTicker;
+accessible    field    net/minecraft/client/model/ModelPart    cuboids    Ljava/util/List;
+accessible    field    net/minecraft/client/model/ModelPart    children    Ljava/util/Map;
+

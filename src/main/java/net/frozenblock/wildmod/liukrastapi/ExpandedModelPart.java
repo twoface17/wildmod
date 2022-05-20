@@ -20,4 +20,6 @@ public interface ExpandedModelPart {
 
 	//ModelPart createPart(int textureWidth, int textureHeight);
 
+
+	boolean getHidden();
 }

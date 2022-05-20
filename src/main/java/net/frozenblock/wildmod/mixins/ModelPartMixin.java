@@ -3,15 +3,18 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.liukrastapi.ExpandedModelPart;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelTransform;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
 import java.util.Map;
 
 @Mixin(ModelPart.class)
@@ -26,10 +29,42 @@ public abstract class ModelPartMixin implements ExpandedModelPart {
 
 	@Shadow public abstract void setTransform(ModelTransform rotationData);
 
+	@Shadow public boolean visible;
+	@Shadow @Final public List<ModelPart.Cuboid> cuboids;
+
+	@Shadow protected abstract void renderCuboids(MatrixStack.Entry entry, VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha);
+
+	@Shadow public abstract void rotate(MatrixStack matrices);
+
+	private boolean hidden;
+
 	public float xScale = 1.0F;
 	public float yScale = 1.0F;
 	public float zScale = 1.0F;
 	private ModelTransform defaultTransform = ModelTransform.NONE;
+
+	public boolean getHidden() {
+		return this.hidden;
+	}
+
+	@Overwrite
+	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+		if (this.visible) {
+			if (!this.cuboids.isEmpty() || !this.children.isEmpty()) {
+				matrices.push();
+				this.rotate(matrices);
+				if (!this.hidden) {
+					this.renderCuboids(matrices.peek(), vertices, light, overlay, red, green, blue, alpha);
+				}
+
+				for(ModelPart modelPart : this.children.values()) {
+					modelPart.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+				}
+
+				matrices.pop();
+			}
+		}
+	}
 
 	@Override
 	public ModelTransform getDefaultTransform() {
