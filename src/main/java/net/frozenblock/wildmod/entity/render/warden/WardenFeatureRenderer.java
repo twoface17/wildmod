@@ -41,17 +41,7 @@ public class WardenFeatureRenderer<T extends WardenEntity, M extends WardenEntit
         if (!wardenEntity.isInvisible()) {
             this.updateModelPartVisibility();
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityTranslucentEmissive(this.texture));
-            this.getContextModel()
-                    .render(
-                            matrixStack,
-                            vertexConsumer,
-                            i,
-                            LivingEntityRenderer.getOverlay(wardenEntity, 0.0F),
-                            1.0F,
-                            1.0F,
-                            1.0F,
-                            this.animationAngleAdjuster.apply(wardenEntity, h, j)
-                    );
+            this.getContextModel().render(matrixStack, vertexConsumer, i, LivingEntityRenderer.getOverlay(wardenEntity, 0.0F), 1.0F, 1.0F, 1.0F, this.animationAngleAdjuster.apply(wardenEntity, h, j));
             this.unhideAllModelParts();
         }
     }

@@ -20,7 +20,8 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.function.Supplier;
 
-public class RenderPhase extends net.minecraft.client.render.RenderPhase {
+@Environment(EnvType.CLIENT)
+public abstract class RenderPhase extends net.minecraft.client.render.RenderPhase {
     private static final float VIEW_OFFSET_Z_LAYERING_SCALE = 0.99975586F;
     protected final String name;
     private final Runnable beginAction;
