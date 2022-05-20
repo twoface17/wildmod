@@ -11,7 +11,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.frozenblock.wildmod.data.DataGenerator;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityModel;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityRenderer;
 import net.frozenblock.wildmod.entity.render.allay.AllayEntityModel;

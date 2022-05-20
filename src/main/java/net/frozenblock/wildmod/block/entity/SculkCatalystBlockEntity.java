@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.block.entity;
 
 import com.mojang.logging.LogUtils;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.block.SculkCatalystBlock;
+import net.frozenblock.wildmod.block.deepdark.SculkCatalystBlock;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

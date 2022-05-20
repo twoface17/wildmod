@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.world.gen;
 
-import net.frozenblock.wildmod.block.MultifaceGrowthBlock;
-import net.frozenblock.wildmod.block.SculkVeinBlock;
+import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
+import net.frozenblock.wildmod.block.deepdark.SculkVeinBlock;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
 import net.minecraft.block.BlockState;

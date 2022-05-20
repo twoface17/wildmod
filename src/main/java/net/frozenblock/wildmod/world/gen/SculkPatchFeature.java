@@ -1,8 +1,8 @@
 package net.frozenblock.wildmod.world.gen;
 
 import com.mojang.serialization.Codec;
-import net.frozenblock.wildmod.block.LichenGrower;
-import net.frozenblock.wildmod.block.SculkShriekerBlock;
+import net.frozenblock.wildmod.block.wild.LichenGrower;
+import net.frozenblock.wildmod.block.deepdark.SculkShriekerBlock;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

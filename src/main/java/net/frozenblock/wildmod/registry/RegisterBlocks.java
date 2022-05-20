@@ -3,7 +3,11 @@ package net.frozenblock.wildmod.registry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.block.*;
+import net.frozenblock.wildmod.block.deepdark.SculkBlock;
+import net.frozenblock.wildmod.block.deepdark.SculkCatalystBlock;
+import net.frozenblock.wildmod.block.deepdark.SculkShriekerBlock;
+import net.frozenblock.wildmod.block.deepdark.SculkVeinBlock;
+import net.frozenblock.wildmod.block.swamp.*;
 import net.frozenblock.wildmod.items.FrogSpawnItem;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
@@ -137,7 +141,7 @@ public abstract class RegisterBlocks {
     public static final Block MUD_BRICKS = new MudBricks(MUD_BRICKS_SETTINGS);
     public static final WallBlock MUD_BRICKS_WALL = new MudBricksWall(MUD_BRICKS_SETTINGS);
     public static final SlabBlock MUD_BRICKS_SLAB = new MudBricksSlab(MUD_BRICKS_SETTINGS);
-    public static final StairsBlock MUD_BRICKS_STAIRS = new CustomStairs(Blocks.OAK_STAIRS.getDefaultState(), MUD_BRICKS_SETTINGS);
+    public static final StairsBlock MUD_BRICKS_STAIRS = new StairsBlock(Blocks.OAK_STAIRS.getDefaultState(), MUD_BRICKS_SETTINGS);
 
     public static final Block SCULK_CATALYST = new SculkCatalystBlock(AbstractBlock.Settings.of(Material.SCULK).strength(3.0F, 3.0F).sounds(SCULK_CATALYST_SOUNDS).luminance(state -> 6));
 

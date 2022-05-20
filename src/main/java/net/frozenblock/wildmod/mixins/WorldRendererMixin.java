@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.block.MultifaceGrowthBlock;
-import net.frozenblock.wildmod.block.SculkShriekerBlock;
+import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
+import net.frozenblock.wildmod.block.deepdark.SculkShriekerBlock;
 import net.frozenblock.wildmod.particle.SculkChargeParticleEffect;
 import net.frozenblock.wildmod.particle.ShriekParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterParticles;

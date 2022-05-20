@@ -6,12 +6,12 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.block.MangroveSignBlock;
-import net.frozenblock.wildmod.block.WildSignType;
-import net.frozenblock.wildmod.block.mangrove.MangroveButton;
-import net.frozenblock.wildmod.block.mangrove.MangroveLeavesBlock;
-import net.frozenblock.wildmod.block.mangrove.MangroveRootsBlock;
-import net.frozenblock.wildmod.block.mangrove.PropaguleBlock;
+import net.frozenblock.wildmod.block.wild.WildSignBlock;
+import net.frozenblock.wildmod.block.wild.WildSignType;
+import net.frozenblock.wildmod.block.wild.WildWallSignBlock;
+import net.frozenblock.wildmod.block.swamp.MangroveLeavesBlock;
+import net.frozenblock.wildmod.block.swamp.MangroveRootsBlock;
+import net.frozenblock.wildmod.block.swamp.PropaguleBlock;
 import net.minecraft.block.*;
 import net.minecraft.data.family.BlockFamily;
 import net.minecraft.item.BlockItem;
@@ -19,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SignItem;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
@@ -63,15 +62,9 @@ public abstract class MangroveWoods {
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_HIT,
             RegisterSounds.BLOCK_MANGROVE_PROPAGULE_FALL
     )));
-    public static final Block MANGROVE_BUTTON = new MangroveButton(WOOD_PROPERTIES.noCollision().sounds(new BlockSoundGroup(1.0f, 1.0f,
-            SoundEvents.BLOCK_WOOD_BREAK,
-            SoundEvents.BLOCK_WOOD_STEP,
-            SoundEvents.BLOCK_WOOD_PLACE,
-            SoundEvents.BLOCK_WOOD_HIT,
-            SoundEvents.BLOCK_WOOD_FALL
-    )));
-    public static final Block MANGROVE_SIGN = new MangroveSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), WildSignType.MANGROVE);
-    public static final Block MANGROVE_WALL_SIGN = new MangroveSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), WildSignType.MANGROVE);
+    public static final Block MANGROVE_BUTTON = new WoodenButtonBlock(AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.WOOD));
+    public static final Block MANGROVE_SIGN = new WildSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), WildSignType.MANGROVE);
+    public static final Block MANGROVE_WALL_SIGN = new WildWallSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), WildSignType.MANGROVE);
 
     private static final Map<Block, BlockFamily> BASE_BLOCKS_TO_FAMILIES = Maps.newHashMap();
 

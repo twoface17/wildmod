@@ -83,6 +83,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         return this.isSubmergedInWater() ? this.input.hasForwardMovement() : (double)this.input.movementForward >= 0.8D;
     }
 
+    @Shadow public abstract boolean shouldSlowDown();
+
     @Inject(at = @At("HEAD"), method = "sendMovementPackets")
     private void sendMovementPackets (CallbackInfo ci) {
         boolean bl = this.isSprinting();

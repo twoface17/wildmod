@@ -10,6 +10,7 @@ import net.frozenblock.wildmod.entity.ai.WardenBrain;
 import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.BrokenSculkGrower;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
+import net.frozenblock.wildmod.liukrastapi.WildPlayerEntity;
 import net.frozenblock.wildmod.liukrastapi.WildServerPlayerEntity;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterEntities;
@@ -18,6 +19,7 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -50,7 +52,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements WildServerPlayerEntity {
+public abstract class PlayerEntityMixin extends LivingEntity implements WildServerPlayerEntity, WildPlayerEntity {
 	private static final Logger LOGGER = LogUtils.getLogger();
 
 	//private static final TrackedData<Optional<GlobalPos>> LAST_DEATH_POS = DataTracker.registerData(
@@ -77,6 +79,21 @@ public abstract class PlayerEntityMixin extends LivingEntity implements WildServ
 		return this.sculkShriekerWarningManager;
 	}
 
+	private static final TrackedData<Optional<GlobalPos>> LAST_DEATH_POS = DataTracker.registerData(PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS);
+
+	public Optional<GlobalPos> getLastDeathPos() {
+		return this.dataTracker.get(LAST_DEATH_POS);
+	}
+
+	public void setLastDeathPos(Optional<GlobalPos> lastDeathPos) {
+		this.dataTracker.set(LAST_DEATH_POS, lastDeathPos);
+	}
+
+	@Inject(method = "onDeath", at = @At("TAIL"))
+	private void onDeath(DamageSource source, CallbackInfo ci) {
+		this.setLastDeathPos(Optional.of(GlobalPos.create(this.world.getRegistryKey(), this.getBlockPos())));
+	}
+
 	@Inject(method = "takeShieldHit", at = @At("HEAD"))
 	protected void takeShieldHit(LivingEntity attacker, CallbackInfo ci) {
 		if (attacker instanceof WildHostileEntity wildHostileEntity) {
@@ -91,11 +108,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements WildServ
 		if (nbt.contains("warden_spawn_tracker", NbtElement.COMPOUND_TYPE)) {
 			SculkShriekerWarningManager.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, nbt.get("warden_spawn_tracker"))).resultOrPartial(LOGGER::error).ifPresent(sculkShriekerWarningManager -> this.sculkShriekerWarningManager = sculkShriekerWarningManager);
 		}
+
+		if (nbt.contains("LastDeathLocation", NbtElement.COMPOUND_TYPE)) {
+			this.setLastDeathPos(GlobalPos.CODEC.parse(NbtOps.INSTANCE, nbt.get("LastDeathLocation")).resultOrPartial(LOGGER::error));
+		}
 	}
 
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
 	private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
 		SculkShriekerWarningManager.CODEC.encodeStart(NbtOps.INSTANCE, this.sculkShriekerWarningManager).resultOrPartial(LOGGER::error).ifPresent(nbtElement -> nbt.put("warden_spawn_tracker", nbtElement));
+
+		this.getLastDeathPos().flatMap(globalPos -> GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, globalPos).resultOrPartial(LOGGER::error)).ifPresent(nbtElement -> nbt.put("LastDeathLocation", nbtElement));
 	}
 
 	@Inject(method = "tick", at = @At("TAIL"))

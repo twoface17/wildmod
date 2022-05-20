@@ -1,6 +1,6 @@
 /*package net.frozenblock.wildmod.fromAccurateSculk;
 
-import net.frozenblock.wildmod.block.SculkShriekerBlock;
+import net.frozenblock.wildmod.block.deepdark.SculkShriekerBlock;
 import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.SculkSensorBlockEntity;
