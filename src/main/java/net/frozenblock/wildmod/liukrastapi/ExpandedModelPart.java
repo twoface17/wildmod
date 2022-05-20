@@ -22,4 +22,6 @@ public interface ExpandedModelPart {
 
 
 	boolean getHidden();
+
+	void setHidden(boolean value);
 }

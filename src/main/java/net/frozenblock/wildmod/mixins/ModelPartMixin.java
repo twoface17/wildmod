@@ -47,6 +47,10 @@ public abstract class ModelPartMixin implements ExpandedModelPart {
 		return this.hidden;
 	}
 
+	public void setHidden(boolean value) {
+		this.hidden=value;
+	}
+
 	/**
 	 * @author FrozenBlock
 	 * @reason New Warden Rendering
