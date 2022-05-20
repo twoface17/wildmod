@@ -100,12 +100,12 @@ public class VibrationListener implements GameEventListener {
         return this.range;
     }
 
-    public boolean listen(ServerWorld world, GameEvent.Message arg) {
+    public boolean listen(ServerWorld world, WildGameEvents.Message arg) {
         if (this.vibration != null) {
             return false;
         } else {
-            GameEvent gameEvent = arg.method_43724();
-            net.frozenblock.wildmod.event.GameEvent.Emitter emitter = arg.method_43727();
+            WildGameEvents gameEvent = arg.method_43724();
+            WildGameEvents.Emitter emitter = arg.method_43727();
             if (!this.callback.canAccept(gameEvent, emitter)) {
                 return false;
             } else {
@@ -128,7 +128,7 @@ public class VibrationListener implements GameEventListener {
         }
     }
 
-    private void listen(ServerWorld world, GameEvent gameEvent, net.frozenblock.wildmod.event.GameEvent.Emitter emitter, Vec3d start, Vec3d end) {
+    private void listen(ServerWorld world, WildGameEvents gameEvent, WildGameEvents.Emitter emitter, Vec3d start, Vec3d end) {
         this.distance = MathHelper.floor(start.distanceTo(end));
         this.vibration = new VibrationListener.Vibration(gameEvent, this.distance, start, emitter.sourceEntity());
         this.delay = this.distance;
@@ -159,7 +159,7 @@ public class VibrationListener implements GameEventListener {
             return false;
         }
 
-        default boolean canAccept(net.minecraft.world.event.GameEvent gameEvent, GameEvent.Emitter emitter) {
+        default boolean canAccept(net.minecraft.world.event.GameEvent gameEvent, WildGameEvents.Emitter emitter) {
             if (!gameEvent.isIn(this.getTag())) {
                 return false;
             } else {
@@ -190,10 +190,10 @@ public class VibrationListener implements GameEventListener {
             }
         }
 
-        boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, GameEvent.Emitter emitter);
+        boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvents event, WildGameEvents.Emitter emitter);
 
         void accept(
-                ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
+                ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvents event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
         );
 
         default void onListen() {
@@ -201,7 +201,7 @@ public class VibrationListener implements GameEventListener {
     }
 
     public static record Vibration(
-            GameEvent gameEvent, int distance, Vec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity
+            WildGameEvents gameEvent, int distance, Vec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity
     ) {
         public static final Codec<VibrationListener.Vibration> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(
@@ -214,16 +214,16 @@ public class VibrationListener implements GameEventListener {
                         .apply(
                                 instance,
                                 (gameEvent, integer, vec3d, optional, optional2) -> new VibrationListener.Vibration(
-                                        (GameEvent)gameEvent, integer, vec3d, optional.orElse(null), optional2.orElse(null)
+                                        (WildGameEvents)gameEvent, integer, vec3d, optional.orElse(null), optional2.orElse(null)
                                 )
                         )
         );
 
-        public Vibration(GameEvent gameEvent, int distance, Vec3d pos, @Nullable UUID uuid, @Nullable UUID sourceUuid) {
+        public Vibration(WildGameEvents gameEvent, int distance, Vec3d pos, @Nullable UUID uuid, @Nullable UUID sourceUuid) {
             this(gameEvent, distance, pos, uuid, sourceUuid, null);
         }
 
-        public Vibration(GameEvent gameEvent, int distance, Vec3d pos, @Nullable Entity entity) {
+        public Vibration(WildGameEvents gameEvent, int distance, Vec3d pos, @Nullable Entity entity) {
             this(gameEvent, distance, pos, entity == null ? null : entity.getUuid(), getOwnerUuid(entity), entity);
         }
 

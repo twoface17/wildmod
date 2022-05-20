@@ -5,7 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.frozenblock.wildmod.liukrastapi.MathAddon;
 import net.frozenblock.wildmod.liukrastapi.StatusEffectInstance;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
-import net.frozenblock.wildmod.render.GameRenderer;
+import net.frozenblock.wildmod.render.WildGameRenderer;
 import net.frozenblock.wildmod.status_effects.StatusEffectFogModifier;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BackgroundRenderer;
@@ -202,7 +202,7 @@ public class BackgroundRendererMixin {
                 s = 1.0F;
             }
         } else if (entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(StatusEffects.NIGHT_VISION)) {
-            s = GameRenderer.getNightVisionStrength((LivingEntity) entity, tickDelta);
+            s = WildGameRenderer.getNightVisionStrength((LivingEntity) entity, tickDelta);
         } else {
             s = 0.0F;
         }

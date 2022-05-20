@@ -13,10 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.Vec3f;
 
-public class HeldItemFeatureRenderer<T extends LivingEntity, M extends EntityModel<T> & ModelWithArms> extends FeatureRenderer<T, M> {
+public class WildHeldItemFeatureRenderer<T extends LivingEntity, M extends EntityModel<T> & ModelWithArms> extends FeatureRenderer<T, M> {
     private final HeldItemRenderer field_38901;
 
-    public HeldItemFeatureRenderer(FeatureRendererContext<T, M> featureRendererContext, HeldItemRenderer heldItemRenderer) {
+    public WildHeldItemFeatureRenderer(FeatureRendererContext<T, M> featureRendererContext, HeldItemRenderer heldItemRenderer) {
         super(featureRendererContext);
         this.field_38901 = heldItemRenderer;
     }

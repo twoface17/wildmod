@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.block;
 
 import com.google.common.annotations.VisibleForTesting;
-import net.frozenblock.wildmod.registry.Util;
+import net.frozenblock.wildmod.registry.WildUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -202,6 +202,6 @@ public class LichenGrower {
     }
 
     public static Collection<Direction> shuffle(Random random) {
-        return Util.copyShuffled(Direction.values(), random);
+        return WildUtil.copyShuffled(Direction.values(), random);
     }
 }

@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Util extends net.minecraft.util.Util {
+public class WildUtil extends net.minecraft.util.Util {
     static final Logger LOGGER = LogUtils.getLogger();
     private static final int MAX_PARALLELISM = 255;
     private static final String MAX_BG_THREADS_PROPERTY = "max.bg.threads";
@@ -63,7 +63,7 @@ public class Util extends net.minecraft.util.Util {
     public static LongSupplier nanoTimeSupplier = System::nanoTime;
     public static final Ticker TICKER = new Ticker() {
         public long read() {
-            return Util.nanoTimeSupplier.getAsLong();
+            return WildUtil.nanoTimeSupplier.getAsLong();
         }
     };
     public static final UUID NIL_UUID = new UUID(0L, 0L);
@@ -75,7 +75,7 @@ public class Util extends net.minecraft.util.Util {
     private static Consumer<String> missingBreakpointHandler = message -> {
     };
 
-    public Util() {
+    public WildUtil() {
     }
 
     public static <K, V> Collector<Map.Entry<? extends K, ? extends V>, ?, Map<K, V>> toMap() {
@@ -112,9 +112,9 @@ public class Util extends net.minecraft.util.Util {
                 ForkJoinWorkerThread forkJoinWorkerThread = new ForkJoinWorkerThread(forkJoinPool) {
                     protected void onTermination(Throwable throwable) {
                         if (throwable != null) {
-                            Util.LOGGER.warn("{} died", this.getName(), throwable);
+                            WildUtil.LOGGER.warn("{} died", this.getName(), throwable);
                         } else {
-                            Util.LOGGER.debug("{} shutdown", this.getName());
+                            WildUtil.LOGGER.debug("{} shutdown", this.getName());
                         }
 
                         super.onTermination(throwable);
@@ -122,7 +122,7 @@ public class Util extends net.minecraft.util.Util {
                 };
                 forkJoinWorkerThread.setName("Worker-" + name + "-" + NEXT_WORKER_ID.getAndIncrement());
                 return forkJoinWorkerThread;
-            }, Util::uncaughtExceptionHandler, true);
+            }, WildUtil::uncaughtExceptionHandler, true);
         }
 
         return executorService;
@@ -185,7 +185,7 @@ public class Util extends net.minecraft.util.Util {
         return Executors.newCachedThreadPool(runnable -> {
             Thread thread = new Thread(runnable);
             thread.setName("IO-Worker-" + NEXT_WORKER_ID.getAndIncrement());
-            thread.setUncaughtExceptionHandler(Util::uncaughtExceptionHandler);
+            thread.setUncaughtExceptionHandler(WildUtil::uncaughtExceptionHandler);
             return thread;
         });
     }
@@ -433,7 +433,7 @@ public class Util extends net.minecraft.util.Util {
     }
 
     public static void setMissingBreakpointHandler(Consumer<String> missingBreakpointHandler) {
-        Util.missingBreakpointHandler = missingBreakpointHandler;
+        WildUtil.missingBreakpointHandler = missingBreakpointHandler;
     }
 
     private static void pause(String message) {
@@ -477,7 +477,7 @@ public class Util extends net.minecraft.util.Util {
                     Files.move(src, dest);
                     return true;
                 } catch (IOException var2) {
-                    Util.LOGGER.error("Failed to rename", var2);
+                    WildUtil.LOGGER.error("Failed to rename", var2);
                     return false;
                 }
             }
@@ -495,7 +495,7 @@ public class Util extends net.minecraft.util.Util {
                     Files.deleteIfExists(path);
                     return true;
                 } catch (IOException var2) {
-                    Util.LOGGER.warn("Failed to delete", var2);
+                    WildUtil.LOGGER.warn("Failed to delete", var2);
                     return false;
                 }
             }
@@ -631,7 +631,7 @@ public class Util extends net.minecraft.util.Util {
                     try {
                         Thread.sleep(2147483647L);
                     } catch (InterruptedException var2) {
-                        Util.LOGGER.warn("Timer hack thread interrupted, that really should not happen");
+                        WildUtil.LOGGER.warn("Timer hack thread interrupted, that really should not happen");
                         return;
                     }
                 }
@@ -792,14 +792,14 @@ public class Util extends net.minecraft.util.Util {
                 });
 
                 for(String string : IOUtils.readLines(process.getErrorStream())) {
-                    Util.LOGGER.error(string);
+                    WildUtil.LOGGER.error(string);
                 }
 
                 process.getInputStream().close();
                 process.getErrorStream().close();
                 process.getOutputStream().close();
             } catch (IOException var5) {
-                Util.LOGGER.error("Couldn't open url '{}'", url, var5);
+                WildUtil.LOGGER.error("Couldn't open url '{}'", url, var5);
             }
 
         }
@@ -808,7 +808,7 @@ public class Util extends net.minecraft.util.Util {
             try {
                 this.open(uri.toURL());
             } catch (MalformedURLException var3) {
-                Util.LOGGER.error("Couldn't open uri '{}'", uri, var3);
+                WildUtil.LOGGER.error("Couldn't open uri '{}'", uri, var3);
             }
 
         }
@@ -817,7 +817,7 @@ public class Util extends net.minecraft.util.Util {
             try {
                 this.open(file.toURI().toURL());
             } catch (MalformedURLException var3) {
-                Util.LOGGER.error("Couldn't open file '{}'", file, var3);
+                WildUtil.LOGGER.error("Couldn't open file '{}'", file, var3);
             }
 
         }
@@ -835,7 +835,7 @@ public class Util extends net.minecraft.util.Util {
             try {
                 this.open(new URI(uri).toURL());
             } catch (MalformedURLException | IllegalArgumentException | URISyntaxException var3) {
-                Util.LOGGER.error("Couldn't open uri '{}'", uri, var3);
+                WildUtil.LOGGER.error("Couldn't open uri '{}'", uri, var3);
             }
 
         }

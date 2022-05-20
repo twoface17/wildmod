@@ -21,7 +21,7 @@ import java.util.OptionalDouble;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
-public abstract class RenderPhase extends net.minecraft.client.render.RenderPhase {
+public abstract class WildRenderPhase extends net.minecraft.client.render.RenderPhase {
     private static final float VIEW_OFFSET_Z_LAYERING_SCALE = 0.99975586F;
     protected final String name;
     private final Runnable beginAction;
@@ -65,42 +65,42 @@ public abstract class RenderPhase extends net.minecraft.client.render.RenderPhas
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
     });
-    protected static final RenderPhase.Shader NO_SHADER = new Shader();
-    protected static final Shader ENTITY_TRANSLUCENT_EMISSIVE_SHADER = new RenderPhase.Shader(
-            net.frozenblock.wildmod.render.GameRenderer::getRenderTypeEntityTranslucentEmissiveShader);
+    protected static final WildRenderPhase.Shader NO_SHADER = new Shader();
+    protected static final Shader ENTITY_TRANSLUCENT_EMISSIVE_SHADER = new WildRenderPhase.Shader(
+            WildGameRenderer::getRenderTypeEntityTranslucentEmissiveShader);
     protected static final Shader OUTLINE_SHADER = new Shader(GameRenderer::getRenderTypeOutlineShader);
 
-    protected static final RenderPhase.Texture MIPMAP_BLOCK_ATLAS_TEXTURE;
-    protected static final RenderPhase.Texture BLOCK_ATLAS_TEXTURE;
-    protected static final RenderPhase.TextureBase NO_TEXTURE;
-    protected static final RenderPhase.Texturing DEFAULT_TEXTURING;
-    protected static final RenderPhase.Texturing GLINT_TEXTURING;
-    protected static final RenderPhase.Texturing ENTITY_GLINT_TEXTURING;
-    protected static final RenderPhase.Lightmap ENABLE_LIGHTMAP;
-    protected static final RenderPhase.Lightmap DISABLE_LIGHTMAP;
-    protected static final RenderPhase.Overlay ENABLE_OVERLAY_COLOR;
-    protected static final RenderPhase.Overlay DISABLE_OVERLAY_COLOR;
-    protected static final RenderPhase.Cull ENABLE_CULLING;
-    protected static final RenderPhase.Cull DISABLE_CULLING;
-    protected static final RenderPhase.DepthTest ALWAYS_DEPTH_TEST;
-    protected static final RenderPhase.DepthTest EQUAL_DEPTH_TEST;
-    protected static final RenderPhase.DepthTest LEQUAL_DEPTH_TEST;
-    protected static final RenderPhase.WriteMaskState ALL_MASK;
-    protected static final RenderPhase.WriteMaskState COLOR_MASK;
-    protected static final RenderPhase.WriteMaskState DEPTH_MASK;
-    protected static final RenderPhase.Layering NO_LAYERING;
-    protected static final RenderPhase.Layering POLYGON_OFFSET_LAYERING;
-    protected static final RenderPhase.Layering VIEW_OFFSET_Z_LAYERING;
-    protected static final RenderPhase.Target MAIN_TARGET;
-    protected static final RenderPhase.Target OUTLINE_TARGET;
-    protected static final RenderPhase.Target TRANSLUCENT_TARGET;
-    protected static final RenderPhase.Target PARTICLES_TARGET;
-    protected static final RenderPhase.Target WEATHER_TARGET;
-    protected static final RenderPhase.Target CLOUDS_TARGET;
-    protected static final RenderPhase.Target ITEM_TARGET;
-    protected static final RenderPhase.LineWidth FULL_LINE_WIDTH;
+    protected static final WildRenderPhase.Texture MIPMAP_BLOCK_ATLAS_TEXTURE;
+    protected static final WildRenderPhase.Texture BLOCK_ATLAS_TEXTURE;
+    protected static final WildRenderPhase.TextureBase NO_TEXTURE;
+    protected static final WildRenderPhase.Texturing DEFAULT_TEXTURING;
+    protected static final WildRenderPhase.Texturing GLINT_TEXTURING;
+    protected static final WildRenderPhase.Texturing ENTITY_GLINT_TEXTURING;
+    protected static final WildRenderPhase.Lightmap ENABLE_LIGHTMAP;
+    protected static final WildRenderPhase.Lightmap DISABLE_LIGHTMAP;
+    protected static final WildRenderPhase.Overlay ENABLE_OVERLAY_COLOR;
+    protected static final WildRenderPhase.Overlay DISABLE_OVERLAY_COLOR;
+    protected static final WildRenderPhase.Cull ENABLE_CULLING;
+    protected static final WildRenderPhase.Cull DISABLE_CULLING;
+    protected static final WildRenderPhase.DepthTest ALWAYS_DEPTH_TEST;
+    protected static final WildRenderPhase.DepthTest EQUAL_DEPTH_TEST;
+    protected static final WildRenderPhase.DepthTest LEQUAL_DEPTH_TEST;
+    protected static final WildRenderPhase.WriteMaskState ALL_MASK;
+    protected static final WildRenderPhase.WriteMaskState COLOR_MASK;
+    protected static final WildRenderPhase.WriteMaskState DEPTH_MASK;
+    protected static final WildRenderPhase.Layering NO_LAYERING;
+    protected static final WildRenderPhase.Layering POLYGON_OFFSET_LAYERING;
+    protected static final WildRenderPhase.Layering VIEW_OFFSET_Z_LAYERING;
+    protected static final WildRenderPhase.Target MAIN_TARGET;
+    protected static final WildRenderPhase.Target OUTLINE_TARGET;
+    protected static final WildRenderPhase.Target TRANSLUCENT_TARGET;
+    protected static final WildRenderPhase.Target PARTICLES_TARGET;
+    protected static final WildRenderPhase.Target WEATHER_TARGET;
+    protected static final WildRenderPhase.Target CLOUDS_TARGET;
+    protected static final WildRenderPhase.Target ITEM_TARGET;
+    protected static final WildRenderPhase.LineWidth FULL_LINE_WIDTH;
 
-    public RenderPhase(String name, Runnable beginAction, Runnable endAction) {
+    public WildRenderPhase(String name, Runnable beginAction, Runnable endAction) {
         super(name, beginAction, endAction);
         this.name = name;
         this.beginAction = beginAction;
@@ -244,13 +244,13 @@ public abstract class RenderPhase extends net.minecraft.client.render.RenderPhas
         FULL_LINE_WIDTH = new LineWidth(OptionalDouble.of(1.0));
     }
     @Environment(EnvType.CLIENT)
-    protected static class Transparency extends RenderPhase {
+    protected static class Transparency extends WildRenderPhase {
         public Transparency(String string, Runnable runnable, Runnable runnable2) {
             super(string, runnable, runnable2);
         }
     }
     @Environment(EnvType.CLIENT)
-    public static class Shader extends RenderPhase {
+    public static class Shader extends WildRenderPhase {
         private final Optional<Supplier<net.minecraft.client.render.Shader>> supplier;
 
         public Shader(Supplier<net.minecraft.client.render.Shader> supplier) {
@@ -304,7 +304,7 @@ public abstract class RenderPhase extends net.minecraft.client.render.RenderPhas
     }
 
     @Environment(EnvType.CLIENT)
-    protected static class TextureBase extends RenderPhase {
+    protected static class TextureBase extends WildRenderPhase {
         public TextureBase(Runnable apply, Runnable unapply) {
             super("texture", apply, unapply);
         }
@@ -321,7 +321,7 @@ public abstract class RenderPhase extends net.minecraft.client.render.RenderPhas
     }
 
     @Environment(EnvType.CLIENT)
-    protected static class Texturing extends RenderPhase {
+    protected static class Texturing extends WildRenderPhase {
         public Texturing(String string, Runnable runnable, Runnable runnable2) {
             super(string, runnable, runnable2);
         }
@@ -376,7 +376,7 @@ public abstract class RenderPhase extends net.minecraft.client.render.RenderPhas
         }
     }
     @Environment(EnvType.CLIENT)
-    protected static class DepthTest extends RenderPhase {
+    protected static class DepthTest extends WildRenderPhase {
         private final String depthFunctionName;
 
         public DepthTest(String depthFunctionName, int depthFunction) {
@@ -402,7 +402,7 @@ public abstract class RenderPhase extends net.minecraft.client.render.RenderPhas
     }
 
     @Environment(EnvType.CLIENT)
-    protected static class WriteMaskState extends RenderPhase {
+    protected static class WriteMaskState extends WildRenderPhase {
         private final boolean color;
         private final boolean depth;
 
@@ -436,21 +436,21 @@ public abstract class RenderPhase extends net.minecraft.client.render.RenderPhas
     }
 
     @Environment(EnvType.CLIENT)
-    protected static class Layering extends RenderPhase {
+    protected static class Layering extends WildRenderPhase {
         public Layering(String string, Runnable runnable, Runnable runnable2) {
             super(string, runnable, runnable2);
         }
     }
 
     @Environment(EnvType.CLIENT)
-    protected static class Target extends RenderPhase {
+    protected static class Target extends WildRenderPhase {
         public Target(String string, Runnable runnable, Runnable runnable2) {
             super(string, runnable, runnable2);
         }
     }
 
     @Environment(EnvType.CLIENT)
-    protected static class LineWidth extends RenderPhase {
+    protected static class LineWidth extends WildRenderPhase {
         private final OptionalDouble width;
 
         public LineWidth(OptionalDouble width) {
@@ -479,7 +479,7 @@ public abstract class RenderPhase extends net.minecraft.client.render.RenderPhas
     }
 
     @Environment(EnvType.CLIENT)
-    private static class Toggleable extends RenderPhase {
+    private static class Toggleable extends WildRenderPhase {
         private final boolean enabled;
 
         public Toggleable(String name, Runnable apply, Runnable unapply, boolean enabled) {

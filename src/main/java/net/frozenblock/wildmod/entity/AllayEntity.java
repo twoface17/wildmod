@@ -336,7 +336,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
         return false;
     }
 
-    public boolean accepts(ServerWorld world, net.frozenblock.wildmod.event.GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter) {
+    public boolean accepts(ServerWorld world, net.frozenblock.wildmod.event.GameEventListener listener, BlockPos pos, WildGameEvents event, WildGameEvents.Emitter emitter) {
         if (this.world != world || this.isRemoved() || this.isAiDisabled()) {
             return false;
         } else if (!this.brain.hasMemoryModule(RegisterMemoryModules.LIKED_NOTEBLOCK)) {
@@ -350,9 +350,9 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
     }
 
     public void accept(
-            ServerWorld world, GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
+            ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvents event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
     ) {
-        if (event == net.frozenblock.wildmod.event.GameEvent.NOTE_BLOCK_PLAY) {
+        if (event == WildGameEvents.NOTE_BLOCK_PLAY) {
             AllayBrain.rememberNoteBlock(this, new BlockPos(pos));
         }
 

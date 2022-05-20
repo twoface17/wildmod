@@ -4,17 +4,24 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.enchantments.SwiftSneakEnchantment;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
-import net.frozenblock.wildmod.items.ChestBoatItem;
-import net.frozenblock.wildmod.items.DiscFragmentItem;
-import net.frozenblock.wildmod.items.MangroveBoatItem;
+import net.frozenblock.wildmod.items.*;
+import net.frozenblock.wildmod.liukrastapi.CompassAnglePredicateProvider;
+import net.frozenblock.wildmod.liukrastapi.SetGoatHornSoundLootFunction;
 import net.frozenblock.wildmod.mixins.MusicDiscItemInvoker;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
+import net.minecraft.loot.function.LootFunction;
+import net.minecraft.loot.function.LootFunctionType;
+import net.minecraft.loot.function.LootFunctionTypes;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonSerializer;
 import net.minecraft.util.Rarity;
+import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.registry.Registry;
 
 import static net.minecraft.enchantment.EnchantmentHelper.getEquipmentLevel;
@@ -46,6 +53,9 @@ public abstract class RegisterItems {
     public static final Item DISC_FRAGMENT_5 = new DiscFragmentItem(new FabricItemSettings().group(ItemGroup.MISC));
     public static final MusicDiscItem MUSIC_DISC_5 = MusicDiscItemInvoker.invokeConstructor(15, RegisterSounds.MUSIC_DISC_5, new FabricItemSettings().group(ItemGroup.MISC).maxCount(1).rarity(Rarity.RARE));
 
+    public static final Item GOAT_HORN = new GoatHornItem(new Item.Settings().group(ItemGroup.MISC).maxCount(1), InstrumentTags.GOAT_HORNS);
+    public static final LootFunctionType SET_INSTRUMENT = new LootFunctionType(new SetGoatHornSoundLootFunction.Serializer());
+
     public static float getSwiftSneakSpeedBoost(LivingEntity livingEntity) {
         return (float)getEquipmentLevel(SWIFT_SNEAK, livingEntity) * 0.15F;
     }
@@ -69,6 +79,11 @@ public abstract class RegisterItems {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "echo_shard"), ECHO_SHARD);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "disc_fragment_5"), DISC_FRAGMENT_5);
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "music_disc_5"), MUSIC_DISC_5);
+        Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "goat_horn"), GOAT_HORN);
         Registry.register(Registry.ENCHANTMENT, new Identifier(WildMod.MOD_ID, "swift_sneak"), SWIFT_SNEAK);
+        Registry.register(Registry.LOOT_FUNCTION_TYPE, new Identifier(WildMod.MOD_ID, "set_instrument"), SET_INSTRUMENT);
+        //ModelPredicateProviderRegistry.register(RECOVERY_COMPASS, new Identifier("angle"), new CompassAnglePredicateProvider(
+                //(world, stack, entity) -> entity instanceof PlayerEntity playerEntity ? (GlobalPos)playerEntity.getLastDeathPos().orElse(null) : null
+        //));
     }
 }

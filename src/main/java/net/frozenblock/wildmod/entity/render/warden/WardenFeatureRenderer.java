@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.liukrastapi.ExpandedModelPart;
-import net.frozenblock.wildmod.render.RenderLayer;
+import net.frozenblock.wildmod.render.WildRenderLayer;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -40,7 +40,7 @@ public class WardenFeatureRenderer<T extends WardenEntity, M extends WardenEntit
     ) {
         if (!wardenEntity.isInvisible()) {
             this.updateModelPartVisibility();
-            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityTranslucentEmissive(this.texture));
+            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(WildRenderLayer.getEntityTranslucentEmissive(this.texture));
             this.getContextModel().render(matrixStack, vertexConsumer, i, LivingEntityRenderer.getOverlay(wardenEntity, 0.0F), 1.0F, 1.0F, 1.0F, this.animationAngleAdjuster.apply(wardenEntity, h, j));
             this.unhideAllModelParts();
         }

@@ -25,7 +25,6 @@ import net.frozenblock.wildmod.entity.render.tadpole.TadpoleEntityModel;
 import net.frozenblock.wildmod.entity.render.tadpole.TadpoleEntityRenderer;
 import net.frozenblock.wildmod.entity.render.warden.WardenEntityModel;
 import net.frozenblock.wildmod.entity.render.warden.WardenEntityRenderer;
-import net.frozenblock.wildmod.event.GameEventTagProvider;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkParticleHandler;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkSoul;
 import net.frozenblock.wildmod.liukrastapi.Transformation;
@@ -149,12 +148,5 @@ public class WildModClient implements ClientModInitializer {
                 SculkParticleHandler.shriekerGargle2(client.world, shrieker);
             });
         });
-    }
-
-    public static DataGenerator create(final Path output, final Collection<Path> inputs, final boolean includeClient, final boolean includeServer, final boolean includeDev, final boolean includeReports, final boolean validate, final GameVersion gameVersion, final boolean ignoreCache) {
-        final DataGenerator dataGenerator = new DataGenerator(output, inputs, gameVersion, ignoreCache);
-        dataGenerator.addProvider(includeClient || includeServer, new SnbtProvider(dataGenerator).addWriter(new StructureValidatorProvider()));
-        dataGenerator.addProvider(includeServer, new GameEventTagProvider(dataGenerator));
-        return dataGenerator;
     }
 }

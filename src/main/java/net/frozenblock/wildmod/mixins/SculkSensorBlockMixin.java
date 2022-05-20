@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.event.GameEvent;
+import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.BlockState;
@@ -31,7 +31,7 @@ public class SculkSensorBlockMixin {
 
     @Inject(method = "setActive", at = @At("TAIL"))
     private static void setActive(World world, BlockPos pos, BlockState state, int power, CallbackInfo info) {
-        world.emitGameEvent(GameEvent.SCULK_SENSOR_TENDRILS_CLICKING, pos.add(0.5, 0, 0.5));
+        world.emitGameEvent(WildGameEvents.SCULK_SENSOR_TENDRILS_CLICKING, pos.add(0.5, 0, 0.5));
 
         int lastEntity = SensorLastEntity.getLastEntity(pos);
         Entity target = world.getEntityById(lastEntity);

@@ -5,11 +5,12 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.frozenblock.wildmod.entity.FrogVariant;
+import net.frozenblock.wildmod.entity.WildPacketByteBuf;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
 import net.frozenblock.wildmod.event.BlockPositionSource;
 import net.frozenblock.wildmod.event.EntityPositionSource;
-import net.frozenblock.wildmod.event.GameEvent;
+import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.event.PositionSourceType;
 import net.frozenblock.wildmod.liukrastapi.FrogAttackablesSensor;
 import net.frozenblock.wildmod.liukrastapi.IsInWaterSensor;
@@ -26,9 +27,11 @@ import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 
+import java.util.Optional;
 import java.util.OptionalInt;
 
 public class WildMod implements ModInitializer {
@@ -68,6 +71,7 @@ public class WildMod implements ModInitializer {
 
         registerData(OPTIONAL_INT);
         registerData(WildRegistry.FROG_VARIANT_DATA);
+        registerData(OPTIONAL_GLOBAL_POS);
 
         TONGUE = ActivityInvoker.callRegister( "tongue");
         SWIM = ActivityInvoker.callRegister( "swim");
@@ -79,7 +83,7 @@ public class WildMod implements ModInitializer {
         DIG = ActivityInvoker.callRegister("dig");
 
         RegisterAccurateSculk.RegisterAccurateSculk();
-        GameEvent.RegisterGameEvents();
+        WildGameEvents.RegisterGameEvents();
 
         BLOCK = PositionSourceType.register("block", new BlockPositionSource.Type());
         ENTITY = PositionSourceType.register("entity", new EntityPositionSource.Type());
@@ -111,7 +115,7 @@ public class WildMod implements ModInitializer {
     public static Activity EMERGE;
     public static Activity DIG;
 
-    public static final TrackedDataHandler<OptionalInt> OPTIONAL_INT = new TrackedDataHandler<OptionalInt>() {
+    public static final TrackedDataHandler<OptionalInt> OPTIONAL_INT = new TrackedDataHandler<>() {
         public void write(PacketByteBuf packetByteBuf, OptionalInt optionalInt) {
             packetByteBuf.writeVarInt(optionalInt.orElse(-1) + 1);
         }
@@ -125,6 +129,14 @@ public class WildMod implements ModInitializer {
             return optionalInt;
         }
     };
+
+    public static final TrackedDataHandler<Optional<GlobalPos>> OPTIONAL_GLOBAL_POS = ofOptional(
+            WildPacketByteBuf::writeGlobalPos, WildPacketByteBuf::readGlobalPos
+    );
+
+    static <T> TrackedDataHandler<Optional<T>> ofOptional(WildPacketByteBuf.PacketWriter<T> packetWriter, WildPacketByteBuf.PacketReader<T> packetReader) {
+        return WildRegistry.of(packetWriter.asOptional(), packetReader.asOptional());
+    }
 
     public static final GameRules.Key<GameRules.BooleanRule> DARKNESS_ENABLED =
             GameRuleRegistry.register("doDarkness", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));

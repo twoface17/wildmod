@@ -4,6 +4,8 @@ import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.entity.WildPacketByteBuf;
 import net.frozenblock.wildmod.event.PositionSourceType;
+import net.frozenblock.wildmod.items.Instrument;
+import net.frozenblock.wildmod.items.Instruments;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.network.PacketByteBuf;
@@ -26,6 +28,8 @@ public class WildRegistry {
     public static RegistryKey<Registry<DoublePerlinNoiseSampler.NoiseParameters>> NOISE_KEY;
     public static RegistryKey<Registry<PositionSourceType<?>>> WILD_POSITION_SOURCE_TYPE_KEY;
     public static Registry<PositionSourceType<?>> WILD_POSITION_SOURCE_TYPE;
+    public static RegistryKey<Registry<Instrument>> INSTRUMENT_KEY;
+    public static Registry<Instrument> INSTRUMENT;
 
     public static void register() {
         FROG_VARIANT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "frog_variant"));
@@ -39,9 +43,11 @@ public class WildRegistry {
         NOISE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/noise"));
         WILD_POSITION_SOURCE_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "wild_position_source_type"));
         WILD_POSITION_SOURCE_TYPE = Registry.create(WILD_POSITION_SOURCE_TYPE_KEY, registry -> WildMod.BLOCK);
+        INSTRUMENT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "instrument"));
+        INSTRUMENT = Registry.create(INSTRUMENT_KEY, Instruments::registerAndGetDefault);
     }
 
-    public static <T> TrackedDataHandler<T> of(WildPacketByteBuf.class_7462<T> arg, WildPacketByteBuf.class_7461<T> arg2) {
+    public static <T> TrackedDataHandler<T> of(WildPacketByteBuf.PacketWriter<T> arg, WildPacketByteBuf.PacketReader<T> arg2) {
         return new net.frozenblock.wildmod.entity.TrackedDataHandler.ImmutableHandler<T>() {
             @Override
             public void write(PacketByteBuf buf, T value) {

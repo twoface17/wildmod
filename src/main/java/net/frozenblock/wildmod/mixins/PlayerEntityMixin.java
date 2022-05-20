@@ -2,6 +2,7 @@ package net.frozenblock.wildmod.mixins;
 
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Dynamic;
+import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.entity.SculkShriekerWarningManager;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.entity.WildHostileEntity;
@@ -17,6 +18,9 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,6 +32,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
+import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -42,10 +47,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements WildServerPlayerEntity {
 	private static final Logger LOGGER = LogUtils.getLogger();
+
+	//private static final TrackedData<Optional<GlobalPos>> LAST_DEATH_POS = DataTracker.registerData(
+			//PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS
+	//);
 
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);

@@ -15,6 +15,7 @@ import net.frozenblock.wildmod.block.MultifaceGrowthBlock;
 import net.frozenblock.wildmod.block.SculkVeinBlock;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.registry.RegisterSounds;
+import net.frozenblock.wildmod.registry.WildUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
@@ -307,7 +308,7 @@ public class SculkSpreadManager {
         }
 
         private static List<Vec3i> shuffleOffsets(Random random) {
-            return net.frozenblock.wildmod.registry.Util.copyShuffled(OFFSETS, random);
+            return WildUtil.copyShuffled(OFFSETS, random);
         }
 
         @Nullable

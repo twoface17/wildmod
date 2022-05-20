@@ -1,9 +1,12 @@
 package net.frozenblock.wildmod.registry;
 
+import com.google.common.collect.ImmutableList;
 import net.frozenblock.wildmod.WildMod;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+
+import java.util.stream.IntStream;
 
 public class RegisterSounds { //Register sound definitions
 
@@ -148,6 +151,8 @@ public class RegisterSounds { //Register sound definitions
     /** MUSIC DISCS **/
         public static final SoundEvent MUSIC_DISC_5 = new SoundEvent(new Identifier(WildMod.MOD_ID, "music_disc.5"));
 
+    /** GOAT HORN **/
+        public static final ImmutableList<SoundEvent> GOAT_HORN_SOUNDS = registerGoatHornSounds();
     /** AMBIENT **/
         public static final SoundEvent AMBIENT_DEEP_DARK_ADDITIONS = new SoundEvent(new Identifier(WildMod.MOD_ID, "ambient.deep_dark.additions"));
         public static final SoundEvent AMBIENT_DEEP_DARK_LOOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "ambient.deep_dark.loop"));
@@ -155,6 +160,12 @@ public class RegisterSounds { //Register sound definitions
 
     private static SoundEvent register(String id) {
         return Registry.register(Registry.SOUND_EVENT, id, new SoundEvent(new Identifier(WildMod.MOD_ID, id)));
+    }
+
+    private static ImmutableList<SoundEvent> registerGoatHornSounds() {
+        return IntStream.range(0, 8)
+                .mapToObj(variant -> register("item.goat_horn.sound." + variant))
+                .collect(ImmutableList.toImmutableList());
     }
 }
 

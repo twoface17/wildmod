@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
-public class GameRenderer extends net.minecraft.client.render.GameRenderer {
+public class WildGameRenderer extends net.minecraft.client.render.GameRenderer {
     private final Map<String, Shader> shaders = Maps.newHashMap();
     private static Shader renderTypeEntityTranslucentEmissiveShader;
 
@@ -67,7 +67,7 @@ public class GameRenderer extends net.minecraft.client.render.GameRenderer {
     private float floatingItemWidth;
     private float floatingItemHeight;
 
-    public GameRenderer(MinecraftClient client, HeldItemRenderer heldItemRenderer, ResourceManager resourceManager, BufferBuilderStorage buffers) {
+    public WildGameRenderer(MinecraftClient client, HeldItemRenderer heldItemRenderer, ResourceManager resourceManager, BufferBuilderStorage buffers) {
         super(client, resourceManager, buffers);
         this.client = client;
         this.resourceManager = resourceManager;

@@ -7,7 +7,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.frozenblock.wildmod.registry.Util;
+import net.frozenblock.wildmod.registry.WildUtil;
 import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.StructureBlockMode;
@@ -100,7 +100,7 @@ public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolEl
         ObjectArrayList<Structure.StructureBlockInfo> objectArrayList = (ObjectArrayList<Structure.StructureBlockInfo>) structure.getInfosForBlock(
                 pos, new StructurePlacementData().setRotation(rotation), Blocks.JIGSAW, true
         );
-        Util.shuffle(objectArrayList, (WildAbstractRandom)random);
+        WildUtil.shuffle(objectArrayList, (WildAbstractRandom)random);
         return objectArrayList;
     }
 

@@ -18,7 +18,7 @@ public interface GameEventDispatcher {
         }
 
         @Override
-        public void dispatch(GameEvent event, Vec3d pos, GameEvent.Emitter emitter) {
+        public void dispatch(WildGameEvents event, Vec3d pos, WildGameEvents.Emitter emitter) {
         }
     };
 
@@ -28,5 +28,5 @@ public interface GameEventDispatcher {
 
     void removeListener(GameEventListener listener);
 
-    void dispatch(GameEvent event, Vec3d pos, GameEvent.Emitter emitter);
+    void dispatch(WildGameEvents event, Vec3d pos, WildGameEvents.Emitter emitter);
 }

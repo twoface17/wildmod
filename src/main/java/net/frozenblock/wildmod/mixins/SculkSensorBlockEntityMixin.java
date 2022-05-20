@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.event.GameEvent;
+import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.minecraft.block.BlockState;
@@ -30,7 +30,7 @@ public class SculkSensorBlockEntityMixin extends BlockEntity implements Vibratio
     @Shadow private int lastVibrationFrequency;
 
     @Override
-    public boolean accepts(ServerWorld world,GameEventListener listener, BlockPos pos, GameEvent event, @Nullable GameEvent.Emitter emitter) {
+    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvents event, @Nullable WildGameEvents.Emitter emitter) {
         return !this.isRemoved() && (!pos.equals(this.getPos()) || event != net.minecraft.world.event.GameEvent.BLOCK_DESTROY && event != net.minecraft.world.event.GameEvent.BLOCK_PLACE)
                 ? SculkSensorBlock.isInactive(this.getCachedState())
                 : false;
@@ -38,7 +38,7 @@ public class SculkSensorBlockEntityMixin extends BlockEntity implements Vibratio
 
     @Override
     public void accept(
-            ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
+            ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvents event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
     ) {
         BlockState blockState = this.getCachedState();
         if (SculkSensorBlock.isInactive(blockState)) {

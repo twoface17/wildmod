@@ -9,7 +9,7 @@ import net.frozenblock.wildmod.block.SculkShriekerBlock;
 import net.frozenblock.wildmod.block.WildWorldEvents;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.entity.util.LargeEntitySpawnHelper;
-import net.frozenblock.wildmod.event.GameEvent;
+import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildEventTags;
@@ -93,7 +93,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
     }
 
     @Override
-    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, GameEvent.Emitter emitter) {
+    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvents event, WildGameEvents.Emitter emitter) {
         return !this.isRemoved() && !this.getCachedState().get(SculkShriekerBlock.SHRIEKING) && method_44018(emitter.sourceEntity()) != null;
     }
 
@@ -121,7 +121,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
     }
 
     @Override
-    public void accept(ServerWorld world, GameEventListener gameEventListener, BlockPos pos, GameEvent gameEvent, @Nullable Entity entity, @Nullable Entity sourceEntity, int i) {
+    public void accept(ServerWorld world, GameEventListener gameEventListener, BlockPos pos, WildGameEvents gameEvent, @Nullable Entity entity, @Nullable Entity sourceEntity, int i) {
         this.shriek(world, method_44018(sourceEntity != null ? sourceEntity : entity));
     }
 
@@ -153,7 +153,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
         serverWorld.setBlockState(blockPos, blockState.with(SculkShriekerBlock.SHRIEKING, true), Block.NOTIFY_LISTENERS);
         serverWorld.createAndScheduleBlockTick(blockPos, blockState.getBlock(), 90);
         serverWorld.syncWorldEvent(WildWorldEvents.SCULK_SHRIEKS, blockPos, 0);
-        serverWorld.emitGameEvent(entity, net.frozenblock.wildmod.event.GameEvent.SHRIEK, blockPos);
+        serverWorld.emitGameEvent(entity, WildGameEvents.SHRIEK, blockPos);
     }
 
     private boolean canWarn(ServerWorld world) {

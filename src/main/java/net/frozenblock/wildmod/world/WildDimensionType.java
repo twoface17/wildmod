@@ -18,7 +18,7 @@ import java.util.OptionalLong;
 
 import static net.minecraft.world.dimension.DimensionType.OVERWORLD_ID;
 
-public record DimensionType(OptionalLong fixedTime, boolean hasSkyLight, boolean hasCeiling, boolean ultrawarm, boolean natural, double coordinateScale, boolean piglinSafe, boolean bedWorks, boolean respawnAnchorWorks, boolean hasRaids, int minimumY, int height, int logicalHeight, TagKey<Block> infiniburn, Identifier effects, float ambientLight) {
+public record WildDimensionType(OptionalLong fixedTime, boolean hasSkyLight, boolean hasCeiling, boolean ultrawarm, boolean natural, double coordinateScale, boolean piglinSafe, boolean bedWorks, boolean respawnAnchorWorks, boolean hasRaids, int minimumY, int height, int logicalHeight, TagKey<Block> infiniburn, Identifier effects, float ambientLight) {
     public static final int SIZE_BITS_Y;
     public static final int field_33411 = 16;
     public static final int MAX_HEIGHT;
@@ -26,12 +26,12 @@ public record DimensionType(OptionalLong fixedTime, boolean hasSkyLight, boolean
     public static final int MIN_HEIGHT;
     public static final int field_35478;
     public static final int field_35479;
-    public static final Codec<DimensionType> CODEC;
+    public static final Codec<WildDimensionType> CODEC;
     private static final int field_31440 = 8;
     public static final float[] MOON_SIZES;
     //public static final Codec<RegistryEntry<DimensionType>> REGISTRY_CODEC;
 
-    public DimensionType(OptionalLong fixedTime, boolean hasSkyLight, boolean hasCeiling, boolean ultrawarm, boolean natural, double coordinateScale, boolean piglinSafe, boolean bedWorks, boolean respawnAnchorWorks, boolean hasRaids, int minimumY, int height, int logicalHeight, TagKey<Block> infiniburn, Identifier effects, float ambientLight) {
+    public WildDimensionType(OptionalLong fixedTime, boolean hasSkyLight, boolean hasCeiling, boolean ultrawarm, boolean natural, double coordinateScale, boolean piglinSafe, boolean bedWorks, boolean respawnAnchorWorks, boolean hasRaids, int minimumY, int height, int logicalHeight, TagKey<Block> infiniburn, Identifier effects, float ambientLight) {
         if (height < 16) {
             throw new IllegalStateException("height has to be at least 16");
         } else if (minimumY + height > MAX_COLUMN_HEIGHT + 1) {
@@ -84,7 +84,7 @@ public record DimensionType(OptionalLong fixedTime, boolean hasSkyLight, boolean
         return World.CODEC.parse(nbt);
     }
 
-    public static double getCoordinateScaleFactor(DimensionType fromDimension, DimensionType toDimension) {
+    public static double getCoordinateScaleFactor(WildDimensionType fromDimension, WildDimensionType toDimension) {
         double d = fromDimension.coordinateScale();
         double e = toDimension.coordinateScale();
         return d / e;
@@ -192,13 +192,13 @@ public record DimensionType(OptionalLong fixedTime, boolean hasSkyLight, boolean
                 return optionalLong.isPresent() ? Optional.of(optionalLong.getAsLong()) : Optional.empty();
             }).forGetter((dimensionType) -> {
                 return dimensionType.fixedTime;
-            }), Codec.BOOL.fieldOf("has_skylight").forGetter(DimensionType::hasSkyLight), Codec.BOOL.fieldOf("has_ceiling").forGetter(DimensionType::hasCeiling), Codec.BOOL.fieldOf("ultrawarm").forGetter(DimensionType::ultrawarm), Codec.BOOL.fieldOf("natural").forGetter(DimensionType::natural), Codec.doubleRange(9.999999747378752E-6, 3.0E7).fieldOf("coordinate_scale").forGetter(DimensionType::coordinateScale), Codec.BOOL.fieldOf("piglin_safe").forGetter(DimensionType::piglinSafe), Codec.BOOL.fieldOf("bed_works").forGetter(DimensionType::bedWorks), Codec.BOOL.fieldOf("respawn_anchor_works").forGetter(DimensionType::respawnAnchorWorks), Codec.BOOL.fieldOf("has_raids").forGetter(DimensionType::hasRaids), Codec.intRange(MIN_HEIGHT, MAX_COLUMN_HEIGHT).fieldOf("min_y").forGetter(DimensionType::minimumY), Codec.intRange(16, MAX_HEIGHT).fieldOf("height").forGetter(DimensionType::height), Codec.intRange(0, MAX_HEIGHT).fieldOf("logical_height").forGetter(DimensionType::logicalHeight), TagKey.stringCodec(Registry.BLOCK_KEY).fieldOf("infiniburn").forGetter((dimensionType) -> {
+            }), Codec.BOOL.fieldOf("has_skylight").forGetter(WildDimensionType::hasSkyLight), Codec.BOOL.fieldOf("has_ceiling").forGetter(WildDimensionType::hasCeiling), Codec.BOOL.fieldOf("ultrawarm").forGetter(WildDimensionType::ultrawarm), Codec.BOOL.fieldOf("natural").forGetter(WildDimensionType::natural), Codec.doubleRange(9.999999747378752E-6, 3.0E7).fieldOf("coordinate_scale").forGetter(WildDimensionType::coordinateScale), Codec.BOOL.fieldOf("piglin_safe").forGetter(WildDimensionType::piglinSafe), Codec.BOOL.fieldOf("bed_works").forGetter(WildDimensionType::bedWorks), Codec.BOOL.fieldOf("respawn_anchor_works").forGetter(WildDimensionType::respawnAnchorWorks), Codec.BOOL.fieldOf("has_raids").forGetter(WildDimensionType::hasRaids), Codec.intRange(MIN_HEIGHT, MAX_COLUMN_HEIGHT).fieldOf("min_y").forGetter(WildDimensionType::minimumY), Codec.intRange(16, MAX_HEIGHT).fieldOf("height").forGetter(WildDimensionType::height), Codec.intRange(0, MAX_HEIGHT).fieldOf("logical_height").forGetter(WildDimensionType::logicalHeight), TagKey.stringCodec(Registry.BLOCK_KEY).fieldOf("infiniburn").forGetter((dimensionType) -> {
                 return dimensionType.infiniburn;
             }), Identifier.CODEC.fieldOf("effects").orElse(OVERWORLD_ID).forGetter((dimensionType) -> {
                 return dimensionType.effects;
             }), Codec.FLOAT.fieldOf("ambient_light").forGetter((dimensionType) -> {
                 return dimensionType.ambientLight;
-            })).apply(instance, DimensionType::new);
+            })).apply(instance, WildDimensionType::new);
         }));
         MOON_SIZES = new float[]{1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F};
         //REGISTRY_CODEC = RegistryElementCodec.of(Registry.DIMENSION_TYPE_KEY, CODEC);

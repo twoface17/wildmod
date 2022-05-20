@@ -61,7 +61,7 @@ public interface WorldView extends BlockRenderView, CollisionView, BiomeAccess.S
     @Deprecated
     int getSeaLevel();
 
-    DimensionType getDimension();
+    WildDimensionType getDimension();
 
     default int getBottomY() {
         return this.getDimension().minimumY();

@@ -11,5 +11,5 @@ public interface GameEventListener {
 
     int getRange();
 
-    boolean listen(ServerWorld world, GameEvent.Message arg);
+    boolean listen(ServerWorld world, WildGameEvents.Message arg);
 }
