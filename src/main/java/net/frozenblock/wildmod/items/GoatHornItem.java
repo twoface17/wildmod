@@ -1,5 +1,6 @@
 package net.frozenblock.wildmod.items;
 
+import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.registry.RegisterItems;
 import net.frozenblock.wildmod.registry.WildRegistry;
@@ -112,10 +113,10 @@ public class GoatHornItem extends Item {
         return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.empty();
     }
 
-    //@Override
-    //public UseAction getUseAction(ItemStack stack) {
-        //return UseAction.TOOT_HORN;
-    //}
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return WildMod.TOOT_HORN;
+    }
 
     private static void playSound(World world, PlayerEntity player, Instrument instrument) {
         SoundEvent soundEvent = instrument.soundEvent();

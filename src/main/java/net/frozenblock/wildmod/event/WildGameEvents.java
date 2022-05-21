@@ -1,13 +1,12 @@
 package net.frozenblock.wildmod.event;
 
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.liukrastapi.Vec3d;
+import net.frozenblock.wildmod.liukrastapi.WildVec3d;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
@@ -92,12 +91,12 @@ public class WildGameEvents extends net.minecraft.world.event.GameEvent {
 
     public static final class Message implements Comparable<Message> {
         private final WildGameEvents field_39177;
-        private final net.frozenblock.wildmod.liukrastapi.Vec3d field_39178;
+        private final WildVec3d field_39178;
         private final Emitter field_39179;
         private final GameEventListener field_39180;
         private final double field_39181;
 
-        public Message(WildGameEvents gameEvent, Vec3d vec3d, WildGameEvents.Emitter emitter, GameEventListener gameEventListener, net.frozenblock.wildmod.liukrastapi.Vec3d vec3d2) {
+        public Message(WildGameEvents gameEvent, WildVec3d vec3d, WildGameEvents.Emitter emitter, GameEventListener gameEventListener, WildVec3d vec3d2) {
             this.field_39177 = gameEvent;
             this.field_39178 = vec3d;
             this.field_39179 = emitter;
@@ -113,7 +112,7 @@ public class WildGameEvents extends net.minecraft.world.event.GameEvent {
             return this.field_39177;
         }
 
-        public net.frozenblock.wildmod.liukrastapi.Vec3d method_43726() {
+        public WildVec3d method_43726() {
             return this.field_39178;
         }
 

@@ -8,8 +8,8 @@ package net.frozenblock.wildmod.event;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.liukrastapi.TickCriterion;
-import net.frozenblock.wildmod.liukrastapi.Vec3d;
-import net.frozenblock.wildmod.particle.VibrationParticleEffect;
+import net.frozenblock.wildmod.liukrastapi.WildVec3d;
+import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -113,14 +113,14 @@ public class VibrationListener implements GameEventListener {
                 if (optional.isEmpty()) {
                     return false;
                 } else {
-                    Vec3d vec3d = arg.method_43726();
+                    WildVec3d vec3d = arg.method_43726();
                     net.minecraft.util.math.Vec3d vec3d2 = net.minecraft.util.math.Vec3d.ofCenter(optional.get());
                     if (!this.callback.accepts(world, this, new BlockPos(vec3d), gameEvent, emitter)) {
                         return false;
-                    } else if (isOccluded( world, vec3d, (Vec3d) vec3d2)) {
+                    } else if (isOccluded( world, vec3d, (WildVec3d) vec3d2)) {
                         return false;
                     } else {
-                        this.listen(world, gameEvent, emitter, vec3d, (Vec3d)vec3d2);
+                        this.listen(world, gameEvent, emitter, vec3d, (WildVec3d)vec3d2);
                         return true;
                     }
                 }
@@ -128,20 +128,20 @@ public class VibrationListener implements GameEventListener {
         }
     }
 
-    private void listen(ServerWorld world, WildGameEvents gameEvent, WildGameEvents.Emitter emitter, Vec3d start, Vec3d end) {
+    private void listen(ServerWorld world, WildGameEvents gameEvent, WildGameEvents.Emitter emitter, WildVec3d start, WildVec3d end) {
         this.distance = MathHelper.floor(start.distanceTo(end));
         this.vibration = new VibrationListener.Vibration(gameEvent, this.distance, start, emitter.sourceEntity());
         this.delay = this.distance;
-        world.spawnParticles(new VibrationParticleEffect((net.minecraft.world.event.PositionSource) this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
+        world.spawnParticles(new WildVibrationParticleEffect((net.minecraft.world.event.PositionSource) this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
         this.callback.onListen();
     }
 
-    private static boolean isOccluded(World world, net.frozenblock.wildmod.liukrastapi.Vec3d start, net.frozenblock.wildmod.liukrastapi.Vec3d end) {
-        net.frozenblock.wildmod.liukrastapi.Vec3d vec3d = new net.frozenblock.wildmod.liukrastapi.Vec3d((double)MathHelper.floor(start.x) + 0.5, (double)MathHelper.floor(start.y) + 0.5, (double)MathHelper.floor(start.z) + 0.5);
-        net.frozenblock.wildmod.liukrastapi.Vec3d vec3d2 = new net.frozenblock.wildmod.liukrastapi.Vec3d((double)MathHelper.floor(end.x) + 0.5, (double)MathHelper.floor(end.y) + 0.5, (double)MathHelper.floor(end.z) + 0.5);
+    private static boolean isOccluded(World world, WildVec3d start, WildVec3d end) {
+        WildVec3d vec3d = new WildVec3d((double)MathHelper.floor(start.x) + 0.5, (double)MathHelper.floor(start.y) + 0.5, (double)MathHelper.floor(start.z) + 0.5);
+        WildVec3d vec3d2 = new WildVec3d((double)MathHelper.floor(end.x) + 0.5, (double)MathHelper.floor(end.y) + 0.5, (double)MathHelper.floor(end.z) + 0.5);
 
         for(Direction direction : Direction.values()) {
-            net.frozenblock.wildmod.liukrastapi.Vec3d vec3d3 = vec3d.withBias(direction, 1.0E-5F);
+            WildVec3d vec3d3 = vec3d.withBias(direction, 1.0E-5F);
             if (world.raycast(new BlockStateRaycastContext(vec3d3, vec3d2, state -> state.isIn(BlockTags.OCCLUDES_VIBRATION_SIGNALS))).getType() != Type.BLOCK) {
                 return false;
             }
@@ -201,13 +201,13 @@ public class VibrationListener implements GameEventListener {
     }
 
     public static record Vibration(
-            WildGameEvents gameEvent, int distance, Vec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity
+            WildGameEvents gameEvent, int distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity
     ) {
         public static final Codec<VibrationListener.Vibration> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(
                                 Registry.GAME_EVENT.getCodec().fieldOf("game_event").forGetter(VibrationListener.Vibration::gameEvent),
                                 Codecs.NONNEGATIVE_INT.fieldOf("distance").forGetter(VibrationListener.Vibration::distance),
-                                Vec3d.CODEC.fieldOf("pos").forGetter(VibrationListener.Vibration::pos),
+                                WildVec3d.CODEC.fieldOf("pos").forGetter(VibrationListener.Vibration::pos),
                                 UUID.optionalFieldOf("source").forGetter(vibration -> Optional.ofNullable(vibration.uuid())),
                                 UUID.optionalFieldOf("projectile_owner").forGetter(vibration -> Optional.ofNullable(vibration.projectileOwnerUuid()))
                         )
@@ -219,11 +219,11 @@ public class VibrationListener implements GameEventListener {
                         )
         );
 
-        public Vibration(WildGameEvents gameEvent, int distance, Vec3d pos, @Nullable UUID uuid, @Nullable UUID sourceUuid) {
+        public Vibration(WildGameEvents gameEvent, int distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID sourceUuid) {
             this(gameEvent, distance, pos, uuid, sourceUuid, null);
         }
 
-        public Vibration(WildGameEvents gameEvent, int distance, Vec3d pos, @Nullable Entity entity) {
+        public Vibration(WildGameEvents gameEvent, int distance, WildVec3d pos, @Nullable Entity entity) {
             this(gameEvent, distance, pos, entity == null ? null : entity.getUuid(), getOwnerUuid(entity), entity);
         }
 

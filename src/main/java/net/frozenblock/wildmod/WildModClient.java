@@ -30,6 +30,7 @@ import net.frozenblock.wildmod.liukrastapi.Transformation;
 import net.frozenblock.wildmod.particle.SculkChargeParticle;
 import net.frozenblock.wildmod.particle.SculkChargePopParticle;
 import net.frozenblock.wildmod.particle.ShriekParticle;
+import net.frozenblock.wildmod.particle.WildVibrationParticle;
 import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterEntities;
@@ -81,6 +82,7 @@ public class WildModClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SCULK_SOUL, SculkSoul.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SHRIEK, ShriekParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(RegisterParticles.SONIC_BOOM, ExplosionLargeParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(RegisterParticles.VIBRATION, WildVibrationParticle.Factory::new);
 
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_LEAVES, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MangroveWoods.MANGROVE_ROOTS, RenderLayer.getCutoutMipped());

@@ -30,7 +30,7 @@
 	  "predicate": {
 		"tooting": 1
 	  },
-	  "model": "item/tooting_goat_horn"
+	  "model": "twm:item/tooting_goat_horn"
 	}
   ]
 }

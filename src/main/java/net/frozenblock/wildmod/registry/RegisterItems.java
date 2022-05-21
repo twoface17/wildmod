@@ -83,8 +83,5 @@ public abstract class RegisterItems {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "goat_horn"), GOAT_HORN);
         Registry.register(Registry.ENCHANTMENT, new Identifier(WildMod.MOD_ID, "swift_sneak"), SWIFT_SNEAK);
         Registry.register(Registry.LOOT_FUNCTION_TYPE, new Identifier(WildMod.MOD_ID, "set_instrument"), SET_INSTRUMENT);
-        ModelPredicateProviderRegistry.register(RECOVERY_COMPASS, new Identifier("angle"), new CompassAnglePredicateProvider(
-                (world, stack, entity) -> entity instanceof PlayerEntity playerEntity ? ((WildPlayerEntity)playerEntity).getLastDeathPos().orElse(null) : null
-        ));
     }
 }

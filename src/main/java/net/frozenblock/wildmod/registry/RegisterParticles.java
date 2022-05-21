@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.particle.SculkChargeParticleEffect;
 import net.frozenblock.wildmod.particle.ShriekParticleEffect;
+import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
@@ -22,6 +23,7 @@ public abstract class RegisterParticles {
         return ShriekParticleEffect.CODEC;
     });
     public static final DefaultParticleType SONIC_BOOM = FabricParticleTypes.simple();
+    public static final ParticleType<WildVibrationParticleEffect> VIBRATION = register("vibration", true, WildVibrationParticleEffect.PARAMETERS_FACTORY, particleType -> WildVibrationParticleEffect.CODEC);
 
     public static void RegisterParticles() {
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_charge_pop"), SCULK_CHARGE_POP);

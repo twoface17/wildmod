@@ -12,6 +12,8 @@ import net.frozenblock.wildmod.event.WildEventTags;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
 import net.frozenblock.wildmod.liukrastapi.AnimationState;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
+import net.frozenblock.wildmod.liukrastapi.WildServerWorld;
+import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
@@ -55,6 +57,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.*;
 import net.minecraft.world.event.BlockPositionSource;
+import net.minecraft.world.event.EntityPositionSource;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -71,7 +74,7 @@ public class WardenEntity extends WildHostileEntity {
      * ATTACKING {@link WardenEntity#tryAttack(Entity)}
      * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
      * OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
-     * VISUAlS {@link WardenEntity#createVibration(World, WardenEntity, BlockPos)}
+     * VISUAlS {@link WardenEntity#createVibration(ServerWorld, WardenEntity, BlockPos)}
      * TICKMOVEMENT METHODS {@link WardenEntity#tickVibration()}
      * ALL VALUES ARE STORED AT THE END OF THIS MUSEUM.
      * */
@@ -214,25 +217,25 @@ public class WardenEntity extends WildHostileEntity {
             } else { this.vibrationEntity = "null"; }
             this.queuedSuspicion=suspicion;
             if (vibrationPos != null) {
-                createVibration(this.world, this, vibrationPos);
+                createVibration(serverWorld, this, vibrationPos);
                 Vec3d start = Vec3d.ofCenter(vibrationPos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
             } else {
-                createVibration(this.world, this, pos);
+                createVibration(serverWorld, this, pos);
                 Vec3d start = Vec3d.ofCenter(pos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
             }
         } else if (eventWorld instanceof ServerWorld serverworld && canListen(serverworld, pos, eventEntity)) {
             WardenBrain.resetDigCooldown(this);
-            if (vibrationPos != null) { createFloorVibration(this.world, this, vibrationPos);
+            if (vibrationPos != null) { createFloorVibration(serverworld, this, vibrationPos);
                 Vec3d start = Vec3d.ofCenter(vibrationPos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
             }
             else {
-                createFloorVibration(this.world, this, pos);
+                createFloorVibration(serverworld, this, pos);
                 Vec3d start = Vec3d.ofCenter(pos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
@@ -618,24 +621,27 @@ public class WardenEntity extends WildHostileEntity {
     }
 
     /** VISUALS */
-        public void createVibration(World world, WardenEntity warden, BlockPos blockPos2) {
+        public void createVibration(ServerWorld world, WardenEntity warden, BlockPos blockPos2) {
         WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
         Vec3d start = Vec3d.ofCenter(blockPos2);
         Vec3d end = Vec3d.ofCenter(this.getBlockPos());
-        this.distance = MathHelper.floor(start.distanceTo(end));
-        this.delay = this.distance;
-        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
+        this.distance = (float)start.distanceTo(end);
+        this.delay = MathHelper.floor(this.distance);
+
+        world.sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
         if (WildMod.debugMode) {
             LOGGER.info("A Warden has created a Vibration");
         }
     }
-    public void createFloorVibration(World world, WardenEntity warden, BlockPos blockPos2) {
+    public void createFloorVibration(ServerWorld world, WardenEntity warden, BlockPos blockPos2) {
         BlockPositionSource blockSource = new BlockPositionSource(this.getBlockPos().down());
+        EntityPositionSource entitySource = new EntityPositionSource(this.getId());
         Vec3d start = Vec3d.ofCenter(blockPos2);
         Vec3d end = Vec3d.ofCenter(this.getBlockPos().down());
-        this.distance = MathHelper.floor(start.distanceTo(end));
-        this.delay = this.distance;
-        ((ServerWorld)world).sendVibrationPacket(new Vibration(blockPos2, blockSource, this.delay));
+        this.distance = (float)start.distanceTo(end);
+        this.delay = MathHelper.floor(this.distance);
+        ((WildServerWorld)world).spawnParticles(new WildVibrationParticleEffect(entitySource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
+
         if (WildMod.debugMode) {
             LOGGER.info("A Warden has created a Floor Vibration");
         }
@@ -851,7 +857,7 @@ public class WardenEntity extends WildHostileEntity {
     public long timeSinceNonEntity;
 
     public int delay = 0;
-    protected int distance;
+    protected float distance;
 
     //CLIENT VARIABLES (Use world.sendEntityStatus() to set these, we need to make "fake" variables for the client to use since that method is buggy)
     public int lightTransitionTicks;

@@ -14,7 +14,7 @@ import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildEventTags;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
-import net.frozenblock.wildmod.liukrastapi.Vec3d;
+import net.frozenblock.wildmod.liukrastapi.WildVec3d;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.block.Block;
@@ -168,7 +168,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
                 this.playWarningSound();
             }
 
-            WardenEntity.addDarknessToClosePlayers(serverWorld, Vec3d.ofCenter(this.getPos()), null, 40);
+            WardenEntity.addDarknessToClosePlayers(serverWorld, WildVec3d.ofCenter(this.getPos()), null, 40);
         }
 
         if (WildMod.debugMode) {

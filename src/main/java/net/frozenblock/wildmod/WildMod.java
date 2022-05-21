@@ -18,15 +18,20 @@ import net.frozenblock.wildmod.liukrastapi.ItemCriterion;
 import net.frozenblock.wildmod.mixins.ActivityInvoker;
 import net.frozenblock.wildmod.registry.*;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.sensor.TemptationsSensor;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
@@ -50,6 +55,10 @@ public class WildMod implements ModInitializer {
     public static final EntityPose EMERGING = ClassTinkerers.getEnum(EntityPose.class, "EMERGING");
     public static final EntityPose DIGGING = ClassTinkerers.getEnum(EntityPose.class, "DIGGING");
 
+    public static final UseAction TOOT_HORN = ClassTinkerers.getEnum(UseAction.class, "TOOT_HORN");
+
+    public static final BipedEntityModel.ArmPose TOOT_HORN_ARM = ClassTinkerers.getEnum(BipedEntityModel.ArmPose.class, "TOOT_HORN");
+
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
 
     public static PositionSourceType<BlockPositionSource> BLOCK;
@@ -61,6 +70,8 @@ public class WildMod implements ModInitializer {
 
     public static TrackedDataHandler<Optional<GlobalPos>> OPTIONAL_GLOBAL_POS;
 
+    public static TrackedData<Optional<GlobalPos>> LAST_DEATH_POS;
+
     @Override
     public void onInitialize() {
         WildRegistry.register();
@@ -68,6 +79,7 @@ public class WildMod implements ModInitializer {
         RegisterBlocks.RegisterBlocks();
         OPTIONAL_GLOBAL_POS = ofOptional(WildPacketByteBuf::writeGlobalPos, WildPacketByteBuf::readGlobalPos);
         registerData(OPTIONAL_GLOBAL_POS);
+        LAST_DEATH_POS = DataTracker.registerData(PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS);
         RegisterItems.RegisterItems();
         RegisterEntities.RegisterEntities();
         FrogVariant.registerFrogVariants();
@@ -92,6 +104,7 @@ public class WildMod implements ModInitializer {
 
         RegisterAccurateSculk.RegisterAccurateSculk();
         WildGameEvents.RegisterGameEvents();
+        RegisterRecoveryCompass.registerRecovery();
 
         BLOCK = PositionSourceType.register("block", new BlockPositionSource.Type());
         ENTITY = PositionSourceType.register("entity", new EntityPositionSource.Type());

@@ -22,15 +22,15 @@ public class ServerPlayerEntityMixin /*implements WildServerPlayerEntity */{
         //return this.sculkShriekerWarningManager;
     //}
 
-    @Inject(method = "onDeath", at = @At("TAIL"))
+    /*@Inject(method = "onDeath", at = @At("TAIL"))
     private void onDeath(DamageSource source, CallbackInfo ci) {
         ServerPlayerEntity player = ServerPlayerEntity.class.cast(this);
         ((WildPlayerEntity)player).setLastDeathPos(Optional.of(GlobalPos.create(player.world.getRegistryKey(), player.getBlockPos())));
-    }
+    }*/
 
-    @Inject(method = "copyFrom", at = @At("TAIL"))
+    /*@Inject(method = "copyFrom", at = @At("TAIL"))
     private void copyFrom(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo ci) {
         ServerPlayerEntity player = ServerPlayerEntity.class.cast(this);
         ((WildPlayerEntity)player).setLastDeathPos(((WildPlayerEntity)oldPlayer).getLastDeathPos());
-    }
+    }*/
 }

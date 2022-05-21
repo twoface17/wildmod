@@ -9,6 +9,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.frozenblock.wildmod.registry.RegisterParticles;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
@@ -22,16 +23,16 @@ import net.minecraft.world.event.PositionSourceType;
 
 import java.util.Locale;
 
-public class VibrationParticleEffect implements ParticleEffect {
-    public static final Codec<VibrationParticleEffect> CODEC = RecordCodecBuilder.create((instance) -> {
-        return instance.group(PositionSource.CODEC.fieldOf("destination").forGetter((effect) -> {
-            return effect.destination;
-        }), Codec.INT.fieldOf("arrival_in_ticks").forGetter((vibrationParticleEffect) -> {
-            return vibrationParticleEffect.arrivalInTicks;
-        })).apply(instance, VibrationParticleEffect::new);
-    });
-    public static final ParticleEffect.Factory<VibrationParticleEffect> PARAMETERS_FACTORY = new ParticleEffect.Factory<VibrationParticleEffect>() {
-        public VibrationParticleEffect read(ParticleType<VibrationParticleEffect> particleType, StringReader stringReader) throws CommandSyntaxException {
+public class WildVibrationParticleEffect implements ParticleEffect {
+    public static final Codec<WildVibrationParticleEffect> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(
+                            PositionSource.CODEC.fieldOf("destination").forGetter(effect -> effect.destination),
+                            Codec.INT.fieldOf("arrival_in_ticks").forGetter(vibrationParticleEffect -> vibrationParticleEffect.arrivalInTicks)
+                    )
+                    .apply(instance, WildVibrationParticleEffect::new)
+    );
+    public static final ParticleEffect.Factory<WildVibrationParticleEffect> PARAMETERS_FACTORY = new ParticleEffect.Factory<WildVibrationParticleEffect>() {
+        public WildVibrationParticleEffect read(ParticleType<WildVibrationParticleEffect> particleType, StringReader stringReader) throws CommandSyntaxException {
             stringReader.expect(' ');
             float f = (float)stringReader.readDouble();
             stringReader.expect(' ');
@@ -41,28 +42,30 @@ public class VibrationParticleEffect implements ParticleEffect {
             stringReader.expect(' ');
             int i = stringReader.readInt();
             BlockPos blockPos = new BlockPos((double)f, (double)g, (double)h);
-            return new VibrationParticleEffect(new BlockPositionSource(blockPos), i);
+            return new WildVibrationParticleEffect(new BlockPositionSource(blockPos), i);
         }
 
-        public VibrationParticleEffect read(ParticleType<VibrationParticleEffect> particleType, PacketByteBuf packetByteBuf) {
+        public WildVibrationParticleEffect read(ParticleType<WildVibrationParticleEffect> particleType, PacketByteBuf packetByteBuf) {
             PositionSource positionSource = PositionSourceType.read(packetByteBuf);
             int i = packetByteBuf.readVarInt();
-            return new VibrationParticleEffect(positionSource, i);
+            return new WildVibrationParticleEffect(positionSource, i);
         }
     };
     private final PositionSource destination;
     private final int arrivalInTicks;
 
-    public VibrationParticleEffect(PositionSource positionSource, int i) {
+    public WildVibrationParticleEffect(PositionSource positionSource, int i) {
         this.destination = positionSource;
         this.arrivalInTicks = i;
     }
 
+    @Override
     public void write(PacketByteBuf buf) {
         PositionSourceType.write(this.destination, buf);
         buf.writeVarInt(this.arrivalInTicks);
     }
 
+    @Override
     public String asString() {
         Vec3d vec3d = Vec3d.ofCenter(this.destination.getPos(null).get());
         double d = vec3d.getX();
@@ -71,8 +74,9 @@ public class VibrationParticleEffect implements ParticleEffect {
         return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %d", Registry.PARTICLE_TYPE.getId(this.getType()), d, e, f, this.arrivalInTicks);
     }
 
-    public ParticleType<net.minecraft.particle.VibrationParticleEffect> getType() {
-        return ParticleTypes.VIBRATION;
+    @Override
+    public ParticleType<WildVibrationParticleEffect> getType() {
+        return RegisterParticles.VIBRATION;
     }
 
     public PositionSource getVibration() {

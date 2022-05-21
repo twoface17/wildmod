@@ -31,6 +31,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
@@ -52,16 +53,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements WildServerPlayerEntity, WildPlayerEntity {
+public abstract class PlayerEntityMixin implements WildServerPlayerEntity, WildPlayerEntity {
 	private static final Logger LOGGER = LogUtils.getLogger();
 
 	//private static final TrackedData<Optional<GlobalPos>> LAST_DEATH_POS = DataTracker.registerData(
 			//PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS
 	//);
-
-	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
-		super(entityType, world);
-	}
 
 	@Shadow public abstract void disableShield(boolean sprinting);
 
@@ -79,20 +76,22 @@ public abstract class PlayerEntityMixin extends LivingEntity implements WildServ
 		return this.sculkShriekerWarningManager;
 	}
 
-	private static final TrackedData<Optional<GlobalPos>> LAST_DEATH_POS = DataTracker.registerData(PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS);
 
-	public Optional<GlobalPos> getLastDeathPos() {
-		return this.dataTracker.get(LAST_DEATH_POS);
+	/*public Optional<GlobalPos> getLastDeathPos() {
+		PlayerEntity player = PlayerEntity.class.cast(this);
+		return player.getDataTracker().get(WildMod.LAST_DEATH_POS);
 	}
 
 	public void setLastDeathPos(Optional<GlobalPos> lastDeathPos) {
-		this.dataTracker.set(LAST_DEATH_POS, lastDeathPos);
-	}
+		PlayerEntity player = PlayerEntity.class.cast(this);
+		player.getDataTracker().set(WildMod.LAST_DEATH_POS, lastDeathPos);
+	}*/
 
-	@Inject(method = "onDeath", at = @At("TAIL"))
+	/*@Inject(method = "onDeath", at = @At("TAIL"))
 	private void onDeath(DamageSource source, CallbackInfo ci) {
-		this.setLastDeathPos(Optional.of(GlobalPos.create(this.world.getRegistryKey(), this.getBlockPos())));
-	}
+		PlayerEntity player = PlayerEntity.class.cast(this);
+		this.setLastDeathPos(Optional.of(GlobalPos.create(player.world.getRegistryKey(), player.getBlockPos())));
+	}*/
 
 	@Inject(method = "takeShieldHit", at = @At("HEAD"))
 	protected void takeShieldHit(LivingEntity attacker, CallbackInfo ci) {
@@ -109,21 +108,22 @@ public abstract class PlayerEntityMixin extends LivingEntity implements WildServ
 			SculkShriekerWarningManager.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, nbt.get("warden_spawn_tracker"))).resultOrPartial(LOGGER::error).ifPresent(sculkShriekerWarningManager -> this.sculkShriekerWarningManager = sculkShriekerWarningManager);
 		}
 
-		if (nbt.contains("LastDeathLocation", NbtElement.COMPOUND_TYPE)) {
+		/*if (nbt.contains("LastDeathLocation", NbtElement.COMPOUND_TYPE)) {
 			this.setLastDeathPos(GlobalPos.CODEC.parse(NbtOps.INSTANCE, nbt.get("LastDeathLocation")).resultOrPartial(LOGGER::error));
-		}
+		}*/
 	}
 
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
 	private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
 		SculkShriekerWarningManager.CODEC.encodeStart(NbtOps.INSTANCE, this.sculkShriekerWarningManager).resultOrPartial(LOGGER::error).ifPresent(nbtElement -> nbt.put("warden_spawn_tracker", nbtElement));
 
-		this.getLastDeathPos().flatMap(globalPos -> GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, globalPos).resultOrPartial(LOGGER::error)).ifPresent(nbtElement -> nbt.put("LastDeathLocation", nbtElement));
+		//this.getLastDeathPos().flatMap(globalPos -> GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, globalPos).resultOrPartial(LOGGER::error)).ifPresent(nbtElement -> nbt.put("LastDeathLocation", nbtElement));
 	}
 
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tick(CallbackInfo ci) {
-		if (!this.world.isClient) {
+		PlayerEntity player = PlayerEntity.class.cast(this);
+		if (!player.world.isClient) {
 			this.sculkShriekerWarningManager.tick();
 		}
 	}
@@ -176,25 +176,25 @@ public abstract class PlayerEntityMixin extends LivingEntity implements WildServ
 					warden.handleStatus((byte) 5);
 					WardenBrain.resetDigCooldown(warden);
 					warden.setPersistent();
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 0.2F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 0.2F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 0.2F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 0.2F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 0.2F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-					world.playSound(player, pos, RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 0.2F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 0.2F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 0.2F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 0.2F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 0.2F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+					easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
 						WardenEntity warden2 = RegisterEntities.WARDEN.create(world);
 						assert warden2 != null;
 						warden2.refreshPositionAndAngles(player.getX() + 1D, player.getY()+1.5, player.getZ() + 1D, 0.0F, 0.0F);
@@ -206,22 +206,27 @@ public abstract class PlayerEntityMixin extends LivingEntity implements WildServ
 						assert warden3 != null;
 						warden3.refreshPositionAndAngles(player.getX() + 1D, player.getY()+1.5, player.getZ() + 1D, 0.0F, 0.0F);
 						world.spawnEntity(warden3);
-						world.playSound(player, player.getBlockPos(), RegisterSounds.ENTITY_WARDEN_EMERGE, SoundCategory.MASTER, 1F, 1.0F);
-						world.playSound(player, player.getBlockPos(), RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.MASTER, 1F, 1F);
-						world.playSound(player, player.getBlockPos(), RegisterSounds.ENTITY_WARDEN_AMBIENT_UNDERGROUND, SoundCategory.MASTER, 1F, 1F);
-						world.playSound(player, player.getBlockPos(), RegisterSounds.ENTITY_WARDEN_DIG, SoundCategory.MASTER, 1F, 1F);
-						world.playSound(player, player.getBlockPos(), SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.MASTER, 1F, 1F);
-						world.playSound(player, player.getBlockPos(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.MASTER, 1F, 1F);
-						world.playSound(player, player.getBlockPos(), SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.MASTER, 1F, 1F);
-						world.playSound(player, player.getBlockPos(), SoundEvents.ENTITY_BLAZE_HURT, SoundCategory.MASTER, 1F, 1F);
-						world.playSound(player, player.getBlockPos(), SoundEvents.ENTITY_ENDER_DRAGON_DEATH, SoundCategory.MASTER, 0.5F, 1F);
-						world.playSound(player, player.getBlockPos(), SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.MASTER, 1F, 3F);
-						world.playSound(player, player.getBlockPos(), RegisterSounds.BLOCK_SCULK_SENSOR_RECEIVE_RF, SoundCategory.MASTER, 1F, 3F);
-						world.playSound(player, player.getBlockPos(), RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 1F);
-						world.playSound(player, player.getBlockPos(), RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 0.2F);
-						world.playSound(player, player.getBlockPos(), RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 2F);
+						easySound(player, world, RegisterSounds.ENTITY_WARDEN_EMERGE, 1.0F);
+						easySound(player, world, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, 1.0F);
+						easySound(player, world, RegisterSounds.ENTITY_WARDEN_AMBIENT_UNDERGROUND, 1.0F);
+						easySound(player, world, RegisterSounds.ENTITY_WARDEN_DIG, 1.0F);
+						easySound(player, world, SoundEvents.BLOCK_DISPENSER_FAIL, 1.0F);
+						easySound(player, world, SoundEvents.BLOCK_ANVIL_PLACE, 1.0F);
+						easySound(player, world, SoundEvents.ENTITY_BLAZE_AMBIENT, 1F);
+						easySound(player, world, SoundEvents.ENTITY_BLAZE_HURT, 1.0F);
+						easySound(player, world, SoundEvents.ENTITY_ENDER_DRAGON_DEATH, 1.0F);
+						easySound(player, world, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, 3.0F);
+						easySound(player, world, RegisterSounds.BLOCK_SCULK_SENSOR_RECEIVE_RF, 3.0F);
+						easySound(player, world, RegisterSounds.BLOCK_SCULK_SPREAD, 3.0F);
+						easySound(player, world, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, 1.0F);
+						easySound(player, world, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, 0.2F);
+						easySound(player, world, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, 2.0F);
 				}
 			}
 		}
+	}
+
+	private void easySound(PlayerEntity player, ServerWorld world, SoundEvent sound, float pitch) {
+		world.playSound(player, player.getBlockPos(), sound, SoundCategory.MASTER, 10.0F, pitch);
 	}
 }
