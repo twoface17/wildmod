@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -18,9 +19,11 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
@@ -97,7 +100,7 @@ public class GoatHornItem extends Item {
     @Override
     public int getMaxUseTime(ItemStack stack) {
         Optional<RegistryEntry<Instrument>> optional = this.getInstrument(stack);
-        return optional.isPresent() ? (optional.get()).value().useDuration() : 0;
+        return optional.isPresent() ? ((Instrument)((RegistryEntry)optional.get()).value()).useDuration() : 0;
     }
 
     private Optional<RegistryEntry<Instrument>> getInstrument(ItemStack stack) {
@@ -110,7 +113,7 @@ public class GoatHornItem extends Item {
         }
 
         Iterator<RegistryEntry<Instrument>> iterator = WildRegistry.INSTRUMENT.iterateEntries(this.instrumentTag).iterator();
-        return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.empty();
+        return iterator.hasNext() ? Optional.of((RegistryEntry)iterator.next()) : Optional.empty();
     }
 
     @Override

@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.entity;
 
 import net.minecraft.entity.data.TrackedData;
 
-public interface TrackedDataHandler<T> extends net.minecraft.entity.data.TrackedDataHandler<T> {
+public interface WildTrackedDataHandler<T> extends net.minecraft.entity.data.TrackedDataHandler<T> {
     void write(WildPacketByteBuf buf, T value);
 
     T read(WildPacketByteBuf buf);
@@ -12,7 +12,7 @@ public interface TrackedDataHandler<T> extends net.minecraft.entity.data.Tracked
     }
 
     T copy(T value);
-    public interface ImmutableHandler<T> extends TrackedDataHandler<T> {
+    public interface ImmutableHandler<T> extends WildTrackedDataHandler<T> {
         @Override
         default T copy(T value) {
             return value;

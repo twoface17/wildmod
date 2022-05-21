@@ -26,13 +26,13 @@ public interface Instruments {
     }
 
     static Instrument registerAndGetDefault(Registry<Instrument> registry) {
-        Registry.register(registry, PONDER_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(0), 140, 256.0F));
-        Registry.register(registry, SING_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(1), 140, 256.0F));
-        Registry.register(registry, SEEK_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(2), 140, 256.0F));
-        Registry.register(registry, FEEL_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(3), 140, 256.0F));
-        Registry.register(registry, ADMIRE_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(4), 140, 256.0F));
-        Registry.register(registry, CALL_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(5), 140, 256.0F));
-        Registry.register(registry, YEARN_GOAT_HORN, new Instrument((SoundEvent)RegisterSounds.GOAT_HORN_SOUNDS.get(6), 140, 256.0F));
-        return Registry.register(registry, DREAM_GOAT_HORN, new Instrument((SoundEvent)RegisterSounds.GOAT_HORN_SOUNDS.get(7), 140, 256.0F));
+        WildRegistry.register(registry, PONDER_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(0), 140, 256.0F));
+        WildRegistry.register(registry, SING_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(1), 140, 256.0F));
+        WildRegistry.register(registry, SEEK_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(2), 140, 256.0F));
+        WildRegistry.register(registry, FEEL_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(3), 140, 256.0F));
+        WildRegistry.register(registry, ADMIRE_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(4), 140, 256.0F));
+        WildRegistry.register(registry, CALL_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(5), 140, 256.0F));
+        WildRegistry.register(registry, YEARN_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(6), 140, 256.0F));
+        return WildRegistry.register(registry, DREAM_GOAT_HORN, new Instrument(RegisterSounds.GOAT_HORN_SOUNDS.get(7), 140, 256.0F));
     }
 }

@@ -16,6 +16,7 @@ public class RegisterTags {
     public static final TagKey<Block> FROGS_SPAWNABLE_ON = of("frogs_spawnable_on");
     public static final TagKey<Block> MANGROVE_LOGS_CAN_GROW_THROUGH = of("mangrove_logs_can_grow_through");
     public static final TagKey<Block> MANGROVE_ROOTS_CAN_GROW_THROUGH = of("mangrove_roots_can_grow_through");
+    public static final TagKey<Block> SNAPS_GOAT_HORN = of("snaps_goat_horn");
 
     public static final TagKey<EntityType<?>> FROG_FOOD = ofEntityType("frog_food");
     public static final TagKey<GameEvent> WARDEN_CAN_LISTEN = ofEvent("warden_can_listen");

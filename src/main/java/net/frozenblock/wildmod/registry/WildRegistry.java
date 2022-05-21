@@ -1,21 +1,31 @@
 package net.frozenblock.wildmod.registry;
 
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Lifecycle;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.entity.WildPacketByteBuf;
+import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
 import net.frozenblock.wildmod.event.PositionSourceType;
 import net.frozenblock.wildmod.items.Instrument;
 import net.frozenblock.wildmod.items.Instruments;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.IndexedIterable;
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.util.registry.RegistryKey;
+import org.jetbrains.annotations.Nullable;
 
-public class WildRegistry {
+import java.util.*;
+import java.util.stream.Stream;
+
+public abstract class WildRegistry<T> extends Registry<T> {
     public static RegistryKey<Registry<FrogVariant>> FROG_VARIANT_KEY;
     public static Registry<FrogVariant> FROG_VARIANT;
     public static TrackedDataHandler<FrogVariant> FROG_VARIANT_DATA;
@@ -30,6 +40,10 @@ public class WildRegistry {
     public static Registry<PositionSourceType<?>> WILD_POSITION_SOURCE_TYPE;
     public static RegistryKey<Registry<Instrument>> INSTRUMENT_KEY;
     public static Registry<Instrument> INSTRUMENT;
+
+    protected WildRegistry(RegistryKey<? extends Registry<T>> key, Lifecycle lifecycle) {
+        super(key, lifecycle);
+    }
 
     public static void register() {
         FROG_VARIANT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "frog_variant"));
@@ -48,7 +62,7 @@ public class WildRegistry {
     }
 
     public static <T> TrackedDataHandler<T> of(WildPacketByteBuf.PacketWriter<T> arg, WildPacketByteBuf.PacketReader<T> arg2) {
-        return new net.frozenblock.wildmod.entity.TrackedDataHandler.ImmutableHandler<T>() {
+        return new WildTrackedDataHandler.ImmutableHandler<T>() {
             @Override
             public void write(PacketByteBuf buf, T value) {
                 arg.accept((WildPacketByteBuf) buf, value);
@@ -74,4 +88,62 @@ public class WildRegistry {
     public static <T> TrackedDataHandler<T> of(IndexedIterable<T> registry) {
         return of((buf, value) -> buf.writeRegistryValue(registry, value), buf -> buf.readRegistryValue(registry));
     }
+
+    @Nullable
+    public abstract Identifier getId(T value);
+
+    public abstract Optional<RegistryKey<T>> getKey(T entry);;
+
+    public abstract int getRawId(@Nullable T value);
+
+    @Nullable
+    public abstract T get(int index);
+
+    public abstract int size();
+
+    @Nullable
+    public abstract T get(@Nullable RegistryKey key);
+
+    @Nullable
+    public abstract T get(@Nullable Identifier id);
+
+    public abstract Lifecycle getEntryLifecycle(T entry);
+
+    public abstract Lifecycle getLifecycle();
+
+    public abstract Set<Identifier> getIds();
+
+    public abstract Set<Map.Entry<RegistryKey<T>, T>> getEntrySet();
+
+    public abstract Optional<RegistryEntry<T>> getRandom(Random random);
+
+    public abstract boolean containsId(Identifier id);
+
+    public abstract boolean contains(RegistryKey<T> key);
+
+    public abstract Registry<T> freeze();
+
+    public abstract RegistryEntry<T> getOrCreateEntry(RegistryKey key);
+
+    public abstract RegistryEntry.Reference<T> createEntry(T value);
+
+    public abstract Optional<RegistryEntry<T>> getEntry(int rawId);
+
+    public abstract Optional<RegistryEntry<T>> getEntry(RegistryKey<T> key);
+
+    public abstract Stream<RegistryEntry.Reference<T>> streamEntries();
+
+    public abstract Optional<RegistryEntryList.Named<T>> getEntryList(TagKey<T> tag);
+
+    public abstract RegistryEntryList.Named<T> getOrCreateEntryList(TagKey<T> tag);
+
+    public abstract Stream<Pair<TagKey<T>, RegistryEntryList.Named<T>>> streamTagsAndEntries();
+
+    public abstract Stream<TagKey<T>> streamTags();
+
+    public abstract boolean containsTag(TagKey<T> tag);
+
+    public abstract void clearTags();
+
+    public abstract void populateTags(Map<TagKey<T>, List<RegistryEntry<T>>> tagEntries);
 }
