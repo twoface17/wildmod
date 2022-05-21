@@ -15,7 +15,7 @@ public class MathAddon extends MathHelper {
     private static final long HALF_PI_RADIANS_SINE_TABLE_INDEX = 16384L;
     private static final long field_29854 = -4611686018427387904L;
     private static final long field_29855 = Long.MIN_VALUE;
-    public static final float PI = (float) Math.PI;
+    public static final double PI = 3.14159265358979323846264338327950288419716939937510582097;
     public static final float HALF_PI = (float) (Math.PI / 2);
     public static final float TAU = (float) (Math.PI * 2);
     public static final float RADIANS_PER_DEGREE = (float) (Math.PI / 180.0);
