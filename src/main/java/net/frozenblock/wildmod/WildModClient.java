@@ -1,5 +1,6 @@
 package net.frozenblock.wildmod;
 
+import com.chocohead.mm.api.ClassTinkerers;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -41,6 +42,7 @@ import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ExplosionLargeParticle;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.data.SnbtProvider;
@@ -65,6 +67,8 @@ public class WildModClient implements ClientModInitializer {
     public static final Identifier SHRIEKER_GARGLE1_PACKET = new Identifier("gargle1_packet");
     public static final Identifier SHRIEKER_GARGLE2_PACKET = new Identifier("gargle2_packet");
     public static final Identifier CATALYST_PARTICLE_PACKET = new Identifier("catalyst_packet");
+
+    public static final BipedEntityModel.ArmPose TOOT_HORN_ARM = ClassTinkerers.getEnum(BipedEntityModel.ArmPose.class, "TOOT_HORN");
 
     @Override
     public void onInitializeClient() {

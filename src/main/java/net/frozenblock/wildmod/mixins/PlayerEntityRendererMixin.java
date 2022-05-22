@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.WildModClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -25,7 +26,7 @@ public class PlayerEntityRendererMixin {
                 UseAction useAction = itemStack.getUseAction();
 
                 if (useAction == WildMod.TOOT_HORN) {
-                    return WildMod.TOOT_HORN_ARM;
+                    return WildModClient.TOOT_HORN_ARM;
                 }
             }
         }

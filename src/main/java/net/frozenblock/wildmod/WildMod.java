@@ -57,8 +57,6 @@ public class WildMod implements ModInitializer {
 
     public static final UseAction TOOT_HORN = ClassTinkerers.getEnum(UseAction.class, "TOOT_HORN");
 
-    public static final BipedEntityModel.ArmPose TOOT_HORN_ARM = ClassTinkerers.getEnum(BipedEntityModel.ArmPose.class, "TOOT_HORN");
-
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
 
     public static PositionSourceType<BlockPositionSource> BLOCK;
