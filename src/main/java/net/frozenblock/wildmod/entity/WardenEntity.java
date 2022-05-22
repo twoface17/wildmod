@@ -628,7 +628,7 @@ public class WardenEntity extends WildHostileEntity {
         this.distance = (float)start.distanceTo(end);
         this.delay = MathHelper.floor(this.distance);
 
-        world.sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
+        //world.sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
         if (WildMod.debugMode) {
             LOGGER.info("A Warden has created a Vibration");
         }
@@ -640,7 +640,7 @@ public class WardenEntity extends WildHostileEntity {
         Vec3d end = Vec3d.ofCenter(this.getBlockPos().down());
         this.distance = (float)start.distanceTo(end);
         this.delay = MathHelper.floor(this.distance);
-        ((WildServerWorld)world).spawnParticles(new WildVibrationParticleEffect(entitySource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
+        //((WildServerWorld)world).spawnParticles(new WildVibrationParticleEffect(entitySource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
 
         if (WildMod.debugMode) {
             LOGGER.info("A Warden has created a Floor Vibration");
