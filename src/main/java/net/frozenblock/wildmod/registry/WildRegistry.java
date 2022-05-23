@@ -26,9 +26,9 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public abstract class WildRegistry<T> extends Registry<T> {
-    public static RegistryKey<Registry<FrogVariant>> FROG_VARIANT_KEY;
-    public static Registry<FrogVariant> FROG_VARIANT;
-    public static TrackedDataHandler<FrogVariant> FROG_VARIANT_DATA;
+    //public static RegistryKey<Registry<FrogVariant>> FROG_VARIANT_KEY;
+    //public static Registry<FrogVariant> FROG_VARIANT;
+    //public static TrackedDataHandler<FrogVariant> FROG_VARIANT_DATA;
 
     public static RegistryKey<Registry<RootPlacerType<?>>> ROOT_PLACER_TYPE_KEY;
     public static Registry<RootPlacerType<?>> ROOT_PLACER_TYPE;
@@ -46,9 +46,9 @@ public abstract class WildRegistry<T> extends Registry<T> {
     }
 
     public static void register() {
-        FROG_VARIANT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "frog_variant"));
-        FROG_VARIANT = Registry.create(FROG_VARIANT_KEY, registry -> FrogVariant.TEMPERATE);
-        FROG_VARIANT_DATA = of(FROG_VARIANT);
+        //FROG_VARIANT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "frog_variant"));
+        //FROG_VARIANT = Registry.create(FROG_VARIANT_KEY, registry -> FrogVariant.TEMPERATE);
+        //FROG_VARIANT_DATA = of(FROG_VARIANT);
         //STRUCTURE_TYPE_KEY = WildRegistry.createRegistryEntry("worldgen/structure_type");
         //STRUCTURE_TYPE = WildRegistry.create(STRUCTURE_TYPE_KEY, registry -> net.frozenblock.wildmod.world.gen.structure.StructureType.JIGSAW);
         //STRUCTURE_KEY = WildRegistry.createRegistryKey("worldgen/structure");

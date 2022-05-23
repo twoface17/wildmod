@@ -80,7 +80,7 @@ public class WildMod implements ModInitializer {
         LAST_DEATH_POS = DataTracker.registerData(PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS);
         RegisterItems.RegisterItems();
         RegisterEntities.RegisterEntities();
-        FrogVariant.registerFrogVariants();
+        //FrogVariant.registerFrogVariants();
 
         RegisterDispenser.RegisterDispenser();
         RegisterParticles.RegisterParticles();
@@ -89,7 +89,7 @@ public class WildMod implements ModInitializer {
         RootPlacerType.registerRootTypes();
 
         registerData(OPTIONAL_INT);
-        registerData(WildRegistry.FROG_VARIANT_DATA);
+        //registerData(WildRegistry.FROG_VARIANT_DATA);
 
         TONGUE = ActivityInvoker.callRegister( "tongue");
         SWIM = ActivityInvoker.callRegister( "swim");

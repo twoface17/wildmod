@@ -84,7 +84,7 @@ public class FrogEntity extends AnimalEntity {
                     RegisterMemoryModules.IS_PREGNANT
             }
     );
-    private static final TrackedData<FrogVariant> VARIANT = DataTracker.registerData(FrogEntity.class, WildRegistry.FROG_VARIANT_DATA);
+    //private static final TrackedData<FrogVariant> VARIANT = DataTracker.registerData(FrogEntity.class, WildRegistry.FROG_VARIANT_DATA);
     private static final TrackedData<OptionalInt> TARGET = DataTracker.registerData(FrogEntity.class, WildMod.OPTIONAL_INT);
     private static final int field_37459 = 5;
     public static final String VARIANT_KEY = "variant";
@@ -117,7 +117,7 @@ public class FrogEntity extends AnimalEntity {
 
     protected void initDataTracker() {
         super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, FrogVariant.TEMPERATE);
+        //this.dataTracker.startTracking(VARIANT, FrogVariant.TEMPERATE);
         this.dataTracker.startTracking(TARGET, OptionalInt.empty());
     }
 
@@ -144,25 +144,25 @@ public class FrogEntity extends AnimalEntity {
         return 5;
     }
 
-    public FrogVariant getVariant() {
-        return (FrogVariant)this.dataTracker.get(VARIANT);
-    }
+    //public FrogVariant getVariant() {
+        //return (FrogVariant)this.dataTracker.get(VARIANT);
+    //}
 
-    public void setVariant(FrogVariant variant) {
-        this.dataTracker.set(VARIANT, variant);
-    }
+    //public void setVariant(FrogVariant variant) {
+        //this.dataTracker.set(VARIANT, variant);
+    //}
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putString("variant", WildRegistry.FROG_VARIANT.getId(this.getVariant()).toString());
+        //nbt.putString("variant", WildRegistry.FROG_VARIANT.getId(this.getVariant()).toString());
     }
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        FrogVariant frogVariant = WildRegistry.FROG_VARIANT.get(Identifier.tryParse(nbt.getString("variant")));
-        if (frogVariant != null) {
-            this.setVariant(frogVariant);
-        }
+        //FrogVariant frogVariant = WildRegistry.FROG_VARIANT.get(Identifier.tryParse(nbt.getString("variant")));
+        //if (frogVariant != null) {
+            //this.setVariant(frogVariant);
+        //}
 
     }
 
@@ -279,11 +279,11 @@ public class FrogEntity extends AnimalEntity {
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         RegistryEntry<Biome> registryEntry = world.getBiome(this.getBlockPos());
         if (registryEntry.isIn(net.frozenblock.wildmod.tags.BiomeTags.SPAWNS_COLD_VARIANT_FROGS)) {
-            this.setVariant(FrogVariant.COLD);
+            //this.setVariant(FrogVariant.COLD);
         } else if (registryEntry.isIn(BiomeTags.SPAWNS_WARM_VARIANT_FROGS)) {
-            this.setVariant(FrogVariant.WARM);
+            //this.setVariant(FrogVariant.WARM);
         } else {
-            this.setVariant(FrogVariant.TEMPERATE);
+            //this.setVariant(FrogVariant.TEMPERATE);
         }
 
         FrogBrain.coolDownLongJump(this, world.getRandom());
