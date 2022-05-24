@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class FrogEntityRenderer extends MobEntityRenderer<FrogEntity, FrogEntityModel<FrogEntity>> {
 
-    private static final Identifier TEMPORARY_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/cold_frog.png");
+    private static final Identifier TEMPORARY_TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/frog/temperate_frog.png");
 
     public FrogEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new FrogEntityModel<>(context.getPart(WildModClient.MODEL_FROG_LAYER)), 0.3F);
