@@ -12,7 +12,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.passive.GoatEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -32,7 +31,7 @@ import java.util.function.ToDoubleFunction;
 
 @Mixin(RamImpactTask.class)
 public abstract class RamImpactTaskMixin<E extends PathAwareEntity> {
-/*
+
     @Shadow @Final private TargetPredicate targetPredicate;
 
     @Shadow @Final private ToDoubleFunction<E> strengthMultiplierFactory;
@@ -48,14 +47,12 @@ public abstract class RamImpactTaskMixin<E extends PathAwareEntity> {
     @Shadow private Vec3d direction;
     private final Function<E, SoundEvent> hornBreakSoundFactory;
 
-
-
     /**
      * @author FrozenBlock
      * @reason goat horn drops
-     *//*
+     */
     @Overwrite
-    protected void keepRunning(ServerWorld serverWorld, E goatEntity, long l) {
+    public void keepRunning(ServerWorld serverWorld, E goatEntity, long l) {
         List<LivingEntity> list = serverWorld.getTargets(LivingEntity.class, this.targetPredicate, goatEntity, goatEntity.getBoundingBox());
         Brain<?> brain = goatEntity.getBrain();
         if (!list.isEmpty()) {
@@ -82,7 +79,7 @@ public abstract class RamImpactTaskMixin<E extends PathAwareEntity> {
             Optional<Vec3d> optional2 = brain.getOptionalMemory(MemoryModuleType.RAM_TARGET);
             boolean bl2 = !optional.isPresent()
                     || !optional2.isPresent()
-                    || ((WalkTarget)optional.get()).getLookTarget().getPos().isInRange((Position)optional2.get(), 0.25);
+                    || optional.get().getLookTarget().getPos().isInRange((Position)optional2.get(), 0.25);
             if (bl2) {
                 this.finishRam(serverWorld, goatEntity);
             }
@@ -94,5 +91,5 @@ public abstract class RamImpactTaskMixin<E extends PathAwareEntity> {
         Vec3d vec3d = goat.getVelocity().multiply(1.0, 0.0, 1.0).normalize();
         BlockPos blockPos = new BlockPos(goat.getPos().add(vec3d));
         return world.getBlockState(blockPos).isIn(RegisterTags.SNAPS_GOAT_HORN) || world.getBlockState(blockPos.up()).isIn(RegisterTags.SNAPS_GOAT_HORN);
-    }*/
+    }
 }

@@ -3,7 +3,6 @@ package net.frozenblock.wildmod.registry;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Lifecycle;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.entity.WildPacketByteBuf;
 import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
 import net.frozenblock.wildmod.event.PositionSourceType;

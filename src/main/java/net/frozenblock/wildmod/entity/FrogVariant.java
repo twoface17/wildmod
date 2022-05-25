@@ -1,9 +1,6 @@
 package net.frozenblock.wildmod.entity;
 
-import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.registry.WildRegistry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public record FrogVariant(Identifier texture) {
     public static FrogVariant TEMPERATE;

@@ -12,8 +12,6 @@ import net.frozenblock.wildmod.event.WildEventTags;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
 import net.frozenblock.wildmod.liukrastapi.AnimationState;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
-import net.frozenblock.wildmod.liukrastapi.WildServerWorld;
-import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;

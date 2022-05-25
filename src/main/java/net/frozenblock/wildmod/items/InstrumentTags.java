@@ -4,7 +4,6 @@ import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.registry.WildRegistry;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public interface InstrumentTags {
     TagKey<Instrument> REGULAR_GOAT_HORNS = of("regular_goat_horns");

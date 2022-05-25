@@ -36,7 +36,6 @@ import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterParticles;
-import net.minecraft.GameVersion;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.model.TexturedModelData;
@@ -45,15 +44,10 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.data.SnbtProvider;
-import net.minecraft.data.validate.StructureValidatorProvider;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-
-import java.nio.file.Path;
-import java.util.Collection;
 
 @Environment(EnvType.CLIENT)
 public class WildModClient implements ClientModInitializer {

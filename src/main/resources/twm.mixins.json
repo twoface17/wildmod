@@ -6,25 +6,21 @@
   "mixins": [
 	"AbstractBlockMixin",
 	"ActivityInvoker",
-	"BackgroundRendererMixin",
-	"BipedEntityModelMixin",
 	"BlockEntityTypeMixin",
 	"ClientPlayerEntityMixin",
 	"FeatureInvoker",
 	"GoatEntityMixin",
 	"LeavesBlockMixin",
-	"LightmapTextureManagerMixin",
 	"LivingEntityMixin",
 	"MemoryModuleTypeInvoker",
 	"MemoryModuleTypeInvoker2",
 	"MobEntityMixin",
-	"ModelPartDataMixin",
-	"ModelPartMixin",
 	"MusicDiscItemInvoker",
 	"NoteBlockMixin",
 	"PlayerEntityMixin",
 	"PlayerEntityRendererMixin",
 	"RamImpactTaskMixin",
+	"SchemasMixin",
 	"SculkSensorBlockEntityMixin",
 	"SculkSensorBlockMixin",
 	"SculkSensorListenerMixin",
@@ -43,10 +39,15 @@
 	"VanillaSurfaceRulesInjector",
 	"VillagerEntityMixin",
 	"VillagerTypeMixin",
-	"WorldChunkMixin",
-	"WorldRendererMixin"
+	"WorldChunkMixin"
   ],
   "client": [
+	"BackgroundRendererMixin",
+	"BipedEntityModelMixin",
+	"LightmapTextureManagerMixin",
+	"ModelPartDataMixin",
+	"ModelPartMixin",
+	"WorldRendererMixin"
   ],
   "injectors": {
 	"defaultRequire": 1

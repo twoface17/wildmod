@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.WildModClient;
 import net.frozenblock.wildmod.liukrastapi.MathAddon;
 import net.minecraft.client.model.ModelPart;

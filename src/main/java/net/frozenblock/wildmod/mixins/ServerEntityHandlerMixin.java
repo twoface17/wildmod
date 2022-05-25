@@ -2,6 +2,7 @@ package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.entity.WildHostileEntity;
 import net.frozenblock.wildmod.entity.WildPathAwareEntity;
+import net.frozenblock.wildmod.event.EntityGameEventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;

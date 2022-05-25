@@ -13,13 +13,10 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.GoatEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.gen.random.AbstractRandom;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,7 +29,7 @@ import java.util.Random;
 
 @Mixin(GoatEntity.class)
 public abstract class GoatEntityMixin implements WildGoat {
-/*
+
     @Shadow public abstract boolean isScreaming();
 
     private static final TrackedData<Boolean> LEFT_HORN = DataTracker.registerData(GoatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -102,5 +99,5 @@ public abstract class GoatEntityMixin implements WildGoat {
         GoatEntity goat = GoatEntity.class.cast(this);
         goat.getDataTracker().set(LEFT_HORN, nbt.getBoolean("HasLeftHorn"));
         goat.getDataTracker().set(RIGHT_HORN, nbt.getBoolean("HasRightHorn"));
-    }*/
+    }
 }

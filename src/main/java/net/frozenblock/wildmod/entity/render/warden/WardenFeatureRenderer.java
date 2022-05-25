@@ -3,7 +3,6 @@ package net.frozenblock.wildmod.entity.render.warden;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.liukrastapi.ExpandedModelPart;
 import net.frozenblock.wildmod.render.WildRenderLayer;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;

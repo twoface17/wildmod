@@ -9,10 +9,10 @@ import net.frozenblock.wildmod.block.deepdark.SculkShriekerBlock;
 import net.frozenblock.wildmod.block.wild.WildWorldEvents;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.entity.util.LargeEntitySpawnHelper;
-import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildEventTags;
+import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.liukrastapi.WildVec3d;
 import net.frozenblock.wildmod.registry.RegisterEntities;
@@ -35,6 +35,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -93,7 +95,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
     }
 
     @Override
-    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvents event, WildGameEvents.Emitter emitter) {
+    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, WildGameEvents.Emitter emitter) {
         return !this.isRemoved() && !this.getCachedState().get(SculkShriekerBlock.SHRIEKING) && method_44018(emitter.sourceEntity()) != null;
     }
 
@@ -121,9 +123,10 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
     }
 
     @Override
-    public void accept(ServerWorld world, GameEventListener gameEventListener, BlockPos pos, WildGameEvents gameEvent, @Nullable Entity entity, @Nullable Entity sourceEntity, int i) {
+    public void accept(ServerWorld world, GameEventListener gameEventListener, BlockPos pos, GameEvent gameEvent, @Nullable Entity entity, @Nullable Entity sourceEntity, float i) {
         this.shriek(world, method_44018(sourceEntity != null ? sourceEntity : entity));
     }
+
 
     public void shriek(ServerWorld serverWorld, @Nullable ServerPlayerEntity serverPlayerEntity) {
         if (serverPlayerEntity != null) {

@@ -5,6 +5,7 @@
 
 package net.frozenblock.wildmod.event;
 
+import com.mojang.datafixers.util.Function5;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.liukrastapi.TickCriterion;
@@ -13,6 +14,7 @@ import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.particle.VibrationParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
@@ -24,9 +26,12 @@ import net.minecraft.util.hit.HitResult.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockStateRaycastContext;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.event.listener.SculkSensorListener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -38,30 +43,30 @@ public class VibrationListener implements GameEventListener {
     protected final Callback callback;
     @Nullable
     protected Vibration vibration;
-    protected int distance;
+    protected float distance;
     protected int delay;
     private static final Codec<UUID> UUID = DynamicSerializableUuid.CODEC;
 
-    public static Codec<VibrationListener> createCodec(VibrationListener.Callback callback) {
-        return RecordCodecBuilder.create(
-                instance -> instance.group(
-                                PositionSource.CODEC.fieldOf("source").forGetter(listener -> listener.positionSource),
-                                Codecs.NONNEGATIVE_INT.fieldOf("range").forGetter(listener -> listener.range),
-                                VibrationListener.Vibration.CODEC.optionalFieldOf("event").forGetter(listener -> Optional.ofNullable(listener.vibration)),
-                                Codecs.NONNEGATIVE_INT.fieldOf("event_distance").orElse(0).forGetter(listener -> listener.distance),
-                                Codecs.NONNEGATIVE_INT.fieldOf("event_delay").orElse(0).forGetter(listener -> listener.delay)
-                        )
-                        .apply(
-                                instance,
-                                (positionSource, range, vibration, distance, delay) -> new VibrationListener(
-                                        positionSource, range, callback, vibration.orElse(null), distance, delay
-                                )
-                        )
-        );
+    public static Codec<VibrationListener> createCodec(Callback callback) {
+        return RecordCodecBuilder.create((instance) -> {
+            return instance.group(PositionSource.CODEC.fieldOf("source").forGetter((listener) -> {
+                return listener.positionSource;
+            }), Codecs.NONNEGATIVE_INT.fieldOf("range").forGetter((listener) -> {
+                return listener.range;
+            }), VibrationListener.Vibration.CODEC.optionalFieldOf("event").forGetter((listener) -> {
+                return Optional.ofNullable(listener.vibration);
+            }), Codec.floatRange(0.0F, Float.MAX_VALUE).fieldOf("event_distance").orElse(0.0F).forGetter((listener) -> {
+                return listener.distance;
+            }), Codecs.NONNEGATIVE_INT.fieldOf("event_delay").orElse(0).forGetter((listener) -> {
+                return listener.delay;
+            })).apply(instance, ((positionSource, range, vibration, float_, delay) -> {
+                return new VibrationListener(positionSource, range, callback, vibration.orElse(null), float_, delay);
+            }));
+        });
     }
 
     public VibrationListener(
-            PositionSource positionSource, int range, VibrationListener.Callback callback, @Nullable VibrationListener.Vibration vibration, int distance, int delay
+            PositionSource positionSource, int range, VibrationListener.Callback callback, @Nullable VibrationListener.Vibration vibration, float distance, int delay
     ) {
         this.positionSource = positionSource;
         this.range = range;
@@ -93,7 +98,7 @@ public class VibrationListener implements GameEventListener {
     }
 
     public net.minecraft.world.event.PositionSource getPositionSource() {
-        return (net.minecraft.world.event.PositionSource) this.positionSource;
+        return this.positionSource;
     }
 
     public int getRange() {
@@ -129,10 +134,10 @@ public class VibrationListener implements GameEventListener {
     }
 
     private void listen(ServerWorld world, WildGameEvents gameEvent, WildGameEvents.Emitter emitter, WildVec3d start, WildVec3d end) {
-        this.distance = MathHelper.floor(start.distanceTo(end));
-        this.vibration = new VibrationListener.Vibration(gameEvent, this.distance, start, emitter.sourceEntity());
-        this.delay = this.distance;
-        world.spawnParticles(new WildVibrationParticleEffect((net.minecraft.world.event.PositionSource) this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
+        this.distance = (float)start.distanceTo(end);
+        this.vibration = new Vibration(gameEvent, this.distance, start, emitter.sourceEntity());
+        this.delay = MathHelper.floor(this.distance);
+        world.spawnParticles(new WildVibrationParticleEffect(this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
         this.callback.onListen();
     }
 
@@ -190,40 +195,32 @@ public class VibrationListener implements GameEventListener {
             }
         }
 
-        boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvents event, WildGameEvents.Emitter emitter);
+        boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, WildGameEvents.Emitter emitter);
 
-        void accept(
-                ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvents event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
-        );
+        void accept(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, float distance);
 
         default void onListen() {
         }
     }
 
     public static record Vibration(
-            WildGameEvents gameEvent, int distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity
+            GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity
     ) {
-        public static final Codec<VibrationListener.Vibration> CODEC = RecordCodecBuilder.create(
-                instance -> instance.group(
-                                Registry.GAME_EVENT.getCodec().fieldOf("game_event").forGetter(VibrationListener.Vibration::gameEvent),
-                                Codecs.NONNEGATIVE_INT.fieldOf("distance").forGetter(VibrationListener.Vibration::distance),
-                                WildVec3d.CODEC.fieldOf("pos").forGetter(VibrationListener.Vibration::pos),
-                                UUID.optionalFieldOf("source").forGetter(vibration -> Optional.ofNullable(vibration.uuid())),
-                                UUID.optionalFieldOf("projectile_owner").forGetter(vibration -> Optional.ofNullable(vibration.projectileOwnerUuid()))
-                        )
-                        .apply(
-                                instance,
-                                (gameEvent, integer, vec3d, optional, optional2) -> new VibrationListener.Vibration(
-                                        (WildGameEvents)gameEvent, integer, vec3d, optional.orElse(null), optional2.orElse(null)
-                                )
-                        )
-        );
+        public static final Codec<Vibration> CODEC = RecordCodecBuilder.create((instance) -> {
+            return instance.group(Registry.GAME_EVENT.getCodec().fieldOf("game_event").forGetter(Vibration::gameEvent), Codec.floatRange(0.0F, Float.MAX_VALUE).fieldOf("distance").forGetter(Vibration::distance), WildVec3d.CODEC.fieldOf("pos").forGetter(Vibration::pos), DynamicSerializableUuid.CODEC.optionalFieldOf("source").forGetter((vibration) -> {
+                return Optional.ofNullable(vibration.uuid());
+            }), DynamicSerializableUuid.CODEC.optionalFieldOf("projectile_owner").forGetter((vibration) -> {
+                return Optional.ofNullable(vibration.projectileOwnerUuid());
+            })).apply(instance, ((event, distance, pos, uuid, projectileOwnerUuid) -> {
+                return new Vibration(event, distance, pos, (UUID)uuid.orElse(null), (UUID)projectileOwnerUuid.orElse(null));
+            }));
+        });
 
-        public Vibration(WildGameEvents gameEvent, int distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID sourceUuid) {
+        public Vibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID sourceUuid) {
             this(gameEvent, distance, pos, uuid, sourceUuid, null);
         }
 
-        public Vibration(WildGameEvents gameEvent, int distance, WildVec3d pos, @Nullable Entity entity) {
+        public Vibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable Entity entity) {
             this(gameEvent, distance, pos, entity == null ? null : entity.getUuid(), getOwnerUuid(entity), entity);
         }
 
