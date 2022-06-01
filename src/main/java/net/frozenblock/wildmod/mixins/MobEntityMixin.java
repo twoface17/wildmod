@@ -24,28 +24,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin extends LivingEntity {
-    @Shadow @Nullable public abstract Entity getHoldingEntity();
 
-    @Final
-    @Shadow
-    private static TrackedData<Byte> MOB_FLAGS = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BYTE);
-    @Final
-    @Shadow private DefaultedList<ItemStack> armorItems = DefaultedList.ofSize(4, ItemStack.EMPTY);
-    @Final
-    @Shadow
-    private DefaultedList<ItemStack> handItems = DefaultedList.ofSize(2, ItemStack.EMPTY);
+    @Final @Shadow private static final TrackedData<Byte> MOB_FLAGS = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BYTE);
+    @Final @Shadow private final DefaultedList<ItemStack> armorItems = DefaultedList.ofSize(4, ItemStack.EMPTY);
+    @Final @Shadow private final DefaultedList<ItemStack> handItems = DefaultedList.ofSize(2, ItemStack.EMPTY);
     @Shadow private boolean canPickUpLoot;
 
-    @Final
-    @Shadow protected float[] handDropChances = new float[2];
-    @Final
-    @Shadow
-    protected float[] armorDropChances = new float[4];
+    @Final @Shadow protected final float[] handDropChances = new float[2];
+    @Final @Shadow protected final float[] armorDropChances = new float[4];
 
     @Shadow private boolean persistent;
 
-    @Shadow
-    public boolean canPickUpLoot() {
+    @Shadow public boolean canPickUpLoot() {
         return this.canPickUpLoot;
     }
 

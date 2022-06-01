@@ -7,7 +7,7 @@ import net.minecraft.world.gen.random.AbstractRandom;
 
 import java.util.UUID;
 
-public class MathAddon extends MathHelper {
+public class MathAdvanced extends MathHelper {
     public static double time;
     private static final int field_29850 = 1024;
     private static final float field_29851 = 1024.0F;
@@ -40,7 +40,7 @@ public class MathAddon extends MathHelper {
     private static final double[] ARCSINE_TABLE = new double[257];
     private static final double[] COSINE_TABLE = new double[257];
 
-    public MathAddon() {
+    public MathAdvanced() {
     }
 
     public static float sin(float value) {

@@ -8,7 +8,7 @@ import net.frozenblock.wildmod.entity.ai.task.SonicBoomTask;
 import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
 import net.frozenblock.wildmod.event.*;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
-import net.frozenblock.wildmod.liukrastapi.AnimationState;
+import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;

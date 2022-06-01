@@ -29,7 +29,7 @@ public class WardenAngerManager {
     @VisibleForTesting
     protected static final int maxAnger = 150;
     private static final int angerDecreasePerTick = 1;
-    private int updateTimer = MathAddon.nextBetween(WildAbstractRandom.createAtomic(), 0, 2);
+    private int updateTimer = MathAdvanced.nextBetween(WildAbstractRandom.createAtomic(), 0, 2);
     int primeAnger;
     private static final Codec<Pair<UUID, Integer>> SUSPECT_CODEC = RecordCodecBuilder.create(
             instance -> instance.group(UUID.fieldOf("uuid").forGetter(Pair::getFirst), Codecs.NONNEGATIVE_INT.fieldOf("anger").forGetter(Pair::getSecond))

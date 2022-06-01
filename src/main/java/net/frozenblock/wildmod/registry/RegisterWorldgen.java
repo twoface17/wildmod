@@ -130,26 +130,9 @@ public class RegisterWorldgen {
         addMangroveSwampFeatures(builder2);
         builder2.feature(GenerationStep.Feature.VEGETAL_DECORATION, OceanPlacedFeatures.SEAGRASS_SWAMP);
         MusicSound musicSound = MusicType.createIngameMusic(RegisterSounds.MUSIC_OVERWORLD_SWAMP);
-        return (
-                new Biome.Builder())
-                .precipitation(Biome.Precipitation.RAIN)
-                .category(Biome.Category.SWAMP)
-                .temperature(0.8F).downfall(0.9F)
-                .effects((new BiomeEffects.Builder())
-                        .waterColor(3832426)
-                        .waterFogColor(5077600)
-                        .fogColor(12638463)
-                        .skyColor(getSkyColor(0.8F))
-                        .foliageColor(9285927)
-                        .grassColorModifier(BiomeEffects.GrassColorModifier.SWAMP)
-                        .moodSound(BiomeMoodSound.CAVE)
-                        .music(musicSound)
-                        .build()
-                )
-                .spawnSettings(builder.build())
-                .generationSettings(builder2.build())
-                .build();
+        return (new Biome.Builder()).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.SWAMP).temperature(0.8F).downfall(0.9F).effects((new BiomeEffects.Builder()).waterColor(3832426).waterFogColor(5077600).fogColor(12638463).skyColor(getSkyColor(0.8F)).foliageColor(9285927).grassColorModifier(BiomeEffects.GrassColorModifier.SWAMP).moodSound(BiomeMoodSound.CAVE).music(musicSound).build()).spawnSettings(builder.build()).generationSettings(builder2.build()).build();
     }
+
     private static void addBasicFeatures(GenerationSettings.Builder generationSettings) {
         DefaultBiomeFeatures.addLandCarvers(generationSettings);
         DefaultBiomeFeatures.addAmethystGeodes(generationSettings);
@@ -158,27 +141,31 @@ public class RegisterWorldgen {
         DefaultBiomeFeatures.addSprings(generationSettings);
         DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
     }
+
     private static void addGrassAndClayDisks(GenerationSettings.Builder builder) {
         builder.feature(GenerationStep.Feature.UNDERGROUND_ORES, WildPlacedFeatures.DISK_GRASS);
         builder.feature(GenerationStep.Feature.UNDERGROUND_ORES, MiscPlacedFeatures.DISK_CLAY);
     }
+
     private static void addMangroveSwampFeatures(GenerationSettings.Builder builder) {
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, TREES_MANGROVE);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_GRASS_NORMAL);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_DEAD_BUSH);
         builder.feature(GenerationStep.Feature.VEGETAL_DECORATION, VegetationPlacedFeatures.PATCH_WATERLILY);
     }
+
     private static void addSculk(GenerationSettings.Builder builder) {
         builder.feature(GenerationStep.Feature.UNDERGROUND_DECORATION, WildPlacedFeatures.SCULK_VEIN);
         builder.feature(GenerationStep.Feature.UNDERGROUND_DECORATION, WildPlacedFeatures.SCULK_PATCH_DEEP_DARK);
     }
+
     protected static int getSkyColor(float temperature) {
         float f = temperature / 3.0F;
         f = MathHelper.clamp(f, -1.0F, 1.0F);
         return MathHelper.hsvToRgb(0.62222224F - f * 0.05F, 0.5F + f * 0.1F, 1.0F);
     }
 
-    public static void RegisterWorldgen() {
+    public static void registerWorldgen() {
 
 
         BIRCH_NEW = WildConfiguredFeatures.register("birch", Feature.TREE, new TreeFeatureConfig.Builder(

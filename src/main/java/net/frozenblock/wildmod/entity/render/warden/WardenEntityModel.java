@@ -6,7 +6,7 @@ import net.fabricmc.api.Environment;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.liukrastapi.ExpandedModelPart;
 import net.frozenblock.wildmod.liukrastapi.ExpandedSinglePartEntityModel;
-import net.frozenblock.wildmod.liukrastapi.WardenAnimations;
+import net.frozenblock.wildmod.liukrastapi.animation.WardenAnimations;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;

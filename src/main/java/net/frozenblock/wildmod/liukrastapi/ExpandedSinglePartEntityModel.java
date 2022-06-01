@@ -1,5 +1,7 @@
 package net.frozenblock.wildmod.liukrastapi;
 
+import net.frozenblock.wildmod.liukrastapi.animation.Animation;
+import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
 import net.minecraft.client.model.ModelPart;
 
 import java.util.Optional;

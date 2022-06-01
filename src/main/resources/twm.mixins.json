@@ -7,7 +7,6 @@
 	"AbstractBlockMixin",
 	"ActivityInvoker",
 	"BlockEntityTypeMixin",
-	"ClientPlayerEntityMixin",
 	"FeatureInvoker",
 	"GoatEntityMixin",
 	"LeavesBlockMixin",
@@ -18,7 +17,6 @@
 	"MusicDiscItemInvoker",
 	"NoteBlockMixin",
 	"PlayerEntityMixin",
-	"PlayerEntityRendererMixin",
 	"RamImpactTaskMixin",
 	"SchemasMixin",
 	"SculkSensorBlockEntityMixin",
@@ -29,7 +27,6 @@
 	"ServerWorldMixin",
 	"SignTypeAccessor",
 	"SimpleGameEventDispatcherMixin",
-	"SinglePartEntityModelMixin",
 	"StructurePoolsMixin",
 	"TreeDecoratorTypeInvoker",
 	"TrunkPlacerTypeInvoker",
@@ -44,9 +41,14 @@
   "client": [
 	"BackgroundRendererMixin",
 	"BipedEntityModelMixin",
+	"ClientPlayerEntityMixin",
+	"InputMixin",
+	"KeyboardInputMixin",
 	"LightmapTextureManagerMixin",
 	"ModelPartDataMixin",
 	"ModelPartMixin",
+	"PlayerEntityRendererMixin",
+	"SinglePartEntityModelMixin",
 	"WorldRendererMixin"
   ],
   "injectors": {

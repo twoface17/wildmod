@@ -5,7 +5,7 @@ import net.fabricmc.api.Environment;
 import net.frozenblock.wildmod.entity.FrogEntity;
 import net.frozenblock.wildmod.liukrastapi.ExpandedModelPart;
 import net.frozenblock.wildmod.liukrastapi.ExpandedSinglePartEntityModel;
-import net.frozenblock.wildmod.liukrastapi.FrogAnimations;
+import net.frozenblock.wildmod.liukrastapi.animation.FrogAnimations;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 

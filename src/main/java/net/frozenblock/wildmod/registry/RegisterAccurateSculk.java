@@ -2,7 +2,6 @@ package net.frozenblock.wildmod.registry;
 
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.WardenPositionSource;
-import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -23,10 +22,9 @@ public abstract class RegisterAccurateSculk {
     public static final PositionSourceType<WardenPositionSource> WARDEN = new WardenPositionSource.Type();
     public static final SoundEvent GARGLE_EVENT = new SoundEvent(GARGLE);
 
-    public static void RegisterAccurateSculk() {
+    public static void register() {
         //Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "click"), CLICK);
         Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, "death"), DEATH);
         Registry.register(Registry.SOUND_EVENT, RegisterAccurateSculk.GARGLE, GARGLE_EVENT);
-        WildBlockEntityType.init();
     }
 }

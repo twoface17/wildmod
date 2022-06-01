@@ -28,8 +28,8 @@ import java.util.Random;
 
 @Mixin(LeavesBlock.class)
 public class LeavesBlockMixin extends Block implements Waterloggable {
-    @Shadow @Final public static final IntProperty DISTANCE = Properties.DISTANCE_1_7;
-    @Shadow @Final public static final BooleanProperty PERSISTENT = Properties.PERSISTENT;
+    @Final @Shadow public static final IntProperty DISTANCE = Properties.DISTANCE_1_7;
+    @Final @Shadow public static final BooleanProperty PERSISTENT = Properties.PERSISTENT;
 
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 

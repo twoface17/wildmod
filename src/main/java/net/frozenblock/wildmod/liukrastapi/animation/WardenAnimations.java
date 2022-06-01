@@ -1,10 +1,10 @@
-package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.liukrastapi.animation;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.frozenblock.wildmod.liukrastapi.Animation.Builder;
-import net.frozenblock.wildmod.liukrastapi.Transformation.Interpolations;
-import net.frozenblock.wildmod.liukrastapi.Transformation.Targets;
+import net.frozenblock.wildmod.liukrastapi.animation.Animation.Builder;
+import net.frozenblock.wildmod.liukrastapi.animation.Transformation.Interpolations;
+import net.frozenblock.wildmod.liukrastapi.animation.Transformation.Targets;
 
 @Environment(EnvType.CLIENT)
 public class WardenAnimations {

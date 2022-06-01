@@ -1,23 +1,25 @@
-package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.liukrastapi.animation;
 
 import net.minecraft.util.math.MathHelper;
 
 import java.util.function.Consumer;
 
 public class AnimationState {
-	private static final long field_39275 = Long.MIN_VALUE;
-	private static final long field_37417 = Long.MAX_VALUE;
+	private static final long STOPPED = Long.MAX_VALUE;
 	private long updatedAt = Long.MAX_VALUE;
 	private long timeRunning;
 
-	public void start() {
-		this.updatedAt = Long.MIN_VALUE;
+	public AnimationState() {
+	}
+
+	public void start(int age) {
+		this.updatedAt = (long)age * 1000L / 20L;
 		this.timeRunning = 0L;
 	}
 
-	public void startIfNotRunning() {
+	public void startIfNotRunning(int age) {
 		if (!this.isRunning()) {
-			this.start();
+			this.start(age);
 		}
 
 	}
@@ -33,14 +35,10 @@ public class AnimationState {
 
 	}
 
-	public void update(float f, float g) {
+	public void update(float animationProgress, float speedMultiplier) {
 		if (this.isRunning()) {
-			long l = MathHelper.lfloor((double)(f * 1000.0F / 20.0F));
-			if (this.updatedAt == Long.MIN_VALUE) {
-				this.updatedAt = l;
-			}
-
-			this.timeRunning += (long)((float)(l - this.updatedAt) * g);
+			long l = MathHelper.lfloor((double)(animationProgress * 1000.0F / 20.0F));
+			this.timeRunning += (long)((float)(l - this.updatedAt) * speedMultiplier);
 			this.updatedAt = l;
 		}
 	}
@@ -51,5 +49,8 @@ public class AnimationState {
 
 	public boolean isRunning() {
 		return this.updatedAt != Long.MAX_VALUE;
+	}
+
+	public static void init() {
 	}
 }

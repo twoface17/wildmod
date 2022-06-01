@@ -371,12 +371,12 @@ public class StatusEffectInstance extends net.minecraft.entity.effect.StatusEffe
                 this.factorTarget = bl ? 1.0F : 0.0F;
             }
 
-            float f = MathAddon.clamp(((float)this.effectChangedTimestamp - (float)instance.duration) / (float)this.paddingDuration, 0.0F, 1.0F);
-            this.factorCurrent = MathAddon.lerp(f, this.field_39111, this.factorTarget);
+            float f = MathAdvanced.clamp(((float)this.effectChangedTimestamp - (float)instance.duration) / (float)this.paddingDuration, 0.0F, 1.0F);
+            this.factorCurrent = MathAdvanced.lerp(f, this.field_39111, this.factorTarget);
         }
 
         public float lerp(float factor) {
-            return MathAddon.lerp(factor, this.factorPreviousFrame, this.factorCurrent);
+            return MathAdvanced.lerp(factor, this.factorPreviousFrame, this.factorCurrent);
         }
     }
 }

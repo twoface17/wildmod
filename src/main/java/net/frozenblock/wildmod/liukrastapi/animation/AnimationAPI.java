@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.liukrastapi.animation;
 
 public class AnimationAPI {
 

@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.status_effects;
 
-import net.frozenblock.wildmod.liukrastapi.MathAddon;
+import net.frozenblock.wildmod.liukrastapi.MathAdvanced;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -18,7 +18,7 @@ public class DarknessStatusEffect extends StatusEffect {
     }
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         float pulse;
-        pulse = (float) MathAddon.cutCos(MathAddon.time, 0, false);
+        pulse = (float) MathAdvanced.cutCos(MathAdvanced.time, 0, false);
         if(pulse < 0.5f && pulse > 0.4f) {
             World world = entity.getEntityWorld();
             BlockPos pos = entity.getBlockPos();

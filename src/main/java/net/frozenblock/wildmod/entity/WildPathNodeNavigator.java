@@ -60,7 +60,7 @@ public class WildPathNodeNavigator extends PathNodeNavigator {
                     if (pathNode instanceof WardenEntity.WildPathNode wildPathNode) {
                         PathNode pathNode2 = this.successors[l];
                         if (pathNode2 instanceof WardenEntity.WildPathNode wildPathNode2) {
-                            float f = this.method_44000(wildPathNode, wildPathNode2);
+                            float f = this.getDistance(wildPathNode, wildPathNode2);
                             wildPathNode2.pathLength = wildPathNode.pathLength + f;
                             float g = wildPathNode.penalizedPathLength + f + wildPathNode2.penalty;
                             if (wildPathNode2.pathLength < followRange && (!wildPathNode2.isInHeap() || g < wildPathNode2.penalizedPathLength)) {
@@ -94,7 +94,7 @@ public class WildPathNodeNavigator extends PathNodeNavigator {
         }
     }
 
-    protected float method_44000(WardenEntity.WildPathNode pathNode, WardenEntity.WildPathNode pathNode2) {
-        return pathNode.getDistance(pathNode2);
+    protected float getDistance(WardenEntity.WildPathNode a, WardenEntity.WildPathNode b) {
+        return a.getDistance(b);
     }
 }

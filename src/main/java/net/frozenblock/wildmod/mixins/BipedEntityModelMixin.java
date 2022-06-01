@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.WildModClient;
-import net.frozenblock.wildmod.liukrastapi.MathAddon;
+import net.frozenblock.wildmod.liukrastapi.MathAdvanced;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -29,7 +29,7 @@ public class BipedEntityModelMixin<T extends LivingEntity> {
     private void positionRightArm(T entity, CallbackInfo ci) {
         if (this.rightArmPose== WildModClient.TOOT_HORN_ARM) {
             this.rightArm.pitch = MathHelper.clamp(this.head.pitch, -1.2F, 1.2F) - 1.4835298F;
-            this.rightArm.yaw = this.head.yaw - (float) (MathAddon.PI / 6);
+            this.rightArm.yaw = this.head.yaw - (float) (MathAdvanced.PI / 6);
         }
     }
 
@@ -37,7 +37,7 @@ public class BipedEntityModelMixin<T extends LivingEntity> {
     private void positionLeftArm(T entity, CallbackInfo ci) {
         if (this.leftArmPose== WildModClient.TOOT_HORN_ARM) {
             this.leftArm.pitch = MathHelper.clamp(this.head.pitch, -1.2F, 1.2F) - 1.4835298F;
-            this.leftArm.yaw = this.head.yaw + (float) (MathAddon.PI / 6);
+            this.leftArm.yaw = this.head.yaw + (float) (MathAdvanced.PI / 6);
         }
     }
 }

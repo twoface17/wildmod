@@ -12,128 +12,128 @@ public class RegisterSounds { //Register sound definitions
 
     /** BLOCKS **/
     //Deepslate Frame
-        public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.step"));
-        public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.break"));
-        public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.place"));
-        public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.reinforced_deepslate.hit"));
+        public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_STEP = register("block.reinforced_deepslate.step");
+        public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_BREAK = register("block.reinforced_deepslate.break");
+        public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_PLACE = register("block.reinforced_deepslate.place");
+        public static final SoundEvent BLOCK_REINFORCED_DEEPSLATE_HIT = register("block.reinforced_deepslate.hit");
     //Frogspawn
-        public static final SoundEvent BLOCK_FROGSPAWN_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.step"));
-        public static final SoundEvent BLOCK_FROGSPAWN_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.break"));
-        public static final SoundEvent BLOCK_FROGSPAWN_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.fall"));
-        public static final SoundEvent BLOCK_FROGSPAWN_HATCH = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.hatch"));
-        public static final SoundEvent BLOCK_FROGSPAWN_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.hit"));
-        public static final SoundEvent BLOCK_FROGSPAWN_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.frogspawn.place"));
+        public static final SoundEvent BLOCK_FROGSPAWN_STEP = register("block.frogspawn.step");
+        public static final SoundEvent BLOCK_FROGSPAWN_BREAK = register("block.frogspawn.break");
+        public static final SoundEvent BLOCK_FROGSPAWN_FALL = register("block.frogspawn.fall");
+        public static final SoundEvent BLOCK_FROGSPAWN_HATCH = register("block.frogspawn.hatch");
+        public static final SoundEvent BLOCK_FROGSPAWN_HIT = register("block.frogspawn.hit");
+        public static final SoundEvent BLOCK_FROGSPAWN_PLACE = register("block.frogspawn.place");
     //Mud
-        public static final SoundEvent BLOCK_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.step"));
-        public static final SoundEvent BLOCK_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.break"));
-        public static final SoundEvent BLOCK_MUD_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.place"));
-        public static final SoundEvent BLOCK_MUD_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud.hit"));
+        public static final SoundEvent BLOCK_MUD_STEP = register("block.mud.step");
+        public static final SoundEvent BLOCK_MUD_BREAK = register("block.mud.break");
+        public static final SoundEvent BLOCK_MUD_PLACE = register("block.mud.place");
+        public static final SoundEvent BLOCK_MUD_HIT = register("block.mud.hit");
     //Mud Bricks
-        public static final SoundEvent BLOCK_MUD_BRICKS_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.step"));
-        public static final SoundEvent BLOCK_MUD_BRICKS_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.break"));
-        public static final SoundEvent BLOCK_MUD_BRICKS_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.place"));
-        public static final SoundEvent BLOCK_MUD_BRICKS_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.hit"));
-        public static final SoundEvent BLOCK_MUD_BRICKS_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mud_bricks.fall"));
+        public static final SoundEvent BLOCK_MUD_BRICKS_STEP = register("block.mud_bricks.step");
+        public static final SoundEvent BLOCK_MUD_BRICKS_BREAK = register("block.mud_bricks.break");
+        public static final SoundEvent BLOCK_MUD_BRICKS_PLACE = register("block.mud_bricks.place");
+        public static final SoundEvent BLOCK_MUD_BRICKS_HIT = register("block.mud_bricks.hit");
+        public static final SoundEvent BLOCK_MUD_BRICKS_FALL = register("block.mud_bricks.fall");
     //Packed Mud
-        public static final SoundEvent BLOCK_PACKED_MUD_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.step"));
-        public static final SoundEvent BLOCK_PACKED_MUD_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.break"));
-        public static final SoundEvent BLOCK_PACKED_MUD_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.place"));
-        public static final SoundEvent BLOCK_PACKED_MUD_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.hit"));
-        public static final SoundEvent BLOCK_PACKED_MUD_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.packed_mud.fall"));
+        public static final SoundEvent BLOCK_PACKED_MUD_STEP = register("block.packed_mud.step");
+        public static final SoundEvent BLOCK_PACKED_MUD_BREAK = register("block.packed_mud.break");
+        public static final SoundEvent BLOCK_PACKED_MUD_PLACE = register("block.packed_mud.place");
+        public static final SoundEvent BLOCK_PACKED_MUD_HIT = register("block.packed_mud.hit");
+        public static final SoundEvent BLOCK_PACKED_MUD_FALL = register("block.packed_mud.fall");
     //Mangrove Propagule
-        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.break"));
-        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.place"));
-        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.step"));
-        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.hit"));
-        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.propagule.fall"));
+        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_BREAK = register("block.propagule.break");
+        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_PLACE = register("block.propagule.place");
+        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_STEP = register("block.propagule.step");
+        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_HIT = register("block.propagule.hit");
+        public static final SoundEvent BLOCK_MANGROVE_PROPAGULE_FALL = register("block.propagule.fall");
     //Mangrove Roots
-        public static final SoundEvent BLOCK_MANGROVE_ROOTS_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.break"));
-        public static final SoundEvent BLOCK_MANGROVE_ROOTS_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.place"));
-        public static final SoundEvent BLOCK_MANGROVE_ROOTS_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.step"));
-        public static final SoundEvent BLOCK_MANGROVE_ROOTS_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.hit"));
-        public static final SoundEvent BLOCK_MANGROVE_ROOTS_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.mangrove_roots.fall"));
+        public static final SoundEvent BLOCK_MANGROVE_ROOTS_BREAK = register("block.mangrove_roots.break");
+        public static final SoundEvent BLOCK_MANGROVE_ROOTS_PLACE = register("block.mangrove_roots.place");
+        public static final SoundEvent BLOCK_MANGROVE_ROOTS_STEP = register("block.mangrove_roots.step");
+        public static final SoundEvent BLOCK_MANGROVE_ROOTS_HIT = register("block.mangrove_roots.hit");
+        public static final SoundEvent BLOCK_MANGROVE_ROOTS_FALL = register("block.mangrove_roots.fall");
     //Muddy Mangrove Roots
-        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.break"));
-        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.step"));
-        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.place"));
-        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.hit"));
-        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.muddy_mangrove_roots.fall"));
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_BREAK = register("block.muddy_mangrove_roots.break");
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_STEP = register("block.muddy_mangrove_roots.step");
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_PLACE = register("block.muddy_mangrove_roots.place");
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_HIT = register("block.muddy_mangrove_roots.hit");
+        public static final SoundEvent BLOCK_MUDDY_MANGROVE_ROOTS_FALL = register("block.muddy_mangrove_roots.fall");
     //Sculk
-        public static final SoundEvent BLOCK_SCULK_SPREAD = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.spread"));
-        public static final SoundEvent BLOCK_SCULK_CHARGE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.charge"));
-        public static final SoundEvent BLOCK_SCULK_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.break"));
-        public static final SoundEvent BLOCK_SCULK_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.fall"));
-        public static final SoundEvent BLOCK_SCULK_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.hit"));
-        public static final SoundEvent BLOCK_SCULK_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.place"));
-        public static final SoundEvent BLOCK_SCULK_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk.step"));
+        public static final SoundEvent BLOCK_SCULK_SPREAD = register("block.sculk.spread");
+        public static final SoundEvent BLOCK_SCULK_CHARGE = register("block.sculk.charge");
+        public static final SoundEvent BLOCK_SCULK_BREAK = register("block.sculk.break");
+        public static final SoundEvent BLOCK_SCULK_FALL = register("block.sculk.fall");
+        public static final SoundEvent BLOCK_SCULK_HIT = register("block.sculk.hit");
+        public static final SoundEvent BLOCK_SCULK_PLACE = register("block.sculk.place");
+        public static final SoundEvent BLOCK_SCULK_STEP = register("block.sculk.step");
     //Sculk Catalyst
-        public static final SoundEvent BLOCK_SCULK_CATALYST_BLOOM = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.bloom"));
-        public static final SoundEvent BLOCK_SCULK_CATALYST_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.break"));
-        public static final SoundEvent BLOCK_SCULK_CATALYST_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.fall"));
-        public static final SoundEvent BLOCK_SCULK_CATALYST_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.hit"));
-        public static final SoundEvent BLOCK_SCULK_CATALYST_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.place"));
-        public static final SoundEvent BLOCK_SCULK_CATALYST_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_catalyst.step"));
+        public static final SoundEvent BLOCK_SCULK_CATALYST_BLOOM = register("block.sculk_catalyst.bloom");
+        public static final SoundEvent BLOCK_SCULK_CATALYST_BREAK = register("block.sculk_catalyst.break");
+        public static final SoundEvent BLOCK_SCULK_CATALYST_FALL = register("block.sculk_catalyst.fall");
+        public static final SoundEvent BLOCK_SCULK_CATALYST_HIT = register("block.sculk_catalyst.hit");
+        public static final SoundEvent BLOCK_SCULK_CATALYST_PLACE = register("block.sculk_catalyst.place");
+        public static final SoundEvent BLOCK_SCULK_CATALYST_STEP = register("block.sculk_catalyst.step");
     //Sculk Sensor
-        public static final SoundEvent BLOCK_SCULK_SENSOR_RECEIVE_RF = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_sensor.receive_rf"));
+        public static final SoundEvent BLOCK_SCULK_SENSOR_RECEIVE_RF = register("block.sculk_sensor.receive_rf");
     //Sculk Shrieker
-        public static final SoundEvent BLOCK_SCULK_SHRIEKER_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.break"));
-        public static final SoundEvent BLOCK_SCULK_SHRIEKER_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.fall"));
-        public static final SoundEvent BLOCK_SCULK_SHRIEKER_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.hit"));
-        public static final SoundEvent BLOCK_SCULK_SHRIEKER_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.place"));
-        public static final SoundEvent BLOCK_SCULK_SHRIEKER_SHRIEK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.shriek"));
-        public static final SoundEvent BLOCK_SCULK_SHRIEKER_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_shrieker.step"));
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_BREAK = register("block.sculk_shrieker.break");
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_FALL = register("block.sculk_shrieker.fall");
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_HIT = register("block.sculk_shrieker.hit");
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_PLACE = register("block.sculk_shrieker.place");
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_SHRIEK = register("block.sculk_shrieker.shriek");
+        public static final SoundEvent BLOCK_SCULK_SHRIEKER_STEP = register("block.sculk_shrieker.step");
     //Sculk Vein
-        public static final SoundEvent BLOCK_SCULK_VEIN_BREAK = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.break"));
-        public static final SoundEvent BLOCK_SCULK_VEIN_FALL = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.fall"));
-        public static final SoundEvent BLOCK_SCULK_VEIN_HIT = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.hit"));
-        public static final SoundEvent BLOCK_SCULK_VEIN_PLACE = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.place"));
-        public static final SoundEvent BLOCK_SCULK_VEIN_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "block.sculk_vein.step"));
+        public static final SoundEvent BLOCK_SCULK_VEIN_BREAK = register("block.sculk_vein.break");
+        public static final SoundEvent BLOCK_SCULK_VEIN_FALL = register("block.sculk_vein.fall");
+        public static final SoundEvent BLOCK_SCULK_VEIN_HIT = register("block.sculk_vein.hit");
+        public static final SoundEvent BLOCK_SCULK_VEIN_PLACE = register("block.sculk_vein.place");
+        public static final SoundEvent BLOCK_SCULK_VEIN_STEP = register("block.sculk_vein.step");
     /** ENTITIES **/
     //Chest Boat
-        public static final SoundEvent ENTITY_CHEST_BOAT_PADDLE_WATER = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.chest_boat.paddle_water"));
-        public static final SoundEvent ENTITY_CHEST_BOAT_PADDLE_LAND = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.chest_boat.paddle_land"));
+        public static final SoundEvent ENTITY_CHEST_BOAT_PADDLE_WATER = register("entity.chest_boat.paddle_water");
+        public static final SoundEvent ENTITY_CHEST_BOAT_PADDLE_LAND = register("entity.chest_boat.paddle_land");
     
     //Firefly
-        public static final SoundEvent ENTITY_FIREFLY_LOOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.firefly.loop"));
-        public static final SoundEvent ENTITY_FIREFLY_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.firefly.hurt"));
+        public static final SoundEvent ENTITY_FIREFLY_LOOP = register("entity.firefly.loop");
+        public static final SoundEvent ENTITY_FIREFLY_HURT = register("entity.firefly.hurt");
     //Frog
-        public static final SoundEvent ENTITY_FROG_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.ambient"));
-        public static final SoundEvent ENTITY_FROG_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.death"));
-        public static final SoundEvent ENTITY_FROG_EAT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.eat"));
-        public static final SoundEvent ENTITY_FROG_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.hurt"));
-        public static final SoundEvent ENTITY_FROG_LAY_SPAWN = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.lay_spawn"));
-        public static final SoundEvent ENTITY_FROG_LONG_JUMP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.long_jump"));
-        public static final SoundEvent ENTITY_FROG_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.step"));
-        public static final SoundEvent ENTITY_FROG_TOUNGE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.frog.tongue"));
+        public static final SoundEvent ENTITY_FROG_AMBIENT = register("entity.frog.ambient");
+        public static final SoundEvent ENTITY_FROG_DEATH = register("entity.frog.death");
+        public static final SoundEvent ENTITY_FROG_EAT = register("entity.frog.eat");
+        public static final SoundEvent ENTITY_FROG_HURT = register("entity.frog.hurt");
+        public static final SoundEvent ENTITY_FROG_LAY_SPAWN = register("entity.frog.lay_spawn");
+        public static final SoundEvent ENTITY_FROG_LONG_JUMP = register("entity.frog.long_jump");
+        public static final SoundEvent ENTITY_FROG_STEP = register("entity.frog.step");
+        public static final SoundEvent ENTITY_FROG_TOUNGE = register("entity.frog.tongue");
     //Tadpole
-        public static final SoundEvent ENTITY_TADPOLE_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.death"));
-        public static final SoundEvent ENTITY_TADPOLE_FLOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.flop"));
-        public static final SoundEvent ENTITY_TADPOLE_GROW_UP = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.grow_up"));
-        public static final SoundEvent ENTITY_TADPOLE_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.tadpole.hurt"));
-        public static final SoundEvent ITEM_BUCKET_EMPTY_TADPOLE = new SoundEvent(new Identifier(WildMod.MOD_ID, "item.bucket.empty_tadpole"));
-        public static final SoundEvent ITEM_BUCKET_FILL_TADPOLE = new SoundEvent(new Identifier(WildMod.MOD_ID, "item.bucket.fill_tadpole"));
+        public static final SoundEvent ENTITY_TADPOLE_DEATH = register("entity.tadpole.death");
+        public static final SoundEvent ENTITY_TADPOLE_FLOP = register("entity.tadpole.flop");
+        public static final SoundEvent ENTITY_TADPOLE_GROW_UP = register("entity.tadpole.grow_up");
+        public static final SoundEvent ENTITY_TADPOLE_HURT = register("entity.tadpole.hurt");
+        public static final SoundEvent ITEM_BUCKET_EMPTY_TADPOLE = register("item.bucket.empty_tadpole");
+        public static final SoundEvent ITEM_BUCKET_FILL_TADPOLE = register("item.bucket.fill_tadpole");
     //Warden
-        public static final SoundEvent ENTITY_WARDEN_AGITATED = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.agitated"));
-        public static final SoundEvent ENTITY_WARDEN_AMBIENT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient"));
-        public static final SoundEvent ENTITY_WARDEN_AMBIENT_UNDERGROUND = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.ambient_underground"));
-        public static final SoundEvent ENTITY_WARDEN_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.angry"));
-        public static final SoundEvent ENTITY_WARDEN_ATTACK_IMPACT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.attack_impact"));
-        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.nearby_close"));
-        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSER = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.nearby_closer"));
-        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSEST = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.nearby_closest"));
-        public static final SoundEvent ENTITY_WARDEN_DEATH = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.death"));
-        public static final SoundEvent ENTITY_WARDEN_DIG = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.dig"));
-        public static final SoundEvent ENTITY_WARDEN_EMERGE = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.emerge"));
-        public static final SoundEvent ENTITY_WARDEN_HEARTBEAT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.heartbeat"));
-        public static final SoundEvent ENTITY_WARDEN_HURT = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.hurt"));
-        public static final SoundEvent ENTITY_WARDEN_LISTENING = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.listening"));
-        public static final SoundEvent ENTITY_WARDEN_LISTENING_ANGRY = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.listening_angry"));
-        public static final SoundEvent ENTITY_WARDEN_ROAR = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.roar"));
-        public static final SoundEvent ENTITY_WARDEN_SNIFF = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.sniff"));
-        public static final SoundEvent ENTITY_WARDEN_SONIC_BOOM = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.sonic_boom"));
-        public static final SoundEvent ENTITY_WARDEN_SONIC_CHARGE = new SoundEvent(new Identifier(WildMod.MOD_ID, "entity.warden.sonic_charge"));
-        public static final SoundEvent ENTITY_WARDEN_STEP = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.step"));
-        public static final SoundEvent ENTITY_WARDEN_TENDRIL_CLICKS = new SoundEvent(new Identifier(WildMod.MOD_ID,"entity.warden.tendril_clicks"));
+        public static final SoundEvent ENTITY_WARDEN_AGITATED = register("entity.warden.agitated");
+        public static final SoundEvent ENTITY_WARDEN_AMBIENT = register("entity.warden.ambient");
+        public static final SoundEvent ENTITY_WARDEN_AMBIENT_UNDERGROUND = register("entity.warden.ambient_underground");
+        public static final SoundEvent ENTITY_WARDEN_ANGRY = register("entity.warden.angry");
+        public static final SoundEvent ENTITY_WARDEN_ATTACK_IMPACT = register("entity.warden.attack_impact");
+        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSE = register("entity.warden.nearby_close");
+        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSER = register("entity.warden.nearby_closer");
+        public static final SoundEvent ENTITY_WARDEN_NEARBY_CLOSEST = register("entity.warden.nearby_closest");
+        public static final SoundEvent ENTITY_WARDEN_DEATH = register("entity.warden.death");
+        public static final SoundEvent ENTITY_WARDEN_DIG = register("entity.warden.dig");
+        public static final SoundEvent ENTITY_WARDEN_EMERGE = register("entity.warden.emerge");
+        public static final SoundEvent ENTITY_WARDEN_HEARTBEAT = register("entity.warden.heartbeat");
+        public static final SoundEvent ENTITY_WARDEN_HURT = register("entity.warden.hurt");
+        public static final SoundEvent ENTITY_WARDEN_LISTENING = register("entity.warden.listening");
+        public static final SoundEvent ENTITY_WARDEN_LISTENING_ANGRY = register("entity.warden.listening_angry");
+        public static final SoundEvent ENTITY_WARDEN_ROAR = register("entity.warden.roar");
+        public static final SoundEvent ENTITY_WARDEN_SNIFF = register("entity.warden.sniff");
+        public static final SoundEvent ENTITY_WARDEN_SONIC_BOOM = register("entity.warden.sonic_boom");
+        public static final SoundEvent ENTITY_WARDEN_SONIC_CHARGE = register("entity.warden.sonic_charge");
+        public static final SoundEvent ENTITY_WARDEN_STEP = register("entity.warden.step");
+        public static final SoundEvent ENTITY_WARDEN_TENDRIL_CLICKS = register("entity.warden.tendril_clicks");
 
     //Allay
         public static final SoundEvent ENTITY_ALLAY_AMBIENT_WITH_ITEM = register("entity.allay.ambient_with_item");
@@ -145,21 +145,21 @@ public class RegisterSounds { //Register sound definitions
 
 
     /** MUSIC **/
-        public static final SoundEvent MUSIC_OVERWORLD_DEEP_DARK = new SoundEvent(new Identifier(WildMod.MOD_ID,"music.overworld.deep_dark"));
-        public static final SoundEvent MUSIC_OVERWORLD_SWAMP = new SoundEvent(new Identifier(WildMod.MOD_ID, "music.overworld.swamp"));
+        public static final SoundEvent MUSIC_OVERWORLD_DEEP_DARK = register("music.overworld.deep_dark");
+        public static final SoundEvent MUSIC_OVERWORLD_SWAMP = register("music.overworld.swamp");
 
     /** MUSIC DISCS **/
-        public static final SoundEvent MUSIC_DISC_5 = new SoundEvent(new Identifier(WildMod.MOD_ID, "music_disc.5"));
+        public static final SoundEvent MUSIC_DISC_5 = register("music_disc.5");
 
     /** GOAT HORN **/
         public static final ImmutableList<SoundEvent> GOAT_HORN_SOUNDS = registerGoatHornSounds();
     /** AMBIENT **/
-        public static final SoundEvent AMBIENT_DEEP_DARK_ADDITIONS = new SoundEvent(new Identifier(WildMod.MOD_ID, "ambient.deep_dark.additions"));
-        public static final SoundEvent AMBIENT_DEEP_DARK_LOOP = new SoundEvent(new Identifier(WildMod.MOD_ID, "ambient.deep_dark.loop"));
+        public static final SoundEvent AMBIENT_DEEP_DARK_ADDITIONS = register("ambient.deep_dark.additions");
+        public static final SoundEvent AMBIENT_DEEP_DARK_LOOP = register("ambient.deep_dark.loop");
 
 
-    private static SoundEvent register(String id) {
-        return Registry.register(Registry.SOUND_EVENT, id, new SoundEvent(new Identifier(WildMod.MOD_ID, id)));
+    private static SoundEvent register(String string) {
+        return Registry.register(Registry.SOUND_EVENT, new Identifier(WildMod.MOD_ID, string), new SoundEvent(new Identifier(WildMod.MOD_ID, string)));
     }
 
     private static ImmutableList<SoundEvent> registerGoatHornSounds() {
@@ -167,5 +167,9 @@ public class RegisterSounds { //Register sound definitions
                 .mapToObj(variant -> register("item.goat_horn.sound." + variant))
                 .collect(ImmutableList.toImmutableList());
     }
+
+    public static void init() {
+    }
+
 }
 

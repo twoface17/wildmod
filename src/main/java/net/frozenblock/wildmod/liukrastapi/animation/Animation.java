@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.liukrastapi;
+package net.frozenblock.wildmod.liukrastapi.animation;
 
 import com.google.common.collect.Maps;
 import net.fabricmc.api.EnvType;
@@ -17,27 +17,47 @@ import java.util.Map;
  */
 @Environment(EnvType.CLIENT)
 public record Animation(float lengthInSeconds, boolean looping, Map<String, List<Transformation>> boneAnimations) {
+	public Animation(float lengthInSeconds, boolean looping, Map<String, List<Transformation>> boneAnimations) {
+		this.lengthInSeconds = lengthInSeconds;
+		this.looping = looping;
+		this.boneAnimations = boneAnimations;
+	}
+
+	public float lengthInSeconds() {
+		return this.lengthInSeconds;
+	}
+
+	public boolean looping() {
+		return this.looping;
+	}
+
+	public Map<String, List<Transformation>> boneAnimations() {
+		return this.boneAnimations;
+	}
+
 	@Environment(EnvType.CLIENT)
 	public static class Builder {
 		private final float lengthInSeconds;
 		private final Map<String, List<Transformation>> transformations = Maps.newHashMap();
 		private boolean looping;
 
-		public static Animation.Builder create(float lengthInSeconds) {
-			return new Animation.Builder(lengthInSeconds);
+		public static Builder create(float lengthInSeconds) {
+			return new Builder(lengthInSeconds);
 		}
 
 		private Builder(float lengthInSeconds) {
 			this.lengthInSeconds = lengthInSeconds;
 		}
 
-		public Animation.Builder looping() {
+		public Builder looping() {
 			this.looping = true;
 			return this;
 		}
 
-		public Animation.Builder addBoneAnimation(String name, Transformation transformation) {
-			(this.transformations.computeIfAbsent(name, namex -> Lists.newArrayList())).add(transformation);
+		public Builder addBoneAnimation(String name, Transformation transformation) {
+			((List)this.transformations.computeIfAbsent(name, (namex) -> {
+				return Lists.newArrayList();
+			})).add(transformation);
 			return this;
 		}
 

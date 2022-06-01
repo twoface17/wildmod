@@ -10,7 +10,7 @@ import net.frozenblock.wildmod.entity.ai.task.SonicBoomTask;
 import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
 import net.frozenblock.wildmod.event.WildEventTags;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
-import net.frozenblock.wildmod.liukrastapi.AnimationState;
+import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
@@ -22,8 +22,7 @@ import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.pathing.PathNode;
-import net.minecraft.entity.ai.pathing.PathNodeType;
+import net.minecraft.entity.ai.pathing.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -142,21 +141,17 @@ public class WardenEntity extends WildHostileEntity {
     }
 
     public void handleStatus(byte status) {
-        if (status == EntityStatuses.PLAY_ATTACK_SOUND) {
+        if (status == 4) {
             this.roaringAnimationState.stop();
-            this.attackingAnimationState.start();
-        } else if (status == EARS_TWITCH) {
-            this.field_38162 = 10;
-        } else if (status == SONIC_BOOM) {
-            this.chargingSonicBoomAnimationState.start();
-            if (WildMod.debugMode) {
-                LOGGER.info("A Warden is charging a Sonic Boom");
-            }
-        } else if (!this.isAiDisabled() && status == 7) { //Set Last Vibration Time
-            this.vibrationTimer=this.world.getTime();
+            this.attackingAnimationState.start(this.age);
+        } else if (status == 61) {
+            this.tendrilPitch = 10;
+        } else if (status == 62) {
+            this.chargingSonicBoomAnimationState.start(this.age);
         } else {
             super.handleStatus(status);
         }
+
     }
 
     public boolean canListen(ServerWorld world, BlockPos pos, Entity entity) {
@@ -247,18 +242,18 @@ public class WardenEntity extends WildHostileEntity {
     }
 
     public float getTendrilPitch(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.field_38163, this.field_38162) / 10.0F;
+        return MathHelper.lerp(tickDelta, (float)this.lastTendrilPitch, (float)this.tendrilPitch) / 10.0F;
     }
 
     public float getHeartPitch(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.field_38165, this.field_38164) / 10.0F;
+        return MathHelper.lerp(tickDelta, (float)this.lastHeartbeatCooldown, (float)this.heartbeatCooldown) / 10.0F;
     }
 
     public void tick() {
         World var2 = this.world;
         if (var2 instanceof ServerWorld serverWorld) {
             //this.gameEventHandler.getListener().tick(serverWorld);
-            if (this.hasCustomName()) {
+            if (this.isPersistent() || this.cannotDespawn()) {
                 WardenBrain.resetDigCooldown(this);
             }
         }
@@ -266,20 +261,30 @@ public class WardenEntity extends WildHostileEntity {
         super.tick();
         if (this.world.isClient()) {
             if (this.age % this.getHeartRate() == 0) {
-                this.field_38164 = 10;
+                this.heartbeatCooldown = 10;
                 if (!this.isSilent()) {
-                    this.world.playSound(this.getX(), this.getY(), this.getZ(), RegisterSounds.ENTITY_WARDEN_HEARTBEAT, this.getSoundCategory(), 5.0F, this.getSoundPitch(), false);
+                    this.world
+                        .playSound(
+                            this.getX(),
+                            this.getY(),
+                            this.getZ(),
+                            RegisterSounds.ENTITY_WARDEN_HEARTBEAT,
+                            this.getSoundCategory(),
+                            5.0F,
+                            this.getSoundPitch(),
+                            false
+                        );
                 }
             }
 
-            this.field_38163 = this.field_38162;
-            if (this.field_38162 > 0) {
-                --this.field_38162;
+            this.lastTendrilPitch = this.tendrilPitch;
+            if (this.tendrilPitch > 0) {
+                --this.tendrilPitch;
             }
 
-            this.field_38165 = this.field_38164;
-            if (this.field_38164 > 0) {
-                --this.field_38164;
+            this.lastHeartbeatCooldown = this.heartbeatCooldown;
+            if (this.heartbeatCooldown > 0) {
+                --this.heartbeatCooldown;
             }
 
             if (this.getPose()==WildMod.EMERGING) {
@@ -372,31 +377,41 @@ public class WardenEntity extends WildHostileEntity {
 
     @Contract("null->false")
     public boolean isValidTarget(@Nullable Entity entity) {
-        boolean var10000;
-        if (entity instanceof LivingEntity livingEntity) {
-            if (this.world == entity.world && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(entity) && !this.isTeammate(entity) && livingEntity.getType() != EntityType.ARMOR_STAND && livingEntity.getType() != RegisterEntities.WARDEN && !livingEntity.isInvulnerable() && !livingEntity.isDead() && this.world.getWorldBorder().contains(livingEntity.getBoundingBox())) {
-                var10000 = true;
-                return var10000;
-            }
+        if (entity instanceof LivingEntity livingEntity
+                && this.world == entity.world
+                && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(entity)
+                && !this.isTeammate(entity)
+                && livingEntity.getType() != EntityType.ARMOR_STAND
+                && livingEntity.getType() != RegisterEntities.WARDEN
+                && !livingEntity.isInvulnerable()
+                && !livingEntity.isDead()
+                && this.world.getWorldBorder().contains(livingEntity.getBoundingBox())) {
+            return true;
         }
 
-        var10000 = false;
-        return var10000;
+        return false;
     }
 
     public static void addDarknessToClosePlayers(ServerWorld world, Vec3d pos, @Nullable Entity entity, int range) {
         StatusEffectInstance statusEffectInstance = new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 260, 0, false, false);
-        addEffectToPlayersWithinDistance(world, entity, pos, (double)range, statusEffectInstance, 200);
+        addEffectToPlayersWithinDistance(world, entity, pos, range, statusEffectInstance, 200);
     }
 
-    public static List<ServerPlayerEntity> addEffectToPlayersWithinDistance(ServerWorld world, @Nullable Entity entity, Vec3d origin, double range, StatusEffectInstance statusEffectInstance, int duration) {
+    public static List<ServerPlayerEntity> addEffectToPlayersWithinDistance(
+            ServerWorld world, @Nullable Entity entity, Vec3d origin, double range, StatusEffectInstance statusEffectInstance, int duration
+    ) {
         StatusEffect statusEffect = statusEffectInstance.getEffectType();
-        List<ServerPlayerEntity> list = world.getPlayers((player) -> {
-            return player.interactionManager.isSurvivalLike() && origin.isInRange(player.getPos(), range) && (!player.hasStatusEffect(statusEffect) || player.getStatusEffect(statusEffect).getAmplifier() < statusEffectInstance.getAmplifier() || player.getStatusEffect(statusEffect).getDuration() < duration);
-        });
-        list.forEach((player) -> {
-            player.addStatusEffect(new StatusEffectInstance(statusEffectInstance), entity);
-        });
+        List<ServerPlayerEntity> list = world.getPlayers(
+                player -> player.interactionManager.isSurvivalLike()
+                        && (entity == null || !entity.isTeammate(player))
+                        && origin.isInRange(player.getPos(), range)
+                        && (
+                        !player.hasStatusEffect(statusEffect)
+                                || player.getStatusEffect(statusEffect).getAmplifier() < statusEffectInstance.getAmplifier()
+                                || player.getStatusEffect(statusEffect).getDuration() < duration
+                )
+        );
+        list.forEach(player -> player.addStatusEffect(new StatusEffectInstance(statusEffectInstance), entity));
         return list;
     }
 
@@ -512,7 +527,7 @@ public class WardenEntity extends WildHostileEntity {
             WardenBrain.resetDigCooldown(this);
             boolean bl = !(this.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null) instanceof PlayerEntity);
             int i = this.angerManager.increaseAngerAt(entity, amount);
-            if (entity instanceof PlayerEntity && bl && Angriness.getForAnger(this.angerManager.increaseAngerAt(entity, amount)).isAngry()) {
+            if (entity instanceof PlayerEntity && bl && Angriness.getForAnger(i).isAngry()) {
                 this.getBrain().forget(MemoryModuleType.ATTACK_TARGET);
             }
 
@@ -536,8 +551,12 @@ public class WardenEntity extends WildHostileEntity {
         return this.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
     }
 
+    public boolean cannotDespawn() {
+        return super.cannotDespawn() || this.hasCustomName();
+    }
+
     public boolean canImmediatelyDespawn(double distanceSquared) {
-        return !this.isPersistent();
+        return false;
     }
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
@@ -606,7 +625,9 @@ public class WardenEntity extends WildHostileEntity {
     }
 
     @Nullable
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+    public EntityData initialize(
+            ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt
+    ) {
         this.getBrain().remember(RegisterMemoryModules.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
         if (spawnReason == SpawnReason.TRIGGERED) {
             this.setPose(WildMod.EMERGING);
@@ -614,7 +635,6 @@ public class WardenEntity extends WildHostileEntity {
             this.playSound(RegisterSounds.ENTITY_WARDEN_AGITATED, 5.0F, 1.0F);
         }
 
-        this.setPersistent();
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
@@ -644,7 +664,7 @@ public class WardenEntity extends WildHostileEntity {
             LOGGER.info("A Warden has created a Floor Vibration");
         }
     }
-    public void addDigParticles(AnimationState animationState) {
+    private void addDigParticles(AnimationState animationState) {
         if ((float)animationState.getTimeRunning() < 4500.0F) {
             Random random = this.getRandom();
             BlockState blockState = this.world.getBlockState(this.getBlockPos().down());
@@ -663,22 +683,22 @@ public class WardenEntity extends WildHostileEntity {
     public void onTrackedDataSet(TrackedData<?> data) {
         if (POSE.equals(data)) {
             if (this.isInPose(WildMod.EMERGING)) {
-                this.emergingAnimationState.start();
+                this.emergingAnimationState.start(this.age);
                 if (WildMod.debugMode) {
                     LOGGER.info("A Warden is emerging");
                 }
             } else if (this.isInPose(WildMod.DIGGING)) {
-                this.diggingAnimationState.start();
+                this.diggingAnimationState.start(this.age);
                 if (WildMod.debugMode) {
                     LOGGER.info("A Warden is digging");
                 }
             } else if (this.isInPose(WildMod.ROARING)) {
-                this.roaringAnimationState.start();
+                this.roaringAnimationState.start(this.age);
                 if (WildMod.debugMode) {
                     LOGGER.info("A Warden is roaring");
                 }
             } else if (this.isInPose(WildMod.SNIFFING)) {
-                this.sniffingAnimationState.start();
+                this.sniffingAnimationState.start(this.age);
                 if (WildMod.debugMode) {
                     LOGGER.info("A Warden is sniffing");
                 }
@@ -707,16 +727,14 @@ public class WardenEntity extends WildHostileEntity {
 
     public boolean damage(DamageSource source, float amount) {
         boolean bl = super.damage(source, amount);
-        if (!this.world.isClient && !this.isAiDisabled() && amount > 0.0F) {
+        if (!this.world.isClient && !this.isAiDisabled()) {
             Entity entity = source.getAttacker();
             this.increaseAngerAt(entity, Angriness.ANGRY.getThreshold() + 20, false);
-            if (this.brain.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty() && entity instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity)entity;
-                if (!(source instanceof ProjectileDamageSource) || this.isInRange(livingEntity, 5.0)) {
-                    this.updateAttackTarget(livingEntity);
-                }
+            if (this.brain.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isEmpty()
+                    && entity instanceof LivingEntity livingEntity
+                    && (!(source instanceof ProjectileDamageSource) || this.isInRange(livingEntity, 5.0))) {
+                this.updateAttackTarget(livingEntity);
             }
-
             if (WildMod.debugMode) {
                 LOGGER.info("A warden has taken damage from an entity");
             }
@@ -755,28 +773,29 @@ public class WardenEntity extends WildHostileEntity {
             return this.angerManager;
     }
 
-    /*protected EntityNavigation createNavigation(World world) {
+    protected EntityNavigation createNavigation(World world) {
         return new MobNavigation(this, world) {
             protected PathNodeNavigator createPathNodeNavigator(int range) {
                 this.nodeMaker = new LandPathNodeMaker();
                 this.nodeMaker.setCanEnterOpenDoors(true);
-                return new WildPathNodeNavigator(this.nodeMaker, range) {
-                    public float method_44000(WildPathNode pathNode, WildPathNode pathNode2) {
-                        return pathNode.method_44022(pathNode2);
+                return new PathNodeNavigator(this.nodeMaker, range);
+                /*return new WildPathNodeNavigator(this.nodeMaker, range) {
+                    protected float getDistance(WildPathNode a, WildPathNode b) {
+                        return a.getHorizontalDistance(b);
                     }
                 };
-            }
+            */}
         };
-    }*/
+    }
 
     public static class WildPathNode extends PathNode {
         public WildPathNode(int x, int y, int z) {
             super(x, y, z);
         }
 
-        public float method_44022(WildPathNode pathNode) {
-            float f = (float)(pathNode.x - this.x);
-            float g = (float)(pathNode.z - this.z);
+        public float getHorizontalDistance(PathNode node) {
+            float f = (float)(node.x - this.x);
+            float g = (float)(node.z - this.z);
             return MathHelper.sqrt(f * f + g * g);
         }
     }
@@ -871,10 +890,24 @@ public class WardenEntity extends WildHostileEntity {
     public AnimationState chargingSonicBoomAnimationState = new AnimationState();
 
     //NO IDEA WHAT THESE ARE.
-    private float field_38162;
-    private float field_38163;
-    private float field_38164;
-    private float field_38165;
+    private static final int field_38149 = 200;
+    private static final int field_38150 = 260;
+    private static final int field_38151 = 20;
+    private static final int field_38152 = 120;
+    private static final int field_38153 = 20;
+    private static final int field_38155 = 35;
+    private static final int field_38156 = 10;
+    private static final int field_39117 = 20;
+    private static final int field_38157 = 100;
+    private static final int field_38158 = 20;
+    private static final int field_38159 = 30;
+    private static final float field_38160 = 4.5F;
+    private static final float field_38161 = 0.7F;
+    private static final int field_39305 = 30;
+    private int tendrilPitch;
+    private int lastTendrilPitch;
+    private int heartbeatCooldown;
+    private int lastHeartbeatCooldown;
 
     public static final byte EARS_TWITCH = 61;
     public static final byte SONIC_BOOM = 62;

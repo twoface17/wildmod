@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.liukrastapi.MathAddon;
+import net.frozenblock.wildmod.liukrastapi.MathAdvanced;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -168,7 +168,7 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
 
         assert this.client.player != null;
         if (this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            dark = MathAddon.cutCos(time, 0, true) * 1.6;
+            dark = MathAdvanced.cutCos(time, 0, true) * 1.6;
         } else {
             dark = 0;
         }

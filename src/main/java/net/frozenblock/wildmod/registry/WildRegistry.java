@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.registry;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Lifecycle;
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.entity.WildPacketByteBuf;
 import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
 import net.frozenblock.wildmod.event.PositionSourceType;
@@ -25,39 +26,27 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public abstract class WildRegistry<T> extends Registry<T> {
-    //public static RegistryKey<Registry<FrogVariant>> FROG_VARIANT_KEY;
-    //public static Registry<FrogVariant> FROG_VARIANT;
-    //public static TrackedDataHandler<FrogVariant> FROG_VARIANT_DATA;
+    public static final RegistryKey<Registry<FrogVariant>> FROG_VARIANT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "frog_variant"));
+    public static final Registry<FrogVariant> FROG_VARIANT = Registry.create(FROG_VARIANT_KEY, registry -> FrogVariant.TEMPERATE);
+    public static final TrackedDataHandler<FrogVariant> FROG_VARIANT_DATA = of(FROG_VARIANT);
 
-    public static RegistryKey<Registry<RootPlacerType<?>>> ROOT_PLACER_TYPE_KEY;
-    public static Registry<RootPlacerType<?>> ROOT_PLACER_TYPE;
-    //public static RegistryKey<Registry<net.frozenblock.wildmod.world.gen.structure.StructureType<?>>> STRUCTURE_TYPE_KEY;
-    //public static Registry<StructureType<?>> STRUCTURE_TYPE;
-    //public static RegistryKey<Registry<StructureType<?>>> STRUCTURE_KEY;
-    public static RegistryKey<Registry<DoublePerlinNoiseSampler.NoiseParameters>> NOISE_KEY;
-    public static RegistryKey<Registry<PositionSourceType<?>>> WILD_POSITION_SOURCE_TYPE_KEY;
-    public static Registry<PositionSourceType<?>> WILD_POSITION_SOURCE_TYPE;
-    public static RegistryKey<Registry<Instrument>> INSTRUMENT_KEY;
-    public static Registry<Instrument> INSTRUMENT;
+    public static final RegistryKey<Registry<RootPlacerType<?>>> ROOT_PLACER_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/root_placer_type"));
+    public static final Registry<RootPlacerType<?>> ROOT_PLACER_TYPE = Registry.create(ROOT_PLACER_TYPE_KEY, registry -> RootPlacerType.MANGROVE_ROOT_PLACER);
+    //public static final RegistryKey<Registry<net.frozenblock.wildmod.world.gen.structure.StructureType<?>>> STRUCTURE_TYPE_KEY = WildRegistry.createRegistryEntry("worldgen/structure_type");
+    //public static final Registry<StructureType<?>> STRUCTURE_TYPE = WildRegistry.create(STRUCTURE_TYPE_KEY, registry -> net.frozenblock.wildmod.world.gen.structure.StructureType.JIGSAW);
+    //public static final RegistryKey<Registry<StructureType<?>>> STRUCTURE_KEY = WildRegistry.createRegistryKey("worldgen/structure");
+    public static final RegistryKey<Registry<DoublePerlinNoiseSampler.NoiseParameters>> NOISE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/noise"));
+    public static final RegistryKey<Registry<PositionSourceType<?>>> WILD_POSITION_SOURCE_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "wild_position_source_type"));
+    public static final Registry<PositionSourceType<?>> WILD_POSITION_SOURCE_TYPE = Registry.create(WILD_POSITION_SOURCE_TYPE_KEY, registry -> WildMod.BLOCK);
+    public static final RegistryKey<Registry<Instrument>> INSTRUMENT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "instrument"));
+    public static final Registry<Instrument> INSTRUMENT = Registry.create(INSTRUMENT_KEY, Instruments::registerAndGetDefault);
 
     protected WildRegistry(RegistryKey<? extends Registry<T>> key, Lifecycle lifecycle) {
         super(key, lifecycle);
     }
 
-    public static void register() {
-        //FROG_VARIANT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "frog_variant"));
-        //FROG_VARIANT = Registry.create(FROG_VARIANT_KEY, registry -> FrogVariant.TEMPERATE);
-        //FROG_VARIANT_DATA = of(FROG_VARIANT);
-        //STRUCTURE_TYPE_KEY = WildRegistry.createRegistryEntry("worldgen/structure_type");
-        //STRUCTURE_TYPE = WildRegistry.create(STRUCTURE_TYPE_KEY, registry -> net.frozenblock.wildmod.world.gen.structure.StructureType.JIGSAW);
-        //STRUCTURE_KEY = WildRegistry.createRegistryKey("worldgen/structure");
-        ROOT_PLACER_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/root_placer_type"));
-        ROOT_PLACER_TYPE = Registry.create(ROOT_PLACER_TYPE_KEY, registry -> RootPlacerType.MANGROVE_ROOT_PLACER);
-        NOISE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/noise"));
-        WILD_POSITION_SOURCE_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "wild_position_source_type"));
-        WILD_POSITION_SOURCE_TYPE = Registry.create(WILD_POSITION_SOURCE_TYPE_KEY, registry -> WildMod.BLOCK);
-        INSTRUMENT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "instrument"));
-        INSTRUMENT = Registry.create(INSTRUMENT_KEY, Instruments::registerAndGetDefault);
+
+    public static void init() {
     }
 
     public static <T> TrackedDataHandler<T> of(WildPacketByteBuf.PacketWriter<T> arg, WildPacketByteBuf.PacketReader<T> arg2) {

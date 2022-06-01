@@ -5,7 +5,7 @@ import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.task.AxolotlSwimNavigation;
-import net.frozenblock.wildmod.liukrastapi.AnimationState;
+import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
@@ -193,17 +193,17 @@ public class FrogEntity extends AnimalEntity {
     public void tick() {
         if (this.world.isClient()) {
             if (this.shouldWalk()) {
-                this.walkingAnimationState.startIfNotRunning();
+                this.walkingAnimationState.startIfNotRunning(this.age);
             } else {
                 this.walkingAnimationState.stop();
             }
 
             if (this.shouldSwim()) {
                 this.idlingInWaterAnimationState.stop();
-                this.swimmingAnimationState.startIfNotRunning();
+                this.swimmingAnimationState.startIfNotRunning(this.age);
             } else if (this.isInsideWaterOrBubbleColumn()) {
                 this.swimmingAnimationState.stop();
-                this.idlingInWaterAnimationState.startIfNotRunning();
+                this.idlingInWaterAnimationState.startIfNotRunning(this.age);
             } else {
                 this.swimmingAnimationState.stop();
                 this.idlingInWaterAnimationState.stop();
@@ -217,19 +217,19 @@ public class FrogEntity extends AnimalEntity {
         if (POSE.equals(data)) {
             EntityPose entityPose = this.getPose();
             if (entityPose == EntityPose.LONG_JUMPING) {
-                this.longJumpingAnimationState.start();
+                this.longJumpingAnimationState.start(this.age);
             } else {
                 this.longJumpingAnimationState.stop();
             }
 
             if (entityPose == WildMod.CROAKING) {
-                this.croakingAnimationState.start();
+                this.croakingAnimationState.start(this.age);
             } else {
                 this.croakingAnimationState.stop();
             }
 
             if (entityPose == WildMod.USING_TONGUE) {
-                this.usingTongueAnimationState.start();
+                this.usingTongueAnimationState.start(this.age);
             } else {
                 this.usingTongueAnimationState.stop();
             }

@@ -11,9 +11,11 @@ import net.frozenblock.wildmod.event.BlockPositionSource;
 import net.frozenblock.wildmod.event.EntityPositionSource;
 import net.frozenblock.wildmod.event.PositionSourceType;
 import net.frozenblock.wildmod.event.WildGameEvents;
+import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.liukrastapi.FrogAttackablesSensor;
 import net.frozenblock.wildmod.liukrastapi.IsInWaterSensor;
 import net.frozenblock.wildmod.liukrastapi.ItemCriterion;
+import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
 import net.frozenblock.wildmod.mixins.ActivityInvoker;
 import net.frozenblock.wildmod.registry.*;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
@@ -70,21 +72,27 @@ public class WildMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        WildRegistry.register();
+        WildRegistry.init();
         RegisterMemoryModules.RegisterMemoryModules();
-        RegisterBlocks.RegisterBlocks();
+        RegisterBlocks.register();
         OPTIONAL_GLOBAL_POS = ofOptional(WildPacketByteBuf::writeGlobalPos, WildPacketByteBuf::readGlobalPos);
         registerData(OPTIONAL_GLOBAL_POS);
         LAST_DEATH_POS = DataTracker.registerData(PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS);
         RegisterItems.RegisterItems();
-        RegisterEntities.RegisterEntities();
+        RegisterEntities.init();
         //FrogVariant.registerFrogVariants();
 
         RegisterDispenser.RegisterDispenser();
         RegisterParticles.RegisterParticles();
         RegisterStatusEffects.RegisterStatusEffects();
-        RegisterWorldgen.RegisterWorldgen();
+        RegisterWorldgen.registerWorldgen();
         RootPlacerType.registerRootTypes();
+
+        RegisterSounds.init();
+        RegisterBlockSoundGroups.init();
+        WildBlockEntityType.register();
+        RegisterEnchantments.init();
+        AnimationState.init();
 
         registerData(OPTIONAL_INT);
         //registerData(WildRegistry.FROG_VARIANT_DATA);
@@ -98,7 +106,7 @@ public class WildMod implements ModInitializer {
         EMERGE = ActivityInvoker.callRegister("emerge");
         DIG = ActivityInvoker.callRegister("dig");
 
-        RegisterAccurateSculk.RegisterAccurateSculk();
+        RegisterAccurateSculk.register();
         WildGameEvents.RegisterGameEvents();
         RegisterRecoveryCompass.registerRecovery();
 

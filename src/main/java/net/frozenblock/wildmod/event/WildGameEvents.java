@@ -5,6 +5,7 @@ import net.frozenblock.wildmod.liukrastapi.WildVec3d;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.event.listener.GameEventListener;
@@ -90,38 +91,38 @@ public class WildGameEvents extends net.minecraft.world.event.GameEvent {
     }
 
     public static final class Message implements Comparable<Message> {
-        private final WildGameEvents field_39177;
-        private final WildVec3d field_39178;
-        private final Emitter field_39179;
-        private final GameEventListener field_39180;
-        private final double field_39181;
+        private final WildGameEvents event;
+        private final WildVec3d emitterPos;
+        private final Emitter emitter;
+        private final GameEventListener listener;
+        private final double distanceTraveled;
 
-        public Message(WildGameEvents gameEvent, WildVec3d vec3d, WildGameEvents.Emitter emitter, GameEventListener gameEventListener, WildVec3d vec3d2) {
-            this.field_39177 = gameEvent;
-            this.field_39178 = vec3d;
-            this.field_39179 = emitter;
-            this.field_39180 = gameEventListener;
-            this.field_39181 = vec3d.squaredDistanceTo(vec3d2);
+        public Message(WildGameEvents event, WildVec3d emitterPos, Emitter emitter, GameEventListener listener, Vec3d listenerPos) {
+            this.event = event;
+            this.emitterPos = emitterPos;
+            this.emitter = emitter;
+            this.listener = listener;
+            this.distanceTraveled = emitterPos.squaredDistanceTo(listenerPos);
         }
 
-        public int compareTo(Message arg) {
-            return Double.compare(this.field_39181, arg.field_39181);
+        public int compareTo(Message message) {
+            return Double.compare(this.distanceTraveled, message.distanceTraveled);
         }
 
-        public WildGameEvents method_43724() {
-            return this.field_39177;
+        public WildGameEvents getEvent() {
+            return this.event;
         }
 
-        public WildVec3d method_43726() {
-            return this.field_39178;
+        public WildVec3d getEmitterPos() {
+            return this.emitterPos;
         }
 
-        public Emitter method_43727() {
-            return this.field_39179;
+        public Emitter getEmitter() {
+            return this.emitter;
         }
 
-        public GameEventListener method_43728() {
-            return this.field_39180;
+        public GameEventListener getListener() {
+            return this.listener;
         }
     }
 }

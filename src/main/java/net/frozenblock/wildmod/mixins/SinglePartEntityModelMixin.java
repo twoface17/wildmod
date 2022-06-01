@@ -1,6 +1,9 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.liukrastapi.*;
+import net.frozenblock.wildmod.liukrastapi.animation.Animation;
+import net.frozenblock.wildmod.liukrastapi.animation.AnimationHelper;
+import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.util.math.Vec3f;

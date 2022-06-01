@@ -3,7 +3,8 @@ package net.frozenblock.wildmod.mixins;
 import com.mojang.authlib.GameProfile;
 import net.frozenblock.wildmod.entity.MangroveBoatEntity;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
-import net.frozenblock.wildmod.liukrastapi.MathAddon;
+import net.frozenblock.wildmod.liukrastapi.MathAdvanced;
+import net.frozenblock.wildmod.liukrastapi.WildInput;
 import net.frozenblock.wildmod.registry.RegisterItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
@@ -105,10 +106,10 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             double d = this.getX() - this.lastX;
             double e = this.getY() - this.lastBaseY;
             double f = this.getZ() - this.lastZ;
-            double g = (double)(this.getYaw() - this.lastYaw);
-            double h = (double)(this.getPitch() - this.lastPitch);
+            double g = this.getYaw() - this.lastYaw;
+            double h = this.getPitch() - this.lastPitch;
             ++this.ticksSinceLastPositionPacketSent;
-            boolean bl3 = MathAddon.squaredMagnitude(d, e, f) > MathHelper.square(2.0E-4D) || this.ticksSinceLastPositionPacketSent >= 20;
+            boolean bl3 = MathAdvanced.squaredMagnitude(d, e, f) > MathHelper.square(2.0E-4D) || this.ticksSinceLastPositionPacketSent >= 20;
             boolean bl4 = g != 0.0D || h != 0.0D;
             if (this.hasVehicle()) {
                 Vec3d vec3d = this.getVelocity();
@@ -143,11 +144,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(at = @At("HEAD"), method = "tickMovement")
     public void tickMovement(CallbackInfo ci) {
-        boolean bl = this.input.jumping;
-        boolean bl2 = this.input.sneaking;
-        boolean bl3 = this.isWalking();
         this.inSneakingPose = !this.getAbilities().flying && !this.isSwimming() && this.wouldPoseNotCollide(EntityPose.CROUCHING) && (this.isSneaking() || !this.isSleeping() && !this.wouldPoseNotCollide(EntityPose.STANDING));
         float f = MathHelper.clamp(0.3F + RegisterItems.getSwiftSneakSpeedBoost(this), 0.0F, 1.0F);
+        ((WildInput)this.input).tick(this.shouldSlowDown(), f);
     }
 
 
