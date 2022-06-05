@@ -7,7 +7,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public interface WildPositionSourceType<T extends PositionSource> extends net.minecraft.world.event.PositionSourceType<T> {
+public interface WildPositionSourceType<T extends WildPositionSource> extends net.minecraft.world.event.PositionSourceType<T> {
     public static final WildPositionSourceType<WildBlockPositionSource> BLOCK = WildPositionSourceType.register("block", new WildBlockPositionSource.Type());
 
     T readFromBuf(PacketByteBuf buf);
@@ -16,12 +16,12 @@ public interface WildPositionSourceType<T extends PositionSource> extends net.mi
 
     Codec<T> getCodec();
 
-    static <S extends WildPositionSourceType<T>, T extends PositionSource> S register(String id, S positionSourceType) {
+    static <S extends WildPositionSourceType<T>, T extends WildPositionSource> S register(String id, S positionSourceType) {
         return Registry.register(WildRegistry.WILD_POSITION_SOURCE_TYPE, new Identifier(WildMod.MOD_ID, id), positionSourceType);
     }
 
 
-    static PositionSource read(PacketByteBuf buf) {
+    static WildPositionSource read(PacketByteBuf buf) {
         Identifier identifier = buf.readIdentifier();
         return WildRegistry.WILD_POSITION_SOURCE_TYPE
                 .getOrEmpty(identifier)

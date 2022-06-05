@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
-public interface PositionSource extends net.minecraft.world.event.PositionSource {
-    Codec<PositionSource> CODEC = WildRegistry.WILD_POSITION_SOURCE_TYPE.getCodec().dispatch(PositionSource::getType, WildPositionSourceType::getCodec);
+public interface WildPositionSource extends net.minecraft.world.event.PositionSource {
+    Codec<WildPositionSource> CODEC = WildRegistry.WILD_POSITION_SOURCE_TYPE.getCodec().dispatch(WildPositionSource::getType, WildPositionSourceType::getCodec);
 
     Optional<BlockPos> getPos(World world);
 

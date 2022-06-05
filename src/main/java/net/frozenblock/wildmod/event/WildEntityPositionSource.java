@@ -16,23 +16,23 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class EntityPositionSource implements PositionSource {
+public class WildEntityPositionSource implements WildPositionSource {
     private static final Codec<UUID> UUID = DynamicSerializableUuid.CODEC;
-    public static final Codec<EntityPositionSource> CODEC = RecordCodecBuilder.create((instance) -> {
-        return instance.group(UUID.fieldOf("source_entity").forGetter(EntityPositionSource::getUuid), Codec.FLOAT.fieldOf("y_offset").orElse(0.0F).forGetter((entityPositionSource) -> {
+    public static final Codec<WildEntityPositionSource> CODEC = RecordCodecBuilder.create((instance) -> {
+        return instance.group(UUID.fieldOf("source_entity").forGetter(WildEntityPositionSource::getUuid), Codec.FLOAT.fieldOf("y_offset").orElse(0.0F).forGetter((entityPositionSource) -> {
             return entityPositionSource.yOffset;
         })).apply(instance, (uUID, float_) -> {
-            return new EntityPositionSource(Either.right(Either.left(uUID)), float_);
+            return new WildEntityPositionSource(Either.right(Either.left(uUID)), float_);
         });
     });
     private Either<Entity, Either<UUID, Integer>> source;
     final float yOffset;
 
-    public EntityPositionSource(Entity entity, float yOffset) {
+    public WildEntityPositionSource(Entity entity, float yOffset) {
         this(Either.left(entity), yOffset);
     }
 
-    EntityPositionSource(Either<Entity, Either<UUID, Integer>> source, float yOffset) {
+    WildEntityPositionSource(Either<Entity, Either<UUID, Integer>> source, float yOffset) {
         this.source = source;
         this.yOffset = yOffset;
     }
@@ -81,21 +81,21 @@ public class EntityPositionSource implements PositionSource {
         return WildMod.ENTITY;
     }
 
-    public static class Type implements WildPositionSourceType<EntityPositionSource> {
+    public static class Type implements WildPositionSourceType<WildEntityPositionSource> {
         public Type() {
         }
 
-        public EntityPositionSource readFromBuf(PacketByteBuf packetByteBuf) {
-            return new EntityPositionSource(Either.right(Either.right(packetByteBuf.readVarInt())), packetByteBuf.readFloat());
+        public WildEntityPositionSource readFromBuf(PacketByteBuf packetByteBuf) {
+            return new WildEntityPositionSource(Either.right(Either.right(packetByteBuf.readVarInt())), packetByteBuf.readFloat());
         }
 
-        public void writeToBuf(PacketByteBuf packetByteBuf, EntityPositionSource entityPositionSource) {
+        public void writeToBuf(PacketByteBuf packetByteBuf, WildEntityPositionSource entityPositionSource) {
             packetByteBuf.writeVarInt(entityPositionSource.getEntityId());
             packetByteBuf.writeFloat(entityPositionSource.yOffset);
         }
 
-        public Codec<EntityPositionSource> getCodec() {
-            return EntityPositionSource.CODEC;
+        public Codec<WildEntityPositionSource> getCodec() {
+            return WildEntityPositionSource.CODEC;
         }
     }
 }

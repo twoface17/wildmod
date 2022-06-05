@@ -12,6 +12,8 @@ import net.frozenblock.wildmod.world.feature.WildTrunkPlacerType;
 import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacerType;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.entity.data.TrackedDataHandler;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;

@@ -43,7 +43,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.listener.SculkSensorListener;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -85,7 +84,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
         this.moveControl = new FlightMoveControl(this, 20, true);
         this.setCanPickUpLoot(this.canPickUpLoot());
         this.gameEventHandler = new EntityGameEventHandler(
-            new VibrationListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0)
+            new VibrationListener(new WildEntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0)
         );
     }
 

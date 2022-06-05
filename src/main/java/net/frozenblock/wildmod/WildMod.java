@@ -11,8 +11,7 @@ import net.frozenblock.wildmod.entity.WildPacketByteBuf;
 import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
-import net.frozenblock.wildmod.event.WildBlockPositionSource;
-import net.frozenblock.wildmod.event.EntityPositionSource;
+import net.frozenblock.wildmod.event.WildEntityPositionSource;
 import net.frozenblock.wildmod.event.WildPositionSourceType;
 import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
@@ -66,7 +65,7 @@ public class WildMod implements ModInitializer {
     public static final UseAction TOOT_HORN = ClassTinkerers.getEnum(UseAction.class, "TOOT_HORN");
 
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
-    public static WildPositionSourceType<EntityPositionSource> ENTITY;
+    public static WildPositionSourceType<WildEntityPositionSource> ENTITY;
 
     static <T> TrackedDataHandler<Optional<T>> ofOptional(WildPacketByteBuf.PacketWriter<T> packetWriter, WildPacketByteBuf.PacketReader<T> packetReader) {
         return WildTrackedDataHandler.of(packetWriter.asOptional(), packetReader.asOptional());
@@ -120,7 +119,7 @@ public class WildMod implements ModInitializer {
         WildFoliagePlacerType.init();
         WildTrunkPlacerType.init();
 
-        ENTITY = WildPositionSourceType.register("entity", new EntityPositionSource.Type());
+        ENTITY = WildPositionSourceType.register("entity", new WildEntityPositionSource.Type());
         SpawnRestrictionAccessor.callRegister(RegisterEntities.FROG, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FrogEntity::canSpawn);
     }
 
