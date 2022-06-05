@@ -1,7 +1,8 @@
-package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.feature.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.frozenblock.wildmod.world.gen.PredicatedStateProvider;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.feature.FeatureConfig;

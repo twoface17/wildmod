@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.fromAccurateSculk;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.liukrastapi.Sphere;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -41,12 +42,12 @@ public class ActivatorGrower {
         int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
         if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > (chance+4))) {
             BlockPos NewSculk = solidsculkCheck(blockPos, world);
-            if (NewSculk != null && !Sphere.blockTagInSphere(NewSculk, 4, SculkTags.ACTIVATORS, world)) {
+            if (NewSculk != null && !Sphere.blockTagInSphere(NewSculk, 4, RegisterTags.ACTIVATORS, world)) {
                 BlockState activator = null;
                 if (uniInt <= 3) {
-                    activator = Objects.requireNonNull(SculkTags.getRandomBlock(random, SculkTags.RARE_ACTIVATORS)).getDefaultState();
+                    activator = Objects.requireNonNull(RegisterTags.getRandomBlock(random, RegisterTags.RARE_ACTIVATORS)).getDefaultState();
                 } else if (uniInt <= 16) {
-                    activator = Objects.requireNonNull(SculkTags.getRandomBlock(random, SculkTags.COMMON_ACTIVATORS)).getDefaultState();
+                    activator = Objects.requireNonNull(RegisterTags.getRandomBlock(random, RegisterTags.COMMON_ACTIVATORS)).getDefaultState();
                 }
                 if (activator!=null) {
                     placeActivator(NewSculk, world, activator);
@@ -56,7 +57,7 @@ public class ActivatorGrower {
     }
 
     public static void placeActivator(BlockPos pos, World world, BlockState state) { //Place The Activator
-        if (SculkTags.blockTagContains(state.getBlock(), SculkTags.GROUND_ACTIVATORS)) {
+        if (RegisterTags.blockTagContains(state.getBlock(), RegisterTags.GROUND_ACTIVATORS)) {
             world.setBlockState(pos, state);
         } else {
             BlockState stateUp = world.getBlockState(pos.up());
@@ -88,7 +89,7 @@ public class ActivatorGrower {
         }
         for (int h = 0; h < upward; h++) {
             BlockPos pos =  blockPos.up(h);
-            if (world.getBlockState(pos)==sculk && SculkTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE)) {
+            if (world.getBlockState(pos)==sculk && RegisterTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), RegisterTags.SCULK_VEIN_REPLACEABLE)) {
                 return pos;
             }
         }
@@ -102,7 +103,7 @@ public class ActivatorGrower {
         }
         for (int h = 0; h < downward; h++) {
             BlockPos pos =  blockPos.down(h);
-            if (world.getBlockState(pos)==sculk && SculkTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), SculkTags.SCULK_VEIN_REPLACEABLE)) {
+            if (world.getBlockState(pos)==sculk && RegisterTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), RegisterTags.SCULK_VEIN_REPLACEABLE)) {
                 return pos;
             }
         }

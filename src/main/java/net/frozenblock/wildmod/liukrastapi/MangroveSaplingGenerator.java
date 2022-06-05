@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.liukrastapi;
 
-import net.frozenblock.wildmod.world.gen.WildConfiguredFeatures;
+import net.frozenblock.wildmod.world.feature.WildConfiguredFeatures;
 import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.feature.ConfiguredFeature;

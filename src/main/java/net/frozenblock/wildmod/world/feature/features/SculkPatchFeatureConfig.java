@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.feature.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

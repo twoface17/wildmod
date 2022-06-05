@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.registry.RegisterWorldgen;
-import net.frozenblock.wildmod.world.gen.WildPlacedFeatures;
+import net.frozenblock.wildmod.world.feature.WildPlacedFeatures;
 import net.frozenblock.wildmod.world.gen.structure.StructurePoolElement;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePools;

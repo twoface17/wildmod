@@ -1,9 +1,19 @@
-package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.feature;
 
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterTags;
+import net.frozenblock.wildmod.world.feature.WildFeatures;
+import net.frozenblock.wildmod.world.feature.WildPlacedFeatures;
+import net.frozenblock.wildmod.world.feature.features.DiskFeatureConfig;
+import net.frozenblock.wildmod.world.feature.features.MultifaceGrowthFeatureConfig;
+import net.frozenblock.wildmod.world.feature.features.SculkPatchFeatureConfig;
+import net.frozenblock.wildmod.world.feature.features.WildTreeFeatureConfig;
+import net.frozenblock.wildmod.world.feature.foliage.WildRandomSpreadFoliagePlacer;
+import net.frozenblock.wildmod.world.gen.LeavesVineTreeDecorator;
+import net.frozenblock.wildmod.world.gen.PredicatedStateProvider;
+import net.frozenblock.wildmod.world.gen.UpwardsBranchingTrunkPlacer;
 import net.frozenblock.wildmod.world.gen.root.AboveRootPlacement;
 import net.frozenblock.wildmod.world.gen.root.MangroveRootPlacement;
 import net.frozenblock.wildmod.world.gen.root.MangroveRootPlacer;
@@ -58,7 +68,7 @@ public class WildConfiguredFeatures {
     public static final RegistryEntry<ConfiguredFeature<DiskFeatureConfig, ?>> DISK_GRASS = register(
             "disk_grass",
             WildFeatures.DISK,
-            new DiskFeatureConfig(
+            new net.frozenblock.wildmod.world.feature.features.DiskFeatureConfig(
                     new PredicatedStateProvider(
                             BlockStateProvider.of(Blocks.DIRT),
                             List.of(
@@ -94,7 +104,7 @@ public class WildConfiguredFeatures {
                         Registry.BLOCK.getOrCreateEntryList(RegisterTags.MANGROVE_LOGS_CAN_GROW_THROUGH)
                 ),
                 BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
-                new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 70),
+                new WildRandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 70),
                 Optional.of(
                         new MangroveRootPlacer(
                                 UniformIntProvider.create(1,3),
@@ -135,9 +145,9 @@ public class WildConfiguredFeatures {
             .build()
     );
 
-    public static final RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> TALL_MANGROVE = register(
+    public static final RegistryEntry<ConfiguredFeature<WildTreeFeatureConfig, ?>> TALL_MANGROVE = register(
             "tall_mangrove",
-            Feature.TREE,
+            WildFeatures.TREE,
             new WildTreeFeatureConfig.Builder(
                 BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
                 new UpwardsBranchingTrunkPlacer(
@@ -150,7 +160,7 @@ public class WildConfiguredFeatures {
                         Registry.BLOCK.getOrCreateEntryList(RegisterTags.MANGROVE_LOGS_CAN_GROW_THROUGH)
                 ),
                 BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
-                new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 70),
+                new WildRandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 70),
                     Optional.of(
                             new MangroveRootPlacer(
                                     UniformIntProvider.create(3, 7),

@@ -2,6 +2,7 @@ package net.frozenblock.wildmod.block.wild;
 
 import com.google.common.annotations.VisibleForTesting;
 import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
+import net.frozenblock.wildmod.liukrastapi.WildDirection;
 import net.frozenblock.wildmod.registry.WildUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -31,11 +32,11 @@ public class LichenGrower {
     }
 
     public boolean canGrow(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return stream().anyMatch(direction2 -> this.getGrowPos(state, world, pos, direction, direction2, this.growChecker::canGrow).isPresent());
+        return WildDirection.stream().anyMatch(direction2 -> this.getGrowPos(state, world, pos, direction, direction2, this.growChecker::canGrow).isPresent());
     }
 
     public Optional<LichenGrower.GrowPos> grow(BlockState state, WorldAccess world, BlockPos pos, Random random) {
-        return shuffle(random)
+        return WildDirection.shuffle(random)
                 .stream()
                 .filter(direction -> this.growChecker.canGrow(state, direction))
                 .map(direction -> this.grow(state, world, pos, direction, random, false))
@@ -45,7 +46,7 @@ public class LichenGrower {
     }
 
     public long grow(BlockState state, WorldAccess world, BlockPos pos, boolean markForPostProcessing) {
-        return stream()
+        return WildDirection.stream()
                 .filter(direction -> this.growChecker.canGrow(state, direction))
                 .map(direction -> this.grow(state, world, pos, direction, markForPostProcessing))
                 .reduce(0L, Long::sum);
@@ -54,7 +55,7 @@ public class LichenGrower {
     public Optional<LichenGrower.GrowPos> grow(
             BlockState state, WorldAccess world, BlockPos pos, Direction direction, Random random, boolean markForPostProcessing
     ) {
-        return shuffle(random)
+        return WildDirection.shuffle(random)
                 .stream()
                 .map(direction2 -> this.grow(state, world, pos, direction, direction2, markForPostProcessing))
                 .filter(Optional::isPresent)
@@ -63,7 +64,7 @@ public class LichenGrower {
     }
 
     private long grow(BlockState state, WorldAccess world, BlockPos pos, Direction direction, boolean markForPostProcessing) {
-        return stream()
+        return WildDirection.stream()
                 .map(direction2 -> this.grow(state, world, pos, direction, direction2, markForPostProcessing))
                 .filter(Optional::isPresent)
                 .count();
@@ -196,13 +197,5 @@ public class LichenGrower {
             return this.canGrow(world, pos, growPos.pos(), growPos.face(), blockState)
                     && this.lichen.canGrowWithDirection(world, blockState, growPos.pos(), growPos.face());
         }
-    }
-
-    public static Stream<Direction> stream() {
-        return Stream.of(Direction.values());
-    }
-
-    public static Collection<Direction> shuffle(Random random) {
-        return WildUtil.copyShuffled(Direction.values(), random);
     }
 }

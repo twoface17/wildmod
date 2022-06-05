@@ -35,3 +35,10 @@ accessible    field    net/minecraft/client/model/ModelPart    cuboids    Ljava/
 accessible    field    net/minecraft/client/model/ModelPart    children    Ljava/util/Map;
 accessible    method    net/minecraft/entity/ai/brain/sensor/SensorType    <init>    (Ljava/util/function/Supplier;)V
 accessible    method    net/minecraft/block/Block    setDefaultState    (Lnet/minecraft/block/BlockState;)V
+accessible    method    net/minecraft/client/network/ClientPlayerEntity    pushOutOfBlocks    (DD)V
+accessible    field    net/minecraft/world/dimension/DimensionType    minimumY    I
+accessible    field    net/minecraft/world/dimension/DimensionType    height    I
+accessible    field    net/minecraft/world/dimension/DimensionType    ambientLight    F
+mutable    field    net/minecraft/world/dimension/DimensionType    minimumY    I
+mutable    field    net/minecraft/world/dimension/DimensionType    height    I
+mutable    field    net/minecraft/world/dimension/DimensionType    ambientLight    F

@@ -4,12 +4,16 @@ import com.chocohead.mm.api.ClassTinkerers;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.mixin.object.builder.SpawnRestrictionAccessor;
+import net.frozenblock.wildmod.entity.FrogEntity;
+import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.entity.WildPacketByteBuf;
+import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
-import net.frozenblock.wildmod.event.BlockPositionSource;
+import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.EntityPositionSource;
-import net.frozenblock.wildmod.event.PositionSourceType;
+import net.frozenblock.wildmod.event.WildPositionSourceType;
 import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.liukrastapi.FrogAttackablesSensor;
@@ -18,8 +22,11 @@ import net.frozenblock.wildmod.liukrastapi.ItemCriterion;
 import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
 import net.frozenblock.wildmod.mixins.ActivityInvoker;
 import net.frozenblock.wildmod.registry.*;
+import net.frozenblock.wildmod.world.feature.WildTrunkPlacerType;
+import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacerType;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
@@ -35,6 +42,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.Heightmap;
 
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -58,12 +66,10 @@ public class WildMod implements ModInitializer {
     public static final UseAction TOOT_HORN = ClassTinkerers.getEnum(UseAction.class, "TOOT_HORN");
 
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
-
-    public static PositionSourceType<BlockPositionSource> BLOCK;
-    public static PositionSourceType<EntityPositionSource> ENTITY;
+    public static WildPositionSourceType<EntityPositionSource> ENTITY;
 
     static <T> TrackedDataHandler<Optional<T>> ofOptional(WildPacketByteBuf.PacketWriter<T> packetWriter, WildPacketByteBuf.PacketReader<T> packetReader) {
-        return WildRegistry.of(packetWriter.asOptional(), packetReader.asOptional());
+        return WildTrackedDataHandler.of(packetWriter.asOptional(), packetReader.asOptional());
     }
 
     public static TrackedDataHandler<Optional<GlobalPos>> OPTIONAL_GLOBAL_POS;
@@ -80,7 +86,9 @@ public class WildMod implements ModInitializer {
         LAST_DEATH_POS = DataTracker.registerData(PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS);
         RegisterItems.RegisterItems();
         RegisterEntities.init();
-        //FrogVariant.registerFrogVariants();
+        FrogVariant.init();
+        RegisterTags.init();
+        WildPositionSourceType.init();
 
         RegisterDispenser.RegisterDispenser();
         RegisterParticles.RegisterParticles();
@@ -95,7 +103,7 @@ public class WildMod implements ModInitializer {
         AnimationState.init();
 
         registerData(OPTIONAL_INT);
-        //registerData(WildRegistry.FROG_VARIANT_DATA);
+        registerData(WildRegistry.FROG_VARIANT_DATA);
 
         TONGUE = ActivityInvoker.callRegister( "tongue");
         SWIM = ActivityInvoker.callRegister( "swim");
@@ -109,9 +117,11 @@ public class WildMod implements ModInitializer {
         RegisterAccurateSculk.register();
         WildGameEvents.RegisterGameEvents();
         RegisterRecoveryCompass.registerRecovery();
+        WildFoliagePlacerType.init();
+        WildTrunkPlacerType.init();
 
-        BLOCK = PositionSourceType.register("block", new BlockPositionSource.Type());
-        ENTITY = PositionSourceType.register("entity", new EntityPositionSource.Type());
+        ENTITY = WildPositionSourceType.register("entity", new EntityPositionSource.Type());
+        SpawnRestrictionAccessor.callRegister(RegisterEntities.FROG, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FrogEntity::canSpawn);
     }
 
     public static void registerData(TrackedDataHandler<?> handler) {

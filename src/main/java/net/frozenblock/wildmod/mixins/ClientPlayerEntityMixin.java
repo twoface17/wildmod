@@ -13,12 +13,22 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.JumpingMount;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.PiglinEntity;
+import net.minecraft.item.ElytraItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -86,6 +96,26 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Shadow public abstract boolean shouldSlowDown();
 
+    @Shadow public int ticksSinceSprintingChanged;
+
+    @Shadow protected int ticksLeftToDoubleTapSprint;
+
+    @Shadow protected abstract void updateNausea();
+
+    @Shadow private boolean falling;
+
+    @Shadow private int underwaterVisibilityTicks;
+
+    @Shadow public abstract boolean hasJumpingMount();
+
+    @Shadow private int field_3938;
+
+    @Shadow private float mountJumpStrength;
+
+    @Shadow protected abstract void startRidingJump();
+
+    @Shadow public abstract float getMountJumpStrength();
+
     @Inject(at = @At("HEAD"), method = "sendMovementPackets")
     private void sendMovementPackets (CallbackInfo ci) {
         boolean bl = this.isSprinting();
@@ -142,9 +172,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         }
     }
 
-    @Inject(at = @At("HEAD"), method = "tickMovement")
+    @Inject(at = @At("TAIL"), method = "tickMovement")
     public void tickMovement(CallbackInfo ci) {
-        this.inSneakingPose = !this.getAbilities().flying && !this.isSwimming() && this.wouldPoseNotCollide(EntityPose.CROUCHING) && (this.isSneaking() || !this.isSleeping() && !this.wouldPoseNotCollide(EntityPose.STANDING));
         float f = MathHelper.clamp(0.3F + RegisterItems.getSwiftSneakSpeedBoost(this), 0.0F, 1.0F);
         ((WildInput)this.input).tick(this.shouldSlowDown(), f);
     }

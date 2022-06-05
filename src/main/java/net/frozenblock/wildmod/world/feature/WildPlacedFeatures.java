@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.feature;
 
 import com.mojang.serialization.Lifecycle;
 import net.frozenblock.wildmod.WildMod;

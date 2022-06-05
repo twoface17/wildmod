@@ -10,7 +10,6 @@ import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterTags;
-import net.frozenblock.wildmod.tags.BiomeTags;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -280,9 +279,9 @@ public class FrogEntity extends AnimalEntity {
 
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         RegistryEntry<Biome> registryEntry = world.getBiome(this.getBlockPos());
-        if (registryEntry.isIn(net.frozenblock.wildmod.tags.BiomeTags.SPAWNS_COLD_VARIANT_FROGS)) {
+        if (registryEntry.isIn(RegisterTags.SPAWNS_COLD_VARIANT_FROGS)) {
             //this.setVariant(FrogVariant.COLD);
-        } else if (registryEntry.isIn(BiomeTags.SPAWNS_WARM_VARIANT_FROGS)) {
+        } else if (registryEntry.isIn(RegisterTags.SPAWNS_WARM_VARIANT_FROGS)) {
             //this.setVariant(FrogVariant.WARM);
         } else {
             //this.setVariant(FrogVariant.TEMPERATE);

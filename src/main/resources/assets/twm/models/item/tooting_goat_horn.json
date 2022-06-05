@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-	"layer0": "item/goat_horn"
+	"layer0": "twm:item/goat_horn"
   },
   "display": {
 	"thirdperson_righthand": {

@@ -1,9 +1,12 @@
-package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.feature.features;
 
 import com.mojang.serialization.Codec;
 import net.frozenblock.wildmod.block.deepdark.SculkShriekerBlock;
 import net.frozenblock.wildmod.block.wild.LichenGrower;
+import net.frozenblock.wildmod.liukrastapi.WildDirection;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
+import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
+import net.frozenblock.wildmod.world.gen.SculkSpreadable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +30,7 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
             return false;
         } else {
             SculkPatchFeatureConfig sculkPatchFeatureConfig = (SculkPatchFeatureConfig)context.getConfig();
-            Random abstractRandom = context.getRandom();
+            Random random = context.getRandom();
             SculkSpreadManager sculkSpreadManager = SculkSpreadManager.createWorldGen();
             int i = sculkPatchFeatureConfig.spreadRounds() + sculkPatchFeatureConfig.growthRounds();
 
@@ -39,26 +42,26 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
                 boolean bl = j < sculkPatchFeatureConfig.spreadRounds();
 
                 for(int l = 0; l < sculkPatchFeatureConfig.spreadAttempts(); ++l) {
-                    sculkSpreadManager.tick(structureWorldAccess, blockPos, abstractRandom, bl);
+                    sculkSpreadManager.tick(structureWorldAccess, blockPos, random, bl);
                 }
 
                 sculkSpreadManager.clearCursors();
             }
 
             BlockPos blockPos2 = blockPos.down();
-            if (abstractRandom.nextFloat() <= sculkPatchFeatureConfig.catalystChance()
+            if (random.nextFloat() <= sculkPatchFeatureConfig.catalystChance()
                     && structureWorldAccess.getBlockState(blockPos2).isFullCube(structureWorldAccess, blockPos2)) {
                 structureWorldAccess.setBlockState(blockPos, RegisterBlocks.SCULK_CATALYST.getDefaultState(), 3);
             }
 
-            int k = sculkPatchFeatureConfig.extraRareGrowths().get(abstractRandom);
+            int k = sculkPatchFeatureConfig.extraRareGrowths().get(random);
 
             for(int l = 0; l < k; ++l) {
-                BlockPos blockPos3 = blockPos.add(abstractRandom.nextInt(5) - 2, 0, abstractRandom.nextInt(5) - 2);
+                BlockPos blockPos3 = blockPos.add(random.nextInt(5) - 2, 0, random.nextInt(5) - 2);
                 if (structureWorldAccess.getBlockState(blockPos3).isAir()
                         && structureWorldAccess.getBlockState(blockPos3.down()).isSideSolidFullSquare(structureWorldAccess, blockPos3.down(), Direction.UP)) {
                     structureWorldAccess.setBlockState(
-                            blockPos3, RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.CAN_SUMMON, true), 3
+                            blockPos3, (BlockState)RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.CAN_SUMMON, true), 3
                     );
                 }
             }
@@ -74,7 +77,7 @@ public class SculkPatchFeature extends Feature<SculkPatchFeatureConfig> {
         } else {
             return !blockState.isAir() && (!blockState.isOf(Blocks.WATER) || !blockState.getFluidState().isStill())
                     ? false
-                    : LichenGrower.stream().map(pos::offset).anyMatch(pos2 -> world.getBlockState(pos2).isFullCube(world, pos2));
+                    : WildDirection.stream().map(pos::offset).anyMatch(pos2 -> world.getBlockState(pos2).isFullCube(world, pos2));
         }
     }
 }

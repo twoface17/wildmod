@@ -36,6 +36,7 @@
   "block.twm.verdant_froglight": "Verdant Froglight",
   "death.attack.sonic_boom": "%1$s was obliterated by a sonically-charged shriek",
   "death.attack.sonic_boom.player": "%1$s was obliterated by a sonically-charged shriek whilst trying to escape %2$s",
+  "enchantment.twm.swift_sneak": "Swift Sneak",
   "effect.twm.darkness": "Darkness",
   "entity.twm.chest_boat": "Boat with Chest",
   "entity.twm.frog": "Frog",

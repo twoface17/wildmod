@@ -2,12 +2,13 @@
 // Source code recreated from a .class file by Quiltflower
 //
 
-package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.feature.features;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
+import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
@@ -27,7 +28,6 @@ import net.minecraft.world.TestableWorld;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.foliage.FoliagePlacer.TreeNode;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -86,7 +86,7 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
             OptionalInt optionalInt = config.minimumSize.getMinClippedHeight();
             int m = this.getTopPosition(world, i, pos, config);
             if (m >= i || optionalInt.isPresent() && m >= optionalInt.getAsInt()) {
-                List<TreeNode> list = config.trunkPlacer.generate(world, trunkReplacer, random, m, pos, config);
+                List<WildFoliagePlacer.TreeNode> list = config.trunkPlacer.generate(world, trunkReplacer, random, m, pos, config);
                 list.forEach(node -> config.foliagePlacer.generate(world, foliageReplacer, random, config, m, node, j, l));
                 return true;
             } else {

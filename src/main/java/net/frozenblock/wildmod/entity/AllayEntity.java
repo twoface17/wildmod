@@ -7,6 +7,7 @@ import net.frozenblock.wildmod.entity.ai.AllayBrain;
 import net.frozenblock.wildmod.event.*;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
@@ -361,7 +362,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
     }
 
     public TagKey<net.minecraft.world.event.GameEvent> getTag() {
-        return WildEventTags.ALLAY_CAN_LISTEN;
+        return RegisterTags.ALLAY_CAN_LISTEN;
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {

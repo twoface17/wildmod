@@ -25,7 +25,7 @@ public abstract class KeyboardInputMixin implements WildInput {
     }
 
     @Override
-    public void tick(boolean slowDown, float f) {
+    public void tick(boolean slowDown, float swiftSneakFactor) {
         KeyboardInput key = KeyboardInput.class.cast(this);
         key.pressingForward = this.settings.forwardKey.isPressed();
         key.pressingBack = this.settings.backKey.isPressed();
@@ -36,8 +36,8 @@ public abstract class KeyboardInputMixin implements WildInput {
         key.jumping = this.settings.jumpKey.isPressed();
         key.sneaking = this.settings.sneakKey.isPressed();
         if (slowDown) {
-            key.movementSideways *= f;
-            key.movementForward *= f;
+            key.movementSideways *= swiftSneakFactor;
+            key.movementForward *= swiftSneakFactor;
         }
 
     }

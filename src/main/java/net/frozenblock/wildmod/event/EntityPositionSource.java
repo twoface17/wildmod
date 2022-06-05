@@ -77,11 +77,11 @@ public class EntityPositionSource implements PositionSource {
         }, Function.identity()));
     }
 
-    public PositionSourceType<?> getType() {
+    public WildPositionSourceType<?> getType() {
         return WildMod.ENTITY;
     }
 
-    public static class Type implements PositionSourceType<EntityPositionSource> {
+    public static class Type implements WildPositionSourceType<EntityPositionSource> {
         public Type() {
         }
 

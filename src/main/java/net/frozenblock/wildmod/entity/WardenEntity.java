@@ -8,14 +8,10 @@ import net.frozenblock.wildmod.entity.ai.WardenBrain;
 import net.frozenblock.wildmod.entity.ai.WardenPositionSource;
 import net.frozenblock.wildmod.entity.ai.task.SonicBoomTask;
 import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
-import net.frozenblock.wildmod.event.WildEventTags;
 import net.frozenblock.wildmod.liukrastapi.Angriness;
 import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
 import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
-import net.frozenblock.wildmod.registry.RegisterEntities;
-import net.frozenblock.wildmod.registry.RegisterMemoryModules;
-import net.frozenblock.wildmod.registry.RegisterSounds;
-import net.frozenblock.wildmod.registry.RegisterStatusEffects;
+import net.frozenblock.wildmod.registry.*;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
@@ -368,7 +364,7 @@ public class WardenEntity extends WildHostileEntity {
     }
 
     public TagKey<GameEvent> getTag() {
-        return WildEventTags.WARDEN_CAN_LISTEN;
+        return RegisterTags.WARDEN_CAN_LISTEN;
     }
 
     public boolean triggersAvoidCriterion() {

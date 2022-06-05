@@ -1,9 +1,10 @@
 package net.frozenblock.wildmod.block.deepdark;
 
 import net.frozenblock.wildmod.block.wild.LichenGrower;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
+import net.frozenblock.wildmod.liukrastapi.WildDirection;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterSounds;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
 import net.frozenblock.wildmod.world.gen.SculkSpreadable;
@@ -102,7 +103,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
         BlockState blockState = world.getBlockState(pos);
         TagKey<Block> tagKey = spreadManager.getReplaceableTag();
 
-        for(Direction direction : LichenGrower.shuffle(random)) {
+        for(Direction direction : WildDirection.shuffle(random)) {
             if (hasDirection(blockState, direction)) {
                 BlockPos blockPos = pos.offset(direction);
                 if (world.getBlockState(blockPos).isIn(tagKey)) {
@@ -135,7 +136,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
             return false;
         } else {
             for(Direction direction : DIRECTIONS) {
-                if (hasDirection(state, direction) && world.getBlockState(pos.offset(direction)).isIn(SculkTags.SCULK_REPLACEABLE)) {
+                if (hasDirection(state, direction) && world.getBlockState(pos.offset(direction)).isIn(RegisterTags.SCULK_REPLACEABLE)) {
                     return true;
                 }
             }

@@ -3,7 +3,7 @@ package net.frozenblock.wildmod.mixins;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
-import net.frozenblock.wildmod.event.BlockPositionSource;
+import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildGameEvents;
@@ -50,7 +50,7 @@ public class SculkSensorBlockEntityMixin extends BlockEntity implements Vibratio
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void SculkSensorBlockEntity(BlockPos pos, BlockState state, CallbackInfo ci) {
-        this.vibrationListener = new VibrationListener(new BlockPositionSource(this.pos), ((SculkSensorBlock)state.getBlock()).getRange(), this, null, 0.0F, 0);
+        this.vibrationListener = new VibrationListener(new WildBlockPositionSource(this.pos), ((SculkSensorBlock)state.getBlock()).getRange(), this, null, 0.0F, 0);
     }
 
     /**

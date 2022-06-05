@@ -13,8 +13,8 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
 import net.frozenblock.wildmod.block.deepdark.SculkVeinBlock;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.registry.RegisterSounds;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.frozenblock.wildmod.registry.WildUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -45,7 +45,7 @@ public class SculkSpreadManager {
     private final int maxDistance;
     private final int spreadChance;
     private final int decayChance;
-    private List<SculkSpreadManager.Cursor> cursors = new ArrayList<>();
+    private List<SculkSpreadManager.Cursor> cursors = new ArrayList();
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public SculkSpreadManager(boolean worldGen, TagKey<Block> replaceableTag, int extraBlockChance, int maxDistance, int spreadChance, int decayChance) {
@@ -58,11 +58,11 @@ public class SculkSpreadManager {
     }
 
     public static SculkSpreadManager create() {
-        return new SculkSpreadManager(false, SculkTags.SCULK_REPLACEABLE, 10, 4, 10, 5);
+        return new SculkSpreadManager(false, RegisterTags.SCULK_REPLACEABLE, 10, 4, 10, 5);
     }
 
     public static SculkSpreadManager createWorldGen() {
-        return new SculkSpreadManager(true, SculkTags.SCULK_REPLACEABLE_WORLD_GEN, 50, 1, 5, 10);
+        return new SculkSpreadManager(true, RegisterTags.SCULK_REPLACEABLE_WORLD_GEN, 50, 1, 5, 10);
     }
 
     public TagKey<Block> getReplaceableTag() {
@@ -186,8 +186,8 @@ public class SculkSpreadManager {
     }
 
     public static class Cursor {
-        private static final ObjectArrayList<Vec3i> OFFSETS = Util.make(
-                new ObjectArrayList<>(18),
+        private static final ObjectArrayList<Vec3i> OFFSETS = (ObjectArrayList<Vec3i>)Util.make(
+                new ObjectArrayList(18),
                 objectArrayList -> BlockPos.stream(new BlockPos(-1, -1, -1), new BlockPos(1, 1, 1))
                         .filter(pos -> (pos.getX() == 0 || pos.getY() == 0 || pos.getZ() == 0) && !pos.equals(BlockPos.ORIGIN))
                         .map(BlockPos::toImmutable)
@@ -219,7 +219,7 @@ public class SculkSpreadManager {
             this.charge = charge;
             this.decay = decay;
             this.update = update;
-            this.faces = faces.orElse(null);
+            this.faces = (Set)faces.orElse(null);
         }
 
         public Cursor(BlockPos pos, int charge) {

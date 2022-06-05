@@ -11,12 +11,13 @@ import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.entity.util.LargeEntitySpawnHelper;
 import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
-import net.frozenblock.wildmod.event.WildEventTags;
+import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.liukrastapi.WildVec3d;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -59,7 +60,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
     private static final int field_38756 = 90;
     private int warningLevel;
 
-    private VibrationListener vibrationListener = new VibrationListener(new net.frozenblock.wildmod.event.BlockPositionSource(this.pos), 8, this, null, 0, 0);
+    private VibrationListener vibrationListener = new VibrationListener(new WildBlockPositionSource(this.pos), 8, this, null, 0, 0);
 
     public SculkShriekerBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(WildBlockEntityType.SCULK_SHRIEKER, blockPos, blockState);
@@ -90,7 +91,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
 
     @Override
     public TagKey<net.minecraft.world.event.GameEvent> getTag() {
-        return WildEventTags.SHRIEKER_CAN_LISTEN;
+        return RegisterTags.SHRIEKER_CAN_LISTEN;
     }
 
     @Override

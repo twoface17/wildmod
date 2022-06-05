@@ -3,10 +3,10 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkGrower;
-import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
 import net.frozenblock.wildmod.liukrastapi.Sphere;
 import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -42,7 +42,7 @@ public class LivingEntityMixin {
 		if (entity.deathTime == 19 && !entity.world.isClient()) {
 			BlockPos pos = entity.getBlockPos();
 			World world = entity.world;
-			if (SculkTags.entityTagContains(entity.getType(), SculkTags.DROPSXP)) {
+			if (RegisterTags.entityTagContains(entity.getType(), RegisterTags.DROPSXP)) {
 				//SculkSpreadManager sculkSpreadManager = SculkSpreadManager.create();
 				int numCatalysts = Sphere.blocksInSphere(pos, 9, RegisterBlocks.SCULK_CATALYST, world);
 				if (numCatalysts>0) {

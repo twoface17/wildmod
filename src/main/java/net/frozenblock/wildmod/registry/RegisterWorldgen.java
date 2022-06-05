@@ -2,8 +2,8 @@ package net.frozenblock.wildmod.registry;
 
 import com.google.common.collect.ImmutableList;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.world.gen.WildConfiguredFeatures;
-import net.frozenblock.wildmod.world.gen.WildPlacedFeatures;
+import net.frozenblock.wildmod.world.feature.WildConfiguredFeatures;
+import net.frozenblock.wildmod.world.feature.WildPlacedFeatures;
 import net.frozenblock.wildmod.world.gen.structure.BlockRotStructureProcessor;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.FoliageColors;

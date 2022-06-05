@@ -19,7 +19,7 @@ public class SchemasMixin {
 
     @Inject(method = "build", at = @At("TAIL"))
     private static void build(DataFixerBuilder builder, CallbackInfo ci) {
-        Schema schema168 = builder.addSchema(3094, EMPTY_IDENTIFIER_NORMALIZE);
+        Schema schema168 = builder.addSchema(2975, EMPTY_IDENTIFIER_NORMALIZE);
         builder.addFixer(new GoatHornIdFix(schema168)) ;
     }
 }

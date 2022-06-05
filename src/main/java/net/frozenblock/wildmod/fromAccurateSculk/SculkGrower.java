@@ -5,6 +5,7 @@ import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.liukrastapi.Sphere;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterSounds;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -56,17 +57,17 @@ public class SculkGrower {
                 sample = new PerlinNoiseSampler(new Xoroshiro128PlusPlusRandom(seed));
             }
             EntityType<?> type = entity.getType();
-            if (SculkTags.entityTagContains(type, SculkTags.THREE)) {
+            if (RegisterTags.entityTagContains(type, RegisterTags.THREE)) {
                 sculkOptim(3*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.entityTagContains(type, SculkTags.FIVE)) {
+            } else if (RegisterTags.entityTagContains(type, RegisterTags.FIVE)) {
                 sculkOptim(5*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.entityTagContains(type, SculkTags.TEN)) {
+            } else if (RegisterTags.entityTagContains(type, RegisterTags.TEN)) {
                 sculkOptim(10*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.entityTagContains(type, SculkTags.TWENTY)) {
+            } else if (RegisterTags.entityTagContains(type, RegisterTags.TWENTY)) {
                 sculkOptim(20*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.entityTagContains(type, SculkTags.FIFTY)) {
+            } else if (RegisterTags.entityTagContains(type, RegisterTags.FIFTY)) {
                 sculkOptim(50*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
-            } else if (SculkTags.entityTagContains(type, SculkTags.ONEHUNDRED)) {
+            } else if (RegisterTags.entityTagContains(type, RegisterTags.ONEHUNDRED)) {
                 sculkOptim(500*catalysts, firstRadius(world, getHighestRadius(world, blockPos)), down, serverWorld);
             }
         }
@@ -126,19 +127,19 @@ public class SculkGrower {
 
     public static boolean placeSculk(BlockPos blockPos, World world) { //Call For Sculk & Call For Veins
         Block block = world.getBlockState(blockPos).getBlock();
-        if (SculkTags.blockTagContains(block, SculkTags.SCULK_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, blockPos)) {
+        if (RegisterTags.blockTagContains(block, RegisterTags.SCULK_REPLACEABLE) && !RegisterTags.blockTagContains(block, RegisterTags.SCULK_VEIN_REPLACEABLE) && !RegisterTags.blockTagContains(block, RegisterTags.SCULK) && airOrReplaceableUp(world, blockPos)) {
             placeSculkOptim(blockPos, world);
             return true;
         } else {
             BlockPos NewSculk = sculkCheck(blockPos, world);
             if (NewSculk != null) {
                 block = world.getBlockState(NewSculk).getBlock();
-                if (SculkTags.blockTagContains(block, SculkTags.SCULK_REPLACEABLE)) {
+                if (RegisterTags.blockTagContains(block, RegisterTags.SCULK_REPLACEABLE)) {
                     placeSculkOptim(NewSculk, world);
                     return true;
                 } else if (airveins(world, NewSculk)) {
                     Block blockUp = world.getBlockState(NewSculk.up()).getBlock();
-                    if (SculkTags.blockTagContains(blockUp, SculkTags.SCULK_VEIN_REPLACEABLE) && blockUp!=veinBlock) {
+                    if (RegisterTags.blockTagContains(blockUp, RegisterTags.SCULK_VEIN_REPLACEABLE) && blockUp!=veinBlock) {
                         veins(NewSculk, world);
                         return true;
                     }
@@ -170,8 +171,8 @@ public class SculkGrower {
                 }
             }
             if (direction==Direction.UP) {
-                if (SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && block!=waterBlock && !state.isAir()) {
-                    if (SculkTags.blockTagContains(block, SculkTags.ALWAYS_WATER) || (state.contains(waterLogged) && state.get(waterLogged))) {
+                if (RegisterTags.blockTagContains(block, RegisterTags.SCULK_VEIN_REPLACEABLE) && block!=waterBlock && !state.isAir()) {
+                    if (RegisterTags.blockTagContains(block, RegisterTags.ALWAYS_WATER) || (state.contains(waterLogged) && state.get(waterLogged))) {
                         world.setBlockState(pos, water);
                     } else {
                         world.setBlockState(pos, air);
@@ -207,12 +208,12 @@ public class SculkGrower {
             BlockPos pos = blockPos.offset(direction);
             BlockState state = world.getBlockState(pos);
             Block block = state.getBlock();
-            if (SculkTags.blockTagContains(block, SculkTags.ALWAYS_WATER) || state == Blocks.WATER.getDefaultState()) {
+            if (RegisterTags.blockTagContains(block, RegisterTags.ALWAYS_WATER) || state == Blocks.WATER.getDefaultState()) {
                 world.setBlockState(pos, vein.with(waterLogged, true).with(getOpposite(direction), true));
             } else if (block != waterBlock) {
                 if (block == veinBlock) {
                     world.setBlockState(pos, state.with(getOpposite(direction), true));
-                } else if (SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) || state.isAir()) {
+                } else if (RegisterTags.blockTagContains(block, RegisterTags.SCULK_VEIN_REPLACEABLE) || state.isAir()) {
                     world.setBlockState(pos, vein.with(getOpposite(direction), true));
                 }
             }
@@ -268,7 +269,7 @@ public class SculkGrower {
         for (int h = 0; h < upward; h++) {
             BlockPos pos =  blockPos.up(h);
             Block block = world.getBlockState(pos).getBlock();
-            if (!SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, pos)) {
+            if (!RegisterTags.blockTagContains(block, RegisterTags.SCULK_VEIN_REPLACEABLE) && !RegisterTags.blockTagContains(block, RegisterTags.SCULK) && airOrReplaceableUp(world, pos)) {
                 return pos;
             } else if (sculkStops && block==sculkBlockBlock) {return null;}
         }
@@ -283,7 +284,7 @@ public class SculkGrower {
         for (int h = 0; h < downward; h++) {
             BlockPos pos = blockPos.down(h);
             Block block = world.getBlockState(pos).getBlock();
-            if (!SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK) && airOrReplaceableUp(world, pos)) {
+            if (!RegisterTags.blockTagContains(block, RegisterTags.SCULK_VEIN_REPLACEABLE) && !RegisterTags.blockTagContains(block, RegisterTags.SCULK) && airOrReplaceableUp(world, pos)) {
                 return pos;
             } else if (sculkStops && block==sculkBlockBlock) {return null;}
         }
@@ -295,7 +296,7 @@ public class SculkGrower {
         BlockState state = world.getBlockState(blockPos);
         Block block = state.getBlock();
         Fluid fluid = world.getFluidState(blockPos).getFluid();
-        return !SculkTags.blockTagContains(block, SculkTags.SCULK) && !SculkTags.blockTagContains(block, SculkTags.SCULK_UNTOUCHABLE) && !SculkTags.blockTagContains(block, SculkTags.SCULK_VEIN_REPLACEABLE) && !state.isAir() && !SculkTags.fluidTagContains(fluid, FluidTags.WATER) && !SculkTags.fluidTagContains(fluid, FluidTags.LAVA);
+        return !RegisterTags.blockTagContains(block, RegisterTags.SCULK) && !RegisterTags.blockTagContains(block, RegisterTags.SCULK_UNTOUCHABLE) && !RegisterTags.blockTagContains(block, RegisterTags.SCULK_VEIN_REPLACEABLE) && !state.isAir() && !RegisterTags.fluidTagContains(fluid, FluidTags.WATER) && !RegisterTags.fluidTagContains(fluid, FluidTags.LAVA);
     }
 
     public static boolean airOrReplaceableUp(World world, BlockPos blockPos) {

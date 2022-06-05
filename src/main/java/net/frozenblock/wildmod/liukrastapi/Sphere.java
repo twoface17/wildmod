@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.liukrastapi;
 
-import net.frozenblock.wildmod.fromAccurateSculk.SculkTags;
+import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.tag.TagKey;
@@ -212,7 +212,7 @@ public abstract class Sphere {
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (SculkTags.blockTagContains(world.getBlockState(l).getBlock(), tag)) {
+                        if (RegisterTags.blockTagContains(world.getBlockState(l).getBlock(), tag)) {
                             return true;
                         }
                     }
@@ -234,7 +234,7 @@ public abstract class Sphere {
                     double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
                     if(distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (y<=world.getHeight() && y>=world.getBottomY() && !SculkTags.blockTagContains(world.getBlockState(l).getBlock(), SculkTags.SCULK)) {
+                        if (y<=world.getHeight() && y>=world.getBottomY() && !RegisterTags.blockTagContains(world.getBlockState(l).getBlock(), RegisterTags.SCULK)) {
                             blocks.add(l);
                         }
                     }
