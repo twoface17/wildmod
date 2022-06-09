@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.entity.ai.task;
 import com.google.common.collect.ImmutableMap;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.FrogEntity;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
@@ -11,12 +12,16 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class FrogEatEntityTask extends Task<FrogEntity> {
     public static final int RUN_TIME = 100;
@@ -24,6 +29,8 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
     public static final int EAT_DURATION = 10;
     private static final float MAX_DISTANCE = 1.75F;
     private static final float VELOCITY_MULTIPLIER = 0.75F;
+    public static final int UNREACHABLE_TONGUE_TARGETS_START_TIME = 100;
+    public static final int MAX_UNREACHABLE_TONGUE_TARGETS = 5;
     private int eatTick;
     private int moveToTargetTick;
     private final SoundEvent tongueSound;
@@ -39,7 +46,9 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
                         MemoryModuleType.LOOK_TARGET,
                         MemoryModuleState.REGISTERED,
                         MemoryModuleType.ATTACK_TARGET,
-                        MemoryModuleState.VALUE_PRESENT
+                        MemoryModuleState.VALUE_PRESENT,
+                        RegisterMemoryModules.IS_PANICKING,
+                        MemoryModuleState.VALUE_ABSENT
                 ),
                 100
         );
@@ -48,17 +57,24 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
     }
 
     protected boolean shouldRun(ServerWorld serverWorld, FrogEntity frogEntity) {
-        return super.shouldRun(serverWorld, frogEntity)
-                && FrogEntity.isValidFrogFood((LivingEntity)frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get())
-                && frogEntity.getPose() != WildMod.CROAKING;
+        LivingEntity livingEntity = frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
+        boolean bl = this.isTargetReachable(frogEntity, livingEntity);
+        if (!bl) {
+            frogEntity.getBrain().forget(MemoryModuleType.ATTACK_TARGET);
+            this.markTargetAsUnreachable(frogEntity, livingEntity);
+        }
+
+        return bl && frogEntity.getPose() != WildMod.CROAKING && FrogEntity.isValidFrogFood(livingEntity);
     }
 
     protected boolean shouldKeepRunning(ServerWorld serverWorld, FrogEntity frogEntity, long l) {
-        return frogEntity.getBrain().hasMemoryModule(MemoryModuleType.ATTACK_TARGET) && this.phase != FrogEatEntityTask.Phase.DONE;
+        return frogEntity.getBrain().hasMemoryModule(MemoryModuleType.ATTACK_TARGET)
+                && this.phase != FrogEatEntityTask.Phase.DONE
+                && !frogEntity.getBrain().hasMemoryModule(RegisterMemoryModules.IS_PANICKING);
     }
 
     protected void run(ServerWorld serverWorld, FrogEntity frogEntity, long l) {
-        LivingEntity livingEntity = (LivingEntity)frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
+        LivingEntity livingEntity = frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
         LookTargetUtil.lookAt(frogEntity, livingEntity);
         frogEntity.setFrogTarget(livingEntity);
         frogEntity.getBrain().remember(MemoryModuleType.WALK_TARGET, new WalkTarget(livingEntity.getPos(), 2.0F, 0));
@@ -67,6 +83,8 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
     }
 
     protected void finishRunning(ServerWorld serverWorld, FrogEntity frogEntity, long l) {
+        frogEntity.getBrain().forget(MemoryModuleType.ATTACK_TARGET);
+        frogEntity.clearFrogTarget();
         frogEntity.setPose(EntityPose.STANDING);
     }
 
@@ -83,11 +101,10 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
             }
         }
 
-        frog.clearFrogTarget();
     }
 
     protected void keepRunning(ServerWorld serverWorld, FrogEntity frogEntity, long l) {
-        LivingEntity livingEntity = frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
+        LivingEntity livingEntity = (LivingEntity)frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
         frogEntity.setFrogTarget(livingEntity);
         switch(this.phase) {
             case MOVE_TO_TARGET:
@@ -122,13 +139,29 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
 
     }
 
+    private boolean isTargetReachable(FrogEntity entity, LivingEntity target) {
+        Path path = entity.getNavigation().findPathTo(target, 0);
+        return path != null && path.getManhattanDistanceFromTarget() < 1.75F;
+    }
+
+    private void markTargetAsUnreachable(FrogEntity entity, LivingEntity target) {
+        List<UUID> list = entity.getBrain().getOptionalMemory(RegisterMemoryModules.UNREACHABLE_TONGUE_TARGETS).orElseGet(ArrayList::new);
+        boolean bl = !list.contains(target.getUuid());
+        if (list.size() == 5 && bl) {
+            list.remove(0);
+        }
+
+        if (bl) {
+            list.add(target.getUuid());
+        }
+
+        entity.getBrain().remember(RegisterMemoryModules.UNREACHABLE_TONGUE_TARGETS, list, 100L);
+    }
+
     static enum Phase {
         MOVE_TO_TARGET,
         CATCH_ANIMATION,
         EAT_ANIMATION,
         DONE;
-
-        private Phase() {
-        }
     }
 }

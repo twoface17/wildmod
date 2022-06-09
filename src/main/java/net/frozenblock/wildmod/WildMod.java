@@ -78,7 +78,7 @@ public class WildMod implements ModInitializer {
     @Override
     public void onInitialize() {
         WildRegistry.init();
-        RegisterMemoryModules.RegisterMemoryModules();
+        RegisterMemoryModules.init();
         RegisterBlocks.register();
         OPTIONAL_GLOBAL_POS = ofOptional(WildPacketByteBuf::writeGlobalPos, WildPacketByteBuf::readGlobalPos);
         registerData(OPTIONAL_GLOBAL_POS);

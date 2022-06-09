@@ -3,9 +3,11 @@ package net.frozenblock.wildmod.entity;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
+import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.TadpoleBrain;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterItems;
+import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.entity.Bucketable;
 import net.minecraft.entity.EntityType;
@@ -23,13 +25,16 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.FishEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -38,9 +43,11 @@ import org.jetbrains.annotations.Nullable;
 public class TadpoleEntity extends FishEntity {
     @VisibleForTesting
     public static int MAX_TADPOLE_AGE = Math.abs(-24000);
+    public static float WIDTH = 0.4F;
+    public static float HEIGHT = 0.3F;
     private int tadpoleAge;
     protected static final ImmutableList<SensorType<? extends Sensor<? super TadpoleEntity>>> SENSORS = ImmutableList.of(
-            SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY
+            SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, WildMod.FROG_TEMPTATIONS
     );
     protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES = ImmutableList.of(
             MemoryModuleType.LOOK_TARGET,
@@ -48,7 +55,12 @@ public class TadpoleEntity extends FishEntity {
             MemoryModuleType.WALK_TARGET,
             MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
             MemoryModuleType.PATH,
-            MemoryModuleType.NEAREST_VISIBLE_ADULT
+            MemoryModuleType.NEAREST_VISIBLE_ADULT,
+            MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
+            MemoryModuleType.IS_TEMPTED,
+            MemoryModuleType.TEMPTING_PLAYER,
+            MemoryModuleType.BREED_TARGET,
+            RegisterMemoryModules.IS_PANICKING
     );
 
     public TadpoleEntity(EntityType<? extends FishEntity> entityType, World world) {
@@ -130,7 +142,7 @@ public class TadpoleEntity extends FishEntity {
             this.eatSlimeBall(player, itemStack);
             return ActionResult.success(this.world.isClient);
         } else {
-            return (ActionResult)Bucketable.tryBucket(player, hand, this).orElse(super.interactMob(player, hand));
+            return Bucketable.tryBucket(player, hand, this).orElse(super.interactMob(player, hand));
         }
     }
 
@@ -185,10 +197,6 @@ public class TadpoleEntity extends FishEntity {
 
     }
 
-    public static int toGrowUpAge(int breedingAge) {
-        return (int)((float)(breedingAge / 20) * 0.1F);
-    }
-
     private int getTadpoleAge() {
         return this.tadpoleAge;
     }
@@ -229,5 +237,12 @@ public class TadpoleEntity extends FishEntity {
     private int getTicksUntilGrowth() {
         return Math.max(0, MAX_TADPOLE_AGE - this.tadpoleAge);
     }
-}
 
+    public boolean shouldDropXp() {
+        return false;
+    }
+
+    public static int toGrowUpAge(int breedingAge) {
+        return (int)((float)(breedingAge / 20) * 0.1F);
+    }
+}

@@ -1,61 +1,58 @@
 package net.frozenblock.wildmod.registry;
 
 import com.mojang.serialization.Codec;
-import net.frozenblock.wildmod.mixins.MemoryModuleTypeInvoker;
-import net.frozenblock.wildmod.mixins.MemoryModuleTypeInvoker2;
+import net.frozenblock.wildmod.WildMod;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Unit;
 import net.minecraft.util.dynamic.DynamicSerializableUuid;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class RegisterMemoryModules {
-    public static MemoryModuleType<Unit> IS_PREGNANT;
-    public static MemoryModuleType<Unit> IS_IN_WATER;
-    public static MemoryModuleType<LivingEntity> ROAR_TARGET;
-    public static MemoryModuleType<Unit> RECENT_PROJECTILE;
-    public static MemoryModuleType<Unit> IS_SNIFFING;
-    public static MemoryModuleType<Unit> IS_EMERGING;
-    public static MemoryModuleType<Unit> ROAR_SOUND_DELAY;
-    public static MemoryModuleType<Unit> DIG_COOLDOWN;
-    public static MemoryModuleType<Unit> ROAR_SOUND_COOLDOWN;
-    public static MemoryModuleType<Unit> SNIFF_COOLDOWN;
-    public static MemoryModuleType<Unit> TOUCH_COOLDOWN;
-    public static MemoryModuleType<Unit> VIBRATION_COOLDOWN;
-    public static MemoryModuleType<Unit> SONIC_BOOM_COOLDOWN;
-    public static MemoryModuleType<Unit> SONIC_BOOM_SOUND_COOLDOWN;
-    public static MemoryModuleType<Unit> SONIC_BOOM_SOUND_DELAY;
-    public static MemoryModuleType<UUID> LIKED_PLAYER;
-    public static MemoryModuleType<GlobalPos> LIKED_NOTEBLOCK;
-    public static MemoryModuleType<Integer> LIKED_NOTEBLOCK_COOLDOWN_TICKS;
-    public static MemoryModuleType<Integer> ITEM_PICKUP_COOLDOWN_TICKS;
-    public static MemoryModuleType<BlockPos> DISTURBANCE_LOCATION;
+    public static final MemoryModuleType<Unit> IS_PREGNANT = register("is_pregnant", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> IS_IN_WATER = register("is_in_water", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<LivingEntity> ROAR_TARGET = register("roar_target");
+    public static final MemoryModuleType<Unit> RECENT_PROJECTILE = register("recent_projectile", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> IS_SNIFFING = register("is_sniffing", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> IS_EMERGING = register("is_emerging", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> ROAR_SOUND_DELAY = register("roar_sound_delay", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> DIG_COOLDOWN = register("dig_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> ROAR_SOUND_COOLDOWN = register("roar_sound_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> SNIFF_COOLDOWN = register("sniff_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> TOUCH_COOLDOWN = register("touch_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> VIBRATION_COOLDOWN = register("vibration_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> SONIC_BOOM_COOLDOWN = register("sonic_boom_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> SONIC_BOOM_SOUND_COOLDOWN = register("sonic_boom_sound_cooldown", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<Unit> SONIC_BOOM_SOUND_DELAY = register("sonic_boom_sound_delay", Codec.unit(Unit.INSTANCE));
+    public static final MemoryModuleType<UUID> LIKED_PLAYER = register("liked_player", DynamicSerializableUuid.CODEC);
+    public static final MemoryModuleType<GlobalPos> LIKED_NOTEBLOCK = register("liked_noteblock", GlobalPos.CODEC);
+    public static final MemoryModuleType<Integer> LIKED_NOTEBLOCK_COOLDOWN_TICKS = register("liked_noteblock_cooldown_ticks", Codec.INT);
+    public static final MemoryModuleType<Integer> ITEM_PICKUP_COOLDOWN_TICKS = register("item_pickup_cooldown_ticks", Codec.INT);
+    public static final MemoryModuleType<BlockPos> DISTURBANCE_LOCATION = register("disturbance_location");
+    public static final MemoryModuleType<Boolean> IS_PANICKING = register("is_panicking", Codec.BOOL);
+    public static final MemoryModuleType<List<UUID>> UNREACHABLE_TONGUE_TARGETS = register("unreachable_tongue_targets");
 
-    public static void RegisterMemoryModules() {
 
-        IS_PREGNANT = MemoryModuleTypeInvoker.callRegister("is_pregnant", Codec.unit(Unit.INSTANCE));
-        IS_IN_WATER = MemoryModuleTypeInvoker.callRegister("is_in_water", Codec.unit(Unit.INSTANCE));
-        ROAR_TARGET = MemoryModuleTypeInvoker2.callRegister("roar_target");
-        DISTURBANCE_LOCATION = MemoryModuleTypeInvoker2.callRegister("disturbance_location");
-        RECENT_PROJECTILE = MemoryModuleTypeInvoker.callRegister("recent_projectile", Codec.unit(Unit.INSTANCE));
-        IS_SNIFFING = MemoryModuleTypeInvoker.callRegister("is_sniffing", Codec.unit(Unit.INSTANCE));
-        IS_EMERGING = MemoryModuleTypeInvoker.callRegister("is_emerging", Codec.unit(Unit.INSTANCE));
-        ROAR_SOUND_DELAY = MemoryModuleTypeInvoker.callRegister("roar_sound_delay", Codec.unit(Unit.INSTANCE));
-        DIG_COOLDOWN = MemoryModuleTypeInvoker.callRegister("dig_cooldown", Codec.unit(Unit.INSTANCE));
-        ROAR_SOUND_COOLDOWN = MemoryModuleTypeInvoker.callRegister("roar_sound_cooldown", Codec.unit(Unit.INSTANCE));
-        SNIFF_COOLDOWN = MemoryModuleTypeInvoker.callRegister("sniff_cooldown", Codec.unit(Unit.INSTANCE));
-        TOUCH_COOLDOWN = MemoryModuleTypeInvoker.callRegister("touch_cooldown", Codec.unit(Unit.INSTANCE));
-        VIBRATION_COOLDOWN = MemoryModuleTypeInvoker.callRegister("vibration_cooldown", Codec.unit(Unit.INSTANCE));
-        SONIC_BOOM_COOLDOWN = MemoryModuleTypeInvoker.callRegister("sonic_boom_cooldown", Codec.unit(Unit.INSTANCE));
-        SONIC_BOOM_SOUND_COOLDOWN = MemoryModuleTypeInvoker.callRegister("sonic_boom_sound_cooldown", Codec.unit(Unit.INSTANCE));
-        SONIC_BOOM_SOUND_DELAY = MemoryModuleTypeInvoker.callRegister("sonic_boom_sound_delay", Codec.unit(Unit.INSTANCE));
-        LIKED_PLAYER = MemoryModuleTypeInvoker.callRegister("liked_player", DynamicSerializableUuid.CODEC);
-        LIKED_NOTEBLOCK = MemoryModuleTypeInvoker.callRegister("liked_noteblock", GlobalPos.CODEC);
-        LIKED_NOTEBLOCK_COOLDOWN_TICKS = MemoryModuleTypeInvoker.callRegister("liked_noteblock_cooldown_ticks", Codec.INT);
-        ITEM_PICKUP_COOLDOWN_TICKS = MemoryModuleTypeInvoker.callRegister("item_pickup_cooldown_ticks", Codec.INT);
+    public static void init() {
 
     }
+
+    public RegisterMemoryModules() {
+    }
+
+    private static <U> MemoryModuleType<U> register(String id, Codec<U> codec) {
+        return Registry.register(Registry.MEMORY_MODULE_TYPE, new Identifier(WildMod.MOD_ID, id), new MemoryModuleType<>(Optional.of(codec)));
+    }
+
+    private static <U> MemoryModuleType<U> register(String id) {
+        return Registry.register(Registry.MEMORY_MODULE_TYPE, new Identifier(WildMod.MOD_ID, id), new MemoryModuleType<>(Optional.empty()));
+    }
+
 }
