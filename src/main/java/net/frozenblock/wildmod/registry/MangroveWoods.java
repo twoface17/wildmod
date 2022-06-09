@@ -13,6 +13,7 @@ import net.frozenblock.wildmod.block.wild.WildSignBlock;
 import net.frozenblock.wildmod.block.wild.WildSignType;
 import net.frozenblock.wildmod.block.wild.WildWallSignBlock;
 import net.minecraft.block.*;
+import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -66,9 +67,7 @@ public abstract class MangroveWoods {
     public static final Block MANGROVE_SIGN = new WildSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), WildSignType.MANGROVE);
     public static final Block MANGROVE_WALL_SIGN = new WildWallSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), WildSignType.MANGROVE);
 
-    private static final Map<Block, BlockFamily> BASE_BLOCKS_TO_FAMILIES = Maps.newHashMap();
-
-    public static final BlockFamily MANGROVE = register(MANGROVE_PLANKS)
+    public static final BlockFamily MANGROVE = BlockFamilies.register(MANGROVE_PLANKS)
             .button(MANGROVE_BUTTON)
             .slab(MANGROVE_SLAB)
             .stairs(MANGROVE_STAIRS)
@@ -81,21 +80,6 @@ public abstract class MangroveWoods {
             .group("wooden")
             .unlockCriterionName("has_planks")
             .build();
-
-    public static Stream<BlockFamily> getFamilies() {
-        return BASE_BLOCKS_TO_FAMILIES.values().stream();
-    }
-
-    public static BlockFamily.Builder register(Block baseBlock) {
-        BlockFamily.Builder builder = new BlockFamily.Builder(baseBlock);
-        BlockFamily blockFamily = BASE_BLOCKS_TO_FAMILIES.put(baseBlock, builder.build());
-        if (blockFamily != null) {
-            throw new IllegalStateException("Duplicate family definition for " + Registry.BLOCK.getId(baseBlock));
-        } else {
-            return builder;
-        }
-    }
-
 
     public static void RegisterMangrove() {
             

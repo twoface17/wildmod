@@ -107,8 +107,11 @@ public class RegisterTags {
     public static final TagKey<Block> OCCLUDES_VIBRATION_SIGNALS = TagKey.of(Registry.BLOCK_KEY, new Identifier(WildMod.MOD_ID, "occludes_vibration_signals"));
     public static boolean blockTagContains(Block block1, TagKey<Block> tag) {
         for (RegistryEntry<Block> block : Registry.BLOCK.iterateEntries(tag)) {
-            if (block.getKey().equals(Registry.BLOCK.getKey(block1))) {return true;}
-        } return false;
+            if (block.getKey().equals(Registry.BLOCK.getKey(block1))) {
+                return true;
+            }
+        }
+        return false;
     }
     public static Block getRandomBlock(Random random, TagKey<Block> tag) {
         ArrayList<Block> blocks = new ArrayList<>();
@@ -118,23 +121,34 @@ public class RegisterTags {
                 block1.ifPresent(blocks::add);
             }
         }
-        if (!blocks.isEmpty()) { return blocks.get((int) (Math.random() * blocks.size())); }
+        if (!blocks.isEmpty()) {
+            return blocks.get((int) (Math.random() * blocks.size()));
+        }
         return null;
     }
     public static boolean fluidTagContains(Fluid fluid1, TagKey<Fluid> tag) {
         for (RegistryEntry<Fluid> fluid : Registry.FLUID.iterateEntries(tag)) {
-            if (fluid.getKey().equals(Registry.FLUID.getKey(fluid1))) {return true;}
-        } return false;
+            if (fluid.getKey().equals(Registry.FLUID.getKey(fluid1))) {
+                return true;
+            }
+        }
+        return false;
     }
     public static boolean entityTagContains(EntityType<?> type, TagKey<EntityType<?>> tag) {
         for (RegistryEntry<EntityType<?>> entity : Registry.ENTITY_TYPE.iterateEntries(tag)) {
-            if (entity.getKey().equals(Registry.ENTITY_TYPE.getKey(type))) {return true;}
-        } return false;
+            if (entity.getKey().equals(Registry.ENTITY_TYPE.getKey(type))) {
+                return true;
+            }
+        }
+        return false;
     }
     public static boolean itemTagContains(Item item1, TagKey<Item> tag) {
         for (RegistryEntry<Item> item : Registry.ITEM.iterateEntries(tag)) {
-            if (item.getKey().equals(Registry.ITEM.getKey(item1))) { return true; }
-        } return false;
+            if (item.getKey().equals(Registry.ITEM.getKey(item1))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void init() {
