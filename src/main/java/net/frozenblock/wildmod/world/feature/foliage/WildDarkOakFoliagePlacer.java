@@ -46,7 +46,7 @@ public class WildDarkOakFoliagePlacer extends WildFoliagePlacer {
     }
 
     protected boolean isPositionInvalid(Random random, int dx, int y, int dz, int radius, boolean giantTrunk) {
-        return y != 0 || !giantTrunk || dx != -radius && dx < radius || dz != -radius && dz < radius ? super.isPositionInvalid(random, dx, y, dz, radius, giantTrunk) : true;
+        return y == 0 && giantTrunk && (dx == -radius || dx >= radius) && (dz == -radius || dz >= radius) || super.isPositionInvalid(random, dx, y, dz, radius, giantTrunk);
     }
 
     protected boolean isInvalidForLeaves(Random random, int dx, int y, int dz, int radius, boolean giantTrunk) {

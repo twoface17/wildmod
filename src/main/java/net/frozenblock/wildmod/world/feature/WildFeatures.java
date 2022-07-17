@@ -1,14 +1,11 @@
 package net.frozenblock.wildmod.world.feature;
 
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.mixins.TrunkPlacerTypeInvoker;
 import net.frozenblock.wildmod.world.feature.features.*;
-import net.frozenblock.wildmod.world.gen.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.trunk.TrunkPlacerType;
 
 public class WildFeatures<FC extends FeatureConfig> {
 

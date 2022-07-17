@@ -2,13 +2,10 @@ package net.frozenblock.wildmod.registry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.enchantments.SwiftSneakEnchantment;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
 import net.frozenblock.wildmod.items.*;
 import net.frozenblock.wildmod.liukrastapi.SetGoatHornSoundLootFunction;
 import net.frozenblock.wildmod.mixins.MusicDiscItemInvoker;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
@@ -48,7 +45,7 @@ public abstract class RegisterItems {
     public static final LootFunctionType SET_INSTRUMENT = new LootFunctionType(new SetGoatHornSoundLootFunction.Serializer());
 
     public static float getSwiftSneakSpeedBoost(LivingEntity livingEntity) {
-        return (float)getEquipmentLevel(RegisterEnchantments.SWIFT_SNEAK, livingEntity) * 0.15F;
+        return (float) getEquipmentLevel(RegisterEnchantments.SWIFT_SNEAK, livingEntity) * 0.15F;
     }
 
     public static void RegisterItems() {

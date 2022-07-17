@@ -60,7 +60,7 @@ public abstract class WildRenderLayer extends net.minecraft.client.render.Render
     );
 
     public static WildRenderLayer getEntityTranslucentEmissive(Identifier texture, boolean affectsOutline) {
-        return (WildRenderLayer)ENTITY_TRANSLUCENT_EMISSIVE.apply(texture, affectsOutline);
+        return (WildRenderLayer) ENTITY_TRANSLUCENT_EMISSIVE.apply(texture, affectsOutline);
     }
 
     public static WildRenderLayer getEntityTranslucentEmissive(Identifier texture) {
@@ -109,7 +109,7 @@ public abstract class WildRenderLayer extends net.minecraft.client.render.Render
             );
             this.phases = phases;
             this.affectedOutline = phases.outlineMode == WildRenderLayer.OutlineMode.AFFECTS_OUTLINE
-                    ? phases.texture.getId().map(texture -> (WildRenderLayer)CULLING_LAYERS.apply(texture, phases.cull))
+                    ? phases.texture.getId().map(texture -> CULLING_LAYERS.apply(texture, phases.cull))
                     : Optional.empty();
             this.outline = phases.outlineMode == WildRenderLayer.OutlineMode.IS_OUTLINE;
         }
@@ -128,6 +128,7 @@ public abstract class WildRenderLayer extends net.minecraft.client.render.Render
             return "RenderType[" + this.name + ":" + this.phases + "]";
         }
     }
+
     @Environment(EnvType.CLIENT)
     protected static final class MultiPhaseParameters {
         final WildRenderPhase.TextureBase texture;
@@ -183,8 +184,7 @@ public abstract class WildRenderLayer extends net.minecraft.client.render.Render
                     this.target,
                     this.texturing,
                     this.writeMaskState,
-                    this.lineWidth,
-                    new WildRenderPhase[0]
+                    this.lineWidth
             );
         }
 
@@ -299,14 +299,14 @@ public abstract class WildRenderLayer extends net.minecraft.client.render.Render
     }
 
     @Environment(EnvType.CLIENT)
-    static enum OutlineMode {
+    enum OutlineMode {
         NONE("none"),
         IS_OUTLINE("is_outline"),
         AFFECTS_OUTLINE("affects_outline");
 
         private final String name;
 
-        private OutlineMode(String name) {
+        OutlineMode(String name) {
             this.name = name;
         }
 

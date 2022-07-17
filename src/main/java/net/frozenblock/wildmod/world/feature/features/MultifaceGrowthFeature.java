@@ -31,11 +31,11 @@ public class MultifaceGrowthFeature extends Feature<MultifaceGrowthFeatureConfig
             } else {
                 BlockPos.Mutable mutable = blockPos.mutableCopy();
 
-                for(Direction direction : list) {
+                for (Direction direction : list) {
                     mutable.set(blockPos);
                     List<Direction> list2 = multifaceGrowthFeatureConfig.shuffleDirections(abstractRandom, direction.getOpposite());
 
-                    for(int i = 0; i < multifaceGrowthFeatureConfig.searchRange; ++i) {
+                    for (int i = 0; i < multifaceGrowthFeatureConfig.searchRange; ++i) {
                         mutable.set(blockPos, direction);
                         BlockState blockState = structureWorldAccess.getBlockState(mutable);
                         if (!isAirOrWater(blockState) && !blockState.isOf(multifaceGrowthFeatureConfig.lichen)) {
@@ -58,7 +58,7 @@ public class MultifaceGrowthFeature extends Feature<MultifaceGrowthFeatureConfig
     ) {
         BlockPos.Mutable mutable = pos.mutableCopy();
 
-        for(Direction direction : directions) {
+        for (Direction direction : directions) {
             BlockState blockState = world.getBlockState(mutable.set(pos, direction));
             if (blockState.isIn(config.canPlaceOn)) {
                 BlockState blockState2 = config.lichen.withDirection(state, world, pos, direction);

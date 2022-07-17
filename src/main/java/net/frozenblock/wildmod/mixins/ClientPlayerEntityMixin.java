@@ -3,7 +3,7 @@ package net.frozenblock.wildmod.mixins;
 import com.mojang.authlib.GameProfile;
 import net.frozenblock.wildmod.entity.MangroveBoatEntity;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
-import net.frozenblock.wildmod.liukrastapi.MathAdvanced;
+import net.frozenblock.wildmod.liukrastapi.AdvancedMath;
 import net.frozenblock.wildmod.liukrastapi.WildInput;
 import net.frozenblock.wildmod.registry.RegisterItems;
 import net.minecraft.client.MinecraftClient;
@@ -12,23 +12,12 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.JumpingMount;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.PiglinEntity;
-import net.minecraft.item.ElytraItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -91,33 +80,44 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Shadow
     private boolean isWalking() {
         double d = 0.8D;
-        return this.isSubmergedInWater() ? this.input.hasForwardMovement() : (double)this.input.movementForward >= 0.8D;
+        return this.isSubmergedInWater() ? this.input.hasForwardMovement() : (double) this.input.movementForward >= 0.8D;
     }
 
-    @Shadow public abstract boolean shouldSlowDown();
+    @Shadow
+    public abstract boolean shouldSlowDown();
 
-    @Shadow public int ticksSinceSprintingChanged;
+    @Shadow
+    public int ticksSinceSprintingChanged;
 
-    @Shadow protected int ticksLeftToDoubleTapSprint;
+    @Shadow
+    protected int ticksLeftToDoubleTapSprint;
 
-    @Shadow protected abstract void updateNausea();
+    @Shadow
+    protected abstract void updateNausea();
 
-    @Shadow private boolean falling;
+    @Shadow
+    private boolean falling;
 
-    @Shadow private int underwaterVisibilityTicks;
+    @Shadow
+    private int underwaterVisibilityTicks;
 
-    @Shadow public abstract boolean hasJumpingMount();
+    @Shadow
+    public abstract boolean hasJumpingMount();
 
-    @Shadow private int field_3938;
+    @Shadow
+    private int field_3938;
 
-    @Shadow private float mountJumpStrength;
+    @Shadow
+    private float mountJumpStrength;
 
-    @Shadow protected abstract void startRidingJump();
+    @Shadow
+    protected abstract void startRidingJump();
 
-    @Shadow public abstract float getMountJumpStrength();
+    @Shadow
+    public abstract float getMountJumpStrength();
 
     @Inject(at = @At("HEAD"), method = "sendMovementPackets")
-    private void sendMovementPackets (CallbackInfo ci) {
+    private void sendMovementPackets(CallbackInfo ci) {
         boolean bl = this.isSprinting();
         if (bl != this.lastSprinting) {
             ClientCommandC2SPacket.Mode mode = bl ? ClientCommandC2SPacket.Mode.START_SPRINTING : ClientCommandC2SPacket.Mode.STOP_SPRINTING;
@@ -139,7 +139,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             double g = this.getYaw() - this.lastYaw;
             double h = this.getPitch() - this.lastPitch;
             ++this.ticksSinceLastPositionPacketSent;
-            boolean bl3 = MathAdvanced.squaredMagnitude(d, e, f) > MathHelper.square(2.0E-4D) || this.ticksSinceLastPositionPacketSent >= 20;
+            boolean bl3 = AdvancedMath.squaredMagnitude(d, e, f) > MathHelper.square(2.0E-4D) || this.ticksSinceLastPositionPacketSent >= 20;
             boolean bl4 = g != 0.0D || h != 0.0D;
             if (this.hasVehicle()) {
                 Vec3d vec3d = this.getVelocity();
@@ -175,7 +175,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Inject(at = @At("TAIL"), method = "tickMovement")
     public void tickMovement(CallbackInfo ci) {
         float f = MathHelper.clamp(0.3F + RegisterItems.getSwiftSneakSpeedBoost(this), 0.0F, 1.0F);
-        ((WildInput)this.input).tick(this.shouldSlowDown(), f);
+        ((WildInput) this.input).tick(this.shouldSlowDown(), f);
     }
 
 

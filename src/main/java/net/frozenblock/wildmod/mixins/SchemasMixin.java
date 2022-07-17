@@ -15,11 +15,13 @@ import java.util.function.BiFunction;
 
 @Mixin(Schemas.class)
 public class SchemasMixin {
-    @Shadow @Final private static BiFunction<Integer, Schema, Schema> EMPTY_IDENTIFIER_NORMALIZE;
+    @Shadow
+    @Final
+    private static BiFunction<Integer, Schema, Schema> EMPTY_IDENTIFIER_NORMALIZE;
 
     @Inject(method = "build", at = @At("TAIL"))
     private static void build(DataFixerBuilder builder, CallbackInfo ci) {
         Schema schema168 = builder.addSchema(2975, EMPTY_IDENTIFIER_NORMALIZE);
-        builder.addFixer(new GoatHornIdFix(schema168)) ;
+        builder.addFixer(new GoatHornIdFix(schema168));
     }
 }

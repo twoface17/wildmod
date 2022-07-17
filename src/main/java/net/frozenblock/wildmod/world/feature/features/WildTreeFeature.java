@@ -100,11 +100,11 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
     private int getTopPosition(TestableWorld world, int height, BlockPos pos, WildTreeFeatureConfig config) {
         Mutable mutable = new Mutable();
 
-        for(int i = 0; i <= height + 1; ++i) {
+        for (int i = 0; i <= height + 1; ++i) {
             int j = config.minimumSize.getRadius(height, i);
 
-            for(int k = -j; k <= j; ++k) {
-                for(int l = -j; l <= j; ++l) {
+            for (int k = -j; k <= j; ++k) {
+                for (int l = -j; l <= j; ++l) {
                     mutable.set(pos, k, i, l);
                     if (!canTreeReplace(world, mutable) || !config.ignoreVines && isVine(world, mutable)) {
                         return i - 2;
@@ -165,30 +165,30 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
         VoxelSet voxelSet = new BitSetVoxelSet(box.getBlockCountX(), box.getBlockCountY(), box.getBlockCountZ());
         int i = 6;
 
-        for(int j = 0; j < 6; ++j) {
+        for (int j = 0; j < 6; ++j) {
             list.add(Sets.newHashSet());
         }
 
         Mutable mutable = new Mutable();
 
-        for(BlockPos blockPos : Lists.newArrayList(decorationPositions)) {
+        for (BlockPos blockPos : Lists.newArrayList(decorationPositions)) {
             if (box.contains(blockPos)) {
                 voxelSet.set(blockPos.getX() - box.getMinX(), blockPos.getY() - box.getMinY(), blockPos.getZ() - box.getMinZ());
             }
         }
 
-        for(BlockPos blockPos : Lists.newArrayList(trunkPositions)) {
+        for (BlockPos blockPos : Lists.newArrayList(trunkPositions)) {
             if (box.contains(blockPos)) {
                 voxelSet.set(blockPos.getX() - box.getMinX(), blockPos.getY() - box.getMinY(), blockPos.getZ() - box.getMinZ());
             }
 
-            for(Direction direction : Direction.values()) {
+            for (Direction direction : Direction.values()) {
                 mutable.set(blockPos, direction);
                 if (!trunkPositions.contains(mutable)) {
                     BlockState blockState = world.getBlockState(mutable);
                     if (blockState.contains(Properties.DISTANCE_1_7)) {
-                        ((Set)list.get(0)).add(mutable.toImmutable());
-                        setBlockStateWithoutUpdatingNeighbors(world, mutable, (BlockState)blockState.with(Properties.DISTANCE_1_7, 1));
+                        list.get(0).add(mutable.toImmutable());
+                        setBlockStateWithoutUpdatingNeighbors(world, mutable, blockState.with(Properties.DISTANCE_1_7, 1));
                         if (box.contains(mutable)) {
                             voxelSet.set(mutable.getX() - box.getMinX(), mutable.getY() - box.getMinY(), mutable.getZ() - box.getMinZ());
                         }
@@ -197,23 +197,23 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
             }
         }
 
-        for(int k = 1; k < 6; ++k) {
-            Set<BlockPos> set = (Set)list.get(k - 1);
-            Set<BlockPos> set2 = (Set)list.get(k);
+        for (int k = 1; k < 6; ++k) {
+            Set<BlockPos> set = list.get(k - 1);
+            Set<BlockPos> set2 = list.get(k);
 
-            for(BlockPos blockPos2 : set) {
+            for (BlockPos blockPos2 : set) {
                 if (box.contains(blockPos2)) {
                     voxelSet.set(blockPos2.getX() - box.getMinX(), blockPos2.getY() - box.getMinY(), blockPos2.getZ() - box.getMinZ());
                 }
 
-                for(Direction direction2 : Direction.values()) {
+                for (Direction direction2 : Direction.values()) {
                     mutable.set(blockPos2, direction2);
                     if (!set.contains(mutable) && !set2.contains(mutable)) {
                         BlockState blockState2 = world.getBlockState(mutable);
                         if (blockState2.contains(Properties.DISTANCE_1_7)) {
                             int l = blockState2.get(Properties.DISTANCE_1_7);
                             if (l > k + 1) {
-                                BlockState blockState3 = (BlockState)blockState2.with(Properties.DISTANCE_1_7, k + 1);
+                                BlockState blockState3 = blockState2.with(Properties.DISTANCE_1_7, k + 1);
                                 setBlockStateWithoutUpdatingNeighbors(world, mutable, blockState3);
                                 if (box.contains(mutable)) {
                                     voxelSet.set(mutable.getX() - box.getMinX(), mutable.getY() - box.getMinY(), mutable.getZ() - box.getMinZ());

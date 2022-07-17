@@ -119,7 +119,7 @@ public abstract class StructurePoolElement {
 
     public static Function<StructurePool.Projection, ListPoolElement> ofList(List<Function<StructurePool.Projection, ? extends net.minecraft.structure.pool.StructurePoolElement>> list) {
         return projection -> new ListPoolElement(
-                list.stream().map(function -> (net.minecraft.structure.pool.StructurePoolElement)function.apply(projection)).collect(Collectors.toList()), projection
+                list.stream().map(function -> (net.minecraft.structure.pool.StructurePoolElement) function.apply(projection)).collect(Collectors.toList()), projection
         );
     }
 }

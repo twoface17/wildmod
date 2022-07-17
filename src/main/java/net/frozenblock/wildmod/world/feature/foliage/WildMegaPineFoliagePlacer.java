@@ -33,9 +33,9 @@ public class WildMegaPineFoliagePlacer extends WildFoliagePlacer {
         BlockPos blockPos = treeNode.getCenter();
         int i = 0;
 
-        for(int j = blockPos.getY() - foliageHeight + offset; j <= blockPos.getY() + offset; ++j) {
+        for (int j = blockPos.getY() - foliageHeight + offset; j <= blockPos.getY() + offset; ++j) {
             int k = blockPos.getY() - j;
-            int l = radius + treeNode.getFoliageRadius() + MathHelper.floor((float)k / (float)foliageHeight * 3.5F);
+            int l = radius + treeNode.getFoliageRadius() + MathHelper.floor((float) k / (float) foliageHeight * 3.5F);
             int m;
             if (k > 0 && l == i && (j & 1) == 0) {
                 m = l + 1;

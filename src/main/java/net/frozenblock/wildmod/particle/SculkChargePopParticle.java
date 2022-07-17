@@ -33,7 +33,7 @@ public class SculkChargePopParticle extends SpriteBillboardParticle {
     }
 
     @Environment(EnvType.CLIENT)
-    public static record Factory(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
+    public record Factory(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
         public Particle createParticle(
                 DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i
         ) {

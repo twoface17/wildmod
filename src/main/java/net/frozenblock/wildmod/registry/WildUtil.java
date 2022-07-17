@@ -36,7 +36,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.spi.FileSystemProvider;
 import java.security.AccessController;
@@ -67,7 +66,7 @@ public class WildUtil extends net.minecraft.util.Util {
         }
     };
     public static final UUID NIL_UUID = new UUID(0L, 0L);
-    public static final FileSystemProvider JAR_FILE_SYSTEM_PROVIDER = (FileSystemProvider)FileSystemProvider.installedProviders()
+    public static final FileSystemProvider JAR_FILE_SYSTEM_PROVIDER = FileSystemProvider.installedProviders()
             .stream()
             .filter(fileSystemProvider -> fileSystemProvider.getScheme().equalsIgnoreCase("jar"))
             .findFirst()
@@ -83,7 +82,7 @@ public class WildUtil extends net.minecraft.util.Util {
     }
 
     public static <T extends Comparable<T>> String getValueAsString(Property<T> property, Object value) {
-        return property.name((T)value);
+        return property.name((T) value);
     }
 
     public static String createTranslationKey(String type, @Nullable Identifier id) {
@@ -137,11 +136,11 @@ public class WildUtil extends net.minecraft.util.Util {
                     return i;
                 }
 
-                LOGGER.error("Wrong {} property value '{}'. Should be an integer value between 1 and {}.", new Object[]{"max.bg.threads", string, 255});
+                LOGGER.error("Wrong {} property value '{}'. Should be an integer value between 1 and {}.", "max.bg.threads", string, 255);
             } catch (NumberFormatException var2) {
                 LOGGER.error(
-                        "Could not parse {} property value '{}'. Should be an integer value between 1 and {}.", new Object[]{"max.bg.threads", string, 255}
-                );
+                        "Could not parse {} property value '{}'. Should be an integer value between 1 and {}.",
+                        "max.bg.threads", string, 255);
             }
         }
 
@@ -197,7 +196,7 @@ public class WildUtil extends net.minecraft.util.Util {
     }
 
     public static void throwUnchecked(Throwable t) {
-        throw t instanceof RuntimeException ? (RuntimeException)t : new RuntimeException(t);
+        throw t instanceof RuntimeException ? (RuntimeException) t : new RuntimeException(t);
     }
 
     private static void uncaughtExceptionHandler(Thread thread, Throwable t) {
@@ -207,7 +206,7 @@ public class WildUtil extends net.minecraft.util.Util {
         }
 
         if (t instanceof CrashException) {
-            Bootstrap.println(((CrashException)t).getReport().asString());
+            Bootstrap.println(((CrashException) t).getReport().asString());
             System.exit(-1);
         }
 
@@ -263,7 +262,7 @@ public class WildUtil extends net.minecraft.util.Util {
                 thread.setName(string2);
             }
 
-            return (V)var4;
+            return (V) var4;
         } : supplier;
     }
 
@@ -290,23 +289,23 @@ public class WildUtil extends net.minecraft.util.Util {
     }
 
     public static <T> T getLast(List<T> list) {
-        return (T)list.get(list.size() - 1);
+        return list.get(list.size() - 1);
     }
 
     public static <T> T next(Iterable<T> iterable, @Nullable T object) {
         Iterator<T> iterator = iterable.iterator();
-        T object2 = (T)iterator.next();
+        T object2 = iterator.next();
         if (object != null) {
             T object3 = object2;
 
-            while(object3 != object) {
+            while (object3 != object) {
                 if (iterator.hasNext()) {
-                    object3 = (T)iterator.next();
+                    object3 = iterator.next();
                 }
             }
 
             if (iterator.hasNext()) {
-                return (T)iterator.next();
+                return iterator.next();
             }
         }
 
@@ -318,11 +317,11 @@ public class WildUtil extends net.minecraft.util.Util {
 
         T object2;
         T object3;
-        for(object2 = null; iterator.hasNext(); object2 = object3) {
-            object3 = (T)iterator.next();
+        for (object2 = null; iterator.hasNext(); object2 = object3) {
+            object3 = iterator.next();
             if (object3 == object) {
                 if (object2 == null) {
-                    object2 = (T)(iterator.hasNext() ? Iterators.getLast(iterator) : object);
+                    object2 = iterator.hasNext() ? Iterators.getLast(iterator) : object;
                 }
                 break;
             }
@@ -332,7 +331,7 @@ public class WildUtil extends net.minecraft.util.Util {
     }
 
     public static <T> T make(Supplier<T> factory) {
-        return (T)factory.get();
+        return factory.get();
     }
 
     public static <T> T make(T object, Consumer<T> initializer) {
@@ -350,7 +349,7 @@ public class WildUtil extends net.minecraft.util.Util {
         } else if (futures.size() == 1) {
             return (futures.get(0)).thenApply(List::of);
         } else {
-            CompletableFuture<Void> completableFuture = CompletableFuture.allOf((CompletableFuture[])futures.toArray(new CompletableFuture[0]));
+            CompletableFuture<Void> completableFuture = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
             return completableFuture.thenApply(void_ -> futures.stream().map(CompletableFuture::join).toList());
         }
     }
@@ -363,7 +362,7 @@ public class WildUtil extends net.minecraft.util.Util {
     public static <V> CompletableFuture<List<V>> method_43373(List<? extends CompletableFuture<? extends V>> list) {
         CompletableFuture<List<V>> completableFuture = new CompletableFuture<>();
         return method_43370(list, throwable -> {
-            for(CompletableFuture<? extends V> completableFuture2 : list) {
+            for (CompletableFuture<? extends V> completableFuture2 : list) {
                 completableFuture2.cancel(true);
             }
 
@@ -463,7 +462,7 @@ public class WildUtil extends net.minecraft.util.Util {
     }
 
     public static <T> T getRandom(List<T> list, WildAbstractRandom random) {
-        return (T)list.get(random.nextInt(list.size()));
+        return list.get(random.nextInt(list.size()));
     }
 
     public static <T> Optional<T> getRandomOrEmpty(List<T> list, WildAbstractRandom random) {
@@ -509,7 +508,7 @@ public class WildUtil extends net.minecraft.util.Util {
     private static BooleanSupplier deletionVerifyTask(Path path) {
         return new BooleanSupplier() {
             public boolean getAsBoolean() {
-                return !Files.exists(path, new LinkOption[0]);
+                return !Files.exists(path);
             }
 
             public String toString() {
@@ -521,7 +520,7 @@ public class WildUtil extends net.minecraft.util.Util {
     private static BooleanSupplier existenceCheckTask(Path path) {
         return new BooleanSupplier() {
             public boolean getAsBoolean() {
-                return Files.isRegularFile(path, new LinkOption[0]);
+                return Files.isRegularFile(path);
             }
 
             public String toString() {
@@ -531,7 +530,7 @@ public class WildUtil extends net.minecraft.util.Util {
     }
 
     private static boolean attemptTasks(BooleanSupplier... tasks) {
-        for(BooleanSupplier booleanSupplier : tasks) {
+        for (BooleanSupplier booleanSupplier : tasks) {
             if (!booleanSupplier.getAsBoolean()) {
                 LOGGER.warn("Failed to execute {}", booleanSupplier);
                 return false;
@@ -542,12 +541,12 @@ public class WildUtil extends net.minecraft.util.Util {
     }
 
     private static boolean attemptTasks(int retries, String taskName, BooleanSupplier... tasks) {
-        for(int i = 0; i < retries; ++i) {
+        for (int i = 0; i < retries; ++i) {
             if (attemptTasks(tasks)) {
                 return true;
             }
 
-            LOGGER.error("Failed to {}, retrying {}/{}", new Object[]{taskName, i, retries});
+            LOGGER.error("Failed to {}, retrying {}/{}", taskName, i, retries);
         }
 
         LOGGER.error("Failed to {}, aborting, progress might be lost", taskName);
@@ -568,12 +567,11 @@ public class WildUtil extends net.minecraft.util.Util {
 
     public static void backupAndReplace(Path current, Path newPath, Path backup, boolean noRestoreOnFail) {
         int i = 10;
-        if (!Files.exists(current, new LinkOption[0])
+        if (!Files.exists(current)
                 || attemptTasks(10, "create backup " + backup, deleteTask(backup), renameTask(current, backup), existenceCheckTask(backup))) {
             if (attemptTasks(10, "remove old " + current, deleteTask(current), deletionVerifyTask(current))) {
                 if (!attemptTasks(10, "replace " + current + " with " + newPath, renameTask(newPath, current), existenceCheckTask(current)) && !noRestoreOnFail
-                )
-                {
+                ) {
                     attemptTasks(10, "restore " + current + " from " + backup, renameTask(backup, current), existenceCheckTask(current));
                 }
 
@@ -584,13 +582,13 @@ public class WildUtil extends net.minecraft.util.Util {
     public static int moveCursor(String string, int cursor, int delta) {
         int i = string.length();
         if (delta >= 0) {
-            for(int j = 0; cursor < i && j < delta; ++j) {
+            for (int j = 0; cursor < i && j < delta; ++j) {
                 if (Character.isHighSurrogate(string.charAt(cursor++)) && cursor < i && Character.isLowSurrogate(string.charAt(cursor))) {
                     ++cursor;
                 }
             }
         } else {
-            for(int j = delta; cursor > 0 && j < 0; ++j) {
+            for (int j = delta; cursor > 0 && j < 0; ++j) {
                 --cursor;
                 if (Character.isLowSurrogate(string.charAt(cursor)) && cursor > 0 && Character.isHighSurrogate(string.charAt(cursor - 1))) {
                     --cursor;
@@ -606,7 +604,7 @@ public class WildUtil extends net.minecraft.util.Util {
     }
 
     public static DataResult<int[]> toArray(IntStream stream, int length) {
-        int[] is = stream.limit((long)(length + 1)).toArray();
+        int[] is = stream.limit(length + 1).toArray();
         if (is.length != length) {
             String string = "Input is not a list of " + length + " ints";
             return is.length >= length ? DataResult.error(string, Arrays.copyOf(is, length)) : DataResult.error(string);
@@ -627,7 +625,7 @@ public class WildUtil extends net.minecraft.util.Util {
     public static void startTimerHack() {
         Thread thread = new Thread("Timer hack thread") {
             public void run() {
-                while(true) {
+                while (true) {
                     try {
                         Thread.sleep(2147483647L);
                     } catch (InterruptedException var2) {
@@ -649,9 +647,9 @@ public class WildUtil extends net.minecraft.util.Util {
     }
 
     public static String replaceInvalidChars(String string, CharPredicate predicate) {
-        return (String)string.toLowerCase(Locale.ROOT)
+        return string.toLowerCase(Locale.ROOT)
                 .chars()
-                .mapToObj(charCode -> predicate.test((char)charCode) ? Character.toString((char)charCode) : "_")
+                .mapToObj(charCode -> predicate.test((char) charCode) ? Character.toString((char) charCode) : "_")
                 .collect(Collectors.joining());
     }
 
@@ -660,7 +658,7 @@ public class WildUtil extends net.minecraft.util.Util {
             private final Map<T, R> cache = Maps.newHashMap();
 
             public R apply(T object) {
-                return (R)this.cache.computeIfAbsent(object, function);
+                return this.cache.computeIfAbsent(object, function);
             }
 
             public String toString() {
@@ -685,7 +683,7 @@ public class WildUtil extends net.minecraft.util.Util {
         IntArrayList intArrayList = IntArrayList.wrap(stream.toArray());
         int i = intArrayList.size();
 
-        for(int j = i; j > 1; --j) {
+        for (int j = i; j > 1; --j) {
             int k = random.nextInt(j);
             intArrayList.set(j - 1, intArrayList.set(k, intArrayList.getInt(j - 1)));
         }
@@ -697,7 +695,7 @@ public class WildUtil extends net.minecraft.util.Util {
         IntArrayList intArrayList = IntArrayList.wrap(stream.toArray());
         int i = intArrayList.size();
 
-        for(int j = i; j > 1; --j) {
+        for (int j = i; j > 1; --j) {
             int k = random.nextInt(j);
             intArrayList.set(j - 1, intArrayList.set(k, intArrayList.getInt(j - 1)));
         }
@@ -726,7 +724,7 @@ public class WildUtil extends net.minecraft.util.Util {
     public static <T> void shuffle(ObjectArrayList<T> list, WildAbstractRandom random) {
         int i = list.size();
 
-        for(int j = i; j > 1; --j) {
+        for (int j = i; j > 1; --j) {
             int k = random.nextInt(j);
             list.set(j - 1, list.set(k, list.get(j - 1)));
         }
@@ -736,17 +734,17 @@ public class WildUtil extends net.minecraft.util.Util {
     public static <T> void shuffle(ObjectArrayList<T> list, Random random) {
         int i = list.size();
 
-        for(int j = i; j > 1; --j) {
+        for (int j = i; j > 1; --j) {
             int k = random.nextInt(j);
             list.set(j - 1, list.set(k, list.get(j - 1)));
         }
 
     }
 
-    static enum IdentityHashStrategy implements Hash.Strategy<Object> {
+    enum IdentityHashStrategy implements Hash.Strategy<Object> {
         INSTANCE;
 
-        private IdentityHashStrategy() {
+        IdentityHashStrategy() {
         }
 
         public int hashCode(Object o) {
@@ -758,7 +756,7 @@ public class WildUtil extends net.minecraft.util.Util {
         }
     }
 
-    public static enum OperatingSystem {
+    public enum OperatingSystem {
         LINUX("linux"),
         SOLARIS("solaris"),
         WINDOWS("windows") {
@@ -791,7 +789,7 @@ public class WildUtil extends net.minecraft.util.Util {
                     }
                 });
 
-                for(String string : IOUtils.readLines(process.getErrorStream())) {
+                for (String string : IOUtils.readLines(process.getErrorStream())) {
                     WildUtil.LOGGER.error(string);
                 }
 

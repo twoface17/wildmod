@@ -30,7 +30,8 @@ import java.util.Random;
 @Mixin(GoatEntity.class)
 public abstract class GoatEntityMixin implements WildGoat {
 
-    @Shadow public abstract boolean isScreaming();
+    @Shadow
+    public abstract boolean isScreaming();
 
     private static final TrackedData<Boolean> LEFT_HORN = DataTracker.registerData(GoatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> RIGHT_HORN = DataTracker.registerData(GoatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);

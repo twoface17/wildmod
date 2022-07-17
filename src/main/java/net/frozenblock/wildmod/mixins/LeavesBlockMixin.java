@@ -28,8 +28,12 @@ import java.util.Random;
 
 @Mixin(LeavesBlock.class)
 public class LeavesBlockMixin extends Block implements Waterloggable {
-    @Final @Shadow public static final IntProperty DISTANCE = Properties.DISTANCE_1_7;
-    @Final @Shadow public static final BooleanProperty PERSISTENT = Properties.PERSISTENT;
+    @Final
+    @Shadow
+    public static final IntProperty DISTANCE = Properties.DISTANCE_1_7;
+    @Final
+    @Shadow
+    public static final BooleanProperty PERSISTENT = Properties.PERSISTENT;
 
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
@@ -62,10 +66,8 @@ public class LeavesBlockMixin extends Block implements Waterloggable {
         int i = 7;
         BlockPos.Mutable mutable = new BlockPos.Mutable();
         Direction[] var5 = Direction.values();
-        int var6 = var5.length;
 
-        for(int var7 = 0; var7 < var6; ++var7) {
-            Direction direction = var5[var7];
+        for (Direction direction : var5) {
             mutable.set(pos, direction);
             i = Math.min(i, getDistanceFromLog(world.getBlockState(mutable)) + 1);
             if (i == 1) {
@@ -89,12 +91,18 @@ public class LeavesBlockMixin extends Block implements Waterloggable {
         }
     }
 
-    @Inject(method = "getStateForNeighborUpdate", at = @At("HEAD"))
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
+    @Inject(method = "getStateForNeighborUpdate", at = @At("TAIL"), cancellable = true)
+    public void getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
         if (state.get(WATERLOGGED)) {
             world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
-        return state;
+
+        int i = getDistanceFromLog(neighborState) + 1;
+        if (i != 1 || state.get(DISTANCE) != i) {
+            world.createAndScheduleBlockTick(pos, this, 1);
+        }
+
+        cir.setReturnValue(state);
     }
 
     @Override
@@ -102,15 +110,16 @@ public class LeavesBlockMixin extends Block implements Waterloggable {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
+    @Shadow
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         if (world.hasRain(pos.up())) {
             if (random.nextInt(15) == 1) {
                 BlockPos blockPos = pos.down();
                 BlockState blockState = world.getBlockState(blockPos);
                 if (!blockState.isOpaque() || !blockState.isSideSolidFullSquare(world, blockPos, Direction.UP)) {
-                    double d = (double)pos.getX() + random.nextDouble();
-                    double e = (double)pos.getY() - 0.05;
-                    double f = (double)pos.getZ() + random.nextDouble();
+                    double d = (double) pos.getX() + random.nextDouble();
+                    double e = (double) pos.getY() - 0.05;
+                    double f = (double) pos.getZ() + random.nextDouble();
                     world.addParticle(ParticleTypes.DRIPPING_WATER, d, e, f, 0.0, 0.0, 0.0);
                 }
             }
@@ -122,10 +131,10 @@ public class LeavesBlockMixin extends Block implements Waterloggable {
         builder.add(WATERLOGGED);
     }
 
-    @Inject(method = "getPlacementState", at = @At("RETURN"))
-    public BlockState getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
+    @Inject(method = "getPlacementState", at = @At("RETURN"), cancellable = true)
+    public void getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
         FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-        BlockState blockState = (BlockState)((BlockState)this.getDefaultState().with(PERSISTENT, true)).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
-        return updateDistanceFromLogs(blockState, ctx.getWorld(), ctx.getBlockPos());
+        BlockState blockState = this.getDefaultState().with(PERSISTENT, true).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+        cir.setReturnValue(updateDistanceFromLogs(blockState, ctx.getWorld(), ctx.getBlockPos()));
     }
 }

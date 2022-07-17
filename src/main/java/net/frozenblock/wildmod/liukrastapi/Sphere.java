@@ -25,13 +25,13 @@ public abstract class Sphere {
         double sy = 0;
         double sz = 0;
 
-        for (int index0 = 0; index0 < (int) ((radius * 2) - 1); index0++) {
+        for (int index0 = 0; index0 < ((radius * 2) - 1); index0++) {
             sy = fixedradius * -1;
-            for (int index1 = 0; index1 < (int) ((radius * 2) - 1); index1++) {
+            for (int index1 = 0; index1 < ((radius * 2) - 1); index1++) {
                 sz = fixedradius * -1;
-                for (int index2 = 0; index2 < (int) ((radius * 2) - 1); index2++) {
+                for (int index2 = 0; index2 < ((radius * 2) - 1); index2++) {
                     if (Math.sqrt(Math.pow(sx, 2) + Math.pow(sy, 2) + Math.pow(sz, 2)) <= radius) {
-                        if(defaultstate) {
+                        if (defaultstate) {
                             if (world.getBlockState(new BlockPos(x + sx, y + sy, z + sz)).isSolidBlock(world, new BlockPos(x + sx, y + sy, z + sz))) {
                                 exitList.add(new BlockPos(x + sx, y + sy, z + sz));
                             }
@@ -60,18 +60,18 @@ public abstract class Sphere {
         double sy = 0;
         double sz = 0;
 
-        for (int index0 = 0; index0 < (int) ((radius * 2) - 1); index0++) {
+        for (int index0 = 0; index0 < ((radius * 2) - 1); index0++) {
             sy = fixedradius * -1;
-            for (int index1 = 0; index1 < (int) ((radius * 2) - 1); index1++) {
+            for (int index1 = 0; index1 < ((radius * 2) - 1); index1++) {
                 sz = fixedradius * -1;
-                for (int index2 = 0; index2 < (int) ((radius * 2) - 1); index2++) {
+                for (int index2 = 0; index2 < ((radius * 2) - 1); index2++) {
                     if (Math.sqrt(Math.pow(sx, 2) + Math.pow(sy, 2) + Math.pow(sz, 2)) <= radius) {
-                        if(defaultstate) {
+                        if (defaultstate) {
                             if (world.getBlockState(new BlockPos(x + sx, y + sy, z + sz)) == state) {
                                 exitList.add(new BlockPos(x + sx, y + sy, z + sz));
                             }
                         } else {
-                            if(world.getBlockState(new BlockPos(x + sx, y + sy, z + sz)).getBlock().getDefaultState() == state.getBlock().getDefaultState()) {
+                            if (world.getBlockState(new BlockPos(x + sx, y + sy, z + sz)).getBlock().getDefaultState() == state.getBlock().getDefaultState()) {
                                 exitList.add(new BlockPos(x + sx, y + sy, z + sz));
                             }
                         }
@@ -99,11 +99,11 @@ public abstract class Sphere {
         double sy = 0;
         double sz = 0;
 
-        for (int index0 = 0; index0 < (int) ((radius * 2) - 1); index0++) {
+        for (int index0 = 0; index0 < ((radius * 2) - 1); index0++) {
             sy = fixedradius * -1;
-            for (int index1 = 0; index1 < (int) ((radius * 2) - 1); index1++) {
+            for (int index1 = 0; index1 < ((radius * 2) - 1); index1++) {
                 sz = fixedradius * -1;
-                for (int index2 = 0; index2 < (int) ((radius * 2) - 1); index2++) {
+                for (int index2 = 0; index2 < ((radius * 2) - 1); index2++) {
                     if (Math.sqrt(Math.pow(sx, 2) + Math.pow(sy, 2) + Math.pow(sz, 2)) <= radius) {
                         if (world.getBlockState(new BlockPos(x + sx, y + sy, z + sz)) == state) {
                             exit = true;
@@ -152,7 +152,9 @@ public abstract class Sphere {
     }
 
     public static int blocksInSphere(BlockPos pos, int radius, Block block, World world) {
-        if (pos == null) { return 0; }
+        if (pos == null) {
+            return 0;
+        }
 
         int blocks = 0;
 
@@ -160,11 +162,11 @@ public abstract class Sphere {
         int by = pos.getY();
         int bz = pos.getZ();
 
-        for(int x = bx - radius; x <= bx + radius; x++) {
-            for(int y = by - radius; y <= by + radius; y++) {
-                for(int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
-                    if(distance < radius * radius) {
+        for (int x = bx - radius; x <= bx + radius; x++) {
+            for (int y = by - radius; y <= by + radius; y++) {
+                for (int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
+                    if (distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
                         if (world.getBlockState(l).getBlock() == block) {
                             ++blocks;
@@ -184,11 +186,11 @@ public abstract class Sphere {
         int by = pos.getY();
         int bz = pos.getZ();
 
-        for(int x = bx - radius; x <= bx + radius; x++) {
-            for(int y = by - radius; y <= by + radius; y++) {
-                for(int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
-                    if(distance < radius * radius) {
+        for (int x = bx - radius; x <= bx + radius; x++) {
+            for (int y = by - radius; y <= by + radius; y++) {
+                for (int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
+                    if (distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
                         if (world.getBlockState(l).getBlock() == block) {
                             blocks.add(l);
@@ -206,11 +208,11 @@ public abstract class Sphere {
         int by = pos.getY();
         int bz = pos.getZ();
 
-        for(int x = bx - radius; x <= bx + radius; x++) {
-            for(int y = by - radius; y <= by + radius; y++) {
-                for(int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
-                    if(distance < radius * radius) {
+        for (int x = bx - radius; x <= bx + radius; x++) {
+            for (int y = by - radius; y <= by + radius; y++) {
+                for (int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
+                    if (distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
                         if (RegisterTags.blockTagContains(world.getBlockState(l).getBlock(), tag)) {
                             return true;
@@ -228,13 +230,13 @@ public abstract class Sphere {
         int bx = pos.getX();
         int by = pos.getY();
         int bz = pos.getZ();
-        for(int x = bx - radius; x <= bx + radius; x++) {
-            for(int y = by - radius; y <= by + radius; y++) {
-                for(int z = bz - radius; z <= bz + radius; z++) {
-                    double distance = ((bx-x) * (bx-x) + ((bz-z) * (bz-z)) + ((by-y) * (by-y)));
-                    if(distance < radius * radius) {
+        for (int x = bx - radius; x <= bx + radius; x++) {
+            for (int y = by - radius; y <= by + radius; y++) {
+                for (int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
+                    if (distance < radius * radius) {
                         BlockPos l = new BlockPos(x, y, z);
-                        if (y<=world.getHeight() && y>=world.getBottomY() && !RegisterTags.blockTagContains(world.getBlockState(l).getBlock(), RegisterTags.SCULK)) {
+                        if (y <= world.getHeight() && y >= world.getBottomY() && !RegisterTags.blockTagContains(world.getBlockState(l).getBlock(), RegisterTags.SCULK)) {
                             blocks.add(l);
                         }
                     }

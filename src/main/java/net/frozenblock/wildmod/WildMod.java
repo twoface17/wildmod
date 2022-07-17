@@ -12,8 +12,8 @@ import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
 import net.frozenblock.wildmod.event.WildEntityPositionSource;
-import net.frozenblock.wildmod.event.WildPositionSourceType;
 import net.frozenblock.wildmod.event.WildGameEvents;
+import net.frozenblock.wildmod.event.WildPositionSourceType;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.liukrastapi.FrogAttackablesSensor;
 import net.frozenblock.wildmod.liukrastapi.IsInWaterSensor;
@@ -104,9 +104,9 @@ public class WildMod implements ModInitializer {
         registerData(OPTIONAL_INT);
         registerData(WildRegistry.FROG_VARIANT_DATA);
 
-        TONGUE = ActivityInvoker.callRegister( "tongue");
-        SWIM = ActivityInvoker.callRegister( "swim");
-        LAY_SPAWN = ActivityInvoker.callRegister( "lay_spawn");
+        TONGUE = ActivityInvoker.callRegister("tongue");
+        SWIM = ActivityInvoker.callRegister("swim");
+        LAY_SPAWN = ActivityInvoker.callRegister("lay_spawn");
         SNIFF = ActivityInvoker.callRegister("sniff");
         INVESTIGATE = ActivityInvoker.callRegister("investigate");
         ROAR = ActivityInvoker.callRegister("roar");

@@ -141,7 +141,7 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
         int i;
         super.onStacksDropped(blockState, serverWorld, blockPos, itemStack);
         if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, itemStack) == 0) {
-            i=1;
+            i = 1;
             this.dropExperience(serverWorld, blockPos, i);
         }
     }

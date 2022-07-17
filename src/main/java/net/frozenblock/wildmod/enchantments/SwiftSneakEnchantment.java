@@ -9,12 +9,12 @@ public class SwiftSneakEnchantment extends Enchantment {
         super(rarity, EnchantmentTarget.ARMOR_LEGS, equipmentSlots);
     }
 
-    public int getMinPower(int i) {
-        return i * 25;
+    public int getMinPower(int level) {
+        return level * 25;
     }
 
-    public int getMaxPower(int i) {
-        return this.getMinPower(i) + 50;
+    public int getMaxPower(int level) {
+        return this.getMinPower(level) + 50;
     }
 
     public boolean isTreasure() {

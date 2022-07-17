@@ -9,7 +9,6 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.state.property.Property;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Util;
@@ -26,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
-public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractLichenBlock {
+public abstract class MultifaceGrowthBlock extends AbstractLichenBlock {
     private static final float field_31194 = 1.0F;
     private static final VoxelShape UP_SHAPE = Block.createCuboidShape(0.0, 15.0, 0.0, 16.0, 16.0, 16.0);
     private static final VoxelShape DOWN_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 1.0, 16.0);
@@ -64,7 +63,7 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
         } else {
             Set<Direction> set = EnumSet.noneOf(Direction.class);
 
-            for(Direction direction : Direction.values()) {
+            for (Direction direction : Direction.values()) {
                 if (hasDirection(state, direction)) {
                     set.add(direction);
                 }
@@ -77,8 +76,8 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
     public static Set<Direction> flagToDirections(byte flag) {
         Set<Direction> set = EnumSet.noneOf(Direction.class);
 
-        for(Direction direction : Direction.values()) {
-            if ((flag & (byte)(1 << direction.ordinal())) > 0) {
+        for (Direction direction : Direction.values()) {
+            if ((flag & (byte) (1 << direction.ordinal())) > 0) {
                 set.add(direction);
             }
         }
@@ -89,8 +88,8 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
     public static byte directionsToFlag(Collection<Direction> directions) {
         byte b = 0;
 
-        for(Direction direction : directions) {
-            b = (byte)(b | 1 << direction.ordinal());
+        for (Direction direction : directions) {
+            b = (byte) (b | 1 << direction.ordinal());
         }
 
         return b;
@@ -101,9 +100,9 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        for(Direction direction : DIRECTIONS) {
+        for (Direction direction : DIRECTIONS) {
             if (this.canHaveDirection(direction)) {
-                builder.add(new Property[]{getProperty(direction)});
+                builder.add(getProperty(direction));
             }
         }
 
@@ -122,13 +121,13 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
     }
 
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return (VoxelShape)this.SHAPES.get(state);
+        return this.SHAPES.get(state);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         boolean bl = false;
 
-        for(Direction direction : DIRECTIONS) {
+        for (Direction direction : DIRECTIONS) {
             if (hasDirection(state, direction)) {
                 BlockPos blockPos = pos.offset(direction);
                 if (!canGrowOn(world, direction, blockPos, world.getBlockState(blockPos))) {
@@ -151,7 +150,7 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
         World world = ctx.getWorld();
         BlockPos blockPos = ctx.getBlockPos();
         BlockState blockState = world.getBlockState(blockPos);
-        return (BlockState)Arrays.stream(ctx.getPlacementDirections())
+        return Arrays.stream(ctx.getPlacementDirections())
                 .map(direction -> this.withDirection(blockState, world, blockPos, direction))
                 .filter(Objects::nonNull)
                 .findFirst()
@@ -176,12 +175,12 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
             if (state.isOf(this)) {
                 blockState = state;
             } else if (this.isWaterlogged() && state.getFluidState().isEqualAndStill(Fluids.WATER)) {
-                blockState = (BlockState)this.getDefaultState().with(Properties.WATERLOGGED, true);
+                blockState = this.getDefaultState().with(Properties.WATERLOGGED, true);
             } else {
                 blockState = this.getDefaultState();
             }
 
-            return (BlockState)blockState.with(getProperty(direction), true);
+            return blockState.with(getProperty(direction), true);
         }
     }
 
@@ -200,9 +199,9 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
     private BlockState mirror(BlockState state, Function<Direction, Direction> mirror) {
         BlockState blockState = state;
 
-        for(Direction direction : DIRECTIONS) {
+        for (Direction direction : DIRECTIONS) {
             if (this.canHaveDirection(direction)) {
-                blockState = (BlockState)blockState.with(getProperty((Direction)mirror.apply(direction)), (Boolean)state.get(getProperty(direction)));
+                blockState = blockState.with(getProperty(mirror.apply(direction)), state.get(getProperty(direction)));
             }
         }
 
@@ -224,20 +223,20 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
     }
 
     private static BlockState disableDirection(BlockState state, BooleanProperty direction) {
-        BlockState blockState = (BlockState)state.with(direction, false);
+        BlockState blockState = state.with(direction, false);
         return hasAnyDirection(blockState) ? blockState : Blocks.AIR.getDefaultState();
     }
 
     public static BooleanProperty getProperty(Direction direction) {
-        return (BooleanProperty)FACING_PROPERTIES.get(direction);
+        return FACING_PROPERTIES.get(direction);
     }
 
     private static BlockState withAllDirections(StateManager<Block, BlockState> stateManager) {
-        BlockState blockState = (BlockState)stateManager.getDefaultState();
+        BlockState blockState = stateManager.getDefaultState();
 
-        for(BooleanProperty booleanProperty : FACING_PROPERTIES.values()) {
+        for (BooleanProperty booleanProperty : FACING_PROPERTIES.values()) {
             if (blockState.contains(booleanProperty)) {
-                blockState = (BlockState)blockState.with(booleanProperty, false);
+                blockState = blockState.with(booleanProperty, false);
             }
         }
 
@@ -247,9 +246,9 @@ public abstract class MultifaceGrowthBlock extends net.minecraft.block.AbstractL
     private static VoxelShape getShapeForState(BlockState state) {
         VoxelShape voxelShape = VoxelShapes.empty();
 
-        for(Direction direction : DIRECTIONS) {
+        for (Direction direction : DIRECTIONS) {
             if (hasDirection(state, direction)) {
-                voxelShape = VoxelShapes.union(voxelShape, (VoxelShape)SHAPES_FOR_DIRECTIONS.get(direction));
+                voxelShape = VoxelShapes.union(voxelShape, SHAPES_FOR_DIRECTIONS.get(direction));
             }
         }
 

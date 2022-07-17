@@ -3,7 +3,6 @@ package net.frozenblock.wildmod.world.gen.structure;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.JigsawBlock;
 import net.minecraft.block.entity.JigsawBlockEntity;
@@ -65,7 +64,7 @@ public class FeaturePoolElement extends net.minecraft.structure.pool.FeaturePool
         list.add(
                 new Structure.StructureBlockInfo(
                         pos,
-                        (BlockState) Blocks.JIGSAW.getDefaultState().with(JigsawBlock.ORIENTATION, JigsawOrientation.byDirections(Direction.DOWN, Direction.SOUTH)),
+                        Blocks.JIGSAW.getDefaultState().with(JigsawBlock.ORIENTATION, JigsawOrientation.byDirections(Direction.DOWN, Direction.SOUTH)),
                         this.nbt
                 )
         );
@@ -89,7 +88,7 @@ public class FeaturePoolElement extends net.minecraft.structure.pool.FeaturePool
             AbstractRandom random,
             boolean keepJigsaws
     ) {
-        return ((PlacedFeature)this.feature.value()).generateUnregistered(world, chunkGenerator, (Random) random, pos);
+        return this.feature.value().generateUnregistered(world, chunkGenerator, (Random) random, pos);
     }
 
     public StructurePoolElementType<?> getType() {

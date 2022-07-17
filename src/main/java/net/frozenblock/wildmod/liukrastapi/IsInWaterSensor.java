@@ -12,7 +12,9 @@ import java.util.Set;
 
 public class IsInWaterSensor extends Sensor<LivingEntity> {
     @Override
-    public Set<MemoryModuleType<?>> getOutputMemoryModules() {return ImmutableSet.of(RegisterMemoryModules.IS_IN_WATER);}
+    public Set<MemoryModuleType<?>> getOutputMemoryModules() {
+        return ImmutableSet.of(RegisterMemoryModules.IS_IN_WATER);
+    }
 
     @Override
     protected void sense(ServerWorld world, LivingEntity entity) {

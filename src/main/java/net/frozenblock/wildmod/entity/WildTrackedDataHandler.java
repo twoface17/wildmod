@@ -36,7 +36,7 @@ public interface WildTrackedDataHandler<T> extends TrackedDataHandler<T> {
         });
     }
 
-    public interface ImmutableHandler<T> extends WildTrackedDataHandler<T> {
+    interface ImmutableHandler<T> extends WildTrackedDataHandler<T> {
         @Override
         default T copy(T value) {
             return value;

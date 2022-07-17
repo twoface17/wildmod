@@ -27,7 +27,7 @@ public class WildVibrationParticle extends SpriteBillboardParticle {
 
     @Override
     public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
-        float f = MathHelper.sin(((float)this.age + tickDelta - (float) (Math.PI * 2)) * 0.05F) * 2.0F;
+        float f = MathHelper.sin(((float) this.age + tickDelta - (float) (Math.PI * 2)) * 0.05F) * 2.0F;
         float g = MathHelper.lerp(tickDelta, this.field_28248, this.field_28250);
         float h = 1.0472F;
         this.render(vertexConsumer, camera, tickDelta, quaternion -> {
@@ -44,9 +44,9 @@ public class WildVibrationParticle extends SpriteBillboardParticle {
 
     private void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta, Consumer<Quaternion> transforms) {
         Vec3d vec3d = camera.getPos();
-        float f = (float)(MathHelper.lerp((double)tickDelta, this.prevPosX, this.x) - vec3d.getX());
-        float g = (float)(MathHelper.lerp((double)tickDelta, this.prevPosY, this.y) - vec3d.getY());
-        float h = (float)(MathHelper.lerp((double)tickDelta, this.prevPosZ, this.z) - vec3d.getZ());
+        float f = (float) (MathHelper.lerp(tickDelta, this.prevPosX, this.x) - vec3d.getX());
+        float g = (float) (MathHelper.lerp(tickDelta, this.prevPosY, this.y) - vec3d.getY());
+        float h = (float) (MathHelper.lerp(tickDelta, this.prevPosZ, this.z) - vec3d.getZ());
         Vec3f vec3f = new Vec3f(0.5F, 0.5F, 0.5F);
         vec3f.normalize();
         Quaternion quaternion = new Quaternion(vec3f, 0.0F, true);
@@ -56,7 +56,7 @@ public class WildVibrationParticle extends SpriteBillboardParticle {
         Vec3f[] vec3fs = new Vec3f[]{new Vec3f(-1.0F, -1.0F, 0.0F), new Vec3f(-1.0F, 1.0F, 0.0F), new Vec3f(1.0F, 1.0F, 0.0F), new Vec3f(1.0F, -1.0F, 0.0F)};
         float i = this.getSize(tickDelta);
 
-        for(int j = 0; j < 4; ++j) {
+        for (int j = 0; j < 4; ++j) {
             Vec3f vec3f3 = vec3fs[j];
             vec3f3.rotate(quaternion);
             vec3f3.scale(i);
@@ -68,22 +68,22 @@ public class WildVibrationParticle extends SpriteBillboardParticle {
         float m = this.getMinV();
         float n = this.getMaxV();
         int o = this.getBrightness(tickDelta);
-        vertexConsumer.vertex((double)vec3fs[0].getX(), (double)vec3fs[0].getY(), (double)vec3fs[0].getZ())
+        vertexConsumer.vertex(vec3fs[0].getX(), vec3fs[0].getY(), vec3fs[0].getZ())
                 .texture(l, n)
                 .color(this.red, this.green, this.blue, this.alpha)
                 .light(o)
                 .next();
-        vertexConsumer.vertex((double)vec3fs[1].getX(), (double)vec3fs[1].getY(), (double)vec3fs[1].getZ())
+        vertexConsumer.vertex(vec3fs[1].getX(), vec3fs[1].getY(), vec3fs[1].getZ())
                 .texture(l, m)
                 .color(this.red, this.green, this.blue, this.alpha)
                 .light(o)
                 .next();
-        vertexConsumer.vertex((double)vec3fs[2].getX(), (double)vec3fs[2].getY(), (double)vec3fs[2].getZ())
+        vertexConsumer.vertex(vec3fs[2].getX(), vec3fs[2].getY(), vec3fs[2].getZ())
                 .texture(k, m)
                 .color(this.red, this.green, this.blue, this.alpha)
                 .light(o)
                 .next();
-        vertexConsumer.vertex((double)vec3fs[3].getX(), (double)vec3fs[3].getY(), (double)vec3fs[3].getZ())
+        vertexConsumer.vertex(vec3fs[3].getX(), vec3fs[3].getY(), vec3fs[3].getZ())
                 .texture(k, n)
                 .color(this.red, this.green, this.blue, this.alpha)
                 .light(o)
@@ -113,13 +113,13 @@ public class WildVibrationParticle extends SpriteBillboardParticle {
                 this.markDead();
             } else {
                 int i = this.maxAge - this.age;
-                double d = 1.0 / (double)i;
+                double d = 1.0 / (double) i;
                 Vec3d vec3d = Vec3d.ofCenter(optional.get());
                 this.x = MathHelper.lerp(d, this.x, vec3d.getX());
                 this.y = MathHelper.lerp(d, this.y, vec3d.getY());
                 this.z = MathHelper.lerp(d, this.z, vec3d.getZ());
                 this.field_28248 = this.field_28250;
-                this.field_28250 = (float)MathHelper.atan2(this.x - vec3d.getX(), this.z - vec3d.getZ());
+                this.field_28250 = (float) MathHelper.atan2(this.x - vec3d.getX(), this.z - vec3d.getZ());
             }
         }
     }

@@ -34,7 +34,7 @@ public class WildSpruceFoliagePlacer extends WildFoliagePlacer {
         int j = 1;
         int k = 0;
 
-        for(int l = offset; l >= -foliageHeight; --l) {
+        for (int l = offset; l >= -foliageHeight; --l) {
             this.generateSquare(world, replacer, random, config, blockPos, i, l, treeNode.isGiantTrunk());
             if (i >= j) {
                 i = k;

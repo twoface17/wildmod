@@ -72,8 +72,8 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
             RegisterMemoryModules.ITEM_PICKUP_COOLDOWN_TICKS
     );
     public static final ImmutableList<Float> THROW_SOUND_PITCHES = ImmutableList.of(
-            0.5625F, 0.625F, 0.75F, 0.9375F, 1.0F, 1.0F, 1.125F, 1.25F, 1.5F, 1.875F, 2.0F, 2.25F, new Float[]{2.5F, 3.0F, 3.75F, 4.0F}
-    );
+            0.5625F, 0.625F, 0.75F, 0.9375F, 1.0F, 1.0F, 1.125F, 1.25F, 1.5F, 1.875F, 2.0F, 2.25F,
+            2.5F, 3.0F, 3.75F, 4.0F);
     private final EntityGameEventHandler<VibrationListener> gameEventHandler;
     private final SimpleInventory inventory = new SimpleInventory(1);
     private float field_38935;
@@ -84,7 +84,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
         this.moveControl = new FlightMoveControl(this, 20, true);
         this.setCanPickUpLoot(this.canPickUpLoot());
         this.gameEventHandler = new EntityGameEventHandler(
-            new VibrationListener(new WildEntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0)
+                new VibrationListener(new WildEntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0)
         );
     }
 
@@ -181,7 +181,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
 
     protected void mobTick() {
         this.world.getProfiler().push("allayBrain");
-        this.getBrain().tick((ServerWorld)this.world, this);
+        this.getBrain().tick((ServerWorld) this.world, this);
         this.world.getProfiler().pop();
         this.world.getProfiler().push("allayActivityUpdate");
         AllayBrain.updateActivities(this);
@@ -247,7 +247,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
             this.world.playSoundFromEntity(player, this, RegisterSounds.ENTITY_ALLAY_ITEM_TAKEN, SoundCategory.NEUTRAL, 2.0F, 1.0F);
             this.swingHand(Hand.MAIN_HAND);
 
-            for(ItemStack itemStack4 : this.getInventory().clearToList()) {
+            for (ItemStack itemStack4 : this.getInventory().clearToList()) {
                 LookTargetUtil.give(this, itemStack4, this.getPos());
             }
 
@@ -367,8 +367,8 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.put("Inventory", this.inventory.toNbtList());
-        VibrationListener.createCodec((VibrationListener.Callback) this)
-                .encodeStart(NbtOps.INSTANCE, (VibrationListener)this.gameEventHandler.getListener())
+        VibrationListener.createCodec(this)
+                .encodeStart(NbtOps.INSTANCE, this.gameEventHandler.getListener())
                 .resultOrPartial(field_39045::error)
                 .ifPresent(nbtElement -> nbt.put("listener", nbtElement));
     }

@@ -90,7 +90,7 @@ public class ChunkSectionPos extends Vec3i {
         int i = getLocalCoord(pos.getX());
         int j = getLocalCoord(pos.getY());
         int k = getLocalCoord(pos.getZ());
-        return (short)(i << 8 | k << 4 | j << 0);
+        return (short) (i << 8 | k << 4 | j << 0);
     }
 
     public static int unpackLocalX(short packedLocalPos) {
@@ -130,15 +130,15 @@ public class ChunkSectionPos extends Vec3i {
     }
 
     public static int unpackX(long packed) {
-        return (int)(packed << 0 >> 42);
+        return (int) (packed << 0 >> 42);
     }
 
     public static int unpackY(long packed) {
-        return (int)(packed << 44 >> 44);
+        return (int) (packed << 44 >> 44);
     }
 
     public static int unpackZ(long packed) {
-        return (int)(packed << 22 >> 42);
+        return (int) (packed << 22 >> 42);
     }
 
     public int getSectionX() {
@@ -206,9 +206,9 @@ public class ChunkSectionPos extends Vec3i {
 
     public static long asLong(int x, int y, int z) {
         long l = 0L;
-        l |= ((long)x & 4194303L) << 42;
-        l |= ((long)y & 1048575L) << 0;
-        return l | ((long)z & 4194303L) << 20;
+        l |= ((long) x & 4194303L) << 42;
+        l |= ((long) y & 1048575L) << 0;
+        return l | ((long) z & 4194303L) << 20;
     }
 
     public long asLong() {
@@ -237,7 +237,7 @@ public class ChunkSectionPos extends Vec3i {
     }
 
     public static Stream<ChunkSectionPos> stream(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-        return StreamSupport.stream(new Spliterators.AbstractSpliterator<ChunkSectionPos>((long)((maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1)), 64) {
+        return StreamSupport.stream(new Spliterators.AbstractSpliterator<ChunkSectionPos>((maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1), 64) {
             final CuboidBlockIterator iterator = new CuboidBlockIterator(minX, minY, minZ, maxX, maxY, maxZ);
 
             public boolean tryAdvance(Consumer<? super ChunkSectionPos> consumer) {
@@ -269,9 +269,9 @@ public class ChunkSectionPos extends Vec3i {
         if (i == j && k == l && m == n) {
             consumer.accept(asLong(i, k, m));
         } else {
-            for(int o = i; o <= j; ++o) {
-                for(int p = k; p <= l; ++p) {
-                    for(int q = m; q <= n; ++q) {
+            for (int o = i; o <= j; ++o) {
+                for (int p = k; p <= l; ++p) {
+                    for (int q = m; q <= n; ++q) {
                         consumer.accept(asLong(o, p, q));
                     }
                 }

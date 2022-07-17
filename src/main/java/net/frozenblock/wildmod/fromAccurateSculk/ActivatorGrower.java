@@ -34,13 +34,13 @@ public class ActivatorGrower {
             double r = sqrt(rVal) * sqrt(random());
             int x = (int) (r * cos(a));
             int y = (int) (r * sin(a));
-            selectActivator(pos.add(x, 0, y), world, loop/5);
+            selectActivator(pos.add(x, 0, y), world, loop / 5);
         }
     }
 
     public static void selectActivator(BlockPos blockPos, World world, int chance) { //Get Activator To Place
         int uniInt = UniformIntProvider.create(1, 20).get(world.getRandom());
-        if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > (chance+4))) {
+        if ((UniformIntProvider.create(0, chance + 5).get(world.getRandom()) > (chance + 4))) {
             BlockPos NewSculk = solidsculkCheck(blockPos, world);
             if (NewSculk != null && !Sphere.blockTagInSphere(NewSculk, 4, RegisterTags.ACTIVATORS, world)) {
                 BlockState activator = null;
@@ -49,7 +49,7 @@ public class ActivatorGrower {
                 } else if (uniInt <= 16) {
                     activator = Objects.requireNonNull(RegisterTags.getRandomBlock(random, RegisterTags.COMMON_ACTIVATORS)).getDefaultState();
                 }
-                if (activator!=null) {
+                if (activator != null) {
                     placeActivator(NewSculk, world, activator);
                 }
             }
@@ -73,37 +73,44 @@ public class ActivatorGrower {
         }
     }
 
-    /** CAlCULATIONS & CHECKS */
+    /**
+     * CAlCULATIONS & CHECKS
+     */
     public static BlockPos solidsculkCheck(BlockPos blockPos, World world) { //Call For Up&Down Checks
         BlockPos check = checkPt2(blockPos, world);
-        if (check!=null) { return check; }
+        if (check != null) {
+            return check;
+        }
         if (!world.isSkyVisible(blockPos)) {
             return checkPt1(blockPos, world);
-        } return null;
+        }
+        return null;
     }
+
     public static BlockPos checkPt1(BlockPos blockPos, World world) { //Check For Valid Placement Above
         int upward = world.getGameRules().getInt(WildMod.UPWARD_SPREAD);
         int MAX = world.getHeight();
         if (blockPos.getY() + upward >= MAX) {
-            upward = (MAX - blockPos.getY())-1;
+            upward = (MAX - blockPos.getY()) - 1;
         }
         for (int h = 0; h < upward; h++) {
-            BlockPos pos =  blockPos.up(h);
-            if (world.getBlockState(pos)==sculk && RegisterTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), RegisterTags.SCULK_VEIN_REPLACEABLE)) {
+            BlockPos pos = blockPos.up(h);
+            if (world.getBlockState(pos) == sculk && RegisterTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), RegisterTags.SCULK_VEIN_REPLACEABLE)) {
                 return pos;
             }
         }
         return null;
     }
+
     public static BlockPos checkPt2(BlockPos blockPos, World world) { //Check For Valid Placement Below
         int downward = world.getGameRules().getInt(WildMod.DOWNWARD_SPREAD);
         int MIN = world.getBottomY();
         if (blockPos.getY() - downward <= MIN) {
-            downward = (blockPos.getY()-MIN)-1;
+            downward = (blockPos.getY() - MIN) - 1;
         }
         for (int h = 0; h < downward; h++) {
-            BlockPos pos =  blockPos.down(h);
-            if (world.getBlockState(pos)==sculk && RegisterTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), RegisterTags.SCULK_VEIN_REPLACEABLE)) {
+            BlockPos pos = blockPos.down(h);
+            if (world.getBlockState(pos) == sculk && RegisterTags.blockTagContains(world.getBlockState(pos.up()).getBlock(), RegisterTags.SCULK_VEIN_REPLACEABLE)) {
                 return pos;
             }
         }

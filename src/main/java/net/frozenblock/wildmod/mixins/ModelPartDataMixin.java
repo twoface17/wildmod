@@ -14,17 +14,17 @@ import java.util.Map;
 @Mixin(ModelPartData.class)
 public abstract class ModelPartDataMixin implements ExpandedModelPart {
 
-	@Shadow
-	@Final
-	private List<ModelCuboidData> cuboidData;
-	@Shadow
-	@Final
-	private Map<String, ModelPartData> children;
+    @Shadow
+    @Final
+    private List<ModelCuboidData> cuboidData;
+    @Shadow
+    @Final
+    private Map<String, ModelPartData> children;
 
-	/**
-	 * @author FrozenBlock
-	 * @reason modelparts
-	 */
+    /**
+     * @author FrozenBlock
+     * @reason modelparts
+     */
 	/*@Overwrite
 	public ModelPart createPart(int textureWidth, int textureHeight) {
 		Object2ObjectArrayMap<String, ModelPart> object2ObjectArrayMap = this.children.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, (entry) -> {
@@ -39,6 +39,5 @@ public abstract class ModelPartDataMixin implements ExpandedModelPart {
 		modelPart.traverse().forEach(modelPart1 -> ((ExpandedModelPart)modelPart1).resetTransform());
 		return modelPart;
 	}*/
-
-	public abstract ModelPart traverse();
+    public abstract ModelPart traverse();
 }

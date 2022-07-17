@@ -35,7 +35,7 @@ public class WildPlacedFeatures {
                 PlacedFeatures.BOTTOM_TO_120_RANGE,
                 BiomePlacementModifier.of());
         SCULK_PATCH_ANCIENT_CITY = register(
-                "sculk_patch_ancient_city", WildConfiguredFeatures.SCULK_PATCH_ANCIENT_CITY, new PlacementModifier[0]
+                "sculk_patch_ancient_city", WildConfiguredFeatures.SCULK_PATCH_ANCIENT_CITY
         );
         SCULK_VEIN = register(
                 "sculk_vein",
@@ -57,10 +57,11 @@ public class WildPlacedFeatures {
         /*TALL_MANGROVE_CHECKED = register(
                 "tall_mangrove_checked", WildConfiguredFeatures.TALL_MANGROVE, new PlacementModifier[]{PlacedFeatures.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE)}
         );
-    */}
+    */
+    }
 
     public static <T> RegistryEntry<T> add(Registry<T> registry, RegistryKey<T> key, T object) {
-        return ((MutableRegistry<T>)registry).add(key, object, Lifecycle.stable());
+        return ((MutableRegistry<T>) registry).add(key, object, Lifecycle.stable());
     }
 
     public static <T> RegistryEntry<T> add(Registry<T> registry, Identifier id, T object) {

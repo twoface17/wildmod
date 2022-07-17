@@ -35,6 +35,7 @@ public class WildGameEvents extends net.minecraft.world.event.GameEvent {
         SCULK_SENSOR_TENDRILS_CLICKING = register("sculk_sensor_tendrils_clicking");
         SHRIEK = register("shriek", 32);
     }
+
     public static final int DEFAULT_RANGE = 16;
     private final String id;
     private final int range;
@@ -75,8 +76,7 @@ public class WildGameEvents extends net.minecraft.world.event.GameEvent {
     }
 
 
-
-    public static record Emitter(@Nullable Entity sourceEntity, @Nullable BlockState affectedState) {
+    public record Emitter(@Nullable Entity sourceEntity, @Nullable BlockState affectedState) {
         public static WildGameEvents.Emitter of(@Nullable Entity sourceEntity) {
             return new WildGameEvents.Emitter(sourceEntity, null);
         }

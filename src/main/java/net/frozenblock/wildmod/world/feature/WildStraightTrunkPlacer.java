@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
-;
-
 public class WildStraightTrunkPlacer extends WildTrunkPlacer {
     public static final Codec<WildStraightTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> {
         return fillTrunkPlacerFields(instance).apply(instance, (WildStraightTrunkPlacer::new));
@@ -31,7 +29,7 @@ public class WildStraightTrunkPlacer extends WildTrunkPlacer {
     public List<WildFoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, WildTreeFeatureConfig config) {
         setToDirt(world, replacer, random, startPos.down(), config);
 
-        for(int i = 0; i < height; ++i) {
+        for (int i = 0; i < height; ++i) {
             this.getAndSetState(world, replacer, random, startPos.up(i), config);
         }
 

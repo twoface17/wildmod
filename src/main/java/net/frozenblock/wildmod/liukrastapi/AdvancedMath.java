@@ -7,7 +7,7 @@ import net.minecraft.world.gen.random.AbstractRandom;
 
 import java.util.UUID;
 
-public class MathAdvanced extends MathHelper {
+public class AdvancedMath extends MathHelper {
     public static double time;
     private static final int field_29850 = 1024;
     private static final float field_29851 = 1024.0F;
@@ -19,13 +19,13 @@ public class MathAdvanced extends MathHelper {
     public static final float HALF_PI = (float) (Math.PI / 2);
     public static final float TAU = (float) (Math.PI * 2);
     public static final float RADIANS_PER_DEGREE = (float) (Math.PI / 180.0);
-    public static final float DEGREES_PER_RADIAN = 180.0F / (float)Math.PI;
+    public static final float DEGREES_PER_RADIAN = 180.0F / (float) Math.PI;
     public static final float EPSILON = 1.0E-5F;
     public static final float SQUARE_ROOT_OF_TWO = sqrt(2.0F);
     private static final float DEGREES_TO_SINE_TABLE_INDEX = 10430.378F;
-    private static final float[] SINE_TABLE = (float[]) Util.make(new float[65536], sineTable -> {
-        for(int ix = 0; ix < sineTable.length; ++ix) {
-            sineTable[ix] = (float)Math.sin((double)ix * Math.PI * 2.0 / 65536.0);
+    private static final float[] SINE_TABLE = Util.make(new float[65536], sineTable -> {
+        for (int ix = 0; ix < sineTable.length; ++ix) {
+            sineTable[ix] = (float) Math.sin((double) ix * Math.PI * 2.0 / 65536.0);
         }
 
     });
@@ -40,24 +40,24 @@ public class MathAdvanced extends MathHelper {
     private static final double[] ARCSINE_TABLE = new double[257];
     private static final double[] COSINE_TABLE = new double[257];
 
-    public MathAdvanced() {
+    public AdvancedMath() {
     }
 
     public static float sin(float value) {
-        return SINE_TABLE[(int)(value * 10430.378F) & 65535];
+        return SINE_TABLE[(int) (value * 10430.378F) & 65535];
     }
 
     public static float cos(float value) {
-        return SINE_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
+        return SINE_TABLE[(int) (value * 10430.378F + 16384.0F) & 65535];
     }
 
     public static float sqrt(float value) {
-        return (float)Math.sqrt((double)value);
+        return (float) Math.sqrt(value);
     }
 
     public static double cutCos(double value, double offset, boolean inverse) {
         double equation = Math.cos(value);
-        if(!inverse) {
+        if (!inverse) {
             return Math.max(equation, offset);
         } else {
             return Math.max(-equation, offset);
@@ -78,7 +78,7 @@ public class MathAdvanced extends MathHelper {
 
     public static double cutSin(double value, double offset, boolean inverse) {
         double equation = Math.sin(value);
-        if(!inverse) {
+        if (!inverse) {
             return Math.max(equation, offset);
         } else {
             return Math.max(-equation, offset);
@@ -90,9 +90,21 @@ public class MathAdvanced extends MathHelper {
         double distancey;
         double distancez;
 
-        if(x1 > x2) {distancex = x1 - x2;} else {distancex = x2 -x1;}
-        if(y1 > y2) {distancey = y1 - y2;} else {distancey = y2 -y1;}
-        if(z1 > z2) {distancez = z1 - z2;} else {distancez = z2 -z1;}
+        if (x1 > x2) {
+            distancex = x1 - x2;
+        } else {
+            distancex = x2 - x1;
+        }
+        if (y1 > y2) {
+            distancey = y1 - y2;
+        } else {
+            distancey = y2 - y1;
+        }
+        if (z1 > z2) {
+            distancez = z1 - z2;
+        } else {
+            distancez = z2 - z1;
+        }
 
         return Math.sqrt(Math.pow(distancex, 2) + Math.pow(distancey, 2) + Math.pow(distancez, 2));
     }
@@ -112,8 +124,8 @@ public class MathAdvanced extends MathHelper {
     }
 
     public static int floor(float value) {
-        int i = (int)value;
-        return value < (float)i ? i - 1 : i;
+        int i = (int) value;
+        return value < (float) i ? i - 1 : i;
     }
 
     public static float fastInverseSqrt(float x) {
@@ -166,7 +178,7 @@ public class MathAdvanced extends MathHelper {
             x *= e;
             y *= e;
             double f = SMALLEST_FRACTION_FREE_DOUBLE + y;
-            int i = (int)Double.doubleToRawLongBits(f);
+            int i = (int) Double.doubleToRawLongBits(f);
             double g = ARCSINE_TABLE[i];
             double h = COSINE_TABLE[i];
             double j = f - SMALLEST_FRACTION_FREE_DOUBLE;

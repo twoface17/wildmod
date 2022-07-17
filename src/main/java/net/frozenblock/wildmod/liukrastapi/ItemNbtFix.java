@@ -35,7 +35,7 @@ public abstract class ItemNbtFix extends DataFix {
                 type,
                 typed -> {
                     Optional<Pair<String, String>> optional = typed.getOptional(opticFinder);
-                    return optional.isPresent() && this.itemIdPredicate.test((String)((Pair)optional.get()).getSecond())
+                    return optional.isPresent() && this.itemIdPredicate.test((String) ((Pair) optional.get()).getSecond())
                             ? typed.updateTyped(opticFinder2, typedx -> typedx.update(DSL.remainderFinder(), this::fixNbt))
                             : typed;
                 }

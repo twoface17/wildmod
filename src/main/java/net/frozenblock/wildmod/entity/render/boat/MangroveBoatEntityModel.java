@@ -32,13 +32,13 @@ public class MangroveBoatEntityModel extends CompositeEntityModel<MangroveBoatEn
         this.waterPatch = root.getChild("water_patch");
         ImmutableList.Builder<ModelPart> builder = new ImmutableList.Builder<>();
         builder.add(
-            root.getChild("bottom"),
-            root.getChild("back"),
-            root.getChild("front"),
-            root.getChild("right"),
-            root.getChild("left"),
-            this.leftPaddle,
-            this.rightPaddle
+                root.getChild("bottom"),
+                root.getChild("back"),
+                root.getChild("front"),
+                root.getChild("right"),
+                root.getChild("left"),
+                this.leftPaddle,
+                this.rightPaddle
         );
         if (chest) {
             builder.add(root.getChild("chest_bottom"));

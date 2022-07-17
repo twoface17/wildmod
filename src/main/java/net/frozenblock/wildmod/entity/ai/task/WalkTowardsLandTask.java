@@ -49,7 +49,7 @@ public class WalkTowardsLandTask extends Task<PathAwareEntity> {
             BlockPos.Mutable mutable = new BlockPos.Mutable();
             ShapeContext shapeContext = ShapeContext.of(pathAwareEntity);
 
-            for(BlockPos blockPos2 : BlockPos.iterateOutwards(blockPos, this.range, this.range, this.range)) {
+            for (BlockPos blockPos2 : BlockPos.iterateOutwards(blockPos, this.range, this.range, this.range)) {
                 if (blockPos2.getX() != blockPos.getX() || blockPos2.getZ() != blockPos.getZ()) {
                     BlockState blockState = serverWorld.getBlockState(blockPos2);
                     BlockState blockState2 = serverWorld.getBlockState(mutable.set(blockPos2, Direction.DOWN));

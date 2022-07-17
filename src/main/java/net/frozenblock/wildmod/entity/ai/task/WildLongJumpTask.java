@@ -38,7 +38,7 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
     private static final int TARGET_RETAIN_TIME = 40;
     protected static final int PATHING_DISTANCE = 8;
     private static final int RUN_TIME = 200;
-    private static final List<Integer> RAM_RANGES = Lists.newArrayList(new Integer[]{65, 70, 75, 80});
+    private static final List<Integer> RAM_RANGES = Lists.newArrayList(65, 70, 75, 80);
     private final UniformIntProvider cooldownRange;
     protected final int verticalRange;
     protected final int horizontalRange;
@@ -49,7 +49,7 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
     protected Vec3d lastTarget;
     protected int cooldown;
     protected long targetTime;
-    private Function<E, SoundEvent> entityToSound;
+    private final Function<E, SoundEvent> entityToSound;
     private final Predicate<BlockState> jumpToPredicate;
 
     public WildLongJumpTask(UniformIntProvider cooldownRange, int verticalRange, int horizontalRange, float maxRange, Function<E, SoundEvent> entityToSound) {
@@ -97,7 +97,7 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
 
     protected boolean shouldKeepRunning(ServerWorld serverWorld, MobEntity mobEntity, long l) {
         boolean bl = this.lastPos.isPresent()
-                && ((Vec3d)this.lastPos.get()).equals(mobEntity.getPos())
+                && this.lastPos.get().equals(mobEntity.getPos())
                 && this.cooldown > 0
                 && !mobEntity.isInsideWaterOrBubbleColumn()
                 && (this.lastTarget != null || !this.targets.isEmpty());
@@ -139,7 +139,7 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
                 double e = d + mobEntity.getJumpBoostVelocityModifier();
                 mobEntity.setVelocity(this.lastTarget.multiply(e / d));
                 mobEntity.getBrain().remember(MemoryModuleType.LONG_JUMP_MID_JUMP, true);
-                serverWorld.playSoundFromEntity(null, mobEntity, (SoundEvent)this.entityToSound.apply(mobEntity), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                serverWorld.playSoundFromEntity(null, mobEntity, this.entityToSound.apply(mobEntity), SoundCategory.NEUTRAL, 1.0F, 1.0F);
             }
         } else {
             --this.cooldown;
@@ -149,7 +149,7 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
     }
 
     protected void method_41342(ServerWorld serverWorld, E mobEntity, long l) {
-        while(!this.targets.isEmpty()) {
+        while (!this.targets.isEmpty()) {
             Optional<WildLongJumpTask.Target> optional = this.getTarget(serverWorld);
             if (!optional.isEmpty()) {
                 WildLongJumpTask.Target target = optional.get();
@@ -197,7 +197,7 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
         List<Integer> list = Lists.newArrayList(RAM_RANGES);
         Collections.shuffle(list);
 
-        for(int i : list) {
+        for (int i : list) {
             Vec3d vec3d = this.getRammingVelocity(entity, pos, i);
             if (vec3d != null) {
                 return vec3d;
@@ -213,16 +213,16 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
         Vec3d vec3d2 = new Vec3d(pos.x - vec3d.x, 0.0, pos.z - vec3d.z).normalize().multiply(0.5);
         pos = pos.subtract(vec3d2);
         Vec3d vec3d3 = pos.subtract(vec3d);
-        float f = (float)range * (float) Math.PI / 180.0F;
+        float f = (float) range * (float) Math.PI / 180.0F;
         double d = Math.atan2(vec3d3.z, vec3d3.x);
         double e = vec3d3.subtract(0.0, vec3d3.y, 0.0).lengthSquared();
         double g = Math.sqrt(e);
         double h = vec3d3.y;
-        double i = Math.sin((double)(2.0F * f));
+        double i = Math.sin(2.0F * f);
         double j = 0.08;
-        double k = Math.pow(Math.cos((double)f), 2.0);
-        double l = Math.sin((double)f);
-        double m = Math.cos((double)f);
+        double k = Math.pow(Math.cos(f), 2.0);
+        double l = Math.sin(f);
+        double m = Math.cos(f);
         double n = Math.sin(d);
         double o = Math.cos(d);
         double p = e * 0.08 / (g * i - 2.0 * h * k);
@@ -230,7 +230,7 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
             return null;
         } else {
             double q = Math.sqrt(p);
-            if (q > (double)this.maxRange) {
+            if (q > (double) this.maxRange) {
                 return null;
             } else {
                 double r = q * m;
@@ -239,8 +239,8 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
                 double u = 0.0;
                 Vec3d vec3d4 = null;
 
-                for(int v = 0; v < t - 1; ++v) {
-                    u += g / (double)t;
+                for (int v = 0; v < t - 1; ++v) {
+                    u += g / (double) t;
                     double w = l / m * u - Math.pow(u, 2.0) * 0.08 / (2.0 * p * Math.pow(m, 2.0));
                     double x = u * o;
                     double y = u * n;
@@ -260,12 +260,12 @@ public class WildLongJumpTask<E extends MobEntity> extends Task<E> {
     private boolean canReach(MobEntity entity, Vec3d startPos, Vec3d endPos) {
         EntityDimensions entityDimensions = entity.getDimensions(EntityPose.LONG_JUMPING);
         Vec3d vec3d = endPos.subtract(startPos);
-        double d = (double)Math.min(entityDimensions.width, entityDimensions.height);
+        double d = Math.min(entityDimensions.width, entityDimensions.height);
         int i = MathHelper.ceil(vec3d.length() / d);
         Vec3d vec3d2 = vec3d.normalize();
         Vec3d vec3d3 = startPos;
 
-        for(int j = 0; j < i; ++j) {
+        for (int j = 0; j < i; ++j) {
             vec3d3 = j == i - 1 ? endPos : vec3d3.add(vec3d2.multiply(d * 0.9F));
             Box box = entityDimensions.getBoxAt(vec3d3);
             if (!entity.world.isSpaceEmpty(entity, box)) {

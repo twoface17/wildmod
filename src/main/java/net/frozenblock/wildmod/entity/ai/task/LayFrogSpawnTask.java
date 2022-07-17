@@ -40,7 +40,7 @@ public class LayFrogSpawnTask extends Task<FrogEntity> {
     protected void run(ServerWorld serverWorld, FrogEntity frogEntity, long l) {
         BlockPos blockPos = frogEntity.getBlockPos().down();
 
-        for(Direction direction : Direction.Type.HORIZONTAL) {
+        for (Direction direction : Direction.Type.HORIZONTAL) {
             BlockPos blockPos2 = blockPos.offset(direction);
             if (serverWorld.getBlockState(blockPos2).isOf(Blocks.WATER)) {
                 BlockPos blockPos3 = blockPos2.up();

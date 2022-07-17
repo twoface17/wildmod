@@ -10,7 +10,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.TestableWorld;
 
@@ -85,10 +84,10 @@ public abstract class WildFoliagePlacer {
         int i = giantTrunk ? 1 : 0;
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-        for(int j = -radius; j <= radius + i; ++j) {
-            for(int k = -radius; k <= radius + i; ++k) {
+        for (int j = -radius; j <= radius + i; ++j) {
+            for (int k = -radius; k <= radius + i; ++k) {
                 if (!this.isPositionInvalid(random, j, y, k, radius, giantTrunk)) {
-                    mutable.set((Vec3i)centerPos, j, y, k);
+                    mutable.set(centerPos, j, y, k);
                     placeFoliageBlock(world, replacer, random, config, mutable);
                 }
             }
@@ -100,7 +99,7 @@ public abstract class WildFoliagePlacer {
         if (WildTreeFeature.canReplace(world, pos)) {
             BlockState blockState = config.foliageProvider.getBlockState(random, pos);
             if (blockState.contains(Properties.WATERLOGGED)) {
-                blockState = (BlockState)blockState.with(Properties.WATERLOGGED, world.testFluidState(pos, (fluidState) -> {
+                blockState = blockState.with(Properties.WATERLOGGED, world.testFluidState(pos, (fluidState) -> {
                     return fluidState.isEqualAndStill(Fluids.WATER);
                 }));
             }

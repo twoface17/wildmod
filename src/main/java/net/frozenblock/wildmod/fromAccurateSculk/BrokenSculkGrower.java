@@ -19,19 +19,25 @@ import org.jetbrains.annotations.Nullable;
 import static java.lang.Math.PI;
 
 public class BrokenSculkGrower {
-    /** DEFAULT VARIABLES */
+    /**
+     * DEFAULT VARIABLES
+     */
     public static final BlockState sculkBlock = RegisterBlocks.SCULK.getDefaultState();
     public static final BlockState water = Blocks.WATER.getDefaultState();
-    /** NOISE VARIABLES */
+    /**
+     * NOISE VARIABLES
+     */
     public static final double multiplier = 0.09; //Keep this low. Lowering it makes the noise bigger, raising it makes it smaller (more like static)
     public static final double minThreshold = 0.0; //The value that outer Sculk's noise must be ABOVE in order to grow
     public static final double maxThreshold = 0.3; //The value that outer Sculk's noise must be BELOW in order to grow
     public static long seed = 1;
     public static PerlinNoiseSampler sample = new PerlinNoiseSampler(new Xoroshiro128PlusPlusRandom(seed));
 
-    /** MAIN CODE */
+    /**
+     * MAIN CODE
+     */
     public static void sculk(BlockPos blockPos, World world, @Nullable Entity entity, int catalysts) { //Choose Amount Of Sculk + Initial Radius
-        if (entity!=null && world instanceof ServerWorld serverWorld) {
+        if (entity != null && world instanceof ServerWorld serverWorld) {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.MASTER, 1F, 1F);
             world.playSound(null, blockPos, RegisterSounds.ENTITY_WARDEN_AMBIENT_UNDERGROUND, SoundCategory.MASTER, 1F, 1F);
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_SENSOR_RECEIVE_RF, SoundCategory.MASTER, 1F, 1F);
@@ -48,8 +54,8 @@ public class BrokenSculkGrower {
             world.playSound(null, blockPos, RegisterSounds.BLOCK_SCULK_SHRIEKER_SHRIEK, SoundCategory.MASTER, 1F, 2F);
             BlockPos down = blockPos.down();
             long seed1 = serverWorld.getSeed();
-            if (seed!=seed1) {
-                seed=seed1;
+            if (seed != seed1) {
+                seed = seed1;
                 sample = new PerlinNoiseSampler(new Xoroshiro128PlusPlusRandom(seed));
             }
             sculkUnoptim(down, serverWorld);
@@ -61,10 +67,10 @@ public class BrokenSculkGrower {
             int x = posNew.getX();
             int y = posNew.getY();
             int z = posNew.getZ();
-            double sampled = sample.sample(x * multiplier, y * multiplier, z * multiplier-0.3);
-            double min = MathHelper.clamp(minThreshold + 0.7*(Math.sin((x*PI)/100)),-1,0);
-            double max = MathHelper.clamp(maxThreshold + 0.7*(Math.sin((x*PI)/100)),0,1);
-            world.removeBlock(posNew,false);
+            double sampled = sample.sample(x * multiplier, y * multiplier, z * multiplier - 0.3);
+            double min = MathHelper.clamp(minThreshold + 0.7 * (Math.sin((x * PI) / 100)), -1, 0);
+            double max = MathHelper.clamp(maxThreshold + 0.7 * (Math.sin((x * PI) / 100)), 0, 1);
+            world.removeBlock(posNew, false);
             if (sampled > min && sampled < max) {
                 placeSculk(posNew, world);
             }
@@ -84,7 +90,7 @@ public class BrokenSculkGrower {
     }
 
     public static boolean airOrReplaceableUp(World world, BlockPos blockPos) {
-        return world.getBlockEntity(blockPos)==null;
+        return world.getBlockEntity(blockPos) == null;
     }
 
     //double sinA = Math.sin(x/PI);

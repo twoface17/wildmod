@@ -72,15 +72,15 @@ public class SculkShriekerWarningManager {
                 list.add(serverPlayerEntity);
             }
 
-            if (list.stream().anyMatch(serverPlayerEntityx -> ((WildPlayerEntity)serverPlayerEntityx).getSculkShriekerWarningManager().method_44003())) {
+            if (list.stream().anyMatch(serverPlayerEntityx -> ((WildPlayerEntity) serverPlayerEntityx).getSculkShriekerWarningManager().method_44003())) {
                 return OptionalInt.empty();
             } else {
                 Optional<SculkShriekerWarningManager> optional = list.stream()
-                        .map(manager -> ((WildPlayerEntity)manager).getSculkShriekerWarningManager())
+                        .map(manager -> ((WildPlayerEntity) manager).getSculkShriekerWarningManager())
                         .max(Comparator.comparingInt(manager -> manager.warningLevel));
                 SculkShriekerWarningManager sculkShriekerWarningManager = optional.get();
                 sculkShriekerWarningManager.increaseWarningLevel();
-                list.forEach(serverPlayerEntityx -> ((WildPlayerEntity)serverPlayerEntityx).getSculkShriekerWarningManager().copy(sculkShriekerWarningManager));
+                list.forEach(serverPlayerEntityx -> ((WildPlayerEntity) serverPlayerEntityx).getSculkShriekerWarningManager().copy(sculkShriekerWarningManager));
                 return OptionalInt.of(sculkShriekerWarningManager.warningLevel);
             }
         }

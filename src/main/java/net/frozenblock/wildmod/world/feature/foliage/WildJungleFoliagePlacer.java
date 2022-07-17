@@ -31,7 +31,7 @@ public class WildJungleFoliagePlacer extends WildFoliagePlacer {
     protected void generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, WildTreeFeatureConfig config, int trunkHeight, WildFoliagePlacer.TreeNode treeNode, int foliageHeight, int radius, int offset) {
         int i = treeNode.isGiantTrunk() ? foliageHeight : 1 + random.nextInt(2);
 
-        for(int j = offset; j >= offset - i; --j) {
+        for (int j = offset; j >= offset - i; --j) {
             int k = radius + treeNode.getFoliageRadius() + 1 - j;
             this.generateSquare(world, replacer, random, config, treeNode.getCenter(), k, j, treeNode.isGiantTrunk());
         }

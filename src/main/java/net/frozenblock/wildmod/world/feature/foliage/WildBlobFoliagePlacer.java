@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.TestableWorld;
+
 import java.util.Random;
 import java.util.function.BiConsumer;
 
@@ -33,7 +34,7 @@ public class WildBlobFoliagePlacer extends WildFoliagePlacer {
     }
 
     protected void generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, WildTreeFeatureConfig config, int trunkHeight, WildFoliagePlacer.TreeNode treeNode, int foliageHeight, int radius, int offset) {
-        for(int i = offset; i >= offset - foliageHeight; --i) {
+        for (int i = offset; i >= offset - foliageHeight; --i) {
             int j = Math.max(radius + treeNode.getFoliageRadius() - 1 - i / 2, 0);
             this.generateSquare(world, replacer, random, config, treeNode.getCenter(), j, i, treeNode.isGiantTrunk());
         }

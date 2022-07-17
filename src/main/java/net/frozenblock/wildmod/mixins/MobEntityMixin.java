@@ -2,7 +2,10 @@ package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.entity.WildPathAwareEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -14,7 +17,6 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,17 +27,30 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin extends LivingEntity {
 
-    @Final @Shadow private static final TrackedData<Byte> MOB_FLAGS = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BYTE);
-    @Final @Shadow private final DefaultedList<ItemStack> armorItems = DefaultedList.ofSize(4, ItemStack.EMPTY);
-    @Final @Shadow private final DefaultedList<ItemStack> handItems = DefaultedList.ofSize(2, ItemStack.EMPTY);
-    @Shadow private boolean canPickUpLoot;
+    @Final
+    @Shadow
+    private static final TrackedData<Byte> MOB_FLAGS = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BYTE);
+    @Final
+    @Shadow
+    private final DefaultedList<ItemStack> armorItems = DefaultedList.ofSize(4, ItemStack.EMPTY);
+    @Final
+    @Shadow
+    private final DefaultedList<ItemStack> handItems = DefaultedList.ofSize(2, ItemStack.EMPTY);
+    @Shadow
+    private boolean canPickUpLoot;
 
-    @Final @Shadow protected final float[] handDropChances = new float[2];
-    @Final @Shadow protected final float[] armorDropChances = new float[4];
+    @Final
+    @Shadow
+    protected final float[] handDropChances = new float[2];
+    @Final
+    @Shadow
+    protected final float[] armorDropChances = new float[4];
 
-    @Shadow private boolean persistent;
+    @Shadow
+    private boolean persistent;
 
-    @Shadow public boolean canPickUpLoot() {
+    @Shadow
+    public boolean canPickUpLoot() {
         return this.canPickUpLoot;
     }
 
@@ -47,11 +62,11 @@ public abstract class MobEntityMixin extends LivingEntity {
     public void tickMovement(CallbackInfo ci) {
         this.world.getProfiler().push("looting");
         if (!this.world.isClient && this.canPickUpLoot() && this.isAlive() && !this.dead && this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
-            MobEntity mobEntity = (MobEntity) ((ServerWorld)this.world).getEntity(uuid);
+            MobEntity mobEntity = (MobEntity) ((ServerWorld) this.world).getEntity(uuid);
             if (mobEntity instanceof WildPathAwareEntity wildPathAwareEntity) {
                 Vec3i vec3i = wildPathAwareEntity.getItemPickUpRangeExpander();
 
-                for(ItemEntity itemEntity : this.world
+                for (ItemEntity itemEntity : this.world
                         .getNonSpectatingEntities(ItemEntity.class, this.getBoundingBox().expand(vec3i.getX(), vec3i.getY(), vec3i.getZ()))) {
                     if (!itemEntity.isRemoved() && !itemEntity.getStack().isEmpty() && !itemEntity.cannotPickup() && this.canGather(itemEntity.getStack())) {
                         this.loot(itemEntity);
@@ -89,8 +104,8 @@ public abstract class MobEntityMixin extends LivingEntity {
         ItemStack itemStack = this.getEquippedStack(equipmentSlot);
         boolean bl = this.prefersNewEquipment(equipment, itemStack);
         if (bl && this.canPickupItem(equipment)) {
-            double d = (double)this.getDropChance(equipmentSlot);
-            if (!itemStack.isEmpty() && (double)Math.max(this.random.nextFloat() - 0.1F, 0.0F) < d) {
+            double d = this.getDropChance(equipmentSlot);
+            if (!itemStack.isEmpty() && (double) Math.max(this.random.nextFloat() - 0.1F, 0.0F) < d) {
                 this.dropStack(itemStack);
             }
 
@@ -110,7 +125,7 @@ public abstract class MobEntityMixin extends LivingEntity {
 
     @Shadow
     public void updateDropChances(EquipmentSlot slot) {
-        switch(slot.getType()) {
+        switch (slot.getType()) {
             case HAND:
                 this.handDropChances[slot.getEntitySlotId()] = 2.0F;
                 break;
@@ -122,7 +137,7 @@ public abstract class MobEntityMixin extends LivingEntity {
 
     @Shadow
     protected float getDropChance(EquipmentSlot slot) {
-        return switch(slot.getType()) {
+        return switch (slot.getType()) {
             case HAND -> this.handDropChances[slot.getEntitySlotId()];
             case ARMOR -> this.armorDropChances[slot.getEntitySlotId()];
             default -> 0.0F;
@@ -136,11 +151,11 @@ public abstract class MobEntityMixin extends LivingEntity {
 
     @Shadow
     public ItemStack getEquippedStack(EquipmentSlot slot) {
-        switch(slot.getType()) {
+        switch (slot.getType()) {
             case HAND:
-                return (ItemStack)this.handItems.get(slot.getEntitySlotId());
+                return this.handItems.get(slot.getEntitySlotId());
             case ARMOR:
-                return (ItemStack)this.armorItems.get(slot.getEntitySlotId());
+                return this.armorItems.get(slot.getEntitySlotId());
             default:
                 return ItemStack.EMPTY;
         }
@@ -150,7 +165,7 @@ public abstract class MobEntityMixin extends LivingEntity {
     public void equipStack(EquipmentSlot slot, ItemStack stack) {
         this.processEquippedStack(stack);
         this.onEquipStack(stack);
-        switch(slot.getType()) {
+        switch (slot.getType()) {
             case HAND:
                 this.handItems.set(slot.getEntitySlotId(), stack);
                 break;
@@ -178,8 +193,8 @@ public abstract class MobEntityMixin extends LivingEntity {
             if (!(oldStack.getItem() instanceof SwordItem)) {
                 return true;
             } else {
-                SwordItem swordItem = (SwordItem)newStack.getItem();
-                SwordItem swordItem2 = (SwordItem)oldStack.getItem();
+                SwordItem swordItem = (SwordItem) newStack.getItem();
+                SwordItem swordItem2 = (SwordItem) oldStack.getItem();
                 if (swordItem.getAttackDamage() != swordItem2.getAttackDamage()) {
                     return swordItem.getAttackDamage() > swordItem2.getAttackDamage();
                 } else {
@@ -196,8 +211,8 @@ public abstract class MobEntityMixin extends LivingEntity {
             } else if (!(oldStack.getItem() instanceof ArmorItem)) {
                 return true;
             } else {
-                ArmorItem armorItem = (ArmorItem)newStack.getItem();
-                ArmorItem armorItem2 = (ArmorItem)oldStack.getItem();
+                ArmorItem armorItem = (ArmorItem) newStack.getItem();
+                ArmorItem armorItem2 = (ArmorItem) oldStack.getItem();
                 if (armorItem.getProtection() != armorItem2.getProtection()) {
                     return armorItem.getProtection() > armorItem2.getProtection();
                 } else if (armorItem.getToughness() != armorItem2.getToughness()) {
@@ -213,8 +228,8 @@ public abstract class MobEntityMixin extends LivingEntity {
                 }
 
                 if (oldStack.getItem() instanceof MiningToolItem) {
-                    MiningToolItem miningToolItem = (MiningToolItem)newStack.getItem();
-                    MiningToolItem miningToolItem2 = (MiningToolItem)oldStack.getItem();
+                    MiningToolItem miningToolItem = (MiningToolItem) newStack.getItem();
+                    MiningToolItem miningToolItem2 = (MiningToolItem) oldStack.getItem();
                     if (miningToolItem.getAttackDamage() != miningToolItem2.getAttackDamage()) {
                         return miningToolItem.getAttackDamage() > miningToolItem2.getAttackDamage();
                     }

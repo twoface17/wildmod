@@ -17,7 +17,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Position;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,19 +31,27 @@ import java.util.function.ToDoubleFunction;
 @Mixin(RamImpactTask.class)
 public abstract class RamImpactTaskMixin<E extends PathAwareEntity> {
 
-    @Shadow @Final private TargetPredicate targetPredicate;
+    @Shadow
+    @Final
+    private TargetPredicate targetPredicate;
 
-    @Shadow @Final private ToDoubleFunction<E> strengthMultiplierFactory;
+    @Shadow
+    @Final
+    private ToDoubleFunction<E> strengthMultiplierFactory;
 
     protected RamImpactTaskMixin(Function<E, SoundEvent> hornBreakSoundFactory) {
         this.hornBreakSoundFactory = hornBreakSoundFactory;
     }
 
-    @Shadow protected abstract void finishRam(ServerWorld world, E entity);
+    @Shadow
+    protected abstract void finishRam(ServerWorld world, E entity);
 
-    @Shadow @Final private Function<E, SoundEvent> soundFactory;
+    @Shadow
+    @Final
+    private Function<E, SoundEvent> soundFactory;
 
-    @Shadow private Vec3d direction;
+    @Shadow
+    private Vec3d direction;
     private final Function<E, SoundEvent> hornBreakSoundFactory;
 
     /**
@@ -57,20 +64,20 @@ public abstract class RamImpactTaskMixin<E extends PathAwareEntity> {
         Brain<?> brain = goatEntity.getBrain();
         if (!list.isEmpty()) {
             LivingEntity livingEntity = list.get(0);
-            livingEntity.damage(DamageSource.mob(goatEntity).setNeutral(), (float)goatEntity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
+            livingEntity.damage(DamageSource.mob(goatEntity).setNeutral(), (float) goatEntity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
             int i = goatEntity.hasStatusEffect(StatusEffects.SPEED) ? goatEntity.getStatusEffect(StatusEffects.SPEED).getAmplifier() + 1 : 0;
             int j = goatEntity.hasStatusEffect(StatusEffects.SLOWNESS) ? goatEntity.getStatusEffect(StatusEffects.SLOWNESS).getAmplifier() + 1 : 0;
-            float f = 0.25F * (float)(i - j);
+            float f = 0.25F * (float) (i - j);
             float g = MathHelper.clamp(goatEntity.getMovementSpeed() * 1.65F, 0.2F, 3.0F) + f;
             float h = livingEntity.blockedByShield(DamageSource.mob(goatEntity)) ? 0.5F : 1.0F;
-            livingEntity.takeKnockback((double)(h * g) * this.strengthMultiplierFactory.applyAsDouble(goatEntity), this.direction.getX(), this.direction.getZ());
+            livingEntity.takeKnockback((double) (h * g) * this.strengthMultiplierFactory.applyAsDouble(goatEntity), this.direction.getX(), this.direction.getZ());
             this.finishRam(serverWorld, goatEntity);
-            serverWorld.playSoundFromEntity(null, goatEntity, (SoundEvent)this.soundFactory.apply(goatEntity), SoundCategory.HOSTILE, 1.0F, 1.0F);
+            serverWorld.playSoundFromEntity(null, goatEntity, this.soundFactory.apply(goatEntity), SoundCategory.HOSTILE, 1.0F, 1.0F);
         } else if (this.shouldSnapHorn(serverWorld, goatEntity)) {
-            serverWorld.playSoundFromEntity(null, goatEntity, (SoundEvent)this.soundFactory.apply(goatEntity), SoundCategory.HOSTILE, 1.0F, 1.0F);
-            boolean bl = ((WildGoat)goatEntity).dropHorn();
+            serverWorld.playSoundFromEntity(null, goatEntity, this.soundFactory.apply(goatEntity), SoundCategory.HOSTILE, 1.0F, 1.0F);
+            boolean bl = ((WildGoat) goatEntity).dropHorn();
             if (bl) {
-                serverWorld.playSoundFromEntity(null, goatEntity, (SoundEvent)this.hornBreakSoundFactory.apply(goatEntity), SoundCategory.HOSTILE, 1.0F, 1.0F);
+                serverWorld.playSoundFromEntity(null, goatEntity, this.hornBreakSoundFactory.apply(goatEntity), SoundCategory.HOSTILE, 1.0F, 1.0F);
             }
 
             this.finishRam(serverWorld, goatEntity);
@@ -79,7 +86,7 @@ public abstract class RamImpactTaskMixin<E extends PathAwareEntity> {
             Optional<Vec3d> optional2 = brain.getOptionalMemory(MemoryModuleType.RAM_TARGET);
             boolean bl2 = !optional.isPresent()
                     || !optional2.isPresent()
-                    || optional.get().getLookTarget().getPos().isInRange((Position)optional2.get(), 0.25);
+                    || optional.get().getLookTarget().getPos().isInRange(optional2.get(), 0.25);
             if (bl2) {
                 this.finishRam(serverWorld, goatEntity);
             }

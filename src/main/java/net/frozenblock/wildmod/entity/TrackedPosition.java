@@ -15,7 +15,7 @@ public class TrackedPosition {
     }
 
     private static double unpack(long value) {
-        return (double)value / 4096.0;
+        return (double) value / 4096.0;
     }
 
     public Vec3d withDelta(long x, long y, long z) {

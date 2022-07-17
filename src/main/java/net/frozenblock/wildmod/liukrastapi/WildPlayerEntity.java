@@ -14,5 +14,6 @@ public interface WildPlayerEntity {
 
     default SculkShriekerWarningManager getSculkShriekerWarningManager() {
         return this.sculkShriekerWarningManager;
-    };
+    }
+
 }

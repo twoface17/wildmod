@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.item.AxeItem;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -56,16 +57,16 @@ public abstract class WildPathAwareEntity extends PathAwareEntity {
                 this.detachLeash(true, true);
                 this.goalSelector.disableControl(Goal.Control.MOVE);
             } else if (f > 6.0F) {
-                double d = (entity.getX() - this.getX()) / (double)f;
-                double e = (entity.getY() - this.getY()) / (double)f;
-                double g = (entity.getZ() - this.getZ()) / (double)f;
+                double d = (entity.getX() - this.getX()) / (double) f;
+                double e = (entity.getY() - this.getY()) / (double) f;
+                double g = (entity.getZ() - this.getZ()) / (double) f;
                 this.setVelocity(this.getVelocity().add(Math.copySign(d * d * 0.4, d), Math.copySign(e * e * 0.4, e), Math.copySign(g * g * 0.4, g)));
             } else if (this.method_43689()) {
                 this.goalSelector.enableControl(Goal.Control.MOVE);
                 float h = 2.0F;
                 Vec3d vec3d = new Vec3d(entity.getX() - this.getX(), entity.getY() - this.getY(), entity.getZ() - this.getZ())
                         .normalize()
-                        .multiply((double)Math.max(f - 2.0F, 0.0F));
+                        .multiply(Math.max(f - 2.0F, 0.0F));
                 this.getNavigation().startMovingTo(this.getX() + vec3d.x, this.getY() + vec3d.y, this.getZ() + vec3d.z, this.getRunFromLeashSpeed());
             }
         }
@@ -81,6 +82,10 @@ public abstract class WildPathAwareEntity extends PathAwareEntity {
     }
 
     protected void updateForLeashLength(float leashLength) {
+    }
+
+    public boolean disablesShield() {
+        return this.getMainHandStack().getItem() instanceof AxeItem;
     }
 
     public void updateEventHandler(BiConsumer<EntityGameEventHandler<?>, ServerWorld> callback) {

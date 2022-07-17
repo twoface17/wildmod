@@ -34,11 +34,14 @@ public class SculkCatalystBlock extends WildBlockWithEntity implements WildBlock
     public final int getRange() {
         return 8;
     }
+
     private final IntProvider experience = ConstantIntProvider.create(20);
     public static final EnumProperty<SculkCatalystPhase> SCULK_CATALYST_PHASE = WildProperties.SCULK_CATALYST_PHASE;
+
     public static SculkCatalystPhase getPhase(BlockState blockState) {
         return blockState.get(SCULK_CATALYST_PHASE);
     }
+
     public static boolean isInactive(BlockState blockState) {
         return SculkCatalystBlock.getPhase(blockState) == SculkCatalystPhase.INACTIVE;
     }
@@ -47,10 +50,11 @@ public class SculkCatalystBlock extends WildBlockWithEntity implements WildBlock
     @Nullable
     public <T extends BlockEntity> GameEventListener getGameEventListener(World world, T blockEntity) {
         if (blockEntity instanceof SculkCatalystBlockEntity) {
-            return ((SculkCatalystBlockEntity)blockEntity).getEventListener();
+            return ((SculkCatalystBlockEntity) blockEntity).getEventListener();
         }
         return null;
     }
+
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world2, BlockState blockState2, BlockEntityType<T> blockEntityType) {
@@ -59,6 +63,7 @@ public class SculkCatalystBlock extends WildBlockWithEntity implements WildBlock
         }
         return null;
     }
+
     @Override
     public void onStateReplaced(BlockState blockState, World world, BlockPos blockPos, BlockState blockState2, boolean bl) {
         if (blockState.isOf(blockState2.getBlock())) {
@@ -69,6 +74,7 @@ public class SculkCatalystBlock extends WildBlockWithEntity implements WildBlock
         }
         super.onStateReplaced(blockState, world, blockPos, blockState2, bl);
     }
+
     @Override
     public void scheduledTick(BlockState blockState, ServerWorld serverWorld, BlockPos blockPos, Random random) {
         if (SculkCatalystBlock.getPhase(blockState) != SculkCatalystPhase.ACTIVE) {
@@ -79,10 +85,12 @@ public class SculkCatalystBlock extends WildBlockWithEntity implements WildBlock
         }
         SculkCatalystBlock.setCooldown(serverWorld, blockPos, blockState);
     }
+
     public static void setCooldown(World world, BlockPos blockPos, BlockState blockState) {
         world.setBlockState(blockPos, blockState.with(SCULK_CATALYST_PHASE, SculkCatalystPhase.COOLDOWN), 3);
         world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 1);
     }
+
     private static void updateNeighbors(World world, BlockPos blockPos) {
         world.updateNeighborsAlways(blockPos, RegisterBlocks.SCULK_CATALYST);
         world.updateNeighborsAlways(blockPos.offset(Direction.UP.getOpposite()), RegisterBlocks.SCULK_CATALYST);
@@ -99,7 +107,7 @@ public class SculkCatalystBlock extends WildBlockWithEntity implements WildBlock
     }
 
     public static void setActive(World world, BlockPos blockPos, BlockState blockState) {
-        world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 11 );
+        world.createAndScheduleBlockTick(new BlockPos(blockPos), blockState.getBlock(), 11);
         world.setBlockState(blockPos, blockState.with(SCULK_CATALYST_PHASE, SculkCatalystPhase.ACTIVE));
     }
 
@@ -107,6 +115,7 @@ public class SculkCatalystBlock extends WildBlockWithEntity implements WildBlock
     public boolean hasSidedTransparency(BlockState blockState) {
         return false;
     }
+
     @Override
     @Nullable
     public BlockEntity createBlockEntity(BlockPos blockPos, BlockState blockState) {
@@ -118,6 +127,7 @@ public class SculkCatalystBlock extends WildBlockWithEntity implements WildBlock
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(SCULK_CATALYST_PHASE);
     }
+
     public SculkCatalystBlock(AbstractBlock.Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(SCULK_CATALYST_PHASE, SculkCatalystPhase.INACTIVE));

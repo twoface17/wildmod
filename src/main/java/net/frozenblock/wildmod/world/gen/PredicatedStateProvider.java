@@ -30,7 +30,7 @@ public record PredicatedStateProvider(BlockStateProvider fallback, List<Rule> ru
     }
 
     public BlockState getBlockState(StructureWorldAccess world, Random random, BlockPos pos) {
-        for(PredicatedStateProvider.Rule rule : this.rules) {
+        for (PredicatedStateProvider.Rule rule : this.rules) {
             if (rule.ifTrue().test(world, pos)) {
                 return rule.then().getBlockState(random, pos);
             }
@@ -54,7 +54,7 @@ public record PredicatedStateProvider(BlockStateProvider fallback, List<Rule> ru
         return null;
     }
 
-    public static record Rule(BlockPredicate ifTrue, BlockStateProvider then) {
+    public record Rule(BlockPredicate ifTrue, BlockStateProvider then) {
         public static final Codec<PredicatedStateProvider.Rule> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(
                                 BlockPredicate.BASE_CODEC.fieldOf("if_true").forGetter(PredicatedStateProvider.Rule::ifTrue),

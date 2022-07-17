@@ -14,9 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public record WildVibration(
-        GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity
-) {
+public record WildVibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity) {
     public static final Codec<UUID> UUID = DynamicSerializableUuid.CODEC;
     //final GameEvent gameEvent;
     //final Vec3d pos;
@@ -31,7 +29,7 @@ public record WildVibration(
                     .apply(
                             instance,
                             (gameEvent, float_, vec3d, optional, optional2) -> new WildVibration(
-                                    gameEvent, float_, vec3d, (UUID)optional.orElse(null), (UUID)optional2.orElse(null)
+                                    gameEvent, float_, vec3d, optional.orElse(null), optional2.orElse(null)
                             )
                     )
     );
@@ -60,7 +58,7 @@ public record WildVibration(
     public Optional<Entity> getOwner(ServerWorld world) {
         return this.getEntity(world)
                 .filter(entity -> entity instanceof ProjectileEntity)
-                .map(entity -> (ProjectileEntity)entity)
+                .map(entity -> (ProjectileEntity) entity)
                 .map(ProjectileEntity::getOwner)
                 .or(() -> Optional.ofNullable(this.projectileOwnerUuid).map(world::getEntity));
     }

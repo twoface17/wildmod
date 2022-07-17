@@ -3,9 +3,9 @@ package net.frozenblock.wildmod.mixins;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
-import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.GameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
+import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
@@ -40,17 +40,18 @@ public class SculkSensorBlockEntityMixin extends BlockEntity implements Vibratio
     private static final Logger LOGGER = LogUtils.getLogger();
 
     private static int getPower(float distance, int range) {
-        double d = (double)distance / (double)range;
+        double d = (double) distance / (double) range;
         return Math.max(1, 15 - MathHelper.floor(d * 15.0));
     }
 
-    @Shadow private int lastVibrationFrequency;
+    @Shadow
+    private int lastVibrationFrequency;
 
     private VibrationListener vibrationListener;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void SculkSensorBlockEntity(BlockPos pos, BlockState state, CallbackInfo ci) {
-        this.vibrationListener = new VibrationListener(new WildBlockPositionSource(this.pos), ((SculkSensorBlock)state.getBlock()).getRange(), this, null, 0.0F, 0);
+        this.vibrationListener = new VibrationListener(new WildBlockPositionSource(this.pos), ((SculkSensorBlock) state.getBlock()).getRange(), this, null, 0.0F, 0);
     }
 
     /**
@@ -91,9 +92,7 @@ public class SculkSensorBlockEntityMixin extends BlockEntity implements Vibratio
     @Override
     public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable WildGameEvents.Emitter emitter) {
         SculkSensorBlockEntity sculk = SculkSensorBlockEntity.class.cast(this);
-        return !sculk.isRemoved() && (!pos.equals(sculk.getPos()) || event != net.minecraft.world.event.GameEvent.BLOCK_DESTROY && event != net.minecraft.world.event.GameEvent.BLOCK_PLACE)
-                ? SculkSensorBlock.isInactive(sculk.getCachedState())
-                : false;
+        return !sculk.isRemoved() && (!pos.equals(sculk.getPos()) || event != GameEvent.BLOCK_DESTROY && event != GameEvent.BLOCK_PLACE) && SculkSensorBlock.isInactive(sculk.getCachedState());
     }
 
     @Override

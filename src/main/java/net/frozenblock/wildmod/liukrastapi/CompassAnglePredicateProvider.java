@@ -27,7 +27,7 @@ public class CompassAnglePredicateProvider implements UnclampedModelPredicatePro
 
     @Override
     public float unclampedCall(ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity livingEntity, int i) {
-        Entity entity = (Entity)(livingEntity != null ? livingEntity : itemStack.getHolder());
+        Entity entity = livingEntity != null ? livingEntity : itemStack.getHolder();
         if (entity == null) {
             return 0.0F;
         } else {
@@ -47,8 +47,8 @@ public class CompassAnglePredicateProvider implements UnclampedModelPredicatePro
             this.aimlessInterpolator.update(time, Math.random());
         }
 
-        double d = this.aimlessInterpolator.value + (double)((float)this.scatter(seed) / 2.14748365E9F);
-        return MathHelper.floorMod((float)d, 1.0F);
+        double d = this.aimlessInterpolator.value + (double) ((float) this.scatter(seed) / 2.14748365E9F);
+        return MathHelper.floorMod((float) d, 1.0F);
     }
 
     private float getAngleTo(Entity entity, long time, BlockPos pos) {
@@ -60,16 +60,16 @@ public class CompassAnglePredicateProvider implements UnclampedModelPredicatePro
             }
 
             double f = d + this.aimedInterpolator.value;
-            return MathHelper.floorMod((float)f, 1.0F);
+            return MathHelper.floorMod((float) f, 1.0F);
         }
 
         double f = 0.5 - (e - 0.25 - d);
-        return MathHelper.floorMod((float)f, 1.0F);
+        return MathHelper.floorMod((float) f, 1.0F);
     }
 
     @Nullable
     private ClientWorld getClientWorld(Entity entity, @Nullable ClientWorld world) {
-        return world == null && entity.world instanceof ClientWorld ? (ClientWorld)entity.world : world;
+        return world == null && entity.world instanceof ClientWorld ? (ClientWorld) entity.world : world;
     }
 
     private boolean canPointTo(Entity entity, @Nullable GlobalPos pos) {
@@ -82,7 +82,7 @@ public class CompassAnglePredicateProvider implements UnclampedModelPredicatePro
     }
 
     private double method_43213(Entity entity) {
-        return MathHelper.floorMod((double)(entity.getYaw() / 360.0F), 1.0);
+        return MathHelper.floorMod(entity.getYaw() / 360.0F, 1.0);
     }
 
     /**

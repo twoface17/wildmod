@@ -49,10 +49,10 @@ public class BiasedLongJumpTask<E extends MobEntity> extends WildLongJumpTask<E>
         } else {
             BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-            while(!this.targets.isEmpty()) {
+            while (!this.targets.isEmpty()) {
                 Optional<Target> optional = super.getTarget(world);
                 if (optional.isPresent()) {
-                    Target target = (Target)optional.get();
+                    Target target = optional.get();
                     if (world.getBlockState(mutable.set(target.getPos(), Direction.DOWN)).isIn(this.favoredBlocks)) {
                         return optional;
                     }
@@ -61,7 +61,7 @@ public class BiasedLongJumpTask<E extends MobEntity> extends WildLongJumpTask<E>
                 }
             }
 
-            return !this.unfavoredTargets.isEmpty() ? Optional.of((Target)this.unfavoredTargets.remove(0)) : Optional.empty();
+            return !this.unfavoredTargets.isEmpty() ? Optional.of(this.unfavoredTargets.remove(0)) : Optional.empty();
         }
     }
 

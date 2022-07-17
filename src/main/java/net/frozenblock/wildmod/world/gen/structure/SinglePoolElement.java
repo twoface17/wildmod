@@ -46,7 +46,7 @@ public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolEl
         Optional<Identifier> optional = either.left();
         return !optional.isPresent()
                 ? DataResult.error("Can not serialize a runtime pool element")
-                : Identifier.CODEC.encode((Identifier)optional.get(), dynamicOps, object);
+                : Identifier.CODEC.encode(optional.get(), dynamicOps, object);
     }
 
     protected static <E extends SinglePoolElement> RecordCodecBuilder<E, RegistryEntry<StructureProcessorList>> processorsGetter() {
@@ -73,7 +73,7 @@ public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolEl
     }
 
     private Structure getStructure(StructureManager structureManager) {
-        return (Structure)this.location.map(structureManager::getStructureOrBlank, Function.identity());
+        return this.location.map(structureManager::getStructureOrBlank, Function.identity());
     }
 
     public List<Structure.StructureBlockInfo> getDataStructureBlocks(StructureManager structureManager, BlockPos pos, BlockRotation rotation, boolean mirroredAndRotated) {
@@ -83,7 +83,7 @@ public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolEl
         );
         List<Structure.StructureBlockInfo> list2 = Lists.newArrayList();
 
-        for(Structure.StructureBlockInfo structureBlockInfo : list) {
+        for (Structure.StructureBlockInfo structureBlockInfo : list) {
             if (structureBlockInfo.nbt != null) {
                 StructureBlockMode structureBlockMode = StructureBlockMode.valueOf(structureBlockInfo.nbt.getString("mode"));
                 if (structureBlockMode == StructureBlockMode.DATA) {
@@ -100,7 +100,7 @@ public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolEl
         ObjectArrayList<Structure.StructureBlockInfo> objectArrayList = (ObjectArrayList<Structure.StructureBlockInfo>) structure.getInfosForBlock(
                 pos, new StructurePlacementData().setRotation(rotation), Blocks.JIGSAW, true
         );
-        WildUtil.shuffle(objectArrayList, (WildAbstractRandom)random);
+        WildUtil.shuffle(objectArrayList, (WildAbstractRandom) random);
         return objectArrayList;
     }
 
@@ -123,13 +123,13 @@ public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolEl
     ) {
         Structure structure = this.getStructure(structureManager);
         StructurePlacementData structurePlacementData = this.createPlacementData(rotation, box, keepJigsaws);
-        if (!structure.place(world, pos, blockPos, structurePlacementData, (Random) random, 18)) {
+        if (!structure.place(world, pos, blockPos, structurePlacementData, random, 18)) {
             return false;
         } else {
-            for(Structure.StructureBlockInfo structureBlockInfo : Structure.process(
+            for (Structure.StructureBlockInfo structureBlockInfo : Structure.process(
                     world, pos, blockPos, structurePlacementData, this.getDataStructureBlocks(structureManager, pos, rotation, false)
             )) {
-                this.method_16756(world, structureBlockInfo, pos, rotation, (Random) random, box);
+                this.method_16756(world, structureBlockInfo, pos, rotation, random, box);
             }
 
             return true;
@@ -148,7 +148,7 @@ public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolEl
             structurePlacementData.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
         }
 
-        ((StructureProcessorList)this.processors.value()).getList().forEach(structurePlacementData::addProcessor);
+        this.processors.value().getList().forEach(structurePlacementData::addProcessor);
         this.getProjection().getProcessors().forEach(structurePlacementData::addProcessor);
         return structurePlacementData;
     }

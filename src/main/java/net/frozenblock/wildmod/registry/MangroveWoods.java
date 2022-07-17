@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.registry;
 
-import com.google.common.collect.Maps;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
@@ -23,9 +22,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
-
-import java.util.Map;
-import java.util.stream.Stream;
 
 public abstract class MangroveWoods {
 
@@ -82,7 +78,7 @@ public abstract class MangroveWoods {
             .build();
 
     public static void RegisterMangrove() {
-            
+
 
         // REGISTERING BLOCKS
 
@@ -154,26 +150,26 @@ public abstract class MangroveWoods {
         Registry.register(Registry.ITEM, new Identifier(WildMod.MOD_ID, "mangrove_fence_gate"),
                 new BlockItem(MANGROVE_FENCE_GATE, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
-        
+
         StrippableBlockRegistry.register(MANGROVE_LOG, STRIPPED_MANGROVE_LOG);
-        
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_LOG,5,5);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_WOOD,5,5);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_PLANKS,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_STAIRS,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_DOOR,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_FENCE,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_SLAB,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_FENCE_GATE,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_PRESSURE_PLATE,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_TRAPDOOR,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_LEAVES,100,60);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_ROOTS,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_PROPAGULE,100,60);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_BUTTON,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_SIGN,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_WALL_SIGN,5,20);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.STRIPPED_MANGROVE_LOG,5,5);
-        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.STRIPPED_MANGROVE_WOOD,5,5);
+
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_LOG, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_WOOD, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_PLANKS, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_STAIRS, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_DOOR, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_FENCE, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_SLAB, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_FENCE_GATE, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_PRESSURE_PLATE, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_TRAPDOOR, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_LEAVES, 100, 60);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_ROOTS, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_PROPAGULE, 100, 60);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_BUTTON, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_SIGN, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.MANGROVE_WALL_SIGN, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.STRIPPED_MANGROVE_LOG, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(MangroveWoods.STRIPPED_MANGROVE_WOOD, 5, 5);
     }
 }

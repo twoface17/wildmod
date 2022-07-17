@@ -39,7 +39,7 @@ public class MangroveRootPlacer extends RootPlacer {
         List<BlockPos> list = Lists.newArrayList();
         BlockPos.Mutable mutable = pos.mutableCopy();
 
-        while(mutable.getY() < trunkPos.getY()) {
+        while (mutable.getY() < trunkPos.getY()) {
             if (!this.canGrowThrough(world, mutable)) {
                 return false;
             }
@@ -49,7 +49,7 @@ public class MangroveRootPlacer extends RootPlacer {
 
         list.add(trunkPos.down());
 
-        for(Direction direction : Direction.Type.HORIZONTAL) {
+        for (Direction direction : Direction.Type.HORIZONTAL) {
             BlockPos blockPos = trunkPos.offset(direction);
             List<BlockPos> list2 = Lists.newArrayList();
             if (!this.canGrow(world, random, blockPos, direction, trunkPos, list2, 0)) {
@@ -60,7 +60,7 @@ public class MangroveRootPlacer extends RootPlacer {
             list.add(trunkPos.offset(direction));
         }
 
-        for(BlockPos blockPos2 : list) {
+        for (BlockPos blockPos2 : list) {
             this.placeRoots(world, replacer, random, blockPos2, config);
         }
 
@@ -72,7 +72,7 @@ public class MangroveRootPlacer extends RootPlacer {
     ) {
         int i = this.mangroveRootPlacement.maxRootLength();
         if (rootLength != i && offshootPositions.size() <= i) {
-            for(BlockPos blockPos : this.getOffshootPositions(pos, direction, random, origin)) {
+            for (BlockPos blockPos : this.getOffshootPositions(pos, direction, random, origin)) {
                 if (this.canGrowThrough(world, blockPos)) {
                     offshootPositions.add(blockPos);
                     if (!this.canGrow(world, random, blockPos, direction, origin, offshootPositions, rootLength + 1)) {

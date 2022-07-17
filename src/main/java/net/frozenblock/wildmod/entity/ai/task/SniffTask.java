@@ -22,22 +22,22 @@ public class SniffTask<E extends WardenEntity> extends Task<E> {
 
     public SniffTask(int i) {
         super(ImmutableMap.of(
-                RegisterMemoryModules.IS_SNIFFING,
-                MemoryModuleState.VALUE_PRESENT,
-                MemoryModuleType.ATTACK_TARGET,
-                MemoryModuleState.VALUE_ABSENT,
-                MemoryModuleType.WALK_TARGET,
-                MemoryModuleState.VALUE_ABSENT,
-                MemoryModuleType.LOOK_TARGET,
-                MemoryModuleState.REGISTERED,
-                MemoryModuleType.NEAREST_ATTACKABLE,
-                MemoryModuleState.REGISTERED,
-                RegisterMemoryModules.DISTURBANCE_LOCATION,
-                MemoryModuleState.REGISTERED,
-                RegisterMemoryModules.SNIFF_COOLDOWN,
-                MemoryModuleState.REGISTERED
-            ),
-            i
+                        RegisterMemoryModules.IS_SNIFFING,
+                        MemoryModuleState.VALUE_PRESENT,
+                        MemoryModuleType.ATTACK_TARGET,
+                        MemoryModuleState.VALUE_ABSENT,
+                        MemoryModuleType.WALK_TARGET,
+                        MemoryModuleState.VALUE_ABSENT,
+                        MemoryModuleType.LOOK_TARGET,
+                        MemoryModuleState.REGISTERED,
+                        MemoryModuleType.NEAREST_ATTACKABLE,
+                        MemoryModuleState.REGISTERED,
+                        RegisterMemoryModules.DISTURBANCE_LOCATION,
+                        MemoryModuleState.REGISTERED,
+                        RegisterMemoryModules.SNIFF_COOLDOWN,
+                        MemoryModuleState.REGISTERED
+                ),
+                i
         );
     }
 

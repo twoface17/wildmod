@@ -23,13 +23,13 @@ public abstract class WildBlockWithEntity extends Block implements WildBlockEnti
     public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
         super.onSyncedBlockEvent(state, world, pos, type, data);
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        return blockEntity == null ? false : blockEntity.onSyncedBlockEvent(type, data);
+        return blockEntity != null && blockEntity.onSyncedBlockEvent(type, data);
     }
 
     @Nullable
     public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
+        return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory) blockEntity : null;
     }
 
     @Nullable

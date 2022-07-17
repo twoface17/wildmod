@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.liukrastapi.MathAdvanced;
+import net.frozenblock.wildmod.liukrastapi.AdvancedMath;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -23,17 +23,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LightmapTextureManager.class)
 public class LightmapTextureManagerMixin implements AutoCloseable {
 
-    @Shadow @Final private NativeImage image;
+    @Shadow
+    @Final
+    private NativeImage image;
 
-    @Shadow @Final private NativeImageBackedTexture texture;
+    @Shadow
+    @Final
+    private NativeImageBackedTexture texture;
 
-    @Shadow private boolean dirty;
+    @Shadow
+    private boolean dirty;
 
-    @Shadow @Final private MinecraftClient client;
+    @Shadow
+    @Final
+    private MinecraftClient client;
 
-    @Shadow private float flickerIntensity;
+    @Shadow
+    private float flickerIntensity;
 
-    @Shadow @Final private GameRenderer renderer;
+    @Shadow
+    @Final
+    private GameRenderer renderer;
 
     public double time;
 
@@ -59,7 +69,7 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
 
     private float getDarkness(LivingEntity livingEntity, float f, float g) {
         float h = 0.45F * f;
-        return Math.max(0.0F, MathHelper.cos(((float)livingEntity.age - g) * 3.1415927F * 0.025F) * h);
+        return Math.max(0.0F, MathHelper.cos(((float) livingEntity.age - g) * 3.1415927F * 0.025F) * h);
     }
 
     @Inject(at = @At("HEAD"), method = "update")
@@ -68,10 +78,10 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
             this.dirty = false;
             this.client.getProfiler().push("lightTex");
             ClientWorld clientWorld = this.client.world;
-            if (clientWorld!=null) {
+            if (clientWorld != null) {
                 float f = clientWorld.getStarBrightness(1.0F);
                 float g;
-                if (clientWorld.getLightningTicksLeft()>0) {
+                if (clientWorld.getLightningTicksLeft() > 0) {
                     g = 1.0F;
                 } else {
                     g = f * 0.95F + 0.05F;
@@ -96,8 +106,8 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
                 float m = this.flickerIntensity + 1.5F;
                 Vec3f vec3f2 = new Vec3f();
 
-                for(int n = 0; n < 16; ++n) {
-                    for(int o = 0; o < 16; ++o) {
+                for (int n = 0; n < 16; ++n) {
+                    for (int o = 0; o < 16; ++o) {
                         float p = getBrightness(clientWorld, n) * g;
                         float q = getBrightness(clientWorld, o) * m;
                         float s = q * ((q * 0.6F + 0.4F) * 0.6F + 0.4F);
@@ -141,7 +151,7 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
                             vec3f2.clamp(0.0F, 1.0F);
                         }
 
-                        v = ((Double)this.client.options.gamma).floatValue();
+                        v = ((Double) this.client.options.gamma).floatValue();
                         Vec3f vec3f5 = vec3f2.copy();
                         vec3f5.modify(this::easeOutQuart);
                         vec3f2.lerp(vec3f5, Math.max(0.0F, v - i));
@@ -149,9 +159,9 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
                         vec3f2.clamp(0.0F, 1.0F);
                         vec3f2.scale(255.0F);
                         boolean w = true;
-                        int x = (int)vec3f2.getX();
-                        int y = (int)vec3f2.getY();
-                        int z = (int)vec3f2.getZ();
+                        int x = (int) vec3f2.getX();
+                        int y = (int) vec3f2.getY();
+                        int z = (int) vec3f2.getZ();
                         this.image.setColor(o, n, -16777216 | z << 16 | y << 8 | x);
                     }
                 }
@@ -168,7 +178,7 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
 
         assert this.client.player != null;
         if (this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
-            dark = MathAdvanced.cutCos(time, 0, true) * 1.6;
+            dark = AdvancedMath.cutCos(time, 0, true) * 1.6;
         } else {
             dark = 0;
         }
@@ -265,7 +275,7 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
     }
 
     private float getBrightness(ClientWorld world, int lightLevel) {
-        float f = (float)lightLevel / 15.0F;
+        float f = (float) lightLevel / 15.0F;
         float g = f / (4.0F - 3.0F * f);
         return MathHelper.lerp(world.getDimension().getBrightness(lightLevel), g, 1.0F);
     }

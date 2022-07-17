@@ -121,8 +121,8 @@ public abstract class WildRenderPhase extends net.minecraft.client.render.Render
 
     private static void setupGlintTexturing(float scale) {
         long l = Util.getMeasuringTimeMs() * 8L;
-        float f = (float)(l % 110000L) / 110000.0F;
-        float g = (float)(l % 30000L) / 30000.0F;
+        float f = (float) (l % 110000L) / 110000.0F;
+        float g = (float) (l % 30000L) / 30000.0F;
         Matrix4f matrix4f = Matrix4f.translate(-f, g, 0.0F);
         matrix4f.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(10.0F));
         matrix4f.multiply(Matrix4f.scale(scale, scale, scale));
@@ -243,12 +243,14 @@ public abstract class WildRenderPhase extends net.minecraft.client.render.Render
         });
         FULL_LINE_WIDTH = new LineWidth(OptionalDouble.of(1.0));
     }
+
     @Environment(EnvType.CLIENT)
     protected static class Transparency extends WildRenderPhase {
         public Transparency(String string, Runnable runnable, Runnable runnable2) {
             super(string, runnable, runnable2);
         }
     }
+
     @Environment(EnvType.CLIENT)
     public static class Shader extends WildRenderPhase {
         private final Optional<Supplier<net.minecraft.client.render.Shader>> supplier;
@@ -275,6 +277,7 @@ public abstract class WildRenderPhase extends net.minecraft.client.render.Render
             return this.name + "[" + this.supplier + "]";
         }
     }
+
     @Environment(EnvType.CLIENT)
     protected static class Texture extends TextureBase {
         private final Optional<Identifier> id;
@@ -343,6 +346,7 @@ public abstract class WildRenderPhase extends net.minecraft.client.render.Render
             }, lightmap);
         }
     }
+
     @Environment(EnvType.CLIENT)
     protected static class Overlay extends Toggleable {
         public Overlay(boolean overlayColor) {
@@ -359,6 +363,7 @@ public abstract class WildRenderPhase extends net.minecraft.client.render.Render
             }, overlayColor);
         }
     }
+
     @Environment(EnvType.CLIENT)
     protected static class Cull extends Toggleable {
         public Cull(boolean culling) {
@@ -375,6 +380,7 @@ public abstract class WildRenderPhase extends net.minecraft.client.render.Render
             }, culling);
         }
     }
+
     @Environment(EnvType.CLIENT)
     protected static class DepthTest extends WildRenderPhase {
         private final String depthFunctionName;
@@ -457,9 +463,9 @@ public abstract class WildRenderPhase extends net.minecraft.client.render.Render
             super("line_width", () -> {
                 if (!Objects.equals(width, OptionalDouble.of(1.0))) {
                     if (width.isPresent()) {
-                        RenderSystem.lineWidth((float)width.getAsDouble());
+                        RenderSystem.lineWidth((float) width.getAsDouble());
                     } else {
-                        RenderSystem.lineWidth(Math.max(2.5F, (float)MinecraftClient.getInstance().getWindow().getFramebufferWidth() / 1920.0F * 2.5F));
+                        RenderSystem.lineWidth(Math.max(2.5F, (float) MinecraftClient.getInstance().getWindow().getFramebufferWidth() / 1920.0F * 2.5F));
                     }
                 }
 

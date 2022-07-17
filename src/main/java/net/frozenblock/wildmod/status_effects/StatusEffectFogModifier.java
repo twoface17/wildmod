@@ -25,7 +25,7 @@ interface StatusEffectFogModifier {
         StatusEffectInstance statusEffectInstance = (StatusEffectInstance) entity.getStatusEffect(this.getStatusEffect());
         if (statusEffectInstance != null) {
             if (statusEffectInstance.getDuration() < 20) {
-                f = 1.0F - (float)statusEffectInstance.getDuration() / 20.0F;
+                f = 1.0F - (float) statusEffectInstance.getDuration() / 20.0F;
             } else {
                 f = 0.0F;
             }
@@ -35,7 +35,7 @@ interface StatusEffectFogModifier {
     }
 
     @Environment(EnvType.CLIENT)
-    static class FogData {
+    class FogData {
         public final BackgroundRenderer.FogType fogType;
         public float fogStart;
         public float fogEnd;
@@ -47,16 +47,16 @@ interface StatusEffectFogModifier {
     }
 
     @Environment(EnvType.CLIENT)
-    public static enum FogType {
+    enum FogType {
         FOG_SKY,
         FOG_TERRAIN;
 
-        private FogType() {
+        FogType() {
         }
     }
 
     @Environment(EnvType.CLIENT)
-    static class BlindnessFogModifier implements StatusEffectFogModifier {
+    class BlindnessFogModifier implements StatusEffectFogModifier {
         public BlindnessFogModifier() {
         }
 
@@ -69,7 +69,7 @@ interface StatusEffectFogModifier {
         public void applyStartEndModifier(
                 FogData fogData, LivingEntity entity, StatusEffectInstance effect, float viewDistance, float tickDelta
         ) {
-            float f = MathHelper.lerp(Math.min(1.0F, (float)effect.getDuration() / 20.0F), viewDistance, 5.0F);
+            float f = MathHelper.lerp(Math.min(1.0F, (float) effect.getDuration() / 20.0F), viewDistance, 5.0F);
             if (fogData.fogType == BackgroundRenderer.FogType.FOG_SKY) {
                 fogData.fogStart = 0.0F;
                 fogData.fogEnd = f * 0.8F;
@@ -82,7 +82,7 @@ interface StatusEffectFogModifier {
     }
 
     @Environment(EnvType.CLIENT)
-    static class DarknessFogModifier implements StatusEffectFogModifier {
+    class DarknessFogModifier implements StatusEffectFogModifier {
         public DarknessFogModifier() {
         }
 

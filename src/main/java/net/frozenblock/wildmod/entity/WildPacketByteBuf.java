@@ -27,7 +27,7 @@ public class WildPacketByteBuf extends PacketByteBuf {
         }
     }
 
-    public  <T> Optional<T> readOptional(PacketReader<T> arg) {
+    public <T> Optional<T> readOptional(PacketReader<T> arg) {
         return this.readBoolean() ? Optional.of(arg.apply(this)) : Optional.empty();
     }
 
@@ -87,6 +87,6 @@ public class WildPacketByteBuf extends PacketByteBuf {
     @Nullable
     public <T> T readRegistryValue(IndexedIterable<T> registry) {
         int i = this.readVarInt();
-        return (T)registry.get(i);
+        return registry.get(i);
     }
 }

@@ -21,7 +21,7 @@ public class LookAtDisturbanceTask extends Task<WardenEntity> {
     }
 
     protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
-        BlockPos blockPos = (BlockPos)wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.ROAR_TARGET).map(Entity::getBlockPos).or(() -> {
+        BlockPos blockPos = wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.ROAR_TARGET).map(Entity::getBlockPos).or(() -> {
             return wardenEntity.getBrain().getOptionalMemory(RegisterMemoryModules.DISTURBANCE_LOCATION);
         }).get();
         wardenEntity.getBrain().remember(MemoryModuleType.LOOK_TARGET, (new BlockPosLookTarget(blockPos)));

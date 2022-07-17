@@ -17,7 +17,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.state.property.Property;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -35,7 +34,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
 
     public SculkVeinBlock(Settings settings) {
         super(settings);
-        this.setDefaultState((BlockState)this.getDefaultState().with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(WATERLOGGED, false));
     }
 
     public LichenGrower getGrower() {
@@ -50,7 +49,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
         boolean bl = false;
         BlockState blockState = RegisterBlocks.SCULK_VEIN.getDefaultState();
 
-        for(Direction direction : directions) {
+        for (Direction direction : directions) {
             BlockPos blockPos = pos.offset(direction);
             if (canGrowOn(world, direction, blockPos, world.getBlockState(blockPos))) {
                 blockState = blockState.with(getProperty(direction), true);
@@ -72,7 +71,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
 
     public void spreadAtSamePosition(WorldAccess world, BlockState state, BlockPos pos, Random random) {
         if (state.isOf(this)) {
-            for(Direction direction : DIRECTIONS) {
+            for (Direction direction : DIRECTIONS) {
                 BooleanProperty booleanProperty = getProperty(direction);
                 if (state.get(booleanProperty) && world.getBlockState(pos.offset(direction)).isOf(RegisterBlocks.SCULK)) {
                     state = state.with(booleanProperty, false);
@@ -95,7 +94,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
         if (shouldConvertToBlock && this.convertToBlock(spreadManager, world, cursor.getPos(), random)) {
             return cursor.getCharge() - 1;
         } else {
-            return random.nextInt(spreadManager.getSpreadChance()) == 0 ? MathHelper.floor((float)cursor.getCharge() * 0.5F) : cursor.getCharge();
+            return random.nextInt(spreadManager.getSpreadChance()) == 0 ? MathHelper.floor((float) cursor.getCharge() * 0.5F) : cursor.getCharge();
         }
     }
 
@@ -103,7 +102,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
         BlockState blockState = world.getBlockState(pos);
         TagKey<Block> tagKey = spreadManager.getReplaceableTag();
 
-        for(Direction direction : WildDirection.shuffle(random)) {
+        for (Direction direction : WildDirection.shuffle(random)) {
             if (hasDirection(blockState, direction)) {
                 BlockPos blockPos = pos.offset(direction);
                 if (world.getBlockState(blockPos).isIn(tagKey)) {
@@ -113,7 +112,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
                     this.allGrowTypeGrower.grow(blockState2, world, blockPos, spreadManager.isWorldGen());
                     Direction direction2 = direction.getOpposite();
 
-                    for(Direction direction3 : DIRECTIONS) {
+                    for (Direction direction3 : DIRECTIONS) {
                         if (direction3 != direction2) {
                             BlockPos blockPos2 = blockPos.offset(direction3);
                             BlockState blockState3 = world.getBlockState(blockPos2);
@@ -135,7 +134,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
         if (!state.isOf(RegisterBlocks.SCULK_VEIN)) {
             return false;
         } else {
-            for(Direction direction : DIRECTIONS) {
+            for (Direction direction : DIRECTIONS) {
                 if (hasDirection(state, direction) && world.getBlockState(pos.offset(direction)).isIn(RegisterTags.SCULK_REPLACEABLE)) {
                     return true;
                 }
@@ -157,7 +156,7 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(new Property[]{WATERLOGGED});
+        builder.add(WATERLOGGED);
     }
 
     public boolean canReplace(BlockState state, ItemPlacementContext context) {

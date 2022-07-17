@@ -74,7 +74,7 @@ public abstract class WildTrunkPlacer {
 
     protected boolean getAndSetState(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos pos, WildTreeFeatureConfig config, Function<BlockState, BlockState> function) {
         if (this.canReplace(world, pos)) {
-            replacer.accept(pos, (BlockState)function.apply(config.trunkProvider.getBlockState(random, pos)));
+            replacer.accept(pos, function.apply(config.trunkProvider.getBlockState(random, pos)));
             return true;
         } else {
             return false;

@@ -22,9 +22,12 @@ import java.util.stream.Collectors;
 @Mixin(VillagerEntity.class)
 public abstract class VillagerEntityMixin extends MerchantEntity implements InteractionObserver, VillagerDataContainer {
 
-    @Shadow @Final private VillagerGossips gossip;
+    @Shadow
+    @Final
+    private VillagerGossips gossip;
 
-    @Shadow protected abstract boolean hasRecentlySlept(long worldTime);
+    @Shadow
+    protected abstract boolean hasRecentlySlept(long worldTime);
 
     public VillagerEntityMixin(EntityType<? extends MerchantEntity> entityType, World world) {
         super(entityType, world);

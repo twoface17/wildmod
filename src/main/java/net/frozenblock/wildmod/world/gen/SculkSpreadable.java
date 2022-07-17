@@ -19,9 +19,9 @@ public interface SculkSpreadable {
         @Override
         public boolean spread(WorldAccess world, BlockPos pos, BlockState state, @Nullable Collection<Direction> directions, boolean markForPostProcessing) {
             if (directions == null) {
-                return ((SculkVeinBlock)RegisterBlocks.SCULK_VEIN).getSamePositionOnlyGrower().grow(world.getBlockState(pos), world, pos, markForPostProcessing) > 0L;
+                return ((SculkVeinBlock) RegisterBlocks.SCULK_VEIN).getSamePositionOnlyGrower().grow(world.getBlockState(pos), world, pos, markForPostProcessing) > 0L;
             } else if (!directions.isEmpty()) {
-                return !state.isAir() && !state.getFluidState().isOf(Fluids.WATER) ? false : SculkVeinBlock.place(world, pos, state, directions);
+                return (state.isAir() || state.getFluidState().isOf(Fluids.WATER)) && SculkVeinBlock.place(world, pos, state, directions);
             } else {
                 return SculkSpreadable.super.spread(world, pos, state, directions, markForPostProcessing);
             }
@@ -52,7 +52,7 @@ public interface SculkSpreadable {
     }
 
     default boolean spread(WorldAccess world, BlockPos pos, BlockState state, @Nullable Collection<Direction> directions, boolean markForPostProcessing) {
-        return ((MultifaceGrowthBlock)RegisterBlocks.SCULK_VEIN).getGrower().grow(state, world, pos, markForPostProcessing) > 0L;
+        return ((MultifaceGrowthBlock) RegisterBlocks.SCULK_VEIN).getGrower().grow(state, world, pos, markForPostProcessing) > 0L;
     }
 
     default boolean shouldConvertToSpreadable() {

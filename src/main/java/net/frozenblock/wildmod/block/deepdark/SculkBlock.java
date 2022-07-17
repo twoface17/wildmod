@@ -28,7 +28,7 @@ public class SculkBlock extends OreBlock implements SculkSpreadable {
         int i = cursor.getCharge();
         if (i != 0 && random.nextInt(spreadManager.getSpreadChance()) == 0) {
             BlockPos blockPos = cursor.getPos();
-            boolean bl = blockPos.isWithinDistance(catalystPos, (double)spreadManager.getMaxDistance());
+            boolean bl = blockPos.isWithinDistance(catalystPos, spreadManager.getMaxDistance());
             if (!bl && shouldNotDecay(world, blockPos)) {
                 int j = spreadManager.getExtraBlockChance();
                 if (random.nextInt(j) < i) {
@@ -49,22 +49,22 @@ public class SculkBlock extends OreBlock implements SculkSpreadable {
 
     private static int getDecay(SculkSpreadManager spreadManager, BlockPos cursorPos, BlockPos catalystPos, int charge) {
         int i = spreadManager.getMaxDistance();
-        float f = MathHelper.square((float)Math.sqrt(cursorPos.getSquaredDistance(catalystPos)) - (float)i);
+        float f = MathHelper.square((float) Math.sqrt(cursorPos.getSquaredDistance(catalystPos)) - (float) i);
         int j = MathHelper.square(24 - i);
-        float g = Math.min(1.0F, f / (float)j);
-        return Math.max(1, (int)((float)charge * g * 0.5F));
+        float g = Math.min(1.0F, f / (float) j);
+        return Math.max(1, (int) ((float) charge * g * 0.5F));
     }
 
     private BlockState getExtraBlockState(WorldAccess world, BlockPos pos, Random random, boolean allowShrieker) {
         BlockState blockState;
         if (random.nextInt(11) == 0) {
-            blockState = (BlockState) RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.CAN_SUMMON, allowShrieker);
+            blockState = RegisterBlocks.SCULK_SHRIEKER.getDefaultState().with(SculkShriekerBlock.CAN_SUMMON, allowShrieker);
         } else {
             blockState = Blocks.SCULK_SENSOR.getDefaultState();
         }
 
         return blockState.contains(Properties.WATERLOGGED) && !world.getFluidState(pos).isEmpty()
-                ? (BlockState)blockState.with(Properties.WATERLOGGED, true)
+                ? blockState.with(Properties.WATERLOGGED, true)
                 : blockState;
     }
 
@@ -73,7 +73,7 @@ public class SculkBlock extends OreBlock implements SculkSpreadable {
         if (blockState.isAir() || blockState.isOf(Blocks.WATER) && blockState.getFluidState().isOf(Fluids.WATER)) {
             int i = 0;
 
-            for(BlockPos blockPos : BlockPos.iterate(pos.add(-4, 0, -4), pos.add(4, 2, 4))) {
+            for (BlockPos blockPos : BlockPos.iterate(pos.add(-4, 0, -4), pos.add(4, 2, 4))) {
                 BlockState blockState2 = world.getBlockState(blockPos);
                 if (blockState2.isOf(Blocks.SCULK_SENSOR) || blockState2.isOf(RegisterBlocks.SCULK_SHRIEKER)) {
                     ++i;

@@ -8,7 +8,9 @@ import net.minecraft.util.registry.RegistryCodecs;
 import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
-public record MangroveRootPlacement(RegistryEntryList<Block> canGrowThrough, RegistryEntryList<Block> muddyRootsIn, BlockStateProvider muddyRootsProvider, int maxRootWidth, int maxRootLength, float randomSkewChance) {
+public record MangroveRootPlacement(RegistryEntryList<Block> canGrowThrough, RegistryEntryList<Block> muddyRootsIn,
+                                    BlockStateProvider muddyRootsProvider, int maxRootWidth, int maxRootLength,
+                                    float randomSkewChance) {
     public static final Codec<MangroveRootPlacement> CODEC = RecordCodecBuilder.create((instance) -> {
         return instance.group(RegistryCodecs.entryList(Registry.BLOCK_KEY).fieldOf("can_grow_through").forGetter((rootPlacement) -> {
             return rootPlacement.canGrowThrough;

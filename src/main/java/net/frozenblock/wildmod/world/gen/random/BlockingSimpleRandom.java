@@ -38,9 +38,9 @@ public class BlockingSimpleRandom implements BaseSimpleRandom {
         do {
             l = this.seed.get();
             m = l * 25214903917L + 11L & 281474976710655L;
-        } while(!this.seed.compareAndSet(l, m));
+        } while (!this.seed.compareAndSet(l, m));
 
-        return (int)(m >>> 48 - bits);
+        return (int) (m >>> 48 - bits);
     }
 
     public double nextGaussian() {

@@ -27,6 +27,7 @@ import net.frozenblock.wildmod.entity.render.warden.WardenEntityModel;
 import net.frozenblock.wildmod.entity.render.warden.WardenEntityRenderer;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkParticleHandler;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkSoul;
+import net.frozenblock.wildmod.liukrastapi.animation.AnimationHelper;
 import net.frozenblock.wildmod.liukrastapi.animation.Transformation;
 import net.frozenblock.wildmod.particle.SculkChargeParticle;
 import net.frozenblock.wildmod.particle.SculkChargePopParticle;
@@ -67,6 +68,8 @@ public class WildModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         Transformation.Interpolations.init();
+        AnimationHelper.init();
+
         ImmutableMap.Builder<EntityModelLayer, TexturedModelData> builder = ImmutableMap.builder();
 
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((spriteAtlasTexture, registry) -> {
@@ -116,7 +119,6 @@ public class WildModClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_CHEST_BOAT_LAYER, ChestBoatEntityModel::getTexturedModelData);
 
         EntityRendererRegistry.register(RegisterEntities.FIREFLY, FireflyEntityRenderer::new);
-
 
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {

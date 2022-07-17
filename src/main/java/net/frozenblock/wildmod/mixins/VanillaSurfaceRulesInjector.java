@@ -13,38 +13,88 @@ import org.spongepowered.asm.mixin.*;
 
 @Mixin(VanillaSurfaceRules.class)
 public abstract class VanillaSurfaceRulesInjector {
-    @Shadow @Final private static MaterialRules.MaterialRule DIRT;
-    @Shadow @Final private static MaterialRules.MaterialRule GRASS_BLOCK;
-    @Shadow @Final private static MaterialRules.MaterialRule SANDSTONE;
-    @Shadow @Final private static MaterialRules.MaterialRule SAND;
-    @Shadow @Final private static MaterialRules.MaterialRule STONE;
-    @Shadow @Final private static MaterialRules.MaterialRule GRAVEL;
-    @Shadow @Final private static MaterialRules.MaterialRule POWDER_SNOW;
-    @Shadow @Final private static MaterialRules.MaterialRule PACKED_ICE;
-    @Shadow @Final private static MaterialRules.MaterialRule ICE;
-    @Shadow @Final private static MaterialRules.MaterialRule SNOW_BLOCK;
-    @Shadow @Final private static MaterialRules.MaterialRule COARSE_DIRT;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule DIRT;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule GRASS_BLOCK;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule SANDSTONE;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule SAND;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule STONE;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule GRAVEL;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule POWDER_SNOW;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule PACKED_ICE;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule ICE;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule SNOW_BLOCK;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule COARSE_DIRT;
 
     @Shadow
     private static MaterialRules.MaterialCondition surfaceNoiseThreshold(double min) {
         return null;
     }
 
-    @Shadow @Final private static MaterialRules.MaterialRule WATER;
-    @Shadow @Final private static MaterialRules.MaterialRule TERRACOTTA;
-    @Shadow @Final private static MaterialRules.MaterialRule RED_SANDSTONE;
-    @Shadow @Final private static MaterialRules.MaterialRule RED_SAND;
-    @Shadow @Final private static MaterialRules.MaterialRule ORANGE_TERRACOTTA;
-    @Shadow @Final private static MaterialRules.MaterialRule WHITE_TERRACOTTA;
-    @Shadow @Final private static MaterialRules.MaterialRule PODZOL;
-    @Shadow @Final private static MaterialRules.MaterialRule MYCELIUM;
-    @Shadow @Final private static MaterialRules.MaterialRule AIR;
-    @Shadow @Final private static MaterialRules.MaterialRule CALCITE;
-    @Shadow @Final private static MaterialRules.MaterialRule BEDROCK;
-    @Shadow @Final private static MaterialRules.MaterialRule DEEPSLATE;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule WATER;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule TERRACOTTA;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule RED_SANDSTONE;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule RED_SAND;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule ORANGE_TERRACOTTA;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule WHITE_TERRACOTTA;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule PODZOL;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule MYCELIUM;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule AIR;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule CALCITE;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule BEDROCK;
+    @Shadow
+    @Final
+    private static MaterialRules.MaterialRule DEEPSLATE;
     @Mutable
-    @Final private static MaterialRules.MaterialRule MUD;
-    static {MUD = block(RegisterBlocks.MUD);}
+    @Final
+    private static final MaterialRules.MaterialRule MUD;
+
+    static {
+        MUD = block(RegisterBlocks.MUD);
+    }
 
     private static MaterialRules.MaterialRule block(Block block) {
         return MaterialRules.block(block.getDefaultState());
@@ -95,7 +145,7 @@ public abstract class VanillaSurfaceRulesInjector {
         MaterialRules.MaterialRule materialRule10 = MaterialRules.condition(MaterialRules.surface(), materialRule9);
         builder.add(surface ? materialRule10 : materialRule9);
         builder.add(MaterialRules.condition(MaterialRules.verticalGradient("deepslate", YOffset.fixed(0), YOffset.fixed(8)), DEEPSLATE));
-        return MaterialRules.sequence((MaterialRules.MaterialRule[])builder.build().toArray((i) -> {
+        return MaterialRules.sequence(builder.build().toArray((i) -> {
             return new MaterialRules.MaterialRule[i];
         }));
     }

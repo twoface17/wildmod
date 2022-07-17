@@ -45,27 +45,27 @@ public class TickCriterion extends AbstractCriterion<TickCriterion.Conditions> {
         }
 
         //public static Conditions createLocation(LocationPredicate location) {
-            //return new Conditions(Criteria.LOCATION.id, EntityPredicate.Extended.ofLegacy(EntityPredicate.Builder.create().location(location).build()));
+        //return new Conditions(Criteria.LOCATION.id, EntityPredicate.Extended.ofLegacy(EntityPredicate.Builder.create().location(location).build()));
         //}
 
         //public static Conditions createLocation(EntityPredicate entity) {
-            //return new Conditions(Criteria.LOCATION.id, EntityPredicate.Extended.ofLegacy(entity));
+        //return new Conditions(Criteria.LOCATION.id, EntityPredicate.Extended.ofLegacy(entity));
         //}
 
-       // public static Conditions createSleptInBed() {
-            //return new Conditions(Criteria.SLEPT_IN_BED.id, EntityPredicate.Extended.EMPTY);
-       // }
+        // public static Conditions createSleptInBed() {
+        //return new Conditions(Criteria.SLEPT_IN_BED.id, EntityPredicate.Extended.EMPTY);
+        // }
 
-       // public static Conditions createHeroOfTheVillage() {
-            //return new Conditions(Criteria.HERO_OF_THE_VILLAGE.id, EntityPredicate.Extended.EMPTY);
+        // public static Conditions createHeroOfTheVillage() {
+        //return new Conditions(Criteria.HERO_OF_THE_VILLAGE.id, EntityPredicate.Extended.EMPTY);
         //}
 
         //public static Conditions method_43279() {
-            //return new Conditions(AVOID_VIBRATION.id, EntityPredicate.Extended.EMPTY);
+        //return new Conditions(AVOID_VIBRATION.id, EntityPredicate.Extended.EMPTY);
         //}
 
         //public static Conditions createLocation(Block block, Item item) {
-            //return createLocation(EntityPredicate.Builder.create().equipment(EntityEquipmentPredicate.Builder.create().feet(ItemPredicate.Builder.create().items(new ItemConvertible[]{item}).build()).build()).steppingOn(LocationPredicate.Builder.create().block(BlockPredicate.Builder.create().blocks(new Block[]{block}).build()).build()).build());
+        //return createLocation(EntityPredicate.Builder.create().equipment(EntityEquipmentPredicate.Builder.create().feet(ItemPredicate.Builder.create().items(new ItemConvertible[]{item}).build()).build()).steppingOn(LocationPredicate.Builder.create().block(BlockPredicate.Builder.create().blocks(new Block[]{block}).build()).build()).build());
         //}
     }
 

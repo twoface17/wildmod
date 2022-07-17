@@ -2,7 +2,6 @@ package net.frozenblock.wildmod.liukrastapi.animation;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.frozenblock.wildmod.liukrastapi.animation.Transformation.Interpolation;
 import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)

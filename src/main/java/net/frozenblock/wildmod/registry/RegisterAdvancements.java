@@ -49,6 +49,6 @@ public class RegisterAdvancements extends FabricAdvancementProvider {
                 )
                 .criterion("kill_mob_near_sculk_catalyst", TickCriterion.createKillMobNearSculkCatalyst())
                 .build(
-                    consumer, "twm:adventure/kill_mob_near_sculk_catalyst");
+                        consumer, "twm:adventure/kill_mob_near_sculk_catalyst");
     }
 }

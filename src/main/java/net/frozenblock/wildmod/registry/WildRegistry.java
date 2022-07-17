@@ -12,8 +12,6 @@ import net.frozenblock.wildmod.world.feature.WildTrunkPlacerType;
 import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacerType;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.entity.data.TrackedDataHandler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
@@ -59,7 +57,7 @@ public abstract class WildRegistry<T> extends Registry<T> {
     @Nullable
     public abstract Identifier getId(T value);
 
-    public abstract Optional<RegistryKey<T>> getKey(T entry);;
+    public abstract Optional<RegistryKey<T>> getKey(T entry);
 
     public abstract int getRawId(@Nullable T value);
 

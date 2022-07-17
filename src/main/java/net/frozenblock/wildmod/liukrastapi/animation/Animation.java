@@ -11,58 +11,38 @@ import java.util.Map;
 /**
  * Base GUI interface for handling callbacks related to
  * keyboard or mouse actions.
- * 
+ * <p>
  * Mouse coordinate is bounded by the size of the window in
  * pixels.
  */
 @Environment(EnvType.CLIENT)
 public record Animation(float lengthInSeconds, boolean looping, Map<String, List<Transformation>> boneAnimations) {
-	public Animation(float lengthInSeconds, boolean looping, Map<String, List<Transformation>> boneAnimations) {
-		this.lengthInSeconds = lengthInSeconds;
-		this.looping = looping;
-		this.boneAnimations = boneAnimations;
-	}
+    @Environment(EnvType.CLIENT)
+    public static class Builder {
+        private final float lengthInSeconds;
+        private final Map<String, List<Transformation>> transformations = Maps.newHashMap();
+        private boolean looping;
 
-	public float lengthInSeconds() {
-		return this.lengthInSeconds;
-	}
+        public static Animation.Builder create(float lengthInSeconds) {
+            return new Animation.Builder(lengthInSeconds);
+        }
 
-	public boolean looping() {
-		return this.looping;
-	}
+        private Builder(float lengthInSeconds) {
+            this.lengthInSeconds = lengthInSeconds;
+        }
 
-	public Map<String, List<Transformation>> boneAnimations() {
-		return this.boneAnimations;
-	}
+        public Animation.Builder looping() {
+            this.looping = true;
+            return this;
+        }
 
-	@Environment(EnvType.CLIENT)
-	public static class Builder {
-		private final float lengthInSeconds;
-		private final Map<String, List<Transformation>> transformations = Maps.newHashMap();
-		private boolean looping;
+        public Animation.Builder addBoneAnimation(String name, Transformation transformation) {
+            this.transformations.computeIfAbsent(name, namex -> Lists.newArrayList()).add(transformation);
+            return this;
+        }
 
-		public static Builder create(float lengthInSeconds) {
-			return new Builder(lengthInSeconds);
-		}
-
-		private Builder(float lengthInSeconds) {
-			this.lengthInSeconds = lengthInSeconds;
-		}
-
-		public Builder looping() {
-			this.looping = true;
-			return this;
-		}
-
-		public Builder addBoneAnimation(String name, Transformation transformation) {
-			((List)this.transformations.computeIfAbsent(name, (namex) -> {
-				return Lists.newArrayList();
-			})).add(transformation);
-			return this;
-		}
-
-		public Animation build() {
-			return new Animation(this.lengthInSeconds, this.looping, this.transformations);
-		}
-	}
+        public Animation build() {
+            return new Animation(this.lengthInSeconds, this.looping, this.transformations);
+        }
+    }
 }

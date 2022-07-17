@@ -25,7 +25,7 @@ public class StatusEffectInstance extends net.minecraft.entity.effect.StatusEffe
     private boolean showIcon;
     @Nullable
     private StatusEffectInstance hiddenEffect;
-    private Optional<StatusEffectInstance.FactorCalculationData> factorCalculationData;
+    private final Optional<StatusEffectInstance.FactorCalculationData> factorCalculationData;
 
     public StatusEffectInstance(StatusEffect type) {
         this(type, 0, 0);
@@ -224,7 +224,7 @@ public class StatusEffectInstance extends net.minecraft.entity.effect.StatusEffe
         } else if (!(o instanceof StatusEffectInstance)) {
             return false;
         } else {
-            StatusEffectInstance statusEffectInstance = (StatusEffectInstance)o;
+            StatusEffectInstance statusEffectInstance = (StatusEffectInstance) o;
             return this.duration == statusEffectInstance.duration
                     && this.amplifier == statusEffectInstance.amplifier
                     && this.ambient == statusEffectInstance.ambient
@@ -246,7 +246,7 @@ public class StatusEffectInstance extends net.minecraft.entity.effect.StatusEffe
     }
 
     private void writeTypelessNbt(NbtCompound nbt) {
-        nbt.putByte("Amplifier", (byte)this.getAmplifier());
+        nbt.putByte("Amplifier", (byte) this.getAmplifier());
         nbt.putInt("Duration", this.getDuration());
         nbt.putBoolean("Ambient", this.isAmbient());
         nbt.putBoolean("ShowParticles", this.shouldShowParticles());
@@ -371,12 +371,12 @@ public class StatusEffectInstance extends net.minecraft.entity.effect.StatusEffe
                 this.factorTarget = bl ? 1.0F : 0.0F;
             }
 
-            float f = MathAdvanced.clamp(((float)this.effectChangedTimestamp - (float)instance.duration) / (float)this.paddingDuration, 0.0F, 1.0F);
-            this.factorCurrent = MathAdvanced.lerp(f, this.field_39111, this.factorTarget);
+            float f = AdvancedMath.clamp(((float) this.effectChangedTimestamp - (float) instance.duration) / (float) this.paddingDuration, 0.0F, 1.0F);
+            this.factorCurrent = AdvancedMath.lerp(f, this.field_39111, this.factorTarget);
         }
 
         public float lerp(float factor) {
-            return MathAdvanced.lerp(factor, this.factorPreviousFrame, this.factorCurrent);
+            return AdvancedMath.lerp(factor, this.factorPreviousFrame, this.factorCurrent);
         }
     }
 }

@@ -108,7 +108,7 @@ public class SculkSpreadManager {
                     .orElseGet(ArrayList::new);
             int i = Math.min(list.size(), 32);
 
-            for(int j = 0; j < i; ++j) {
+            for (int j = 0; j < i; ++j) {
                 this.addCursor(list.get(j));
             }
         }
@@ -124,7 +124,7 @@ public class SculkSpreadManager {
     }
 
     public void spread(BlockPos pos, int charge) {
-        while(charge > 0) {
+        while (charge > 0) {
             int i = Math.min(charge, 1000);
             this.addCursor(new SculkSpreadManager.Cursor(pos, i));
             charge -= i;
@@ -144,7 +144,7 @@ public class SculkSpreadManager {
             Map<BlockPos, SculkSpreadManager.Cursor> map = new HashMap<>();
             Object2IntMap<BlockPos> object2IntMap = new Object2IntOpenHashMap<>();
 
-            for(SculkSpreadManager.Cursor cursor : this.cursors) {
+            for (SculkSpreadManager.Cursor cursor : this.cursors) {
                 cursor.spread(world, pos, random, this, shouldConvertToBlock);
                 if (cursor.charge <= 0) {
                     world.syncWorldEvent(3006, cursor.getPos(), 0);
@@ -168,14 +168,14 @@ public class SculkSpreadManager {
 
             ObjectIterator<Object2IntMap.Entry<BlockPos>> var16 = object2IntMap.object2IntEntrySet().iterator();
 
-            while(var16.hasNext()) {
+            while (var16.hasNext()) {
                 Object2IntMap.Entry<BlockPos> entry = var16.next();
                 BlockPos blockPos = entry.getKey();
                 int i = entry.getIntValue();
                 SculkSpreadManager.Cursor cursor3 = map.get(blockPos);
                 Collection<Direction> collection = cursor3 == null ? null : cursor3.getFaces();
                 if (i > 0 && collection != null) {
-                    int j = (int)(Math.log1p(i) / 2.3F) + 1;
+                    int j = (int) (Math.log1p(i) / 2.3F) + 1;
                     int k = (j << 6) + MultifaceGrowthBlock.directionsToFlag(collection);
                     world.syncWorldEvent(3006, blockPos, k);
                 }
@@ -186,7 +186,7 @@ public class SculkSpreadManager {
     }
 
     public static class Cursor {
-        private static final ObjectArrayList<Vec3i> OFFSETS = (ObjectArrayList<Vec3i>)Util.make(
+        private static final ObjectArrayList<Vec3i> OFFSETS = (ObjectArrayList<Vec3i>) Util.make(
                 new ObjectArrayList(18),
                 objectArrayList -> BlockPos.stream(new BlockPos(-1, -1, -1), new BlockPos(1, 1, 1))
                         .filter(pos -> (pos.getX() == 0 || pos.getY() == 0 || pos.getZ() == 0) && !pos.equals(BlockPos.ORIGIN))
@@ -219,7 +219,7 @@ public class SculkSpreadManager {
             this.charge = charge;
             this.decay = decay;
             this.update = update;
-            this.faces = (Set)faces.orElse(null);
+            this.faces = faces.orElse(null);
         }
 
         public Cursor(BlockPos pos, int charge) {
@@ -249,7 +249,7 @@ public class SculkSpreadManager {
             } else if (worldGen) {
                 return true;
             } else {
-                return world instanceof ServerWorld serverWorld ? serverWorld.shouldTick(pos) : false;
+                return world instanceof ServerWorld serverWorld && serverWorld.shouldTick(pos);
             }
         }
 
@@ -316,7 +316,7 @@ public class SculkSpreadManager {
             BlockPos.Mutable mutable = pos.mutableCopy();
             BlockPos.Mutable mutable2 = pos.mutableCopy();
 
-            for(Vec3i vec3i : shuffleOffsets(random)) {
+            for (Vec3i vec3i : shuffleOffsets(random)) {
                 mutable2.set(pos, vec3i);
                 BlockState blockState = world.getBlockState(mutable2);
                 if (blockState.getBlock() instanceof SculkSpreadable && canSpread(world, pos, mutable2)) {

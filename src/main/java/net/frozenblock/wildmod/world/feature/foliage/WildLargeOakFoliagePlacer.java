@@ -26,7 +26,7 @@ public class WildLargeOakFoliagePlacer extends WildBlobFoliagePlacer {
     }
 
     protected void generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, WildTreeFeatureConfig config, int trunkHeight, WildFoliagePlacer.TreeNode treeNode, int foliageHeight, int radius, int offset) {
-        for(int i = offset; i >= offset - foliageHeight; --i) {
+        for (int i = offset; i >= offset - foliageHeight; --i) {
             int j = radius + (i != offset && i != offset - foliageHeight ? 1 : 0);
             this.generateSquare(world, replacer, random, config, treeNode.getCenter(), j, i, treeNode.isGiantTrunk());
         }
@@ -34,6 +34,6 @@ public class WildLargeOakFoliagePlacer extends WildBlobFoliagePlacer {
     }
 
     protected boolean isInvalidForLeaves(Random random, int dx, int y, int dz, int radius, boolean giantTrunk) {
-        return MathHelper.square((float)dx + 0.5F) + MathHelper.square((float)dz + 0.5F) > (float)(radius * radius);
+        return MathHelper.square((float) dx + 0.5F) + MathHelper.square((float) dz + 0.5F) > (float) (radius * radius);
     }
 }

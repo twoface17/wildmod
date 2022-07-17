@@ -57,7 +57,7 @@ public class PropaguleBlock extends SaplingBlock implements Waterloggable, Ferti
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         Vec3d vec3d = state.getModelOffset(world, pos);
         VoxelShape voxelShape;
-        if (!(Boolean)state.get(HANGING)) {
+        if (!(Boolean) state.get(HANGING)) {
             voxelShape = SHAPES[4];
         } else {
             voxelShape = SHAPES[state.get(AGE)];
@@ -71,7 +71,7 @@ public class PropaguleBlock extends SaplingBlock implements Waterloggable, Ferti
     }
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if ((Boolean)state.get(WATERLOGGED)) {
+        if (state.get(WATERLOGGED)) {
             world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
@@ -79,7 +79,7 @@ public class PropaguleBlock extends SaplingBlock implements Waterloggable, Ferti
     }
 
     public FluidState getFluidState(BlockState state) {
-        return (Boolean)state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
@@ -114,11 +114,11 @@ public class PropaguleBlock extends SaplingBlock implements Waterloggable, Ferti
     }
 
     private static boolean isHanging(BlockState state) {
-        return (Boolean)state.get(HANGING);
+        return state.get(HANGING);
     }
 
     private static boolean isFullyGrown(BlockState state) {
-        return (Integer)state.get(AGE) == 4;
+        return state.get(AGE) == 4;
     }
 
     public static BlockState getDefaultHangingState() {

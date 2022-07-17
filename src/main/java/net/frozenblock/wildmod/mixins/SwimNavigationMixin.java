@@ -20,7 +20,7 @@ public class SwimNavigationMixin {
     }
 
     private static boolean doesNotCollide(MobEntity entity, Vec3d startPos, Vec3d entityPos) {
-        Vec3d vec3d = new Vec3d(entityPos.x, entityPos.y + (double)entity.getHeight() * 0.5, entityPos.z);
+        Vec3d vec3d = new Vec3d(entityPos.x, entityPos.y + (double) entity.getHeight() * 0.5, entityPos.z);
         return entity.world.raycast(new RaycastContext(startPos, vec3d, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, entity)).getType()
                 == HitResult.Type.MISS;
     }

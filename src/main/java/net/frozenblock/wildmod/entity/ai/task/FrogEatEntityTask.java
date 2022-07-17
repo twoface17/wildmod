@@ -92,7 +92,7 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
         world.playSoundFromEntity(null, frog, this.eatSound, SoundCategory.NEUTRAL, 2.0F, 1.0F);
         Optional<Entity> optional = frog.getFrogTarget();
         if (optional.isPresent()) {
-            Entity entity = (Entity)optional.get();
+            Entity entity = optional.get();
             if (entity.isAlive()) {
                 frog.tryAttack(entity);
                 if (!entity.isAlive()) {
@@ -104,9 +104,9 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
     }
 
     protected void keepRunning(ServerWorld serverWorld, FrogEntity frogEntity, long l) {
-        LivingEntity livingEntity = (LivingEntity)frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
+        LivingEntity livingEntity = frogEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
         frogEntity.setFrogTarget(livingEntity);
-        switch(this.phase) {
+        switch (this.phase) {
             case MOVE_TO_TARGET:
                 if (livingEntity.distanceTo(frogEntity) < 1.75F) {
                     serverWorld.playSoundFromEntity(null, frogEntity, this.tongueSound, SoundCategory.NEUTRAL, 2.0F, 1.0F);
@@ -158,10 +158,10 @@ public class FrogEatEntityTask extends Task<FrogEntity> {
         entity.getBrain().remember(RegisterMemoryModules.UNREACHABLE_TONGUE_TARGETS, list, 100L);
     }
 
-    static enum Phase {
+    enum Phase {
         MOVE_TO_TARGET,
         CATCH_ANIMATION,
         EAT_ANIMATION,
-        DONE;
+        DONE
     }
 }

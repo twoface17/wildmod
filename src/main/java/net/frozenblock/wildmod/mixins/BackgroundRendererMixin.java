@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.mixins;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.frozenblock.wildmod.liukrastapi.MathAdvanced;
+import net.frozenblock.wildmod.liukrastapi.AdvancedMath;
 import net.frozenblock.wildmod.liukrastapi.StatusEffectInstance;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.frozenblock.wildmod.render.WildGameRenderer;
@@ -110,7 +110,7 @@ public class BackgroundRendererMixin {
             RenderSystem.clearColor(red, green, blue, 0.0F);
         } else {
             r = 0.25F + 0.75F * (float) viewDistance / 32.0F;
-            r = 1.0F - (float) Math.pow((double) r, 0.25);
+            r = 1.0F - (float) Math.pow(r, 0.25);
             Vec3d vec3d = world.getSkyColor(camera.getPos(), tickDelta);
             s = (float) vec3d.x;
             t = (float) vec3d.y;
@@ -231,7 +231,7 @@ public class BackgroundRendererMixin {
                 y *= Math.max(0.25F, clientPlayerEntity.getUnderwaterVisibility());
                 RegistryEntry<Biome> biome = clientPlayerEntity.world.getBiome(clientPlayerEntity.getBlockPos());
                 Biome.Category category = Biome.getCategory(biome);
-                if (category==Biome.Category.SWAMP) {
+                if (category == Biome.Category.SWAMP) {
                     y *= 0.85F;
                 }
             }
@@ -284,7 +284,7 @@ public class BackgroundRendererMixin {
             if (entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
                 float offset = 0.5f;
                 float multiplier = viewDistance * 1.4f;
-                float equation = (float) MathAdvanced.cutCos(MathAdvanced.time, offset, true);
+                float equation = (float) AdvancedMath.cutCos(AdvancedMath.time, offset, true);
                 math = (equation * multiplier) - offset * (multiplier);
             } else {
                 math = 0;

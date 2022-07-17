@@ -12,7 +12,9 @@ import org.spongepowered.asm.mixin.Shadow;
 public abstract class KeyboardInputMixin implements WildInput {
 
 
-    @Shadow @Final private GameOptions settings;
+    @Shadow
+    @Final
+    private GameOptions settings;
 
 
     @Shadow

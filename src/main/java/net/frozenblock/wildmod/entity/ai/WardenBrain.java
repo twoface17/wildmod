@@ -77,9 +77,9 @@ public class WardenBrain {
 
     public static void updateActivities(WardenEntity warden) {
         warden.getBrain()
-            .resetPossibleActivities(
-                ImmutableList.of(WildMod.EMERGE, WildMod.DIG, WildMod.ROAR, Activity.FIGHT, WildMod.INVESTIGATE, WildMod.SNIFF, Activity.IDLE)
-            );
+                .resetPossibleActivities(
+                        ImmutableList.of(WildMod.EMERGE, WildMod.DIG, WildMod.ROAR, Activity.FIGHT, WildMod.INVESTIGATE, WildMod.SNIFF, Activity.IDLE)
+                );
     }
 
     public static Brain<?> create(WardenEntity warden, Dynamic<?> dynamic) {
@@ -163,7 +163,7 @@ public class WardenBrain {
                 ImmutableList.of(
                         RESET_DIG_COOLDOWN_TASK,
                         new ForgetAttackTargetTask<>(entity -> !warden.getAngriness().isAngry() || !warden.isValidTarget(entity), WardenBrain::removeDeadSuspect, false),
-                        new FollowMobTask(entity -> isTargeting(warden, entity), (float)warden.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)),
+                        new FollowMobTask(entity -> isTargeting(warden, entity), (float) warden.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)),
                         new RangedApproachTask(1.2F),
                         new SonicBoomTask(),
                         new MeleeAttackTask(18)

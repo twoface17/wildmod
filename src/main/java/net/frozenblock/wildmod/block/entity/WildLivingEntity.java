@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 
 public abstract class WildLivingEntity extends LivingEntity {
     private boolean experienceDroppingDisabled;
+
     public WildLivingEntity(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -37,7 +38,7 @@ public abstract class WildLivingEntity extends LivingEntity {
         if (this.world instanceof ServerWorld
                 && !this.isExperienceDroppingDisabled()
                 && (this.shouldAlwaysDropXp() || this.playerHitTimer > 0 && this.shouldDropXp() && this.world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT))) {
-            ExperienceOrbEntity.spawn((ServerWorld)this.world, this.getPos(), this.getXpToDrop());
+            ExperienceOrbEntity.spawn((ServerWorld) this.world, this.getPos(), this.getXpToDrop());
         }
 
     }

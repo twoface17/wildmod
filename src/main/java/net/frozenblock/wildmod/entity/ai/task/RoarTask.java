@@ -42,7 +42,7 @@ public class RoarTask extends Task<WardenEntity> {
 
     protected void keepRunning(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
         if (!wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.ROAR_SOUND_DELAY) && !wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.ROAR_SOUND_COOLDOWN)) {
-            wardenEntity.getBrain().remember(RegisterMemoryModules.ROAR_SOUND_COOLDOWN, Unit.INSTANCE, (long)(WardenBrain.ROAR_DURATION - 25));
+            wardenEntity.getBrain().remember(RegisterMemoryModules.ROAR_SOUND_COOLDOWN, Unit.INSTANCE, WardenBrain.ROAR_DURATION - 25);
             wardenEntity.playSound(RegisterSounds.ENTITY_WARDEN_ROAR, 3.0F, 1.0F);
         }
     }

@@ -68,7 +68,7 @@ public class LeavesVineTreeDecorator extends TreeDecorator {
         placeVine(replacer, pos, facing);
         int i = 4;
 
-        for(pos = pos.down(); Feature.isAir(world, pos) && i > 0; --i) {
+        for (pos = pos.down(); Feature.isAir(world, pos) && i > 0; --i) {
             placeVine(replacer, pos, facing);
             pos = pos.down();
         }

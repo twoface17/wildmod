@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
 public class ShriekParticle extends SpriteBillboardParticle {
-    private static final Vec3f field_38334 = (Vec3f) Util.make(new Vec3f(0.5F, 0.5F, 0.5F), Vec3f::normalize);
+    private static final Vec3f field_38334 = Util.make(new Vec3f(0.5F, 0.5F, 0.5F), Vec3f::normalize);
     private static final Vec3f field_38335 = new Vec3f(-1.0F, -1.0F, 0.0F);
     private static final float field_38332 = 1.0472F;
     private int field_38333;
@@ -33,12 +33,12 @@ public class ShriekParticle extends SpriteBillboardParticle {
     }
 
     public float getSize(float tickDelta) {
-        return this.scale * MathHelper.clamp(((float)this.age + tickDelta) / (float)this.maxAge * 0.75F, 0.0F, 1.0F);
+        return this.scale * MathHelper.clamp(((float) this.age + tickDelta) / (float) this.maxAge * 0.75F, 0.0F, 1.0F);
     }
 
     public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
         if (this.field_38333 <= 0) {
-            this.alpha = 1.0F - MathHelper.clamp(((float)this.age + tickDelta) / (float)this.maxAge, 0.0F, 1.0F);
+            this.alpha = 1.0F - MathHelper.clamp(((float) this.age + tickDelta) / (float) this.maxAge, 0.0F, 1.0F);
             this.method_42583(vertexConsumer, camera, tickDelta, (quaternion) -> {
                 quaternion.hamiltonProduct(Vec3f.POSITIVE_Y.getRadialQuaternion(0.0F));
                 quaternion.hamiltonProduct(Vec3f.POSITIVE_X.getRadialQuaternion(-1.0472F));
@@ -52,9 +52,9 @@ public class ShriekParticle extends SpriteBillboardParticle {
 
     private void method_42583(VertexConsumer vertexConsumer, Camera camera, float f, Consumer<Quaternion> consumer) {
         Vec3d vec3d = camera.getPos();
-        float g = (float)(MathHelper.lerp((double)f, this.prevPosX, this.x) - vec3d.getX());
-        float h = (float)(MathHelper.lerp((double)f, this.prevPosY, this.y) - vec3d.getY());
-        float i = (float)(MathHelper.lerp((double)f, this.prevPosZ, this.z) - vec3d.getZ());
+        float g = (float) (MathHelper.lerp(f, this.prevPosX, this.x) - vec3d.getX());
+        float h = (float) (MathHelper.lerp(f, this.prevPosY, this.y) - vec3d.getY());
+        float i = (float) (MathHelper.lerp(f, this.prevPosZ, this.z) - vec3d.getZ());
         Quaternion quaternion = new Quaternion(field_38334, 0.0F, true);
         consumer.accept(quaternion);
         field_38335.rotate(quaternion);
@@ -62,7 +62,7 @@ public class ShriekParticle extends SpriteBillboardParticle {
         float j = this.getSize(f);
 
         int k;
-        for(k = 0; k < 4; ++k) {
+        for (k = 0; k < 4; ++k) {
             Vec3f vec3f = vec3fs[k];
             vec3f.rotate(quaternion);
             vec3f.scale(j);
@@ -77,7 +77,7 @@ public class ShriekParticle extends SpriteBillboardParticle {
     }
 
     private void method_42584(VertexConsumer vertexConsumer, Vec3f vec3f, float f, float g, int i) {
-        vertexConsumer.vertex((double)vec3f.getX(), (double)vec3f.getY(), (double)vec3f.getZ()).texture(f, g).color(this.red, this.green, this.blue, this.alpha).light(i).next();
+        vertexConsumer.vertex(vec3f.getX(), vec3f.getY(), vec3f.getZ()).texture(f, g).color(this.red, this.green, this.blue, this.alpha).light(i).next();
     }
 
     public int getBrightness(float tint) {

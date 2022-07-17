@@ -47,7 +47,7 @@ public class WildGameRenderer extends net.minecraft.client.render.GameRenderer {
     private float skyDarkness;
     private float lastSkyDarkness;
     @Nullable
-    private ShaderEffect shader;
+    private final ShaderEffect shader;
     private final MinecraftClient client;
     private final ResourceManager resourceManager;
     private final AbstractRandom random = WildAbstractRandom.createAtomic();
@@ -58,7 +58,7 @@ public class WildGameRenderer extends net.minecraft.client.render.GameRenderer {
     private int ticks;
     private float fovMultiplier;
     private float lastFovMultiplier;
-    private boolean renderHand = true;
+    private final boolean renderHand = true;
     private final LightmapTextureManager lightmapTextureManager;
     private final Camera camera = new Camera();
     @Nullable
@@ -119,11 +119,11 @@ public class WildGameRenderer extends net.minecraft.client.render.GameRenderer {
             list2.add(
                     Pair.of(
                             new Shader(manager, "rendertype_entity_translucent_emissive", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL),
-                            (Consumer)shader -> renderTypeEntityTranslucentEmissiveShader = (Shader) shader
+                            (Consumer) shader -> renderTypeEntityTranslucentEmissiveShader = (Shader) shader
                     )
             );
-            list2.add(Pair.of(new Shader(manager, "position", VertexFormats.POSITION), (Consumer)shader -> positionShader = (Shader) shader));
-            list2.add(Pair.of(new Shader(manager, "position_color", VertexFormats.POSITION_COLOR), (Consumer)shader -> positionColorShader = (Shader) shader));
+            list2.add(Pair.of(new Shader(manager, "position", VertexFormats.POSITION), (Consumer) shader -> positionShader = (Shader) shader));
+            list2.add(Pair.of(new Shader(manager, "position_color", VertexFormats.POSITION_COLOR), (Consumer) shader -> positionColorShader = (Shader) shader));
         } catch (IOException var5) {
             list2.forEach((pair) -> {
                 pair.getFirst().close();

@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.WildModClient;
-import net.frozenblock.wildmod.liukrastapi.MathAdvanced;
+import net.frozenblock.wildmod.liukrastapi.AdvancedMath;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -15,29 +15,37 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BipedEntityModel.class)
 public class BipedEntityModelMixin<T extends LivingEntity> {
-    @Shadow public BipedEntityModel.ArmPose rightArmPose;
+    @Shadow
+    public BipedEntityModel.ArmPose rightArmPose;
 
-    @Shadow @Final public ModelPart rightArm;
+    @Shadow
+    @Final
+    public ModelPart rightArm;
 
-    @Shadow @Final public ModelPart head;
+    @Shadow
+    @Final
+    public ModelPart head;
 
-    @Shadow public BipedEntityModel.ArmPose leftArmPose;
+    @Shadow
+    public BipedEntityModel.ArmPose leftArmPose;
 
-    @Shadow @Final public ModelPart leftArm;
+    @Shadow
+    @Final
+    public ModelPart leftArm;
 
     @Inject(method = "positionRightArm", at = @At("TAIL"))
     private void positionRightArm(T entity, CallbackInfo ci) {
-        if (this.rightArmPose== WildModClient.TOOT_HORN_ARM) {
+        if (this.rightArmPose == WildModClient.TOOT_HORN_ARM) {
             this.rightArm.pitch = MathHelper.clamp(this.head.pitch, -1.2F, 1.2F) - 1.4835298F;
-            this.rightArm.yaw = this.head.yaw - (float) (MathAdvanced.PI / 6);
+            this.rightArm.yaw = this.head.yaw - (float) (AdvancedMath.PI / 6);
         }
     }
 
     @Inject(method = "positionLeftArm", at = @At("TAIL"))
     private void positionLeftArm(T entity, CallbackInfo ci) {
-        if (this.leftArmPose== WildModClient.TOOT_HORN_ARM) {
+        if (this.leftArmPose == WildModClient.TOOT_HORN_ARM) {
             this.leftArm.pitch = MathHelper.clamp(this.head.pitch, -1.2F, 1.2F) - 1.4835298F;
-            this.leftArm.yaw = this.head.yaw + (float) (MathAdvanced.PI / 6);
+            this.leftArm.yaw = this.head.yaw + (float) (AdvancedMath.PI / 6);
         }
     }
 }

@@ -30,7 +30,7 @@ public class MultifaceGrowthFeatureConfig implements FeatureConfig {
         IntArrayList intArrayList = IntArrayList.wrap(stream.toArray());
         int i = intArrayList.size();
 
-        for(int j = i; j > 1; --j) {
+        for (int j = i; j > 1; --j) {
             int k = random.nextInt(j);
             intArrayList.set(j - 1, intArrayList.set(k, intArrayList.getInt(j - 1)));
         }
@@ -53,7 +53,7 @@ public class MultifaceGrowthFeatureConfig implements FeatureConfig {
     public static <T> void shuffle(ObjectArrayList<T> list, AbstractRandom random) {
         int i = list.size();
 
-        for(int j = i; j > 1; --j) {
+        for (int j = i; j > 1; --j) {
             int k = random.nextInt(j);
             list.set(j - 1, list.set(k, list.get(j - 1)));
         }

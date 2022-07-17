@@ -55,7 +55,7 @@ public class ItemCriterion extends AbstractCriterion<ItemCriterion.Conditions> {
         }
 
         public boolean test(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack) {
-            return !this.location.test(world, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D) ? false : this.item.test(stack);
+            return this.location.test(world, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) && this.item.test(stack);
         }
 
         public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {

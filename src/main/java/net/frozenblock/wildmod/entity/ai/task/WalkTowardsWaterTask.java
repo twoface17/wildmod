@@ -47,11 +47,11 @@ public class WalkTowardsWaterTask extends Task<PathAwareEntity> {
             BlockPos blockPos = pathAwareEntity.getBlockPos();
             BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-            for(BlockPos blockPos2 : BlockPos.iterateOutwards(blockPos, this.range, this.range, this.range)) {
+            for (BlockPos blockPos2 : BlockPos.iterateOutwards(blockPos, this.range, this.range, this.range)) {
                 if ((blockPos2.getX() != blockPos.getX() || blockPos2.getZ() != blockPos.getZ())
                         && serverWorld.getBlockState(blockPos2).getCollisionShape(serverWorld, blockPos2, shapeContext).isEmpty()
                         && !serverWorld.getBlockState(mutable.set(blockPos2, Direction.DOWN)).getCollisionShape(serverWorld, blockPos2, shapeContext).isEmpty()) {
-                    for(Direction direction : Direction.Type.HORIZONTAL) {
+                    for (Direction direction : Direction.Type.HORIZONTAL) {
                         mutable.set(blockPos2, direction);
                         if (serverWorld.getBlockState(mutable).isAir() && serverWorld.getBlockState(mutable.move(Direction.DOWN)).isOf(Blocks.WATER)) {
                             this.walkTowardsWaterTime = l + 40L;

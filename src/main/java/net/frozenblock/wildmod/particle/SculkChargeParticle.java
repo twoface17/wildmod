@@ -32,7 +32,7 @@ public class SculkChargeParticle extends SpriteBillboardParticle {
     }
 
     @Environment(EnvType.CLIENT)
-    public static record Factory(SpriteProvider spriteProvider) implements ParticleFactory<SculkChargeParticleEffect> {
+    public record Factory(SpriteProvider spriteProvider) implements ParticleFactory<SculkChargeParticleEffect> {
         public Particle createParticle(
                 SculkChargeParticleEffect sculkChargeParticleEffect, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i
         ) {

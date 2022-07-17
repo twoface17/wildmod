@@ -28,12 +28,12 @@ public class LargeEntitySpawnHelper {
     ) {
         BlockPos.Mutable mutable = pos.mutableCopy();
 
-        for(int i = 0; i < tries; ++i) {
+        for (int i = 0; i < tries; ++i) {
             int j = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
             int k = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
             mutable.set(pos, j, verticalRange, k);
             if (world.getWorldBorder().contains(mutable) && findSpawnPos(world, verticalRange, mutable, arg)) {
-                T mobEntity = (T)entityType.create(world, null, null, null, mutable, reason, false, false);
+                T mobEntity = entityType.create(world, null, null, null, mutable, reason, false, false);
                 if (mobEntity != null) {
                     if (mobEntity.canSpawn(world, reason) && mobEntity.canSpawn(world)) {
                         world.spawnEntityAndPassengers(mobEntity);
@@ -52,7 +52,7 @@ public class LargeEntitySpawnHelper {
         BlockPos.Mutable mutable = new BlockPos.Mutable().set(pos);
         BlockState blockState = world.getBlockState(mutable);
 
-        for(int i = verticalRange; i >= -verticalRange; --i) {
+        for (int i = verticalRange; i >= -verticalRange; --i) {
             pos.move(Direction.DOWN);
             mutable.set(pos, Direction.UP);
             BlockState blockState2 = world.getBlockState(pos);

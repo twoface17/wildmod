@@ -16,7 +16,7 @@ public enum Angriness {
     private final SoundEvent sound;
     private final SoundEvent listeningSound;
 
-    private Angriness(int threshold, SoundEvent sound, SoundEvent listeningSound) {
+    Angriness(int threshold, SoundEvent sound, SoundEvent listeningSound) {
         this.threshold = threshold;
         this.sound = sound;
         this.listeningSound = listeningSound;
@@ -35,7 +35,7 @@ public enum Angriness {
     }
 
     public static Angriness getForAnger(int anger) {
-        for(Angriness angriness : VALUES) {
+        for (Angriness angriness : VALUES) {
             if (anger >= angriness.threshold) {
                 return angriness;
             }

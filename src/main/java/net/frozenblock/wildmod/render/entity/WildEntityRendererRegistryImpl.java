@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 
 public final class WildEntityRendererRegistryImpl {
 
-    private static HashMap<EntityType<?>, NewEntityRendererFactory<?>> map = new HashMap<>();
+    private static final HashMap<EntityType<?>, NewEntityRendererFactory<?>> map = new HashMap<>();
     private static BiConsumer<EntityType<?>, NewEntityRendererFactory<?>> handler = (type, function) -> map.put(type, function);
 
     public static <T extends Entity> void register(EntityType<? extends T> entityType, NewEntityRendererFactory<?> factory) {

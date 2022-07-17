@@ -30,7 +30,7 @@ public class SpawnLocating extends net.minecraft.server.network.SpawnLocating {
             } else {
                 BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-                for(int k = i + 1; k >= world.getBottomY(); --k) {
+                for (int k = i + 1; k >= world.getBottomY(); --k) {
                     mutable.set(x, k, z);
                     BlockState blockState = world.getBlockState(mutable);
                     if (!blockState.getFluidState().isEmpty()) {
@@ -52,8 +52,8 @@ public class SpawnLocating extends net.minecraft.server.network.SpawnLocating {
         if (SharedConstants.method_37896(chunkPos)) {
             return null;
         } else {
-            for(int i = chunkPos.getStartX(); i <= chunkPos.getEndX(); ++i) {
-                for(int j = chunkPos.getStartZ(); j <= chunkPos.getEndZ(); ++j) {
+            for (int i = chunkPos.getStartX(); i <= chunkPos.getEndX(); ++i) {
+                for (int j = chunkPos.getStartZ(); j <= chunkPos.getEndZ(); ++j) {
                     BlockPos blockPos = findOverworldSpawn(world, i, j);
                     if (blockPos != null) {
                         return blockPos;

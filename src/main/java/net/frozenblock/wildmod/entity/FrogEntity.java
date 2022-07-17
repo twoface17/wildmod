@@ -3,8 +3,8 @@ package net.frozenblock.wildmod.entity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.AxolotlSwimNavigation;
+import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
@@ -32,7 +32,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -59,7 +58,7 @@ import java.util.stream.IntStream;
 
 
 public class FrogEntity extends AnimalEntity {
-    public static final Ingredient SLIME_BALL = Ingredient.ofItems(new ItemConvertible[]{Items.SLIME_BALL});
+    public static final Ingredient SLIME_BALL = Ingredient.ofItems(Items.SLIME_BALL);
     protected static final ImmutableList<SensorType<? extends Sensor<? super FrogEntity>>> SENSORS = ImmutableList.of(
             SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, WildMod.FROG_ATTACKABLES, WildMod.FROG_TEMPTATIONS, WildMod.IS_IN_WATER
     );
@@ -76,15 +75,12 @@ public class FrogEntity extends AnimalEntity {
             MemoryModuleType.ATTACK_TARGET,
             MemoryModuleType.TEMPTING_PLAYER,
             MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
-            new MemoryModuleType[]{
-                    MemoryModuleType.IS_TEMPTED,
-                    MemoryModuleType.HURT_BY,
-                    MemoryModuleType.HURT_BY_ENTITY,
-                    MemoryModuleType.NEAREST_ATTACKABLE,
-                    RegisterMemoryModules.IS_IN_WATER,
-                    RegisterMemoryModules.IS_PREGNANT
-            }
-    );
+            MemoryModuleType.IS_TEMPTED,
+            MemoryModuleType.HURT_BY,
+            MemoryModuleType.HURT_BY_ENTITY,
+            MemoryModuleType.NEAREST_ATTACKABLE,
+            RegisterMemoryModules.IS_IN_WATER,
+            RegisterMemoryModules.IS_PREGNANT);
     //private static final TrackedData<FrogVariant> VARIANT = DataTracker.registerData(FrogEntity.class, WildRegistry.FROG_VARIANT_DATA);
     private static final TrackedData<OptionalInt> TARGET = DataTracker.registerData(FrogEntity.class, WildMod.OPTIONAL_INT);
     private static final int field_37459 = 5;
@@ -127,7 +123,7 @@ public class FrogEntity extends AnimalEntity {
     }
 
     public Optional<Entity> getFrogTarget() {
-        IntStream var10000 = ((OptionalInt)this.dataTracker.get(TARGET)).stream();
+        IntStream var10000 = this.dataTracker.get(TARGET).stream();
         World var10001 = this.world;
         Objects.requireNonNull(var10001);
         return this.dataTracker.get(TARGET).stream().mapToObj(this.world::getEntityById).filter(Objects::nonNull).findFirst();
@@ -146,11 +142,11 @@ public class FrogEntity extends AnimalEntity {
     }
 
     //public FrogVariant getVariant() {
-        //return (FrogVariant)this.dataTracker.get(VARIANT);
+    //return (FrogVariant)this.dataTracker.get(VARIANT);
     //}
 
     //public void setVariant(FrogVariant variant) {
-        //this.dataTracker.set(VARIANT, variant);
+    //this.dataTracker.set(VARIANT, variant);
     //}
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
@@ -162,7 +158,7 @@ public class FrogEntity extends AnimalEntity {
         super.readCustomDataFromNbt(nbt);
         //FrogVariant frogVariant = WildRegistry.FROG_VARIANT.get(Identifier.tryParse(nbt.getString("variant")));
         //if (frogVariant != null) {
-            //this.setVariant(frogVariant);
+        //this.setVariant(frogVariant);
         //}
 
     }
@@ -181,7 +177,7 @@ public class FrogEntity extends AnimalEntity {
 
     protected void mobTick() {
         this.world.getProfiler().push("frogBrain");
-        this.getBrain().tick((ServerWorld)this.world, this);
+        this.getBrain().tick((ServerWorld) this.world, this);
         this.world.getProfiler().pop();
         this.world.getProfiler().push("frogActivityUpdate");
         FrogBrain.updateActivities(this);
@@ -270,7 +266,7 @@ public class FrogEntity extends AnimalEntity {
         this.resetLoveTicks();
         other.resetLoveTicks();
         this.getBrain().remember(RegisterMemoryModules.IS_PREGNANT, Unit.INSTANCE);
-        world.sendEntityStatus(this, (byte)18);
+        world.sendEntityStatus(this, (byte) 18);
         if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
             world.spawnEntity(new ExperienceOrbEntity(world, this.getX(), this.getY(), this.getZ(), this.getRandom().nextInt(7) + 1));
         }
@@ -343,7 +339,7 @@ public class FrogEntity extends AnimalEntity {
 
     public static boolean isValidFrogFood(LivingEntity entity) {
         if (entity instanceof SlimeEntity) {
-            SlimeEntity slimeEntity = (SlimeEntity)entity;
+            SlimeEntity slimeEntity = (SlimeEntity) entity;
             if (slimeEntity.getSize() != 1) {
                 return false;
             }

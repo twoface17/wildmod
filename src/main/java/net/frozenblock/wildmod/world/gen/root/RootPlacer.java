@@ -55,7 +55,7 @@ public abstract class RootPlacer {
         if (this.canGrowThrough(testableWorld, blockPos)) {
             biConsumer.accept(blockPos, this.applyWaterlogging(testableWorld, blockPos, this.rootProvider.getBlockState(random, blockPos)));
             if (this.aboveRootPlacement.isPresent()) {
-                AboveRootPlacement aboveRootPlacement = (AboveRootPlacement)this.aboveRootPlacement.get();
+                AboveRootPlacement aboveRootPlacement = this.aboveRootPlacement.get();
                 BlockPos blockPos2 = blockPos.up();
                 if (random.nextFloat() < aboveRootPlacement.aboveRootPlacementChance() && testableWorld.testBlockState(blockPos2, AbstractBlock.AbstractBlockState::isAir)) {
                     biConsumer.accept(
@@ -70,7 +70,7 @@ public abstract class RootPlacer {
     protected BlockState applyWaterlogging(TestableWorld world, BlockPos pos, BlockState state) {
         if (state.contains(Properties.WATERLOGGED)) {
             boolean bl = world.testFluidState(pos, fluidState -> fluidState.isIn(FluidTags.WATER));
-            return (BlockState)state.with(Properties.WATERLOGGED, bl);
+            return state.with(Properties.WATERLOGGED, bl);
         } else {
             return state;
         }

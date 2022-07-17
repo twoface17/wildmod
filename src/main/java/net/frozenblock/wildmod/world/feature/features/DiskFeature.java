@@ -27,7 +27,7 @@ public class DiskFeature extends Feature<DiskFeatureConfig> {
         int l = diskFeatureConfig.radius().get((Random) abstractRandom);
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-        for(BlockPos blockPos2 : BlockPos.iterate(blockPos.add(-l, 0, -l), blockPos.add(l, 0, l))) {
+        for (BlockPos blockPos2 : BlockPos.iterate(blockPos.add(-l, 0, -l), blockPos.add(l, 0, l))) {
             int m = blockPos2.getX() - blockPos.getX();
             int n = blockPos2.getZ() - blockPos.getZ();
             if (m * m + n * n <= l * l) {
@@ -42,7 +42,7 @@ public class DiskFeature extends Feature<DiskFeatureConfig> {
         boolean bl = false;
         BlockState blockState = null;
 
-        for(int i = topY; i > bottomY; --i) {
+        for (int i = topY; i > bottomY; --i) {
             pos.setY(i);
             if (config.target().test(world, pos)) {
                 BlockState blockState2 = config.stateProvider().getBlockState(world, (Random) random, pos);

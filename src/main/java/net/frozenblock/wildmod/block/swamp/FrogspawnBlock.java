@@ -93,14 +93,14 @@ public class FrogspawnBlock extends Block {
     private void spawnTadpoles(ServerWorld world, BlockPos pos, WildAbstractRandom random) {
         int i = random.nextBetweenExclusive(2, 6);
 
-        for(int j = 1; j <= i; ++j) {
+        for (int j = 1; j <= i; ++j) {
             TadpoleEntity tadpoleEntity = RegisterEntities.TADPOLE.create(world);
             double d = random.nextDouble();
             double e = random.nextDouble();
-            double f = (double)pos.getX() + d;
-            double g = (double)pos.getZ() + e;
+            double f = (double) pos.getX() + d;
+            double g = (double) pos.getZ() + e;
             int k = random.nextBetweenExclusive(1, 361);
-            tadpoleEntity.refreshPositionAndAngles(f, (double)pos.getY() - 0.5, g, (float)k, 0.0F);
+            tadpoleEntity.refreshPositionAndAngles(f, (double) pos.getY() - 0.5, g, (float) k, 0.0F);
             tadpoleEntity.setPersistent();
             world.spawnEntity(tadpoleEntity);
         }

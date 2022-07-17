@@ -8,7 +8,6 @@ import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacer;
 import net.frozenblock.wildmod.world.gen.root.RootPlacer;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.size.FeatureSize;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.treedecorator.TreeDecorator;

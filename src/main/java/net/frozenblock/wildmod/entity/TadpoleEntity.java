@@ -25,16 +25,13 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.FishEntity;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -91,7 +88,7 @@ public class TadpoleEntity extends FishEntity {
 
     protected void mobTick() {
         this.world.getProfiler().push("tadpoleBrain");
-        this.getBrain().tick((ServerWorld)this.world, this);
+        this.getBrain().tick((ServerWorld) this.world, this);
         this.world.getProfiler().pop();
         this.world.getProfiler().push("tadpoleActivityUpdate");
         TadpoleBrain.updateActivities(this);
@@ -243,6 +240,6 @@ public class TadpoleEntity extends FishEntity {
     }
 
     public static int toGrowUpAge(int breedingAge) {
-        return (int)((float)(breedingAge / 20) * 0.1F);
+        return (int) ((float) (breedingAge / 20) * 0.1F);
     }
 }

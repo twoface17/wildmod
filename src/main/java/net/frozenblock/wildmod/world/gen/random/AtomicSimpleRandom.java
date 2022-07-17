@@ -43,7 +43,7 @@ public class AtomicSimpleRandom implements BaseSimpleRandom {
         if (!this.seed.compareAndSet(l, m)) {
             throw LockHelper.crash("LegacyRandomSource", null);
         } else {
-            return (int)(m >> 48 - bits);
+            return (int) (m >> 48 - bits);
         }
     }
 
@@ -66,7 +66,7 @@ public class AtomicSimpleRandom implements BaseSimpleRandom {
 
         public AbstractRandom createRandom(String string) {
             int i = string.hashCode();
-            return new AtomicSimpleRandom((long)i ^ this.seed);
+            return new AtomicSimpleRandom((long) i ^ this.seed);
         }
 
         @VisibleForTesting

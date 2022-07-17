@@ -33,14 +33,14 @@ public class WildVibrationParticleEffect implements ParticleEffect {
     public static final ParticleEffect.Factory<WildVibrationParticleEffect> PARAMETERS_FACTORY = new ParticleEffect.Factory<WildVibrationParticleEffect>() {
         public WildVibrationParticleEffect read(ParticleType<WildVibrationParticleEffect> particleType, StringReader stringReader) throws CommandSyntaxException {
             stringReader.expect(' ');
-            float f = (float)stringReader.readDouble();
+            float f = (float) stringReader.readDouble();
             stringReader.expect(' ');
-            float g = (float)stringReader.readDouble();
+            float g = (float) stringReader.readDouble();
             stringReader.expect(' ');
-            float h = (float)stringReader.readDouble();
+            float h = (float) stringReader.readDouble();
             stringReader.expect(' ');
             int i = stringReader.readInt();
-            BlockPos blockPos = new BlockPos((double)f, (double)g, (double)h);
+            BlockPos blockPos = new BlockPos(f, g, h);
             return new WildVibrationParticleEffect(new BlockPositionSource(blockPos), i);
         }
 

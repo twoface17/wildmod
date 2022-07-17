@@ -25,7 +25,7 @@ public class WildBushFoliagePlacer extends WildBlobFoliagePlacer {
     }
 
     protected void generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, WildTreeFeatureConfig config, int trunkHeight, WildFoliagePlacer.TreeNode treeNode, int foliageHeight, int radius, int offset) {
-        for(int i = offset; i >= offset - foliageHeight; --i) {
+        for (int i = offset; i >= offset - foliageHeight; --i) {
             int j = radius + treeNode.getFoliageRadius() - 1 - i;
             this.generateSquare(world, replacer, random, config, treeNode.getCenter(), j, i, treeNode.isGiantTrunk());
         }

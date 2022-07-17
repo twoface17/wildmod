@@ -23,7 +23,7 @@ import java.util.List;
 @Mixin(SculkSensorBlock.class)
 public class SculkSensorBlockMixin {
     //FROM ACCURATE SCULK
-    private ServerWorld world;
+    private final ServerWorld world;
 
     public SculkSensorBlockMixin(ServerWorld world) {
         this.world = world;

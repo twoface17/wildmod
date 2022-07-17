@@ -7,7 +7,8 @@ import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.feature.FeatureConfig;
 
-public record DiskFeatureConfig(PredicatedStateProvider stateProvider, BlockPredicate target, IntProvider radius, int halfHeight) implements FeatureConfig {
+public record DiskFeatureConfig(PredicatedStateProvider stateProvider, BlockPredicate target, IntProvider radius,
+                                int halfHeight) implements FeatureConfig {
     public static final Codec<DiskFeatureConfig> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                             PredicatedStateProvider.CODEC.fieldOf("state_provider").forGetter(DiskFeatureConfig::stateProvider),

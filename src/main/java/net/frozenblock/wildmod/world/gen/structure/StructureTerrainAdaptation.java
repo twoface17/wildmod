@@ -12,7 +12,7 @@ public enum StructureTerrainAdaptation implements StringIdentifiable {
     public static final Codec<StructureTerrainAdaptation> CODEC = Codec.createCodec(StructureTerrainAdaptation::values);
     private final String name;
 
-    private StructureTerrainAdaptation(String name) {
+    StructureTerrainAdaptation(String name) {
         this.name = name;
     }
 

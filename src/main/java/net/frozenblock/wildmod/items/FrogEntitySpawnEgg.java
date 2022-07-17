@@ -40,7 +40,7 @@ public class FrogEntitySpawnEgg extends SpawnEggItem {
             if (blockState.isOf(Blocks.SPAWNER)) {
                 BlockEntity blockEntity = world.getBlockEntity(blockPos);
                 if (blockEntity instanceof MobSpawnerBlockEntity) {
-                    MobSpawnerLogic mobSpawnerLogic = ((MobSpawnerBlockEntity)blockEntity).getLogic();
+                    MobSpawnerLogic mobSpawnerLogic = ((MobSpawnerBlockEntity) blockEntity).getLogic();
                     EntityType<?> entityType = this.getEntityType(itemStack.getNbt());
                     mobSpawnerLogic.setEntityId(entityType);
                     blockEntity.markDirty();
@@ -63,8 +63,8 @@ public class FrogEntitySpawnEgg extends SpawnEggItem {
             } else if(FrogEntity.canTemperateSpawn(world, blockPos3)) {
                 frogEntity.setVariant(FrogEntity.Variant.WARM);
             } */
-            frogEntity.setPos(blockPos3.getX()+0.5, blockPos3.getY()+0.1, blockPos3.getZ()+0.5);
-            frogEntity.setYaw((float) Math.random() * 360 * (float) Math.PI/180);
+            frogEntity.setPos(blockPos3.getX() + 0.5, blockPos3.getY() + 0.1, blockPos3.getZ() + 0.5);
+            frogEntity.setYaw((float) Math.random() * 360 * (float) Math.PI / 180);
             world.spawnEntity(frogEntity);
             itemStack.decrement(1);
             world.emitGameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);

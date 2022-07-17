@@ -56,7 +56,7 @@ public interface WildAbstractRandom extends net.minecraft.world.gen.random.Abstr
     }
 
     default void skip(int count) {
-        for(int i = 0; i < count; ++i) {
+        for (int i = 0; i < count; ++i) {
             this.nextInt();
         }
 

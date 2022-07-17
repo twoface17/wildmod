@@ -98,66 +98,66 @@ public class FrogEntityModel<T extends FrogEntity> extends SinglePartEntityModel
     }
 
     public void setAngles(T frogEntity, float f, float g, float h, float i, float j) {
-        this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart)modelPart).resetTransform());
-        float k = Math.min((float)frogEntity.getVelocity().lengthSquared() * 200.0F, 8.0F);
+        this.getPart().traverse().forEach(modelPart -> ((ExpandedModelPart) modelPart).resetTransform());
+        float k = Math.min((float) frogEntity.getVelocity().lengthSquared() * 200.0F, 8.0F);
         this.setPivots();
-        ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.longJumpingAnimationState, FrogAnimations.LONG_JUMPING, h);
-        ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.croakingAnimationState, FrogAnimations.CROAKING, h);
-        ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.usingTongueAnimationState, FrogAnimations.USING_TONGUE, h);
-        ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.walkingAnimationState, FrogAnimations.WALKING, h, k);
-        ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.swimmingAnimationState, FrogAnimations.SWIMMING, h);
-        ((ExpandedSinglePartEntityModel)this).updateAnimation(frogEntity.idlingInWaterAnimationState, FrogAnimations.IDLING_IN_WATER, h);
+        ((ExpandedSinglePartEntityModel) this).updateAnimation(frogEntity.longJumpingAnimationState, FrogAnimations.LONG_JUMPING, h);
+        ((ExpandedSinglePartEntityModel) this).updateAnimation(frogEntity.croakingAnimationState, FrogAnimations.CROAKING, h);
+        ((ExpandedSinglePartEntityModel) this).updateAnimation(frogEntity.usingTongueAnimationState, FrogAnimations.USING_TONGUE, h);
+        ((ExpandedSinglePartEntityModel) this).updateAnimation(frogEntity.walkingAnimationState, FrogAnimations.WALKING, h, k);
+        ((ExpandedSinglePartEntityModel) this).updateAnimation(frogEntity.swimmingAnimationState, FrogAnimations.SWIMMING, h);
+        ((ExpandedSinglePartEntityModel) this).updateAnimation(frogEntity.idlingInWaterAnimationState, FrogAnimations.IDLING_IN_WATER, h);
         this.croakingBody.visible = frogEntity.croakingAnimationState.isRunning();
     }
-    
-        private void setPivots() {
-            
-            this.root.pivotY = 24.0F;
-            
-            this.body.pivotX = 0.0F;
-            this.body.pivotY = -2.0F;
-            this.body.pivotZ = 4.0F;
-            
-            this.head.pivotX = 0.0F;
-            this.head.pivotY = -2.0F;
-            this.head.pivotZ = -1.0F;
-            
-            this.eyes.pivotX = 0.5F;
-            this.eyes.pivotY = 0.0F;
-            this.eyes.pivotZ = 2.0F;
-            
-            this.leftEye.pivotX = 1.5F;
-            this.leftEye.pivotY = -3.0F;
-            this.leftEye.pivotZ = -6.5F;
-            
-            this.rightEye.pivotX = -2.5F;
-            this.rightEye.pivotY = -3.0F;
-            this.rightEye.pivotZ = -6.5F;
-            
-            this.croakingBody.pivotX = 0.0F;
-            this.croakingBody.pivotY = 1.0F;
-            this.croakingBody.pivotZ = -5.0F;
-            
-            this.tongue.pivotX = 0.0F;
-            this.tongue.pivotY = -1.1F;
-            this.tongue.pivotZ = 1.0F;
-            
-            this.rightArm.pivotX = -4.0F;
-            this.rightArm.pivotY = -1.0F;
-            this.rightArm.pivotZ = -6.5F;
-            
-            this.leftArm.pivotX = 4.0F;
-            this.leftArm.pivotY = -1.0F;
-            this.leftArm.pivotZ = -6.5F;
-            
-            this.rightLeg.pivotX = -3.5F;
-            this.rightLeg.pivotY = -3.0F;
-            this.rightLeg.pivotZ = 4.0F;
-            
-            this.leftLeg.pivotX = 3.5F;
-            this.leftLeg.pivotY = -3.0F;
-            this.leftLeg.pivotZ = 4.0F;
-            
+
+    private void setPivots() {
+
+        this.root.pivotY = 24.0F;
+
+        this.body.pivotX = 0.0F;
+        this.body.pivotY = -2.0F;
+        this.body.pivotZ = 4.0F;
+
+        this.head.pivotX = 0.0F;
+        this.head.pivotY = -2.0F;
+        this.head.pivotZ = -1.0F;
+
+        this.eyes.pivotX = 0.5F;
+        this.eyes.pivotY = 0.0F;
+        this.eyes.pivotZ = 2.0F;
+
+        this.leftEye.pivotX = 1.5F;
+        this.leftEye.pivotY = -3.0F;
+        this.leftEye.pivotZ = -6.5F;
+
+        this.rightEye.pivotX = -2.5F;
+        this.rightEye.pivotY = -3.0F;
+        this.rightEye.pivotZ = -6.5F;
+
+        this.croakingBody.pivotX = 0.0F;
+        this.croakingBody.pivotY = 1.0F;
+        this.croakingBody.pivotZ = -5.0F;
+
+        this.tongue.pivotX = 0.0F;
+        this.tongue.pivotY = -1.1F;
+        this.tongue.pivotZ = 1.0F;
+
+        this.rightArm.pivotX = -4.0F;
+        this.rightArm.pivotY = -1.0F;
+        this.rightArm.pivotZ = -6.5F;
+
+        this.leftArm.pivotX = 4.0F;
+        this.leftArm.pivotY = -1.0F;
+        this.leftArm.pivotZ = -6.5F;
+
+        this.rightLeg.pivotX = -3.5F;
+        this.rightLeg.pivotY = -3.0F;
+        this.rightLeg.pivotZ = 4.0F;
+
+        this.leftLeg.pivotX = 3.5F;
+        this.leftLeg.pivotY = -3.0F;
+        this.leftLeg.pivotZ = 4.0F;
+
     }
 
     public ModelPart getPart() {

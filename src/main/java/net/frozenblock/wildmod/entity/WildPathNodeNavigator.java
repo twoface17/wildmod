@@ -29,9 +29,9 @@ public class WildPathNodeNavigator extends PathNodeNavigator {
         Set<PathNode> set2 = ImmutableSet.of();
         int i = 0;
         Set<TargetPathNode> set3 = Sets.newHashSetWithExpectedSize(set.size());
-        int j = (int)((float)this.range * rangeMultiplier);
+        int j = (int) ((float) this.range * rangeMultiplier);
 
-        while(!this.minHeap.isEmpty()) {
+        while (!this.minHeap.isEmpty()) {
             ++i;
             if (i >= j) {
                 break;
@@ -41,9 +41,9 @@ public class WildPathNodeNavigator extends PathNodeNavigator {
             pathNode.visited = true;
             Iterator var13 = set.iterator();
 
-            while(var13.hasNext()) {
-                TargetPathNode targetPathNode = (TargetPathNode)var13.next();
-                if (pathNode.getManhattanDistance((PathNode)targetPathNode) <= (float)distance) {
+            while (var13.hasNext()) {
+                TargetPathNode targetPathNode = (TargetPathNode) var13.next();
+                if (pathNode.getManhattanDistance(targetPathNode) <= (float) distance) {
                     targetPathNode.markReached();
                     set3.add(targetPathNode);
                 }
@@ -56,7 +56,7 @@ public class WildPathNodeNavigator extends PathNodeNavigator {
             if (!(pathNode.getDistance(startNode) >= followRange)) {
                 int k = this.pathNodeMaker.getSuccessors(this.successors, pathNode);
 
-                for(int l = 0; l < k; ++l) {
+                for (int l = 0; l < k; ++l) {
                     if (pathNode instanceof WardenEntity.WildPathNode wildPathNode) {
                         PathNode pathNode2 = this.successors[l];
                         if (pathNode2 instanceof WardenEntity.WildPathNode wildPathNode2) {
@@ -81,15 +81,15 @@ public class WildPathNodeNavigator extends PathNodeNavigator {
         }
 
         Optional<Path> optional = !set3.isEmpty() ? set3.stream().map((targetPathNodex) -> {
-            return this.createPath(targetPathNodex.getNearestNode(), (BlockPos)positions.get(targetPathNodex), true);
+            return this.createPath(targetPathNodex.getNearestNode(), positions.get(targetPathNodex), true);
         }).min(Comparator.comparingInt(Path::getLength)) : set.stream().map((targetPathNodex) -> {
-            return this.createPath(targetPathNodex.getNearestNode(), (BlockPos)positions.get(targetPathNodex), false);
+            return this.createPath(targetPathNodex.getNearestNode(), positions.get(targetPathNodex), false);
         }).min(Comparator.comparingDouble(Path::getManhattanDistanceFromTarget).thenComparingInt(Path::getLength));
         profiler.pop();
         if (!optional.isPresent()) {
             return null;
         } else {
-            Path path = (Path)optional.get();
+            Path path = optional.get();
             return path;
         }
     }

@@ -18,7 +18,7 @@ public class RegisterDispenser {
     public static void RegisterDispenser() {
         DispenserBlock.registerBehavior(Items.POTION, new FallibleItemDispenserBehavior() {
             public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-                Direction direction = (Direction) pointer.getBlockState().get(DispenserBlock.FACING);
+                Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
                 BlockPos blockPos = pointer.getPos().offset(direction);
                 World world = pointer.getWorld();
                 BlockState blockState = world.getBlockState(blockPos);

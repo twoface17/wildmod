@@ -37,8 +37,9 @@ public class Codec<E extends Enum<E> & StringIdentifiable> implements com.mojang
 
     @Nullable
     public E byId(@Nullable String id) {
-        return (E)this.idToIdentifiable.apply(id);
+        return this.idToIdentifiable.apply(id);
     }
+
     public static <E> com.mojang.serialization.Codec<E> idChecked(Function<E, String> elementToId, Function<String, E> idToElement) {
 
         return com.mojang.serialization.Codec.STRING
@@ -53,14 +54,14 @@ public class Codec<E extends Enum<E> & StringIdentifiable> implements com.mojang
     }
 
     static <E extends Enum<E> & StringIdentifiable> Codec<E> createCodec(Supplier<E[]> enumValues) {
-        E[] enums = (E[])enumValues.get();
+        E[] enums = enumValues.get();
         if (enums.length > 16) {
             Map<String, E> map = Arrays.stream(enums)
-                    .collect(Collectors.toMap(identifiable -> ((StringIdentifiable)identifiable).asString(), enum_ -> enum_));
+                    .collect(Collectors.toMap(identifiable -> identifiable.asString(), enum_ -> enum_));
             return new Codec<>(enums, id -> id == null ? null : map.get(id));
         } else {
             return new Codec<>(enums, id -> {
-                for(E enum_ : enums) {
+                for (E enum_ : enums) {
                     if (enum_.asString().equals(id)) {
                         return enum_;
                     }

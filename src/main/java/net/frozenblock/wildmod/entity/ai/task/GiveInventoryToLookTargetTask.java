@@ -46,16 +46,16 @@ public class GiveInventoryToLookTargetTask<E extends LivingEntity & InventoryOwn
     }
 
     protected void keepRunning(ServerWorld world, E entity, long time) {
-        Optional<LookTarget> optional = (Optional<LookTarget>)this.lookTargetFunction.apply(entity);
+        Optional<LookTarget> optional = this.lookTargetFunction.apply(entity);
         if (!optional.isEmpty()) {
-            LookTarget lookTarget = (LookTarget)optional.get();
+            LookTarget lookTarget = optional.get();
             double d = lookTarget.getPos().distanceTo(entity.getEyePos());
             if (d < 3.0D) {
-                ItemStack itemStack = ((InventoryOwner)entity).getInventory().removeStack(0, 1);
+                ItemStack itemStack = entity.getInventory().removeStack(0, 1);
                 if (!itemStack.isEmpty()) {
                     LookTargetUtil.give(entity, itemStack, offsetTarget(lookTarget));
                     if (entity instanceof AllayEntity) {
-                        AllayEntity allayEntity = (AllayEntity)entity;
+                        AllayEntity allayEntity = (AllayEntity) entity;
                         AllayBrain.getLikedPlayer(allayEntity).ifPresent((player) -> {
                             this.triggerCriterion(lookTarget, itemStack, player);
                         });
@@ -74,7 +74,7 @@ public class GiveInventoryToLookTargetTask<E extends LivingEntity & InventoryOwn
     }
 
     private boolean hasItemAndTarget(E entity) {
-        return !((InventoryOwner)entity).getInventory().isEmpty() && ((Optional)this.lookTargetFunction.apply(entity)).isPresent();
+        return !entity.getInventory().isEmpty() && this.lookTargetFunction.apply(entity).isPresent();
     }
 
     private static Vec3d offsetTarget(LookTarget target) {

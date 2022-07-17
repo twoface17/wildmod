@@ -46,7 +46,7 @@ import java.util.Random;
 public class AbstractBlockMixin {
     @Inject(at = @At("TAIL"), method = "onStacksDropped")
     public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack, CallbackInfo info) {
-        if (state.getBlock()==Blocks.SCULK_SENSOR) {
+        if (state.getBlock() == Blocks.SCULK_SENSOR) {
             if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) == 0) {
                 if (world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS)) {
                     ExperienceOrbEntity.spawn(world, Vec3d.ofCenter(pos), new Random().nextInt(3, 5));
@@ -95,7 +95,7 @@ public class AbstractBlockMixin {
         }
     }
 
-    @Inject(at =  @At("TAIL"), method = "onEntityCollision")
+    @Inject(at = @At("TAIL"), method = "onEntityCollision")
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci) {
         if (!world.isClient) {
             if (world.getBlockState(pos) == Blocks.SCULK_SENSOR.getDefaultState() && entity != null && entity.getType() != RegisterEntities.WARDEN) {

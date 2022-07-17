@@ -68,7 +68,7 @@ public class UpwardsBranchingTrunkPlacer extends WildTrunkPlacer {
         List<WildFoliagePlacer.TreeNode> list = Lists.newArrayList();
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-        for(int i = 0; i < height; ++i) {
+        for (int i = 0; i < height; ++i) {
             int j = startPos.getY() + i;
             if (this.getAndSetState(world, replacer, random, mutable.set(startPos.getX(), j, startPos.getZ()), config)
                     && i < height - 1
@@ -105,7 +105,7 @@ public class UpwardsBranchingTrunkPlacer extends WildTrunkPlacer {
         int j = pos.getX();
         int k = pos.getZ();
 
-        for(int l = length; l < height && steps > 0; --steps) {
+        for (int l = length; l < height && steps > 0; --steps) {
             if (l >= 1) {
                 int m = yOffset + l;
                 j += direction.getOffsetX();

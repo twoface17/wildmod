@@ -52,7 +52,7 @@ public class SonicBoomTask extends Task<WardenEntity> {
             wardenEntity.getLookControl().lookAt(livingEntity.getPos());
         });
         if (!wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY) && !wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN)) {
-            wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN, Unit.INSTANCE, (long)(RUN_TIME - SOUND_DELAY));
+            wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN, Unit.INSTANCE, RUN_TIME - SOUND_DELAY);
             Optional<LivingEntity> var10000 = wardenEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
             Objects.requireNonNull(wardenEntity);
             var10000.filter(wardenEntity::isValidTarget).filter((target) -> {
@@ -62,17 +62,17 @@ public class SonicBoomTask extends Task<WardenEntity> {
                 Vec3d vec3d2 = target.getEyePos().subtract(vec3d);
                 Vec3d vec3d3 = vec3d2.normalize();
 
-                for(int i = 1; i < MathHelper.floor(vec3d2.length()) + 7; ++i) {
-                    Vec3d vec3d4 = vec3d.add(vec3d3.multiply((double)i));
+                for (int i = 1; i < MathHelper.floor(vec3d2.length()) + 7; ++i) {
+                    Vec3d vec3d4 = vec3d.add(vec3d3.multiply(i));
                     serverWorld.spawnParticles(RegisterParticles.SONIC_BOOM, vec3d4.x, vec3d4.y, vec3d4.z, 1, 0.0, 0.0, 0.0, 0.0);
                 }
 
-                        wardenEntity.playSound(RegisterSounds.ENTITY_WARDEN_SONIC_BOOM, 3.0F, 1.0F);
-                        target.damage(WildDamageSource.SONIC_BOOM(wardenEntity), 10.0F);
-                        double d = 0.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
-                        double e = 2.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
-                        target.addVelocity(vec3d3.getX() * e, vec3d3.getY() * d, vec3d3.getZ() * e);
-                    });
+                wardenEntity.playSound(RegisterSounds.ENTITY_WARDEN_SONIC_BOOM, 3.0F, 1.0F);
+                target.damage(WildDamageSource.SONIC_BOOM(wardenEntity), 10.0F);
+                double d = 0.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
+                double e = 2.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
+                target.addVelocity(vec3d3.getX() * e, vec3d3.getY() * d, vec3d3.getZ() * e);
+            });
         }
     }
 
@@ -81,6 +81,6 @@ public class SonicBoomTask extends Task<WardenEntity> {
     }
 
     public static void cooldown(LivingEntity warden, int cooldown) {
-        warden.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_COOLDOWN, Unit.INSTANCE, (long)cooldown);
+        warden.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_COOLDOWN, Unit.INSTANCE, cooldown);
     }
 }

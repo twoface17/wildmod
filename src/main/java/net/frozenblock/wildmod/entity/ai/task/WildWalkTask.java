@@ -60,7 +60,7 @@ public class WildWalkTask extends Task<PathAwareEntity> {
         if (entity.isOnFire()) {
             Optional<Vec3d> optional = this.findClosestWater(world, entity).map(Vec3d::ofBottomCenter);
             if (optional.isPresent()) {
-                return (Vec3d)optional.get();
+                return optional.get();
             }
         }
 

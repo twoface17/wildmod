@@ -1,2 +1,4 @@
-package net.frozenblock.wildmod.liukrastapi;public class CustomBoatDispenserBehavior {
+package net.frozenblock.wildmod.liukrastapi;
+
+public class CustomBoatDispenserBehavior {
 }

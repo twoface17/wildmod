@@ -3,7 +3,6 @@ package net.frozenblock.wildmod.block.wild;
 import com.google.common.annotations.VisibleForTesting;
 import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
 import net.frozenblock.wildmod.liukrastapi.WildDirection;
-import net.frozenblock.wildmod.registry.WildUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -12,10 +11,8 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Stream;
 
 public class LichenGrower {
     public static final LichenGrower.GrowType[] GROW_TYPES = new LichenGrower.GrowType[]{
@@ -84,9 +81,8 @@ public class LichenGrower {
         if (newDirection.getAxis() == oldDirection.getAxis()) {
             return Optional.empty();
         } else if (this.growChecker.canGrow(state) || this.growChecker.hasDirection(state, oldDirection) && !this.growChecker.hasDirection(state, newDirection)
-        )
-        {
-            for(LichenGrower.GrowType growType : this.growChecker.getGrowTypes()) {
+        ) {
+            for (LichenGrower.GrowType growType : this.growChecker.getGrowTypes()) {
                 LichenGrower.GrowPos growPos = growType.getGrowPos(pos, newDirection, oldDirection);
                 if (predicate.test(world, pos, growPos)) {
                     return Optional.of(growPos);
@@ -140,7 +136,7 @@ public class LichenGrower {
         }
     }
 
-    public static record GrowPos(BlockPos pos, Direction face) {
+    public record GrowPos(BlockPos pos, Direction face) {
     }
 
     @FunctionalInterface
@@ -148,7 +144,7 @@ public class LichenGrower {
         boolean test(BlockView world, BlockPos pos, LichenGrower.GrowPos growPos);
     }
 
-    public static enum GrowType {
+    public enum GrowType {
         SAME_POSITION {
             @Override
             public LichenGrower.GrowPos getGrowPos(BlockPos pos, Direction newDirection, Direction oldDirection) {

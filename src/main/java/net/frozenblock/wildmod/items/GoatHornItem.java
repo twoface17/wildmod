@@ -30,7 +30,7 @@ import java.util.Random;
 
 public class GoatHornItem extends Item {
     private static final String INSTRUMENT_KEY = "instrument";
-    private TagKey<Instrument> instrumentTag;
+    private final TagKey<Instrument> instrumentTag;
 
     public GoatHornItem(Item.Settings settings, TagKey<Instrument> instrumentTag) {
         super(settings);
@@ -72,7 +72,7 @@ public class GoatHornItem extends Item {
     @Override
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
         if (this.isIn(group)) {
-            for(RegistryEntry<Instrument> registryEntry : WildRegistry.INSTRUMENT.iterateEntries(this.instrumentTag)) {
+            for (RegistryEntry<Instrument> registryEntry : WildRegistry.INSTRUMENT.iterateEntries(this.instrumentTag)) {
                 stacks.add(getStackForInstrument(RegisterItems.GOAT_HORN, registryEntry));
             }
         }
@@ -84,7 +84,7 @@ public class GoatHornItem extends Item {
         ItemStack itemStack = user.getStackInHand(hand);
         Optional<RegistryEntry<Instrument>> optional = this.getInstrument(itemStack);
         if (optional.isPresent()) {
-            Instrument instrument = (Instrument)((RegistryEntry)optional.get()).value();
+            Instrument instrument = (Instrument) ((RegistryEntry) optional.get()).value();
             user.setCurrentHand(hand);
             playSound(world, user, instrument);
             user.getItemCooldownManager().set(this, instrument.useDuration());
@@ -97,7 +97,7 @@ public class GoatHornItem extends Item {
     @Override
     public int getMaxUseTime(ItemStack stack) {
         Optional<RegistryEntry<Instrument>> optional = this.getInstrument(stack);
-        return optional.isPresent() ? ((Instrument)((RegistryEntry)optional.get()).value()).useDuration() : 0;
+        return optional.isPresent() ? ((Instrument) ((RegistryEntry) optional.get()).value()).useDuration() : 0;
     }
 
     private Optional<RegistryEntry<Instrument>> getInstrument(ItemStack stack) {
@@ -110,7 +110,7 @@ public class GoatHornItem extends Item {
         }
 
         Iterator<RegistryEntry<Instrument>> iterator = WildRegistry.INSTRUMENT.iterateEntries(this.instrumentTag).iterator();
-        return iterator.hasNext() ? Optional.of((RegistryEntry)iterator.next()) : Optional.empty();
+        return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.empty();
     }
 
     @Override

@@ -57,7 +57,7 @@ public abstract class RegisterBlocks {
                     RegisterSounds.BLOCK_MUD_BRICKS_HIT,
                     RegisterSounds.BLOCK_MUD_BRICKS_STEP
             ));
-    
+
     private static final FabricBlockSettings PACKED_MUD_SETTINGS = FabricBlockSettings
             .of(Material.STONE)
             .strength(0.5f, 1.0f)

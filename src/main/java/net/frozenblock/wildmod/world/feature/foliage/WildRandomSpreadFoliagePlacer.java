@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.world.feature.features.WildTreeFeatureConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.TestableWorld;
 
@@ -37,8 +36,8 @@ public class WildRandomSpreadFoliagePlacer extends WildFoliagePlacer {
         BlockPos blockPos = treeNode.getCenter();
         BlockPos.Mutable mutable = blockPos.mutableCopy();
 
-        for(int i = 0; i < this.leafPlacementAttempts; ++i) {
-            mutable.set((Vec3i)blockPos, random.nextInt(radius) - random.nextInt(radius), random.nextInt(foliageHeight) - random.nextInt(foliageHeight), random.nextInt(radius) - random.nextInt(radius));
+        for (int i = 0; i < this.leafPlacementAttempts; ++i) {
+            mutable.set(blockPos, random.nextInt(radius) - random.nextInt(radius), random.nextInt(foliageHeight) - random.nextInt(foliageHeight), random.nextInt(radius) - random.nextInt(radius));
             placeFoliageBlock(world, replacer, random, config, mutable);
         }
 

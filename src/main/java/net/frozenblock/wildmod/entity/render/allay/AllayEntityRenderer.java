@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 
 @Environment(EnvType.CLIENT)
 public class AllayEntityRenderer extends MobEntityRenderer<AllayEntity, AllayEntityModel> {
-    private static final Identifier TEXTURE = new Identifier(WildMod.MOD_ID,"textures/entity/allay/allay.png");
+    private static final Identifier TEXTURE = new Identifier(WildMod.MOD_ID, "textures/entity/allay/allay.png");
 
     public AllayEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new AllayEntityModel(context.getPart(WildModClient.MODEL_ALLAY_LAYER)), 0.4F);

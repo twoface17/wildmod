@@ -6,7 +6,8 @@ import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.gen.feature.FeatureConfig;
 
 public record SculkPatchFeatureConfig(
-        int chargeCount, int amountPerCharge, int spreadAttempts, int growthRounds, int spreadRounds, IntProvider extraRareGrowths, float catalystChance
+        int chargeCount, int amountPerCharge, int spreadAttempts, int growthRounds, int spreadRounds,
+        IntProvider extraRareGrowths, float catalystChance
 ) implements FeatureConfig {
     public static final Codec<SculkPatchFeatureConfig> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(

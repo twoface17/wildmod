@@ -159,7 +159,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
             this.setDamageWobbleStrength(this.getDamageWobbleStrength() + amount * 10.0F);
             this.scheduleVelocityUpdate();
             this.emitGameEvent(GameEvent.ENTITY_DAMAGED, source.getAttacker());
-            boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity)source.getAttacker()).getAbilities().creativeMode;
+            boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity) source.getAttacker()).getAbilities().creativeMode;
             if (bl || this.getDamageWobbleStrength() > 40.0F) {
                 if (!bl && this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                     this.dropItem(this.asItem());
@@ -183,7 +183,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
             }
         }
 
-        this.world.addParticle(ParticleTypes.SPLASH, this.getX() + (double)this.random.nextFloat(), this.getY() + 0.7D, this.getZ() + (double)this.random.nextFloat(), 0.0D, 0.0D, 0.0D);
+        this.world.addParticle(ParticleTypes.SPLASH, this.getX() + (double) this.random.nextFloat(), this.getY() + 0.7D, this.getZ() + (double) this.random.nextFloat(), 0.0D, 0.0D, 0.0D);
         if (this.random.nextInt(20) == 0) {
             this.world.playSound(this.getX(), this.getY(), this.getZ(), this.getSplashSound(), this.getSoundCategory(), 1.0F, 0.8F + 0.4F * this.random.nextFloat(), false);
         }
@@ -203,7 +203,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public Item asItem() {
-        switch(this.getBoatType()) {
+        switch (this.getBoatType()) {
             case OAK:
             default:
                 return RegisterItems.OAK_CHEST_BOAT;
@@ -286,9 +286,9 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
         this.handleBubbleColumn();
 
-        for(int i = 0; i <= 1; ++i) {
+        for (int i = 0; i <= 1; ++i) {
             if (this.isPaddleMoving(i)) {
-                if (!this.isSilent() && (double)(this.paddlePhases[i] % 6.2831855F) <= 0.7853981852531433D && ((double)this.paddlePhases[i] + 0.39269909262657166D) % 6.2831854820251465D >= 0.7853981852531433D) {
+                if (!this.isSilent() && (double) (this.paddlePhases[i] % 6.2831855F) <= 0.7853981852531433D && ((double) this.paddlePhases[i] + 0.39269909262657166D) % 6.2831854820251465D >= 0.7853981852531433D) {
                     SoundEvent soundEvent = this.getPaddleSoundEvent();
                     if (soundEvent != null) {
                         Vec3d vec3d = this.getRotationVec(1.0F);
@@ -300,7 +300,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
                 }
 
                 float[] var10000 = this.paddlePhases;
-                var10000[i] = (float)((double)var10000[i] + 0.39269909262657166D);
+                var10000[i] = (float) ((double) var10000[i] + 0.39269909262657166D);
             } else {
                 this.paddlePhases[i] = 0.0F;
             }
@@ -320,7 +320,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
             this.bubbleWobbleStrength = MathHelper.clamp(this.bubbleWobbleStrength, 0.0F, 1.0F);
             this.lastBubbleWobble = this.bubbleWobble;
-            this.bubbleWobble = 10.0F * (float)Math.sin(0.5F * (float)this.world.getTime()) * this.bubbleWobbleStrength;
+            this.bubbleWobble = 10.0F * (float) Math.sin(0.5F * (float) this.world.getTime()) * this.bubbleWobbleStrength;
         } else {
             if (!this.onBubbleColumnSurface) {
                 this.setBubbleWobbleTicks(0);
@@ -350,7 +350,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
     @Nullable
     protected SoundEvent getPaddleSoundEvent() {
-        switch(this.checkLocation()) {
+        switch (this.checkLocation()) {
             case IN_WATER:
             case UNDER_WATER:
             case UNDER_FLOWING_WATER:
@@ -370,12 +370,12 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         }
 
         if (this.field_7708 > 0) {
-            double d = this.getX() + (this.x - this.getX()) / (double)this.field_7708;
-            double e = this.getY() + (this.y - this.getY()) / (double)this.field_7708;
-            double f = this.getZ() + (this.z - this.getZ()) / (double)this.field_7708;
-            double g = MathHelper.wrapDegrees(this.boatYaw - (double)this.getYaw());
-            this.setYaw(this.getYaw() + (float)g / (float)this.field_7708);
-            this.setPitch(this.getPitch() + (float)(this.boatPitch - (double)this.getPitch()) / (float)this.field_7708);
+            double d = this.getX() + (this.x - this.getX()) / (double) this.field_7708;
+            double e = this.getY() + (this.y - this.getY()) / (double) this.field_7708;
+            double f = this.getZ() + (this.z - this.getZ()) / (double) this.field_7708;
+            double g = MathHelper.wrapDegrees(this.boatYaw - (double) this.getYaw());
+            this.setYaw(this.getYaw() + (float) g / (float) this.field_7708);
+            this.setPitch(this.getPitch() + (float) (this.boatPitch - (double) this.getPitch()) / (float) this.field_7708);
             --this.field_7708;
             this.setPosition(d, e, f);
             this.setRotation(this.getYaw(), this.getPitch());
@@ -388,7 +388,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public float interpolatePaddlePhase(int paddle, float tickDelta) {
-        return this.isPaddleMoving(paddle) ? (float)MathHelper.clampedLerp((double)this.paddlePhases[paddle] - 0.39269909262657166D, this.paddlePhases[paddle], tickDelta) : 0.0F;
+        return this.isPaddleMoving(paddle) ? (float) MathHelper.clampedLerp((double) this.paddlePhases[paddle] - 0.39269909262657166D, this.paddlePhases[paddle], tickDelta) : 0.0F;
     }
 
     private ChestBoatEntity.Location checkLocation() {
@@ -420,11 +420,11 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
         label39:
-        for(int o = k; o < l; ++o) {
+        for (int o = k; o < l; ++o) {
             float f = 0.0F;
 
-            for(int p = i; p < j; ++p) {
-                for(int q = m; q < n; ++q) {
+            for (int p = i; p < j; ++p) {
+                for (int q = m; q < n; ++q) {
                     mutable.set(p, o, q);
                     FluidState fluidState = this.world.getFluidState(mutable);
                     if (fluidState.isIn(FluidTags.WATER)) {
@@ -438,11 +438,11 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
             }
 
             if (f < 1.0F) {
-                return (float)mutable.getY() + f;
+                return (float) mutable.getY() + f;
             }
         }
 
-        return (float)(l + 1);
+        return (float) (l + 1);
     }
 
     public float method_7548() {
@@ -459,11 +459,11 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         int o = 0;
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-        for(int p = i; p < j; ++p) {
-            for(int q = m; q < n; ++q) {
+        for (int p = i; p < j; ++p) {
+            for (int q = m; q < n; ++q) {
                 int r = (p != i && p != j - 1 ? 0 : 1) + (q != m && q != n - 1 ? 0 : 1);
                 if (r != 2) {
-                    for(int s = k; s < l; ++s) {
+                    for (int s = k; s < l; ++s) {
                         if (r <= 0 || s != k && s != l - 1) {
                             mutable.set(p, s, q);
                             BlockState blockState = this.world.getBlockState(mutable);
@@ -477,7 +477,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
             }
         }
 
-        return f / (float)o;
+        return f / (float) o;
     }
 
     private boolean checkBoatInWater() {
@@ -492,15 +492,15 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         this.waterLevel = -1.7976931348623157E308D;
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-        for(int o = i; o < j; ++o) {
-            for(int p = k; p < l; ++p) {
-                for(int q = m; q < n; ++q) {
+        for (int o = i; o < j; ++o) {
+            for (int p = k; p < l; ++p) {
+                for (int q = m; q < n; ++q) {
                     mutable.set(o, p, q);
                     FluidState fluidState = this.world.getFluidState(mutable);
                     if (fluidState.isIn(FluidTags.WATER)) {
-                        float f = (float)p + fluidState.getHeight(this.world, mutable);
+                        float f = (float) p + fluidState.getHeight(this.world, mutable);
                         this.waterLevel = Math.max(f, this.waterLevel);
-                        bl |= box.minY < (double)f;
+                        bl |= box.minY < (double) f;
                     }
                 }
             }
@@ -522,12 +522,12 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         boolean bl = false;
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-        for(int o = i; o < j; ++o) {
-            for(int p = k; p < l; ++p) {
-                for(int q = m; q < n; ++q) {
+        for (int o = i; o < j; ++o) {
+            for (int p = k; p < l; ++p) {
+                for (int q = m; q < n; ++q) {
                     mutable.set(o, p, q);
                     FluidState fluidState = this.world.getFluidState(mutable);
-                    if (fluidState.isIn(FluidTags.WATER) && d < (double)((float)mutable.getY() + fluidState.getHeight(this.world, mutable))) {
+                    if (fluidState.isIn(FluidTags.WATER) && d < (double) ((float) mutable.getY() + fluidState.getHeight(this.world, mutable))) {
                         if (!fluidState.isStill()) {
                             return ChestBoatEntity.Location.UNDER_FLOWING_WATER;
                         }
@@ -548,13 +548,13 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
         this.velocityDecay = 0.05F;
         if (this.lastLocation == ChestBoatEntity.Location.IN_AIR && this.location != ChestBoatEntity.Location.IN_AIR && this.location != ChestBoatEntity.Location.ON_LAND) {
             this.waterLevel = this.getBodyY(1.0D);
-            this.setPosition(this.getX(), (double)(this.method_7544() - this.getHeight()) + 0.101D, this.getZ());
+            this.setPosition(this.getX(), (double) (this.method_7544() - this.getHeight()) + 0.101D, this.getZ());
             this.setVelocity(this.getVelocity().multiply(1.0D, 0.0D, 1.0D));
             this.fallVelocity = 0.0D;
             this.location = ChestBoatEntity.Location.IN_WATER;
         } else {
             if (this.location == ChestBoatEntity.Location.IN_WATER) {
-                f = (this.waterLevel - this.getY()) / (double)this.getHeight();
+                f = (this.waterLevel - this.getY()) / (double) this.getHeight();
                 this.velocityDecay = 0.9F;
             } else if (this.location == ChestBoatEntity.Location.UNDER_FLOWING_WATER) {
                 e = -7.0E-4D;
@@ -572,7 +572,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
             }
 
             Vec3d vec3d = this.getVelocity();
-            this.setVelocity(vec3d.x * (double)this.velocityDecay, vec3d.y + e, vec3d.z * (double)this.velocityDecay);
+            this.setVelocity(vec3d.x * (double) this.velocityDecay, vec3d.y + e, vec3d.z * (double) this.velocityDecay);
             this.yawVelocity *= this.velocityDecay;
             if (f > 0.0D) {
                 Vec3d vec3d2 = this.getVelocity();
@@ -613,18 +613,18 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
     public void updatePassengerPosition(Entity passenger) {
         if (this.hasPassenger(passenger)) {
-            float g = (float)((this.isRemoved() ? 0.009999999776482582D : this.getMountedHeightOffset()) + passenger.getHeightOffset());
+            float g = (float) ((this.isRemoved() ? 0.009999999776482582D : this.getMountedHeightOffset()) + passenger.getHeightOffset());
 
 
             Vec3d vec3d = (new Vec3d(0.3, 0.0D, 0.0D)).rotateY(-this.getYaw() * 0.017453292F - 1.5707964F);
-            passenger.setPosition(this.getX() + vec3d.x, this.getY() + (double)g, this.getZ() + vec3d.z);
+            passenger.setPosition(this.getX() + vec3d.x, this.getY() + (double) g, this.getZ() + vec3d.z);
             passenger.setYaw(passenger.getYaw() + this.yawVelocity);
             passenger.setHeadYaw(passenger.getHeadYaw() + this.yawVelocity);
             this.copyEntityData(passenger);
             if (passenger instanceof AnimalEntity && this.getPassengerList().size() > 1) {
                 int j = passenger.getId() % 2 == 0 ? 90 : 270;
-                passenger.setBodyYaw(((AnimalEntity)passenger).bodyYaw + (float)j);
-                passenger.setHeadYaw(passenger.getHeadYaw() + (float)j);
+                passenger.setBodyYaw(((AnimalEntity) passenger).bodyYaw + (float) j);
+                passenger.setHeadYaw(passenger.getHeadYaw() + (float) j);
             }
 
         }
@@ -640,12 +640,12 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
             List<Vec3d> list = Lists.newArrayList();
             double f = this.world.getDismountHeight(blockPos);
             if (Dismounting.canDismountInBlock(f)) {
-                list.add(new Vec3d(d, (double)blockPos.getY() + f, e));
+                list.add(new Vec3d(d, (double) blockPos.getY() + f, e));
             }
 
             double g = this.world.getDismountHeight(blockPos2);
             if (Dismounting.canDismountInBlock(g)) {
-                list.add(new Vec3d(d, (double)blockPos2.getY() + g, e));
+                list.add(new Vec3d(d, (double) blockPos2.getY() + g, e));
             }
 
             for (EntityPose entityPose : passenger.getPoses()) {
@@ -702,13 +702,13 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
     }
 
     public ActionResult interact(PlayerEntity player, Hand hand) {
-        if(player.isSneaking()) {
+        if (player.isSneaking()) {
 
             player.openHandledScreen(this);
             return ActionResult.SUCCESS;
         } else if (this.ticksUnderwater < 60.0F) {
             if (!this.world.isClient) {
-                if(this.getPassengerList().size() < 1) {
+                if (this.getPassengerList().size() < 1) {
                     return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
                 } else {
                     return ActionResult.SUCCESS;
@@ -736,11 +736,11 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
                         this.kill();
                         if (this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                             int j;
-                            for(j = 0; j < 3; ++j) {
+                            for (j = 0; j < 3; ++j) {
                                 this.dropItem(this.getBoatType().getBaseBlock());
                             }
 
-                            for(j = 0; j < 2; ++j) {
+                            for (j = 0; j < 2; ++j) {
                                 this.dropItem(Items.STICK);
                             }
                         }
@@ -749,7 +749,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
                 this.fallDistance = 0.0F;
             } else if (!this.world.getFluidState(this.getBlockPos().down()).isIn(FluidTags.WATER) && heightDifference < 0.0D) {
-                this.fallDistance = (float)((double)this.fallDistance - heightDifference);
+                this.fallDistance = (float) ((double) this.fallDistance - heightDifference);
             }
 
         }
@@ -865,7 +865,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
             }
 
             itemStack = var1.next();
-        } while(itemStack.isEmpty());
+        } while (itemStack.isEmpty());
 
         return false;
     }
@@ -920,7 +920,7 @@ public class ChestBoatEntity extends Entity implements Inventory, NamedScreenHan
 
     @Nullable
     public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-            return this.getScreenHandler(i, playerInventory);
+        return this.getScreenHandler(i, playerInventory);
     }
 
     public ScreenHandler getScreenHandler(int syncId, PlayerInventory playerInventory) {

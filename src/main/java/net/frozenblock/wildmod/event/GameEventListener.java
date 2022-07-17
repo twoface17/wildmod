@@ -7,6 +7,7 @@ public interface GameEventListener {
     default boolean shouldListenImmediately() {
         return false;
     }
+
     PositionSource getPositionSource();
 
     int getRange();

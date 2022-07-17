@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.entity.ai.task;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.LookTarget;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -28,16 +27,16 @@ public class WalkTowardsLookTargetTask<E extends LivingEntity> extends Task<E> {
 
     @Override
     protected boolean shouldRun(ServerWorld world, E entity) {
-        Optional<LookTarget> optional = this.lookTargetFunction.apply((LivingEntity)entity);
+        Optional<LookTarget> optional = this.lookTargetFunction.apply(entity);
         if (optional.isEmpty()) {
             return false;
         }
         LookTarget lookTarget = optional.get();
-        return !((Entity)entity).getPos().isInRange(lookTarget.getPos(), this.searchRange);
+        return !entity.getPos().isInRange(lookTarget.getPos(), this.searchRange);
     }
 
     @Override
     protected void run(ServerWorld world, E entity, long time) {
-       // LookTargetUtil.walkTowards(entity, (Entity) (this.lookTargetFunction.apply(entity)).get(), this.speed, this.completionRange);
+        // LookTargetUtil.walkTowards(entity, (Entity) (this.lookTargetFunction.apply(entity)).get(), this.speed, this.completionRange);
     }
 }

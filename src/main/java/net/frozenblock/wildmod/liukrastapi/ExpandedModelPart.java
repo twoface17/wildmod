@@ -4,24 +4,30 @@ import net.minecraft.client.model.ModelTransform;
 import net.minecraft.util.math.Vec3f;
 
 public interface ExpandedModelPart {
-	ModelTransform getDefaultTransform();
-	void setDefaultTransform(ModelTransform modelTransform);
-	void resetTransform();
+    ModelTransform getDefaultTransform();
 
-	boolean hasChild(String string);
+    void setDefaultTransform(ModelTransform modelTransform);
 
-	float getXScale();
-	float getYScale();
-	float getZScale();
+    void resetTransform();
 
-	void translate(Vec3f vector3f);
-	void rotate(Vec3f vector3f);
-	void scale(Vec3f vector3f);
+    boolean hasChild(String string);
 
-	//ModelPart createPart(int textureWidth, int textureHeight);
+    float getXScale();
+
+    float getYScale();
+
+    float getZScale();
+
+    void translate(Vec3f vector3f);
+
+    void rotate(Vec3f vector3f);
+
+    void scale(Vec3f vector3f);
+
+    //ModelPart createPart(int textureWidth, int textureHeight);
 
 
-	boolean getHidden();
+    boolean getHidden();
 
-	void setHidden(boolean value);
+    void setHidden(boolean value);
 }

@@ -55,7 +55,7 @@ public class EntityGameEventHandler<T extends GameEventListener> {
                 updateDispatcher(world, this.sectionPos, (dispatcher) -> {
                     dispatcher.removeListener(this.listener);
                 });
-                this.sectionPos = (ChunkSectionPos) sectionPos;
+                this.sectionPos = sectionPos;
                 updateDispatcher(world, this.sectionPos, (dispatcher) -> {
                     dispatcher.addListener(this.listener);
                 });
