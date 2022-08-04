@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.event;
 
-import net.frozenblock.wildmod.liukrastapi.ChunkSectionPos;
+import net.frozenblock.wildmod.misc.ChunkSectionPos;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;

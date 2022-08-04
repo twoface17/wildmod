@@ -1,10 +1,8 @@
 package net.frozenblock.wildmod.mixins;
 
 import com.mojang.authlib.GameProfile;
-import net.frozenblock.wildmod.entity.MangroveBoatEntity;
-import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
-import net.frozenblock.wildmod.liukrastapi.AdvancedMath;
-import net.frozenblock.wildmod.liukrastapi.WildInput;
+import net.frozenblock.wildmod.misc.AdvancedMath;
+import net.frozenblock.wildmod.misc.WildInput;
 import net.frozenblock.wildmod.registry.RegisterItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
@@ -176,20 +174,5 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     public void tickMovement(CallbackInfo ci) {
         float swiftSneakFactor = MathHelper.clamp(0.3F + RegisterItems.getSwiftSneakSpeedBoost(this), 0.0F, 1.0F);
         ((WildInput) this.input).tick(this.shouldSlowDown(), swiftSneakFactor * 3.0F);
-    }
-
-
-    @Inject(at = @At("HEAD"), method = "tickRiding")
-    public void tickRiding(CallbackInfo ci) {
-        this.riding = false;
-        if (this.getVehicle() instanceof MangroveBoatEntity boatEntity) {
-            boatEntity.setInputs(this.input.pressingLeft, this.input.pressingRight, this.input.pressingForward, this.input.pressingBack);
-            this.riding |= this.input.pressingLeft || this.input.pressingRight || this.input.pressingForward || this.input.pressingBack;
-        }
-        if (this.getVehicle() instanceof ChestBoatEntity boatEntity) {
-            boatEntity.setInputs(this.input.pressingLeft, this.input.pressingRight, this.input.pressingForward, this.input.pressingBack);
-            this.riding |= this.input.pressingLeft || this.input.pressingRight || this.input.pressingForward || this.input.pressingBack;
-        }
-
     }
 }

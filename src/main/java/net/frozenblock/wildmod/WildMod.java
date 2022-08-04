@@ -15,11 +15,10 @@ import net.frozenblock.wildmod.event.WildEntityPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.event.WildPositionSourceType;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
-import net.frozenblock.wildmod.liukrastapi.FrogAttackablesSensor;
-import net.frozenblock.wildmod.liukrastapi.IsInWaterSensor;
-import net.frozenblock.wildmod.liukrastapi.ItemCriterion;
-import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
-import net.frozenblock.wildmod.mixins.ActivityInvoker;
+import net.frozenblock.wildmod.misc.FrogAttackablesSensor;
+import net.frozenblock.wildmod.misc.IsInWaterSensor;
+import net.frozenblock.wildmod.misc.ItemCriterion;
+import net.frozenblock.wildmod.misc.animation.AnimationState;
 import net.frozenblock.wildmod.registry.*;
 import net.frozenblock.wildmod.world.feature.WildTrunkPlacerType;
 import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacerType;
@@ -65,7 +64,7 @@ public class WildMod implements ModInitializer {
     public static final UseAction TOOT_HORN = ClassTinkerers.getEnum(UseAction.class, "TOOT_HORN");
 
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
-    public static WildPositionSourceType<WildEntityPositionSource> ENTITY;
+    public static final WildPositionSourceType<WildEntityPositionSource> ENTITY = WildPositionSourceType.register("entity", new WildEntityPositionSource.Type());
 
     static <T> TrackedDataHandler<Optional<T>> ofOptional(WildPacketByteBuf.PacketWriter<T> packetWriter, WildPacketByteBuf.PacketReader<T> packetReader) {
         return WildTrackedDataHandler.of(packetWriter.asOptional(), packetReader.asOptional());
@@ -93,7 +92,7 @@ public class WildMod implements ModInitializer {
         RegisterParticles.RegisterParticles();
         RegisterStatusEffects.RegisterStatusEffects();
         RegisterWorldgen.registerWorldgen();
-        RootPlacerType.registerRootTypes();
+        RootPlacerType.init();
 
         RegisterSounds.init();
         RegisterBlockSoundGroups.init();
@@ -104,14 +103,14 @@ public class WildMod implements ModInitializer {
         registerData(OPTIONAL_INT);
         registerData(WildRegistry.FROG_VARIANT_DATA);
 
-        TONGUE = ActivityInvoker.callRegister("tongue");
-        SWIM = ActivityInvoker.callRegister("swim");
-        LAY_SPAWN = ActivityInvoker.callRegister("lay_spawn");
-        SNIFF = ActivityInvoker.callRegister("sniff");
-        INVESTIGATE = ActivityInvoker.callRegister("investigate");
-        ROAR = ActivityInvoker.callRegister("roar");
-        EMERGE = ActivityInvoker.callRegister("emerge");
-        DIG = ActivityInvoker.callRegister("dig");
+        TONGUE = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "tongue"), new Activity("tongue"));
+        SWIM = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "swim"), new Activity("swim"));
+        LAY_SPAWN = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "lay_spawn"), new Activity("lay_spawn"));
+        SNIFF = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "sniff"), new Activity("sniff"));
+        INVESTIGATE = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "investigate"), new Activity("investigate"));
+        ROAR = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "roar"), new Activity("roar"));
+        EMERGE = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "emerge"), new Activity("emerge"));
+        DIG = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "dig"), new Activity("dig"));
 
         RegisterAccurateSculk.register();
         WildGameEvents.RegisterGameEvents();
@@ -119,7 +118,6 @@ public class WildMod implements ModInitializer {
         WildFoliagePlacerType.init();
         WildTrunkPlacerType.init();
 
-        ENTITY = WildPositionSourceType.register("entity", new WildEntityPositionSource.Type());
         SpawnRestrictionAccessor.callRegister(RegisterEntities.FROG, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FrogEntity::canSpawn);
     }
 

@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.registry;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
-import net.frozenblock.wildmod.liukrastapi.TickCriterion;
+import net.frozenblock.wildmod.misc.TickCriterion;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementFrame;
 import net.minecraft.advancement.CriterionMerger;

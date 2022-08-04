@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.WildModClient;
-import net.frozenblock.wildmod.liukrastapi.AdvancedMath;
+import net.frozenblock.wildmod.misc.AdvancedMath;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;

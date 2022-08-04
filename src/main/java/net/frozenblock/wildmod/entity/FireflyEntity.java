@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.entity;
 
-import net.frozenblock.wildmod.liukrastapi.FireflyWanderGoal;
+import net.frozenblock.wildmod.misc.FireflyWanderGoal;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

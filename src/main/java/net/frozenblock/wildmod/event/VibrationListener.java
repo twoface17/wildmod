@@ -7,8 +7,8 @@ package net.frozenblock.wildmod.event;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.frozenblock.wildmod.liukrastapi.TickCriterion;
-import net.frozenblock.wildmod.liukrastapi.WildVec3d;
+import net.frozenblock.wildmod.misc.TickCriterion;
+import net.frozenblock.wildmod.misc.WildVec3d;
 import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.entity.Entity;

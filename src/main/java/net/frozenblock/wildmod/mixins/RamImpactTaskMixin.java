@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.liukrastapi.WildGoat;
+import net.frozenblock.wildmod.misc.WildGoat;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;

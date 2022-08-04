@@ -11,6 +11,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.RegistryEntry;
 
 public class AncientCityGenerator {
+
+
     public static final RegistryEntry<StructurePool> CITY_CENTER = StructurePools.register(
             new StructurePool(
                     new Identifier(WildMod.MOD_ID, "ancient_city/city_center"),

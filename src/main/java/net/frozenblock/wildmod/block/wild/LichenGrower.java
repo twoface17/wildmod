@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.block.wild;
 
 import com.google.common.annotations.VisibleForTesting;
 import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
-import net.frozenblock.wildmod.liukrastapi.WildDirection;
+import net.frozenblock.wildmod.misc.WildDirection;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;

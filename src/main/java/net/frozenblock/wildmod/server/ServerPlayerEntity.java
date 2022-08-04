@@ -22,7 +22,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.WildStatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.HostileEntity;
@@ -692,7 +692,7 @@ public class ServerPlayerEntity extends net.minecraft.server.network.ServerPlaye
                 playerManager.sendWorldInfo(this, destination);
                 playerManager.sendPlayerStatus(this);
 
-                for(StatusEffectInstance statusEffectInstance : this.getStatusEffects()) {
+                for(WildStatusEffectInstance statusEffectInstance : this.getStatusEffects()) {
                     this.networkHandler.sendPacket(new EntityStatusEffectS2CPacket(this.getId(), statusEffectInstance));
                 }
 
@@ -1089,7 +1089,7 @@ public class ServerPlayerEntity extends net.minecraft.server.network.ServerPlaye
         this.setLastDeathPos(oldPlayer.getLastDeathPos());
     }
 
-    protected void onStatusEffectApplied(StatusEffectInstance effect, @Nullable Entity source) {
+    protected void onStatusEffectApplied(WildStatusEffectInstance effect, @Nullable Entity source) {
         super.onStatusEffectApplied(effect, source);
         this.networkHandler.sendPacket(new EntityStatusEffectS2CPacket(this.getId(), effect));
         if (effect.getEffectType() == StatusEffects.LEVITATION) {
@@ -1100,13 +1100,13 @@ public class ServerPlayerEntity extends net.minecraft.server.network.ServerPlaye
         Criteria.EFFECTS_CHANGED.trigger(this, source);
     }
 
-    protected void onStatusEffectUpgraded(StatusEffectInstance effect, boolean reapplyEffect, @Nullable Entity source) {
+    protected void onStatusEffectUpgraded(WildStatusEffectInstance effect, boolean reapplyEffect, @Nullable Entity source) {
         super.onStatusEffectUpgraded(effect, reapplyEffect, source);
         this.networkHandler.sendPacket(new EntityStatusEffectS2CPacket(this.getId(), effect));
         Criteria.EFFECTS_CHANGED.trigger(this, source);
     }
 
-    protected void onStatusEffectRemoved(StatusEffectInstance effect) {
+    protected void onStatusEffectRemoved(WildStatusEffectInstance effect) {
         super.onStatusEffectRemoved(effect);
         this.networkHandler.sendPacket(new RemoveEntityStatusEffectS2CPacket(this.getId(), effect.getEffectType()));
         if (effect.getEffectType() == StatusEffects.LEVITATION) {

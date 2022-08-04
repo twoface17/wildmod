@@ -3,7 +3,7 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkGrower;
-import net.frozenblock.wildmod.liukrastapi.Sphere;
+import net.frozenblock.wildmod.misc.Sphere;
 import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterTags;

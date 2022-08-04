@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.liukrastapi.AdvancedMath;
+import net.frozenblock.wildmod.misc.AdvancedMath;
+import net.frozenblock.wildmod.misc.WildStatusEffectInstance;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -57,7 +58,7 @@ public class LightmapTextureManagerMixin implements AutoCloseable {
         if (this.client.player.hasStatusEffect(RegisterStatusEffects.DARKNESS)) {
             assert this.client.player.getStatusEffect(RegisterStatusEffects.DARKNESS) != null;
             StatusEffectInstance statusEffectInstance = this.client.player.getStatusEffect(RegisterStatusEffects.DARKNESS);
-            if (statusEffectInstance instanceof net.frozenblock.wildmod.liukrastapi.StatusEffectInstance wildStatusEffectInstance) {
+            if (statusEffectInstance instanceof WildStatusEffectInstance wildStatusEffectInstance) {
                 if (wildStatusEffectInstance.getFactorCalculationData().isPresent()) {
                     return wildStatusEffectInstance.getFactorCalculationData().get().lerp(f);
                 }

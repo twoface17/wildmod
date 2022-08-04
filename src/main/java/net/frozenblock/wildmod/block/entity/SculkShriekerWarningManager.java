@@ -3,7 +3,7 @@ package net.frozenblock.wildmod.block.entity;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.entity.WardenEntity;
-import net.frozenblock.wildmod.liukrastapi.WildPlayerEntity;
+import net.frozenblock.wildmod.misc.WildPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;

@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.entity;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.frozenblock.wildmod.liukrastapi.WildVec3d;
+import net.frozenblock.wildmod.misc.WildVec3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.world.ServerWorld;

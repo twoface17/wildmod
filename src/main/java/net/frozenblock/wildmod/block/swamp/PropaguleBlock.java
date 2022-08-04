@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.block.swamp;
 
 
 import net.frozenblock.wildmod.fromAccurateSculk.WildProperties;
-import net.frozenblock.wildmod.liukrastapi.MangroveSaplingGenerator;
+import net.frozenblock.wildmod.misc.MangroveSaplingGenerator;
 import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
@@ -13,6 +13,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -23,24 +24,38 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.Random;
 
-public class PropaguleBlock extends SaplingBlock implements Waterloggable, Fertilizable {
+public class PropaguleBlock extends SaplingBlock implements Waterloggable {
     public static final IntProperty AGE = WildProperties.AGE_4;
-    public static final int field_37589 = 4;
-    private static final VoxelShape[] SHAPES = new VoxelShape[]{Block.createCuboidShape(7.0, 13.0, 7.0, 9.0, 16.0, 9.0), Block.createCuboidShape(7.0, 10.0, 7.0, 9.0, 16.0, 9.0), Block.createCuboidShape(7.0, 7.0, 7.0, 9.0, 16.0, 9.0), Block.createCuboidShape(7.0, 3.0, 7.0, 9.0, 16.0, 9.0), Block.createCuboidShape(7.0, 0.0, 7.0, 9.0, 16.0, 9.0)};
+    public static final int MAX_AGE = 4;
+    private static final VoxelShape[] SHAPES = new VoxelShape[]{
+            Block.createCuboidShape(7.0, 13.0, 7.0, 9.0, 16.0, 9.0),
+            Block.createCuboidShape(7.0, 10.0, 7.0, 9.0, 16.0, 9.0),
+            Block.createCuboidShape(7.0, 7.0, 7.0, 9.0, 16.0, 9.0),
+            Block.createCuboidShape(7.0, 3.0, 7.0, 9.0, 16.0, 9.0),
+            Block.createCuboidShape(7.0, 0.0, 7.0, 9.0, 16.0, 9.0)
+    };
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public static final BooleanProperty HANGING = Properties.HANGING;
-    private static final float field_38749 = 0.85F;
+    private static final float TALL_MANGROVE_CHANCE = 0.85F;
 
-    public PropaguleBlock(AbstractBlock.Settings settings) {
+    public PropaguleBlock(Settings settings) {
         super(new MangroveSaplingGenerator(0.85F), settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(STAGE, 0).with(AGE, 0).with(WATERLOGGED, false).with(HANGING, false));
+        this.setDefaultState(
+                this.stateManager.getDefaultState().with(STAGE, 0).with(AGE, 0)
+                        .with(WATERLOGGED, false)
+                        .with(HANGING, false)
+        );
+    }
+
+    @Override
+    public AbstractBlock.OffsetType getOffsetType() {
+        return OffsetType.XZ;
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(STAGE).add(AGE).add(WATERLOGGED).add(HANGING);
+        builder.add(new Property[]{STAGE}).add(new Property[]{AGE}).add(new Property[]{WATERLOGGED}).add(new Property[]{HANGING});
     }
 
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
@@ -51,13 +66,13 @@ public class PropaguleBlock extends SaplingBlock implements Waterloggable, Ferti
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
         boolean bl = fluidState.getFluid() == Fluids.WATER;
-        return Objects.requireNonNull(super.getPlacementState(ctx)).with(WATERLOGGED, bl).with(AGE, 4);
+        return super.getPlacementState(ctx).with(WATERLOGGED, bl).with(AGE, 4);
     }
 
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         Vec3d vec3d = state.getModelOffset(world, pos);
         VoxelShape voxelShape;
-        if (!(Boolean) state.get(HANGING)) {
+        if (!state.get(HANGING)) {
             voxelShape = SHAPES[4];
         } else {
             voxelShape = SHAPES[state.get(AGE)];
@@ -70,12 +85,16 @@ public class PropaguleBlock extends SaplingBlock implements Waterloggable, Ferti
         return isHanging(state) ? world.getBlockState(pos.up()).isOf(MangroveWoods.MANGROVE_LEAVES) : super.canPlaceAt(state, world, pos);
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    public BlockState getStateForNeighborUpdate(
+            BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos
+    ) {
         if (state.get(WATERLOGGED)) {
             world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
-        return direction == Direction.UP && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+        return direction == Direction.UP && !state.canPlaceAt(world, pos)
+                ? Blocks.AIR.getDefaultState()
+                : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
     public FluidState getFluidState(BlockState state) {
@@ -90,7 +109,7 @@ public class PropaguleBlock extends SaplingBlock implements Waterloggable, Ferti
 
         } else {
             if (!isFullyGrown(state)) {
-                world.setBlockState(pos, state.cycle(AGE), Block.NOTIFY_LISTENERS);
+                world.setBlockState(pos, state.cycle(AGE), 2);
             }
 
         }
@@ -106,7 +125,7 @@ public class PropaguleBlock extends SaplingBlock implements Waterloggable, Ferti
 
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
         if (isHanging(state) && !isFullyGrown(state)) {
-            world.setBlockState(pos, state.cycle(AGE), Block.NOTIFY_LISTENERS);
+            world.setBlockState(pos, state.cycle(AGE), 2);
         } else {
             super.grow(world, random, pos, state);
         }

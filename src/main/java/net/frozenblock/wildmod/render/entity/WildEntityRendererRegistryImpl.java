@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.render.entity;
 
-import net.frozenblock.wildmod.liukrastapi.NewEntityRendererFactory;
+import net.frozenblock.wildmod.misc.NewEntityRendererFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 

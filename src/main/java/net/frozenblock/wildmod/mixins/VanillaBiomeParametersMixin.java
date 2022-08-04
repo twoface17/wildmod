@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import net.frozenblock.wildmod.registry.RegisterWorldgen;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 import net.minecraft.world.biome.source.util.VanillaBiomeParameters;
 import org.spongepowered.asm.mixin.Final;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.Consumer;
 
 @Mixin(VanillaBiomeParameters.class)
-public final class VanillaBiomeParametersMixin {
+public abstract class VanillaBiomeParametersMixin {
     @Shadow
     @Final
     private MultiNoiseUtil.ParameterRange riverContinentalness;
@@ -39,33 +40,7 @@ public final class VanillaBiomeParametersMixin {
     @Final
     private RegistryKey<Biome>[][] uncommonBiomes;
 
-    private void writeBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, final float offset, RegistryKey<Biome> biome) {
-        parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(temperature, humidity, continentalness, erosion, MultiNoiseUtil.ParameterRange.of(0.0F, 1.0F), weirdness, offset), biome));
-    }
-
-    private void writeCaveBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, final float offset, RegistryKey<Biome> biome) {
-        parameters.accept(Pair.of(MultiNoiseUtil.createNoiseHypercube(temperature, humidity, continentalness, erosion, MultiNoiseUtil.ParameterRange.of(0.825F, 1.5F), weirdness, offset), biome));
-    }
-
-    private void method_41419(
-            Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> consumer,
-            MultiNoiseUtil.ParameterRange parameterRange,
-            MultiNoiseUtil.ParameterRange parameterRange2,
-            MultiNoiseUtil.ParameterRange parameterRange3,
-            MultiNoiseUtil.ParameterRange parameterRange4,
-            MultiNoiseUtil.ParameterRange parameterRange5,
-            float f,
-            RegistryKey<Biome> registryKey
-    ) {
-        consumer.accept(
-                Pair.of(
-                        MultiNoiseUtil.createNoiseHypercube(
-                                parameterRange, parameterRange2, parameterRange3, parameterRange4, MultiNoiseUtil.ParameterRange.of(1.1F), parameterRange5, f
-                        ),
-                        registryKey
-                )
-        );
-    }
+    @Shadow protected abstract void writeBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, float offset, RegistryKey<Biome> biome);
 
     @Inject(method = "writeBiomesNearRivers", at = @At("TAIL"))
     private void writeBiomesNearRivers(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange weirdness, CallbackInfo ci) {
@@ -111,7 +86,7 @@ public final class VanillaBiomeParametersMixin {
 
     @Inject(method = "writeCaveBiomes", at = @At("TAIL"))
     private void injectDeepDark(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, CallbackInfo ci) {
-        this.method_41419(
+        this.writeBiomeParameters(
                 parameters,
                 this.defaultParameter,
                 this.defaultParameter,

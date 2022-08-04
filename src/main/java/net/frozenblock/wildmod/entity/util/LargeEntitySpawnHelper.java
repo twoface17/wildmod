@@ -24,16 +24,16 @@ public class LargeEntitySpawnHelper {
             int tries,
             int horizontalRange,
             int verticalRange,
-            LargeEntitySpawnHelper.class_7502 arg
+            LargeEntitySpawnHelper.Requirements requirements
     ) {
         BlockPos.Mutable mutable = pos.mutableCopy();
 
-        for (int i = 0; i < tries; ++i) {
+        for(int i = 0; i < tries; ++i) {
             int j = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
             int k = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
             mutable.set(pos, j, verticalRange, k);
-            if (world.getWorldBorder().contains(mutable) && findSpawnPos(world, verticalRange, mutable, arg)) {
-                T mobEntity = entityType.create(world, null, null, null, mutable, reason, false, false);
+            if (world.getWorldBorder().contains(mutable) && findSpawnPos(world, verticalRange, mutable, requirements)) {
+                T mobEntity = (T)entityType.create(world, null, null, null, mutable, reason, false, false);
                 if (mobEntity != null) {
                     if (mobEntity.canSpawn(world, reason) && mobEntity.canSpawn(world)) {
                         world.spawnEntityAndPassengers(mobEntity);
@@ -48,15 +48,15 @@ public class LargeEntitySpawnHelper {
         return Optional.empty();
     }
 
-    private static boolean findSpawnPos(ServerWorld world, int verticalRange, BlockPos.Mutable pos, LargeEntitySpawnHelper.class_7502 arg) {
+    private static boolean findSpawnPos(ServerWorld world, int verticalRange, BlockPos.Mutable pos, LargeEntitySpawnHelper.Requirements requirements) {
         BlockPos.Mutable mutable = new BlockPos.Mutable().set(pos);
         BlockState blockState = world.getBlockState(mutable);
 
-        for (int i = verticalRange; i >= -verticalRange; --i) {
+        for(int i = verticalRange; i >= -verticalRange; --i) {
             pos.move(Direction.DOWN);
             mutable.set(pos, Direction.UP);
             BlockState blockState2 = world.getBlockState(pos);
-            if (arg.canSpawnOn(world, pos, blockState2, mutable, blockState)) {
+            if (requirements.canSpawnOn(world, pos, blockState2, mutable, blockState)) {
                 pos.move(Direction.UP);
                 return true;
             }
@@ -67,17 +67,14 @@ public class LargeEntitySpawnHelper {
         return false;
     }
 
-    public interface class_7502 {
-        LargeEntitySpawnHelper.class_7502 field_39400 = (serverWorld, blockPos, blockState, blockPos2, blockState2) -> (
-                blockState2.isAir() || blockState2.getMaterial().isLiquid()
+    public interface Requirements {
+        LargeEntitySpawnHelper.Requirements IRON_GOLEM = (world, pos, state, abovePos, aboveState) -> (
+                aboveState.isAir() || aboveState.getMaterial().isLiquid()
         )
-                && blockState.getMaterial().blocksLight();
-        LargeEntitySpawnHelper.class_7502 field_39401 = (serverWorld, blockPos, blockState, blockPos2, blockState2) -> blockState2.getCollisionShape(
-                        serverWorld, blockPos2
-                )
-                .isEmpty()
-                && Block.isFaceFullSquare(blockState.getCollisionShape(serverWorld, blockPos), Direction.UP);
+                && state.getMaterial().blocksLight();
+        LargeEntitySpawnHelper.Requirements WARDEN = (world, pos, state, abovePos, aboveState) -> aboveState.getCollisionShape(world, abovePos).isEmpty()
+                && Block.isFaceFullSquare(state.getCollisionShape(world, pos), Direction.UP);
 
-        boolean canSpawnOn(ServerWorld serverWorld, BlockPos blockPos, BlockState blockState, BlockPos blockPos2, BlockState blockState2);
+        boolean canSpawnOn(ServerWorld world, BlockPos pos, BlockState state, BlockPos abovePos, BlockState aboveState);
     }
 }

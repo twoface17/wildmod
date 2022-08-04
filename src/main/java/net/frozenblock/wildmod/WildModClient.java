@@ -16,8 +16,7 @@ import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityModel;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntityRenderer;
 import net.frozenblock.wildmod.entity.render.allay.AllayEntityModel;
 import net.frozenblock.wildmod.entity.render.allay.AllayEntityRenderer;
-import net.frozenblock.wildmod.entity.render.boat.MangroveBoatEntityModel;
-import net.frozenblock.wildmod.entity.render.boat.MangroveBoatEntityRenderer;
+import net.frozenblock.wildmod.entity.render.boat.WildBoatEntityModel;
 import net.frozenblock.wildmod.entity.render.firefly.FireflyEntityRenderer;
 import net.frozenblock.wildmod.entity.render.frog.FrogEntityModel;
 import net.frozenblock.wildmod.entity.render.frog.FrogEntityRenderer;
@@ -27,22 +26,21 @@ import net.frozenblock.wildmod.entity.render.warden.WardenEntityModel;
 import net.frozenblock.wildmod.entity.render.warden.WardenEntityRenderer;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkParticleHandler;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkSoul;
-import net.frozenblock.wildmod.liukrastapi.animation.AnimationHelper;
-import net.frozenblock.wildmod.liukrastapi.animation.Transformation;
+import net.frozenblock.wildmod.misc.animation.AnimationHelper;
+import net.frozenblock.wildmod.misc.animation.Transformation;
 import net.frozenblock.wildmod.particle.SculkChargeParticle;
 import net.frozenblock.wildmod.particle.SculkChargePopParticle;
 import net.frozenblock.wildmod.particle.ShriekParticle;
 import net.frozenblock.wildmod.particle.WildVibrationParticle;
-import net.frozenblock.wildmod.registry.MangroveWoods;
-import net.frozenblock.wildmod.registry.RegisterBlocks;
-import net.frozenblock.wildmod.registry.RegisterEntities;
-import net.frozenblock.wildmod.registry.RegisterParticles;
+import net.frozenblock.wildmod.registry.*;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ExplosionLargeParticle;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.BoatEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.entity.vehicle.BoatEntity;
@@ -94,6 +92,8 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.FROGSPAWN, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_SHRIEKER, RenderLayer.getCutout());
 
+        ModelPredicateProviderRegistry.register(RegisterItems.GOAT_HORN, new Identifier("tooting"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F);
+
         EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(WARDEN, WardenEntityModel::getTexturedModelData);
 
@@ -106,14 +106,11 @@ public class WildModClient implements ClientModInitializer {
         EntityRendererRegistry.register(RegisterEntities.TADPOLE, TadpoleEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_TADPOLE_LAYER, TadpoleEntityModel::getTexturedModelData);
 
-        EntityRendererRegistry.register(RegisterEntities.MANGROVE_BOAT, context -> new MangroveBoatEntityRenderer(context, false));
-        TexturedModelData texturedModelData19 = MangroveBoatEntityModel.getTexturedModelData(false);
-        TexturedModelData texturedModelData20 = MangroveBoatEntityModel.getTexturedModelData(true);
+        TexturedModelData texturedModelData19 = WildBoatEntityModel.getTexturedModelData(false);
+        TexturedModelData texturedModelData20 = WildBoatEntityModel.getTexturedModelData(true);
         for (BoatEntity.Type type : BoatEntity.Type.values()) {
             builder.put(EntityModelLayers.createBoat(type), texturedModelData19);
-            builder.put(MangroveBoatEntityRenderer.createChestBoat(type), texturedModelData20);
         }
-        //EntityModelLayerRegistry.registerModelLayer(MODEL_MANGROVE_BOAT_LAYER, MangroveBoatEntityModel.getTexturedModelData(false));
 
         EntityRendererRegistry.register(RegisterEntities.CHEST_BOAT, ChestBoatEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_CHEST_BOAT_LAYER, ChestBoatEntityModel::getTexturedModelData);

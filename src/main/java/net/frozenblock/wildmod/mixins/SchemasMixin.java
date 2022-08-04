@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.mixins;
 
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
-import net.frozenblock.wildmod.liukrastapi.GoatHornIdFix;
+import net.frozenblock.wildmod.misc.GoatHornIdFix;
 import net.minecraft.datafixer.Schemas;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

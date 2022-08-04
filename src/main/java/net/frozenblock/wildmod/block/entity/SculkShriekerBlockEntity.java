@@ -14,7 +14,7 @@ import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvents;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
-import net.frozenblock.wildmod.liukrastapi.WildVec3d;
+import net.frozenblock.wildmod.misc.WildVec3d;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterTags;
@@ -192,7 +192,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
     }
 
     private boolean trySpawnWarden(ServerWorld serverWorld) {
-        return this.warningLevel >= 4 && LargeEntitySpawnHelper.trySpawnAt(RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, this.getPos(), 20, 5, 6, LargeEntitySpawnHelper.class_7502.field_39401).isPresent();
+        return this.warningLevel >= 4 && LargeEntitySpawnHelper.trySpawnAt(RegisterEntities.WARDEN, SpawnReason.TRIGGERED, serverWorld, this.getPos(), 20, 5, 6, LargeEntitySpawnHelper.Requirements.WARDEN).isPresent();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.event;
 
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.liukrastapi.WildVec3d;
+import net.frozenblock.wildmod.misc.WildVec3d;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;

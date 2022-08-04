@@ -7,11 +7,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class RootPlacerType<P extends RootPlacer> {
-    public static RootPlacerType<MangroveRootPlacer> MANGROVE_ROOT_PLACER;
+    public static final RootPlacerType<MangroveRootPlacer> MANGROVE_ROOT_PLACER = register("mangrove_root_placer", MangroveRootPlacer.CODEC);
     private final Codec<P> codec;
 
-    public static void registerRootTypes() {
-        MANGROVE_ROOT_PLACER = register("mangrove_root_placer", MangroveRootPlacer.CODEC);
+    public static void init() {
     }
 
     private static <P extends RootPlacer> RootPlacerType<P> register(String id, Codec<P> codec) {

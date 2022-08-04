@@ -52,13 +52,7 @@ public abstract class MangroveWoods {
             RegisterSounds.BLOCK_MANGROVE_ROOTS_HIT,
             RegisterSounds.BLOCK_MANGROVE_ROOTS_FALL
     )).nonOpaque().allowsSpawning(RegisterBlocks::canSpawnOnLeaves).suffocates(RegisterBlocks::never).blockVision(RegisterBlocks::never).nonOpaque());
-    public static final Block MANGROVE_PROPAGULE = new PropaguleBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(new BlockSoundGroup(1.0f, 1.0f,
-            RegisterSounds.BLOCK_MANGROVE_PROPAGULE_BREAK,
-            RegisterSounds.BLOCK_MANGROVE_PROPAGULE_STEP,
-            RegisterSounds.BLOCK_MANGROVE_PROPAGULE_PLACE,
-            RegisterSounds.BLOCK_MANGROVE_PROPAGULE_HIT,
-            RegisterSounds.BLOCK_MANGROVE_PROPAGULE_FALL
-    )));
+    public static final Block MANGROVE_PROPAGULE = new PropaguleBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS));
     public static final Block MANGROVE_BUTTON = new WoodenButtonBlock(AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.WOOD));
     public static final Block MANGROVE_SIGN = new WildSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), WildSignType.MANGROVE);
     public static final Block MANGROVE_WALL_SIGN = new WildWallSignBlock(AbstractBlock.Settings.of(Material.WOOD, MANGROVE_LOG.getDefaultMapColor()).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD).dropsLike(MANGROVE_SIGN), WildSignType.MANGROVE);

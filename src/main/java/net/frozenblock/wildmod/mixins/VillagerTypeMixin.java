@@ -8,7 +8,10 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -19,7 +22,10 @@ import java.util.Optional;
 @Mixin(VillagerType.class)
 public class VillagerTypeMixin {
 
-    private static final Map<RegistryKey<Biome>, VillagerType> BIOME_TO_TYPE_CUSTOM = Util.make(Maps.newHashMap(), map -> {
+    @Shadow
+    @Final
+    @Mutable
+    private static final Map<RegistryKey<Biome>, VillagerType> BIOME_TO_TYPE = Util.make(Maps.newHashMap(), map -> {
         map.put(BiomeKeys.BADLANDS, VillagerType.DESERT);
         map.put(BiomeKeys.DESERT, VillagerType.DESERT);
         map.put(BiomeKeys.ERODED_BADLANDS, VillagerType.DESERT);
@@ -50,10 +56,5 @@ public class VillagerTypeMixin {
         map.put(BiomeKeys.WINDSWEPT_FOREST, VillagerType.TAIGA);
         map.put(RegisterWorldgen.MANGROVE_SWAMP, VillagerType.SWAMP);
     });
-
-    @Inject(at = @At("RETURN"), method = "forBiome", cancellable = true)
-    private static void forBiome(RegistryEntry<Biome> biomeEntry, CallbackInfoReturnable<VillagerType> cir) {
-        cir.setReturnValue(biomeEntry.getKey().flatMap(biomeKey -> Optional.ofNullable(BIOME_TO_TYPE_CUSTOM.get(biomeKey))).orElse(VillagerType.PLAINS));
-    }
 
 }

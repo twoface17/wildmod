@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.liukrastapi.WildInput;
+import net.frozenblock.wildmod.misc.WildInput;
 import net.minecraft.client.input.Input;
 import org.spongepowered.asm.mixin.Mixin;
 

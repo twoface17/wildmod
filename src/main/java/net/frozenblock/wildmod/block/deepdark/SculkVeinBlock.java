@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.block.deepdark;
 
 import net.frozenblock.wildmod.block.wild.LichenGrower;
-import net.frozenblock.wildmod.liukrastapi.WildDirection;
+import net.frozenblock.wildmod.misc.WildDirection;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterTags;

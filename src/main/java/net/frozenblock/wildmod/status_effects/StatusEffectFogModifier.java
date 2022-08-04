@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.status_effects;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.frozenblock.wildmod.liukrastapi.StatusEffectInstance;
+import net.frozenblock.wildmod.misc.WildStatusEffectInstance;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -15,17 +15,17 @@ public
 interface StatusEffectFogModifier {
     StatusEffect getStatusEffect();
 
-    void applyStartEndModifier(FogData fogData, LivingEntity entity, StatusEffectInstance effect, float viewDistance, float tickDelta);
+    void applyStartEndModifier(FogData fogData, LivingEntity entity, WildStatusEffectInstance effect, float viewDistance, float tickDelta);
 
     default boolean shouldApply(LivingEntity entity, float tickDelta) {
         return entity.hasStatusEffect(this.getStatusEffect());
     }
 
-    default float applyColorModifier(LivingEntity entity, StatusEffectInstance effect, float f, float tickDelta) {
-        StatusEffectInstance statusEffectInstance = (StatusEffectInstance) entity.getStatusEffect(this.getStatusEffect());
-        if (statusEffectInstance != null) {
-            if (statusEffectInstance.getDuration() < 20) {
-                f = 1.0F - (float) statusEffectInstance.getDuration() / 20.0F;
+    default float applyColorModifier(LivingEntity entity, WildStatusEffectInstance effect, float f, float tickDelta) {
+        WildStatusEffectInstance wildStatusEffectInstance = (WildStatusEffectInstance) entity.getStatusEffect(this.getStatusEffect());
+        if (wildStatusEffectInstance != null) {
+            if (wildStatusEffectInstance.getDuration() < 20) {
+                f = 1.0F - (float) wildStatusEffectInstance.getDuration() / 20.0F;
             } else {
                 f = 0.0F;
             }
@@ -67,7 +67,7 @@ interface StatusEffectFogModifier {
 
         @Override
         public void applyStartEndModifier(
-                FogData fogData, LivingEntity entity, StatusEffectInstance effect, float viewDistance, float tickDelta
+                FogData fogData, LivingEntity entity, WildStatusEffectInstance effect, float viewDistance, float tickDelta
         ) {
             float f = MathHelper.lerp(Math.min(1.0F, (float) effect.getDuration() / 20.0F), viewDistance, 5.0F);
             if (fogData.fogType == BackgroundRenderer.FogType.FOG_SKY) {
@@ -92,7 +92,7 @@ interface StatusEffectFogModifier {
 
         @Override
         public void applyStartEndModifier(
-                FogData fogData, LivingEntity entity, StatusEffectInstance effect, float viewDistance, float tickDelta
+                FogData fogData, LivingEntity entity, WildStatusEffectInstance effect, float viewDistance, float tickDelta
         ) {
             if (!effect.getFactorCalculationData().isEmpty()) {
                 float f = MathHelper.lerp(effect.getFactorCalculationData().get().lerp(tickDelta), viewDistance, 15.0F);
@@ -102,7 +102,7 @@ interface StatusEffectFogModifier {
         }
 
         @Override
-        public float applyColorModifier(LivingEntity entity, StatusEffectInstance effect, float f, float tickDelta) {
+        public float applyColorModifier(LivingEntity entity, WildStatusEffectInstance effect, float f, float tickDelta) {
             return effect.getFactorCalculationData().isEmpty() ? 0.0F : 1.0F - effect.getFactorCalculationData().get().lerp(tickDelta);
         }
     }

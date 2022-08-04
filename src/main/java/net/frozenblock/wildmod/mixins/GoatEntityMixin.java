@@ -3,7 +3,7 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.items.GoatHornItem;
 import net.frozenblock.wildmod.items.Instrument;
 import net.frozenblock.wildmod.items.InstrumentTags;
-import net.frozenblock.wildmod.liukrastapi.WildGoat;
+import net.frozenblock.wildmod.misc.WildGoat;
 import net.frozenblock.wildmod.registry.RegisterItems;
 import net.frozenblock.wildmod.registry.WildRegistry;
 import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;

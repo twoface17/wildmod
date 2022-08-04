@@ -6,7 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import net.frozenblock.wildmod.entity.AllayEntity;
 import net.frozenblock.wildmod.entity.ai.task.GiveInventoryToLookTargetTask;
 import net.frozenblock.wildmod.entity.ai.task.WalkTowardsLookTargetTask;
-import net.frozenblock.wildmod.liukrastapi.NoPenaltyStrollTask;
+import net.frozenblock.wildmod.misc.NoPenaltyStrollTask;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;

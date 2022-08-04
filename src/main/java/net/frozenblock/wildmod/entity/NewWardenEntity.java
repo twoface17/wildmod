@@ -28,7 +28,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.WildStatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
@@ -379,7 +379,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     }
 
     public static void addDarknessToClosePlayers(ServerWorld world, Vec3d pos, @Nullable Entity entity, int range) {
-        StatusEffectInstance statusEffectInstance = new StatusEffectInstance(RegisterStatusEffects.DARKNESS, 260, 0, false, false);
+        WildStatusEffectInstance statusEffectInstance = new WildStatusEffectInstance(RegisterStatusEffects.DARKNESS, 260, 0, false, false);
         addEffectToPlayersWithinDistance(world, entity, pos, range, statusEffectInstance, 200);
     }
 
@@ -583,7 +583,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     }
 
     public static List<ServerPlayerEntity> addEffectToPlayersWithinDistance(
-            ServerWorld world, @Nullable Entity entity, Vec3d origin, double range, StatusEffectInstance statusEffectInstance, int duration
+            ServerWorld world, @Nullable Entity entity, Vec3d origin, double range, WildStatusEffectInstance statusEffectInstance, int duration
     ) {
         StatusEffect statusEffect = statusEffectInstance.getEffectType();
         List<ServerPlayerEntity> list = world.getPlayers(
@@ -595,7 +595,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
                                 || player.getStatusEffect(statusEffect).getDuration() < duration
                 )
         );
-        list.forEach(player -> player.addStatusEffect(new StatusEffectInstance(statusEffectInstance), entity));
+        list.forEach(player -> player.addStatusEffect(new WildStatusEffectInstance(statusEffectInstance), entity));
         return list;
     }
 

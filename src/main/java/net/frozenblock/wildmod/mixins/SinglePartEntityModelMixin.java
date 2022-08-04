@@ -1,10 +1,10 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.liukrastapi.ExpandedModelPart;
-import net.frozenblock.wildmod.liukrastapi.ExpandedSinglePartEntityModel;
-import net.frozenblock.wildmod.liukrastapi.animation.Animation;
-import net.frozenblock.wildmod.liukrastapi.animation.AnimationHelper;
-import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
+import net.frozenblock.wildmod.misc.ExpandedModelPart;
+import net.frozenblock.wildmod.misc.ExpandedSinglePartEntityModel;
+import net.frozenblock.wildmod.misc.animation.Animation;
+import net.frozenblock.wildmod.misc.animation.AnimationHelper;
+import net.frozenblock.wildmod.misc.animation.AnimationState;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.util.math.Vec3f;

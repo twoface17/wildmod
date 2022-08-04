@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.status_effects;
 
-import net.frozenblock.wildmod.liukrastapi.AdvancedMath;
+import net.frozenblock.wildmod.misc.AdvancedMath;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;

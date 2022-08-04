@@ -5,7 +5,7 @@ import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.AxolotlSwimNavigation;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
-import net.frozenblock.wildmod.liukrastapi.animation.AnimationState;
+import net.frozenblock.wildmod.misc.animation.AnimationState;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;

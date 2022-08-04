@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.liukrastapi.WildPlayerEntity;
+import net.frozenblock.wildmod.misc.WildPlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.dynamic.GlobalPos;
 import org.spongepowered.asm.mixin.Mixin;

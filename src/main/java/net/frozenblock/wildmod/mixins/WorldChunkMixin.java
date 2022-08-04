@@ -4,7 +4,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.frozenblock.wildmod.block.entity.WildBlockEntityProvider;
 import net.frozenblock.wildmod.event.GameEventDispatcher;
 import net.frozenblock.wildmod.event.GameEventListener;
-import net.frozenblock.wildmod.liukrastapi.ChunkSectionPos;
+import net.frozenblock.wildmod.misc.ChunkSectionPos;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.world.ServerWorld;

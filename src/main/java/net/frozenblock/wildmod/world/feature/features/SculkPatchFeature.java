@@ -2,7 +2,7 @@ package net.frozenblock.wildmod.world.feature.features;
 
 import com.mojang.serialization.Codec;
 import net.frozenblock.wildmod.block.deepdark.SculkShriekerBlock;
-import net.frozenblock.wildmod.liukrastapi.WildDirection;
+import net.frozenblock.wildmod.misc.WildDirection;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager;
 import net.frozenblock.wildmod.world.gen.SculkSpreadable;

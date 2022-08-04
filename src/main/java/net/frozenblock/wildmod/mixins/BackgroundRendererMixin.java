@@ -2,8 +2,8 @@ package net.frozenblock.wildmod.mixins;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.frozenblock.wildmod.liukrastapi.AdvancedMath;
-import net.frozenblock.wildmod.liukrastapi.StatusEffectInstance;
+import net.frozenblock.wildmod.misc.AdvancedMath;
+import net.frozenblock.wildmod.misc.WildStatusEffectInstance;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.frozenblock.wildmod.render.WildGameRenderer;
 import net.frozenblock.wildmod.status_effects.StatusEffectFogModifier;
@@ -172,9 +172,9 @@ public class BackgroundRendererMixin {
         StatusEffectFogModifier statusEffectFogModifier = getFogModifier(entity, tickDelta);
         if (statusEffectFogModifier != null) {
             LivingEntity livingEntity = (LivingEntity) entity;
-            if (livingEntity.getStatusEffect(statusEffectFogModifier.getStatusEffect()) instanceof StatusEffectInstance statusEffectInstance) {
-                statusEffectInstance = (StatusEffectInstance) livingEntity.getStatusEffect(statusEffectFogModifier.getStatusEffect());
-                r = statusEffectFogModifier.applyColorModifier(livingEntity, statusEffectInstance, r, tickDelta);
+            if (livingEntity.getStatusEffect(statusEffectFogModifier.getStatusEffect()) instanceof WildStatusEffectInstance wildStatusEffectInstance) {
+                wildStatusEffectInstance = (WildStatusEffectInstance) livingEntity.getStatusEffect(statusEffectFogModifier.getStatusEffect());
+                r = statusEffectFogModifier.applyColorModifier(livingEntity, wildStatusEffectInstance, r, tickDelta);
             }
         }
 

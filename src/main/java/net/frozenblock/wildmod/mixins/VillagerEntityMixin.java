@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mixin(VillagerEntity.class)
 public abstract class VillagerEntityMixin extends MerchantEntity implements InteractionObserver, VillagerDataContainer {
@@ -33,6 +32,7 @@ public abstract class VillagerEntityMixin extends MerchantEntity implements Inte
         super(entityType, world);
     }
 
+    @Shadow
     public boolean canSummonGolem(long time) {
         if (!this.hasRecentlySlept(this.world.getTime())) {
             return false;
@@ -50,10 +50,10 @@ public abstract class VillagerEntityMixin extends MerchantEntity implements Inte
         if (this.canSummonGolem(time)) {
             Box box = this.getBoundingBox().expand(10.0, 10.0, 10.0);
             List<VillagerEntity> list = world.getNonSpectatingEntities(VillagerEntity.class, box);
-            List<VillagerEntity> list2 = list.stream().filter(villager -> villager.canSummonGolem(time)).limit(5L).collect(Collectors.toList());
+            List<VillagerEntity> list2 = list.stream().filter(villager -> villager.canSummonGolem(time)).limit(5L).toList();
             if (list2.size() >= requiredCount) {
                 if (LargeEntitySpawnHelper.trySpawnAt(
-                                EntityType.IRON_GOLEM, SpawnReason.MOB_SUMMONED, world, this.getBlockPos(), 10, 8, 6, LargeEntitySpawnHelper.class_7502.field_39400
+                                EntityType.IRON_GOLEM, SpawnReason.MOB_SUMMONED, world, this.getBlockPos(), 10, 8, 6, LargeEntitySpawnHelper.Requirements.IRON_GOLEM
                         )
                         .isPresent()) {
                     list.forEach(GolemLastSeenSensor::rememberIronGolem);

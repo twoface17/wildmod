@@ -4,7 +4,8 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
 import net.frozenblock.wildmod.items.*;
-import net.frozenblock.wildmod.liukrastapi.SetGoatHornSoundLootFunction;
+import net.frozenblock.wildmod.misc.SetGoatHornSoundLootFunction;
+import net.frozenblock.wildmod.misc.WildBoatType;
 import net.frozenblock.wildmod.mixins.MusicDiscItemInvoker;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.Fluids;
@@ -18,7 +19,7 @@ import static net.minecraft.enchantment.EnchantmentHelper.getEquipmentLevel;
 
 public abstract class RegisterItems {
 
-    public static final MangroveBoatItem MANGROVE_BOAT = new MangroveBoatItem(new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
+    public static final Item MANGROVE_BOAT = new BoatItem(WildBoatType.MANGROVE, new Item.Settings().maxCount(1).group(ItemGroup.TRANSPORTATION));
 
     public static final ChestBoatItem OAK_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.OAK, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
     public static final ChestBoatItem SPRUCE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.SPRUCE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
@@ -26,7 +27,7 @@ public abstract class RegisterItems {
     public static final ChestBoatItem JUNGLE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.JUNGLE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
     public static final ChestBoatItem ACACIA_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.ACACIA, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
     public static final ChestBoatItem DARK_OAK_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.DARK_OAK, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
-    public static final ChestBoatItem MANGROVE_CHEST_BOAT = new ChestBoatItem(ChestBoatEntity.Type.MANGROVE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
+    public static final ChestBoatItem MANGROVE_CHEST_BOAT = new ChestBoatItem(WildBoatType.MANGROVE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
 
     public static final Item WARDEN_SPAWN_EGG = new SpawnEggItem(RegisterEntities.WARDEN, Integer.parseInt("074857", 16), Integer.parseInt("29dfeb", 16), new FabricItemSettings().group(ItemGroup.MISC));
     public static final Item ALLAY_SPAWN_EGG = new SpawnEggItem(RegisterEntities.ALLAY, Integer.parseInt("00CDF0", 16), Integer.parseInt("0097DE", 16), new FabricItemSettings().group(ItemGroup.MISC));
