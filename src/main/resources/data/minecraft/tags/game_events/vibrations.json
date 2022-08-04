@@ -8,7 +8,9 @@
 	"minecraft:block_detach",
 	"minecraft:block_open",
 	"minecraft:block_place",
+	"minecraft:block_press",
 	"minecraft:block_switch",
+	"minecraft:block_unpress",
 	"minecraft:block_unswitch",
 	"minecraft:container_close",
 	"minecraft:container_open",
@@ -41,7 +43,6 @@
 	"minecraft:step",
 	"minecraft:swim",
 	"twm:teleport",
-	"twm:shriek",
-	"#twm:shrieker_can_listen"
+	"minecraft:flap"
   ]
 }

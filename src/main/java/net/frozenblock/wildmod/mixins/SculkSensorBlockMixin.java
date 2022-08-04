@@ -1,5 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
@@ -15,6 +16,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Iterator;
@@ -27,6 +29,12 @@ public class SculkSensorBlockMixin {
 
     public SculkSensorBlockMixin(ServerWorld world) {
         this.world = world;
+    }
+
+    // allows to add additional things to the sculk sensor frequency list
+    @Redirect(method = "<clinit>", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/objects/Object2IntMaps;unmodifiable(Lit/unimi/dsi/fastutil/objects/Object2IntMap;)Lit/unimi/dsi/fastutil/objects/Object2IntMap;"))
+    private static <K> Object2IntMap<K> makeFrequenciesMapModifiable(Object2IntMap<? extends K> m) {
+        return (Object2IntMap<K>) m;
     }
 
     @Inject(method = "setActive", at = @At("TAIL"))

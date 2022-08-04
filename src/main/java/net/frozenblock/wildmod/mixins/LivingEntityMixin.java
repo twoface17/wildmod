@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
+import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkGrower;
 import net.frozenblock.wildmod.misc.Sphere;
@@ -8,17 +9,31 @@ import net.frozenblock.wildmod.registry.RegisterAccurateSculk;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
+public abstract class LivingEntityMixin extends Entity {
+
+    public LivingEntityMixin(EntityType<?> type, World world) {
+        super(type, world);
+    }
+
+    @Shadow public abstract boolean isUsingItem();
+
+    @Shadow public abstract ItemStack getStackInHand(Hand hand);
 
     @Inject(method = "setHealth", at = @At("HEAD"))
     private void setHealth(float f, CallbackInfo info) {
@@ -67,4 +82,43 @@ public class LivingEntityMixin {
         return current;
     }
 
+    @Inject(method = "setCurrentHand", at = @At("TAIL"))
+    private void setCurrentHand(Hand hand, CallbackInfo ci) {
+        ItemStack itemStack = this.getStackInHand(hand);
+        if (!itemStack.isEmpty() && !this.isUsingItem()) {
+            if (!this.world.isClient) {
+                this.emitGameEvent(WildGameEvent.ITEM_INTERACT_START);
+            }
+        }
+    }
+
+    @Inject(method = "clearActiveItem", at = @At("TAIL"))
+    private void clearActiveItem(CallbackInfo ci) {
+        if (!this.world.isClient) {
+            boolean bl = this.isUsingItem();
+            if (bl) {
+                this.emitGameEvent(WildGameEvent.ITEM_INTERACT_FINISH);
+            }
+        }
+    }
+
+    @Shadow
+    protected void initDataTracker() {
+
+    }
+
+    @Shadow
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+
+    }
+
+    @Shadow
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+
+    }
+
+    @Shadow
+    public Packet<?> createSpawnPacket() {
+        return null;
+    }
 }

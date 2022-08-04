@@ -106,7 +106,7 @@ public class WildMod implements ModInitializer {
         DIG = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "dig"), new Activity("dig"));
 
         RegisterAccurateSculk.register();
-        WildGameEvent.RegisterGameEvents();
+        WildGameEvent.registerGameEvents();
         RegisterRecoveryCompass.registerRecovery();
         WildTreeRegistry.init();
 
