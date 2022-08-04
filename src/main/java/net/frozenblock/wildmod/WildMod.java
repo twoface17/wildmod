@@ -14,10 +14,11 @@ import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
 import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildEntityPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvent;
-import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
+import net.frozenblock.wildmod.fromAccurateSculk.RegisterBlockEntities;
 import net.frozenblock.wildmod.misc.FrogAttackablesSensor;
 import net.frozenblock.wildmod.misc.IsInWaterSensor;
 import net.frozenblock.wildmod.misc.ItemCriterion;
+import net.frozenblock.wildmod.misc.WardenSpawnTrackerCommand;
 import net.frozenblock.wildmod.misc.animation.AnimationState;
 import net.frozenblock.wildmod.registry.*;
 import net.frozenblock.wildmod.world.feature.WildTreeRegistry;
@@ -68,18 +69,13 @@ public class WildMod implements ModInitializer {
     public static final PositionSourceType<WildEntityPositionSource> ENTITY = register("entity", new WildEntityPositionSource.Type());
     public static final PositionSourceType<WildBlockPositionSource> BLOCK = register("block", new WildBlockPositionSource.Type());
 
-    public static TrackedDataHandler<Optional<GlobalPos>> OPTIONAL_GLOBAL_POS;
-
-    public static TrackedData<Optional<GlobalPos>> LAST_DEATH_POS;
-
     @Override
     public void onInitialize() {
         WildRegistry.init();
         RegisterMemoryModules.init();
         RegisterBlocks.register();
-        OPTIONAL_GLOBAL_POS = ofOptional(WildPacketByteBuf::writeGlobalPos, WildPacketByteBuf::readGlobalPos);
+
         registerData(OPTIONAL_GLOBAL_POS);
-        LAST_DEATH_POS = DataTracker.registerData(PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS);
         RegisterItems.RegisterItems();
         RegisterEntities.init();
         FrogVariant.init();
@@ -93,7 +89,7 @@ public class WildMod implements ModInitializer {
 
         RegisterSounds.init();
         RegisterBlockSoundGroups.init();
-        WildBlockEntityType.register();
+        RegisterBlockEntities.register();
         RegisterEnchantments.init();
         AnimationState.init();
 
@@ -114,7 +110,15 @@ public class WildMod implements ModInitializer {
         RegisterRecoveryCompass.registerRecovery();
         WildTreeRegistry.init();
 
+        WardenSpawnTrackerCommand.register();
+
         SpawnRestrictionAccessor.callRegister(RegisterEntities.FROG, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FrogEntity::canSpawn);
+    }
+
+    public static final TrackedDataHandler<Optional<GlobalPos>> OPTIONAL_GLOBAL_POS = ofOptional(WildPacketByteBuf::writeGlobalPos, WildPacketByteBuf::readGlobalPos);
+
+    public static TrackedData<Optional<GlobalPos>> LAST_DEATH_POS() {
+        return DataTracker.registerData(PlayerEntity.class, WildMod.OPTIONAL_GLOBAL_POS);
     }
 
     private static <S extends PositionSourceType<T>, T extends PositionSource> S register(String id, S positionSourceType) {

@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.misc.WildPlayerEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.Codecs;
@@ -98,7 +99,7 @@ public class SculkShriekerWarningManager {
     private static List<ServerPlayerEntity> getPlayersInRange(ServerWorld world, BlockPos pos) {
         Vec3d vec3d = Vec3d.ofCenter(pos);
         Predicate<ServerPlayerEntity> predicate = player -> player.getPos().isInRange(vec3d, 16.0);
-        return world.getPlayers(predicate.and(LivingEntity::isAlive));
+        return world.getPlayers(predicate.and(LivingEntity::isAlive).and(EntityPredicates.EXCEPT_SPECTATOR));
     }
 
     private void increaseWarningLevel() {
@@ -115,7 +116,7 @@ public class SculkShriekerWarningManager {
     }
 
     public void setWarningLevel(int warningLevel) {
-        this.warningLevel = MathHelper.clamp(warningLevel, 0, 3);
+        this.warningLevel = MathHelper.clamp(warningLevel, 0, 4);
     }
 
     public int getWarningLevel() {
@@ -124,5 +125,7 @@ public class SculkShriekerWarningManager {
 
     private void copy(SculkShriekerWarningManager other) {
         this.warningLevel = other.warningLevel;
+        this.cooldownTicks = other.cooldownTicks;
+        this.ticksSinceLastWarning = other.ticksSinceLastWarning;
     }
 }

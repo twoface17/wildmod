@@ -26,6 +26,8 @@ import net.frozenblock.wildmod.entity.render.warden.WardenEntityModel;
 import net.frozenblock.wildmod.entity.render.warden.WardenEntityRenderer;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkParticleHandler;
 import net.frozenblock.wildmod.fromAccurateSculk.SculkSoul;
+import net.frozenblock.wildmod.misc.CompassAnglePredicateProvider;
+import net.frozenblock.wildmod.misc.WildPlayerEntity;
 import net.frozenblock.wildmod.misc.animation.AnimationHelper;
 import net.frozenblock.wildmod.misc.animation.Transformation;
 import net.frozenblock.wildmod.particle.SculkChargeParticle;
@@ -42,9 +44,12 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.item.Items;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
 
 @Environment(EnvType.CLIENT)
@@ -92,6 +97,13 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_SHRIEKER, RenderLayer.getCutout());
 
         ModelPredicateProviderRegistry.register(RegisterItems.GOAT_HORN, new Identifier("tooting"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F);
+        ModelPredicateProviderRegistry.register(
+                RegisterItems.RECOVERY_COMPASS,
+                new Identifier("angle"),
+                new CompassAnglePredicateProvider(
+                        (world, stack, entity) -> entity instanceof PlayerEntity playerEntity ? ((WildPlayerEntity)playerEntity).getLastDeathPos().orElse(null) : null
+                )
+        );
 
         EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(WARDEN, WardenEntityModel::getTexturedModelData);

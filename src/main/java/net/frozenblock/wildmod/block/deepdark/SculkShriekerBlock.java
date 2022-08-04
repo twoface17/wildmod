@@ -5,8 +5,7 @@ package net.frozenblock.wildmod.block.deepdark;
 
 import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.frozenblock.wildmod.block.entity.WildBlockWithEntity;
-import net.frozenblock.wildmod.event.WildGameEventListener;
-import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
+import net.frozenblock.wildmod.fromAccurateSculk.RegisterBlockEntities;
 import net.frozenblock.wildmod.fromAccurateSculk.WildProperties;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -26,6 +25,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -34,8 +34,6 @@ import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
-
-//SCULK SHRIEKER REWRITE FROM LUNADE'S MOD ACCURATE SCULK
 
 public class SculkShriekerBlock extends WildBlockWithEntity implements Waterloggable {
     public static final BooleanProperty SHRIEKING = WildProperties.SHRIEKING;
@@ -47,8 +45,11 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     public SculkShriekerBlock(Settings settings) {
         super(settings);
         this.setDefaultState(
-                this.stateManager.getDefaultState().with(SHRIEKING, false).with(WATERLOGGED, false)
-                        .with(CAN_SUMMON, false)
+                this.stateManager
+                        .getDefaultState()
+                        .with(SHRIEKING, Boolean.valueOf(false))
+                        .with(WATERLOGGED, Boolean.valueOf(false))
+                        .with(CAN_SUMMON, Boolean.valueOf(false))
         );
     }
 
@@ -62,9 +63,9 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         if (world instanceof ServerWorld serverWorld) {
-            ServerPlayerEntity serverPlayerEntity = SculkShriekerBlockEntity.method_44018(entity);
+            ServerPlayerEntity serverPlayerEntity = SculkShriekerBlockEntity.findResponsiblePlayerFromEntity(entity);
             if (serverPlayerEntity != null) {
-                serverWorld.getBlockEntity(pos, WildBlockEntityType.SCULK_SHRIEKER).ifPresent(blockEntity -> blockEntity.shriek(serverWorld, serverPlayerEntity));
+                serverWorld.getBlockEntity(pos, RegisterBlockEntities.SCULK_SHRIEKER).ifPresent(blockEntity -> blockEntity.shriek(serverWorld, serverPlayerEntity));
             }
         }
 
@@ -74,7 +75,7 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (world instanceof ServerWorld serverWorld && state.get(SHRIEKING) && !state.isOf(newState.getBlock())) {
-            serverWorld.getBlockEntity(pos, WildBlockEntityType.SCULK_SHRIEKER).ifPresent(blockEntity -> blockEntity.warn(serverWorld));
+            serverWorld.getBlockEntity(pos, RegisterBlockEntities.SCULK_SHRIEKER).ifPresent(blockEntity -> blockEntity.warn(serverWorld));
         }
 
         super.onStateReplaced(state, world, pos, newState, moved);
@@ -83,8 +84,8 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (state.get(SHRIEKING)) {
-            world.setBlockState(pos, state.with(SHRIEKING, false), Block.NOTIFY_ALL);
-            world.getBlockEntity(pos, WildBlockEntityType.SCULK_SHRIEKER).ifPresent(blockEntity -> blockEntity.warn(world));
+            world.setBlockState(pos, state.with(SHRIEKING, Boolean.valueOf(false)), Block.NOTIFY_ALL);
+            world.getBlockEntity(pos, RegisterBlockEntities.SCULK_SHRIEKER).ifPresent(blockEntity -> blockEntity.warn(world));
         }
 
     }
@@ -129,7 +130,7 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
+        return this.getDefaultState().with(WATERLOGGED, Boolean.valueOf(ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER));
     }
 
     @Override
@@ -147,21 +148,17 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
         }
     }
 
+    @Nullable
     @Override
-    public @Nullable <T extends BlockEntity> GameEventListener getGameEventListener(World world, T blockEntity) {
-        if (!world.isClient) {
-            return blockEntity instanceof SculkShriekerBlockEntity sculkShriekerBlockEntity ? sculkShriekerBlockEntity.getVibrationListener() : null;
-        } else {
-            return null;
-        }
+    public <T extends BlockEntity> GameEventListener getGameEventListener(World world, T blockEntity) {
+        return blockEntity instanceof SculkShriekerBlockEntity sculkShriekerBlockEntity ? sculkShriekerBlockEntity.getVibrationListener() : null;
     }
 
     @Nullable
+    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return !world.isClient
-                ? BlockWithEntity.checkType(
-                type, WildBlockEntityType.SCULK_SHRIEKER, (worldx, pos, statex, blockEntity) -> blockEntity.getVibrationListener().tick(worldx)
-        )
+                ? BlockWithEntity.checkType(type, RegisterBlockEntities.SCULK_SHRIEKER, (worldx, pos, statex, blockEntity) -> blockEntity.getVibrationListener().tick(worldx))
                 : null;
     }
 }

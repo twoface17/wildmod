@@ -8,38 +8,21 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
-public class WildGameEvent extends net.minecraft.world.event.GameEvent {
-    public static WildGameEvent NOTE_BLOCK_PLAY;
-    public static WildGameEvent SCULK_SENSOR_TENDRILS_CLICKING;
-    public static WildGameEvent SHRIEK;
-    public static WildGameEvent INSTRUMENT_PLAY;
+public class WildGameEvent extends GameEvent {
+    public static final GameEvent NOTE_BLOCK_PLAY = register("note_block_play");
+    public static final GameEvent SCULK_SENSOR_TENDRILS_CLICKING = register("sculk_sensor_tendrils_clicking");
+    public static final GameEvent SHRIEK = register("shriek", 32);
+    public static final GameEvent INSTRUMENT_PLAY = register("instrument_play");
 
     public static void RegisterGameEvents() {
-    /*public static final GameEvent BLOCK_ACTIVATE = register("block_activate");
-    public static final GameEvent BLOCK_DEACTIVATE = register("block_deactivate");
-    public static final GameEvent DRINK = register("drink");
-    public static final GameEvent ELYTRA_GLIDE = register("elytra_glide");
-    public static final GameEvent ENTITY_DAMAGE = register("entity_damage");
-    public static final GameEvent ENTITY_DIE = register("entity_die");
-    public static final GameEvent ENTITY_INTERACT = register("entity_interact");
-    public static final GameEvent ENTITY_ROAR = register("entity_roar");
-    public static final GameEvent ENTITY_SHAKE = register("entity_shake");
-    public static final GameEvent ITEM_INTERACT_FINISH = register("item_interact_finish");
-    public static final GameEvent ITEM_INTERACT_START = register("item_interact_start");
-    */
-        INSTRUMENT_PLAY = register("instrument_play");
-        NOTE_BLOCK_PLAY = register("note_block_play");
-        SCULK_SENSOR_TENDRILS_CLICKING = register("sculk_sensor_tendrils_clicking");
-        SHRIEK = register("shriek", 32);
     }
 
-    public static final int DEFAULT_RANGE = 16;
     private final String id;
     private final int range;
-    private final RegistryEntry.Reference<net.minecraft.world.event.GameEvent> registryEntry = Registry.GAME_EVENT.createEntry(this);
 
     public WildGameEvent(String id, int range) {
         super(id, range);

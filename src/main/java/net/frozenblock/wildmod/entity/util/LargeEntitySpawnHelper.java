@@ -13,9 +13,6 @@ import net.minecraft.util.math.MathHelper;
 import java.util.Optional;
 
 public class LargeEntitySpawnHelper {
-    public LargeEntitySpawnHelper() {
-    }
-
     public static <T extends MobEntity> Optional<T> trySpawnAt(
             EntityType<T> entityType,
             SpawnReason reason,
@@ -28,7 +25,7 @@ public class LargeEntitySpawnHelper {
     ) {
         BlockPos.Mutable mutable = pos.mutableCopy();
 
-        for (int i = 0; i < tries; ++i) {
+        for(int i = 0; i < tries; ++i) {
             int j = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
             int k = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
             mutable.set(pos, j, verticalRange, k);
@@ -52,7 +49,7 @@ public class LargeEntitySpawnHelper {
         BlockPos.Mutable mutable = new BlockPos.Mutable().set(pos);
         BlockState blockState = world.getBlockState(mutable);
 
-        for (int i = verticalRange; i >= -verticalRange; --i) {
+        for(int i = verticalRange; i >= -verticalRange; --i) {
             pos.move(Direction.DOWN);
             mutable.set(pos, Direction.UP);
             BlockState blockState2 = world.getBlockState(pos);
@@ -68,9 +65,7 @@ public class LargeEntitySpawnHelper {
     }
 
     public interface Requirements {
-        LargeEntitySpawnHelper.Requirements IRON_GOLEM = (world, pos, state, abovePos, aboveState) -> (
-                aboveState.isAir() || aboveState.getMaterial().isLiquid()
-        )
+        LargeEntitySpawnHelper.Requirements IRON_GOLEM = (world, pos, state, abovePos, aboveState) -> (aboveState.isAir() || aboveState.getMaterial().isLiquid())
                 && state.getMaterial().blocksLight();
         LargeEntitySpawnHelper.Requirements WARDEN = (world, pos, state, abovePos, aboveState) -> aboveState.getCollisionShape(world, abovePos).isEmpty()
                 && Block.isFaceFullSquare(state.getCollisionShape(world, pos), Direction.UP);

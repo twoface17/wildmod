@@ -4,7 +4,7 @@ import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.block.entity.SculkCatalystPhase;
 import net.frozenblock.wildmod.block.entity.WildBlockEntityProvider;
 import net.frozenblock.wildmod.block.entity.WildBlockWithEntity;
-import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
+import net.frozenblock.wildmod.fromAccurateSculk.RegisterBlockEntities;
 import net.frozenblock.wildmod.fromAccurateSculk.WildProperties;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.minecraft.block.AbstractBlock;
@@ -59,7 +59,7 @@ public class SculkCatalystBlock extends WildBlockWithEntity implements WildBlock
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world2, BlockState blockState2, BlockEntityType<T> blockEntityType) {
         if (!world2.isClient) {
-            return SculkCatalystBlock.checkType(blockEntityType, WildBlockEntityType.SCULK_CATALYST, (world, blockPos, blockState, sculkCatalystBlockEntity) -> sculkCatalystBlockEntity.getEventListener().tick(world));
+            return SculkCatalystBlock.checkType(blockEntityType, RegisterBlockEntities.SCULK_CATALYST, (world, blockPos, blockState, sculkCatalystBlockEntity) -> sculkCatalystBlockEntity.getEventListener().tick(world));
         }
         return null;
     }

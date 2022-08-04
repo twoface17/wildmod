@@ -3,7 +3,7 @@ package net.frozenblock.wildmod.block.entity;
 import com.mojang.logging.LogUtils;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.deepdark.SculkCatalystBlock;
-import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
+import net.frozenblock.wildmod.fromAccurateSculk.RegisterBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -27,7 +27,7 @@ public class SculkCatalystBlockEntity extends BlockEntity implements SculkSensor
     public int lastSculkRange;
 
     public SculkCatalystBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(WildBlockEntityType.SCULK_CATALYST, blockPos, blockState);
+        super(RegisterBlockEntities.SCULK_CATALYST, blockPos, blockState);
         this.listener = new SculkCatalystListener(new BlockPositionSource(this.pos), ((SculkCatalystBlock) blockState.getBlock()).getRange(), this);
     }
 
