@@ -2102,6 +2102,54 @@
 		],
 		"subtitle": "subtitles.entity.allay.item_thrown"
 	},
+  	"item.goat_horn.sound.0": {
+		"sounds": [
+	  		"twm:item/goat_horn/call0"
+		],
+		"subtitle": "subtitles.item.goat_horn.play"
+  	},
+  	"item.goat_horn.sound.1": {
+		"sounds": [
+	  		"twm:item/goat_horn/call1"
+		],
+		"subtitle": "subtitles.item.goat_horn.play"
+  	},
+  	"item.goat_horn.sound.2": {
+		"sounds": [
+	  		"twm:item/goat_horn/call2"
+		],
+	  	"subtitle": "subtitles.item.goat_horn.play"
+  	},
+  	"item.goat_horn.sound.3": {
+		"sounds": [
+	  		"twm:item/goat_horn/call3"
+		],
+		"subtitle": "subtitles.item.goat_horn.play"
+  	},
+  	"item.goat_horn.sound.4": {
+		"sounds": [
+	  		"twm:item/goat_horn/call4"
+		],
+		"subtitle": "subtitles.item.goat_horn.play"
+  	},
+  	"item.goat_horn.sound.5": {
+		"sounds": [
+	  		"twm:item/goat_horn/call5"
+		],
+		"subtitle": "subtitles.item.goat_horn.play"
+  	},
+  	"item.goat_horn.sound.6": {
+		"sounds": [
+	  		"twm:item/goat_horn/call6"
+		],
+		"subtitle": "subtitles.item.goat_horn.play"
+  	},
+  	"item.goat_horn.sound.7": {
+		"sounds": [
+	  		"twm:item/goat_horn/call7"
+		],
+		"subtitle": "subtitles.item.goat_horn.play"
+  	},
 	"music_disc.5": {
 		"sounds": [
 			{

@@ -6,10 +6,12 @@ import net.frozenblock.wildmod.WildMod;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.event.PositionSource;
+import net.minecraft.world.event.PositionSourceType;
 
 import java.util.Optional;
 
-public class WildBlockPositionSource implements WildPositionSource {
+public class WildBlockPositionSource implements PositionSource {
     public static final Codec<WildBlockPositionSource> CODEC = RecordCodecBuilder.create((instance) -> {
         return instance.group(BlockPos.CODEC.fieldOf("pos").forGetter((blockPositionSource) -> {
             return blockPositionSource.pos;
@@ -25,11 +27,11 @@ public class WildBlockPositionSource implements WildPositionSource {
         return Optional.ofNullable(this.pos);
     }
 
-    public WildPositionSourceType<?> getType() {
+    public PositionSourceType<?> getType() {
         return WildMod.BLOCK;
     }
 
-    public static class Type implements WildPositionSourceType<WildBlockPositionSource> {
+    public static class Type implements PositionSourceType<WildBlockPositionSource> {
         public Type() {
         }
 

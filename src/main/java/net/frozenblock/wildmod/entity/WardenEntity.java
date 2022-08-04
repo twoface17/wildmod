@@ -8,6 +8,9 @@ import net.frozenblock.wildmod.entity.ai.WardenBrain;
 import net.frozenblock.wildmod.entity.ai.WardenPositionSource;
 import net.frozenblock.wildmod.entity.ai.task.SonicBoomTask;
 import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
+import net.frozenblock.wildmod.event.VibrationListener;
+import net.frozenblock.wildmod.event.WildEntityPositionSource;
+import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.misc.Angriness;
 import net.frozenblock.wildmod.misc.WardenAngerManager;
 import net.frozenblock.wildmod.misc.animation.AnimationState;
@@ -52,13 +55,15 @@ import net.minecraft.world.*;
 import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.EntityPositionSource;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.event.listener.EntityGameEventHandler;
+import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.util.*;
 
-public class WardenEntity extends WildHostileEntity {
+public class WardenEntity extends WildHostileEntity implements VibrationListener.Callback {
 
     /**
      * WELCOME TO THE WARDEN MUSEUM
@@ -145,12 +150,12 @@ public class WardenEntity extends WildHostileEntity {
     }
 
     public void handleStatus(byte status) {
-        if (status == 4) {
+        if (status == EntityStatuses.PLAY_ATTACK_SOUND) {
             this.roaringAnimationState.stop();
             this.attackingAnimationState.start(this.age);
-        } else if (status == 61) {
+        } else if (status == EARS_TWITCH) {
             this.tendrilPitch = 10;
-        } else if (status == 62) {
+        } else if (status == SONIC_BOOM) {
             this.chargingSonicBoomAnimationState.start(this.age);
         } else {
             super.handleStatus(status);
@@ -178,7 +183,7 @@ public class WardenEntity extends WildHostileEntity {
     public void listen(BlockPos pos, World eventWorld, @Nullable Entity eventEntity, @Nullable Entity sourceEntity, int suspicion, BlockPos vibrationPos) { //TODO: RENAME TO "ACCEPT" TO MATCH 1.19 MAPPINGS
         if (eventWorld instanceof ServerWorld serverWorld && canListen(serverWorld, vibrationPos, eventEntity)) {
             this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
-            world.sendEntityStatus(this, EARS_TWITCH);
+            //world.sendEntityStatus(this, EARS_TWITCH);
             //this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
             BlockPos blockPos = pos;
             if (sourceEntity != null) {
@@ -580,8 +585,13 @@ public class WardenEntity extends WildHostileEntity {
         return false;
     }
 
+    private final EntityGameEventHandler gameEventHandler;
+
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
+        this.gameEventHandler = new EntityGameEventHandler(
+                new VibrationListener(new WildEntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0.0F, 0)
+        );
         this.experiencePoints = 5;
         this.getNavigation().setCanSwim(true);
         this.setPathfindingPenalty(PathNodeType.UNPASSABLE_RAIL, 0.0F);
@@ -803,13 +813,12 @@ public class WardenEntity extends WildHostileEntity {
             protected PathNodeNavigator createPathNodeNavigator(int range) {
                 this.nodeMaker = new LandPathNodeMaker();
                 this.nodeMaker.setCanEnterOpenDoors(true);
-                return new PathNodeNavigator(this.nodeMaker, range);
-                /*return new WildPathNodeNavigator(this.nodeMaker, range) {
-                    protected float getDistance(WildPathNode a, WildPathNode b) {
+                return new WildPathNodeNavigator(this.nodeMaker, range) {
+                    /*protected float getDistance(WildPathNode a, WildPathNode b) {
                         return a.getHorizontalDistance(b);
-                    }
+                    }*/
                 };
-            */
+
             }
         };
     }
@@ -879,6 +888,11 @@ public class WardenEntity extends WildHostileEntity {
         }
     }
 
+    @Nullable
+    public EntityGameEventHandler getGameEventHandler() {
+        return this.gameEventHandler;
+    }
+
     public BlockPos lasteventpos;
     public World lasteventworld;
     public Entity lastevententity;
@@ -941,15 +955,13 @@ public class WardenEntity extends WildHostileEntity {
     public static final byte EARS_TWITCH = 61;
     public static final byte SONIC_BOOM = 62;
 
-    //private final EntityGameEventHandler<VibrationListener> gameEventHandler = new EntityGameEventHandler<>(new VibrationListener(new EntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0, 0));
 
-    /*@Override
-    public boolean accepts(ServerWorld world, WildGameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter) {
+
+    @Override
+    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity) {
         if (!this.isAiDisabled() && !this.isDead() && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN) && !this.isDiggingOrEmerging() && world.getWorldBorder().contains(pos) && !this.isRemoved() && this.world == world) {
-            Entity var7 = emitter.sourceEntity();
             boolean var10000;
-            if (var7 instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity)var7;
+            if (entity instanceof LivingEntity livingEntity) {
                 if (!this.isValidTarget(livingEntity)) {
                     var10000 = false;
                     return var10000;
@@ -964,7 +976,7 @@ public class WardenEntity extends WildHostileEntity {
     }
 
     @Override
-    public void accept(ServerWorld world, WildGameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay) {
+    public void accept(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, float distance) {
         this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
         world.sendEntityStatus(this, EARS_TWITCH);
         this.playSound(RegisterSounds.ENTITY_WARDEN_TENDRIL_CLICKS, 5.0F, this.getSoundPitch());
@@ -995,5 +1007,4 @@ public class WardenEntity extends WildHostileEntity {
         }
 
     }
-*/
 }

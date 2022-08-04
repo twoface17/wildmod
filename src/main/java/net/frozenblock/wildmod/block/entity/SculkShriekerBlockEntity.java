@@ -95,8 +95,8 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
     }
 
     @Override
-    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvent event, WildGameEvent.Emitter emitter) {
-        return !this.isRemoved() && !this.getCachedState().get(SculkShriekerBlock.SHRIEKING) && method_44018(emitter.sourceEntity()) != null;
+    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity) {
+        return !this.isRemoved() && !this.getCachedState().get(SculkShriekerBlock.SHRIEKING) && method_44018(entity) != null;
     }
 
     @Nullable

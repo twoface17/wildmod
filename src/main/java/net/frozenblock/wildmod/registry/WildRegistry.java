@@ -5,7 +5,6 @@ import com.mojang.serialization.Lifecycle;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.FrogVariant;
 import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
-import net.frozenblock.wildmod.event.WildPositionSourceType;
 import net.frozenblock.wildmod.items.Instrument;
 import net.frozenblock.wildmod.items.Instruments;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
@@ -33,8 +32,6 @@ public abstract class WildRegistry<T> extends Registry<T> {
     //public static final Registry<StructureType<?>> STRUCTURE_TYPE = WildRegistry.create(STRUCTURE_TYPE_KEY, registry -> net.frozenblock.wildmod.world.gen.structure.StructureType.JIGSAW);
     //public static final RegistryKey<Registry<StructureType<?>>> STRUCTURE_KEY = WildRegistry.createRegistryKey("worldgen/structure");
     public static final RegistryKey<Registry<DoublePerlinNoiseSampler.NoiseParameters>> NOISE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/noise"));
-    public static final RegistryKey<Registry<WildPositionSourceType<?>>> WILD_POSITION_SOURCE_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "position_source_type"));
-    public static final Registry<WildPositionSourceType<?>> WILD_POSITION_SOURCE_TYPE = Registry.create(WILD_POSITION_SOURCE_TYPE_KEY, registry -> WildMod.BLOCK);
     public static final RegistryKey<Registry<Instrument>> INSTRUMENT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "instrument"));
     public static final Registry<Instrument> INSTRUMENT = Registry.create(INSTRUMENT_KEY, Instruments::registerAndGetDefault);
 

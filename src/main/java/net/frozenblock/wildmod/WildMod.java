@@ -14,7 +14,6 @@ import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
 import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildEntityPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvent;
-import net.frozenblock.wildmod.event.WildPositionSourceType;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.misc.FrogAttackablesSensor;
 import net.frozenblock.wildmod.misc.IsInWaterSensor;
@@ -41,6 +40,8 @@ import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.Heightmap;
+import net.minecraft.world.event.PositionSource;
+import net.minecraft.world.event.PositionSourceType;
 
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -64,12 +65,8 @@ public class WildMod implements ModInitializer {
     public static final UseAction TOOT_HORN = ClassTinkerers.getEnum(UseAction.class, "TOOT_HORN");
 
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
-    public static final WildPositionSourceType<WildEntityPositionSource> ENTITY = WildPositionSourceType.register("entity", new WildEntityPositionSource.Type());
-    public static final WildPositionSourceType<WildBlockPositionSource> BLOCK = WildPositionSourceType.register("block", new WildBlockPositionSource.Type());
-
-    static <T> TrackedDataHandler<Optional<T>> ofOptional(WildPacketByteBuf.PacketWriter<T> packetWriter, WildPacketByteBuf.PacketReader<T> packetReader) {
-        return WildTrackedDataHandler.of(packetWriter.asOptional(), packetReader.asOptional());
-    }
+    public static final PositionSourceType<WildEntityPositionSource> ENTITY = register("entity", new WildEntityPositionSource.Type());
+    public static final PositionSourceType<WildBlockPositionSource> BLOCK = register("block", new WildBlockPositionSource.Type());
 
     public static TrackedDataHandler<Optional<GlobalPos>> OPTIONAL_GLOBAL_POS;
 
@@ -87,7 +84,6 @@ public class WildMod implements ModInitializer {
         RegisterEntities.init();
         FrogVariant.init();
         RegisterTags.init();
-        WildPositionSourceType.init();
 
         RegisterDispenser.RegisterDispenser();
         RegisterParticles.RegisterParticles();
@@ -119,6 +115,14 @@ public class WildMod implements ModInitializer {
         WildTreeRegistry.init();
 
         SpawnRestrictionAccessor.callRegister(RegisterEntities.FROG, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FrogEntity::canSpawn);
+    }
+
+    private static <S extends PositionSourceType<T>, T extends PositionSource> S register(String id, S positionSourceType) {
+        return Registry.register(Registry.POSITION_SOURCE_TYPE, new Identifier(WildMod.MOD_ID, id), positionSourceType);
+    }
+
+    static <T> TrackedDataHandler<Optional<T>> ofOptional(WildPacketByteBuf.PacketWriter<T> packetWriter, WildPacketByteBuf.PacketReader<T> packetReader) {
+        return WildTrackedDataHandler.of(packetWriter.asOptional(), packetReader.asOptional());
     }
 
     public static void registerData(TrackedDataHandler<?> handler) {

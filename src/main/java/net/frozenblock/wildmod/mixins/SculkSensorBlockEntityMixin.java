@@ -90,15 +90,13 @@ public class SculkSensorBlockEntityMixin extends BlockEntity implements Vibratio
     }
 
     @Override
-    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvent event, @Nullable WildGameEvent.Emitter emitter) {
+    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity) {
         SculkSensorBlockEntity sculk = SculkSensorBlockEntity.class.cast(this);
         return !sculk.isRemoved() && (!pos.equals(sculk.getPos()) || event != GameEvent.BLOCK_DESTROY && event != GameEvent.BLOCK_PLACE) && SculkSensorBlock.isInactive(sculk.getCachedState());
     }
 
     @Override
-    public void accept(
-            ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, float distance
-    ) {
+    public void accept(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, float distance) {
         SculkSensorBlockEntity sculk = SculkSensorBlockEntity.class.cast(this);
         BlockState blockState = sculk.getCachedState();
         if (SculkSensorBlock.isInactive(blockState)) {

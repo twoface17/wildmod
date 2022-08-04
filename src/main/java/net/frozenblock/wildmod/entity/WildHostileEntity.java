@@ -18,6 +18,4 @@ public class WildHostileEntity extends HostileEntity {
         return this.getMainHandStack().getItem() instanceof AxeItem;
     }
 
-    public void updateEventHandler(BiConsumer<EntityGameEventHandler<?>, ServerWorld> callback) {
-    }
 }

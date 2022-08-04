@@ -58,3 +58,11 @@ accessible    method    net/minecraft/entity/vehicle/BoatEntity    checkLocation
 accessible    method    net/minecraft/world/gen/trunk/TrunkPlacerType    <init>    (Lcom/mojang/serialization/Codec;)V
 accessible    method    net/minecraft/world/gen/trunk/TrunkPlacer    getType    ()Lnet/minecraft/world/gen/trunk/TrunkPlacerType;
 accessible    method    net/minecraft/world/gen/treedecorator/TreeDecoratorType    <init>    (Lcom/mojang/serialization/Codec;)V
+accessible    field    net/minecraft/client/render/RenderPhase    EYES_SHADER    Lnet/minecraft/client/render/RenderPhase$Shader;
+accessible    field    net/minecraft/client/render/RenderPhase    TRANSLUCENT_TRANSPARENCY    Lnet/minecraft/client/render/RenderPhase$Transparency;
+accessible    field    net/minecraft/client/render/RenderPhase    DISABLE_CULLING    Lnet/minecraft/client/render/RenderPhase$Cull;
+accessible    field    net/minecraft/client/render/RenderPhase    COLOR_MASK    Lnet/minecraft/client/render/RenderPhase$WriteMaskState;
+accessible    field    net/minecraft/client/render/RenderPhase    ENABLE_OVERLAY_COLOR    Lnet/minecraft/client/render/RenderPhase$Overlay;
+accessible    method    net/minecraft/client/render/RenderLayer$MultiPhase    <init>    (Ljava/lang/String;Lnet/minecraft/client/render/VertexFormat;Lnet/minecraft/client/render/VertexFormat$DrawMode;IZZLnet/minecraft/client/render/RenderLayer$MultiPhaseParameters;)V
+accessible    method    net/minecraft/client/render/RenderLayer$MultiPhaseParameters    <init>    (Lnet/minecraft/client/render/RenderPhase$TextureBase;Lnet/minecraft/client/render/RenderPhase$Shader;Lnet/minecraft/client/render/RenderPhase$Transparency;Lnet/minecraft/client/render/RenderPhase$DepthTest;Lnet/minecraft/client/render/RenderPhase$Cull;Lnet/minecraft/client/render/RenderPhase$Lightmap;Lnet/minecraft/client/render/RenderPhase$Overlay;Lnet/minecraft/client/render/RenderPhase$Layering;Lnet/minecraft/client/render/RenderPhase$Target;Lnet/minecraft/client/render/RenderPhase$Texturing;Lnet/minecraft/client/render/RenderPhase$WriteMaskState;Lnet/minecraft/client/render/RenderPhase$LineWidth;Lnet/minecraft/client/render/RenderLayer$OutlineMode;)V
+accessible    method    net/minecraft/client/render/RenderPhase$Texture    <init>    (Lnet/minecraft/util/Identifier;ZZ)V

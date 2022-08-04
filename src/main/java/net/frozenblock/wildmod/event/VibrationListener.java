@@ -6,6 +6,7 @@ import net.frozenblock.wildmod.misc.TickCriterion;
 import net.frozenblock.wildmod.misc.WildVec3d;
 import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterTags;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockStateRaycastContext;
+import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSource;
@@ -30,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class VibrationListener implements WildGameEventListener {
+public class VibrationListener implements GameEventListener {
     protected final PositionSource positionSource;
     protected final int range;
     protected final VibrationListener.Callback callback;
@@ -101,31 +103,24 @@ public class VibrationListener implements WildGameEventListener {
 
     @Override
     public boolean listen(World world, GameEvent event, @Nullable Entity entity, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public boolean listen(ServerWorld world, WildGameEvent.Message event) {
         if (this.vibration != null) {
             return false;
         } else {
-            WildGameEvent gameEvent = event.getEvent();
-            WildGameEvent.Emitter emitter = event.getEmitter();
-            if (!this.callback.canAccept(gameEvent, emitter)) {
+            if (!this.callback.canAccept(event, entity)) {
                 return false;
             } else {
                 Optional<BlockPos> optional = this.positionSource.getPos(world);
                 if (optional.isEmpty()) {
                     return false;
                 } else {
-                    WildVec3d vec3d = event.getEmitterPos();
+                    WildVec3d vec3d = WildVec3d.ofCenter(pos);
                     WildVec3d vec3d2 = WildVec3d.ofCenter(optional.get());
-                    if (!this.callback.accepts(world, this, new BlockPos(vec3d), gameEvent, emitter)) {
+                    if (!this.callback.accepts((ServerWorld) world, this, new BlockPos(vec3d), event, entity)) {
                         return false;
                     } else if (isOccluded(world, vec3d, vec3d2)) {
                         return false;
                     } else {
-                        this.listen(world, gameEvent, emitter, vec3d, vec3d2);
+                        this.listen((ServerWorld) world, event, entity, vec3d, vec3d2);
                         return true;
                     }
                 }
@@ -133,11 +128,12 @@ public class VibrationListener implements WildGameEventListener {
         }
     }
 
-    private void listen(ServerWorld world, WildGameEvent gameEvent, WildGameEvent.Emitter emitter, WildVec3d start, WildVec3d end) {
+    private void listen(ServerWorld world, GameEvent gameEvent, @Nullable Entity entity, WildVec3d start, WildVec3d end) {
         this.distance = (float) start.distanceTo(end);
-        this.vibration = new VibrationListener.Vibration(gameEvent, this.distance, start, emitter.sourceEntity());
+        this.vibration = new VibrationListener.Vibration(gameEvent, this.distance, start, entity);
         this.delay = MathHelper.floor(this.distance);
-        world.spawnParticles(new WildVibrationParticleEffect(this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
+        world.sendVibrationPacket(new net.minecraft.world.Vibration(new BlockPos(start), this.positionSource, this.delay));
+        //world.spawnParticles(new WildVibrationParticleEffect(this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
         this.callback.onListen();
     }
 
@@ -165,11 +161,11 @@ public class VibrationListener implements WildGameEventListener {
             return false;
         }
 
-        default boolean canAccept(WildGameEvent gameEvent, WildGameEvent.Emitter emitter) {
+        default boolean canAccept(GameEvent gameEvent, @Nullable Entity entity) {
+            WildGameEvent.Emitter emitter = WildGameEvent.Emitter.of(entity);
             if (!gameEvent.isIn(this.getTag())) {
                 return false;
             } else {
-                Entity entity = emitter.sourceEntity();
                 if (entity != null) {
                     if (entity.isSpectator()) {
                         return false;
@@ -199,14 +195,12 @@ public class VibrationListener implements WildGameEventListener {
         /**
          * Returns whether the callback wants to accept this event.
          */
-        boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvent event, WildGameEvent.Emitter emitter);
+        boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity);
 
         /**
          * Accepts a game event after delay.
          */
-        void accept(
-                ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, float distance
-        );
+        void accept(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, float distance);
 
         default void onListen() {
         }

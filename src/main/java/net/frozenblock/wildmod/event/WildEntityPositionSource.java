@@ -10,13 +10,14 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.DynamicSerializableUuid;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.event.PositionSource;
+import net.minecraft.world.event.PositionSourceType;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class WildEntityPositionSource implements WildPositionSource {
+public class WildEntityPositionSource implements PositionSource {
     private static final Codec<UUID> UUID = DynamicSerializableUuid.CODEC;
     public static final Codec<WildEntityPositionSource> CODEC = RecordCodecBuilder.create((instance) -> {
         return instance.group(UUID.fieldOf("source_entity").forGetter(WildEntityPositionSource::getUuid), Codec.FLOAT.fieldOf("y_offset").orElse(0.0F).forGetter((entityPositionSource) -> {
@@ -32,7 +33,7 @@ public class WildEntityPositionSource implements WildPositionSource {
         this(Either.left(entity), yOffset);
     }
 
-    WildEntityPositionSource(Either<Entity, Either<UUID, Integer>> source, float yOffset) {
+    public WildEntityPositionSource(Either<Entity, Either<UUID, Integer>> source, float yOffset) {
         this.source = source;
         this.yOffset = yOffset;
     }
@@ -45,24 +46,21 @@ public class WildEntityPositionSource implements WildPositionSource {
         return this.source.left().map(entity -> entity.getBlockPos().add(0.0, this.yOffset, 0.0));
     }
 
-
     private void findEntityInWorld(World world) {
-        (this.source.map(Optional::of, (either) -> {
-            Function<UUID, Entity> var10001 = (uuid) -> {
-                Entity var10000;
-                if (world instanceof ServerWorld serverWorld) {
-                    var10000 = serverWorld.getEntity(uuid);
-                } else {
-                    var10000 = null;
-                }
+        (this.source.map(Optional::of, either -> Optional.ofNullable(either.map(uuid -> {
+            Entity entity;
+            if (world instanceof ServerWorld serverLevel) {
+                entity = serverLevel.getEntity(uuid);
+            } else {
+                entity = null;
+            }
 
-                return var10000;
-            };
-            Objects.requireNonNull(world);
-            return Optional.ofNullable(either.map(var10001, world::getEntityById));
-        })).ifPresent((entity) -> {
-            this.source = Either.left(entity);
-        });
+            return entity;
+        }, world::getEntityById)))).ifPresent(entity -> this.source = Either.left(entity));
+    }
+
+    public PositionSourceType<?> getType() {
+        return WildMod.ENTITY;
     }
 
     private UUID getUuid() {
@@ -72,26 +70,32 @@ public class WildEntityPositionSource implements WildPositionSource {
     }
 
     int getEntityId() {
-        return this.source.map(Entity::getId, (either) -> either.map((uUID) -> {
+        return this.source.map(Entity::getId, (either) -> either.map(uUID -> {
             throw new IllegalStateException("Unable to get entityId from uuid");
         }, Function.identity()));
     }
 
-    public WildPositionSourceType<?> getType() {
-        return WildMod.ENTITY;
-    }
-
-    public static class Type implements WildPositionSourceType<WildEntityPositionSource> {
+    public static class Type implements PositionSourceType<WildEntityPositionSource> {
         public Type() {
         }
 
-        public WildEntityPositionSource readFromBuf(PacketByteBuf packetByteBuf) {
-            return new WildEntityPositionSource(Either.right(Either.right(packetByteBuf.readVarInt())), packetByteBuf.readFloat());
+        public WildEntityPositionSource read(PacketByteBuf buf) {
+            return new WildEntityPositionSource(Either.right(Either.right(buf.readVarInt())), buf.readFloat());
         }
 
-        public void writeToBuf(PacketByteBuf packetByteBuf, WildEntityPositionSource entityPositionSource) {
-            packetByteBuf.writeVarInt(entityPositionSource.getEntityId());
-            packetByteBuf.writeFloat(entityPositionSource.yOffset);
+        public void write(PacketByteBuf buf, WildEntityPositionSource source) {
+            buf.writeVarInt(source.getEntityId());
+            buf.writeFloat(source.yOffset);
+        }
+
+        @Override
+        public WildEntityPositionSource readFromBuf(PacketByteBuf buf) {
+            return null;
+        }
+
+        @Override
+        public void writeToBuf(PacketByteBuf buf, WildEntityPositionSource positionSource) {
+
         }
 
         public Codec<WildEntityPositionSource> getCodec() {

@@ -30,6 +30,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -147,8 +148,12 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     }
 
     @Override
-    public @Nullable <T extends BlockEntity> WildGameEventListener getWildGameEventListener(ServerWorld world, T blockEntity) {
-        return blockEntity instanceof SculkShriekerBlockEntity sculkShriekerBlockEntity ? sculkShriekerBlockEntity.getVibrationListener() : null;
+    public @Nullable <T extends BlockEntity> GameEventListener getGameEventListener(World world, T blockEntity) {
+        if (!world.isClient) {
+            return blockEntity instanceof SculkShriekerBlockEntity sculkShriekerBlockEntity ? sculkShriekerBlockEntity.getVibrationListener() : null;
+        } else {
+            return null;
+        }
     }
 
     @Nullable

@@ -17,6 +17,12 @@ repositories {
 			includeGroup "com.github.Chocohead"
 		}
 	}
+	maven {
+		url = 'https://cursemaven.com'
+		content {
+			includeGroup "curse.maven"
+		}
+	}
 }
 
 loom {
@@ -45,6 +51,8 @@ dependencies {
 	// Fabric-ASM
 	modImplementation "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 	include "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
+
+	//modImplementation "curse.maven:backport-537901:3912138"
 }
 
 tasks.withType(JavaCompile) {
