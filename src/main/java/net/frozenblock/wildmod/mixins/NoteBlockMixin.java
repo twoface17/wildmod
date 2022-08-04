@@ -1,6 +1,6 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.event.WildGameEvents;
+import net.frozenblock.wildmod.event.WildGameEvent;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -20,6 +20,6 @@ public class NoteBlockMixin {
     private void playNote(World world, BlockPos pos, CallbackInfo ci) {
         NoteBlock noteBlock = NoteBlock.class.cast(this);
         world.addSyncedBlockEvent(pos, noteBlock, 0, 0);
-        world.emitGameEvent(WildGameEvents.NOTE_BLOCK_PLAY, pos);
+        world.emitGameEvent(WildGameEvent.NOTE_BLOCK_PLAY, pos);
     }
 }

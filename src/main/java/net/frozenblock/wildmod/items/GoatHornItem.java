@@ -1,7 +1,7 @@
 package net.frozenblock.wildmod.items;
 
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.event.WildGameEvents;
+import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.registry.RegisterItems;
 import net.frozenblock.wildmod.registry.WildRegistry;
 import net.minecraft.client.item.TooltipContext;
@@ -122,6 +122,6 @@ public class GoatHornItem extends Item {
         SoundEvent soundEvent = instrument.soundEvent();
         float f = instrument.range() / 16.0F;
         world.playSoundFromEntity(player, player, soundEvent, SoundCategory.RECORDS, f, 1.0F);
-        world.emitGameEvent(player, WildGameEvents.INSTRUMENT_PLAY, player.getBlockPos());
+        world.emitGameEvent(player, WildGameEvent.INSTRUMENT_PLAY, player.getBlockPos());
     }
 }

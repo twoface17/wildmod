@@ -520,7 +520,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         super.pushAway(entity);
     }
 
-    public boolean accepts(ServerWorld world, net.frozenblock.wildmod.event.GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter) {
+    public boolean accepts(ServerWorld world, net.frozenblock.wildmod.event.WildGameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, net.frozenblock.wildmod.event.GameEvent.Emitter emitter) {
         if (!this.isAiDisabled()
                 && !this.isDead()
                 && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN)
@@ -540,7 +540,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     }
 
     public void accept(
-            ServerWorld world, GameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
+            ServerWorld world, WildGameEventListener listener, BlockPos pos, net.frozenblock.wildmod.event.GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, int delay
     ) {
         this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
         world.sendEntityStatus(this, (byte)61);

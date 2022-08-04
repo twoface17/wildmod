@@ -16,14 +16,14 @@ import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSource;
-import net.minecraft.world.event.listener.GameEventListener;
+import net.minecraft.world.event.listener.WildGameEventListener;
 import net.minecraft.world.event.listener.SculkSensorListener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class SculkShriekerListener
-implements GameEventListener {
+implements WildGameEventListener {
     protected final SculkSensorListener.Callback callback;
     protected final PositionSource positionSource;
     protected final int range;
@@ -112,9 +112,9 @@ implements GameEventListener {
     }
 
     public static interface Callback {
-        public boolean accepts(World var1, GameEventListener var2, BlockPos var3, GameEvent var4, @Nullable Entity var5);
+        public boolean accepts(World var1, WildGameEventListener var2, BlockPos var3, GameEvent var4, @Nullable Entity var5);
 
-        public void accept(World var1, GameEventListener var2, GameEvent var3, int var4);
+        public void accept(World var1, WildGameEventListener var2, GameEvent var3, int var4);
     }
 }
 

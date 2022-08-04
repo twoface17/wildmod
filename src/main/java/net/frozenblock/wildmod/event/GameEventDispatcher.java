@@ -10,23 +10,23 @@ public interface GameEventDispatcher {
         }
 
         @Override
-        public void addListener(GameEventListener listener) {
+        public void addListener(WildGameEventListener listener) {
         }
 
         @Override
-        public void removeListener(GameEventListener listener) {
+        public void removeListener(WildGameEventListener listener) {
         }
 
         @Override
-        public void dispatch(WildGameEvents event, Vec3d pos, WildGameEvents.Emitter emitter) {
+        public void dispatch(WildGameEvent event, Vec3d pos, WildGameEvent.Emitter emitter) {
         }
     };
 
     boolean isEmpty();
 
-    void addListener(GameEventListener listener);
+    void addListener(WildGameEventListener listener);
 
-    void removeListener(GameEventListener listener);
+    void removeListener(WildGameEventListener listener);
 
-    void dispatch(WildGameEvents event, Vec3d pos, WildGameEvents.Emitter emitter);
+    void dispatch(WildGameEvent event, Vec3d pos, WildGameEvent.Emitter emitter);
 }

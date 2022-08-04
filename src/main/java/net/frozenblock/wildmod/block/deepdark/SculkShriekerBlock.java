@@ -5,7 +5,7 @@ package net.frozenblock.wildmod.block.deepdark;
 
 import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
 import net.frozenblock.wildmod.block.entity.WildBlockWithEntity;
-import net.frozenblock.wildmod.event.GameEventListener;
+import net.frozenblock.wildmod.event.WildGameEventListener;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.fromAccurateSculk.WildProperties;
 import net.minecraft.block.*;
@@ -147,7 +147,7 @@ public class SculkShriekerBlock extends WildBlockWithEntity implements Waterlogg
     }
 
     @Override
-    public @Nullable <T extends BlockEntity> GameEventListener getWildGameEventListener(ServerWorld world, T blockEntity) {
+    public @Nullable <T extends BlockEntity> WildGameEventListener getWildGameEventListener(ServerWorld world, T blockEntity) {
         return blockEntity instanceof SculkShriekerBlockEntity sculkShriekerBlockEntity ? sculkShriekerBlockEntity.getVibrationListener() : null;
     }
 

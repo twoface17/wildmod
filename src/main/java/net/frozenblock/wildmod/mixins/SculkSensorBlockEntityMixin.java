@@ -3,10 +3,10 @@ package net.frozenblock.wildmod.mixins;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
-import net.frozenblock.wildmod.event.GameEventListener;
+import net.frozenblock.wildmod.event.WildGameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildBlockPositionSource;
-import net.frozenblock.wildmod.event.WildGameEvents;
+import net.frozenblock.wildmod.event.WildGameEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -20,6 +20,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
@@ -90,7 +91,7 @@ public class SculkSensorBlockEntityMixin extends BlockEntity implements Vibratio
     }
 
     @Override
-    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable WildGameEvents.Emitter emitter) {
+    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvent event, @Nullable WildGameEvent.Emitter emitter) {
         SculkSensorBlockEntity sculk = SculkSensorBlockEntity.class.cast(this);
         return !sculk.isRemoved() && (!pos.equals(sculk.getPos()) || event != GameEvent.BLOCK_DESTROY && event != GameEvent.BLOCK_PLACE) && SculkSensorBlock.isInactive(sculk.getCachedState());
     }

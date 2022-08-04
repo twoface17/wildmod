@@ -2,6 +2,7 @@ package net.frozenblock.wildmod.event;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.frozenblock.wildmod.WildMod;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,7 +26,7 @@ public class WildBlockPositionSource implements WildPositionSource {
     }
 
     public WildPositionSourceType<?> getType() {
-        return WildPositionSourceType.BLOCK;
+        return WildMod.BLOCK;
     }
 
     public static class Type implements WildPositionSourceType<WildBlockPositionSource> {

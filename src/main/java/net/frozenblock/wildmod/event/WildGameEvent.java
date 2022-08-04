@@ -11,11 +11,11 @@ import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
-public class WildGameEvents extends net.minecraft.world.event.GameEvent {
-    public static WildGameEvents NOTE_BLOCK_PLAY;
-    public static WildGameEvents SCULK_SENSOR_TENDRILS_CLICKING;
-    public static WildGameEvents SHRIEK;
-    public static WildGameEvents INSTRUMENT_PLAY;
+public class WildGameEvent extends net.minecraft.world.event.GameEvent {
+    public static WildGameEvent NOTE_BLOCK_PLAY;
+    public static WildGameEvent SCULK_SENSOR_TENDRILS_CLICKING;
+    public static WildGameEvent SHRIEK;
+    public static WildGameEvent INSTRUMENT_PLAY;
 
     public static void RegisterGameEvents() {
     /*public static final GameEvent BLOCK_ACTIVATE = register("block_activate");
@@ -41,7 +41,7 @@ public class WildGameEvents extends net.minecraft.world.event.GameEvent {
     private final int range;
     private final RegistryEntry.Reference<net.minecraft.world.event.GameEvent> registryEntry = Registry.GAME_EVENT.createEntry(this);
 
-    public WildGameEvents(String id, int range) {
+    public WildGameEvent(String id, int range) {
         super(id, range);
         this.id = id;
         this.range = range;
@@ -55,12 +55,12 @@ public class WildGameEvents extends net.minecraft.world.event.GameEvent {
         return this.range;
     }
 
-    private static WildGameEvents register(String id) {
+    private static WildGameEvent register(String id) {
         return register(id, 16);
     }
 
-    private static WildGameEvents register(String id, int range) {
-        return Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, id), new WildGameEvents(id, range));
+    private static WildGameEvent register(String id, int range) {
+        return Registry.register(Registry.GAME_EVENT, new Identifier(WildMod.MOD_ID, id), new WildGameEvent(id, range));
     }
 
     public String toString() {
@@ -77,27 +77,27 @@ public class WildGameEvents extends net.minecraft.world.event.GameEvent {
 
 
     public record Emitter(@Nullable Entity sourceEntity, @Nullable BlockState affectedState) {
-        public static WildGameEvents.Emitter of(@Nullable Entity sourceEntity) {
-            return new WildGameEvents.Emitter(sourceEntity, null);
+        public static WildGameEvent.Emitter of(@Nullable Entity sourceEntity) {
+            return new WildGameEvent.Emitter(sourceEntity, null);
         }
 
-        public static WildGameEvents.Emitter of(@Nullable BlockState affectedState) {
-            return new WildGameEvents.Emitter(null, affectedState);
+        public static WildGameEvent.Emitter of(@Nullable BlockState affectedState) {
+            return new WildGameEvent.Emitter(null, affectedState);
         }
 
-        public static WildGameEvents.Emitter of(@Nullable Entity sourceEntity, @Nullable BlockState affectedState) {
-            return new WildGameEvents.Emitter(sourceEntity, affectedState);
+        public static WildGameEvent.Emitter of(@Nullable Entity sourceEntity, @Nullable BlockState affectedState) {
+            return new WildGameEvent.Emitter(sourceEntity, affectedState);
         }
     }
 
     public static final class Message implements Comparable<Message> {
-        private final WildGameEvents event;
+        private final WildGameEvent event;
         private final WildVec3d emitterPos;
         private final Emitter emitter;
         private final GameEventListener listener;
         private final double distanceTraveled;
 
-        public Message(WildGameEvents event, WildVec3d emitterPos, Emitter emitter, GameEventListener listener, Vec3d listenerPos) {
+        public Message(WildGameEvent event, WildVec3d emitterPos, Emitter emitter, GameEventListener listener, Vec3d listenerPos) {
             this.event = event;
             this.emitterPos = emitterPos;
             this.emitter = emitter;
@@ -109,7 +109,7 @@ public class WildGameEvents extends net.minecraft.world.event.GameEvent {
             return Double.compare(this.distanceTraveled, message.distanceTraveled);
         }
 
-        public WildGameEvents getEvent() {
+        public WildGameEvent getEvent() {
             return this.event;
         }
 

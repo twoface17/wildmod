@@ -6,10 +6,7 @@ import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.AxolotlSwimNavigation;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.misc.animation.AnimationState;
-import net.frozenblock.wildmod.registry.RegisterEntities;
-import net.frozenblock.wildmod.registry.RegisterMemoryModules;
-import net.frozenblock.wildmod.registry.RegisterSounds;
-import net.frozenblock.wildmod.registry.RegisterTags;
+import net.frozenblock.wildmod.registry.*;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -19,15 +16,13 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.control.AquaticMoveControl;
 import net.minecraft.entity.ai.control.LookControl;
-import net.minecraft.entity.ai.pathing.AmphibiousPathNodeMaker;
-import net.minecraft.entity.ai.pathing.EntityNavigation;
-import net.minecraft.entity.ai.pathing.PathNodeNavigator;
-import net.minecraft.entity.ai.pathing.PathNodeType;
+import net.minecraft.entity.ai.pathing.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -40,11 +35,18 @@ import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.tag.BiomeTags;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.tag.EntityTypeTags;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
@@ -80,8 +82,11 @@ public class FrogEntity extends AnimalEntity {
             MemoryModuleType.HURT_BY_ENTITY,
             MemoryModuleType.NEAREST_ATTACKABLE,
             RegisterMemoryModules.IS_IN_WATER,
-            RegisterMemoryModules.IS_PREGNANT);
-    //private static final TrackedData<FrogVariant> VARIANT = DataTracker.registerData(FrogEntity.class, WildRegistry.FROG_VARIANT_DATA);
+            RegisterMemoryModules.IS_PREGNANT,
+            RegisterMemoryModules.IS_PANICKING,
+            RegisterMemoryModules.UNREACHABLE_TONGUE_TARGETS
+    );
+    private static final TrackedData<FrogVariant> VARIANT = DataTracker.registerData(FrogEntity.class, WildRegistry.FROG_VARIANT_DATA);
     private static final TrackedData<OptionalInt> TARGET = DataTracker.registerData(FrogEntity.class, WildMod.OPTIONAL_INT);
     private static final int field_37459 = 5;
     public static final String VARIANT_KEY = "variant";
@@ -96,25 +101,30 @@ public class FrogEntity extends AnimalEntity {
         super(entityType, world);
         this.lookControl = new FrogEntity.FrogLookControl(this);
         this.setPathfindingPenalty(PathNodeType.WATER, 4.0F);
+        this.setPathfindingPenalty(PathNodeType.TRAPDOOR, -1.0F);
         this.moveControl = new AquaticMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.stepHeight = 1.0F;
     }
 
+    @Override
     protected Brain.Profile<FrogEntity> createBrainProfile() {
         return Brain.createProfile(MEMORY_MODULES, SENSORS);
     }
 
+    @Override
     protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
         return FrogBrain.create(this.createBrainProfile().deserialize(dynamic));
     }
 
+    @Override
     public Brain<FrogEntity> getBrain() {
         return (Brain<FrogEntity>) super.getBrain();
     }
 
+    @Override
     protected void initDataTracker() {
         super.initDataTracker();
-        //this.dataTracker.startTracking(VARIANT, FrogVariant.TEMPERATE);
+        this.dataTracker.startTracking(VARIANT, FrogVariant.TEMPERATE);
         this.dataTracker.startTracking(TARGET, OptionalInt.empty());
     }
 
@@ -123,9 +133,6 @@ public class FrogEntity extends AnimalEntity {
     }
 
     public Optional<Entity> getFrogTarget() {
-        IntStream var10000 = this.dataTracker.get(TARGET).stream();
-        World var10001 = this.world;
-        Objects.requireNonNull(var10001);
         return this.dataTracker.get(TARGET).stream().mapToObj(this.world::getEntityById).filter(Objects::nonNull).findFirst();
     }
 
@@ -133,36 +140,41 @@ public class FrogEntity extends AnimalEntity {
         this.dataTracker.set(TARGET, OptionalInt.of(entity.getId()));
     }
 
+    @Override
     public int getMaxLookYawChange() {
         return 35;
     }
 
+    @Override
     public int getMaxHeadRotation() {
         return 5;
     }
 
-    //public FrogVariant getVariant() {
-    //return (FrogVariant)this.dataTracker.get(VARIANT);
-    //}
+    public FrogVariant getVariant() {
+        return this.dataTracker.get(VARIANT);
+    }
 
-    //public void setVariant(FrogVariant variant) {
-    //this.dataTracker.set(VARIANT, variant);
-    //}
+    public void setVariant(FrogVariant variant) {
+        this.dataTracker.set(VARIANT, variant);
+    }
 
+    @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        //nbt.putString("variant", WildRegistry.FROG_VARIANT.getId(this.getVariant()).toString());
+        nbt.putString("variant", Objects.requireNonNull(WildRegistry.FROG_VARIANT.getId(this.getVariant())).toString());
     }
 
+    @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        //FrogVariant frogVariant = WildRegistry.FROG_VARIANT.get(Identifier.tryParse(nbt.getString("variant")));
-        //if (frogVariant != null) {
-        //this.setVariant(frogVariant);
-        //}
+        FrogVariant frogVariant = WildRegistry.FROG_VARIANT.get(Identifier.tryParse(nbt.getString("variant")));
+        if (frogVariant != null) {
+            this.setVariant(frogVariant);
+        }
 
     }
 
+    @Override
     public boolean canBreatheInWater() {
         return true;
     }
@@ -175,9 +187,10 @@ public class FrogEntity extends AnimalEntity {
         return this.getVelocity().horizontalLengthSquared() > 1.0E-6 && this.isInsideWaterOrBubbleColumn();
     }
 
+    @Override
     protected void mobTick() {
         this.world.getProfiler().push("frogBrain");
-        this.getBrain().tick((ServerWorld) this.world, this);
+        this.getBrain().tick((ServerWorld)this.world, this);
         this.world.getProfiler().pop();
         this.world.getProfiler().push("frogActivityUpdate");
         FrogBrain.updateActivities(this);
@@ -185,6 +198,7 @@ public class FrogEntity extends AnimalEntity {
         super.mobTick();
     }
 
+    @Override
     public void tick() {
         if (this.world.isClient()) {
             if (this.shouldWalk()) {
@@ -208,6 +222,7 @@ public class FrogEntity extends AnimalEntity {
         super.tick();
     }
 
+    @Override
     public void onTrackedDataSet(TrackedData<?> data) {
         if (POSE.equals(data)) {
             EntityPose entityPose = this.getPose();
@@ -234,6 +249,7 @@ public class FrogEntity extends AnimalEntity {
     }
 
     @Nullable
+    @Override
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
         FrogEntity frogEntity = RegisterEntities.FROG.create(world);
         if (frogEntity != null) {
@@ -243,13 +259,16 @@ public class FrogEntity extends AnimalEntity {
         return frogEntity;
     }
 
+    @Override
     public boolean isBaby() {
         return false;
     }
 
+    @Override
     public void setBaby(boolean baby) {
     }
 
+    @Override
     public void breed(ServerWorld world, AnimalEntity other) {
         ServerPlayerEntity serverPlayerEntity = this.getLovingPlayer();
         if (serverPlayerEntity == null) {
@@ -266,21 +285,24 @@ public class FrogEntity extends AnimalEntity {
         this.resetLoveTicks();
         other.resetLoveTicks();
         this.getBrain().remember(RegisterMemoryModules.IS_PREGNANT, Unit.INSTANCE);
-        world.sendEntityStatus(this, (byte) 18);
+        world.sendEntityStatus(this, EntityStatuses.ADD_BREEDING_PARTICLES);
         if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
             world.spawnEntity(new ExperienceOrbEntity(world, this.getX(), this.getY(), this.getZ(), this.getRandom().nextInt(7) + 1));
         }
 
     }
 
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+    @Override
+    public EntityData initialize(
+            ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt
+    ) {
         RegistryEntry<Biome> registryEntry = world.getBiome(this.getBlockPos());
         if (registryEntry.isIn(RegisterTags.SPAWNS_COLD_VARIANT_FROGS)) {
-            //this.setVariant(FrogVariant.COLD);
+            this.setVariant(FrogVariant.COLD);
         } else if (registryEntry.isIn(RegisterTags.SPAWNS_WARM_VARIANT_FROGS)) {
-            //this.setVariant(FrogVariant.WARM);
+            this.setVariant(FrogVariant.WARM);
         } else {
-            //this.setVariant(FrogVariant.TEMPERATE);
+            this.setVariant(FrogVariant.TEMPERATE);
         }
 
         FrogBrain.coolDownLongJump(this, world.getRandom());
@@ -295,37 +317,45 @@ public class FrogEntity extends AnimalEntity {
     }
 
     @Nullable
+    @Override
     protected SoundEvent getAmbientSound() {
         return RegisterSounds.ENTITY_FROG_AMBIENT;
     }
 
     @Nullable
+    @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return RegisterSounds.ENTITY_FROG_HURT;
     }
 
     @Nullable
+    @Override
     protected SoundEvent getDeathSound() {
         return RegisterSounds.ENTITY_FROG_DEATH;
     }
 
+    @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(RegisterSounds.ENTITY_FROG_STEP, 0.15F, 1.0F);
     }
 
+    @Override
     public boolean isPushedByFluids() {
         return false;
     }
 
+    @Override
     protected void sendAiDebugData() {
         super.sendAiDebugData();
         DebugInfoSender.sendBrainDebugData(this);
     }
 
+    @Override
     protected int computeFallDamage(float fallDistance, float damageMultiplier) {
         return super.computeFallDamage(fallDistance, damageMultiplier) - 5;
     }
 
+    @Override
     public void travel(Vec3d movementInput) {
         if (this.canMoveVoluntarily() && this.isTouchingWater()) {
             this.updateVelocity(this.getMovementSpeed(), movementInput);
@@ -337,21 +367,25 @@ public class FrogEntity extends AnimalEntity {
 
     }
 
+    @Override
+    public boolean canJumpToNextPathNode(PathNodeType type) {
+        return super.canJumpToNextPathNode(type) && type != PathNodeType.WATER_BORDER;
+    }
+
     public static boolean isValidFrogFood(LivingEntity entity) {
-        if (entity instanceof SlimeEntity) {
-            SlimeEntity slimeEntity = (SlimeEntity) entity;
-            if (slimeEntity.getSize() != 1) {
-                return false;
-            }
+        if (entity instanceof SlimeEntity slimeEntity && slimeEntity.getSize() != 1) {
+            return false;
         }
 
         return entity.getType().isIn(RegisterTags.FROG_FOOD);
     }
 
+    @Override
     protected EntityNavigation createNavigation(World world) {
         return new FrogEntity.FrogSwimNavigation(this, world);
     }
 
+    @Override
     public boolean isBreedingItem(ItemStack stack) {
         return SLIME_BALL.test(stack);
     }
@@ -365,6 +399,7 @@ public class FrogEntity extends AnimalEntity {
             super(entity);
         }
 
+        @Override
         protected boolean shouldStayHorizontal() {
             return FrogEntity.this.getFrogTarget().isEmpty();
         }
@@ -375,6 +410,7 @@ public class FrogEntity extends AnimalEntity {
             super(frog, world);
         }
 
+        @Override
         protected PathNodeNavigator createPathNodeNavigator(int range) {
             this.nodeMaker = new FrogEntity.FrogSwimPathNodeMaker(true);
             this.nodeMaker.setCanEnterOpenDoors(true);
@@ -389,10 +425,38 @@ public class FrogEntity extends AnimalEntity {
             super(bl);
         }
 
+        @Nullable
+        @Override
+        public PathNode getStart() {
+            return this.getStart(
+                    new BlockPos(
+                            MathHelper.floor(this.entity.getBoundingBox().minX),
+                            MathHelper.floor(this.entity.getBoundingBox().minY),
+                            MathHelper.floor(this.entity.getBoundingBox().minZ)
+                    )
+            );
+        }
+
+        @Nullable
+        protected PathNode getStart(BlockPos pos) {
+            PathNode pathNode = this.getNode(pos);
+            if (pathNode != null) {
+                pathNode.type = this.getNodeType(this.entity, pathNode.getBlockPos());
+                pathNode.penalty = this.entity.getPathfindingPenalty(pathNode.type);
+            }
+
+            return pathNode;
+        }
+
+        private PathNodeType getNodeType(MobEntity entity, BlockPos pos) {
+            return this.getNodeType(entity, pos.getX(), pos.getY(), pos.getZ());
+        }
+
+        @Override
         public PathNodeType getDefaultNodeType(BlockView world, int x, int y, int z) {
             this.pos.set(x, y - 1, z);
             BlockState blockState = world.getBlockState(this.pos);
-            return blockState.isIn(RegisterTags.FROG_PREFER_JUMP_TO) ? PathNodeType.OPEN : getLandNodeType(world, this.pos.move(Direction.UP));
+            return blockState.isIn(RegisterTags.FROG_PREFER_JUMP_TO) ? PathNodeType.OPEN : super.getDefaultNodeType(world, x, y, z);
         }
     }
 }

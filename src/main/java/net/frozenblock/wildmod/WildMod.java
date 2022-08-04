@@ -11,8 +11,9 @@ import net.frozenblock.wildmod.entity.WildPacketByteBuf;
 import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
+import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildEntityPositionSource;
-import net.frozenblock.wildmod.event.WildGameEvents;
+import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.event.WildPositionSourceType;
 import net.frozenblock.wildmod.fromAccurateSculk.WildBlockEntityType;
 import net.frozenblock.wildmod.misc.FrogAttackablesSensor;
@@ -65,6 +66,7 @@ public class WildMod implements ModInitializer {
 
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
     public static final WildPositionSourceType<WildEntityPositionSource> ENTITY = WildPositionSourceType.register("entity", new WildEntityPositionSource.Type());
+    public static final WildPositionSourceType<WildBlockPositionSource> BLOCK = WildPositionSourceType.register("block", new WildBlockPositionSource.Type());
 
     static <T> TrackedDataHandler<Optional<T>> ofOptional(WildPacketByteBuf.PacketWriter<T> packetWriter, WildPacketByteBuf.PacketReader<T> packetReader) {
         return WildTrackedDataHandler.of(packetWriter.asOptional(), packetReader.asOptional());
@@ -113,7 +115,7 @@ public class WildMod implements ModInitializer {
         DIG = Registry.register(Registry.ACTIVITY, new Identifier(WildMod.MOD_ID, "dig"), new Activity("dig"));
 
         RegisterAccurateSculk.register();
-        WildGameEvents.RegisterGameEvents();
+        WildGameEvent.RegisterGameEvents();
         RegisterRecoveryCompass.registerRecovery();
         WildFoliagePlacerType.init();
         WildTrunkPlacerType.init();

@@ -43,6 +43,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -338,7 +339,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
         return false;
     }
 
-    public boolean accepts(ServerWorld world, net.frozenblock.wildmod.event.GameEventListener listener, BlockPos pos, GameEvent event, WildGameEvents.Emitter emitter) {
+    public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, WildGameEvent event, WildGameEvent.Emitter emitter) {
         if (this.world != world || this.isRemoved() || this.isAiDisabled()) {
             return false;
         } else if (!this.brain.hasMemoryModule(RegisterMemoryModules.LIKED_NOTEBLOCK)) {
@@ -354,7 +355,7 @@ public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, 
     public void accept(
             ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity, @Nullable Entity sourceEntity, float distance
     ) {
-        if (event == WildGameEvents.NOTE_BLOCK_PLAY) {
+        if (event == WildGameEvent.NOTE_BLOCK_PLAY) {
             AllayBrain.rememberNoteBlock(this, new BlockPos(pos));
         }
 

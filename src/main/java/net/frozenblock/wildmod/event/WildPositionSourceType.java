@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public interface WildPositionSourceType<T extends WildPositionSource> extends net.minecraft.world.event.PositionSourceType<T> {
-    WildPositionSourceType<WildBlockPositionSource> BLOCK = WildPositionSourceType.register("block", new WildBlockPositionSource.Type());
+
 
     T readFromBuf(PacketByteBuf buf);
 

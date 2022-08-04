@@ -36,7 +36,7 @@ public abstract class WildRegistry<T> extends Registry<T> {
     //public static final RegistryKey<Registry<StructureType<?>>> STRUCTURE_KEY = WildRegistry.createRegistryKey("worldgen/structure");
     public static final RegistryKey<Registry<DoublePerlinNoiseSampler.NoiseParameters>> NOISE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/noise"));
     public static final RegistryKey<Registry<WildPositionSourceType<?>>> WILD_POSITION_SOURCE_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "position_source_type"));
-    public static final Registry<WildPositionSourceType<?>> WILD_POSITION_SOURCE_TYPE = Registry.create(WILD_POSITION_SOURCE_TYPE_KEY, registry -> WildPositionSourceType.BLOCK);
+    public static final Registry<WildPositionSourceType<?>> WILD_POSITION_SOURCE_TYPE = Registry.create(WILD_POSITION_SOURCE_TYPE_KEY, registry -> WildMod.BLOCK);
     public static final RegistryKey<Registry<WildFoliagePlacerType<?>>> FOLIAGE_PLACER_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/foliage_placer_type"));
     public static final Registry<WildFoliagePlacerType<?>> FOLIAGE_PLACER_TYPE = Registry.create(FOLIAGE_PLACER_TYPE_KEY, (registry) -> {
         return WildFoliagePlacerType.BLOB_FOLIAGE_PLACER;

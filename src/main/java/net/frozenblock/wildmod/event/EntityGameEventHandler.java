@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class EntityGameEventHandler<T extends GameEventListener> {
+public class EntityGameEventHandler<T extends WildGameEventListener> {
     private T listener;
     @Nullable
     private ChunkSectionPos sectionPos;
