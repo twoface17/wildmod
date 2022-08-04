@@ -18,6 +18,14 @@ repositories {
 		}
 	}
 	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
+	maven {
 		url = 'https://cursemaven.com'
 		content {
 			includeGroup "curse.maven"
@@ -52,7 +60,21 @@ dependencies {
 	modImplementation "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 	include "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 
-	//modImplementation "curse.maven:backport-537901:3912138"
+	// only affects runClient, does not affect gradlew build. add -PuseThirdPartyMods=false to not use these
+	if (findProperty("useThirdPartyMods") != "false") {
+		modRuntimeOnly "maven.modrinth:modmenu:${modmenu_version}"
+		modRuntimeOnly "maven.modrinth:ferrite-core:${ferritecore_version}"
+		modRuntimeOnly "maven.modrinth:lazydfu:${lazydfu_version}"
+		modRuntimeOnly "maven.modrinth:starlight:${starlight_version}"
+		//modRuntimeOnly "maven.modrinth:indium:1.0.6+mc1.19"
+		//modRuntimeOnly "maven.modrinth:lithium:mc1.19-0.8.1"
+		//modRuntimeOnly "maven.modrinth:sodium:mc1.19-0.4.2"
+		modRuntimeOnly "maven.modrinth:entityculling:${entityculling_version}"
+		//modRuntimeOnly "maven.modrinth:c2me-fabric:0.2.0+alpha.8.32+1.19.1-rc3"
+		modRuntimeOnly "maven.modrinth:ksyxis:${ksyxis_version}"
+		//modRuntimeOnly "maven.modrinth:iris:1.19.x-v1.2.5"
+		modRuntimeOnly "maven.modrinth:memoryleakfix:${memoryleakfix_version}"
+	}
 }
 
 tasks.withType(JavaCompile) {
