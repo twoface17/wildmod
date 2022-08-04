@@ -42,6 +42,25 @@ public abstract class VanillaBiomeParametersMixin {
 
     @Shadow protected abstract void writeBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, float offset, RegistryKey<Biome> biome);
 
+    @Shadow protected abstract void writeCaveBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange temperature, MultiNoiseUtil.ParameterRange humidity, MultiNoiseUtil.ParameterRange continentalness, MultiNoiseUtil.ParameterRange erosion, MultiNoiseUtil.ParameterRange weirdness, float offset, RegistryKey<Biome> biome);
+
+    private void writeDeepDarkParameters(
+            Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters,
+            MultiNoiseUtil.ParameterRange temperature,
+            MultiNoiseUtil.ParameterRange humidity,
+            MultiNoiseUtil.ParameterRange continentalness,
+            MultiNoiseUtil.ParameterRange erosion,
+            MultiNoiseUtil.ParameterRange weirdness,
+            float offset,
+            RegistryKey<Biome> biome
+    ) {
+        parameters.accept(
+                Pair.of(
+                        MultiNoiseUtil.createNoiseHypercube(temperature, humidity, continentalness, erosion, MultiNoiseUtil.ParameterRange.of(1.1F), weirdness, offset), biome
+                )
+        );
+    }
+
     @Inject(method = "writeBiomesNearRivers", at = @At("TAIL"))
     private void writeBiomesNearRivers(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, MultiNoiseUtil.ParameterRange weirdness, CallbackInfo ci) {
         this.writeBiomeParameters(
@@ -86,7 +105,7 @@ public abstract class VanillaBiomeParametersMixin {
 
     @Inject(method = "writeCaveBiomes", at = @At("TAIL"))
     private void injectDeepDark(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, CallbackInfo ci) {
-        this.writeBiomeParameters(
+        this.writeDeepDarkParameters(
                 parameters,
                 this.defaultParameter,
                 this.defaultParameter,
