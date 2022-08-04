@@ -3,27 +3,14 @@ package net.frozenblock.wildmod.mixins;
 import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.event.WildGameEventListener;
 import net.frozenblock.wildmod.misc.WildServerWorld;
-import net.frozenblock.wildmod.misc.WildVec3d;
-import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.listener.GameEventListener;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -110,7 +97,7 @@ public abstract class ServerWorldMixin implements WildServerWorld {
         ServerWorld serverWorld = ServerWorld.class.cast(this);
         Collections.sort(events);
 
-        for(WildGameEvent.Message message : events) {
+        for (WildGameEvent.Message message : events) {
             if (message.getListener() instanceof WildGameEventListener wildGameEventListener) {
                 wildGameEventListener.listen(serverWorld, message);
             }

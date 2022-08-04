@@ -34,6 +34,6 @@ public interface WildPositionSourceType<T extends WildPositionSource> extends ne
         positionSource.getType().writeToBuf(buf, positionSource);
     }*/
 
-    public static void init() {
+    static void init() {
     }
 }

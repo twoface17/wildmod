@@ -2,7 +2,6 @@ package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.misc.WildBoatType;
 import net.frozenblock.wildmod.registry.MangroveWoods;
-import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.vehicle.BoatEntity;
 import org.objectweb.asm.Opcodes;

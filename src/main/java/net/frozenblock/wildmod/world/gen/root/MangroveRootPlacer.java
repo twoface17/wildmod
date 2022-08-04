@@ -3,12 +3,12 @@ package net.frozenblock.wildmod.world.gen.root;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.frozenblock.wildmod.world.feature.features.WildTreeFeatureConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.TestableWorld;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class MangroveRootPlacer extends RootPlacer {
     }
 
     public boolean generate(
-            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos pos, BlockPos trunkPos, TreeFeatureConfig config
+            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos pos, BlockPos trunkPos, WildTreeFeatureConfig config
     ) {
         List<BlockPos> list = Lists.newArrayList();
         BlockPos.Mutable mutable = pos.mutableCopy();
@@ -110,7 +110,7 @@ public class MangroveRootPlacer extends RootPlacer {
     }
 
     protected void placeRoots(
-            TestableWorld testableWorld, BiConsumer<BlockPos, BlockState> biConsumer, Random random, BlockPos blockPos, TreeFeatureConfig config
+            TestableWorld testableWorld, BiConsumer<BlockPos, BlockState> biConsumer, Random random, BlockPos blockPos, WildTreeFeatureConfig config
     ) {
         if (testableWorld.testBlockState(blockPos, state -> state.isIn(this.mangroveRootPlacement.muddyRootsIn()))) {
             BlockState blockState = this.mangroveRootPlacement.muddyRootsProvider().getBlockState(random, blockPos);

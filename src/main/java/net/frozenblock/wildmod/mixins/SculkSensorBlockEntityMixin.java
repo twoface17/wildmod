@@ -3,7 +3,6 @@ package net.frozenblock.wildmod.mixins;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
-import net.frozenblock.wildmod.event.WildGameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvent;

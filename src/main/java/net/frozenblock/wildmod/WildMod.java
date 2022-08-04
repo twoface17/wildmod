@@ -21,8 +21,7 @@ import net.frozenblock.wildmod.misc.IsInWaterSensor;
 import net.frozenblock.wildmod.misc.ItemCriterion;
 import net.frozenblock.wildmod.misc.animation.AnimationState;
 import net.frozenblock.wildmod.registry.*;
-import net.frozenblock.wildmod.world.feature.WildTrunkPlacerType;
-import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacerType;
+import net.frozenblock.wildmod.world.feature.WildTreeRegistry;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.SpawnRestriction;
@@ -117,8 +116,7 @@ public class WildMod implements ModInitializer {
         RegisterAccurateSculk.register();
         WildGameEvent.RegisterGameEvents();
         RegisterRecoveryCompass.registerRecovery();
-        WildFoliagePlacerType.init();
-        WildTrunkPlacerType.init();
+        WildTreeRegistry.init();
 
         SpawnRestrictionAccessor.callRegister(RegisterEntities.FROG, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FrogEntity::canSpawn);
     }

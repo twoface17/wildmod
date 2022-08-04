@@ -190,11 +190,10 @@ public abstract class MobEntityMixin extends LivingEntity {
         if (oldStack.isEmpty()) {
             return true;
         } else if (newStack.getItem() instanceof SwordItem) {
-            if (!(oldStack.getItem() instanceof SwordItem)) {
+            if (!(oldStack.getItem() instanceof SwordItem swordItem2)) {
                 return true;
             } else {
                 SwordItem swordItem = (SwordItem) newStack.getItem();
-                SwordItem swordItem2 = (SwordItem) oldStack.getItem();
                 if (swordItem.getAttackDamage() != swordItem2.getAttackDamage()) {
                     return swordItem.getAttackDamage() > swordItem2.getAttackDamage();
                 } else {
@@ -208,11 +207,10 @@ public abstract class MobEntityMixin extends LivingEntity {
         } else if (newStack.getItem() instanceof ArmorItem) {
             if (EnchantmentHelper.hasBindingCurse(oldStack)) {
                 return false;
-            } else if (!(oldStack.getItem() instanceof ArmorItem)) {
+            } else if (!(oldStack.getItem() instanceof ArmorItem armorItem2)) {
                 return true;
             } else {
                 ArmorItem armorItem = (ArmorItem) newStack.getItem();
-                ArmorItem armorItem2 = (ArmorItem) oldStack.getItem();
                 if (armorItem.getProtection() != armorItem2.getProtection()) {
                     return armorItem.getProtection() > armorItem2.getProtection();
                 } else if (armorItem.getToughness() != armorItem2.getToughness()) {
@@ -227,9 +225,8 @@ public abstract class MobEntityMixin extends LivingEntity {
                     return true;
                 }
 
-                if (oldStack.getItem() instanceof MiningToolItem) {
+                if (oldStack.getItem() instanceof MiningToolItem miningToolItem2) {
                     MiningToolItem miningToolItem = (MiningToolItem) newStack.getItem();
-                    MiningToolItem miningToolItem2 = (MiningToolItem) oldStack.getItem();
                     if (miningToolItem.getAttackDamage() != miningToolItem2.getAttackDamage()) {
                         return miningToolItem.getAttackDamage() > miningToolItem2.getAttackDamage();
                     }

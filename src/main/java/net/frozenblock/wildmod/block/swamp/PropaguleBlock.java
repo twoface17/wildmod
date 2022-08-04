@@ -55,7 +55,7 @@ public class PropaguleBlock extends SaplingBlock implements Waterloggable {
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{STAGE}).add(new Property[]{AGE}).add(new Property[]{WATERLOGGED}).add(new Property[]{HANGING});
+        builder.add(new Property[]{STAGE}).add(new Property[]{AGE}).add(new Property[]{WATERLOGGED}).add(HANGING);
     }
 
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {

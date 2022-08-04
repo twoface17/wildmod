@@ -4,6 +4,7 @@ import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.registry.WildRegistry;
+import net.frozenblock.wildmod.world.feature.features.WildTreeFeatureConfig;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.property.Properties;
@@ -12,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.TreeFeature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.Optional;
@@ -42,16 +42,14 @@ public abstract class RootPlacer {
     protected abstract RootPlacerType<?> getType();
 
     public abstract boolean generate(
-            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos pos, BlockPos trunkPos, TreeFeatureConfig config
+            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos pos, BlockPos trunkPos, WildTreeFeatureConfig config
     );
 
     protected boolean canGrowThrough(TestableWorld testableWorld, BlockPos blockPos) {
         return TreeFeature.canReplace(testableWorld, blockPos);
     }
 
-    protected void placeRoots(
-            TestableWorld testableWorld, BiConsumer<BlockPos, BlockState> biConsumer, Random random, BlockPos blockPos, TreeFeatureConfig config
-    ) {
+    protected void placeRoots(TestableWorld testableWorld, BiConsumer<BlockPos, BlockState> biConsumer, Random random, BlockPos blockPos, WildTreeFeatureConfig config) {
         if (this.canGrowThrough(testableWorld, blockPos)) {
             biConsumer.accept(blockPos, this.applyWaterlogging(testableWorld, blockPos, this.rootProvider.getBlockState(random, blockPos)));
             if (this.aboveRootPlacement.isPresent()) {
@@ -63,17 +61,13 @@ public abstract class RootPlacer {
                     );
                 }
             }
-
         }
     }
 
     protected BlockState applyWaterlogging(TestableWorld world, BlockPos pos, BlockState state) {
-        if (state.contains(Properties.WATERLOGGED)) {
-            boolean bl = world.testFluidState(pos, fluidState -> fluidState.isIn(FluidTags.WATER));
-            return state.with(Properties.WATERLOGGED, bl);
-        } else {
-            return state;
-        }
+        return state.contains(Properties.WATERLOGGED)
+                ? state.with(Properties.WATERLOGGED, world.testFluidState(pos, fluid -> fluid.isIn(FluidTags.WATER)))
+                : state;
     }
 
     public BlockPos trunkOffset(BlockPos pos, Random random) {

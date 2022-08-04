@@ -10,7 +10,6 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.BoatEntityRenderer;
-import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
@@ -56,14 +55,14 @@ public class WildBoatEntityRenderer extends BoatEntityRenderer {
         matrixStack.push();
         matrixStack.translate(0.0, 0.375, 0.0);
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - f));
-        float h = (float)boatEntity.getDamageWobbleTicks() - g;
+        float h = (float) boatEntity.getDamageWobbleTicks() - g;
         float j = boatEntity.getDamageWobbleStrength() - g;
         if (j < 0.0F) {
             j = 0.0F;
         }
 
         if (h > 0.0F) {
-            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0F * (float)boatEntity.getDamageWobbleSide()));
+            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0F * (float) boatEntity.getDamageWobbleSide()));
         }
 
         float k = boatEntity.interpolateBubbleWobble(g);
@@ -71,7 +70,7 @@ public class WildBoatEntityRenderer extends BoatEntityRenderer {
             matrixStack.multiply(new Quaternion(new Vec3f(1.0F, 0.0F, 1.0F), boatEntity.interpolateBubbleWobble(g), true));
         }
 
-        Pair<Identifier, WildBoatEntityModel> pair = (Pair)this.texturesAndModels.get(boatEntity.getBoatType());
+        Pair<Identifier, WildBoatEntityModel> pair = this.texturesAndModels.get(boatEntity.getBoatType());
         Identifier identifier = pair.getFirst();
         WildBoatEntityModel wildBoatEntityModel = pair.getSecond();
         matrixStack.scale(-1.0F, -1.0F, 1.0F);
@@ -89,6 +88,6 @@ public class WildBoatEntityRenderer extends BoatEntityRenderer {
     }
 
     public Identifier getTexture(BoatEntity boatEntity) {
-        return (Identifier)((Pair)this.texturesAndModels.get(boatEntity.getBoatType())).getFirst();
+        return (Identifier) ((Pair) this.texturesAndModels.get(boatEntity.getBoatType())).getFirst();
     }
 }

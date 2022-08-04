@@ -3,25 +3,25 @@ package net.frozenblock.wildmod.world.feature.features;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.frozenblock.wildmod.world.feature.WildTrunkPlacer;
-import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacer;
 import net.frozenblock.wildmod.world.gen.root.RootPlacer;
 import net.minecraft.block.Blocks;
-import net.minecraft.world.gen.feature.FeatureConfig;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.size.FeatureSize;
+import net.minecraft.world.gen.foliage.FoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.treedecorator.TreeDecorator;
+import net.minecraft.world.gen.trunk.TrunkPlacer;
 
 import java.util.List;
 import java.util.Optional;
 
-public class WildTreeFeatureConfig implements FeatureConfig {
+public class WildTreeFeatureConfig extends TreeFeatureConfig {
     public static final Codec<WildTreeFeatureConfig> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                             BlockStateProvider.TYPE_CODEC.fieldOf("trunk_provider").forGetter(config -> config.trunkProvider),
-                            WildTrunkPlacer.TYPE_CODEC.fieldOf("trunk_placer").forGetter(config -> config.trunkPlacer),
+                            TrunkPlacer.TYPE_CODEC.fieldOf("trunk_placer").forGetter(config -> config.trunkPlacer),
                             BlockStateProvider.TYPE_CODEC.fieldOf("foliage_provider").forGetter(config -> config.foliageProvider),
-                            WildFoliagePlacer.TYPE_CODEC.fieldOf("foliage_placer").forGetter(config -> config.foliagePlacer),
+                            FoliagePlacer.TYPE_CODEC.fieldOf("foliage_placer").forGetter(config -> config.foliagePlacer),
                             RootPlacer.TYPE_CODEC.optionalFieldOf("root_placer").forGetter(config -> config.rootPlacer),
                             BlockStateProvider.TYPE_CODEC.fieldOf("dirt_provider").forGetter(config -> config.dirtProvider),
                             FeatureSize.TYPE_CODEC.fieldOf("minimum_size").forGetter(config -> config.minimumSize),
@@ -31,22 +31,13 @@ public class WildTreeFeatureConfig implements FeatureConfig {
                     )
                     .apply(instance, WildTreeFeatureConfig::new)
     );
-    public final BlockStateProvider trunkProvider;
-    public final BlockStateProvider dirtProvider;
-    public final WildTrunkPlacer trunkPlacer;
-    public final BlockStateProvider foliageProvider;
-    public final WildFoliagePlacer foliagePlacer;
     public final Optional<RootPlacer> rootPlacer;
-    public final FeatureSize minimumSize;
-    public final List<TreeDecorator> decorators;
-    public final boolean ignoreVines;
-    public final boolean forceDirt;
 
     protected WildTreeFeatureConfig(
             BlockStateProvider trunkProvider,
-            WildTrunkPlacer trunkPlacer,
+            TrunkPlacer trunkPlacer,
             BlockStateProvider foliageProvider,
-            WildFoliagePlacer foliagePlacer,
+            FoliagePlacer foliagePlacer,
             Optional<RootPlacer> rootPlacer,
             BlockStateProvider dirtProvider,
             FeatureSize minimumSize,
@@ -54,23 +45,15 @@ public class WildTreeFeatureConfig implements FeatureConfig {
             boolean ignoreVines,
             boolean forceDirt
     ) {
-        this.trunkProvider = trunkProvider;
-        this.trunkPlacer = trunkPlacer;
-        this.foliageProvider = foliageProvider;
-        this.foliagePlacer = foliagePlacer;
+        super(trunkProvider, trunkPlacer, foliageProvider, foliagePlacer, dirtProvider, minimumSize, decorators, ignoreVines, forceDirt);
         this.rootPlacer = rootPlacer;
-        this.dirtProvider = dirtProvider;
-        this.minimumSize = minimumSize;
-        this.decorators = decorators;
-        this.ignoreVines = ignoreVines;
-        this.forceDirt = forceDirt;
     }
 
     public static class Builder {
         public final BlockStateProvider trunkProvider;
-        private final WildTrunkPlacer trunkPlacer;
+        private final TrunkPlacer trunkPlacer;
         public final BlockStateProvider foliageProvider;
-        private final WildFoliagePlacer foliagePlacer;
+        private final FoliagePlacer foliagePlacer;
         private final Optional<RootPlacer> rootPlacer;
         private BlockStateProvider dirtProvider;
         private final FeatureSize minimumSize;
@@ -80,9 +63,9 @@ public class WildTreeFeatureConfig implements FeatureConfig {
 
         public Builder(
                 BlockStateProvider trunkProvider,
-                WildTrunkPlacer trunkPlacer,
+                TrunkPlacer trunkPlacer,
                 BlockStateProvider foliageProvider,
-                WildFoliagePlacer foliagePlacer,
+                FoliagePlacer foliagePlacer,
                 Optional<RootPlacer> rootPlacer,
                 FeatureSize minimumSize
         ) {
@@ -96,7 +79,7 @@ public class WildTreeFeatureConfig implements FeatureConfig {
         }
 
         public Builder(
-                BlockStateProvider trunkProvider, WildTrunkPlacer trunkPlacer, BlockStateProvider foliageProvider, WildFoliagePlacer foliagePlacer, FeatureSize minimumSize
+                BlockStateProvider trunkProvider, TrunkPlacer trunkPlacer, BlockStateProvider foliageProvider, FoliagePlacer foliagePlacer, FeatureSize minimumSize
         ) {
             this(trunkProvider, trunkPlacer, foliageProvider, foliagePlacer, Optional.empty(), minimumSize);
         }

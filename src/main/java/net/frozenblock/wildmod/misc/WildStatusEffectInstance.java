@@ -221,10 +221,9 @@ public class WildStatusEffectInstance extends net.minecraft.entity.effect.Status
     public boolean equals(Object o) {
         if (this == o) {
             return true;
-        } else if (!(o instanceof WildStatusEffectInstance)) {
+        } else if (!(o instanceof WildStatusEffectInstance wildStatusEffectInstance)) {
             return false;
         } else {
-            WildStatusEffectInstance wildStatusEffectInstance = (WildStatusEffectInstance) o;
             return this.duration == wildStatusEffectInstance.duration
                     && this.amplifier == wildStatusEffectInstance.amplifier
                     && this.ambient == wildStatusEffectInstance.ambient

@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package net.frozenblock.wildmod.event;
 
 import com.mojang.serialization.Codec;
@@ -11,10 +6,8 @@ import net.frozenblock.wildmod.misc.TickCriterion;
 import net.frozenblock.wildmod.misc.WildVec3d;
 import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterTags;
-import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.particle.VibrationParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
@@ -26,7 +19,6 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockStateRaycastContext;
 import net.minecraft.world.World;
@@ -35,7 +27,6 @@ import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -60,7 +51,7 @@ public class VibrationListener implements WildGameEventListener {
                         .apply(
                                 instance,
                                 (positionSource, range, vibration, distance, delay) -> new VibrationListener(
-                                        positionSource, range, callback, (VibrationListener.Vibration)vibration.orElse(null), distance, delay
+                                        positionSource, range, callback, vibration.orElse(null), distance, delay
                                 )
                         )
         );
@@ -88,8 +79,8 @@ public class VibrationListener implements WildGameEventListener {
                                 this,
                                 new BlockPos(this.vibration.pos),
                                 this.vibration.gameEvent,
-                                (Entity)this.vibration.getEntity(serverWorld).orElse(null),
-                                (Entity)this.vibration.getOwner(serverWorld).orElse(null),
+                                this.vibration.getEntity(serverWorld).orElse(null),
+                                this.vibration.getOwner(serverWorld).orElse(null),
                                 this.distance
                         );
                 this.vibration = null;
@@ -143,7 +134,7 @@ public class VibrationListener implements WildGameEventListener {
     }
 
     private void listen(ServerWorld world, WildGameEvent gameEvent, WildGameEvent.Emitter emitter, WildVec3d start, WildVec3d end) {
-        this.distance = (float)start.distanceTo(end);
+        this.distance = (float) start.distanceTo(end);
         this.vibration = new VibrationListener.Vibration(gameEvent, this.distance, start, emitter.sourceEntity());
         this.delay = MathHelper.floor(this.distance);
         world.spawnParticles(new WildVibrationParticleEffect(this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
@@ -151,10 +142,10 @@ public class VibrationListener implements WildGameEventListener {
     }
 
     private static boolean isOccluded(World world, WildVec3d start, WildVec3d end) {
-        WildVec3d vec3d = new WildVec3d((double)MathHelper.floor(start.x) + 0.5, (double)MathHelper.floor(start.y) + 0.5, (double)MathHelper.floor(start.z) + 0.5);
-        WildVec3d vec3d2 = new WildVec3d((double)MathHelper.floor(end.x) + 0.5, (double)MathHelper.floor(end.y) + 0.5, (double)MathHelper.floor(end.z) + 0.5);
+        WildVec3d vec3d = new WildVec3d((double) MathHelper.floor(start.x) + 0.5, (double) MathHelper.floor(start.y) + 0.5, (double) MathHelper.floor(start.z) + 0.5);
+        WildVec3d vec3d2 = new WildVec3d((double) MathHelper.floor(end.x) + 0.5, (double) MathHelper.floor(end.y) + 0.5, (double) MathHelper.floor(end.z) + 0.5);
 
-        for(Direction direction : Direction.values()) {
+        for (Direction direction : Direction.values()) {
             WildVec3d vec3d3 = vec3d.withBias(direction, 1.0E-5F);
             if (world.raycast(new BlockStateRaycastContext(vec3d3, vec3d2, state -> state.isIn(BlockTags.OCCLUDES_VIBRATION_SIGNALS))).getType()
                     != HitResult.Type.BLOCK) {
@@ -221,7 +212,8 @@ public class VibrationListener implements WildGameEventListener {
         }
     }
 
-    public static record Vibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity) {
+    public record Vibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid,
+                            @Nullable UUID projectileOwnerUuid, @Nullable Entity entity) {
 
         public static final Codec<VibrationListener.Vibration> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(
@@ -234,7 +226,7 @@ public class VibrationListener implements WildGameEventListener {
                         .apply(
                                 instance,
                                 (event, distance, pos, uuid, projectileOwnerUuid) -> new VibrationListener.Vibration(
-                                        event, distance, pos, (UUID)uuid.orElse(null), (UUID)projectileOwnerUuid.orElse(null)
+                                        event, distance, pos, uuid.orElse(null), projectileOwnerUuid.orElse(null)
                                 )
                         )
         );
@@ -263,7 +255,7 @@ public class VibrationListener implements WildGameEventListener {
         public Optional<Entity> getOwner(ServerWorld world) {
             return this.getEntity(world)
                     .filter(entity -> entity instanceof ProjectileEntity)
-                    .map(entity -> (ProjectileEntity)entity)
+                    .map(entity -> (ProjectileEntity) entity)
                     .map(ProjectileEntity::getOwner)
                     .or(() -> Optional.ofNullable(this.projectileOwnerUuid).map(world::getEntity));
         }

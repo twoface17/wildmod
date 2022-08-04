@@ -54,8 +54,7 @@ public class GiveInventoryToLookTargetTask<E extends LivingEntity & InventoryOwn
                 ItemStack itemStack = entity.getInventory().removeStack(0, 1);
                 if (!itemStack.isEmpty()) {
                     LookTargetUtil.give(entity, itemStack, offsetTarget(lookTarget));
-                    if (entity instanceof AllayEntity) {
-                        AllayEntity allayEntity = (AllayEntity) entity;
+                    if (entity instanceof AllayEntity allayEntity) {
                         AllayBrain.getLikedPlayer(allayEntity).ifPresent((player) -> {
                             this.triggerCriterion(lookTarget, itemStack, player);
                         });

@@ -14,7 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public record WildVibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid, @Nullable Entity entity) {
+public record WildVibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid,
+                            @Nullable UUID projectileOwnerUuid, @Nullable Entity entity) {
     public static final Codec<UUID> UUID = DynamicSerializableUuid.CODEC;
     //final GameEvent gameEvent;
     //final Vec3d pos;

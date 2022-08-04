@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.mixins;
 
-import net.frozenblock.wildmod.world.gen.structure.ancientcity.AncientCityGenerator;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePools;
 import net.minecraft.util.registry.RegistryEntry;

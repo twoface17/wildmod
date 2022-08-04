@@ -1,6 +1,7 @@
 package net.frozenblock.wildmod.world.feature;
 
 import net.frozenblock.wildmod.WildMod;
+import net.frozenblock.wildmod.block.swamp.PropaguleBlock;
 import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterTags;
@@ -8,7 +9,7 @@ import net.frozenblock.wildmod.world.feature.features.DiskFeatureConfig;
 import net.frozenblock.wildmod.world.feature.features.MultifaceGrowthFeatureConfig;
 import net.frozenblock.wildmod.world.feature.features.SculkPatchFeatureConfig;
 import net.frozenblock.wildmod.world.feature.features.WildTreeFeatureConfig;
-import net.frozenblock.wildmod.world.feature.foliage.WildRandomSpreadFoliagePlacer;
+import net.frozenblock.wildmod.world.gen.AttachedToLeavesTreeDecorator;
 import net.frozenblock.wildmod.world.gen.LeavesVineTreeDecorator;
 import net.frozenblock.wildmod.world.gen.PredicatedStateProvider;
 import net.frozenblock.wildmod.world.gen.UpwardsBranchingTrunkPlacer;
@@ -31,7 +32,9 @@ import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
+import net.minecraft.world.gen.foliage.RandomSpreadFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
+import net.minecraft.world.gen.stateprovider.RandomizedIntBlockStateProvider;
 import net.minecraft.world.gen.treedecorator.BeehiveTreeDecorator;
 
 import java.util.List;
@@ -101,7 +104,7 @@ public class WildConfiguredFeatures {
                             Registry.BLOCK.getOrCreateEntryList(RegisterTags.MANGROVE_LOGS_CAN_GROW_THROUGH)
                     ),
                     BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
-                    new WildRandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 70),
+                    new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 70),
                     Optional.of(
                             new MangroveRootPlacer(
                                     UniformIntProvider.create(1, 3),
@@ -157,7 +160,7 @@ public class WildConfiguredFeatures {
                             Registry.BLOCK.getOrCreateEntryList(RegisterTags.MANGROVE_LOGS_CAN_GROW_THROUGH)
                     ),
                     BlockStateProvider.of(MangroveWoods.MANGROVE_LEAVES),
-                    new WildRandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 70),
+                    new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), ConstantIntProvider.create(2), 70),
                     Optional.of(
                             new MangroveRootPlacer(
                                     UniformIntProvider.create(3, 7),
@@ -178,19 +181,19 @@ public class WildConfiguredFeatures {
                     .decorators(
                             List.of(
                                     new LeavesVineTreeDecorator(0.125F),
-                                /*new AttachedToLeavesTreeDecorator(
-                                0.14F,
-                                1,
-                                0,
-                                new RandomizedIntBlockStateProvider(
-                                BlockStateProvider.of(Blocks.MANGROVE_PROPAGULE.getDefaultState().with(PropaguleBlock.HANGING, true)),
-                                PropaguleBlock.AGE,
-                                UniformIntProvider.create(0, 4)
-                                ),
-                                2,
-                                List.of(Direction.DOWN)
-                                ),
-                                */BEES_001
+                                    new AttachedToLeavesTreeDecorator(
+                                            0.14F,
+                                            1,
+                                            0,
+                                            new RandomizedIntBlockStateProvider(
+                                                    BlockStateProvider.of(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(PropaguleBlock.HANGING, true)),
+                                                    PropaguleBlock.AGE,
+                                                    UniformIntProvider.create(0, 4)
+                                            ),
+                                            2,
+                                            List.of(Direction.DOWN)
+                                    ),
+                                    BEES_001
                             )
                     )
                     .ignoreVines()

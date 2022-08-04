@@ -3,10 +3,7 @@ package net.frozenblock.wildmod.world.gen;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.frozenblock.wildmod.world.feature.WildTrunkPlacer;
-import net.frozenblock.wildmod.world.feature.WildTrunkPlacerType;
-import net.frozenblock.wildmod.world.feature.features.WildTreeFeatureConfig;
-import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacer;
+import net.frozenblock.wildmod.world.feature.WildTreeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -16,12 +13,16 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryCodecs;
 import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.TestableWorld;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.foliage.FoliagePlacer;
+import net.minecraft.world.gen.trunk.TrunkPlacer;
+import net.minecraft.world.gen.trunk.TrunkPlacerType;
 
 import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
-public class UpwardsBranchingTrunkPlacer extends WildTrunkPlacer {
+public class UpwardsBranchingTrunkPlacer extends TrunkPlacer {
     public static final Codec<UpwardsBranchingTrunkPlacer> CODEC = RecordCodecBuilder.create(
             instance -> fillTrunkPlacerFields(instance)
                     .and(
@@ -57,20 +58,20 @@ public class UpwardsBranchingTrunkPlacer extends WildTrunkPlacer {
         this.canGrowThrough = canGrowThrough;
     }
 
-    protected WildTrunkPlacerType<?> getType() {
-        return WildTrunkPlacerType.UPWARDS_BRANCHING_TRUNK_PLACER;
+    public TrunkPlacerType<?> getType() {
+        return WildTreeRegistry.UPWARDS_BRANCHING_TRUNK_PLACER;
     }
 
 
-    public List<WildFoliagePlacer.TreeNode> generate(
-            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, WildTreeFeatureConfig config
+    public List<FoliagePlacer.TreeNode> generate(
+            TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, TreeFeatureConfig config
     ) {
-        List<WildFoliagePlacer.TreeNode> list = Lists.newArrayList();
+        List<FoliagePlacer.TreeNode> list = Lists.newArrayList();
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
         for (int i = 0; i < height; ++i) {
             int j = startPos.getY() + i;
-            if (this.getAndSetState(world, replacer, random, mutable.set(startPos.getX(), j, startPos.getZ()), config)
+            if (getAndSetState(world, replacer, random, mutable.set(startPos.getX(), j, startPos.getZ()), config)
                     && i < height - 1
                     && random.nextFloat() < this.placeBranchPerLogProbability) {
                 Direction direction = Direction.Type.HORIZONTAL.random(random);
@@ -81,7 +82,7 @@ public class UpwardsBranchingTrunkPlacer extends WildTrunkPlacer {
             }
 
             if (i == height - 1) {
-                list.add(new WildFoliagePlacer.TreeNode(mutable.set(startPos.getX(), j + 1, startPos.getZ()), 0, false));
+                list.add(new FoliagePlacer.TreeNode(mutable.set(startPos.getX(), j + 1, startPos.getZ()), 0, false));
             }
         }
 
@@ -93,8 +94,8 @@ public class UpwardsBranchingTrunkPlacer extends WildTrunkPlacer {
             BiConsumer<BlockPos, BlockState> replacer,
             Random random,
             int height,
-            WildTreeFeatureConfig config,
-            List<WildFoliagePlacer.TreeNode> nodes,
+            TreeFeatureConfig config,
+            List<FoliagePlacer.TreeNode> nodes,
             BlockPos.Mutable pos,
             int yOffset,
             Direction direction,
@@ -110,11 +111,11 @@ public class UpwardsBranchingTrunkPlacer extends WildTrunkPlacer {
                 int m = yOffset + l;
                 j += direction.getOffsetX();
                 k += direction.getOffsetZ();
-                if (this.getAndSetState(world, replacer, random, pos.set(j, m, k), config)) {
+                if (getAndSetState(world, replacer, random, pos.set(j, m, k), config)) {
                     i = m + 1;
                 }
 
-                nodes.add(new WildFoliagePlacer.TreeNode(pos.toImmutable(), 0, false));
+                nodes.add(new FoliagePlacer.TreeNode(pos.toImmutable(), 0, false));
             }
 
             ++l;
@@ -122,8 +123,8 @@ public class UpwardsBranchingTrunkPlacer extends WildTrunkPlacer {
 
         if (i - yOffset > 1) {
             BlockPos blockPos = new BlockPos(j, i, k);
-            nodes.add(new WildFoliagePlacer.TreeNode(blockPos, 0, false));
-            nodes.add(new WildFoliagePlacer.TreeNode(blockPos.down(2), 0, false));
+            nodes.add(new FoliagePlacer.TreeNode(blockPos, 0, false));
+            nodes.add(new FoliagePlacer.TreeNode(blockPos.down(2), 0, false));
         }
 
     }

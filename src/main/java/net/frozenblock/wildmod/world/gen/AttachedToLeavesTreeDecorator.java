@@ -1,11 +1,17 @@
-/*package net.frozenblock.wildmod.world.gen;
+package net.frozenblock.wildmod.world.gen;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.frozenblock.wildmod.registry.WildUtil;
+import net.frozenblock.wildmod.world.feature.WildTreeRegistry;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.Util;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.TestableWorld;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.treedecorator.TreeDecorator;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
@@ -14,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 public class AttachedToLeavesTreeDecorator extends TreeDecorator {
     public static final Codec<AttachedToLeavesTreeDecorator> CODEC = RecordCodecBuilder.create(
@@ -45,31 +52,30 @@ public class AttachedToLeavesTreeDecorator extends TreeDecorator {
         this.directions = directions;
     }
 
-    public void generate(Generator generator) {
+    @Override
+    public void generate(TestableWorld level, BiConsumer<BlockPos, BlockState> replacer, Random random, List<BlockPos> trunkPositions, List<BlockPos> foliagePositions) {
         Set<BlockPos> set = new HashSet<>();
-        Random abstractRandom = generator.getRandom();
 
-        for(BlockPos blockPos : Util.copyShuffled(generator.getLeavesPositions(), abstractRandom)) {
-            Direction direction = (Direction)Util.getRandom(this.directions, abstractRandom);
+        for (BlockPos blockPos : WildUtil.copyShuffled(new ObjectArrayList<>(foliagePositions), random)) {
+            Direction direction = Util.getRandom(this.directions, random);
             BlockPos blockPos2 = blockPos.offset(direction);
-            if (!set.contains(blockPos2) && abstractRandom.nextFloat() < this.probability && this.meetsRequiredEmptyBlocks(generator, blockPos, direction)) {
+            if (!set.contains(blockPos2) && random.nextFloat() < this.probability && this.meetsRequiredEmptyBlocks(level, blockPos, direction)) {
                 BlockPos blockPos3 = blockPos2.add(-this.exclusionRadiusXZ, -this.exclusionRadiusY, -this.exclusionRadiusXZ);
                 BlockPos blockPos4 = blockPos2.add(this.exclusionRadiusXZ, this.exclusionRadiusY, this.exclusionRadiusXZ);
 
-                for(BlockPos blockPos5 : BlockPos.iterate(blockPos3, blockPos4)) {
+                for (BlockPos blockPos5 : BlockPos.iterate(blockPos3, blockPos4)) {
                     set.add(blockPos5.toImmutable());
                 }
 
-                generator.replace(blockPos2, this.blockProvider.getBlockState(abstractRandom, blockPos2));
+                replacer.accept(blockPos2, this.blockProvider.getBlockState(random, blockPos2));
             }
         }
 
     }
 
-    private boolean meetsRequiredEmptyBlocks(Generator generator, BlockPos pos, Direction direction) {
-        for(int i = 1; i <= this.requiredEmptyBlocks; ++i) {
-            BlockPos blockPos = pos.offset(direction, i);
-            if (!generator.isAir(blockPos)) {
+    private boolean meetsRequiredEmptyBlocks(TestableWorld world, BlockPos pos, Direction direction) {
+        for (int i = 1; i <= this.requiredEmptyBlocks; ++i) {
+            if (!Feature.isAir(world, pos.offset(direction, i))) {
                 return false;
             }
         }
@@ -78,7 +84,6 @@ public class AttachedToLeavesTreeDecorator extends TreeDecorator {
     }
 
     protected TreeDecoratorType<?> getType() {
-        return TreeDecoratorType.ATTACHED_TO_LEAVES;
+        return WildTreeRegistry.ATTACHED_TO_LEAVES;
     }
 }
-*/

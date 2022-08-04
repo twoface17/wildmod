@@ -3,7 +3,6 @@ package net.frozenblock.wildmod.mixins;
 import com.google.common.collect.Maps;
 import net.frozenblock.wildmod.registry.RegisterWorldgen;
 import net.minecraft.util.Util;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.biome.Biome;
@@ -12,12 +11,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Mixin(VillagerType.class)
 public class VillagerTypeMixin {

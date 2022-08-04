@@ -9,7 +9,6 @@ import net.frozenblock.wildmod.block.deepdark.SculkShriekerBlock;
 import net.frozenblock.wildmod.block.wild.WildWorldEvents;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.entity.util.LargeEntitySpawnHelper;
-import net.frozenblock.wildmod.event.WildGameEventListener;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvent;

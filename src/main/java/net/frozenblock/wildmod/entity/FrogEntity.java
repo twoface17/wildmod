@@ -22,7 +22,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -35,18 +34,12 @@ import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.tag.BiomeTags;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.EntityTypeTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
@@ -56,7 +49,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 
 public class FrogEntity extends AnimalEntity {
@@ -190,7 +182,7 @@ public class FrogEntity extends AnimalEntity {
     @Override
     protected void mobTick() {
         this.world.getProfiler().push("frogBrain");
-        this.getBrain().tick((ServerWorld)this.world, this);
+        this.getBrain().tick((ServerWorld) this.world, this);
         this.world.getProfiler().pop();
         this.world.getProfiler().push("frogActivityUpdate");
         FrogBrain.updateActivities(this);

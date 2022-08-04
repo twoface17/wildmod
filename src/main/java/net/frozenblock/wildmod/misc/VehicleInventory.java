@@ -86,7 +86,7 @@ public interface VehicleInventory extends Inventory, NamedScreenHandlerFactory {
             if (!world.isClient) {
                 Entity entity = source.getSource();
                 if (entity != null && entity.getType() == EntityType.PLAYER) {
-                    PiglinBrain.onGuardedBlockInteracted((PlayerEntity)entity, true);
+                    PiglinBrain.onGuardedBlockInteracted((PlayerEntity) entity, true);
                 }
             }
 
@@ -109,11 +109,11 @@ public interface VehicleInventory extends Inventory, NamedScreenHandlerFactory {
         if (this.getLootTableId() != null && minecraftServer != null) {
             LootTable lootTable = minecraftServer.getLootManager().getTable(this.getLootTableId());
             if (player != null) {
-                Criteria.PLAYER_GENERATES_CONTAINER_LOOT.trigger((ServerPlayerEntity)player, this.getLootTableId());
+                Criteria.PLAYER_GENERATES_CONTAINER_LOOT.trigger((ServerPlayerEntity) player, this.getLootTableId());
             }
 
             this.setLootTableId(null);
-            LootContext.Builder builder = new LootContext.Builder((ServerWorld)this.getWorld())
+            LootContext.Builder builder = new LootContext.Builder((ServerWorld) this.getWorld())
                     .parameter(LootContextParameters.ORIGIN, this.getPos())
                     .random(this.getLootTableSeed());
             if (player != null) {
@@ -131,7 +131,7 @@ public interface VehicleInventory extends Inventory, NamedScreenHandlerFactory {
     }
 
     default boolean isInventoryEmpty() {
-        for(ItemStack itemStack : this.getInventory()) {
+        for (ItemStack itemStack : this.getInventory()) {
             if (!itemStack.isEmpty()) {
                 return false;
             }

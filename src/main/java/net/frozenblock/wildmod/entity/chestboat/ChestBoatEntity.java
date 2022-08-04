@@ -1,60 +1,36 @@
 package net.frozenblock.wildmod.entity.chestboat;
 
-import com.google.common.collect.Lists;
 import net.frozenblock.wildmod.misc.VehicleInventory;
-import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterItems;
-import net.frozenblock.wildmod.registry.RegisterSounds;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LilyPadBlock;
-import net.minecraft.entity.*;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.entity.vehicle.StorageMinecartEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.BoatPaddleStateC2SPacket;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.function.BooleanBiFunction;
-import net.minecraft.util.math.*;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockLocating;
-import net.minecraft.world.GameRules;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
 import java.util.List;
 
 import static net.frozenblock.wildmod.misc.WildBoatType.MANGROVE;
@@ -89,7 +65,7 @@ public class ChestBoatEntity extends BoatEntity implements Inventory, VehicleInv
     public void updatePassengerPosition(Entity passenger) {
         if (this.hasPassenger(passenger)) {
             float f = this.getPassengerHorizontalOffset();
-            float g = (float)((this.isRemoved() ? 0.01F : this.getMountedHeightOffset()) + passenger.getHeightOffset());
+            float g = (float) ((this.isRemoved() ? 0.01F : this.getMountedHeightOffset()) + passenger.getHeightOffset());
             if (this.getPassengerList().size() > 1) {
                 int i = this.getPassengerList().indexOf(passenger);
                 if (i == 0) {
@@ -103,15 +79,15 @@ public class ChestBoatEntity extends BoatEntity implements Inventory, VehicleInv
                 }
             }
 
-            Vec3d vec3d = new Vec3d((double)f, 0.0, 0.0).rotateY(-this.getYaw() * (float) (Math.PI / 180.0) - (float) (Math.PI / 2));
-            passenger.setPosition(this.getX() + vec3d.x, this.getY() + (double)g, this.getZ() + vec3d.z);
+            Vec3d vec3d = new Vec3d(f, 0.0, 0.0).rotateY(-this.getYaw() * (float) (Math.PI / 180.0) - (float) (Math.PI / 2));
+            passenger.setPosition(this.getX() + vec3d.x, this.getY() + (double) g, this.getZ() + vec3d.z);
             passenger.setYaw(passenger.getYaw() + this.yawVelocity);
             passenger.setHeadYaw(passenger.getHeadYaw() + this.yawVelocity);
             this.copyEntityData(passenger);
             if (passenger instanceof AnimalEntity && this.getPassengerList().size() == this.getMaxPassengers()) {
                 int j = passenger.getId() % 2 == 0 ? 90 : 270;
-                passenger.setBodyYaw(((AnimalEntity)passenger).bodyYaw + (float)j);
-                passenger.setHeadYaw(passenger.getHeadYaw() + (float)j);
+                passenger.setBodyYaw(((AnimalEntity) passenger).bodyYaw + (float) j);
+                passenger.setHeadYaw(passenger.getHeadYaw() + (float) j);
             }
 
         }
@@ -159,11 +135,11 @@ public class ChestBoatEntity extends BoatEntity implements Inventory, VehicleInv
 
         this.handleBubbleColumn();
 
-        for(int i = 0; i <= 1; ++i) {
+        for (int i = 0; i <= 1; ++i) {
             if (this.isPaddleMoving(i)) {
                 if (!this.isSilent()
-                        && (double)(this.paddlePhases[i] % (float) (Math.PI * 2)) <= (float) (Math.PI / 4)
-                        && (double)((this.paddlePhases[i] + (float) (Math.PI / 8)) % (float) (Math.PI * 2)) >= (float) (Math.PI / 4)) {
+                        && (double) (this.paddlePhases[i] % (float) (Math.PI * 2)) <= (float) (Math.PI / 4)
+                        && (double) ((this.paddlePhases[i] + (float) (Math.PI / 8)) % (float) (Math.PI * 2)) >= (float) (Math.PI / 4)) {
                     SoundEvent soundEvent = this.getPaddleSoundEvent();
                     if (soundEvent != null) {
                         Vec3d vec3d = this.getRotationVec(1.0F);

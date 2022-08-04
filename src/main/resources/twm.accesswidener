@@ -55,3 +55,6 @@ accessible    method    net/minecraft/entity/vehicle/BoatEntity    method_7555  
 accessible    method    net/minecraft/entity/vehicle/BoatEntity    updateVelocity    ()V
 accessible    method    net/minecraft/entity/vehicle/BoatEntity    updatePaddles    ()V
 accessible    method    net/minecraft/entity/vehicle/BoatEntity    checkLocation    ()Lnet/minecraft/entity/vehicle/BoatEntity$Location;
+accessible    method    net/minecraft/world/gen/trunk/TrunkPlacerType    <init>    (Lcom/mojang/serialization/Codec;)V
+accessible    method    net/minecraft/world/gen/trunk/TrunkPlacer    getType    ()Lnet/minecraft/world/gen/trunk/TrunkPlacerType;
+accessible    method    net/minecraft/world/gen/treedecorator/TreeDecoratorType    <init>    (Lcom/mojang/serialization/Codec;)V

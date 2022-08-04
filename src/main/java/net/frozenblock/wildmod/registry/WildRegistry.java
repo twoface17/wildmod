@@ -8,8 +8,6 @@ import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
 import net.frozenblock.wildmod.event.WildPositionSourceType;
 import net.frozenblock.wildmod.items.Instrument;
 import net.frozenblock.wildmod.items.Instruments;
-import net.frozenblock.wildmod.world.feature.WildTrunkPlacerType;
-import net.frozenblock.wildmod.world.feature.foliage.WildFoliagePlacerType;
 import net.frozenblock.wildmod.world.gen.root.RootPlacerType;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.tag.TagKey;
@@ -37,12 +35,6 @@ public abstract class WildRegistry<T> extends Registry<T> {
     public static final RegistryKey<Registry<DoublePerlinNoiseSampler.NoiseParameters>> NOISE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/noise"));
     public static final RegistryKey<Registry<WildPositionSourceType<?>>> WILD_POSITION_SOURCE_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "position_source_type"));
     public static final Registry<WildPositionSourceType<?>> WILD_POSITION_SOURCE_TYPE = Registry.create(WILD_POSITION_SOURCE_TYPE_KEY, registry -> WildMod.BLOCK);
-    public static final RegistryKey<Registry<WildFoliagePlacerType<?>>> FOLIAGE_PLACER_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/foliage_placer_type"));
-    public static final Registry<WildFoliagePlacerType<?>> FOLIAGE_PLACER_TYPE = Registry.create(FOLIAGE_PLACER_TYPE_KEY, (registry) -> {
-        return WildFoliagePlacerType.BLOB_FOLIAGE_PLACER;
-    });
-    public static final RegistryKey<Registry<WildTrunkPlacerType<?>>> TRUNK_PLACER_TYPE_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "worldgen/trunk_placer_type"));
-    public static final Registry<WildTrunkPlacerType<?>> TRUNK_PLACER_TYPE = create(TRUNK_PLACER_TYPE_KEY, (registry) -> WildTrunkPlacerType.STRAIGHT_TRUNK_PLACER);
     public static final RegistryKey<Registry<Instrument>> INSTRUMENT_KEY = RegistryKey.ofRegistry(new Identifier(WildMod.MOD_ID, "instrument"));
     public static final Registry<Instrument> INSTRUMENT = Registry.create(INSTRUMENT_KEY, Instruments::registerAndGetDefault);
 

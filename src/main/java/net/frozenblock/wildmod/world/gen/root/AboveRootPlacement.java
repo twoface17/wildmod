@@ -12,17 +12,4 @@ public record AboveRootPlacement(BlockStateProvider aboveRootProvider, float abo
             return aboveRootPlacement.aboveRootPlacementChance;
         })).apply(instance, (AboveRootPlacement::new));
     });
-
-    public AboveRootPlacement(BlockStateProvider aboveRootProvider, float aboveRootPlacementChance) {
-        this.aboveRootProvider = aboveRootProvider;
-        this.aboveRootPlacementChance = aboveRootPlacementChance;
-    }
-
-    public BlockStateProvider aboveRootProvider() {
-        return this.aboveRootProvider;
-    }
-
-    public float aboveRootPlacementChance() {
-        return this.aboveRootPlacementChance;
-    }
 }

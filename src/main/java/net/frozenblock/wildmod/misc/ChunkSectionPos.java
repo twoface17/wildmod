@@ -237,7 +237,7 @@ public class ChunkSectionPos extends Vec3i {
     }
 
     public static Stream<ChunkSectionPos> stream(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-        return StreamSupport.stream(new Spliterators.AbstractSpliterator<ChunkSectionPos>((maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1), 64) {
+        return StreamSupport.stream(new Spliterators.AbstractSpliterator<ChunkSectionPos>((long) (maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1), 64) {
             final CuboidBlockIterator iterator = new CuboidBlockIterator(minX, minY, minZ, maxX, maxY, maxZ);
 
             public boolean tryAdvance(Consumer<? super ChunkSectionPos> consumer) {

@@ -119,7 +119,7 @@ public abstract class WildRenderLayer extends net.minecraft.client.render.Render
             return this.outline;
         }
 
-        protected final WildRenderLayer.MultiPhaseParameters getPhases() {
+        private WildRenderLayer.MultiPhaseParameters getPhases() {
             return this.phases;
         }
 
