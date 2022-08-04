@@ -813,11 +813,12 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
             protected PathNodeNavigator createPathNodeNavigator(int range) {
                 this.nodeMaker = new LandPathNodeMaker();
                 this.nodeMaker.setCanEnterOpenDoors(true);
-                return new WildPathNodeNavigator(this.nodeMaker, range) {
-                    /*protected float getDistance(WildPathNode a, WildPathNode b) {
+                return new PathNodeNavigator(this.nodeMaker, range);
+                /*return new WildPathNodeNavigator(this.nodeMaker, range) {
+                    protected float getDistance(WildPathNode a, WildPathNode b) {
                         return a.getHorizontalDistance(b);
-                    }*/
-                };
+                    }
+                };*/
 
             }
         };
