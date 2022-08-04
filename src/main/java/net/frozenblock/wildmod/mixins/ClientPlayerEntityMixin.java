@@ -174,8 +174,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(at = @At("TAIL"), method = "tickMovement")
     public void tickMovement(CallbackInfo ci) {
-        float f = MathHelper.clamp(0.3F + RegisterItems.getSwiftSneakSpeedBoost(this), 0.0F, 1.0F);
-        ((WildInput) this.input).tick(this.shouldSlowDown(), f);
+        float swiftSneakFactor = MathHelper.clamp(0.3F + RegisterItems.getSwiftSneakSpeedBoost(this), 0.0F, 1.0F);
+        ((WildInput) this.input).tick(this.shouldSlowDown(), swiftSneakFactor * 3.0F);
     }
 
 

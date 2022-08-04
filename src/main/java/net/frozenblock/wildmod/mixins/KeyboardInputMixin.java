@@ -1,5 +1,7 @@
 package net.frozenblock.wildmod.mixins;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.frozenblock.wildmod.liukrastapi.WildInput;
 import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.option.GameOptions;
@@ -7,7 +9,11 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Environment(EnvType.CLIENT)
 @Mixin(KeyboardInput.class)
 public abstract class KeyboardInputMixin implements WildInput {
 
@@ -26,29 +32,19 @@ public abstract class KeyboardInputMixin implements WildInput {
         }
     }
 
+    private float swiftSneakFactor = 1.0F;
+
     @Override
     public void tick(boolean slowDown, float swiftSneakFactor) {
-        KeyboardInput key = KeyboardInput.class.cast(this);
-        key.pressingForward = this.settings.forwardKey.isPressed();
-        key.pressingBack = this.settings.backKey.isPressed();
-        key.pressingLeft = this.settings.leftKey.isPressed();
-        key.pressingRight = this.settings.rightKey.isPressed();
-        key.movementForward = getMovementMultiplier(key.pressingForward, key.pressingBack);
-        key.movementSideways = getMovementMultiplier(key.pressingLeft, key.pressingRight);
-        key.jumping = this.settings.jumpKey.isPressed();
-        key.sneaking = this.settings.sneakKey.isPressed();
-        if (slowDown) {
-            key.movementSideways *= swiftSneakFactor;
-            key.movementForward *= swiftSneakFactor;
-        }
-
+        this.swiftSneakFactor = swiftSneakFactor;
     }
 
-    /**
-     * @author FrozenBlock
-     * @reason swift sneak
-     */
-    @Overwrite
-    public void tick(boolean slowDown) {
+    @Inject(method = "tick", at = @At("TAIL"))
+    public void tick(boolean slowDown, CallbackInfo ci) {
+        KeyboardInput key = KeyboardInput.class.cast(this);
+        if (slowDown) {
+            key.movementSideways *= this.swiftSneakFactor;
+            key.movementForward *= this.swiftSneakFactor;
+        }
     }
 }

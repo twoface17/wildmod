@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(Input.class)
 public class InputMixin implements WildInput {
 
+    @Override
     public void tick(boolean slowDown, float f) {
     }
 }
