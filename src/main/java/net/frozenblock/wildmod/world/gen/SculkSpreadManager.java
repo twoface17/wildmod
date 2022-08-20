@@ -10,12 +10,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
-import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
 import net.frozenblock.wildmod.block.deepdark.SculkVeinBlock;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterTags;
-import net.frozenblock.wildmod.registry.WildUtil;
+import net.frozenblock.wildmod.misc.WildUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
@@ -45,7 +43,7 @@ public class SculkSpreadManager {
     private final int maxDistance;
     private final int spreadChance;
     private final int decayChance;
-    private List<SculkSpreadManager.Cursor> cursors = new ArrayList();
+    private List<SculkSpreadManager.Cursor> cursors = new ArrayList<>();
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public SculkSpreadManager(boolean worldGen, TagKey<Block> replaceableTag, int extraBlockChance, int maxDistance, int spreadChance, int decayChance) {
@@ -166,17 +164,14 @@ public class SculkSpreadManager {
                 }
             }
 
-            ObjectIterator<Object2IntMap.Entry<BlockPos>> var16 = object2IntMap.object2IntEntrySet().iterator();
-
-            while (var16.hasNext()) {
-                Object2IntMap.Entry<BlockPos> entry = var16.next();
+            for (Object2IntMap.Entry<BlockPos> entry : object2IntMap.object2IntEntrySet()) {
                 BlockPos blockPos = entry.getKey();
                 int i = entry.getIntValue();
-                SculkSpreadManager.Cursor cursor3 = map.get(blockPos);
+                Cursor cursor3 = map.get(blockPos);
                 Collection<Direction> collection = cursor3 == null ? null : cursor3.getFaces();
                 if (i > 0 && collection != null) {
                     int j = (int) (Math.log1p(i) / 2.3F) + 1;
-                    int k = (j << 6) + MultifaceGrowthBlock.directionsToFlag(collection);
+                    int k = (j << 6) + SculkVeinBlock.directionsToFlag(collection);
                     world.syncWorldEvent(3006, blockPos, k);
                 }
             }
@@ -186,8 +181,8 @@ public class SculkSpreadManager {
     }
 
     public static class Cursor {
-        private static final ObjectArrayList<Vec3i> OFFSETS = (ObjectArrayList<Vec3i>) Util.make(
-                new ObjectArrayList(18),
+        private static final ObjectArrayList<Vec3i> OFFSETS = Util.make(
+                new ObjectArrayList<>(18),
                 objectArrayList -> BlockPos.stream(new BlockPos(-1, -1, -1), new BlockPos(1, 1, 1))
                         .filter(pos -> (pos.getX() == 0 || pos.getY() == 0 || pos.getZ() == 0) && !pos.equals(BlockPos.ORIGIN))
                         .map(BlockPos::toImmutable)
@@ -286,7 +281,7 @@ public class SculkSpreadManager {
                         }
 
                         if (blockState.getBlock() instanceof SculkSpreadable) {
-                            this.faces = MultifaceGrowthBlock.collectDirections(blockState);
+                            this.faces = SculkVeinBlock.collectDirections(blockState);
                         }
 
                         this.decay = sculkSpreadable.getDecay(this.decay);

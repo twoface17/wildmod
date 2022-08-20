@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.mixins;
+package net.frozenblock.wildmod.mixins.client;
 
 import com.mojang.authlib.GameProfile;
 import net.frozenblock.wildmod.misc.AdvancedMath;

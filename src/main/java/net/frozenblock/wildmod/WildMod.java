@@ -11,14 +11,10 @@ import net.frozenblock.wildmod.entity.WildPacketByteBuf;
 import net.frozenblock.wildmod.entity.WildTrackedDataHandler;
 import net.frozenblock.wildmod.entity.ai.FrogBrain;
 import net.frozenblock.wildmod.entity.ai.sensor.WardenAttackablesSensor;
-import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildEntityPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.fromAccurateSculk.RegisterBlockEntities;
-import net.frozenblock.wildmod.misc.FrogAttackablesSensor;
-import net.frozenblock.wildmod.misc.IsInWaterSensor;
-import net.frozenblock.wildmod.misc.ItemCriterion;
-import net.frozenblock.wildmod.misc.WardenSpawnTrackerCommand;
+import net.frozenblock.wildmod.misc.*;
 import net.frozenblock.wildmod.misc.animation.AnimationState;
 import net.frozenblock.wildmod.registry.*;
 import net.frozenblock.wildmod.world.feature.WildTreeRegistry;
@@ -67,7 +63,6 @@ public class WildMod implements ModInitializer {
 
     public static final ItemCriterion ALLAY_DROP_ITEM_ON_BLOCK = new ItemCriterion(new Identifier(WildMod.MOD_ID, "allay_drop_item_on_block"));
     public static final PositionSourceType<WildEntityPositionSource> ENTITY = register("entity", new WildEntityPositionSource.Type());
-    public static final PositionSourceType<WildBlockPositionSource> BLOCK = register("block", new WildBlockPositionSource.Type());
 
     @Override
     public void onInitialize() {
@@ -82,8 +77,8 @@ public class WildMod implements ModInitializer {
         RegisterTags.init();
 
         RegisterDispenser.RegisterDispenser();
-        RegisterParticles.RegisterParticles();
-        RegisterStatusEffects.RegisterStatusEffects();
+        RegisterParticles.init();
+        RegisterStatusEffects.init();
         RegisterWorldgen.registerWorldgen();
         RootPlacerType.init();
 
@@ -92,6 +87,9 @@ public class WildMod implements ModInitializer {
         RegisterBlockEntities.register();
         RegisterEnchantments.init();
         AnimationState.init();
+
+        RegisterCriteria.init();
+        RegisterAdvancements.init();
 
         registerData(OPTIONAL_INT);
         registerData(WildRegistry.FROG_VARIANT_DATA);

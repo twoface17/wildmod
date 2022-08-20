@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.mixins;
+package net.frozenblock.wildmod.mixins.client;
 
 import net.frozenblock.wildmod.misc.ExpandedModelPart;
 import net.minecraft.client.model.ModelCuboidData;

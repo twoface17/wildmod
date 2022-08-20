@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.misc;
 
-import net.frozenblock.wildmod.registry.WildUtil;
 import net.minecraft.util.math.Direction;
 
 import java.util.Collection;

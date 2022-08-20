@@ -10,7 +10,7 @@ import net.minecraft.util.registry.Registry;
 public class RegisterStatusEffects {
     public static final StatusEffect DARKNESS = new StatusEffect(StatusEffectCategory.HARMFUL, 2696993).setFactorCalculationDataSupplier(() -> new WildStatusEffectInstance.FactorCalculationData(22));
 
-    public static void RegisterStatusEffects() {
+    public static void init() {
         Registry.register(Registry.STATUS_EFFECT, new Identifier(WildMod.MOD_ID, "darkness"), DARKNESS);
     }
 }

@@ -27,22 +27,12 @@ public class SculkSensorListenerMixin implements WildVibration.Instance {
     private WildVibration vibration;
 
     @Inject(method = "listen(Lnet/minecraft/world/World;Lnet/minecraft/world/event/GameEvent;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/BlockPos;)Z", at = @At("TAIL"))
-    public void listen(World world, GameEvent event, @Nullable Entity entity, BlockPos pos, CallbackInfoReturnable<Boolean> info) {
+    public void listen(World world, GameEvent event, Entity entity, BlockPos pos, CallbackInfoReturnable<Boolean> info) {
         if (world instanceof ServerWorld server) {
             this.setPos(pos);
             this.setVibration(new WildVibration(entity));
             this.setEntity(this.vibration.getEntity(server).orElse(null));
-            this.setSource((Entity)this.vibration.getOwner(server).orElse(null));
-        }
-        SculkSensorListener listener = SculkSensorListener.class.cast(this);
-        Optional<BlockPos> optional = listener.getPositionSource().getPos(world);
-        if (optional.isPresent() && entity != null && SculkSensorBlock.FREQUENCIES.containsKey(event)) {
-            BlockPos thisPos = optional.get();
-            if (entity != null) {
-                if (entity instanceof LivingEntity) {
-                    SensorLastEntity.addEntity(entity, thisPos, pos, event);
-                }
-            }
+            this.setSource(this.vibration.getOwner(server).orElse(null));
         }
     }
 

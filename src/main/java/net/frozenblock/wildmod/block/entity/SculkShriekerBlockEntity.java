@@ -10,7 +10,6 @@ import net.frozenblock.wildmod.block.wild.WildWorldEvents;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.entity.util.LargeEntitySpawnHelper;
 import net.frozenblock.wildmod.event.VibrationListener;
-import net.frozenblock.wildmod.event.WildBlockPositionSource;
 import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.fromAccurateSculk.RegisterBlockEntities;
 import net.frozenblock.wildmod.misc.WildVec3d;

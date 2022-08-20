@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.util.dynamic.Codecs;
@@ -360,21 +361,24 @@ public class WildStatusEffectInstance extends net.minecraft.entity.effect.Status
             this(paddingDuration, 0.0F, 1.0F, 0.0F, 0, 0.0F, false);
         }
 
-        public void update(WildStatusEffectInstance instance) {
+        public void update(StatusEffectInstance instance) {
             this.factorPreviousFrame = this.factorCurrent;
-            boolean bl = instance.duration > this.paddingDuration;
+            boolean bl = instance.getDuration() > this.paddingDuration;
             if (this.hadEffectLastTick != bl) {
                 this.hadEffectLastTick = bl;
-                this.effectChangedTimestamp = instance.duration;
+                this.effectChangedTimestamp = instance.getDuration();
                 this.field_39111 = this.factorCurrent;
                 this.factorTarget = bl ? 1.0F : 0.0F;
             }
 
-            float f = AdvancedMath.clamp(((float) this.effectChangedTimestamp - (float) instance.duration) / (float) this.paddingDuration, 0.0F, 1.0F);
-            this.factorCurrent = AdvancedMath.lerp(f, this.field_39111, this.factorTarget);
+            float tickDelta = AdvancedMath.clamp(((float) this.effectChangedTimestamp - (float) instance.getDuration()) / (float) this.paddingDuration, 0.0F, 1.0F);
+            this.factorCurrent = AdvancedMath.lerp(tickDelta, this.field_39111, this.factorTarget);
         }
 
-        public float lerp(float factor) {
+        public float lerp(LivingEntity entity, float factor) {
+            if (entity.isRemoved()) {
+                this.factorPreviousFrame = this.factorCurrent;
+            }
             return AdvancedMath.lerp(factor, this.factorPreviousFrame, this.factorCurrent);
         }
     }

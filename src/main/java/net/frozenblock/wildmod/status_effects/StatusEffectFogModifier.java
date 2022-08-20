@@ -94,8 +94,8 @@ interface StatusEffectFogModifier {
         public void applyStartEndModifier(
                 FogData fogData, LivingEntity entity, WildStatusEffectInstance effect, float viewDistance, float tickDelta
         ) {
-            if (!effect.getFactorCalculationData().isEmpty()) {
-                float f = MathHelper.lerp(effect.getFactorCalculationData().get().lerp(tickDelta), viewDistance, 15.0F);
+            if (effect.getFactorCalculationData().isPresent()) {
+                float f = MathHelper.lerp(effect.getFactorCalculationData().get().lerp(entity, tickDelta), viewDistance, 15.0F);
                 fogData.fogStart = fogData.fogType == BackgroundRenderer.FogType.FOG_SKY ? 0.0F : f * 0.75F;
                 fogData.fogEnd = f;
             }
@@ -103,7 +103,7 @@ interface StatusEffectFogModifier {
 
         @Override
         public float applyColorModifier(LivingEntity entity, WildStatusEffectInstance effect, float f, float tickDelta) {
-            return effect.getFactorCalculationData().isEmpty() ? 0.0F : 1.0F - effect.getFactorCalculationData().get().lerp(tickDelta);
+            return effect.getFactorCalculationData().isEmpty() ? 0.0F : 1.0F - effect.getFactorCalculationData().get().lerp(entity, tickDelta);
         }
     }
 }

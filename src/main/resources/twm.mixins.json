@@ -21,7 +21,6 @@
 	"NoteBlockMixin",
 	"PlayerEntityMixin",
 	"RamImpactTaskMixin",
-	"SchemasMixin",
 	"SculkSensorBlockEntityMixin",
 	"SculkSensorBlockMixin",
 	"SculkSensorListenerMixin",
@@ -43,17 +42,17 @@
 	"WorldChunkMixin"
   ],
   "client": [
-	"BackgroundRendererMixin",
-	"BipedEntityModelMixin",
-	"ClientPlayerEntityMixin",
-	"InputMixin",
-	"KeyboardInputMixin",
-	"LightmapTextureManagerMixin",
-	"ModelPartDataMixin",
-	"ModelPartMixin",
-	"PlayerEntityRendererMixin",
-	"SinglePartEntityModelMixin",
-	"WorldRendererMixin"
+	"client.BackgroundRendererMixin",
+	"client.BipedEntityModelMixin",
+	"client.ClientPlayerEntityMixin",
+	"client.InputMixin",
+	"client.KeyboardInputMixin",
+	"client.LightmapTextureManagerMixin",
+	"client.ModelPartDataMixin",
+	"client.ModelPartMixin",
+	"client.PlayerEntityRendererMixin",
+	"client.SinglePartEntityModelMixin",
+	"client.WorldRendererMixin"
   ],
   "injectors": {
 	"defaultRequire": 1

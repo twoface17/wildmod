@@ -25,9 +25,11 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Random;
+import java.util.Set;
 
-public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreadable, Waterloggable {
+public class SculkVeinBlock extends AbstractLichenBlock implements SculkSpreadable, Waterloggable {
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     private final LichenGrower allGrowTypeGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GROW_TYPES));
     private final LichenGrower samePositionOnlyGrower = new LichenGrower(new SculkVeinBlock.SculkVeinGrowChecker(LichenGrower.GrowType.SAME_POSITION));
@@ -163,12 +165,71 @@ public class SculkVeinBlock extends MultifaceGrowthBlock implements SculkSpreada
         return !context.getStack().isOf(RegisterBlocks.SCULK_VEIN.asItem()) || super.canReplace(state, context);
     }
 
+
+
+    public boolean canGrowWithDirection(BlockView getter, BlockState state, BlockPos pos, Direction direction) {
+        if (!this.canHaveDirection(direction) || state.isOf(this) && hasDirection(state, direction)) {
+            return false;
+        } else {
+            BlockPos blockPos = pos.offset(direction);
+            return canGrowOn(getter, direction, blockPos, getter.getBlockState(blockPos));
+        }
+    }
+
+    public static boolean canGrowOn(BlockView getter, Direction direction, BlockPos pos, BlockState state) {
+        return Block.isFaceFullSquare(state.getSidesShape(getter, pos), direction.getOpposite())
+                || Block.isFaceFullSquare(state.getCollisionShape(getter, pos), direction.getOpposite());
+    }
+
+    public static boolean hasDirection(BlockState state, Direction direction) {
+        BooleanProperty booleanProperty = AbstractLichenBlock.getProperty(direction);
+        return state.contains(booleanProperty) && state.get(booleanProperty);
+    }
+
     public FluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     public PistonBehavior getPistonBehavior(BlockState state) {
         return PistonBehavior.DESTROY;
+    }
+
+    public static byte directionsToFlag(Collection<Direction> directions) {
+        byte flag = 0;
+
+        for(Direction direction : directions) {
+            flag = (byte)(flag | 1 << direction.ordinal());
+        }
+
+        return flag;
+    }
+
+    public static Set<Direction> collectDirections(BlockState state) {
+        if (!(state.getBlock() instanceof AbstractLichenBlock)) {
+            return Set.of();
+        } else {
+            Set<Direction> directions = EnumSet.noneOf(Direction.class);
+
+            for(Direction direction : DIRECTIONS) {
+                if (hasDirection(state, direction)) {
+                    directions.add(direction);
+                }
+            }
+
+            return directions;
+        }
+    }
+
+    public static Set<Direction> flagToDirections(byte flag) {
+        Set<Direction> set = EnumSet.noneOf(Direction.class);
+
+        for (Direction direction : Direction.values()) {
+            if ((flag & (byte) (1 << direction.ordinal())) > 0) {
+                set.add(direction);
+            }
+        }
+
+        return set;
     }
 
     public class SculkVeinGrowChecker extends LichenGrower.LichenGrowChecker {

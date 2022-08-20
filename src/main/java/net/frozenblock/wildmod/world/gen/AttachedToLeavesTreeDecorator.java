@@ -3,7 +3,7 @@ package net.frozenblock.wildmod.world.gen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.frozenblock.wildmod.registry.WildUtil;
+import net.frozenblock.wildmod.misc.WildUtil;
 import net.frozenblock.wildmod.world.feature.WildTreeRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Util;

@@ -5,7 +5,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
 
 public class WildDamageSource extends EntityDamageSource {
-    public static DamageSource SONIC_BOOM(Entity entity) {
+    public static DamageSource sonicBoom(Entity entity) {
         return new WildDamageSource("sonic_boom", entity).setBypassesArmor().setUsesMagic();
     }
 

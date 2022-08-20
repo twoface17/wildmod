@@ -7,7 +7,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.frozenblock.wildmod.registry.WildUtil;
+import net.frozenblock.wildmod.misc.WildUtil;
 import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.StructureBlockMode;

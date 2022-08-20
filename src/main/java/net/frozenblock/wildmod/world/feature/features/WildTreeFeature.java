@@ -70,21 +70,28 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
             StructureWorldAccess world,
             Random random,
             BlockPos pos,
+            BiConsumer<BlockPos, BlockState> rootsReplacer,
             BiConsumer<BlockPos, BlockState> trunkReplacer,
             BiConsumer<BlockPos, BlockState> foliageReplacer,
             WildTreeFeatureConfig config
     ) {
-        int i = config.trunkPlacer.getHeight(random);
-        int j = config.foliagePlacer.getRandomHeight(random, i, config);
-        int k = i - j;
-        int l = config.foliagePlacer.getRandomRadius(random, k);
-        if (pos.getY() >= world.getBottomY() + 1 && pos.getY() + i + 1 <= world.getTopY()) {
+        int trunkHeight = config.trunkPlacer.getHeight(random);
+        int foliageHeight = config.foliagePlacer.getRandomHeight(random, trunkHeight, config);
+        int trunkLength = trunkHeight - foliageHeight;
+        int foliageRadius = config.foliagePlacer.getRandomRadius(random, trunkLength);
+        BlockPos rootOffset = config.rootPlacer.map(rootPlacer -> rootPlacer.trunkOffset(pos, random)).orElse(pos);
+        int minHeight = Math.min(pos.getY(), rootOffset.getY());
+        int maxHeight = Math.max(pos.getY(), rootOffset.getY()) + trunkHeight + 1;
+        if (minHeight >= world.getBottomY() + 1 && maxHeight <= world.getTopY()) {
             OptionalInt optionalInt = config.minimumSize.getMinClippedHeight();
-            int m = this.getTopPosition(world, i, pos, config);
-            if (m >= i || optionalInt.isPresent() && m >= optionalInt.getAsInt()) {
-                List<FoliagePlacer.TreeNode> list = config.trunkPlacer.generate(world, trunkReplacer, random, m, pos, config);
-                list.forEach(node -> config.foliagePlacer.generate(world, foliageReplacer, random, config, m, node, j, l));
-                return true;
+            if (this.getTopPosition(world, trunkHeight, pos, config) >= trunkHeight || optionalInt.isPresent() && this.getTopPosition(world, trunkHeight, pos, config) >= optionalInt.getAsInt()) {
+                if (config.rootPlacer.isPresent() && !config.rootPlacer.get().generate(world, rootsReplacer, random, pos, rootOffset, config)) {
+                    return false;
+                } else {
+                    List<FoliagePlacer.TreeNode> list = config.trunkPlacer.generate(world, trunkReplacer, random, this.getTopPosition(world, trunkHeight, pos, config), pos, config);
+                    list.forEach(node -> config.foliagePlacer.generate(world, foliageReplacer, random, config, this.getTopPosition(world, trunkHeight, pos, config), node, foliageHeight, foliageRadius));
+                    return true;
+                }
             } else {
                 return false;
             }
@@ -117,38 +124,45 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
     }
 
     public final boolean generate(FeatureContext<WildTreeFeatureConfig> context) {
-        StructureWorldAccess structureWorldAccess = context.getWorld();
+        StructureWorldAccess world = context.getWorld();
         Random random = context.getRandom();
         BlockPos blockPos = context.getOrigin();
         WildTreeFeatureConfig treeFeatureConfig = context.getConfig();
-        Set<BlockPos> set = Sets.newHashSet();
-        Set<BlockPos> set2 = Sets.newHashSet();
-        Set<BlockPos> set3 = Sets.newHashSet();
-        BiConsumer<BlockPos, BlockState> biConsumer = (pos, state) -> {
-            set.add(pos.toImmutable());
-            structureWorldAccess.setBlockState(pos, state, 19);
+        Set<BlockPos> rootPos = Sets.newHashSet();
+        Set<BlockPos> trunkPos = Sets.newHashSet();
+        Set<BlockPos> foliagePos = Sets.newHashSet();
+        Set<BlockPos> decoratorPos = Sets.newHashSet();
+        BiConsumer<BlockPos, BlockState> rootReplacer = (pos, state) -> {
+            rootPos.add(pos.toImmutable());
+            world.setBlockState(pos, state, 19);
         };
-        BiConsumer<BlockPos, BlockState> biConsumer2 = (pos, state) -> {
-            set2.add(pos.toImmutable());
-            structureWorldAccess.setBlockState(pos, state, 19);
+        BiConsumer<BlockPos, BlockState> trunkReplacer = (pos, state) -> {
+            trunkPos.add(pos.toImmutable());
+            world.setBlockState(pos, state, 19);
         };
-        BiConsumer<BlockPos, BlockState> biConsumer3 = (pos, state) -> {
-            set3.add(pos.toImmutable());
-            structureWorldAccess.setBlockState(pos, state, 19);
+        BiConsumer<BlockPos, BlockState> foliageReplacer = (pos, state) -> {
+            foliagePos.add(pos.toImmutable());
+            world.setBlockState(pos, state, 19);
         };
-        boolean bl = this.generate(structureWorldAccess, random, blockPos, biConsumer, biConsumer2, treeFeatureConfig);
-        if (bl && (!set.isEmpty() || !set2.isEmpty())) {
+        BiConsumer<BlockPos, BlockState> decoratorReplacer = (position, state) -> {
+            decoratorPos.add(position.toImmutable());
+            world.setBlockState(position, state, 19);
+        };
+        boolean bl = this.generate(world, random, blockPos, rootReplacer, trunkReplacer, foliageReplacer, treeFeatureConfig);
+        if (bl && (!rootPos.isEmpty() || !trunkPos.isEmpty())) {
             if (!treeFeatureConfig.decorators.isEmpty()) {
-                List<BlockPos> list = Lists.newArrayList(set);
-                List<BlockPos> list2 = Lists.newArrayList(set2);
-                list.sort(Comparator.comparingInt(Vec3i::getY));
-                list2.sort(Comparator.comparingInt(Vec3i::getY));
-                treeFeatureConfig.decorators.forEach(decorator -> decorator.generate(structureWorldAccess, biConsumer3, random, list, list2));
+                List<BlockPos> rootPositions = Lists.newArrayList(rootPos);
+                List<BlockPos> trunkPositions = Lists.newArrayList(trunkPos);
+                ArrayList<BlockPos> foliagePositions = Lists.newArrayList(foliagePos);
+                trunkPositions.sort(Comparator.comparingInt(Vec3i::getY));
+                foliagePositions.sort(Comparator.comparingInt(Vec3i::getY));
+                rootPositions.sort(Comparator.comparingInt(Vec3i::getY));
+                treeFeatureConfig.decorators.forEach(treeDecorator -> treeDecorator.generate(world, decoratorReplacer, random, trunkPositions, foliagePositions));
             }
 
-            return BlockBox.encompassPositions(Iterables.concat(set, set2, set3)).map(box -> {
-                VoxelSet voxelSet = placeLogsAndLeaves(structureWorldAccess, box, set, set3);
-                Structure.updateCorner(structureWorldAccess, 3, voxelSet, box.getMinX(), box.getMinY(), box.getMinZ());
+            return BlockBox.encompassPositions(Iterables.concat(rootPos, trunkPos, foliagePos)).map(box -> {
+                VoxelSet voxelSet = placeLogsAndLeaves(world, box, rootPos, foliagePos);
+                Structure.updateCorner(world, 3, voxelSet, box.getMinX(), box.getMinY(), box.getMinZ());
                 return true;
             }).orElse(false);
         } else {

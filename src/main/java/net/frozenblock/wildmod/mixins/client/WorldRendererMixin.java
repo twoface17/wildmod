@@ -1,7 +1,6 @@
-package net.frozenblock.wildmod.mixins;
-
-import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
+package net.frozenblock.wildmod.mixins.client;
 import net.frozenblock.wildmod.block.deepdark.SculkShriekerBlock;
+import net.frozenblock.wildmod.block.deepdark.SculkVeinBlock;
 import net.frozenblock.wildmod.particle.SculkChargeParticleEffect;
 import net.frozenblock.wildmod.particle.ShriekParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterParticles;
@@ -264,7 +263,7 @@ public abstract class WorldRendererMixin {
 
                         return;
                     } else {
-                        Iterator var47 = MultifaceGrowthBlock.flagToDirections(b).iterator();
+                        Iterator<Direction> var47 = SculkVeinBlock.flagToDirections(b).iterator();
 
                         while (var47.hasNext()) {
                             Direction direction3 = (Direction) var47.next();

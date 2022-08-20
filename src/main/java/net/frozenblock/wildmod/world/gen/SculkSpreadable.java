@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.world.gen;
 
-import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
 import net.frozenblock.wildmod.block.deepdark.SculkVeinBlock;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.world.gen.SculkSpreadManager.Cursor;
@@ -52,7 +51,7 @@ public interface SculkSpreadable {
     }
 
     default boolean spread(WorldAccess world, BlockPos pos, BlockState state, @Nullable Collection<Direction> directions, boolean markForPostProcessing) {
-        return ((MultifaceGrowthBlock) RegisterBlocks.SCULK_VEIN).getGrower().grow(state, world, pos, markForPostProcessing) > 0L;
+        return ((SculkVeinBlock) RegisterBlocks.SCULK_VEIN).getGrower().grow(state, world, pos, markForPostProcessing) > 0L;
     }
 
     default boolean shouldConvertToSpreadable() {

@@ -2,7 +2,6 @@ package net.frozenblock.wildmod.registry;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
-import net.frozenblock.wildmod.misc.TickCriterion;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementFrame;
 import net.minecraft.advancement.CriterionMerger;
@@ -47,8 +46,11 @@ public class RegisterAdvancements extends FabricAdvancementProvider {
                         true,
                         false
                 )
-                .criterion("kill_mob_near_sculk_catalyst", TickCriterion.createKillMobNearSculkCatalyst())
+                .criterion("kill_mob_near_sculk_catalyst", RegisterCriteria.createKillMobNearSculkCatalyst())
                 .build(
                         consumer, "twm:adventure/kill_mob_near_sculk_catalyst");
+    }
+
+    public static void init() {
     }
 }

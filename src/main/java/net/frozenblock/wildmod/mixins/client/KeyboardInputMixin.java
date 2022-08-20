@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.mixins;
+package net.frozenblock.wildmod.mixins.client;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

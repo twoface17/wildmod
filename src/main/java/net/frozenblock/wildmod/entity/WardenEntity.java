@@ -10,7 +10,6 @@ import net.frozenblock.wildmod.entity.ai.task.SonicBoomTask;
 import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildEntityPositionSource;
-import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.misc.Angriness;
 import net.frozenblock.wildmod.misc.WardenAngerManager;
 import net.frozenblock.wildmod.misc.animation.AnimationState;
@@ -68,7 +67,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     /**
      * WELCOME TO THE WARDEN MUSEUM
      * ALL THESE WILL LINK TO THE FIRST METHOD IN THEIR GIVEN SECTIONS
-     * SUSPICION {@link WardenEntity#increaseAngerAt(Entity)}
+     * ANGER {@link WardenEntity#increaseAngerAt(Entity)}
      * SNIFFING & VIBRATIONS {@link WardenEntity#listen(BlockPos, World, Entity, Entity, int, BlockPos)}
      * ATTACKING {@link WardenEntity#tryAttack(Entity)}
      * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
@@ -149,6 +148,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         super.tickMovement();
     }
 
+    @Override
     public void handleStatus(byte status) {
         if (status == EntityStatuses.PLAY_ATTACK_SOUND) {
             this.roaringAnimationState.stop();
@@ -180,7 +180,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         }
     }
 
-    public void listen(BlockPos pos, World eventWorld, @Nullable Entity eventEntity, @Nullable Entity sourceEntity, int suspicion, BlockPos vibrationPos) { //TODO: RENAME TO "ACCEPT" TO MATCH 1.19 MAPPINGS
+    public void listen(BlockPos pos, World eventWorld, @Nullable Entity eventEntity, @Nullable Entity sourceEntity, int anger, BlockPos vibrationPos) { //TODO: RENAME TO "ACCEPT" TO MATCH 1.19 MAPPINGS
         if (eventWorld instanceof ServerWorld serverWorld && canListen(serverWorld, vibrationPos, eventEntity)) {
             this.brain.remember(RegisterMemoryModules.VIBRATION_COOLDOWN, Unit.INSTANCE, 40L);
             //world.sendEntityStatus(this, EARS_TWITCH);
@@ -219,7 +219,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
             } else {
                 this.vibrationEntity = "null";
             }
-            this.queuedSuspicion = suspicion;
+            this.queuedAnger = anger;
             if (vibrationPos != null) {
                 createVibration(serverWorld, this, vibrationPos);
                 Vec3d start = Vec3d.ofCenter(vibrationPos);
@@ -324,7 +324,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         WardenBrain.updateActivities(this);
     }
 
-    public int eventSuspicionValue(GameEvent event, LivingEntity livingEntity) {
+    public int eventAngerValue(GameEvent event, LivingEntity livingEntity) {
         int total = 1;
         if (event == GameEvent.PROJECTILE_LAND) {
             return 0;
@@ -447,7 +447,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         nbt.putInt("vibX", this.vibX);
         nbt.putInt("vibY", this.vibY);
         nbt.putInt("vibZ", this.vibZ);
-        nbt.putInt("queuedSuspicion", this.queuedSuspicion);
+        nbt.putInt("queuedAnger", this.queuedAnger);
         nbt.putInt("movementPriority", this.movementPriority);
     }
 
@@ -475,7 +475,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         this.vibX = nbt.getInt("vibX");
         this.vibY = nbt.getInt("vibY");
         this.vibZ = nbt.getInt("vibZ");
-        this.queuedSuspicion = nbt.getInt("queuedSuspicion");
+        this.queuedAnger = nbt.getInt("queuedAnger");
         this.movementPriority = nbt.getInt("movementPriority");
     }
 
@@ -864,10 +864,10 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
             if (this.getVibrationEntity() != null && this.canListen(serverWorld, this.getVibrationEntity().getBlockPos(), this.getVibrationEntity())) {
                 Entity eventEntity = this.getVibrationEntity();
                 this.lasteventpos = new BlockPos(this.vibX, this.vibY, this.vibZ);
-                int suspicion = this.queuedSuspicion;
+                int anger = this.queuedAnger;
                 if (eventEntity != null) {
                     this.lastevententity = eventEntity;
-                    increaseAngerAt(eventEntity, suspicion, true);
+                    increaseAngerAt(eventEntity, anger, true);
                     if (this.world.getTime() - reactionSoundTimer > 40) {
                         this.reactionSoundTimer = this.world.getTime();
                     }
@@ -904,7 +904,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     //Lists & Entity Tracking
     public String trackingEntity = "null";
     public String vibrationEntity = "null";
-    public int queuedSuspicion;
+    public int queuedAnger;
     //Anger & Heartbeat
     public int nonEntityAnger;
     private static final TrackedData<Integer> ANGER = DataTracker.registerData(WardenEntity.class, TrackedDataHandlerRegistry.INTEGER);

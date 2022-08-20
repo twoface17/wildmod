@@ -25,7 +25,7 @@ public abstract class RegisterParticles {
     public static final DefaultParticleType SONIC_BOOM = FabricParticleTypes.simple();
     public static final ParticleType<WildVibrationParticleEffect> VIBRATION = register("vibration", true, WildVibrationParticleEffect.PARAMETERS_FACTORY, particleType -> WildVibrationParticleEffect.CODEC);
 
-    public static void RegisterParticles() {
+    public static void init() {
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_charge_pop"), SCULK_CHARGE_POP);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sculk_soul"), SCULK_SOUL);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(WildMod.MOD_ID, "sonic_boom"), SONIC_BOOM);

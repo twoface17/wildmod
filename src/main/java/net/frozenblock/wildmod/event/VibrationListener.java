@@ -2,11 +2,10 @@ package net.frozenblock.wildmod.event;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.frozenblock.wildmod.misc.TickCriterion;
+import net.frozenblock.wildmod.registry.RegisterCriteria;
 import net.frozenblock.wildmod.misc.WildVec3d;
 import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
 import net.frozenblock.wildmod.registry.RegisterTags;
-import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -20,9 +19,9 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockStateRaycastContext;
-import net.minecraft.world.Vibration;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSource;
@@ -59,9 +58,7 @@ public class VibrationListener implements GameEventListener {
         );
     }
 
-    public VibrationListener(
-            PositionSource positionSource, int range, VibrationListener.Callback callback, @Nullable VibrationListener.Vibration vibration, float distance, int delay
-    ) {
+    public VibrationListener(PositionSource positionSource, int range, VibrationListener.Callback callback, @Nullable VibrationListener.Vibration vibration, float distance, int delay) {
         this.positionSource = positionSource;
         this.range = range;
         this.callback = callback;
@@ -113,8 +110,8 @@ public class VibrationListener implements GameEventListener {
                 if (optional.isEmpty()) {
                     return false;
                 } else {
-                    WildVec3d vec3d = WildVec3d.ofCenter(pos);
-                    WildVec3d vec3d2 = WildVec3d.ofCenter(optional.get());
+                    Vec3d vec3d = Vec3d.ofCenter(pos);
+                    Vec3d vec3d2 = Vec3d.ofCenter(optional.get());
                     if (!this.callback.accepts((ServerWorld) world, this, new BlockPos(vec3d), event, entity)) {
                         return false;
                     } else if (isOccluded(world, vec3d, vec3d2)) {
@@ -128,21 +125,21 @@ public class VibrationListener implements GameEventListener {
         }
     }
 
-    private void listen(ServerWorld world, GameEvent gameEvent, @Nullable Entity entity, WildVec3d start, WildVec3d end) {
+    private void listen(ServerWorld world, GameEvent gameEvent, @Nullable Entity entity, Vec3d start, Vec3d end) {
         this.distance = (float) start.distanceTo(end);
         this.vibration = new VibrationListener.Vibration(gameEvent, this.distance, start, entity);
         this.delay = MathHelper.floor(this.distance);
         world.sendVibrationPacket(new net.minecraft.world.Vibration(new BlockPos(start), this.positionSource, this.delay));
-        //world.spawnParticles(new WildVibrationParticleEffect(this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
+        world.spawnParticles(new WildVibrationParticleEffect(this.positionSource, this.delay), start.x, start.y, start.z, 1, 0.0, 0.0, 0.0, 0.0);
         this.callback.onListen();
     }
 
-    private static boolean isOccluded(World world, WildVec3d start, WildVec3d end) {
-        WildVec3d vec3d = new WildVec3d((double) MathHelper.floor(start.x) + 0.5, (double) MathHelper.floor(start.y) + 0.5, (double) MathHelper.floor(start.z) + 0.5);
-        WildVec3d vec3d2 = new WildVec3d((double) MathHelper.floor(end.x) + 0.5, (double) MathHelper.floor(end.y) + 0.5, (double) MathHelper.floor(end.z) + 0.5);
+    private static boolean isOccluded(World world, Vec3d start, Vec3d end) {
+        Vec3d vec3d = new Vec3d((double) MathHelper.floor(start.x) + 0.5, (double) MathHelper.floor(start.y) + 0.5, (double) MathHelper.floor(start.z) + 0.5);
+        Vec3d vec3d2 = new Vec3d((double) MathHelper.floor(end.x) + 0.5, (double) MathHelper.floor(end.y) + 0.5, (double) MathHelper.floor(end.z) + 0.5);
 
         for (Direction direction : Direction.values()) {
-            WildVec3d vec3d3 = vec3d.withBias(direction, 1.0E-5F);
+            Vec3d vec3d3 = WildVec3d.withBias(vec3d, direction, 1.0E-5F);
             if (world.raycast(new BlockStateRaycastContext(vec3d3, vec3d2, state -> state.isIn(BlockTags.OCCLUDES_VIBRATION_SIGNALS))).getType()
                     != HitResult.Type.BLOCK) {
                 return false;
@@ -173,7 +170,7 @@ public class VibrationListener implements GameEventListener {
 
                     if (entity.bypassesSteppingEffects() && gameEvent.isIn(GameEventTags.IGNORE_VIBRATIONS_SNEAKING)) {
                         if (this.triggersAvoidCriterion() && entity instanceof ServerPlayerEntity serverPlayerEntity) {
-                            TickCriterion.AVOID_VIBRATION.trigger(serverPlayerEntity);
+                            RegisterCriteria.AVOID_VIBRATION.trigger(serverPlayerEntity);
                         }
 
                         return false;
@@ -206,7 +203,7 @@ public class VibrationListener implements GameEventListener {
         }
     }
 
-    public record Vibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid,
+    public record Vibration(GameEvent gameEvent, float distance, Vec3d pos, @Nullable UUID uuid,
                             @Nullable UUID projectileOwnerUuid, @Nullable Entity entity) {
 
         public static final Codec<VibrationListener.Vibration> CODEC = RecordCodecBuilder.create(
@@ -225,11 +222,11 @@ public class VibrationListener implements GameEventListener {
                         )
         );
 
-        public Vibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid) {
+        public Vibration(GameEvent gameEvent, float distance, Vec3d pos, @Nullable UUID uuid, @Nullable UUID projectileOwnerUuid) {
             this(gameEvent, distance, pos, uuid, projectileOwnerUuid, null);
         }
 
-        public Vibration(GameEvent gameEvent, float distance, WildVec3d pos, @Nullable Entity entity) {
+        public Vibration(GameEvent gameEvent, float distance, Vec3d pos, @Nullable Entity entity) {
             this(gameEvent, distance, pos, entity == null ? null : entity.getUuid(), getOwnerUuid(entity), entity);
         }
 

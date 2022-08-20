@@ -6,7 +6,6 @@ import net.frozenblock.wildmod.registry.MangroveWoods;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.frozenblock.wildmod.world.feature.features.DiskFeatureConfig;
-import net.frozenblock.wildmod.world.feature.features.MultifaceGrowthFeatureConfig;
 import net.frozenblock.wildmod.world.feature.features.SculkPatchFeatureConfig;
 import net.frozenblock.wildmod.world.feature.features.WildTreeFeatureConfig;
 import net.frozenblock.wildmod.world.gen.AttachedToLeavesTreeDecorator;
@@ -48,12 +47,10 @@ public class WildConfiguredFeatures {
     public static final RegistryEntry<ConfiguredFeature<SculkPatchFeatureConfig, ?>> SCULK_PATCH_ANCIENT_CITY = register(
             "sculk_patch_ancient_city", WildFeatures.SCULK_PATCH, new SculkPatchFeatureConfig(10, 32, 64, 0, 1, UniformIntProvider.create(1, 3), 0.5F)
     );
-    private static final AbstractLichenBlock SCULK_VEIN_BLOCK = (AbstractLichenBlock) RegisterBlocks.SCULK_VEIN;
-    public static final RegistryEntry<ConfiguredFeature<MultifaceGrowthFeatureConfig, ?>> SCULK_VEIN = register(
+    public static final RegistryEntry<ConfiguredFeature<GlowLichenFeatureConfig, ?>> SCULK_VEIN = register(
             "sculk_vein",
             WildFeatures.MULTIFACE_GROWTH,
-            new MultifaceGrowthFeatureConfig(
-                    SCULK_VEIN_BLOCK,
+            new GlowLichenFeatureConfig(
                     20,
                     true,
                     true,
@@ -68,7 +65,7 @@ public class WildConfiguredFeatures {
     public static final RegistryEntry<ConfiguredFeature<DiskFeatureConfig, ?>> DISK_GRASS = register(
             "disk_grass",
             WildFeatures.DISK,
-            new net.frozenblock.wildmod.world.feature.features.DiskFeatureConfig(
+            new DiskFeatureConfig(
                     new PredicatedStateProvider(
                             BlockStateProvider.of(Blocks.DIRT),
                             List.of(
@@ -124,21 +121,21 @@ public class WildConfiguredFeatures {
             )
                     .decorators(
                             List.of(
-                                    new LeavesVineTreeDecorator(0.125F),
-                                /*, new AttachedToLeavesTreeDecorator(
+                                new LeavesVineTreeDecorator(0.125F),
+                                new AttachedToLeavesTreeDecorator(
                                 0.14F,
                                 1,
                                 0,
                                 new RandomizedIntBlockStateProvider(
                                 BlockStateProvider.of(
-                                    (BlockState)MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(PropaguleBlock.HANGING, true)),
+                                    MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(PropaguleBlock.HANGING, true)),
                                     PropaguleBlock.AGE,
                                     UniformIntProvider.create(0, 4)
                                     ),
                                     2,
                                     List.of(Direction.DOWN)
                                     ),
-                                    */BEES_001
+                                    BEES_001
                             )
                     )
                     .ignoreVines()

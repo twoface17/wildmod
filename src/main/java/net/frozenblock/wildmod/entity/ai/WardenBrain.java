@@ -25,10 +25,6 @@ import net.minecraft.util.math.MathHelper;
 import java.util.List;
 
 public class WardenBrain {
-    private static final float field_38175 = 0.5F;
-    private static final float field_38176 = 0.7F;
-    private static final float field_38177 = 1.2F;
-    private static final int field_38178 = 18;
     private static final int DIG_DURATION = MathHelper.ceil(100.0F);
     public static final int EMERGE_DURATION = MathHelper.ceil(133.59999F);
     public static final int ROAR_DURATION = MathHelper.ceil(84.0F);
@@ -64,7 +60,7 @@ public class WardenBrain {
             RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN,
             RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY
     );
-    private static final Task<WardenEntity> RESET_DIG_COOLDOWN_TASK = new Task<WardenEntity>(
+    private static final Task<WardenEntity> RESET_DIG_COOLDOWN_TASK = new Task<>(
             ImmutableMap.of(RegisterMemoryModules.DIG_COOLDOWN, MemoryModuleState.REGISTERED)
     ) {
         protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {

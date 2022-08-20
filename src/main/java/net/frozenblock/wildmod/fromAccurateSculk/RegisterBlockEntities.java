@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.block.entity.SculkCatalystBlockEntity;
 import net.frozenblock.wildmod.block.entity.SculkShriekerBlockEntity;
-import net.frozenblock.wildmod.misc.GoatHornIdFix;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;

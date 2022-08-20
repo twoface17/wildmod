@@ -1,18 +1,27 @@
 package net.frozenblock.wildmod.mixins;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.frozenblock.wildmod.block.entity.WildBlockWithEntity;
 import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
+import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterTags;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.SculkSensorBlock;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,12 +32,11 @@ import java.util.Iterator;
 import java.util.List;
 
 @Mixin(SculkSensorBlock.class)
-public class SculkSensorBlockMixin {
+public abstract class SculkSensorBlockMixin extends BlockWithEntity {
     //FROM ACCURATE SCULK
-    private final ServerWorld world;
 
-    public SculkSensorBlockMixin(ServerWorld world) {
-        this.world = world;
+    public SculkSensorBlockMixin(AbstractBlock.Settings properties) {
+        super(properties);
     }
 
     // allows to add additional things to the sculk sensor frequency list
@@ -37,33 +45,20 @@ public class SculkSensorBlockMixin {
         return (Object2IntMap<K>) m;
     }
 
-    @Inject(method = "setActive", at = @At("TAIL"))
-    private static void setActive(World world, BlockPos pos, BlockState state, int power, CallbackInfo info) {
-        world.emitGameEvent(WildGameEvent.SCULK_SENSOR_TENDRILS_CLICKING, pos.add(0.5, 0, 0.5));
+    @Override
+    public void onSteppedOn(World world, BlockPos blockPos, BlockState blockState, Entity entity) {
+        if (world instanceof ServerWorld && SculkSensorBlock.isInactive(blockState) && entity.getType() != RegisterEntities.WARDEN) {
+            SculkSensorBlock.setActive(world, blockPos, blockState, 1);
+            world.emitGameEvent(entity, WildGameEvent.SCULK_SENSOR_TENDRILS_CLICKING, blockPos);
+        }
 
-        int lastEntity = SensorLastEntity.getLastEntity(pos);
-        Entity target = world.getEntityById(lastEntity);
-        BlockPos lastEventPos = SensorLastEntity.getLastPos(pos);
-        net.minecraft.world.event.GameEvent event = SensorLastEntity.getLastEvent(pos);
-        if (event != null && lastEntity != -1 && lastEventPos != null && target != null) {
-            if (SculkSensorBlock.FREQUENCIES.containsKey(event)) {
-                Box box = new Box(pos.getX() - 18, pos.getY() - 18, pos.getZ() - 18, pos.getX() + 18, pos.getY() + 18, pos.getZ() + 18);
-                List<WardenEntity> list = world.getNonSpectatingEntities(WardenEntity.class, box);
-                Iterator<WardenEntity> var11 = list.iterator();
-                WardenEntity wardenEntity;
-                while (var11.hasNext()) {
-                    wardenEntity = var11.next();
-                    if (wardenEntity.getBlockPos().isWithinDistance(pos, 16)) {
-                        if (event.isIn(RegisterTags.WARDEN_CAN_LISTEN)) {
-                            if (target instanceof ProjectileEntity projectile) {
-                                wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), projectile, projectile.getOwner(), 50, pos);
-                            } else {
-                                wardenEntity.listen(lastEventPos, wardenEntity.getWorld(), target, null, 50, pos);
-                            }
-                        }
-                    }
-                }
-            }
+        super.onSteppedOn(world, blockPos, blockState, entity);
+    }
+
+    @Override
+    public void onStacksDropped(BlockState state, ServerWorld serverWorld, BlockPos pos, ItemStack stack) {
+        if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) == 0) {
+            this.dropExperience(serverWorld, pos, 5);
         }
     }
 }

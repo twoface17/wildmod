@@ -1,8 +1,9 @@
 package net.frozenblock.wildmod.block.wild;
 
 import com.google.common.annotations.VisibleForTesting;
-import net.frozenblock.wildmod.block.deepdark.MultifaceGrowthBlock;
+import net.frozenblock.wildmod.block.deepdark.SculkVeinBlock;
 import net.frozenblock.wildmod.misc.WildDirection;
+import net.minecraft.block.AbstractLichenBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +21,7 @@ public class LichenGrower {
     };
     private final LichenGrower.GrowChecker growChecker;
 
-    public LichenGrower(MultifaceGrowthBlock lichen) {
+    public LichenGrower(AbstractLichenBlock lichen) {
         this(new LichenGrower.LichenGrowChecker(lichen));
     }
 
@@ -111,7 +112,7 @@ public class LichenGrower {
         }
 
         default boolean hasDirection(BlockState state, Direction direction) {
-            return MultifaceGrowthBlock.hasDirection(state, direction);
+            return SculkVeinBlock.hasDirection(state, direction);
         }
 
         default boolean canGrow(BlockState state) {
@@ -171,9 +172,9 @@ public class LichenGrower {
     }
 
     public static class LichenGrowChecker implements LichenGrower.GrowChecker {
-        protected MultifaceGrowthBlock lichen;
+        protected AbstractLichenBlock lichen;
 
-        public LichenGrowChecker(MultifaceGrowthBlock lichen) {
+        public LichenGrowChecker(AbstractLichenBlock lichen) {
             this.lichen = lichen;
         }
 
@@ -191,7 +192,7 @@ public class LichenGrower {
         public boolean canGrow(BlockView world, BlockPos pos, LichenGrower.GrowPos growPos) {
             BlockState blockState = world.getBlockState(growPos.pos());
             return this.canGrow(world, pos, growPos.pos(), growPos.face(), blockState)
-                    && this.lichen.canGrowWithDirection(world, blockState, growPos.pos(), growPos.face());
+                    && ((SculkVeinBlock) this.lichen).canGrowWithDirection(world, blockState, growPos.pos(), growPos.face());
         }
     }
 }

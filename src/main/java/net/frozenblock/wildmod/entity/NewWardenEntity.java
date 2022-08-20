@@ -13,7 +13,7 @@ import net.frozenblock.wildmod.liukrastapi.WardenAngerManager;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterSounds;
-import net.frozenblock.wildmod.registry.RegisterStatusEffects;
+import net.frozenblock.wildmod.registry.init;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -379,7 +379,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     }
 
     public static void addDarknessToClosePlayers(ServerWorld world, Vec3d pos, @Nullable Entity entity, int range) {
-        WildStatusEffectInstance statusEffectInstance = new WildStatusEffectInstance(RegisterStatusEffects.DARKNESS, 260, 0, false, false);
+        WildStatusEffectInstance statusEffectInstance = new WildStatusEffectInstance(init.DARKNESS, 260, 0, false, false);
         addEffectToPlayersWithinDistance(world, entity, pos, range, statusEffectInstance, 200);
     }
 

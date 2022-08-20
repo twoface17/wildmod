@@ -1,4 +1,4 @@
-package net.frozenblock.wildmod.registry;
+package net.frozenblock.wildmod.misc;
 
 import com.google.common.base.Ticker;
 import com.google.common.collect.Iterators;

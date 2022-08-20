@@ -18,47 +18,34 @@ import net.minecraft.world.gen.placementmodifier.*;
 import java.util.List;
 
 public class WildPlacedFeatures {
-    public static final RegistryEntry<PlacedFeature> SCULK_PATCH_DEEP_DARK;
-    public static final RegistryEntry<PlacedFeature> SCULK_PATCH_ANCIENT_CITY;
-    public static final RegistryEntry<PlacedFeature> SCULK_VEIN;
-    public static final RegistryEntry<PlacedFeature> DISK_GRASS;
+    public static final RegistryEntry<PlacedFeature> SCULK_PATCH_DEEP_DARK = register(
+            "sculk_patch_deep_dark",
+            WildConfiguredFeatures.SCULK_PATCH_DEEP_DARK,
+            CountPlacementModifier.of(ConstantIntProvider.create(256)),
+            SquarePlacementModifier.of(),
+            PlacedFeatures.BOTTOM_TO_120_RANGE,
+            BiomePlacementModifier.of());
+    public static final RegistryEntry<PlacedFeature> SCULK_PATCH_ANCIENT_CITY = register(
+            "sculk_patch_ancient_city", WildConfiguredFeatures.SCULK_PATCH_ANCIENT_CITY
+    );
+    public static final RegistryEntry<PlacedFeature> SCULK_VEIN = register(
+            "sculk_vein",
+            WildConfiguredFeatures.SCULK_VEIN,
+            CountPlacementModifier.of(UniformIntProvider.create(204, 250)),
+            SquarePlacementModifier.of(),
+            PlacedFeatures.BOTTOM_TO_120_RANGE,
+            BiomePlacementModifier.of());
+    public static final RegistryEntry<PlacedFeature> DISK_GRASS = register(
+            "disk_grass",
+            WildConfiguredFeatures.DISK_GRASS,
+            CountPlacementModifier.of(1),
+            SquarePlacementModifier.of(),
+            PlacedFeatures.OCEAN_FLOOR_WG_HEIGHTMAP,
+            RandomOffsetPlacementModifier.vertically(ConstantIntProvider.create(-1)),
+            BlockFilterPlacementModifier.of(BlockPredicate.matchingBlocks(List.of(new Block[]{RegisterBlocks.MUD}))),
+            BiomePlacementModifier.of());
     public static final RegistryEntry<PlacedFeature> MANGROVE_CHECKED = register("mangrove_checked", WildConfiguredFeatures.MANGROVE, PlacedFeatures.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE));
     public static final RegistryEntry<PlacedFeature> TALL_MANGROVE_CHECKED = register("tall_mangrove_checked", WildConfiguredFeatures.TALL_MANGROVE, PlacedFeatures.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE));
-
-    static {
-
-        SCULK_PATCH_DEEP_DARK = register(
-                "sculk_patch_deep_dark",
-                WildConfiguredFeatures.SCULK_PATCH_DEEP_DARK,
-                CountPlacementModifier.of(ConstantIntProvider.create(256)),
-                SquarePlacementModifier.of(),
-                PlacedFeatures.BOTTOM_TO_120_RANGE,
-                BiomePlacementModifier.of());
-        SCULK_PATCH_ANCIENT_CITY = register(
-                "sculk_patch_ancient_city", WildConfiguredFeatures.SCULK_PATCH_ANCIENT_CITY
-        );
-        SCULK_VEIN = register(
-                "sculk_vein",
-                WildConfiguredFeatures.SCULK_VEIN,
-                CountPlacementModifier.of(UniformIntProvider.create(204, 250)),
-                SquarePlacementModifier.of(),
-                PlacedFeatures.BOTTOM_TO_120_RANGE,
-                BiomePlacementModifier.of());
-        DISK_GRASS = register(
-                "disk_grass",
-                WildConfiguredFeatures.DISK_GRASS,
-                CountPlacementModifier.of(1),
-                SquarePlacementModifier.of(),
-                PlacedFeatures.OCEAN_FLOOR_WG_HEIGHTMAP,
-                RandomOffsetPlacementModifier.vertically(ConstantIntProvider.create(-1)),
-                BlockFilterPlacementModifier.of(BlockPredicate.matchingBlocks(List.of(new Block[]{RegisterBlocks.MUD}))),
-                BiomePlacementModifier.of());
-
-        /*TALL_MANGROVE_CHECKED = register(
-                "tall_mangrove_checked", WildConfiguredFeatures.TALL_MANGROVE, new PlacementModifier[]{PlacedFeatures.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE)}
-        );
-    */
-    }
 
     public static <T> RegistryEntry<T> add(Registry<T> registry, RegistryKey<T> key, T object) {
         return ((MutableRegistry<T>) registry).add(key, object, Lifecycle.stable());

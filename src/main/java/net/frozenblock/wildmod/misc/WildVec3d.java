@@ -3,6 +3,7 @@ package net.frozenblock.wildmod.misc;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
 import java.util.List;
@@ -22,9 +23,14 @@ public class WildVec3d extends net.minecraft.util.math.Vec3d {
         return new WildVec3d(this.x + value * (double) vec3i.getX(), this.y + value * (double) vec3i.getY(), this.z + value * (double) vec3i.getZ());
     }
 
-    public static final Codec<WildVec3d> CODEC = Codec.DOUBLE.listOf().comapFlatMap((list -> {
+    public static WildVec3d withBias(Vec3d vec3d, Direction direction, double value) {
+        Vec3i vec3i = direction.getVector();
+        return new WildVec3d(vec3d.x + value * (double) vec3i.getX(), vec3d.y + value * (double) vec3i.getY(), vec3d.z + value * (double) vec3i.getZ());
+    }
+
+    public static final Codec<Vec3d> CODEC = Codec.DOUBLE.listOf().comapFlatMap((list -> {
         return Util.toArray(list, 3).map((listx) -> {
-            return new WildVec3d(listx.get(0), listx.get(1), listx.get(2));
+            return new Vec3d(listx.get(0), listx.get(1), listx.get(2));
         });
     }), (vec3d) -> {
         return List.of(vec3d.getX(), vec3d.getY(), vec3d.getZ());
