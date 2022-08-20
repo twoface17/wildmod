@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "twm:sculk_shrieker",
-    "twm:sculk_catalyst"
+	"twm:sculk_shrieker",
+	"twm:sculk_catalyst"
   ]
 }

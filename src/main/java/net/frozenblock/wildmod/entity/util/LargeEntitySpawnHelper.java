@@ -25,7 +25,7 @@ public class LargeEntitySpawnHelper {
     ) {
         BlockPos.Mutable mutable = pos.mutableCopy();
 
-        for(int i = 0; i < tries; ++i) {
+        for (int i = 0; i < tries; ++i) {
             int j = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
             int k = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
             mutable.set(pos, j, verticalRange, k);
@@ -49,7 +49,7 @@ public class LargeEntitySpawnHelper {
         BlockPos.Mutable mutable = new BlockPos.Mutable().set(pos);
         BlockState blockState = world.getBlockState(mutable);
 
-        for(int i = verticalRange; i >= -verticalRange; --i) {
+        for (int i = verticalRange; i >= -verticalRange; --i) {
             pos.move(Direction.DOWN);
             mutable.set(pos, Direction.UP);
             BlockState blockState2 = world.getBlockState(pos);

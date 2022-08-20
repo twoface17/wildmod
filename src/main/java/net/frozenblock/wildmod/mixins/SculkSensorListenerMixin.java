@@ -1,22 +1,16 @@
 package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.entity.WildVibration;
-import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
-import net.minecraft.block.SculkSensorBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.SculkSensorListener;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.Optional;
 
 @Mixin(SculkSensorListener.class)
 public class SculkSensorListenerMixin implements WildVibration.Instance {

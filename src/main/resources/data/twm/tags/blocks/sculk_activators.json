@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:sculk_sensor",
-    "twm:sculk_shrieker"
+	"minecraft:sculk_sensor",
+	"twm:sculk_shrieker"
   ]
 }

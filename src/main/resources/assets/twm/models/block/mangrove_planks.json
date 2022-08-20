@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "twm:block/mangrove_planks"
+	"all": "twm:block/mangrove_planks"
   }
 }

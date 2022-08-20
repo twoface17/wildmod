@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/fence_inventory",
   "textures": {
-    "texture": "twm:block/mangrove_planks"
+	"texture": "twm:block/mangrove_planks"
   }
 }

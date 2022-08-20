@@ -1,12 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "twm:stripped_mangrove_wood"
-    }
+	{
+	  "item": "twm:stripped_mangrove_wood"
+	}
   ],
   "result": {
-    "item": "twm:mangrove_planks",
-    "count": 4
+	"item": "twm:mangrove_planks",
+	"count": 4
   }
 }

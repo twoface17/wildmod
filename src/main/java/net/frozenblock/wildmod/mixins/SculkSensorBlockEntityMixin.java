@@ -2,13 +2,9 @@ package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.entity.WildVibration;
 import net.frozenblock.wildmod.event.WildGameEvent;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkSensorBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.SculkSensorBlockEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.GameEventListener;
@@ -22,7 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SculkSensorBlockEntity.class)
 public class SculkSensorBlockEntityMixin {
-    @Shadow @Final private SculkSensorListener listener;
+    @Shadow
+    @Final
+    private SculkSensorListener listener;
 
     @Inject(method = "accept", at = @At("HEAD"))
     private void accept(World world, GameEventListener listener, GameEvent event, int distance, CallbackInfo ci) {

@@ -1,35 +1,22 @@
 package net.frozenblock.wildmod.mixins;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import net.frozenblock.wildmod.block.entity.WildBlockWithEntity;
-import net.frozenblock.wildmod.entity.WardenEntity;
 import net.frozenblock.wildmod.event.WildGameEvent;
-import net.frozenblock.wildmod.fromAccurateSculk.SensorLastEntity;
 import net.frozenblock.wildmod.registry.RegisterEntities;
-import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.SculkSensorBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.Iterator;
-import java.util.List;
 
 @Mixin(SculkSensorBlock.class)
 public abstract class SculkSensorBlockMixin extends BlockWithEntity {

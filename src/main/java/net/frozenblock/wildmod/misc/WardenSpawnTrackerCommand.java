@@ -1,13 +1,11 @@
 package net.frozenblock.wildmod.misc;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 import java.util.Collection;
@@ -37,7 +35,7 @@ public class WardenSpawnTrackerCommand {
     }
 
     private static int setWarningLevel(ServerCommandSource source, Collection<? extends PlayerEntity> players, int warningCount) {
-        for(PlayerEntity playerEntity : players) {
+        for (PlayerEntity playerEntity : players) {
             ((WildPlayerEntity) playerEntity).getSculkShriekerWarningManager().setWarningLevel(warningCount);
         }
 
@@ -51,13 +49,13 @@ public class WardenSpawnTrackerCommand {
     }
 
     private static int clearTracker(ServerCommandSource source, Collection<? extends PlayerEntity> players) {
-        for(PlayerEntity playerEntity : players) {
+        for (PlayerEntity playerEntity : players) {
             ((WildPlayerEntity) playerEntity).getSculkShriekerWarningManager().reset();
         }
 
         if (players.size() == 1) {
             source.sendFeedback(
-                    new TranslatableText("commands.warden_spawn_tracker.clear.success.single", ((PlayerEntity)players.iterator().next()).getDisplayName()), true
+                    new TranslatableText("commands.warden_spawn_tracker.clear.success.single", ((PlayerEntity) players.iterator().next()).getDisplayName()), true
             );
         } else {
             source.sendFeedback(new TranslatableText("commands.warden_spawn_tracker.clear.success.multiple", players.size()), true);

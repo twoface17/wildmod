@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "/T/",
-    "/T/"
+	"/T/",
+	"/T/"
   ],
   "key": {
-    "/": {
-      "item": "minecraft:stick"
-    },
-    "T": {
-      "item": "twm:mangrove_planks"
-    }
+	"/": {
+	  "item": "minecraft:stick"
+	},
+	"T": {
+	  "item": "twm:mangrove_planks"
+	}
   },
   "result": {
-    "item": "twm:mangrove_fence_gate",
-    "count": 1
+	"item": "twm:mangrove_fence_gate",
+	"count": 1
   }
 }

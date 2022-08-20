@@ -20,8 +20,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -72,21 +70,21 @@ public abstract class PlayerEntityMixin implements WildPlayerEntity {
     }
 
 
-	public Optional<GlobalPos> getLastDeathPos() {
-		PlayerEntity player = PlayerEntity.class.cast(this);
-		return player.getDataTracker().get(WildMod.LAST_DEATH_POS());
-	}
+    public Optional<GlobalPos> getLastDeathPos() {
+        PlayerEntity player = PlayerEntity.class.cast(this);
+        return player.getDataTracker().get(WildMod.LAST_DEATH_POS());
+    }
 
-	public void setLastDeathPos(Optional<GlobalPos> lastDeathPos) {
-		PlayerEntity player = PlayerEntity.class.cast(this);
-		player.getDataTracker().set(WildMod.LAST_DEATH_POS(), lastDeathPos);
-	}
+    public void setLastDeathPos(Optional<GlobalPos> lastDeathPos) {
+        PlayerEntity player = PlayerEntity.class.cast(this);
+        player.getDataTracker().set(WildMod.LAST_DEATH_POS(), lastDeathPos);
+    }
 
-	@Inject(method = "onDeath", at = @At("TAIL"))
-	private void onDeath(DamageSource source, CallbackInfo ci) {
-		PlayerEntity player = PlayerEntity.class.cast(this);
-		this.setLastDeathPos(Optional.of(GlobalPos.create(player.world.getRegistryKey(), player.getBlockPos())));
-	}
+    @Inject(method = "onDeath", at = @At("TAIL"))
+    private void onDeath(DamageSource source, CallbackInfo ci) {
+        PlayerEntity player = PlayerEntity.class.cast(this);
+        this.setLastDeathPos(Optional.of(GlobalPos.create(player.world.getRegistryKey(), player.getBlockPos())));
+    }
 
     @Inject(method = "takeShieldHit", at = @At("HEAD"))
     protected void takeShieldHit(LivingEntity attacker, CallbackInfo ci) {

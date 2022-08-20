@@ -12,16 +12,13 @@ import net.frozenblock.wildmod.entity.util.LargeEntitySpawnHelper;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildGameEvent;
 import net.frozenblock.wildmod.fromAccurateSculk.RegisterBlockEntities;
-import net.frozenblock.wildmod.misc.WildVec3d;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -31,16 +28,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.GameEventTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.BlockPositionSource;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.GameEventListener;
@@ -146,7 +139,7 @@ public class SculkShriekerBlockEntity extends BlockEntity implements VibrationLi
             if (!blockState.get(SculkShriekerBlock.SHRIEKING)) {
                 this.warningLevel = 0;
                 if (!this.canWarn(world) || this.trySyncWarningLevel(world, player)) {
-                    this.shriek(world, (Entity)player);
+                    this.shriek(world, (Entity) player);
                 }
             }
         }

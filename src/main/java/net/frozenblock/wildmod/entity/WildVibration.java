@@ -1,15 +1,9 @@
 package net.frozenblock.wildmod.entity;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.frozenblock.wildmod.misc.WildVec3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.dynamic.DynamicSerializableUuid;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.listener.SculkSensorListener;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,14 +31,14 @@ public record WildVibration(@Nullable UUID uuid, @Nullable UUID sourceUuid, @Nul
     public Optional<Entity> getOwner(ServerWorld level) {
         return Optional.ofNullable(this.entity)
                 .filter(entity -> entity instanceof ProjectileEntity)
-                .map(entity -> (ProjectileEntity)entity)
+                .map(entity -> (ProjectileEntity) entity)
                 .map(ProjectileEntity::getOwner)
                 .or(() -> Optional.ofNullable(this.sourceUuid).map(level::getEntity));
     }
 
     public interface Instance {
         static WildVibration.Instance of(SculkSensorListener listener) {
-            return (WildVibration.Instance)listener;
+            return (WildVibration.Instance) listener;
         }
 
         void setPos(BlockPos var1);

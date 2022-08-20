@@ -1,8 +1,8 @@
 {
   "values": [
-    "twm:mangrove_log",
-    "twm:stripped_mangrove_log",
-    "twm:mangrove_wood",
-    "twm:stripped_mangrove_wood"
+	"twm:mangrove_log",
+	"twm:stripped_mangrove_log",
+	"twm:mangrove_wood",
+	"twm:stripped_mangrove_wood"
   ]
 }

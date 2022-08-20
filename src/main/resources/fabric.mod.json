@@ -5,43 +5,41 @@
   "name": "The Wild Mod",
   "description": "This is a mod that adds the 1.19 Wild Update on Minecraft 1.17/1.18",
   "authors": [
-    "Osmiooo",
-    "LiukRast",
-    "Merp",
-    "Xfrtrex",
-    "AlexTheDolphin0",
-    "Lunade"
+	"Osmiooo",
+	"LiukRast",
+	"Merp",
+	"Xfrtrex",
+	"AlexTheDolphin0",
+	"Lunade"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/the-wild-mod",
-    "sources": "https://github.com/Osmiooo/wildmod",
-    "issues": "https://github.com/Osmiooo/wildmod/issues"
+	"homepage": "https://www.curseforge.com/minecraft/mc-mods/the-wild-mod",
+	"sources": "https://github.com/Osmiooo/wildmod",
+	"issues": "https://github.com/Osmiooo/wildmod/issues"
   },
   "license": "GPL-3.0",
   "icon": "assets/twm/textures/mod_icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
+	"main": [
 	  "net.frozenblock.wildmod.WildMod"
-    ],
-    "mm:early_risers": [
+	],
+	"mm:early_risers": [
 	  "net.frozenblock.wildmod.EarlyRiser"
-    ],
-    "client": [
+	],
+	"client": [
 	  "net.frozenblock.wildmod.WildModClient"
-    ]
+	]
   },
   "mixins": [
-    "twm.mixins.json"
+	"twm.mixins.json"
   ],
-
-  "accessWidener" : "twm.accesswidener",
-  
+  "accessWidener": "twm.accesswidener",
   "depends": {
-    "fabricloader": ">=0.14.9",
-    "fabric": ">=0.58.0",
-    "minecraft": "1.18.2",
-    "java": ">=17",
-    "mm": ">=2.3"
+	"fabricloader": ">=0.14.9",
+	"fabric": ">=0.58.0",
+	"minecraft": "1.18.2",
+	"java": ">=17",
+	"mm": ">=2.3"
   }
 }

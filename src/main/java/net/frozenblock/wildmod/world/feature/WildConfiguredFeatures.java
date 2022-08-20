@@ -15,7 +15,6 @@ import net.frozenblock.wildmod.world.gen.UpwardsBranchingTrunkPlacer;
 import net.frozenblock.wildmod.world.gen.root.AboveRootPlacement;
 import net.frozenblock.wildmod.world.gen.root.MangroveRootPlacement;
 import net.frozenblock.wildmod.world.gen.root.MangroveRootPlacer;
-import net.minecraft.block.AbstractLichenBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.fluid.Fluid;
@@ -121,19 +120,19 @@ public class WildConfiguredFeatures {
             )
                     .decorators(
                             List.of(
-                                new LeavesVineTreeDecorator(0.125F),
-                                new AttachedToLeavesTreeDecorator(
-                                0.14F,
-                                1,
-                                0,
-                                new RandomizedIntBlockStateProvider(
-                                BlockStateProvider.of(
-                                    MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(PropaguleBlock.HANGING, true)),
-                                    PropaguleBlock.AGE,
-                                    UniformIntProvider.create(0, 4)
-                                    ),
-                                    2,
-                                    List.of(Direction.DOWN)
+                                    new LeavesVineTreeDecorator(0.125F),
+                                    new AttachedToLeavesTreeDecorator(
+                                            0.14F,
+                                            1,
+                                            0,
+                                            new RandomizedIntBlockStateProvider(
+                                                    BlockStateProvider.of(
+                                                            MangroveWoods.MANGROVE_PROPAGULE.getDefaultState().with(PropaguleBlock.HANGING, true)),
+                                                    PropaguleBlock.AGE,
+                                                    UniformIntProvider.create(0, 4)
+                                            ),
+                                            2,
+                                            List.of(Direction.DOWN)
                                     ),
                                     BEES_001
                             )

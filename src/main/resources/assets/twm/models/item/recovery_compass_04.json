@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "twm:item/recovery_compass_04"
+	"layer0": "twm:item/recovery_compass_04"
   }
 }

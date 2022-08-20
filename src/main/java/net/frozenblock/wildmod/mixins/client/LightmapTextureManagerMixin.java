@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.mixins.client;
 
-import net.frozenblock.wildmod.misc.AdvancedMath;
 import net.frozenblock.wildmod.misc.WildStatusEffectInstance;
 import net.frozenblock.wildmod.registry.RegisterStatusEffects;
 import net.minecraft.client.MinecraftClient;

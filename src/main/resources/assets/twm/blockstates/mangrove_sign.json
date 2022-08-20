@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "twm:block/mangrove_sign"
-    }
+	"": {
+	  "model": "twm:block/mangrove_sign"
+	}
   }
 }

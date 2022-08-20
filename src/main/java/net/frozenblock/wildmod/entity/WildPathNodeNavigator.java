@@ -1,7 +1,6 @@
 package net.frozenblock.wildmod.entity;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.entity.ai.pathing.*;
 import net.minecraft.entity.mob.MobEntity;
@@ -11,7 +10,10 @@ import net.minecraft.util.profiler.SampleType;
 import net.minecraft.world.chunk.ChunkCache;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -52,9 +54,9 @@ public class WildPathNodeNavigator extends PathNodeNavigator {
         Set<PathNode> set2 = ImmutableSet.of();
         int i = 0;
         Set<TargetPathNode> set3 = Sets.<TargetPathNode>newHashSetWithExpectedSize(set.size());
-        int j = (int)((float)this.range * rangeMultiplier);
+        int j = (int) ((float) this.range * rangeMultiplier);
 
-        while(!this.minHeap.isEmpty()) {
+        while (!this.minHeap.isEmpty()) {
             if (++i >= j) {
                 break;
             }
@@ -62,8 +64,8 @@ public class WildPathNodeNavigator extends PathNodeNavigator {
             PathNode pathNode = this.minHeap.pop();
             pathNode.visited = true;
 
-            for(TargetPathNode targetPathNode : set) {
-                if (pathNode.getManhattanDistance(targetPathNode) <= (float)distance) {
+            for (TargetPathNode targetPathNode : set) {
+                if (pathNode.getManhattanDistance(targetPathNode) <= (float) distance) {
                     targetPathNode.markReached();
                     set3.add(targetPathNode);
                 }

@@ -166,7 +166,6 @@ public class SculkVeinBlock extends AbstractLichenBlock implements SculkSpreadab
     }
 
 
-
     public boolean canGrowWithDirection(BlockView getter, BlockState state, BlockPos pos, Direction direction) {
         if (!this.canHaveDirection(direction) || state.isOf(this) && hasDirection(state, direction)) {
             return false;
@@ -197,8 +196,8 @@ public class SculkVeinBlock extends AbstractLichenBlock implements SculkSpreadab
     public static byte directionsToFlag(Collection<Direction> directions) {
         byte flag = 0;
 
-        for(Direction direction : directions) {
-            flag = (byte)(flag | 1 << direction.ordinal());
+        for (Direction direction : directions) {
+            flag = (byte) (flag | 1 << direction.ordinal());
         }
 
         return flag;
@@ -210,7 +209,7 @@ public class SculkVeinBlock extends AbstractLichenBlock implements SculkSpreadab
         } else {
             Set<Direction> directions = EnumSet.noneOf(Direction.class);
 
-            for(Direction direction : DIRECTIONS) {
+            for (Direction direction : DIRECTIONS) {
                 if (hasDirection(state, direction)) {
                     directions.add(direction);
                 }

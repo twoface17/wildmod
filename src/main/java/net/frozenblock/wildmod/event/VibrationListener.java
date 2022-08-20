@@ -2,9 +2,9 @@ package net.frozenblock.wildmod.event;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.frozenblock.wildmod.registry.RegisterCriteria;
 import net.frozenblock.wildmod.misc.WildVec3d;
 import net.frozenblock.wildmod.particle.WildVibrationParticleEffect;
+import net.frozenblock.wildmod.registry.RegisterCriteria;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;

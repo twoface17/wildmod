@@ -46,10 +46,8 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.item.Items;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
 
 @Environment(EnvType.CLIENT)
@@ -101,7 +99,7 @@ public class WildModClient implements ClientModInitializer {
                 RegisterItems.RECOVERY_COMPASS,
                 new Identifier("angle"),
                 new CompassAnglePredicateProvider(
-                        (world, stack, entity) -> entity instanceof PlayerEntity playerEntity ? ((WildPlayerEntity)playerEntity).getLastDeathPos().orElse(null) : null
+                        (world, stack, entity) -> entity instanceof PlayerEntity playerEntity ? ((WildPlayerEntity) playerEntity).getLastDeathPos().orElse(null) : null
                 )
         );
 

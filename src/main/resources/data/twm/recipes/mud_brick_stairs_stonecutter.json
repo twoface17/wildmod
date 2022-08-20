@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "twm:mud_bricks"
+	"item": "twm:mud_bricks"
   },
   "result": "twm:mud_brick_stairs",
   "count": 1

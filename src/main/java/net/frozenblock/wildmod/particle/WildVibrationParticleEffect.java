@@ -8,8 +8,6 @@ import net.frozenblock.wildmod.registry.RegisterParticles;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.VibrationParticleEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
@@ -30,11 +28,11 @@ public class WildVibrationParticleEffect implements ParticleEffect {
     public static final Factory<WildVibrationParticleEffect> PARAMETERS_FACTORY = new Factory<WildVibrationParticleEffect>() {
         public WildVibrationParticleEffect read(ParticleType<WildVibrationParticleEffect> particleType, StringReader stringReader) throws CommandSyntaxException {
             stringReader.expect(' ');
-            float f = (float)stringReader.readDouble();
+            float f = (float) stringReader.readDouble();
             stringReader.expect(' ');
-            float g = (float)stringReader.readDouble();
+            float g = (float) stringReader.readDouble();
             stringReader.expect(' ');
-            float h = (float)stringReader.readDouble();
+            float h = (float) stringReader.readDouble();
             stringReader.expect(' ');
             int i = stringReader.readInt();
             BlockPos blockPos = new BlockPos(f, g, h);

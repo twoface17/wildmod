@@ -2,7 +2,6 @@ package net.frozenblock.wildmod.mixins;
 
 import net.frozenblock.wildmod.event.WildGameEvent;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.util.math.BlockPos;
@@ -24,14 +23,15 @@ public abstract class ShulkerEntityMixin extends GolemEntity {
         super(entityType, world);
     }
 
-    @Shadow protected abstract @Nullable Direction findAttachSide(BlockPos pos);
+    @Shadow
+    protected abstract @Nullable Direction findAttachSide(BlockPos pos);
 
     @Inject(method = "tryTeleport", at = @At("RETURN"))
     private void tryTeleport(CallbackInfoReturnable<Boolean> cir) {
         if (!this.isAiDisabled() && this.isAlive()) {
             BlockPos blockPos = this.getBlockPos();
 
-            for(int i = 0; i < 5; ++i) {
+            for (int i = 0; i < 5; ++i) {
                 BlockPos blockPos2 = blockPos.add(
                         MathHelper.nextBetween(this.random, -8, 8), MathHelper.nextBetween(this.random, -8, 8), MathHelper.nextBetween(this.random, -8, 8)
                 );

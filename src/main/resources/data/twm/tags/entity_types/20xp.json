@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:ravager",
-    "minecraft:piglin_brute"
+	"minecraft:ravager",
+	"minecraft:piglin_brute"
   ]
 }

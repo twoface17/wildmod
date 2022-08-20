@@ -24,12 +24,12 @@ public class ChorusFruitItemMixin extends Item {
     private void finishUsing(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
         if (!world.isClient) {
 
-            for(int i = 0; i < 16; ++i) {
+            for (int i = 0; i < 16; ++i) {
                 double g = user.getX() + (user.getRandom().nextDouble() - 0.5) * 16.0;
                 double h = MathHelper.clamp(
-                        user.getY() + (double)(user.getRandom().nextInt(16) - 8),
+                        user.getY() + (double) (user.getRandom().nextInt(16) - 8),
                         world.getBottomY(),
-                        world.getBottomY() + ((ServerWorld)world).getLogicalHeight() - 1
+                        world.getBottomY() + ((ServerWorld) world).getLogicalHeight() - 1
                 );
                 double j = user.getZ() + (user.getRandom().nextDouble() - 0.5) * 16.0;
 

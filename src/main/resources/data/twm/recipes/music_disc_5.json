@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "SSS",
-    "SSS",
-    "SSS"
+	"SSS",
+	"SSS",
+	"SSS"
   ],
   "key": {
-    "S": {
-      "item": "twm:disc_fragment_5"
-    }
+	"S": {
+	  "item": "twm:disc_fragment_5"
+	}
   },
   "result": {
-    "item": "twm:music_disc_5"
+	"item": "twm:music_disc_5"
   }
 }

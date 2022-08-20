@@ -13,15 +13,19 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ServerCommandSource.class)
 public class ServerCommandSourceMixin implements WildServerCommandSource {
-    @Shadow @Final private @Nullable Entity entity;
+    @Shadow
+    @Final
+    private @Nullable Entity entity;
 
-    @Shadow @Final public static SimpleCommandExceptionType REQUIRES_PLAYER_EXCEPTION;
+    @Shadow
+    @Final
+    public static SimpleCommandExceptionType REQUIRES_PLAYER_EXCEPTION;
 
     @Override
     public ServerPlayerEntity getPlayerOrThrow() throws CommandSyntaxException {
         Entity var2 = this.entity;
         if (var2 instanceof ServerPlayerEntity) {
-            return (ServerPlayerEntity)var2;
+            return (ServerPlayerEntity) var2;
         } else {
             throw REQUIRES_PLAYER_EXCEPTION.create();
         }

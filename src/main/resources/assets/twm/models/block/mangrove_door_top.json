@@ -2,7 +2,7 @@
   "credit": "Made by FrozenBlockStudios",
   "parent": "minecraft:block/door_top",
   "textures": {
-    "top": "twm:block/mangrove_door_top",
-    "bottom": "twm:block/mangrove_door_bottom"
+	"top": "twm:block/mangrove_door_top",
+	"bottom": "twm:block/mangrove_door_bottom"
   }
 }

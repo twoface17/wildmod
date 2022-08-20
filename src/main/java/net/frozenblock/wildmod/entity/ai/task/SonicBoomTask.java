@@ -6,22 +6,15 @@ import net.frozenblock.wildmod.entity.WildDamageSource;
 import net.frozenblock.wildmod.registry.RegisterMemoryModules;
 import net.frozenblock.wildmod.registry.RegisterParticles;
 import net.frozenblock.wildmod.registry.RegisterSounds;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-
-import java.util.Objects;
-import java.util.Optional;
 
 public class SonicBoomTask extends Task<WardenEntity> {
     private static final int SOUND_DELAY = MathHelper.ceil(34.0) + 5;
@@ -52,9 +45,9 @@ public class SonicBoomTask extends Task<WardenEntity> {
     }
 
     protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
-        wardenEntity.getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, (long)RUN_TIME);
-        wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY, Unit.INSTANCE, (long)SOUND_DELAY);
-        serverWorld.sendEntityStatus(wardenEntity, (byte)62);
+        wardenEntity.getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, (long) RUN_TIME);
+        wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY, Unit.INSTANCE, (long) SOUND_DELAY);
+        serverWorld.sendEntityStatus(wardenEntity, (byte) 62);
         wardenEntity.playSound(RegisterSounds.ENTITY_WARDEN_SONIC_CHARGE, 3.0F, 1.0F);
     }
 
@@ -62,7 +55,7 @@ public class SonicBoomTask extends Task<WardenEntity> {
         wardenEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).ifPresent(target -> wardenEntity.getLookControl().lookAt(target.getPos()));
         if (!wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY)
                 && !wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN)) {
-            wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN, Unit.INSTANCE, (long)(RUN_TIME - SOUND_DELAY));
+            wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN, Unit.INSTANCE, (long) (RUN_TIME - SOUND_DELAY));
             wardenEntity.getBrain()
                     .getOptionalMemory(MemoryModuleType.ATTACK_TARGET)
                     .filter(wardenEntity::isValidTarget)
@@ -72,8 +65,8 @@ public class SonicBoomTask extends Task<WardenEntity> {
                         Vec3d vec3d2 = target.getEyePos().subtract(vec3d);
                         Vec3d vec3d3 = vec3d2.normalize();
 
-                        for(int i = 1; i < MathHelper.floor(vec3d2.length()) + 7; ++i) {
-                            Vec3d vec3d4 = vec3d.add(vec3d3.multiply((double)i));
+                        for (int i = 1; i < MathHelper.floor(vec3d2.length()) + 7; ++i) {
+                            Vec3d vec3d4 = vec3d.add(vec3d3.multiply((double) i));
                             serverWorld.spawnParticles(RegisterParticles.SONIC_BOOM, vec3d4.x, vec3d4.y, vec3d4.z, 1, 0.0, 0.0, 0.0, 0.0);
                         }
 

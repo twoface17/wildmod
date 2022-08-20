@@ -1,7 +1,9 @@
 package net.frozenblock.wildmod.registry;
 
 import net.frozenblock.wildmod.WildMod;
-import net.minecraft.advancement.criterion.*;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.advancement.criterion.LocationArrivalCriterion;
+import net.minecraft.advancement.criterion.OnKilledCriterion;
 import net.minecraft.predicate.entity.DamageSourcePredicate;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.util.Identifier;

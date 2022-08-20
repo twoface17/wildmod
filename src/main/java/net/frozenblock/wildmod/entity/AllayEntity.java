@@ -52,7 +52,6 @@ import org.slf4j.Logger;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.BiConsumer;
 
 public class AllayEntity extends WildPathAwareEntity implements InventoryOwner, VibrationListener.Callback {
     private static final Logger field_39045 = LogUtils.getLogger();

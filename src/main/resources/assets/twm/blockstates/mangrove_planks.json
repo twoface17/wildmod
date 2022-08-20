@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "twm:block/mangrove_planks"
-    }
+	"": {
+	  "model": "twm:block/mangrove_planks"
+	}
   }
 }

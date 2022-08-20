@@ -957,7 +957,6 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     public static final byte SONIC_BOOM = 62;
 
 
-
     @Override
     public boolean accepts(ServerWorld world, GameEventListener listener, BlockPos pos, GameEvent event, @Nullable Entity entity) {
         if (!this.isAiDisabled() && !this.isDead() && !this.getBrain().hasMemoryModule(RegisterMemoryModules.VIBRATION_COOLDOWN) && !this.isDiggingOrEmerging() && world.getWorldBorder().contains(pos) && !this.isRemoved() && this.world == world) {

@@ -13,7 +13,6 @@ import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.GlowLichenFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.random.AbstractRandom;
 
 import java.util.Collections;
 import java.util.List;

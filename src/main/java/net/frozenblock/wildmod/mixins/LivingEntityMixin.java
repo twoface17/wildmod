@@ -31,9 +31,11 @@ public abstract class LivingEntityMixin extends Entity {
         super(type, world);
     }
 
-    @Shadow public abstract boolean isUsingItem();
+    @Shadow
+    public abstract boolean isUsingItem();
 
-    @Shadow public abstract ItemStack getStackInHand(Hand hand);
+    @Shadow
+    public abstract ItemStack getStackInHand(Hand hand);
 
     @Inject(method = "setHealth", at = @At("HEAD"))
     private void setHealth(float f, CallbackInfo info) {
