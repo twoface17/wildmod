@@ -5,6 +5,7 @@ import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.world.feature.WildConfiguredFeatures;
 import net.frozenblock.wildmod.world.feature.WildPlacedFeatures;
 import net.frozenblock.wildmod.world.gen.structure.BlockRotStructureProcessor;
+import net.frozenblock.wildmod.world.gen.structure.ancientcity.AncientCityGenerator;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.sound.MusicType;
@@ -12,6 +13,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.sound.MusicSound;
+import net.minecraft.structure.StructureSet;
 import net.minecraft.structure.processor.*;
 import net.minecraft.structure.rule.AlwaysTrueRuleTest;
 import net.minecraft.structure.rule.RandomBlockMatchRuleTest;
@@ -31,6 +33,9 @@ import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.carver.ConfiguredCarvers;
+import net.minecraft.world.gen.chunk.placement.RandomSpreadStructurePlacement;
+import net.minecraft.world.gen.chunk.placement.SpreadType;
+import net.minecraft.world.gen.chunk.placement.StructurePlacement;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
@@ -38,23 +43,21 @@ import net.minecraft.world.gen.placementmodifier.*;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
+import java.util.List;
+
 public class RegisterWorldgen {
 
     public static final RegistryKey<Biome> MANGROVE_SWAMP = register("mangrove_swamp");
     public static final RegistryKey<Biome> DEEP_DARK = register("deep_dark");
 
     public static final RegistryEntry<PlacedFeature> TREES_MANGROVE = WildPlacedFeatures.register("trees_mangrove", WildConfiguredFeatures.MANGROVE_VEGETATION, CountPlacementModifier.of(30), SquarePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(5), PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(MangroveWoods.MANGROVE_PROPAGULE.getDefaultState(), BlockPos.ORIGIN)));
-    //public static RegistryEntry<ConfiguredFeature<RandomFeatureConfig, ?>> MANGROVE_VEGETATION;
 
-    //public static RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> MANGROVE;
     public static final RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> BIRCH_NEW = WildConfiguredFeatures.register("birch", Feature.TREE, new TreeFeatureConfig.Builder(
             BlockStateProvider.of(MangroveWoods.MANGROVE_LOG),
             new StraightTrunkPlacer(7, 3, 9), BlockStateProvider.of(Blocks.BIRCH_LEAVES),
             new BlobFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0), 10),
             new TwoLayersFeatureSize(1, 0, 2)).ignoreVines()
             .build());
-
-    //public static final TreeDecoratorType<MangroveTreeDecorator> MANGROVE_TREE_DECORATOR = TreeDecoratorTypeInvoker.callRegister("rich_tree_decorator", MangroveTreeDecorator.CODEC);
 
     private static RegistryEntry<StructureProcessorList> registerList(String id, ImmutableList<StructureProcessor> processorList) {
         Identifier identifier = new Identifier(WildMod.MOD_ID, id);
@@ -146,6 +149,46 @@ public class RegisterWorldgen {
                     new ProtectedBlocksStructureProcessor(BlockTags.FEATURES_CANNOT_REPLACE)
             )
     );
+
+    public static final StructureFeature<StructurePoolFeatureConfig> ANCIENT_CITY_POOL = register(
+            "ancient_city", new JigsawFeature(StructurePoolFeatureConfig.CODEC, -51, true, false, context -> true), GenerationStep.Feature.SURFACE_STRUCTURES
+    );
+
+    public static final RegistryKey<StructureSet> ANCIENT_CITIES_KEY = RegistryKey.of(Registry.STRUCTURE_SET_KEY, new Identifier(WildMod.MOD_ID, "ancient_cities"));
+
+    public static final RegistryKey<ConfiguredStructureFeature<?, ?>> ANCIENT_CITY_CONFIGURED_KEY = RegistryKey.of(Registry.CONFIGURED_STRUCTURE_FEATURE_KEY, new Identifier(WildMod.MOD_ID, "ancient_city"));;
+
+    public static final RegistryEntry<ConfiguredStructureFeature<?, ?>> ANCIENT_CITY_CONFIGURED = register(
+            ANCIENT_CITY_CONFIGURED_KEY,
+            ANCIENT_CITY_POOL.configure(new StructurePoolFeatureConfig(AncientCityGenerator.CITY_CENTER, 7), RegisterTags.ANCIENT_CITY_HAS_STRUCTURE)
+    );
+
+    public static final RegistryEntry<StructureSet> ANCIENT_CITIES = register(
+            ANCIENT_CITIES_KEY,
+            ANCIENT_CITY_CONFIGURED,
+            new RandomSpreadStructurePlacement(24, 8, SpreadType.LINEAR, 20083232)
+    );
+
+    private static <FC extends FeatureConfig, F extends StructureFeature<FC>> RegistryEntry<ConfiguredStructureFeature<?, ?>> register(
+            RegistryKey<ConfiguredStructureFeature<?, ?>> key, ConfiguredStructureFeature<FC, F> configuredStructureFeature
+    ) {
+        return BuiltinRegistries.add(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, key, configuredStructureFeature);
+    }
+
+    private static <F extends StructureFeature<?>> F register(String name, F structureFeature, GenerationStep.Feature step) {
+        StructureFeature.STRUCTURE_TO_GENERATION_STEP.put(structureFeature, step);
+        return Registry.register(Registry.STRUCTURE_FEATURE, new Identifier(WildMod.MOD_ID, name), structureFeature);
+    }
+
+    static RegistryEntry<StructureSet> register(RegistryKey<StructureSet> key, StructureSet structureSet) {
+        return BuiltinRegistries.add(BuiltinRegistries.STRUCTURE_SET, key, structureSet);
+    }
+
+    static RegistryEntry<StructureSet> register(
+            RegistryKey<StructureSet> key, RegistryEntry<ConfiguredStructureFeature<?, ?>> configuredStructureFigure, StructurePlacement placement
+    ) {
+        return register(key, new StructureSet(configuredStructureFigure, placement));
+    }
 
     /*public static final RegistryEntry<Structure> ANCIENT_CITY = register(
                     StructureTypeKeys.ANCIENT_CITY,
