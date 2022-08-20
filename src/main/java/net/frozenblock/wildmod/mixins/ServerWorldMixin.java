@@ -56,12 +56,12 @@ public abstract class ServerWorldMixin implements WildServerWorld {
         WildGameEvent.Emitter emitter = WildGameEvent.Emitter.of(entity);
         int i = event.getRange();
         BlockPos blockPos = new BlockPos(emitterPos);
-        int j = ChunkSectionPos.getSectionCoord(blockPos.getX() - i);
-        int k = ChunkSectionPos.getSectionCoord(blockPos.getY() - i);
-        int l = ChunkSectionPos.getSectionCoord(blockPos.getZ() - i);
-        int m = ChunkSectionPos.getSectionCoord(blockPos.getX() + i);
-        int n = ChunkSectionPos.getSectionCoord(blockPos.getY() + i);
-        int o = ChunkSectionPos.getSectionCoord(blockPos.getZ() + i);
+        int j = WildChunkSectionPos.getSectionCoord(blockPos.getX() - i);
+        int k = WildChunkSectionPos.getSectionCoord(blockPos.getY() - i);
+        int l = WildChunkSectionPos.getSectionCoord(blockPos.getZ() - i);
+        int m = WildChunkSectionPos.getSectionCoord(blockPos.getX() + i);
+        int n = WildChunkSectionPos.getSectionCoord(blockPos.getY() + i);
+        int o = WildChunkSectionPos.getSectionCoord(blockPos.getZ() + i);
         List<WildGameEvent.Message> list = new ArrayList<>();
         boolean bl = false;
 

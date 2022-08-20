@@ -1,10 +1,10 @@
 package net.frozenblock.wildmod.misc;
 
-import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.gen.random.AbstractRandom;
 
+import java.util.Random;
 import java.util.UUID;
 
 public class AdvancedMath extends MathHelper {
@@ -29,7 +29,7 @@ public class AdvancedMath extends MathHelper {
         }
 
     });
-    private static final AbstractRandom RANDOM = WildAbstractRandom.createBlocking();
+    private static final AbstractRandom RANDOM = WildRandomUtils.createBlocking();
     private static final int[] MULTIPLY_DE_BRUIJN_BIT_POSITION = new int[]{
             0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9
     };
@@ -117,7 +117,7 @@ public class AdvancedMath extends MathHelper {
         return abstractRandom.nextFloat() * (max - min) + min;
     }
 
-    public static UUID randomUuid(WildAbstractRandom random) {
+    public static UUID randomUuid(Random random) {
         long l = random.nextLong() & -61441L | 16384L;
         long m = random.nextLong() & 4611686018427387903L | Long.MIN_VALUE;
         return new UUID(l, m);

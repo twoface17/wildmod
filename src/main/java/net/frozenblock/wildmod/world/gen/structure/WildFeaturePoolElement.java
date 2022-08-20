@@ -27,19 +27,19 @@ import net.minecraft.world.gen.random.AbstractRandom;
 import java.util.List;
 import java.util.Random;
 
-import static net.frozenblock.wildmod.world.gen.structure.StructurePoolElement.projectionGetter;
+import static net.frozenblock.wildmod.world.gen.structure.WildStructurePoolElement.projectionGetter;
 
-public class FeaturePoolElement extends net.minecraft.structure.pool.FeaturePoolElement {
-    public static final Codec<FeaturePoolElement> CODEC = RecordCodecBuilder.create(
+public class WildFeaturePoolElement extends net.minecraft.structure.pool.FeaturePoolElement {
+    public static final Codec<WildFeaturePoolElement> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                             PlacedFeature.REGISTRY_CODEC.fieldOf("feature").forGetter(featurePoolElement -> featurePoolElement.feature), projectionGetter()
                     )
-                    .apply(instance, FeaturePoolElement::new)
+                    .apply(instance, WildFeaturePoolElement::new)
     );
     private final RegistryEntry<PlacedFeature> feature;
     private final NbtCompound nbt;
 
-    protected FeaturePoolElement(RegistryEntry<PlacedFeature> feature, StructurePool.Projection projection) {
+    protected WildFeaturePoolElement(RegistryEntry<PlacedFeature> feature, StructurePool.Projection projection) {
         super(feature, projection);
         this.feature = feature;
         this.nbt = this.createDefaultJigsawNbt();

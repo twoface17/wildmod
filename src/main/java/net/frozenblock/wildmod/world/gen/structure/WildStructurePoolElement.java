@@ -6,10 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.frozenblock.wildmod.WildMod;
 import net.minecraft.structure.Structure;
 import net.minecraft.structure.StructureManager;
-import net.minecraft.structure.pool.EmptyPoolElement;
-import net.minecraft.structure.pool.ListPoolElement;
-import net.minecraft.structure.pool.StructurePool;
-import net.minecraft.structure.pool.StructurePoolElementType;
+import net.minecraft.structure.pool.*;
 import net.minecraft.structure.processor.StructureProcessorList;
 import net.minecraft.structure.processor.StructureProcessorLists;
 import net.minecraft.util.BlockRotation;
@@ -32,7 +29,7 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public abstract class StructurePoolElement {
+public abstract class WildStructurePoolElement {
     public static final Codec<net.minecraft.structure.pool.StructurePoolElement> CODEC = Registry.STRUCTURE_POOL_ELEMENT
             .getCodec()
             .dispatch("element_type", net.minecraft.structure.pool.StructurePoolElement::getType, StructurePoolElementType::codec);
@@ -43,7 +40,7 @@ public abstract class StructurePoolElement {
         return StructurePool.Projection.CODEC.fieldOf("projection").forGetter(net.minecraft.structure.pool.StructurePoolElement::getProjection);
     }
 
-    protected StructurePoolElement(StructurePool.Projection projection) {
+    protected WildStructurePoolElement(StructurePool.Projection projection) {
         this.projection = projection;
     }
 
@@ -75,7 +72,7 @@ public abstract class StructurePoolElement {
     ) {
     }
 
-    public StructurePoolElement setProjection(StructurePool.Projection projection) {
+    public WildStructurePoolElement setProjection(StructurePool.Projection projection) {
         this.projection = projection;
         return this;
     }
@@ -105,21 +102,21 @@ public abstract class StructurePoolElement {
         return projection -> new LegacySinglePoolElement(Either.left(new Identifier(WildMod.MOD_ID, id)), registryEntry, projection);
     }
 
-    public static Function<StructurePool.Projection, SinglePoolElement> ofSingle(String id) {
-        return projection -> new SinglePoolElement(Either.left(new Identifier(WildMod.MOD_ID, id)), StructureProcessorLists.EMPTY, projection);
+    public static Function<StructurePool.Projection, WildSinglePoolElement> ofSingle(String id) {
+        return projection -> new WildSinglePoolElement(Either.left(new Identifier(WildMod.MOD_ID, id)), StructureProcessorLists.EMPTY, projection);
     }
 
-    public static Function<StructurePool.Projection, SinglePoolElement> ofProcessedSingle(String id, RegistryEntry<StructureProcessorList> registryEntry) {
-        return projection -> new SinglePoolElement(Either.left(new Identifier(WildMod.MOD_ID, id)), registryEntry, projection);
+    public static Function<StructurePool.Projection, WildSinglePoolElement> ofProcessedSingle(String id, RegistryEntry<StructureProcessorList> registryEntry) {
+        return projection -> new WildSinglePoolElement(Either.left(new Identifier(WildMod.MOD_ID, id)), registryEntry, projection);
     }
 
-    public static Function<StructurePool.Projection, net.frozenblock.wildmod.world.gen.structure.FeaturePoolElement> ofFeature(RegistryEntry<PlacedFeature> registryEntry) {
-        return projection -> new FeaturePoolElement(registryEntry, projection);
+    public static Function<StructurePool.Projection, WildFeaturePoolElement> ofFeature(RegistryEntry<PlacedFeature> registryEntry) {
+        return projection -> new WildFeaturePoolElement(registryEntry, projection);
     }
 
-    public static Function<StructurePool.Projection, ListPoolElement> ofList(List<Function<StructurePool.Projection, ? extends net.minecraft.structure.pool.StructurePoolElement>> list) {
+    public static Function<StructurePool.Projection, ListPoolElement> ofList(List<Function<StructurePool.Projection, ? extends StructurePoolElement>> list) {
         return projection -> new ListPoolElement(
-                list.stream().map(function -> (net.minecraft.structure.pool.StructurePoolElement) function.apply(projection)).collect(Collectors.toList()), projection
+                list.stream().map(function -> function.apply(projection)).collect(Collectors.toList()), projection
         );
     }
 }

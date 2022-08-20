@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
-import frozenblock.wild.mod.worldgen.random.WildAbstractRandom;
+import frozenblock.wild.mod.worldgen.random.WildRandomUtils;
 import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
@@ -119,7 +119,7 @@ public class ServerPlayerEntity extends net.minecraft.server.network.ServerPlaye
     private Vec3d enteredNetherPos;
     @Nullable
     private Vec3d vehicleInLavaRidingPos;
-    private ChunkSectionPos watchedSection = ChunkSectionPos.from(0, 0, 0);
+    private WildChunkSectionPos watchedSection = WildChunkSectionPos.from(0, 0, 0);
     private RegistryKey<World> spawnPointDimension = World.OVERWORLD;
     @Nullable
     private BlockPos spawnPointPosition;
@@ -200,7 +200,7 @@ public class ServerPlayerEntity extends net.minecraft.server.network.ServerPlaye
             long m = l * l;
             int k = m > 2147483647L ? Integer.MAX_VALUE : (int)m;
             int n = this.calculateSpawnOffsetMultiplier(k);
-            int o = WildAbstractRandom.createAtomic().nextInt(k);
+            int o = WildRandomUtils.createAtomic().nextInt(k);
 
             for(int p = 0; p < k; ++p) {
                 int q = (o + n * p) % k;
@@ -1404,11 +1404,11 @@ public class ServerPlayerEntity extends net.minecraft.server.network.ServerPlaye
 
     }
 
-    public ChunkSectionPos getWatchedSection() {
+    public WildChunkSectionPos getWatchedSection() {
         return this.watchedSection;
     }
 
-    public void setWatchedSection(ChunkSectionPos section) {
+    public void setWatchedSection(WildChunkSectionPos section) {
         this.watchedSection = section;
     }
 

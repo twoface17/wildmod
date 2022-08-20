@@ -4,7 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import net.frozenblock.wildmod.entity.TadpoleEntity;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterSounds;
-import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
+import net.frozenblock.wildmod.misc.WildRandomUtils;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -44,11 +44,11 @@ public class FrogspawnBlock extends Block {
     }
 
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-        world.createAndScheduleBlockTick(pos, this, getHatchTime((WildAbstractRandom) world.getRandom()));
+        world.createAndScheduleBlockTick(pos, this, getHatchTime(world.getRandom()));
     }
 
-    private static int getHatchTime(WildAbstractRandom random) {
-        return random.nextBetweenExclusive(minHatchTime, maxHatchTime);
+    private static int getHatchTime(Random random) {
+        return WildRandomUtils.nextBetweenExclusive(random, minHatchTime, maxHatchTime);
     }
 
     public BlockState getStateForNeighborUpdate(
@@ -59,11 +59,12 @@ public class FrogspawnBlock extends Block {
                 : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
+    @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!this.canPlaceAt(state, world, pos)) {
             this.breakWithoutDrop(world, pos);
         } else {
-            this.hatch(world, pos, (WildAbstractRandom) random);
+            this.hatch(world, pos, random);
         }
     }
 
@@ -80,7 +81,7 @@ public class FrogspawnBlock extends Block {
         return fluidState.getFluid() == Fluids.WATER && fluidState2.getFluid() == Fluids.EMPTY;
     }
 
-    private void hatch(ServerWorld world, BlockPos pos, WildAbstractRandom random) {
+    private void hatch(ServerWorld world, BlockPos pos, Random random) {
         this.breakWithoutDrop(world, pos);
         world.playSound(null, pos, RegisterSounds.BLOCK_FROGSPAWN_HATCH, SoundCategory.BLOCKS, 1.0F, 1.0F);
         this.spawnTadpoles(world, pos, random);
@@ -90,8 +91,8 @@ public class FrogspawnBlock extends Block {
         world.breakBlock(pos, false);
     }
 
-    private void spawnTadpoles(ServerWorld world, BlockPos pos, WildAbstractRandom random) {
-        int i = random.nextBetweenExclusive(2, 6);
+    private void spawnTadpoles(ServerWorld world, BlockPos pos, Random random) {
+        int i = WildRandomUtils.nextBetweenExclusive(random, 2, 6);
 
         for (int j = 1; j <= i; ++j) {
             TadpoleEntity tadpoleEntity = RegisterEntities.TADPOLE.create(world);
@@ -99,7 +100,8 @@ public class FrogspawnBlock extends Block {
             double e = random.nextDouble();
             double f = (double) pos.getX() + d;
             double g = (double) pos.getZ() + e;
-            int k = random.nextBetweenExclusive(1, 361);
+            int k = WildRandomUtils.nextBetweenExclusive(random, 1, 361);
+            assert tadpoleEntity != null;
             tadpoleEntity.refreshPositionAndAngles(f, (double) pos.getY() - 0.5, g, (float) k, 0.0F);
             tadpoleEntity.setPersistent();
             world.spawnEntity(tadpoleEntity);

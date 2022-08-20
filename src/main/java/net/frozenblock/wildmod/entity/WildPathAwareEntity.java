@@ -1,6 +1,5 @@
 package net.frozenblock.wildmod.entity;
 
-import net.frozenblock.wildmod.event.EntityGameEventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -14,6 +13,7 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.event.listener.EntityGameEventHandler;
 
 import java.util.function.BiConsumer;
 
@@ -84,10 +84,6 @@ public abstract class WildPathAwareEntity extends PathAwareEntity {
     protected void updateForLeashLength(float leashLength) {
     }
 
-    public boolean disablesShield() {
-        return this.getMainHandStack().getItem() instanceof AxeItem;
-    }
-
-    public void updateEventHandler(BiConsumer<EntityGameEventHandler<?>, ServerWorld> callback) {
+    public void updateEventHandler(BiConsumer<EntityGameEventHandler, ServerWorld> callback) {
     }
 }

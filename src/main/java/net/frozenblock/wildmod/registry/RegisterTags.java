@@ -33,7 +33,7 @@ public class RegisterTags {
 
     public static final TagKey<Biome> ALLOWS_TROPICAL_FISH_SPAWNS_AT_ANY_HEIGHT = ofBiome("allows_tropical_fish_spawns_at_any_height");
     public static final TagKey<Biome> ALLOWS_SURFACE_SLIME_SPAWNS = ofBiome("allows_surface_slime_spawns");
-    public static final TagKey<Biome> ANCIENT_CITY_HAS_STRUCTURE = ofBiome("ancient_city_has_structure");
+    public static final TagKey<Biome> ANCIENT_CITY_HAS_STRUCTURE = ofBiome("has_structure/ancient_city");
     public static final TagKey<Biome> HAS_CLOSER_WATER_FOG = ofBiome("has_closer_water_fog");
     public static final TagKey<Biome> IS_DEEP_OCEAN = ofBiome("is_deep_ocean");
     public static final TagKey<Biome> IS_OCEAN = ofBiome("is_ocean");

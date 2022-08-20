@@ -13,7 +13,7 @@ public class WildDirection {
     }
 
     public static Collection<Direction> shuffle(Random random) {
-        return WildUtil.copyShuffled(Direction.values(), random);
+        return WildUtils.copyShuffled(Direction.values(), random);
     }
 
 }

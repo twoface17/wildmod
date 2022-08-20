@@ -11,6 +11,7 @@ import net.frozenblock.wildmod.entity.ai.WardenBrain;
 import net.frozenblock.wildmod.fromAccurateSculk.ActivatorGrower;
 import net.frozenblock.wildmod.fromAccurateSculk.BrokenSculkGrower;
 import net.frozenblock.wildmod.misc.Angriness;
+import net.frozenblock.wildmod.misc.WildLivingEntity;
 import net.frozenblock.wildmod.misc.WildPlayerEntity;
 import net.frozenblock.wildmod.registry.RegisterBlocks;
 import net.frozenblock.wildmod.registry.RegisterEntities;
@@ -88,14 +89,8 @@ public abstract class PlayerEntityMixin implements WildPlayerEntity {
 
     @Inject(method = "takeShieldHit", at = @At("HEAD"))
     protected void takeShieldHit(LivingEntity attacker, CallbackInfo ci) {
-        if (attacker instanceof WildHostileEntity wildHostileEntity) {
-            if (wildHostileEntity.disablesShield()) {
-                this.disableShield(true);
-            }
-        } else if (attacker instanceof WildPathAwareEntity wildPathAwareEntity) {
-            if (wildPathAwareEntity.disablesShield()) {
-                this.disableShield(true);
-            }
+        if (((WildLivingEntity) attacker).disablesShield()) {
+            this.disableShield(true);
         }
     }
 

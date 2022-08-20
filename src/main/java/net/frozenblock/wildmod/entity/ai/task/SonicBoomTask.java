@@ -44,14 +44,14 @@ public class SonicBoomTask extends Task<WardenEntity> {
         return true;
     }
 
-    protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
-        wardenEntity.getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, (long) RUN_TIME);
-        wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY, Unit.INSTANCE, (long) SOUND_DELAY);
+    protected void run(ServerWorld serverWorld, WardenEntity wardenEntity, long time) {
+        wardenEntity.getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, RUN_TIME);
+        wardenEntity.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY, Unit.INSTANCE, SOUND_DELAY);
         serverWorld.sendEntityStatus(wardenEntity, (byte) 62);
         wardenEntity.playSound(RegisterSounds.ENTITY_WARDEN_SONIC_CHARGE, 3.0F, 1.0F);
     }
 
-    protected void keepRunning(ServerWorld serverWorld, WardenEntity wardenEntity, long l) {
+    protected void keepRunning(ServerWorld serverWorld, WardenEntity wardenEntity, long time) {
         wardenEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).ifPresent(target -> wardenEntity.getLookControl().lookAt(target.getPos()));
         if (!wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.SONIC_BOOM_SOUND_DELAY)
                 && !wardenEntity.getBrain().hasMemoryModule(RegisterMemoryModules.SONIC_BOOM_SOUND_COOLDOWN)) {
@@ -61,29 +61,29 @@ public class SonicBoomTask extends Task<WardenEntity> {
                     .filter(wardenEntity::isValidTarget)
                     .filter(target -> wardenEntity.isInRange(target, 15.0, 20.0))
                     .ifPresent(target -> {
-                        Vec3d vec3d = wardenEntity.getPos().add(0.0, 1.6F, 0.0);
-                        Vec3d vec3d2 = target.getEyePos().subtract(vec3d);
-                        Vec3d vec3d3 = vec3d2.normalize();
+                        Vec3d wardenPos = wardenEntity.getPos().add(0.0, 1.6F, 0.0);
+                        Vec3d targetPos = target.getEyePos().subtract(wardenPos);
+                        Vec3d distance = targetPos.normalize();
 
-                        for (int i = 1; i < MathHelper.floor(vec3d2.length()) + 7; ++i) {
-                            Vec3d vec3d4 = vec3d.add(vec3d3.multiply((double) i));
+                        for (int i = 1; i < MathHelper.floor(targetPos.length()) + 7; ++i) {
+                            Vec3d vec3d4 = wardenPos.add(distance.multiply(i));
                             serverWorld.spawnParticles(RegisterParticles.SONIC_BOOM, vec3d4.x, vec3d4.y, vec3d4.z, 1, 0.0, 0.0, 0.0, 0.0);
                         }
 
                         wardenEntity.playSound(RegisterSounds.ENTITY_WARDEN_SONIC_BOOM, 3.0F, 1.0F);
                         target.damage(WildDamageSource.sonicBoom(wardenEntity), 10.0F);
-                        double d = 0.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
-                        double e = 2.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
-                        target.addVelocity(vec3d3.getX() * e, vec3d3.getY() * d, vec3d3.getZ() * e);
+                        double verticalKnockback = 0.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
+                        double horizontalKnockback = 2.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
+                        target.addVelocity(distance.getX() * horizontalKnockback, distance.getY() * verticalKnockback, distance.getZ() * horizontalKnockback);
                     });
         }
     }
 
     protected void finishRunning(ServerWorld serverWorld, WardenEntity wardenEntity, long time) {
-        cooldown(wardenEntity, 40);
+        cooldown(wardenEntity, 60L);
     }
 
-    public static void cooldown(LivingEntity warden, int cooldown) {
+    public static void cooldown(LivingEntity warden, long cooldown) {
         warden.getBrain().remember(RegisterMemoryModules.SONIC_BOOM_COOLDOWN, Unit.INSTANCE, cooldown);
     }
 }

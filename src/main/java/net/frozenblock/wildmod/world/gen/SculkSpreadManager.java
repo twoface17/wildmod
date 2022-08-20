@@ -11,7 +11,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.frozenblock.wildmod.block.deepdark.SculkVeinBlock;
-import net.frozenblock.wildmod.misc.WildUtil;
+import net.frozenblock.wildmod.misc.WildUtils;
 import net.frozenblock.wildmod.registry.RegisterSounds;
 import net.frozenblock.wildmod.registry.RegisterTags;
 import net.minecraft.block.Block;
@@ -303,7 +303,7 @@ public class SculkSpreadManager {
         }
 
         private static List<Vec3i> shuffleOffsets(Random random) {
-            return WildUtil.copyShuffled(OFFSETS, random);
+            return WildUtils.copyShuffled(OFFSETS, random);
         }
 
         @Nullable

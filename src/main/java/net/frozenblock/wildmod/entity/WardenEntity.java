@@ -5,13 +5,13 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Dynamic;
 import net.frozenblock.wildmod.WildMod;
 import net.frozenblock.wildmod.entity.ai.WardenBrain;
-import net.frozenblock.wildmod.entity.ai.WardenPositionSource;
 import net.frozenblock.wildmod.entity.ai.task.SonicBoomTask;
 import net.frozenblock.wildmod.entity.ai.task.UpdateAttackTargetTask;
 import net.frozenblock.wildmod.event.VibrationListener;
 import net.frozenblock.wildmod.event.WildEntityPositionSource;
 import net.frozenblock.wildmod.misc.Angriness;
 import net.frozenblock.wildmod.misc.WardenAngerManager;
+import net.frozenblock.wildmod.misc.WildEventHandler;
 import net.frozenblock.wildmod.misc.animation.AnimationState;
 import net.frozenblock.wildmod.registry.*;
 import net.minecraft.block.BlockRenderType;
@@ -33,6 +33,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
@@ -72,7 +73,7 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
      * ATTACKING {@link WardenEntity#tryAttack(Entity)}
      * NBT, VALUES & BOOLEANS {@link WardenEntity#writeCustomDataToNbt(NbtCompound)}
      * OVERRIDES & NON-WARDEN-SPECIFIC {@link WardenEntity#getHurtSound(DamageSource)}
-     * VISUAlS {@link WardenEntity#createVibration(ServerWorld, WardenEntity, BlockPos)}
+     * VISUAlS {@link #createVibration(ServerWorld, BlockPos)}
      * TICKMOVEMENT METHODS {@link WardenEntity#tickVibration()}
      * ALL VALUES ARE STORED AT THE END OF THIS MUSEUM.
      */
@@ -221,12 +222,12 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
             }
             this.queuedAnger = anger;
             if (vibrationPos != null) {
-                createVibration(serverWorld, this, vibrationPos);
+                createVibration(serverWorld, vibrationPos);
                 Vec3d start = Vec3d.ofCenter(vibrationPos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
             } else {
-                createVibration(serverWorld, this, pos);
+                createVibration(serverWorld, pos);
                 Vec3d start = Vec3d.ofCenter(pos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
@@ -234,12 +235,12 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         } else if (eventWorld instanceof ServerWorld serverworld && canListen(serverworld, pos, eventEntity)) {
             WardenBrain.resetDigCooldown(this);
             if (vibrationPos != null) {
-                createFloorVibration(serverworld, this, vibrationPos);
+                createFloorVibration(serverworld, vibrationPos);
                 Vec3d start = Vec3d.ofCenter(vibrationPos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
             } else {
-                createFloorVibration(serverworld, this, pos);
+                createFloorVibration(serverworld, pos);
                 Vec3d start = Vec3d.ofCenter(pos);
                 Vec3d end = Vec3d.ofCenter(this.getBlockPos());
                 this.vibrationTicks = MathHelper.floor(start.distanceTo(end));
@@ -435,10 +436,10 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
                 .resultOrPartial(LOGGER::error)
                 .ifPresent(angerNbt -> nbt.put("anger", angerNbt));
 
-        /*VibrationListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.gameEventHandler.getListener()).resultOrPartial(field_38138::error).ifPresent((nbtElement) -> {
+        VibrationListener.createCodec(this).encodeStart(NbtOps.INSTANCE, this.listener).resultOrPartial(LOGGER::error).ifPresent((nbtElement) -> {
             nbt.put("listener", nbtElement);
         });
-        */
+
         nbt.putLong("vibrationTimer", this.vibrationTimer);
         nbt.putString("trackingEntity", this.trackingEntity);
         nbt.putInt("nonEntityAnger", this.nonEntityAnger);
@@ -461,12 +462,12 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
             this.updateAnger();
         }
 
-        /*if (nbt.contains("listener", NbtElement.COMPOUND_TYPE)) {
-            VibrationListener.createCodec(this).parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener"))).resultOrPartial(field_38138::error).ifPresent((vibrationListener) -> {
-                this.gameEventHandler.setListener(vibrationListener, this.world);
+        if (nbt.contains("listener", NbtElement.COMPOUND_TYPE)) {
+            VibrationListener.createCodec(this).parse(new Dynamic<>(NbtOps.INSTANCE, nbt.getCompound("listener"))).resultOrPartial(LOGGER::error).ifPresent((vibrationListener) -> {
+                ((WildEventHandler<VibrationListener>) this.gameEventHandler).setListener(vibrationListener, this.world);
             });
         }
-        */
+
         this.vibrationTimer = nbt.getLong("vibrationTimer");
         this.trackingEntity = nbt.getString("trackingEntity");
         this.nonEntityAnger = nbt.getInt("nonEntityAnger");
@@ -585,13 +586,15 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         return false;
     }
 
+    private final WildEntityPositionSource positionSource;
+    private final VibrationListener listener;
     private final EntityGameEventHandler gameEventHandler;
 
     public WardenEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
-        this.gameEventHandler = new EntityGameEventHandler(
-                new VibrationListener(new WildEntityPositionSource(this, this.getStandingEyeHeight()), 16, this, null, 0.0F, 0)
-        );
+        this.positionSource = new WildEntityPositionSource(this, this.getStandingEyeHeight());
+        this.listener = new VibrationListener(this.positionSource, 16, this, null, 0.0F, 0);
+        this.gameEventHandler = new EntityGameEventHandler(this.listener);
         this.experiencePoints = 5;
         this.getNavigation().setCanSwim(true);
         this.setPathfindingPenalty(PathNodeType.UNPASSABLE_RAIL, 0.0F);
@@ -672,20 +675,19 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
     /**
      * VISUALS
      */
-    public void createVibration(ServerWorld world, WardenEntity warden, BlockPos blockPos2) {
-        WardenPositionSource wardenPositionSource = new WardenPositionSource(this.getId());
+    public void createVibration(ServerWorld world, BlockPos blockPos2) {
         Vec3d start = Vec3d.ofCenter(blockPos2);
         Vec3d end = Vec3d.ofCenter(this.getBlockPos());
         this.distance = (float) start.distanceTo(end);
         this.delay = MathHelper.floor(this.distance);
 
-        //world.sendVibrationPacket(new Vibration(blockPos2, wardenPositionSource, this.delay));
+        //world.sendVibrationPacket(new Vibration(blockPos2, this.positionSource, this.delay));
         if (WildMod.debugMode) {
             LOGGER.info("A Warden has created a Vibration");
         }
     }
 
-    public void createFloorVibration(ServerWorld world, WardenEntity warden, BlockPos blockPos2) {
+    public void createFloorVibration(ServerWorld world, BlockPos blockPos2) {
         BlockPositionSource blockSource = new BlockPositionSource(this.getBlockPos().down());
         EntityPositionSource entitySource = new EntityPositionSource(this.getId());
         Vec3d start = Vec3d.ofCenter(blockPos2);
@@ -719,24 +721,12 @@ public class WardenEntity extends WildHostileEntity implements VibrationListener
         if (POSE.equals(data)) {
             if (this.isInPose(WildMod.EMERGING)) {
                 this.emergingAnimationState.start(this.age);
-                if (WildMod.debugMode) {
-                    LOGGER.info("A Warden is emerging");
-                }
             } else if (this.isInPose(WildMod.DIGGING)) {
                 this.diggingAnimationState.start(this.age);
-                if (WildMod.debugMode) {
-                    LOGGER.info("A Warden is digging");
-                }
             } else if (this.isInPose(WildMod.ROARING)) {
                 this.roaringAnimationState.start(this.age);
-                if (WildMod.debugMode) {
-                    LOGGER.info("A Warden is roaring");
-                }
             } else if (this.isInPose(WildMod.SNIFFING)) {
                 this.sniffingAnimationState.start(this.age);
-                if (WildMod.debugMode) {
-                    LOGGER.info("A Warden is sniffing");
-                }
             }
         }
 

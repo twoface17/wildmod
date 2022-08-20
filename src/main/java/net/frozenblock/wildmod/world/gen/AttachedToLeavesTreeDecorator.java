@@ -3,7 +3,7 @@ package net.frozenblock.wildmod.world.gen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.frozenblock.wildmod.misc.WildUtil;
+import net.frozenblock.wildmod.misc.WildUtils;
 import net.frozenblock.wildmod.world.feature.WildTreeRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Util;
@@ -56,7 +56,7 @@ public class AttachedToLeavesTreeDecorator extends TreeDecorator {
     public void generate(TestableWorld level, BiConsumer<BlockPos, BlockState> replacer, Random random, List<BlockPos> trunkPositions, List<BlockPos> foliagePositions) {
         Set<BlockPos> set = new HashSet<>();
 
-        for (BlockPos blockPos : WildUtil.copyShuffled(new ObjectArrayList<>(foliagePositions), random)) {
+        for (BlockPos blockPos : WildUtils.copyShuffled(new ObjectArrayList<>(foliagePositions), random)) {
             Direction direction = Util.getRandom(this.directions, random);
             BlockPos blockPos2 = blockPos.offset(direction);
             if (!set.contains(blockPos2) && random.nextFloat() < this.probability && this.meetsRequiredEmptyBlocks(level, blockPos, direction)) {

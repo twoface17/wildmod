@@ -7,8 +7,8 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.frozenblock.wildmod.misc.WildUtil;
-import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
+import net.frozenblock.wildmod.misc.WildUtils;
+import net.frozenblock.wildmod.misc.WildRandomUtils;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.StructureBlockMode;
 import net.minecraft.structure.Structure;
@@ -32,12 +32,12 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Function;
 
-import static net.frozenblock.wildmod.world.gen.structure.StructurePoolElement.projectionGetter;
+import static net.frozenblock.wildmod.world.gen.structure.WildStructurePoolElement.projectionGetter;
 
-public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolElement {
-    private static final Codec<Either<Identifier, Structure>> LOCATION_CODEC = Codec.of(SinglePoolElement::encodeLocation, Identifier.CODEC.map(Either::left));
-    public static final Codec<SinglePoolElement> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(locationGetter(), processorsGetter(), projectionGetter()).apply(instance, SinglePoolElement::new)
+public class WildSinglePoolElement extends net.minecraft.structure.pool.SinglePoolElement {
+    private static final Codec<Either<Identifier, Structure>> LOCATION_CODEC = Codec.of(WildSinglePoolElement::encodeLocation, Identifier.CODEC.map(Either::left));
+    public static final Codec<WildSinglePoolElement> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(locationGetter(), processorsGetter(), projectionGetter()).apply(instance, WildSinglePoolElement::new)
     );
     protected final Either<Identifier, Structure> location;
     protected final RegistryEntry<StructureProcessorList> processors;
@@ -49,21 +49,21 @@ public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolEl
                 : Identifier.CODEC.encode(optional.get(), dynamicOps, object);
     }
 
-    protected static <E extends SinglePoolElement> RecordCodecBuilder<E, RegistryEntry<StructureProcessorList>> processorsGetter() {
+    protected static <E extends WildSinglePoolElement> RecordCodecBuilder<E, RegistryEntry<StructureProcessorList>> processorsGetter() {
         return StructureProcessorType.REGISTRY_CODEC.fieldOf("processors").forGetter(singlePoolElement -> singlePoolElement.processors);
     }
 
-    protected static <E extends SinglePoolElement> RecordCodecBuilder<E, Either<Identifier, Structure>> locationGetter() {
+    protected static <E extends WildSinglePoolElement> RecordCodecBuilder<E, Either<Identifier, Structure>> locationGetter() {
         return LOCATION_CODEC.fieldOf("location").forGetter(singlePoolElement -> singlePoolElement.location);
     }
 
-    public SinglePoolElement(Either<Identifier, Structure> location, RegistryEntry<StructureProcessorList> processors, StructurePool.Projection projection) {
+    public WildSinglePoolElement(Either<Identifier, Structure> location, RegistryEntry<StructureProcessorList> processors, StructurePool.Projection projection) {
         super(location, processors, projection);
         this.location = location;
         this.processors = processors;
     }
 
-    public SinglePoolElement(Structure structure) {
+    public WildSinglePoolElement(Structure structure) {
         this(Either.right(structure), StructureProcessorLists.EMPTY, StructurePool.Projection.RIGID);
     }
 
@@ -100,7 +100,7 @@ public class SinglePoolElement extends net.minecraft.structure.pool.SinglePoolEl
         ObjectArrayList<Structure.StructureBlockInfo> objectArrayList = (ObjectArrayList<Structure.StructureBlockInfo>) structure.getInfosForBlock(
                 pos, new StructurePlacementData().setRotation(rotation), Blocks.JIGSAW, true
         );
-        WildUtil.shuffle(objectArrayList, (WildAbstractRandom) random);
+        WildUtils.shuffle(objectArrayList, random);
         return objectArrayList;
     }
 

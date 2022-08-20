@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class ChunkSectionPos extends Vec3i {
+public class WildChunkSectionPos extends Vec3i {
     public static final int field_33096 = 4;
     public static final int field_33097 = 16;
     public static final int field_33100 = 15;
@@ -30,35 +30,35 @@ public class ChunkSectionPos extends Vec3i {
     private static final int field_33111 = 0;
     private static final int field_33112 = 4;
 
-    ChunkSectionPos(int i, int j, int k) {
+    WildChunkSectionPos(int i, int j, int k) {
         super(i, j, k);
     }
 
-    public static ChunkSectionPos from(int x, int y, int z) {
-        return new ChunkSectionPos(x, y, z);
+    public static WildChunkSectionPos from(int x, int y, int z) {
+        return new WildChunkSectionPos(x, y, z);
     }
 
-    public static ChunkSectionPos from(BlockPos pos) {
-        return new ChunkSectionPos(getSectionCoord(pos.getX()), getSectionCoord(pos.getY()), getSectionCoord(pos.getZ()));
+    public static WildChunkSectionPos from(BlockPos pos) {
+        return new WildChunkSectionPos(getSectionCoord(pos.getX()), getSectionCoord(pos.getY()), getSectionCoord(pos.getZ()));
     }
 
-    public static ChunkSectionPos from(ChunkPos chunkPos, int y) {
-        return new ChunkSectionPos(chunkPos.x, y, chunkPos.z);
+    public static WildChunkSectionPos from(ChunkPos chunkPos, int y) {
+        return new WildChunkSectionPos(chunkPos.x, y, chunkPos.z);
     }
 
-    public static ChunkSectionPos from(EntityLike entity) {
+    public static WildChunkSectionPos from(EntityLike entity) {
         return from(entity.getBlockPos());
     }
 
-    public static ChunkSectionPos from(Position pos) {
-        return new ChunkSectionPos(getSectionCoordFloored(pos.getX()), getSectionCoordFloored(pos.getY()), getSectionCoordFloored(pos.getZ()));
+    public static WildChunkSectionPos from(Position pos) {
+        return new WildChunkSectionPos(getSectionCoordFloored(pos.getX()), getSectionCoordFloored(pos.getY()), getSectionCoordFloored(pos.getZ()));
     }
 
-    public static ChunkSectionPos from(long packed) {
-        return new ChunkSectionPos(unpackX(packed), unpackY(packed), unpackZ(packed));
+    public static WildChunkSectionPos from(long packed) {
+        return new WildChunkSectionPos(unpackX(packed), unpackY(packed), unpackZ(packed));
     }
 
-    public static ChunkSectionPos from(Chunk chunk) {
+    public static WildChunkSectionPos from(Chunk chunk) {
         return from(chunk.getPos(), chunk.getBottomSectionCoord());
     }
 
@@ -215,34 +215,34 @@ public class ChunkSectionPos extends Vec3i {
         return asLong(this.getSectionX(), this.getSectionY(), this.getSectionZ());
     }
 
-    public ChunkSectionPos add(int i, int j, int k) {
-        return i == 0 && j == 0 && k == 0 ? this : new ChunkSectionPos(this.getSectionX() + i, this.getSectionY() + j, this.getSectionZ() + k);
+    public WildChunkSectionPos add(int i, int j, int k) {
+        return i == 0 && j == 0 && k == 0 ? this : new WildChunkSectionPos(this.getSectionX() + i, this.getSectionY() + j, this.getSectionZ() + k);
     }
 
     public Stream<BlockPos> streamBlocks() {
         return BlockPos.stream(this.getMinX(), this.getMinY(), this.getMinZ(), this.getMaxX(), this.getMaxY(), this.getMaxZ());
     }
 
-    public static Stream<ChunkSectionPos> stream(ChunkSectionPos center, int radius) {
+    public static Stream<WildChunkSectionPos> stream(WildChunkSectionPos center, int radius) {
         int i = center.getSectionX();
         int j = center.getSectionY();
         int k = center.getSectionZ();
         return stream(i - radius, j - radius, k - radius, i + radius, j + radius, k + radius);
     }
 
-    public static Stream<ChunkSectionPos> stream(ChunkPos center, int radius, int minY, int maxY) {
+    public static Stream<WildChunkSectionPos> stream(ChunkPos center, int radius, int minY, int maxY) {
         int i = center.x;
         int j = center.z;
         return stream(i - radius, minY, j - radius, i + radius, maxY - 1, j + radius);
     }
 
-    public static Stream<ChunkSectionPos> stream(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-        return StreamSupport.stream(new Spliterators.AbstractSpliterator<ChunkSectionPos>((long) (maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1), 64) {
+    public static Stream<WildChunkSectionPos> stream(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+        return StreamSupport.stream(new Spliterators.AbstractSpliterator<WildChunkSectionPos>((long) (maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1), 64) {
             final CuboidBlockIterator iterator = new CuboidBlockIterator(minX, minY, minZ, maxX, maxY, maxZ);
 
-            public boolean tryAdvance(Consumer<? super ChunkSectionPos> consumer) {
+            public boolean tryAdvance(Consumer<? super WildChunkSectionPos> consumer) {
                 if (this.iterator.step()) {
-                    consumer.accept(new ChunkSectionPos(this.iterator.getX(), this.iterator.getY(), this.iterator.getZ()));
+                    consumer.accept(new WildChunkSectionPos(this.iterator.getX(), this.iterator.getY(), this.iterator.getZ()));
                     return true;
                 } else {
                     return false;

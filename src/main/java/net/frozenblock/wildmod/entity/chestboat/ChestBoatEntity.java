@@ -1,5 +1,6 @@
 package net.frozenblock.wildmod.entity.chestboat;
 
+import net.frozenblock.wildmod.misc.RideableInventory;
 import net.frozenblock.wildmod.misc.VehicleInventory;
 import net.frozenblock.wildmod.registry.RegisterEntities;
 import net.frozenblock.wildmod.registry.RegisterItems;
@@ -7,6 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,6 +19,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.c2s.play.BoatPaddleStateC2SPacket;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -26,16 +30,19 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 import static net.frozenblock.wildmod.misc.WildBoatType.MANGROVE;
 
-public class ChestBoatEntity extends BoatEntity implements Inventory, VehicleInventory {
+public class ChestBoatEntity extends BoatEntity implements RideableInventory, Inventory, VehicleInventory {
     private static final int INVENTORY_SIZE = 27;
     private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
     private Identifier lootTableId;
@@ -59,6 +66,51 @@ public class ChestBoatEntity extends BoatEntity implements Inventory, VehicleInv
 
     protected int getMaxPassengers() {
         return 1;
+    }
+
+    @Override
+    protected void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        this.writeInventoryToNbt(nbt);
+    }
+
+    @Override
+    protected void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.readInventoryFromNbt(nbt);
+    }
+
+    public void dropItems(DamageSource source) {
+        this.onBroken(source, this.world, this);
+    }
+
+    public boolean damage(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
+            return false;
+        } else if (!this.world.isClient && !this.isRemoved()) {
+            this.setDamageWobbleSide(-this.getDamageWobbleSide());
+            this.setDamageWobbleTicks(10);
+            this.setDamageWobbleStrength(this.getDamageWobbleStrength() + amount * 10.0F);
+            this.scheduleVelocityUpdate();
+            this.emitGameEvent(GameEvent.ENTITY_DAMAGED, source.getAttacker());
+            boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity) source.getAttacker()).getAbilities().creativeMode;
+            if (bl || this.getDamageWobbleStrength() > 40.0F) {
+                if (!bl && this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+                    this.dropItems(source);
+                }
+            }
+        }
+
+        return super.damage(source, amount);
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        if (!this.world.isClient && reason.shouldDestroy()) {
+            ItemScatterer.spawn(this.world, this, this);
+        }
+
+        super.remove(reason);
     }
 
     @Override
@@ -192,39 +244,46 @@ public class ChestBoatEntity extends BoatEntity implements Inventory, VehicleInv
         return (other.isCollidable() || other.isPushable()) && !entity.isConnectedThroughVehicle(other);
     }
 
-    public Item asItem() {
-        if (this.getBoatType() == Type.SPRUCE) {
-            return RegisterItems.SPRUCE_CHEST_BOAT;
-        } else if (this.getBoatType() == Type.BIRCH) {
-            return RegisterItems.BIRCH_CHEST_BOAT;
-        } else if (this.getBoatType() == Type.JUNGLE) {
-            return RegisterItems.JUNGLE_CHEST_BOAT;
-        } else if (this.getBoatType() == Type.ACACIA) {
-            return RegisterItems.ACACIA_CHEST_BOAT;
-        } else if (this.getBoatType() == Type.DARK_OAK) {
-            return RegisterItems.DARK_OAK_CHEST_BOAT;
-        } else if (this.getBoatType() == MANGROVE) {
-            return RegisterItems.MANGROVE_CHEST_BOAT;
-        } else {
-            return RegisterItems.OAK_CHEST_BOAT;
-        }
-    }
-
-    @Override
-    protected void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        this.writeInventoryToNbt(nbt);
-    }
-
-    @Override
-    protected void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        this.readInventoryFromNbt(nbt);
-    }
-
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         return this.canAddPassenger(player) && !player.shouldCancelInteraction() ? super.interact(player, hand) : this.open(this::emitGameEvent, player);
+    }
+
+    @Override
+    public void openInventory(PlayerEntity player) {
+        player.openHandledScreen(this);
+        if (!player.world.isClient) {
+            this.emitGameEvent(GameEvent.CONTAINER_OPEN, player);
+            PiglinBrain.onGuardedBlockInteracted(player, true);
+        }
+
+    }
+
+    @Override
+    public Item asItem() {
+        switch (this.getBoatType()) {
+            case SPRUCE -> {
+                return RegisterItems.SPRUCE_CHEST_BOAT;
+            }
+            case BIRCH -> {
+                return RegisterItems.BIRCH_CHEST_BOAT;
+            }
+            case JUNGLE -> {
+                return RegisterItems.JUNGLE_CHEST_BOAT;
+            }
+            case ACACIA -> {
+                return RegisterItems.ACACIA_CHEST_BOAT;
+            }
+            case DARK_OAK -> {
+                return RegisterItems.DARK_OAK_CHEST_BOAT;
+            }
+            default -> {
+                if (this.getBoatType() == MANGROVE) {
+                    return RegisterItems.MANGROVE_CHEST_BOAT;
+                }
+                return RegisterItems.OAK_CHEST_BOAT;
+            }
+        }
     }
 
     @Override

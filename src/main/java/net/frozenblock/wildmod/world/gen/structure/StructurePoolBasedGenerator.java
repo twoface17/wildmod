@@ -9,7 +9,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.*;
 import net.minecraft.structure.pool.EmptyPoolElement;
 import net.minecraft.structure.pool.StructurePool;
-import net.minecraft.structure.pool.StructurePoolElement;
+import net.minecraft.structure.pool.WildStructurePoolElement;
 import net.minecraft.structure.pool.StructurePools;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
@@ -55,7 +55,7 @@ public class StructurePoolBasedGenerator {
         Registry<StructurePool> registry = dynamicRegistryManager.get(Registry.STRUCTURE_POOL_KEY);
         BlockRotation blockRotation = BlockRotation.random(chunkRandom);
         StructurePool structurePool = registryEntry.value();
-        StructurePoolElement structurePoolElement = structurePool.getRandomElement(chunkRandom);
+        WildStructurePoolElement structurePoolElement = structurePool.getRandomElement(chunkRandom);
         if (structurePoolElement == EmptyPoolElement.INSTANCE) {
             return Optional.empty();
         } else {
@@ -129,7 +129,7 @@ public class StructurePoolBasedGenerator {
     }
 
     private static Optional<BlockPos> method_43566(
-            StructurePoolElement structurePoolElement,
+            WildStructurePoolElement structurePoolElement,
             Identifier identifier,
             BlockPos blockPos,
             BlockRotation blockRotation,
@@ -254,7 +254,7 @@ public class StructurePoolBasedGenerator {
         void generatePiece(
                 PoolStructurePiece piece, MutableObject<VoxelShape> pieceShape, int minY, boolean modifyBoundingBox, HeightLimitView world, NoiseConfig noiseConfig
         ) {
-            StructurePoolElement structurePoolElement = piece.getPoolElement();
+            WildStructurePoolElement structurePoolElement = piece.getPoolElement();
             BlockPos blockPos = piece.getPos();
             BlockRotation blockRotation = piece.getRotation();
             StructurePool.Projection projection = structurePoolElement.getProjection();
@@ -289,14 +289,14 @@ public class StructurePoolBasedGenerator {
                             mutableObject2 = pieceShape;
                         }
 
-                        List<StructurePoolElement> list = Lists.newArrayList();
+                        List<WildStructurePoolElement> list = Lists.newArrayList();
                         if (minY != this.maxSize) {
                             list.addAll(((StructurePool)optional.get()).getElementIndicesInRandomOrder(this.random));
                         }
 
                         list.addAll(((StructurePool)optional2.get()).getElementIndicesInRandomOrder(this.random));
 
-                        for(StructurePoolElement structurePoolElement2 : list) {
+                        for(WildStructurePoolElement structurePoolElement2 : list) {
                             if (structurePoolElement2 == EmptyPoolElement.INSTANCE) {
                                 break;
                             }

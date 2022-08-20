@@ -72,10 +72,6 @@ public class FireflyEntity extends WildPathAwareEntity implements Flutterer {
         return false;
     }
 
-    public boolean disablesShield() {
-        return false;
-    }
-
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putBoolean("spawnSet", this.spawnSet);

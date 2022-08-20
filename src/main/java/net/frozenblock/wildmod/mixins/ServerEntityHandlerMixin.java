@@ -15,10 +15,10 @@ public final class ServerEntityHandlerMixin {
     @Inject(method = "startTracking(Lnet/minecraft/entity/Entity;)V", at = @At("TAIL"))
     public void startTracking(Entity entity, CallbackInfo ci) {
         if (entity instanceof WildHostileEntity wildHostileEntity) {
-            //wildHostileEntity.updateEventHandler(EntityGameEventHandler::onEntitySetPosCallback);
+            //wildHostileEntity.updateEventHandler(WildEntityGameEventHandler::onEntitySetPosCallback);
             // my brain cant understand this aaa
         } else if (entity instanceof WildPathAwareEntity wildPathAwareEntity) {
-            //wildPathAwareEntity.updateEventHandler(EntityGameEventHandler::onEntitySetPosCallback);
+            //wildPathAwareEntity.updateEventHandler(WildEntityGameEventHandler::onEntitySetPosCallback);
             // my brain cant understand this aaa
         }
     }
@@ -26,10 +26,10 @@ public final class ServerEntityHandlerMixin {
     @Inject(method = "stopTracking(Lnet/minecraft/entity/Entity;)V", at = @At("TAIL"))
     public void stopTracking(Entity entity, CallbackInfo ci) {
         if (entity instanceof WildHostileEntity wildHostileEntity) {
-            //wildHostileEntity.updateEventHandler(EntityGameEventHandler::onEntityRemoval);
+            //wildHostileEntity.updateEventHandler(WildEntityGameEventHandler::onEntityRemoval);
             // my brain cant understand this aaa
         } else if (entity instanceof WildPathAwareEntity wildPathAwareEntity) {
-            //wildPathAwareEntity.updateEventHandler(EntityGameEventHandler::onEntityRemoval);
+            //wildPathAwareEntity.updateEventHandler(WildEntityGameEventHandler::onEntityRemoval);
             // my brain cant understand this aaa
         }
     }

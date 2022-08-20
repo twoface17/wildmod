@@ -6,7 +6,7 @@ import net.frozenblock.wildmod.items.InstrumentTags;
 import net.frozenblock.wildmod.misc.WildGoat;
 import net.frozenblock.wildmod.registry.RegisterItems;
 import net.frozenblock.wildmod.registry.WildRegistry;
-import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
+import net.frozenblock.wildmod.misc.WildRandomUtils;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -38,7 +38,7 @@ public abstract class GoatEntityMixin implements WildGoat {
 
     public ItemStack method_43690() {
         GoatEntity goat = GoatEntity.class.cast(this);
-        AbstractRandom abstractRandom = WildAbstractRandom.createAtomic(goat.getUuid().hashCode());
+        AbstractRandom abstractRandom = WildRandomUtils.createAtomic(goat.getUuid().hashCode());
         TagKey<Instrument> tagKey = this.isScreaming() ? InstrumentTags.SCREAMING_GOAT_HORNS : InstrumentTags.REGULAR_GOAT_HORNS;
         RegistryEntryList<Instrument> registryEntryList = WildRegistry.INSTRUMENT.getOrCreateEntryList(tagKey);
         return GoatHornItem.getStackForInstrument(RegisterItems.GOAT_HORN, registryEntryList.getRandom((Random) abstractRandom).get());

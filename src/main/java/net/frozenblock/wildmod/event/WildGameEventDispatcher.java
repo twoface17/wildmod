@@ -2,8 +2,8 @@ package net.frozenblock.wildmod.event;
 
 import net.minecraft.util.math.Vec3d;
 
-public interface GameEventDispatcher {
-    GameEventDispatcher EMPTY = new GameEventDispatcher() {
+public interface WildGameEventDispatcher {
+    WildGameEventDispatcher EMPTY = new WildGameEventDispatcher() {
         @Override
         public boolean isEmpty() {
             return true;

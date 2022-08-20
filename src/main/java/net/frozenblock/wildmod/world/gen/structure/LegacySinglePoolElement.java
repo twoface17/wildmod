@@ -14,9 +14,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.registry.RegistryEntry;
 
-import static net.frozenblock.wildmod.world.gen.structure.StructurePoolElement.projectionGetter;
+import static net.frozenblock.wildmod.world.gen.structure.WildStructurePoolElement.projectionGetter;
 
-public class LegacySinglePoolElement extends SinglePoolElement {
+public class LegacySinglePoolElement extends WildSinglePoolElement {
     public static final Codec<LegacySinglePoolElement> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(locationGetter(), processorsGetter(), projectionGetter()).apply(instance, LegacySinglePoolElement::new)
     );

@@ -7,7 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.frozenblock.wildmod.world.gen.random.WildAbstractRandom;
+import net.frozenblock.wildmod.misc.WildRandomUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Program;
 import net.minecraft.client.gl.ShaderEffect;
@@ -50,7 +50,7 @@ public class WildGameRenderer extends net.minecraft.client.render.GameRenderer {
     private final ShaderEffect shader;
     private final MinecraftClient client;
     private final ResourceManager resourceManager;
-    private final AbstractRandom random = WildAbstractRandom.createAtomic();
+    private final AbstractRandom random = WildRandomUtils.createAtomic();
     private float viewDistance;
     public final HeldItemRenderer firstPersonRenderer;
     private final MapRenderer mapRenderer;

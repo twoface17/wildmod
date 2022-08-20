@@ -40,7 +40,7 @@ public class UpwardsBranchingTrunkPlacer extends TrunkPlacer {
     private final IntProvider extraBranchSteps;
     private final float placeBranchPerLogProbability;
     private final IntProvider extraBranchLength;
-    private final RegistryEntryList<Block> canGrowThrough;
+    public final RegistryEntryList<Block> canGrowThrough;
 
     public UpwardsBranchingTrunkPlacer(
             int baseHeight,

@@ -4,6 +4,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
+import net.frozenblock.wildmod.world.gen.UpwardsBranchingTrunkPlacer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
@@ -22,8 +23,10 @@ import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.TestableWorld;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.TreeFeature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
+import net.minecraft.world.gen.trunk.TrunkPlacer;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -84,12 +87,14 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
         int maxHeight = Math.max(pos.getY(), rootOffset.getY()) + trunkHeight + 1;
         if (minHeight >= world.getBottomY() + 1 && maxHeight <= world.getTopY()) {
             OptionalInt optionalInt = config.minimumSize.getMinClippedHeight();
-            if (this.getTopPosition(world, trunkHeight, pos, config) >= trunkHeight || optionalInt.isPresent() && this.getTopPosition(world, trunkHeight, pos, config) >= optionalInt.getAsInt()) {
-                if (config.rootPlacer.isPresent() && !config.rootPlacer.get().generate(world, rootsReplacer, random, pos, rootOffset, config)) {
+            if (this.getTopPosition(world, trunkHeight, rootOffset, config) >= trunkHeight || optionalInt.isPresent() && this.getTopPosition(world, trunkHeight, rootOffset, config) >= optionalInt.getAsInt()) {
+                if (config.rootPlacer.isPresent() && !(config.rootPlacer.get()).generate(world, rootsReplacer, random, pos, rootOffset, config)) {
                     return false;
                 } else {
-                    List<FoliagePlacer.TreeNode> list = config.trunkPlacer.generate(world, trunkReplacer, random, this.getTopPosition(world, trunkHeight, pos, config), pos, config);
-                    list.forEach(node -> config.foliagePlacer.generate(world, foliageReplacer, random, config, this.getTopPosition(world, trunkHeight, pos, config), node, foliageHeight, foliageRadius));
+                    List<FoliagePlacer.TreeNode> list = config.trunkPlacer.generate(world, trunkReplacer, random, this.getTopPosition(world, trunkHeight, rootOffset, config), rootOffset, config);
+                    list.forEach(
+                            node -> config.foliagePlacer.generate(world, foliageReplacer, random, config, this.getTopPosition(world, trunkHeight, rootOffset, config), node, foliageHeight, foliageRadius)
+                    );
                     return true;
                 }
             } else {
@@ -108,8 +113,25 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
 
             for (int k = -j; k <= j; ++k) {
                 for (int l = -j; l <= j; ++l) {
-                    mutable.set(pos, k, i, l);
-                    if (!canTreeReplace(world, mutable) || !config.ignoreVines && isVine(world, mutable)) {
+                    boolean bl;
+                    label: {
+                        mutable.set(pos, k, i, l);
+                        label2:
+                        if (!TreeFeature.canReplace(world, pos) && !world.testBlockState(pos, state -> state.isIn(BlockTags.LOGS))) {
+                            var var12 = config.trunkPlacer;
+                            if (var12 instanceof UpwardsBranchingTrunkPlacer trunk && world.testBlockState(pos, state -> state.isIn(trunk.canGrowThrough))) {
+                                break label2;
+                            }
+
+                            bl = false;
+                            break label;
+                        }
+
+                        bl = true;
+                    }
+
+                    boolean isValid = bl;
+                    if (!isValid || !config.ignoreVines && TreeFeature.isVine(world, mutable)) {
                         return i - 2;
                     }
                 }
@@ -119,19 +141,15 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
         return height;
     }
 
-    protected void setBlockState(ModifiableWorld world, BlockPos pos, BlockState state) {
-        setBlockStateWithoutUpdatingNeighbors(world, pos, state);
-    }
-
     public final boolean generate(FeatureContext<WildTreeFeatureConfig> context) {
         StructureWorldAccess world = context.getWorld();
         Random random = context.getRandom();
         BlockPos blockPos = context.getOrigin();
         WildTreeFeatureConfig treeFeatureConfig = context.getConfig();
-        Set<BlockPos> rootPos = Sets.newHashSet();
-        Set<BlockPos> trunkPos = Sets.newHashSet();
-        Set<BlockPos> foliagePos = Sets.newHashSet();
-        Set<BlockPos> decoratorPos = Sets.newHashSet();
+        HashSet<BlockPos> rootPos = Sets.newHashSet();
+        HashSet<BlockPos> trunkPos = Sets.newHashSet();
+        HashSet<BlockPos> foliagePos = Sets.newHashSet();
+        HashSet<BlockPos> decoratorPos = Sets.newHashSet();
         BiConsumer<BlockPos, BlockState> rootReplacer = (pos, state) -> {
             rootPos.add(pos.toImmutable());
             world.setBlockState(pos, state, 19);
@@ -148,11 +166,11 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
             decoratorPos.add(position.toImmutable());
             world.setBlockState(position, state, 19);
         };
-        boolean bl = this.generate(world, random, blockPos, rootReplacer, trunkReplacer, foliageReplacer, treeFeatureConfig);
-        if (bl && (!rootPos.isEmpty() || !trunkPos.isEmpty())) {
+        boolean generate = this.generate(world, random, blockPos, rootReplacer, trunkReplacer, foliageReplacer, treeFeatureConfig);
+        if (generate && (!trunkPos.isEmpty() || !foliagePos.isEmpty())) {
             if (!treeFeatureConfig.decorators.isEmpty()) {
-                List<BlockPos> rootPositions = Lists.newArrayList(rootPos);
-                List<BlockPos> trunkPositions = Lists.newArrayList(trunkPos);
+                ArrayList<BlockPos> rootPositions = Lists.newArrayList(rootPos);
+                ArrayList<BlockPos> trunkPositions = Lists.newArrayList(trunkPos);
                 ArrayList<BlockPos> foliagePositions = Lists.newArrayList(foliagePos);
                 trunkPositions.sort(Comparator.comparingInt(Vec3i::getY));
                 foliagePositions.sort(Comparator.comparingInt(Vec3i::getY));
@@ -160,8 +178,8 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
                 treeFeatureConfig.decorators.forEach(treeDecorator -> treeDecorator.generate(world, decoratorReplacer, random, trunkPositions, foliagePositions));
             }
 
-            return BlockBox.encompassPositions(Iterables.concat(rootPos, trunkPos, foliagePos)).map(box -> {
-                VoxelSet voxelSet = placeLogsAndLeaves(world, box, rootPos, foliagePos);
+            return BlockBox.encompassPositions(Iterables.concat(trunkPos, foliagePos, decoratorPos)).map(box -> {
+                VoxelSet voxelSet = placeLogsAndLeaves(world, box, trunkPos, decoratorPos);
                 Structure.updateCorner(world, 3, voxelSet, box.getMinX(), box.getMinY(), box.getMinZ());
                 return true;
             }).orElse(false);
@@ -171,8 +189,8 @@ public class WildTreeFeature extends Feature<WildTreeFeatureConfig> {
     }
 
     private static VoxelSet placeLogsAndLeaves(WorldAccess world, BlockBox box, Set<BlockPos> trunkPositions, Set<BlockPos> decorationPositions) {
-        List<Set<BlockPos>> list = Lists.newArrayList();
-        VoxelSet voxelSet = new BitSetVoxelSet(box.getBlockCountX(), box.getBlockCountY(), box.getBlockCountZ());
+        ArrayList<Set<BlockPos>> list = Lists.newArrayList();
+        BitSetVoxelSet voxelSet = new BitSetVoxelSet(box.getBlockCountX(), box.getBlockCountY(), box.getBlockCountZ());
         int i = 6;
 
         for (int j = 0; j < 6; ++j) {
