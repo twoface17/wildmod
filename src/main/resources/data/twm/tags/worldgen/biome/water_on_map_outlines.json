@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-	"#minecraft:is_ocean",
-	"#minecraft:is_river",
-	"minecraft:swamp",
-	"twm:mangrove_swamp"
-  ]
-}

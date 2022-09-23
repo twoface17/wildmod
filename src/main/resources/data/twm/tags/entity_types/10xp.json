@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-	"minecraft:blaze",
-	"minecraft:evoker",
-	"minecraft:elder_guardian",
-	"minecraft:guardian"
-  ]
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-	"layer0": "twm:item/music_disc_5"
-  }
-}
