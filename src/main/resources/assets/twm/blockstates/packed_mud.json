@@ -1,0 +1,7 @@
+{
+  "variants": {
+	"": {
+	  "model": "twm:block/packed_mud"
+	}
+  }
+}
