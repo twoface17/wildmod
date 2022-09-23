@@ -1,0 +1,70 @@
+accessWidener v1 named
+extendable    class    net/minecraft/client/model/ModelPart
+extendable    class    net/minecraft/server/world/ServerWorld$ServerEntityHandler
+extendable    class    net/minecraft/structure/pool/SinglePoolElement
+extendable    class    net/minecraft/structure/pool/LegacySinglePoolElement
+extendable    class    net/minecraft/world/biome/Biome$Weather
+extendable    class    net/minecraft/block/Material
+extendable    method    net/minecraft/block/AbstractBlock    getLootTableId    ()Lnet/minecraft/util/Identifier;
+accessible    method    net/minecraft/entity/damage/DamageSource    setBypassesArmor    ()Lnet/minecraft/entity/damage/DamageSource;
+accessible    field    net/minecraft/entity/ai/pathing/PathNodeNavigator    minHeap    Lnet/minecraft/entity/ai/pathing/PathMinHeap;
+accessible    field    net/minecraft/entity/ai/pathing/PathNodeNavigator    range    I
+accessible    method    net/minecraft/entity/ai/pathing/PathNodeNavigator    calculateDistances    (Lnet/minecraft/entity/ai/pathing/PathNode;Ljava/util/Set;)F
+accessible    field    net/minecraft/entity/ai/pathing/PathNodeNavigator    pathNodeMaker    Lnet/minecraft/entity/ai/pathing/PathNodeMaker;
+accessible    field    net/minecraft/entity/ai/pathing/PathNodeNavigator    successors    [Lnet/minecraft/entity/ai/pathing/PathNode;
+accessible    method    net/minecraft/entity/ai/pathing/PathNodeNavigator    createPath    (Lnet/minecraft/entity/ai/pathing/PathNode;Lnet/minecraft/util/math/BlockPos;Z)Lnet/minecraft/entity/ai/pathing/Path;
+accessible    method    net/minecraft/entity/ai/pathing/PathNodeNavigator    findPathToAny    (Lnet/minecraft/util/profiler/Profiler;Lnet/minecraft/entity/ai/pathing/PathNode;Ljava/util/Map;FIF)Lnet/minecraft/entity/ai/pathing/Path;
+extendable    method    net/minecraft/entity/ai/pathing/PathNodeNavigator    findPathToAny    (Lnet/minecraft/util/profiler/Profiler;Lnet/minecraft/entity/ai/pathing/PathNode;Ljava/util/Map;FIF)Lnet/minecraft/entity/ai/pathing/Path;
+accessible    field    net/minecraft/util/registry/Registry    registryKey    Lnet/minecraft/util/registry/RegistryKey;
+accessible    class    net/minecraft/util/registry/Registry$DefaultEntryGetter
+accessible    field    net/minecraft/util/registry/Registry    lifecycle    Lcom/mojang/serialization/Lifecycle;
+accessible    field    net/minecraft/util/registry/Registry    DEFAULT_ENTRIES    Ljava/util/Map;
+accessible    field    net/minecraft/util/registry/Registry    ROOT    Lnet/minecraft/util/registry/MutableRegistry;
+accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Lcom/mojang/serialization/Lifecycle;Ljava/util/function/Function;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;)Lnet/minecraft/util/registry/Registry;
+accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;)Lnet/minecraft/util/registry/Registry;
+accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Ljava/lang/String;Lcom/mojang/serialization/Lifecycle;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;)Lnet/minecraft/util/registry/DefaultedRegistry;
+accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Lcom/mojang/serialization/Lifecycle;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;)Lnet/minecraft/util/registry/Registry;
+accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Lnet/minecraft/util/registry/MutableRegistry;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;Lcom/mojang/serialization/Lifecycle;)Lnet/minecraft/util/registry/MutableRegistry;
+accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;)Lnet/minecraft/util/registry/DefaultedRegistry;
+accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Ljava/lang/String;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;)Lnet/minecraft/util/registry/DefaultedRegistry;
+accessible    method    net/minecraft/util/registry/Registry    create    (Lnet/minecraft/util/registry/RegistryKey;Ljava/lang/String;Lcom/mojang/serialization/Lifecycle;Ljava/util/function/Function;Lnet/minecraft/util/registry/Registry$DefaultEntryGetter;)Lnet/minecraft/util/registry/DefaultedRegistry;
+accessible    field    net/minecraft/entity/data/TrackedDataHandlerRegistry    DATA_HANDLERS    Lnet/minecraft/util/collection/Int2ObjectBiMap;
+accessible    method    net/minecraft/entity/LivingEntity    getXpToDrop    (Lnet/minecraft/entity/player/PlayerEntity;)I
+accessible    method    net/minecraft/block/BlockWithEntity    checkType    (Lnet/minecraft/block/entity/BlockEntityType;Lnet/minecraft/block/entity/BlockEntityType;Lnet/minecraft/block/entity/BlockEntityTicker;)Lnet/minecraft/block/entity/BlockEntityTicker;
+accessible    field    net/minecraft/client/model/ModelPart    cuboids    Ljava/util/List;
+accessible    field    net/minecraft/client/model/ModelPart    children    Ljava/util/Map;
+accessible    method    net/minecraft/entity/ai/brain/sensor/SensorType    <init>    (Ljava/util/function/Supplier;)V
+accessible    method    net/minecraft/block/Block    setDefaultState    (Lnet/minecraft/block/BlockState;)V
+accessible    method    net/minecraft/client/network/ClientPlayerEntity    pushOutOfBlocks    (DD)V
+accessible    field    net/minecraft/world/dimension/DimensionType    minimumY    I
+accessible    field    net/minecraft/world/dimension/DimensionType    height    I
+accessible    field    net/minecraft/world/dimension/DimensionType    ambientLight    F
+mutable    field    net/minecraft/world/dimension/DimensionType    minimumY    I
+mutable    field    net/minecraft/world/dimension/DimensionType    height    I
+mutable    field    net/minecraft/world/dimension/DimensionType    ambientLight    F
+accessible    method    net/minecraft/entity/ai/brain/MemoryModuleType    <init>    (Ljava/util/Optional;)V
+accessible    field    net/minecraft/entity/ai/pathing/EntityNavigation    entity    Lnet/minecraft/entity/mob/MobEntity;
+accessible    method    net/minecraft/entity/ai/brain/Activity    <init>    (Ljava/lang/String;)V
+accessible    field    net/minecraft/entity/vehicle/BoatEntity    yawVelocity    F
+accessible    field    net/minecraft/entity/vehicle/BoatEntity    location    Lnet/minecraft/entity/vehicle/BoatEntity$Location;
+accessible    field    net/minecraft/entity/vehicle/BoatEntity    lastLocation    Lnet/minecraft/entity/vehicle/BoatEntity$Location;
+accessible    field    net/minecraft/entity/vehicle/BoatEntity    ticksUnderwater    F
+accessible    method    net/minecraft/entity/vehicle/BoatEntity    handleBubbleColumn    ()V
+accessible    field    net/minecraft/entity/vehicle/BoatEntity    paddlePhases    [F
+accessible    method    net/minecraft/entity/vehicle/BoatEntity    method_7555    ()V
+accessible    method    net/minecraft/entity/vehicle/BoatEntity    updateVelocity    ()V
+accessible    method    net/minecraft/entity/vehicle/BoatEntity    updatePaddles    ()V
+accessible    method    net/minecraft/entity/vehicle/BoatEntity    checkLocation    ()Lnet/minecraft/entity/vehicle/BoatEntity$Location;
+accessible    method    net/minecraft/world/gen/trunk/TrunkPlacerType    <init>    (Lcom/mojang/serialization/Codec;)V
+accessible    method    net/minecraft/world/gen/trunk/TrunkPlacer    getType    ()Lnet/minecraft/world/gen/trunk/TrunkPlacerType;
+accessible    method    net/minecraft/world/gen/treedecorator/TreeDecoratorType    <init>    (Lcom/mojang/serialization/Codec;)V
+accessible    field    net/minecraft/client/render/RenderPhase    EYES_SHADER    Lnet/minecraft/client/render/RenderPhase$Shader;
+accessible    field    net/minecraft/client/render/RenderPhase    TRANSLUCENT_TRANSPARENCY    Lnet/minecraft/client/render/RenderPhase$Transparency;
+accessible    field    net/minecraft/client/render/RenderPhase    DISABLE_CULLING    Lnet/minecraft/client/render/RenderPhase$Cull;
+accessible    field    net/minecraft/client/render/RenderPhase    COLOR_MASK    Lnet/minecraft/client/render/RenderPhase$WriteMaskState;
+accessible    field    net/minecraft/client/render/RenderPhase    ENABLE_OVERLAY_COLOR    Lnet/minecraft/client/render/RenderPhase$Overlay;
+accessible    method    net/minecraft/client/render/RenderLayer$MultiPhase    <init>    (Ljava/lang/String;Lnet/minecraft/client/render/VertexFormat;Lnet/minecraft/client/render/VertexFormat$DrawMode;IZZLnet/minecraft/client/render/RenderLayer$MultiPhaseParameters;)V
+accessible    method    net/minecraft/client/render/RenderLayer$MultiPhaseParameters    <init>    (Lnet/minecraft/client/render/RenderPhase$TextureBase;Lnet/minecraft/client/render/RenderPhase$Shader;Lnet/minecraft/client/render/RenderPhase$Transparency;Lnet/minecraft/client/render/RenderPhase$DepthTest;Lnet/minecraft/client/render/RenderPhase$Cull;Lnet/minecraft/client/render/RenderPhase$Lightmap;Lnet/minecraft/client/render/RenderPhase$Overlay;Lnet/minecraft/client/render/RenderPhase$Layering;Lnet/minecraft/client/render/RenderPhase$Target;Lnet/minecraft/client/render/RenderPhase$Texturing;Lnet/minecraft/client/render/RenderPhase$WriteMaskState;Lnet/minecraft/client/render/RenderPhase$LineWidth;Lnet/minecraft/client/render/RenderLayer$OutlineMode;)V
+accessible    method    net/minecraft/client/render/RenderPhase$Texture    <init>    (Lnet/minecraft/util/Identifier;ZZ)V
+accessible    field    net/minecraft/world/gen/feature/StructureFeature    STRUCTURE_TO_GENERATION_STEP    Ljava/util/Map;
+accessible    method    net/minecraft/world/gen/feature/TreeFeature    isVine    (Lnet/minecraft/world/TestableWorld;Lnet/minecraft/util/math/BlockPos;)Z
