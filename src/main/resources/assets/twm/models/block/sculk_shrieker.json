@@ -1,0 +1,10 @@
+{
+  "parent": "twm:block/template_sculk_shrieker",
+  "textures": {
+	"bottom": "twm:block/sculk_shrieker_bottom",
+	"side": "twm:block/sculk_shrieker_side",
+	"top": "twm:block/sculk_shrieker_top",
+	"particle": "twm:block/sculk_shrieker_bottom",
+	"inner_top": "twm:block/sculk_shrieker_inner_top"
+  }
+}
