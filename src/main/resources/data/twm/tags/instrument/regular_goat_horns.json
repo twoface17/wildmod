@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+	"twm:ponder_goat_horn",
+	"twm:sing_goat_horn",
+	"twm:seek_goat_horn",
+	"twm:feel_goat_horn"
+  ]
+}
