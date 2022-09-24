@@ -2,8 +2,8 @@ package net.frozenblock.wildmod.registry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.frozenblock.wildmod.WildMod;
-import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
-import net.frozenblock.wildmod.items.ChestBoatItem;
+// import net.frozenblock.wildmod.entity.chestboat.ChestBoatEntity;
+// import net.frozenblock.wildmod.items.ChestBoatItem;
 import net.frozenblock.wildmod.items.DiscFragmentItem;
 import net.frozenblock.wildmod.items.GoatHornItem;
 import net.frozenblock.wildmod.items.InstrumentTags;
