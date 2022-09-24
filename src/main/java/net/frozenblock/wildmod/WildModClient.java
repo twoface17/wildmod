@@ -95,13 +95,13 @@ public class WildModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.SCULK_SHRIEKER, RenderLayer.getCutout());
 
         ModelPredicateProviderRegistry.register(RegisterItems.GOAT_HORN, new Identifier("tooting"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F);
-        ModelPredicateProviderRegistry.register(
+//        ModelPredicateProviderRegistry.register(
 //                RegisterItems.RECOVERY_COMPASS,
 //                new Identifier("angle"),
 //                new CompassAnglePredicateProvider(
 //                        (world, stack, entity) -> entity instanceof PlayerEntity playerEntity ? ((WildPlayerEntity) playerEntity).getLastDeathPos().orElse(null) : null
 //                )
-        );
+//        );
 
         EntityRendererRegistry.register(RegisterEntities.WARDEN, WardenEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(WARDEN, WardenEntityModel::getTexturedModelData);
